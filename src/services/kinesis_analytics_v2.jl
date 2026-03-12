@@ -27,6 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can retrieve the application version ID using DescribeApplication. For better concurrency
   support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
+function add_application_cloud_watch_logging_option end
 function add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption;
@@ -86,6 +87,7 @@ operation to find the current application version.
 - `input`: The Input to add.
 
 """
+function add_application_input end
 function add_application_input(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -151,6 +153,7 @@ executes. Currently, the only input processor available is Amazon Lambda.
   application.
 
 """
+function add_application_input_processing_configuration end
 function add_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -227,6 +230,7 @@ to find the current application version.
   function), and record the formation to use when writing to the destination.
 
 """
+function add_application_output end
 function add_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -293,6 +297,7 @@ columns in the resulting in-application table.
   in-application table that is created.
 
 """
+function add_application_reference_data_source end
 function add_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -364,6 +369,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ConcurrentModificationException is returned. For better concurrency support, use the
   ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
+function add_application_vpc_configuration end
 function add_application_vpc_configuration(
     ApplicationName, VpcConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -428,6 +434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes system tags. The maximum number of user-defined application tags is 50. For more
   information, see Using Tagging.
 """
+function create_application end
 function create_application(
     ApplicationName,
     RuntimeEnvironment,
@@ -496,6 +503,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SessionExpirationDurationInSeconds"`: The duration in seconds for which the returned
   URL will be valid.
 """
+function create_application_presigned_url end
 function create_application_presigned_url(
     ApplicationName, UrlType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -540,6 +548,7 @@ Creates a snapshot of the application's state data.
 - `snapshot_name`: An identifier for the application snapshot.
 
 """
+function create_application_snapshot end
 function create_application_snapshot(
     ApplicationName, SnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -587,6 +596,7 @@ execution and deletes the application.
 - `create_timestamp`: Use the DescribeApplication operation to get this value.
 
 """
+function delete_application end
 function delete_application(
     ApplicationName, CreateTimestamp; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -648,6 +658,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version ID using DescribeApplication. For better concurrency support, use the
   ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
+function delete_application_cloud_watch_logging_option end
 function delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId;
@@ -703,6 +714,7 @@ Deletes an InputProcessingConfiguration from an input.
   DescribeApplication operation.
 
 """
+function delete_application_input_processing_configuration end
 function delete_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -766,6 +778,7 @@ corresponding in-application stream to the external output destination.
   configuration. You can use the DescribeApplication operation to get the specific OutputId.
 
 """
+function delete_application_output end
 function delete_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -828,6 +841,7 @@ AddApplicationReferenceDataSource operation.
   assigns an ID. You can use the DescribeApplication operation to get the reference ID.
 
 """
+function delete_application_reference_data_source end
 function delete_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -884,6 +898,7 @@ Deletes a snapshot of application state.
 - `snapshot_name`: The identifier for the snapshot delete.
 
 """
+function delete_application_snapshot end
 function delete_application_snapshot(
     ApplicationName,
     SnapshotCreationTimestamp,
@@ -949,6 +964,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version ID using DescribeApplication. For better concurrency support, use the
   ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
+function delete_application_vpc_configuration end
 function delete_application_vpc_configuration(
     ApplicationName, VpcConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1001,6 +1017,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeAdditionalDetails"`: Displays verbose information about a Managed Service for
   Apache Flink application, including the application's job plan.
 """
+function describe_application end
 function describe_application(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1041,6 +1058,7 @@ Flink application
 - `operation_id`:
 
 """
+function describe_application_operation end
 function describe_application_operation(
     ApplicationName, OperationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1088,6 +1106,7 @@ Returns information about a snapshot of application state data.
   using .
 
 """
+function describe_application_snapshot end
 function describe_application_snapshot(
     ApplicationName, SnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1138,6 +1157,7 @@ operation is supported only for Managed Service for Apache Flink.
   description.
 
 """
+function describe_application_version end
 function describe_application_version(
     ApplicationName,
     ApplicationVersionId;
@@ -1203,6 +1223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3Configuration"`: Specify this parameter to discover a schema from data in an Amazon
   S3 object.
 """
+function discover_input_schema end
 function discover_input_schema(
     ServiceExecutionRole; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1250,6 +1271,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Operation"`:
 - `"OperationStatus"`:
 """
+function list_application_operations end
 function list_application_operations(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1294,6 +1316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request that indicates that there is more output available. Set it to the value of the
   previous call's NextToken response to indicate where the output should continue from.
 """
+function list_application_snapshots end
 function list_application_snapshots(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1342,6 +1365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pass it into this value to retrieve the next set of results. For more information about
   pagination, see Using the Amazon Command Line Interface's Pagination Options.
 """
+function list_application_versions end
 function list_application_versions(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1386,6 +1410,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to retrieve the next set of results. For more information about pagination, see Using the
   Amazon Command Line Interface's Pagination Options.
 """
+function list_applications end
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_analytics_v2(
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1411,6 +1436,7 @@ Using Tagging.
 - `resource_arn`: The ARN of the application for which to retrieve tags.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1453,6 +1479,7 @@ application has no snapshots, Managed Service for Apache Flink rejects the rollb
   the application version ID using DescribeApplication.
 
 """
+function rollback_application end
 function rollback_application(
     ApplicationName,
     CurrentApplicationVersionId;
@@ -1507,6 +1534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RunConfiguration"`: Identifies the run configuration (start parameters) of a Managed
   Service for Apache Flink application.
 """
+function start_application end
 function start_application(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1558,6 +1586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or
   RUNNING status.
 """
+function stop_application end
 function stop_application(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1599,6 +1628,7 @@ user-defined application tags is 50. For more information, see Using Tagging.
 - `tags`: The key-value tags to assign to the application.
 
 """
+function tag_resource end
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_analytics_v2(
         "TagResource",
@@ -1641,6 +1671,7 @@ information, see Using Tagging.
 - `tag_keys`: A list of keys of tags to remove from the specified application.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1706,6 +1737,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is compatible with the snapshot from which your application will start
 - `"ServiceExecutionRoleUpdate"`: Describes updates to the service execution role.
 """
+function update_application end
 function update_application(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1759,6 +1791,7 @@ operation is supported only for Managed Service for Apache Flink.
   maintenance configuration.
 
 """
+function update_application_maintenance_configuration end
 function update_application_maintenance_configuration(
     ApplicationMaintenanceConfigurationUpdate,
     ApplicationName;

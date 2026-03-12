@@ -27,6 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Activating enhanced infrastructure metrics in the Compute Optimizer User
   Guide.
 """
+function delete_recommendation_preferences end
 function delete_recommendation_preferences(
     recommendationPreferenceNames,
     resourceType;
@@ -87,6 +88,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the remaining results, make another request with the returned nextToken value.
 - `"nextToken"`: The token to advance to the next page of export jobs.
 """
+function describe_recommendation_export_jobs end
 function describe_recommendation_export_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -159,6 +161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`: An object to specify the preferences for the Auto Scaling
   group recommendations to export.
 """
+function export_auto_scaling_group_recommendations end
 function export_auto_scaling_group_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -230,6 +233,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Recommendations for member accounts are not included in the export if this parameter, or
   the account IDs parameter, is omitted.
 """
+function export_ebsvolume_recommendations end
 function export_ebsvolume_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -310,6 +314,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
   instance recommendations to export.
 """
+function export_ec2_instance_recommendations end
 function export_ec2_instance_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -379,6 +384,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization aren't included in the export file. If this parameter or the account ID
   parameter is omitted, recommendations for member accounts aren't included in the export.
 """
+function export_ecsservice_recommendations end
 function export_ecsservice_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -450,6 +456,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Recommendations for member accounts are not included in the export if this parameter, or
   the account IDs parameter, is omitted.
 """
+function export_lambda_function_recommendations end
 function export_lambda_function_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -517,6 +524,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accounts of the organization aren't included in the export file . This parameter cannot be
   specified together with the account IDs parameter. The parameters are mutually exclusive.
 """
+function export_license_recommendations end
 function export_license_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -588,6 +596,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is omitted, recommendations for member accounts aren't included in the export.
 - `"recommendationPreferences"`:
 """
+function export_rdsdatabase_recommendations end
 function export_rdsdatabase_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -645,6 +654,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`: An object to specify the preferences for the Auto Scaling
   group recommendations to return in the response.
 """
+function get_auto_scaling_group_recommendations end
 function get_auto_scaling_group_recommendations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -690,6 +700,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"volumeArns"`: The Amazon Resource Name (ARN) of the volumes for which to return
   recommendations.
 """
+function get_ebsvolume_recommendations end
 function get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return compute_optimizer(
         "GetEBSVolumeRecommendations";
@@ -735,6 +746,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
   instance recommendations to return in the response.
 """
+function get_ec2_instance_recommendations end
 function get_ec2_instance_recommendations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -779,6 +791,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
   recommendation projected metrics to return in the response.
 """
+function get_ec2_recommendation_projected_metrics end
 function get_ec2_recommendation_projected_metrics(
     endTime,
     instanceArn,
@@ -845,6 +858,7 @@ end
 - `stat`:  The statistic of the projected metrics.
 
 """
+function get_ecsservice_recommendation_projected_metrics end
 function get_ecsservice_recommendation_projected_metrics(
     endTime,
     period,
@@ -922,6 +936,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceArns"`:  The ARN that identifies the Amazon ECS service.   The following is the
   format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
 """
+function get_ecsservice_recommendations end
 function get_ecsservice_recommendations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -959,6 +974,7 @@ recommendation preferences that are in effect, or Active.
   currently supported.
 
 """
+function get_effective_recommendation_preferences end
 function get_effective_recommendation_preferences(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -996,6 +1012,7 @@ GetEnrollmentStatusesForOrganization action to get detailed information about th
 enrollment status of member accounts of an organization.
 
 """
+function get_enrollment_status end
 function get_enrollment_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return compute_optimizer(
         "GetEnrollmentStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1030,6 +1047,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another request with the returned nextToken value.
 - `"nextToken"`: The token to advance to the next page of account enrollment statuses.
 """
+function get_enrollment_statuses_for_organization end
 function get_enrollment_statuses_for_organization(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1079,6 +1097,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken value.
 - `"nextToken"`: The token to advance to the next page of function recommendations.
 """
+function get_lambda_function_recommendations end
 function get_lambda_function_recommendations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1124,6 +1143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArns"`:  The ARN that identifies the Amazon EC2 instance.   The following is
   the format of the ARN:   arn:aws:ec2:region:aws_account_id:instance/instance-id
 """
+function get_license_recommendations end
 function get_license_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return compute_optimizer(
         "GetLicenseRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1159,6 +1179,7 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"recommendationPreferences"`:
 """
+function get_rdsdatabase_recommendation_projected_metrics end
 function get_rdsdatabase_recommendation_projected_metrics(
     endTime,
     period,
@@ -1236,6 +1257,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the ARN:   arn:aws:rds:{region}:{accountId}:db:{resourceName}   The following is the
   format of a DB Cluster ARN:   arn:aws:rds:{region}:{accountId}:cluster:{resourceName}
 """
+function get_rdsdatabase_recommendations end
 function get_rdsdatabase_recommendations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1285,6 +1307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Activating enhanced infrastructure metrics in the Compute Optimizer User
   Guide.
 """
+function get_recommendation_preferences end
 function get_recommendation_preferences(
     resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1333,6 +1356,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken value.
 - `"nextToken"`: The token to advance to the next page of recommendation summaries.
 """
+function get_recommendation_summaries end
 function get_recommendation_summaries(; aws_config::AbstractAWSConfig=current_aws_config())
     return compute_optimizer(
         "GetRecommendationSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1416,6 +1440,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can only set CPU and memory utilization preferences for the Amazon EC2 instance
   resource type.   The threshold setting isn’t available for memory utilization.
 """
+function put_recommendation_preferences end
 function put_recommendation_preferences(
     resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1472,6 +1497,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeMemberAccounts"`: Indicates whether to enroll member accounts of the
   organization if the account is the management account of an organization.
 """
+function update_enrollment_status end
 function update_enrollment_status(
     status; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -51,6 +51,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueriesConfig"`: Contains Queries and the alias for those Queries, as determined by the
   input.
 """
+function analyze_document end
 function analyze_document(
     Document, FeatureTypes; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -96,6 +97,7 @@ Contains all other information a receipt, such as header information or the vend
 - `document`:
 
 """
+function analyze_expense end
 function analyze_expense(Document; aws_config::AbstractAWSConfig=current_aws_config())
     return textract(
         "AnalyzeExpense",
@@ -133,6 +135,7 @@ Geometry data.
 - `document_pages`: The document being passed to AnalyzeID.
 
 """
+function analyze_id end
 function analyze_id(DocumentPages; aws_config::AbstractAWSConfig=current_aws_config())
     return textract(
         "AnalyzeID",
@@ -181,6 +184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description to be assigned to the adapter being created.
 - `"Tags"`: A list of tags to be added to the adapter.
 """
+function create_adapter end
 function create_adapter(
     AdapterName, FeatureTypes; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -245,6 +249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to encrypt your documents.
 - `"Tags"`: A set of tags (key-value pairs) that you want to attach to the adapter version.
 """
+function create_adapter_version end
 function create_adapter_version(
     AdapterId,
     DatasetConfig,
@@ -301,6 +306,7 @@ the ID.
 - `adapter_id`: A string containing a unique ID for the adapter to be deleted.
 
 """
+function delete_adapter end
 function delete_adapter(AdapterId; aws_config::AbstractAWSConfig=current_aws_config())
     return textract(
         "DeleteAdapter",
@@ -339,6 +345,7 @@ AdapterVersion.
 - `adapter_version`: Specifies the adapter version to be deleted.
 
 """
+function delete_adapter_version end
 function delete_adapter_version(
     AdapterId, AdapterVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -393,6 +400,7 @@ see Document Text Detection.
   you might not need to base64-encode image bytes that are passed using the Bytes field.
 
 """
+function detect_document_text end
 function detect_document_text(Document; aws_config::AbstractAWSConfig=current_aws_config())
     return textract(
         "DetectDocumentText",
@@ -428,6 +436,7 @@ information on AdapterName, Description, CreationTime, AutoUpdate status, and Fe
 - `adapter_id`: A string containing a unique ID for the adapter.
 
 """
+function get_adapter end
 function get_adapter(AdapterId; aws_config::AbstractAWSConfig=current_aws_config())
     return textract(
         "GetAdapter",
@@ -467,6 +476,7 @@ Tags and EvaluationMetrics.
   information for.
 
 """
+function get_adapter_version end
 function get_adapter_version(
     AdapterId, AdapterVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -549,6 +559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
+function get_document_analysis end
 function get_document_analysis(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return textract(
         "GetDocumentAnalysis",
@@ -606,6 +617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
+function get_document_text_detection end
 function get_document_text_detection(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -661,6 +673,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
+function get_expense_analysis end
 function get_expense_analysis(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return textract(
         "GetExpenseAnalysis",
@@ -707,6 +720,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token in the response. You can use this pagination token to retrieve the next
   set of lending results.
 """
+function get_lending_analysis end
 function get_lending_analysis(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return textract(
         "GetLendingAnalysis",
@@ -748,6 +762,7 @@ the initial call to StartLendingAnalysis.
   returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
 
 """
+function get_lending_analysis_summary end
 function get_lending_analysis_summary(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -790,6 +805,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return when listing adapter
   versions.
 """
+function list_adapter_versions end
 function list_adapter_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return textract(
         "ListAdapterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -822,6 +838,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return when listing adapters.
 - `"NextToken"`: Identifies the next page of results to return when listing adapters.
 """
+function list_adapters end
 function list_adapters(; aws_config::AbstractAWSConfig=current_aws_config())
     return textract("ListAdapters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -845,6 +862,7 @@ Lists all tags for an Amazon Textract resource.
   for.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -916,6 +934,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation.
 - `"QueriesConfig"`:
 """
+function start_document_analysis end
 function start_document_analysis(
     DocumentLocation, FeatureTypes; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -989,6 +1008,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Textract will save the results internally to be accessed with the
   GetDocumentTextDetection operation.
 """
+function start_document_text_detection end
 function start_document_text_detection(
     DocumentLocation; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1056,6 +1076,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Textract will save the results internally to be accessed by the GetExpenseAnalysis
   operation.
 """
+function start_expense_analysis end
 function start_expense_analysis(
     DocumentLocation; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1125,6 +1146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationChannel"`:
 - `"OutputConfig"`:
 """
+function start_lending_analysis end
 function start_lending_analysis(
     DocumentLocation; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1164,6 +1186,7 @@ Adds one or more tags to the specified resource.
 - `tags`: A set of tags (key-value pairs) that you want to assign to the resource.
 
 """
+function tag_resource end
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return textract(
         "TagResource",
@@ -1205,6 +1228,7 @@ Removes any tags with the specified keys from the specified resource.
   ResourceARN.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1252,6 +1276,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoUpdate"`: The new auto-update status to be applied to the adapter.
 - `"Description"`: The new description to be applied to the adapter.
 """
+function update_adapter end
 function update_adapter(AdapterId; aws_config::AbstractAWSConfig=current_aws_config())
     return textract(
         "UpdateAdapter",

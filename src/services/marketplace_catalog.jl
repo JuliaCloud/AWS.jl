@@ -15,6 +15,7 @@ DescribeEntity API and uses the same IAM permission action as DescribeEntity API
 - `entity_request_list`: List of entity IDs and the catalogs the entities are present in.
 
 """
+function batch_describe_entities end
 function batch_describe_entities(
     EntityRequestList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -59,6 +60,7 @@ change during the 60-day request history retention period for API calls.
   want to cancel.
 
 """
+function cancel_change_set end
 function cancel_change_set(
     catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -103,6 +105,7 @@ Deletes a resource-based policy on an entity that is identified by its resource 
   with the resource policy.
 
 """
+function delete_resource_policy end
 function delete_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -143,6 +146,7 @@ Provides information about a given change set.
   want to describe the details for.
 
 """
+function describe_change_set end
 function describe_change_set(
     catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -187,6 +191,7 @@ Returns the metadata and content of the entity.
 - `entity_id`: Required. The unique ID of the entity to describe.
 
 """
+function describe_entity end
 function describe_entity(
     catalog, entityId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -231,6 +236,7 @@ Gets a resource-based policy of an entity that is identified by its resource ARN
   with the resource policy.
 
 """
+function get_resource_policy end
 function get_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -282,6 +288,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
+function list_change_sets end
 function list_change_sets(Catalog; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_catalog(
         "POST",
@@ -338,6 +345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation can't be discovered through the SHARED parameter.
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
+function list_entities end
 function list_entities(
     Catalog, EntityType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -382,6 +390,7 @@ Lists all tags that have been added to a resource (either an entity or change se
   want to list tags on.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -423,6 +432,7 @@ and ContainerProduct.
   associate with a resource policy.
 
 """
+function put_resource_policy end
 function put_resource_policy(
     Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -487,6 +497,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   before applying changes to your entities, use VALIDATE. This feature is currently available
   for adding versions to single-AMI products. For more information, see Add a new version.
 """
+function start_change_set end
 function start_change_set(
     Catalog, ChangeSet; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -541,6 +552,7 @@ Tags a resource (either an entity or change set).
   allowed: 1-50.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_catalog(
         "POST",
@@ -585,6 +597,7 @@ Removes a tag or list of tags from a resource (either an entity or change set).
   allowed: 0-256.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -23,6 +23,7 @@ resource in one account and a geofence collection in another account.
   collection.
 
 """
+function associate_tracker_consumer end
 function associate_tracker_consumer(
     ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -65,6 +66,7 @@ Deletes the position history of one or more devices from a tracker resource.
   from.
 
 """
+function batch_delete_device_position_history end
 function batch_delete_device_position_history(
     DeviceIds, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -106,6 +108,7 @@ resource permanently.
 - `geofence_ids`: The batch of geofences to be deleted.
 
 """
+function batch_delete_geofence end
 function batch_delete_geofence(
     CollectionName, GeofenceIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -158,6 +161,7 @@ the DeviceID.
   against the given geofence collection.
 
 """
+function batch_evaluate_geofences end
 function batch_evaluate_geofences(
     CollectionName,
     DevicePositionUpdates;
@@ -205,6 +209,7 @@ Lists the latest device positions for requested devices.
 - `tracker_name`: The tracker resource retrieving the device position.
 
 """
+function batch_get_device_position end
 function batch_get_device_position(
     DeviceIds, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -246,6 +251,7 @@ updates the geometry of an existing geofence if a geofence ID is included in the
 - `entries`: The batch of geofences to be stored in a geofence collection.
 
 """
+function batch_put_geofence end
 function batch_put_geofence(
     CollectionName, Entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -299,6 +305,7 @@ value { \"Horizontal\": 0} when accuracy is not provided on a DevicePositionUpda
 - `updates`: Contains the position update details for each device, up to 10 devices.
 
 """
+function batch_update_device_position end
 function batch_update_device_position(
     TrackerName, Updates; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -398,6 +405,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Values: [-180 to 180,-90 to 90]
 - `"key"`: The optional API key to authorize the request.
 """
+function calculate_route end
 function calculate_route(
     CalculatorName,
     DeparturePosition,
@@ -512,6 +520,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   choosing an optimal road. Requirements: TravelMode must be specified as Truck.
 - `"key"`: The optional API key to authorize the request.
 """
+function calculate_route_matrix end
 function calculate_route_matrix(
     CalculatorName,
     DeparturePositions,
@@ -582,6 +591,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot
   use \"aws:\" as a prefix for a key.
 """
+function create_geofence_collection end
 function create_geofence_collection(
     CollectionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -639,6 +649,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot
   use \"aws:\" as a prefix for a key.
 """
+function create_key end
 function create_key(
     KeyName, Restrictions; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -702,6 +713,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use
   \"aws:\" as a prefix for a key.
 """
+function create_map end
 function create_map(
     Configuration, MapName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -777,6 +789,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @   Cannot
   use \"aws:\" as a prefix for a key.
 """
+function create_place_index end
 function create_place_index(
     DataSource, IndexName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -850,6 +863,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   0–9), and the following characters: + - = . _ : / @.    Cannot use \"aws:\" as a prefix
   for a key.
 """
+function create_route_calculator end
 function create_route_calculator(
     CalculatorName, DataSource; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -940,6 +954,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot
   use \"aws:\" as a prefix for a key.
 """
+function create_tracker end
 function create_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "POST",
@@ -978,6 +993,7 @@ resource, the devices will no longer be monitored.
 - `collection_name`: The name of the geofence collection to be deleted.
 
 """
+function delete_geofence_collection end
 function delete_geofence_collection(
     CollectionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1020,6 +1036,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key. Valid values: true, or false. Required: No  This action is irreversible. Only use
   ForceDelete if you are certain the key is no longer in use.
 """
+function delete_key end
 function delete_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "DELETE",
@@ -1054,6 +1071,7 @@ resource permanently. If the map is being used in an application, the map may no
 - `map_name`: The name of the map resource to be deleted.
 
 """
+function delete_map end
 function delete_map(MapName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "DELETE",
@@ -1088,6 +1106,7 @@ deletes the resource permanently.
 - `index_name`: The name of the place index resource to be deleted.
 
 """
+function delete_place_index end
 function delete_place_index(IndexName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "DELETE",
@@ -1122,6 +1141,7 @@ deletes the resource permanently.
 - `calculator_name`: The name of the route calculator resource to be deleted.
 
 """
+function delete_route_calculator end
 function delete_route_calculator(
     CalculatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1159,6 +1179,7 @@ Make sure that the target resource isn't a dependency for your applications.
 - `tracker_name`: The name of the tracker resource to be deleted.
 
 """
+function delete_tracker end
 function delete_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "DELETE",
@@ -1192,6 +1213,7 @@ Retrieves the geofence collection details.
 - `collection_name`: The name of the geofence collection.
 
 """
+function describe_geofence_collection end
 function describe_geofence_collection(
     CollectionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1227,6 +1249,7 @@ Retrieves the API key resource details.
 - `key_name`: The name of the API key resource.
 
 """
+function describe_key end
 function describe_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "GET",
@@ -1260,6 +1283,7 @@ Retrieves the map resource details.
 - `map_name`: The name of the map resource.
 
 """
+function describe_map end
 function describe_map(MapName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "GET",
@@ -1293,6 +1317,7 @@ Retrieves the place index resource details.
 - `index_name`: The name of the place index resource.
 
 """
+function describe_place_index end
 function describe_place_index(IndexName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "GET",
@@ -1326,6 +1351,7 @@ Retrieves the route calculator resource details.
 - `calculator_name`: The name of the route calculator resource.
 
 """
+function describe_route_calculator end
 function describe_route_calculator(
     CalculatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1361,6 +1387,7 @@ Retrieves the tracker resource details.
 - `tracker_name`: The name of the tracker resource.
 
 """
+function describe_tracker end
 function describe_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "GET",
@@ -1400,6 +1427,7 @@ be automatically evaluated against geofences.
 - `tracker_name`: The name of the tracker resource to be dissociated from the consumer.
 
 """
+function disassociate_tracker_consumer end
 function disassociate_tracker_consumer(
     ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1458,6 +1486,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   KilometersPerHour.
 - `"TimeHorizonMinutes"`: Specifies the time horizon in minutes for the forecasted events.
 """
+function forecast_geofence_events end
 function forecast_geofence_events(
     CollectionName, DeviceState; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1499,6 +1528,7 @@ are deleted after 30 days.
 - `tracker_name`: The tracker resource receiving the position update.
 
 """
+function get_device_position end
 function get_device_position(
     DeviceId, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1552,6 +1582,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that the request is made. Requirement:   The time specified for StartTimeInclusive must be
   before EndTimeExclusive.
 """
+function get_device_position_history end
 function get_device_position_history(
     DeviceId, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1590,6 +1621,7 @@ always match the geometry format used when the geofence was created.
 - `geofence_id`: The geofence you're retrieving details for.
 
 """
+function get_geofence end
 function get_geofence(
     CollectionName, GeofenceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1657,6 +1689,7 @@ Retrieves glyphs used to display labels on a map.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"key"`: The optional API key to authorize the request.
 """
+function get_map_glyphs end
 function get_map_glyphs(
     FontStack, FontUnicodeRange, MapName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1703,6 +1736,7 @@ displayed on a rendered map.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"key"`: The optional API key to authorize the request.
 """
+function get_map_sprites end
 function get_map_sprites(
     FileName, MapName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1745,6 +1779,7 @@ Mapbox Style Specification.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"key"`: The optional API key to authorize the request.
 """
+function get_map_style_descriptor end
 function get_map_style_descriptor(
     MapName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1790,6 +1825,7 @@ doubles both the X and Y dimensions, so a tile containing data for the entire wo
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"key"`: The optional API key to authorize the request.
 """
+function get_map_tile end
 function get_map_tile(MapName, X, Y, Z; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "GET",
@@ -1842,6 +1878,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   city in the results will more likely be returned as Αθήνα. If the data provider does
   not have a value for Greek, the result will be in a language that the provider does support.
 """
+function get_place end
 function get_place(IndexName, PlaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "GET",
@@ -1883,6 +1920,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default value: null
 """
+function list_device_positions end
 function list_device_positions(
     TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1921,6 +1959,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
+function list_geofence_collections end
 function list_geofence_collections(; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "POST",
@@ -1958,6 +1997,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
+function list_geofences end
 function list_geofences(CollectionName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "POST",
@@ -1995,6 +2035,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
+function list_keys end
 function list_keys(; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "POST",
@@ -2029,6 +2070,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default value: null
 """
+function list_maps end
 function list_maps(; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "POST", "/maps/v0/list-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2060,6 +2102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default value: null
 """
+function list_place_indexes end
 function list_place_indexes(; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "POST",
@@ -2094,6 +2137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default Value: null
 """
+function list_route_calculators end
 function list_route_calculators(; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "POST",
@@ -2126,6 +2170,7 @@ Returns a list of tags that are applied to the specified Amazon Location resourc
   retrieve.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2168,6 +2213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
+function list_tracker_consumers end
 function list_tracker_consumers(
     TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2206,6 +2252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
+function list_trackers end
 function list_trackers(; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "POST",
@@ -2248,6 +2295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is a key-value pair stored with the geofence and added to any geofence event triggered with
   that geofence. Format: \"key\" : \"value\"
 """
+function put_geofence end
 function put_geofence(
     CollectionName, GeofenceId, Geometry; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2307,6 +2355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request. Default value: 50
 - `"key"`: The optional API key to authorize the request.
 """
+function search_place_index_for_position end
 function search_place_index_for_position(
     IndexName, Position; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2392,6 +2441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request.  The default: 5
 - `"key"`: The optional API key to authorize the request.
 """
+function search_place_index_for_suggestions end
 function search_place_index_for_suggestions(
     IndexName, Text; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2474,6 +2524,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request.  The default: 50
 - `"key"`: The optional API key to authorize the request.
 """
+function search_place_index_for_text end
 function search_place_index_for_text(
     IndexName, Text; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2526,6 +2577,7 @@ the previous value for that tag.  You can associate up to 50 tags with a resourc
   as a prefix for a key.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "POST",
@@ -2563,6 +2615,7 @@ Removes one or more tags from the specified Amazon Location resource.
 - `tag_keys`: The list of tag keys to remove from the specified resource.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2605,6 +2658,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PricingPlan"`: No longer used. If included, the only allowed value is RequestBasedUsage.
 - `"PricingPlanDataSource"`: This parameter is no longer used.
 """
+function update_geofence_collection end
 function update_geofence_collection(
     CollectionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2651,6 +2705,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   no expiration time.
 - `"Restrictions"`: Updates the API key restrictions for the API key resource.
 """
+function update_key end
 function update_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "PATCH",
@@ -2690,6 +2745,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: Updates the description for the map resource.
 - `"PricingPlan"`: No longer used. If included, the only allowed value is RequestBasedUsage.
 """
+function update_map end
 function update_map(MapName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "PATCH",
@@ -2728,6 +2784,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: Updates the description for the place index resource.
 - `"PricingPlan"`: No longer used. If included, the only allowed value is RequestBasedUsage.
 """
+function update_place_index end
 function update_place_index(IndexName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "PATCH",
@@ -2765,6 +2822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: Updates the description for the route calculator resource.
 - `"PricingPlan"`: No longer used. If included, the only allowed value is RequestBasedUsage.
 """
+function update_route_calculator end
 function update_route_calculator(
     CalculatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2827,6 +2885,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PricingPlan"`: No longer used. If included, the only allowed value is RequestBasedUsage.
 - `"PricingPlanDataSource"`: This parameter is no longer used.
 """
+function update_tracker end
 function update_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_config())
     return location(
         "PATCH",
@@ -2868,6 +2927,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DistanceUnit"`: The distance unit for the verification request. Default Value:
   Kilometers
 """
+function verify_device_position end
 function verify_device_position(
     DeviceState, TrackerName; aws_config::AbstractAWSConfig=current_aws_config()
 )

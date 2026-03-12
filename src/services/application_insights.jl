@@ -17,6 +17,7 @@ Adds a workload to a component. Each component can have at most five workloads.
   escaped JSON of the configuration.
 
 """
+function add_workload end
 function add_workload(
     ComponentName,
     ResourceGroupName,
@@ -90,6 +91,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value (Value). The maximum length of a tag key is 128 characters. The maximum length of a
   tag value is 256 characters.
 """
+function create_application end
 function create_application(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_insights(
         "CreateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -116,6 +118,7 @@ Creates a custom component by grouping similar standalone instances to monitor.
 - `resource_list`: The list of resource ARNs that belong to the component.
 
 """
+function create_component end
 function create_component(
     ComponentName,
     ResourceGroupName,
@@ -180,6 +183,7 @@ Adds an log pattern to a LogPatternSet.
 - `resource_group_name`: The name of the resource group.
 
 """
+function create_log_pattern end
 function create_log_pattern(
     Pattern,
     PatternName,
@@ -241,6 +245,7 @@ Removes the specified application from monitoring. Does not delete the applicati
 - `resource_group_name`: The name of the resource group.
 
 """
+function delete_application end
 function delete_application(
     ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -282,6 +287,7 @@ status.
 - `resource_group_name`: The name of the resource group.
 
 """
+function delete_component end
 function delete_component(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -330,6 +336,7 @@ Removes the specified log pattern from a LogPatternSet.
 - `resource_group_name`: The name of the resource group.
 
 """
+function delete_log_pattern end
 function delete_log_pattern(
     PatternName,
     PatternSetName,
@@ -386,6 +393,7 @@ Describes the application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
+function describe_application end
 function describe_application(
     ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -428,6 +436,7 @@ Describes a component and lists the resources that are grouped together in a com
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
+function describe_component end
 function describe_component(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -478,6 +487,7 @@ Describes the monitoring configuration of the component.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
+function describe_component_configuration end
 function describe_component_configuration(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -530,6 +540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RecommendationType"`: The recommended configuration type.
 - `"WorkloadName"`: The name of the workload.
 """
+function describe_component_configuration_recommendation end
 function describe_component_configuration_recommendation(
     ComponentName,
     ResourceGroupName,
@@ -588,6 +599,7 @@ Describe a specific log pattern from a LogPatternSet.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
+function describe_log_pattern end
 function describe_log_pattern(
     PatternName,
     PatternSetName,
@@ -644,6 +656,7 @@ Describes an anomaly or error with the application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
+function describe_observation end
 function describe_observation(
     ObservationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -684,6 +697,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccountId"`: The AWS account ID for the owner of the resource group affected by the
   problem.
 """
+function describe_problem end
 function describe_problem(ProblemId; aws_config::AbstractAWSConfig=current_aws_config())
     return application_insights(
         "DescribeProblem",
@@ -721,6 +735,7 @@ Describes the anomalies or errors associated with the problem.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
+function describe_problem_observations end
 function describe_problem_observations(
     ProblemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -762,6 +777,7 @@ Describes a workload and its configuration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The AWS account ID for the workload owner.
 """
+function describe_workload end
 function describe_workload(
     ComponentName,
     ResourceGroupName,
@@ -818,6 +834,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another call with the returned NextToken value.
 - `"NextToken"`: The token to request the next page of results.
 """
+function list_applications end
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_insights(
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -848,6 +865,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another call with the returned NextToken value.
 - `"NextToken"`: The token to request the next page of results.
 """
+function list_components end
 function list_components(
     ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -905,6 +923,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceGroupName"`: Resource group to which the application belongs.
 - `"StartTime"`: The start time of the event.
 """
+function list_configuration_history end
 function list_configuration_history(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_insights(
         "ListConfigurationHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -938,6 +957,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another call with the returned NextToken value.
 - `"NextToken"`: The token to request the next page of results.
 """
+function list_log_pattern_sets end
 function list_log_pattern_sets(
     ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -983,6 +1003,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to request the next page of results.
 - `"PatternSetName"`: The name of the log pattern set.
 """
+function list_log_patterns end
 function list_log_patterns(
     ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1032,6 +1053,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Visibility"`: Specifies whether or not you can view the problem. If not specified,
   visible and ignored problems are returned.
 """
+function list_problems end
 function list_problems(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_insights(
         "ListProblems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1061,6 +1083,7 @@ descriptor within a tag key.
   retrieve tag information for.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1104,6 +1127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another call with the returned NextToken value.
 - `"NextToken"`: The token to request the next page of results.
 """
+function list_workloads end
 function list_workloads(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1152,6 +1176,7 @@ Remove workload from a component.
 - `workload_id`: The ID of the workload.
 
 """
+function remove_workload end
 function remove_workload(
     ComponentName,
     ResourceGroupName,
@@ -1214,6 +1239,7 @@ tag values. A tag value acts as a descriptor within a tag key.
   characters. The maximum length of a tag value is 256 characters.
 
 """
+function tag_resource end
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return application_insights(
         "TagResource",
@@ -1258,6 +1284,7 @@ Remove one or more tags (keys and values) from a specified application.
   additional tag to remove, separated by an ampersand.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1314,6 +1341,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveSNSTopic"`:  Disassociates the SNS topic from the opsItem created for detected
   problems.
 """
+function update_application end
 function update_application(
     ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1357,6 +1385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NewComponentName"`: The new name of the component.
 - `"ResourceList"`: The list of resource ARNs that belong to the component.
 """
+function update_component end
 function update_component(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1417,6 +1446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Monitor"`: Indicates whether the application component is monitored.
 - `"Tier"`: The tier of the application component.
 """
+function update_component_configuration end
 function update_component_configuration(
     ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1476,6 +1506,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank.
   Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
 """
+function update_log_pattern end
 function update_log_pattern(
     PatternName,
     PatternSetName,
@@ -1536,6 +1567,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   problem is removed from the default view, and all notifications for the problem are
   suspended. When VISIBLE is passed, the IGNORED action is reversed.
 """
+function update_problem end
 function update_problem(ProblemId; aws_config::AbstractAWSConfig=current_aws_config())
     return application_insights(
         "UpdateProblem",
@@ -1576,6 +1608,7 @@ Adds a workload to a component. Each component can have at most five workloads.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"WorkloadId"`: The ID of the workload.
 """
+function update_workload end
 function update_workload(
     ComponentName,
     ResourceGroupName,

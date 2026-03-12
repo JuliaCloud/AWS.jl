@@ -38,6 +38,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   within a maintenance window.
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
+function create_environment end
 function create_environment(desktopArn; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "POST",
@@ -90,6 +91,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken, but with different parameters, the retry fails with an
   IdempotentParameterMismatch error.
 """
+function delete_device end
 function delete_device(id; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "DELETE",
@@ -134,6 +136,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken, but with different parameters, the retry fails with an
   IdempotentParameterMismatch error.
 """
+function delete_environment end
 function delete_environment(id; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "DELETE",
@@ -179,6 +182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IdempotentParameterMismatch error.
 - `"targetDeviceStatus"`: The desired new status for the device.
 """
+function deregister_device end
 function deregister_device(id; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "POST",
@@ -213,6 +217,7 @@ Returns information for a thin client device.
 - `id`: The ID of the device for which to return information.
 
 """
+function get_device end
 function get_device(id; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "GET", "/devices/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -241,6 +246,7 @@ Returns information for an environment.
 - `id`: The ID of the environment for which to return information.
 
 """
+function get_environment end
 function get_environment(id; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "GET", "/environments/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -269,6 +275,7 @@ Returns information for a software set.
 - `id`: The ID of the software set for which to return information.
 
 """
+function get_software_set end
 function get_software_set(id; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "GET", "/softwaresets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -304,6 +311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
+function list_devices end
 function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -335,6 +343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
+function list_environments end
 function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -370,6 +379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
+function list_software_sets end
 function list_software_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "GET", "/softwaresets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -399,6 +409,7 @@ Returns a list of tags for a resource.
   retrieve tags.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -435,6 +446,7 @@ Assigns one or more tags (key-value pairs) to the specified resource.
 - `tags`: A map of the key-value pairs of the tag or tags to assign to the resource.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "POST",
@@ -472,6 +484,7 @@ Removes a tag or tags from a resource.
   the specified resource.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -515,6 +528,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"softwareSetUpdateSchedule"`: An option to define if software updates should be applied
   within a maintenance window.
 """
+function update_device end
 function update_device(id; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "PATCH", "/devices/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -557,6 +571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"softwareSetUpdateSchedule"`: An option to define if software updates should be applied
   within a maintenance window.
 """
+function update_environment end
 function update_environment(id; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_thin_client(
         "PATCH",
@@ -589,6 +604,7 @@ Updates a software set.
 - `validation_status`: An option to define if the software set has been validated.
 
 """
+function update_software_set end
 function update_software_set(
     id, validationStatus; aws_config::AbstractAWSConfig=current_aws_config()
 )

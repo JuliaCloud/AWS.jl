@@ -25,6 +25,7 @@ field, as shown in the example.
   ^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_-]+
 
 """
+function get_control end
 function get_control(ControlArn; aws_config::AbstractAWSConfig=current_aws_config())
     return controlcatalog(
         "POST",
@@ -67,6 +68,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
+function list_common_controls end
 function list_common_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return controlcatalog(
         "POST", "/common-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -99,6 +101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
+function list_controls end
 function list_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return controlcatalog(
         "POST", "/list-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -128,6 +131,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
+function list_domains end
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return controlcatalog(
         "POST", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -158,6 +162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
+function list_objectives end
 function list_objectives(; aws_config::AbstractAWSConfig=current_aws_config())
     return controlcatalog(
         "POST", "/objectives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

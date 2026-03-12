@@ -23,6 +23,7 @@ Services Billing User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Domain"`: The domain name of the user.
 """
+function associate_user end
 function associate_user(
     IdentityProvider,
     InstanceId,
@@ -79,6 +80,7 @@ Deregisters the identity provider from providing user-based subscriptions.
 - `product`: The name of the user-based subscription product.
 
 """
+function deregister_identity_provider end
 function deregister_identity_provider(
     IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -129,6 +131,7 @@ Disassociates the user from an EC2 instance providing user-based subscriptions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Domain"`: The domain name of the user.
 """
+function disassociate_user end
 function disassociate_user(
     IdentityProvider,
     InstanceId,
@@ -185,6 +188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
+function list_identity_providers end
 function list_identity_providers(; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_user_subscriptions(
         "POST",
@@ -219,6 +223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
+function list_instances end
 function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_user_subscriptions(
         "POST",
@@ -257,6 +262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
+function list_product_subscriptions end
 function list_product_subscriptions(
     IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -309,6 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
+function list_user_associations end
 function list_user_associations(
     IdentityProvider, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -361,6 +368,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Settings"`: The registered identity provider’s product related configuration settings
   such as the subnets to provision VPC endpoints.
 """
+function register_identity_provider end
 function register_identity_provider(
     IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -415,6 +423,7 @@ Web Services Billing User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Domain"`: The domain name of the user.
 """
+function start_product_subscription end
 function start_product_subscription(
     IdentityProvider, Product, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -472,6 +481,7 @@ Stops a product subscription for a user with the specified identity provider.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Domain"`: The domain name of the user.
 """
+function stop_product_subscription end
 function stop_product_subscription(
     IdentityProvider, Product, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -530,6 +540,7 @@ Updates additional product configuration settings for the registered identity pr
   VPC endpoints.
 
 """
+function update_identity_provider_settings end
 function update_identity_provider_settings(
     IdentityProvider,
     Product,

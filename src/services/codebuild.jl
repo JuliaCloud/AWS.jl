@@ -14,6 +14,7 @@ Deletes one or more builds.
 - `ids`: The IDs of the builds to delete.
 
 """
+function batch_delete_builds end
 function batch_delete_builds(ids; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "BatchDeleteBuilds",
@@ -44,6 +45,7 @@ Retrieves information about one or more batch builds.
 - `ids`: An array that contains the batch build identifiers to retrieve.
 
 """
+function batch_get_build_batches end
 function batch_get_build_batches(ids; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "BatchGetBuildBatches",
@@ -74,6 +76,7 @@ Gets information about one or more builds.
 - `ids`: The IDs of the builds.
 
 """
+function batch_get_builds end
 function batch_get_builds(ids; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "BatchGetBuilds",
@@ -104,6 +107,7 @@ Gets information about one or more compute fleets.
 - `names`: The names or ARNs of the compute fleets.
 
 """
+function batch_get_fleets end
 function batch_get_fleets(names; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "BatchGetFleets",
@@ -136,6 +140,7 @@ Gets information about one or more build projects.
   a shared project using its name.
 
 """
+function batch_get_projects end
 function batch_get_projects(names; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "BatchGetProjects",
@@ -167,6 +172,7 @@ end
   return.
 
 """
+function batch_get_report_groups end
 function batch_get_report_groups(
     reportGroupArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -205,6 +211,7 @@ end
 - `report_arns`:  An array of ARNs that identify the Report objects to return.
 
 """
+function batch_get_reports end
 function batch_get_reports(reportArns; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "BatchGetReports",
@@ -296,6 +303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   project tags.
 - `"vpcConfig"`:
 """
+function create_fleet end
 function create_fleet(
     baseCapacity,
     computeType,
@@ -411,6 +419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.  If
   you're using compute fleets during project creation, do not provide vpcConfig.
 """
+function create_project end
 function create_project(
     artifacts,
     environment,
@@ -480,6 +489,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags are available for use by Amazon Web Services services that support CodeBuild report
   group tags.
 """
+function create_report_group end
 function create_report_group(
     exportConfig, name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -550,6 +560,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Global or organization webhooks are only available for GitHub and Github Enterprise
   webhooks.
 """
+function create_webhook end
 function create_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "CreateWebhook",
@@ -584,6 +595,7 @@ Deletes a batch build.
 - `id`: The identifier of the batch build to delete.
 
 """
+function delete_build_batch end
 function delete_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "DeleteBuildBatch",
@@ -614,6 +626,7 @@ Deletes a compute fleet. When you delete a compute fleet, its builds are not del
 - `arn`: The ARN of the compute fleet.
 
 """
+function delete_fleet end
 function delete_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "DeleteFleet",
@@ -644,6 +657,7 @@ end
 - `name`: The name of the build project.
 
 """
+function delete_project end
 function delete_project(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "DeleteProject",
@@ -674,6 +688,7 @@ end
 - `arn`:  The ARN of the report to delete.
 
 """
+function delete_report end
 function delete_report(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "DeleteReport",
@@ -711,6 +726,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the reports. If you call DeleteReportGroup for a report group that contains one or more
   reports, an exception is thrown.
 """
+function delete_report_group end
 function delete_report_group(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "DeleteReportGroup",
@@ -741,6 +757,7 @@ end
 - `resource_arn`:  The ARN of the resource that is associated with the resource policy.
 
 """
+function delete_resource_policy end
 function delete_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -777,6 +794,7 @@ end
 - `arn`:  The Amazon Resource Name (ARN) of the token.
 
 """
+function delete_source_credentials end
 function delete_source_credentials(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "DeleteSourceCredentials",
@@ -809,6 +827,7 @@ change is pushed to the repository.
 - `project_name`: The name of the CodeBuild project.
 
 """
+function delete_webhook end
 function delete_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "DeleteWebhook",
@@ -855,6 +874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   percentage of lines that are covered.
 - `"sortOrder"`: Specifies if the results are sorted in ascending or descending order.
 """
+function describe_code_coverages end
 function describe_code_coverages(
     reportArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +923,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keep calling this operation with each subsequent next token that is returned, until no more
   next tokens are returned.
 """
+function describe_test_cases end
 function describe_test_cases(reportArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "DescribeTestCases",
@@ -952,6 +973,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"numOfReports"`: The number of reports to analyze. This operation always retrieves the
   most recent reports. If this parameter is omitted, the most recent 100 reports are analyzed.
 """
+function get_report_group_trend end
 function get_report_group_trend(
     reportGroupArn, trendField; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -995,6 +1017,7 @@ end
 - `resource_arn`:  The ARN of the resource that is associated with the resource policy.
 
 """
+function get_resource_policy end
 function get_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1047,6 +1070,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"username"`:  The Bitbucket username when the authType is BASIC_AUTH. This parameter is
   not valid for other types of source providers or connections.
 """
+function import_source_credentials end
 function import_source_credentials(
     authType, serverType, token; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1093,6 +1117,7 @@ Resets the cache for a project.
 - `project_name`: The name of the CodeBuild build project that the cache is reset for.
 
 """
+function invalidate_project_cache end
 function invalidate_project_cache(
     projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1136,6 +1161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCENDING: List the batch build identifiers in ascending order by identifier.
   DESCENDING: List the batch build identifiers in descending order by identifier.
 """
+function list_build_batches end
 function list_build_batches(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "ListBuildBatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1168,6 +1194,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCENDING: List the batch build identifiers in ascending order by identifier.
   DESCENDING: List the batch build identifiers in descending order by identifier.
 """
+function list_build_batches_for_project end
 function list_build_batches_for_project(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1204,6 +1231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending
   order by build ID.
 """
+function list_builds end
 function list_builds(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1240,6 +1268,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number.   If the project has more than 100 builds, setting the sort order will result in an
   error.
 """
+function list_builds_for_project end
 function list_builds_for_project(
     projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1273,6 +1302,7 @@ end
 Gets information about Docker images that are managed by CodeBuild.
 
 """
+function list_curated_environment_images end
 function list_curated_environment_images(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1319,6 +1349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy
   to specify the criterion to be used to list compute fleet names.
 """
+function list_fleets end
 function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1354,6 +1385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy
   to specify the criterion to be used to list build project names.
 """
+function list_projects end
 function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1390,6 +1422,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`:  Used to specify the order to sort the list of returned report groups.
   Valid values are ASCENDING and DESCENDING.
 """
+function list_report_groups end
 function list_report_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "ListReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1427,6 +1460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DESCENDING: return reports in the reverse chronological order based on their creation date.
   
 """
+function list_reports end
 function list_reports(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild("ListReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1464,6 +1498,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`:  Use to specify whether the results are returned in ascending or
   descending order.
 """
+function list_reports_for_report_group end
 function list_reports_for_report_group(
     reportGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1514,6 +1549,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: The order in which to list shared build projects. Valid values include:
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
+function list_shared_projects end
 function list_shared_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "ListSharedProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1553,6 +1589,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: The order in which to list shared report groups. Valid values include:
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
+function list_shared_report_groups end
 function list_shared_report_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "ListSharedReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1577,6 +1614,7 @@ end
  Returns a list of SourceCredentialsInfo objects.
 
 """
+function list_source_credentials end
 function list_source_credentials(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "ListSourceCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1607,6 +1645,7 @@ end
   with a resource policy.
 
 """
+function put_resource_policy end
 function put_resource_policy(
     policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1652,6 +1691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is valid for five minutes. If you repeat the RetryBuild request with the same token, but
   change a parameter, CodeBuild returns a parameter mismatch error.
 """
+function retry_build end
 function retry_build(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild("RetryBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1679,6 +1719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   same token, but change a parameter, CodeBuild returns a parameter mismatch error.
 - `"retryType"`: Specifies the type of retry to perform.
 """
+function retry_build_batch end
 function retry_build_batch(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "RetryBuildBatch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1815,6 +1856,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours), that overrides, for this build only, the latest setting already defined in the
   build project.
 """
+function start_build end
 function start_build(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "StartBuild",
@@ -1948,6 +1990,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   level) takes precedence.  For more information, see Source Version Sample with CodeBuild in
   the CodeBuild User Guide.
 """
+function start_build_batch end
 function start_build_batch(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "StartBuildBatch",
@@ -1982,6 +2025,7 @@ Attempts to stop running a build.
 - `id`: The ID of the build.
 
 """
+function stop_build end
 function stop_build(id; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "StopBuild",
@@ -2012,6 +2056,7 @@ Stops a running batch build.
 - `id`: The identifier of the batch build to stop.
 
 """
+function stop_build_batch end
 function stop_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "StopBuildBatch",
@@ -2099,6 +2144,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   project tags.
 - `"vpcConfig"`:
 """
+function update_fleet end
 function update_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "UpdateFleet",
@@ -2187,6 +2233,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CodeBuild to wait before timing out any related build that did not get marked as completed.
 - `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.
 """
+function update_project end
 function update_project(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "UpdateProject",
@@ -2238,6 +2285,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceAccessRole"`: The ARN of the IAM role that enables CodeBuild to access the
   CloudWatch Logs and Amazon S3 artifacts for the project's builds.
 """
+function update_project_visibility end
 function update_project_visibility(
     projectArn, projectVisibility; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2291,6 +2339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   These tags are available for use by Amazon Web Services services that support CodeBuild
   report group tags.
 """
+function update_report_group end
 function update_report_group(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "UpdateReportGroup",
@@ -2335,6 +2384,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository's secret token should be updated. If you use Bitbucket for your repository,
   rotateSecret is ignored.
 """
+function update_webhook end
 function update_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild(
         "UpdateWebhook",

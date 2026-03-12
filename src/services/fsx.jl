@@ -34,6 +34,7 @@ of the aliases Amazon FSx is associating with the file system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
+function associate_file_system_aliases end
 function associate_file_system_aliases(
     Aliases, FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -89,6 +90,7 @@ remain in the released state.
 - `task_id`: Specifies the data repository task to cancel.
 
 """
+function cancel_data_repository_task end
 function cancel_data_repository_task(
     TaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -156,6 +158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   copy).
 - `"Tags"`:
 """
+function copy_backup end
 function copy_backup(SourceBackupId; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "CopyBackup",
@@ -219,6 +222,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   volume that aren't on the source volume.    DELETE_INTERMEDIATE_DATA - Overwrites snapshots
   on the destination volume that don’t match the source snapshot that you’re copying.
 """
+function copy_snapshot_and_update_volume end
 function copy_snapshot_and_update_volume(
     SourceSnapshotARN, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -299,6 +303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file system tags are copied from the file system to the backup.
 - `"VolumeId"`: (Optional) The ID of the FSx for ONTAP volume to back up.
 """
+function create_backup end
 function create_backup(; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "CreateBackup",
@@ -376,6 +381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data repository.
 - `"Tags"`:
 """
+function create_data_repository_association end
 function create_data_repository_association(
     DataRepositoryPath, FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -472,6 +478,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   criteria for files that will be released from an Amazon FSx for Lustre file system.
 - `"Tags"`:
 """
+function create_data_repository_task end
 function create_data_repository_task(
     FileSystemId, Report, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -569,6 +576,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests to describe the cache.
 - `"Tags"`:
 """
+function create_file_cache end
 function create_file_cache(
     FileCacheType,
     FileCacheTypeVersion,
@@ -710,6 +718,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WindowsConfiguration"`: The Microsoft Windows configuration for the file system that's
   being created.
 """
+function create_file_system end
 function create_file_system(
     FileSystemType,
     StorageCapacity,
@@ -827,6 +836,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of the Name tag appears in the console as the file system name.
 - `"WindowsConfiguration"`: The configuration for this Microsoft Windows file system.
 """
+function create_file_system_from_backup end
 function create_file_system_from_backup(
     BackupId, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -896,6 +906,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`:
 - `"Tags"`:
 """
+function create_snapshot end
 function create_snapshot(Name, VolumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "CreateSnapshot",
@@ -961,6 +972,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fsxadmin user to manage the SVM.
 - `"Tags"`:
 """
+function create_storage_virtual_machine end
 function create_storage_virtual_machine(
     FileSystemId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1019,6 +1031,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   volume.
 - `"Tags"`:
 """
+function create_volume end
 function create_volume(Name, VolumeType; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "CreateVolume",
@@ -1073,6 +1086,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creating.
 - `"Tags"`:
 """
+function create_volume_from_backup end
 function create_volume_from_backup(
     BackupId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1128,6 +1142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ensure idempotent deletion. This parameter is automatically filled on your behalf when
   using the CLI or SDK.
 """
+function delete_backup end
 function delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "DeleteBackup",
@@ -1178,6 +1193,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeleteDataInFileSystem"`: Set to true to delete the data in the file system that
   corresponds to the data repository association.
 """
+function delete_data_repository_association end
 function delete_data_repository_association(
     AssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1231,6 +1247,7 @@ data in a deleted cache is also deleted and can't be recovered by any means.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
+function delete_file_cache end
 function delete_file_cache(FileCacheId; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "DeleteFileCache",
@@ -1305,6 +1322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the DeleteFileSystem operation.
 - `"WindowsConfiguration"`:
 """
+function delete_file_system end
 function delete_file_system(
     FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1355,6 +1373,7 @@ lifecycle status of DELETING until the deletion is complete.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
+function delete_snapshot end
 function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "DeleteSnapshot",
@@ -1401,6 +1420,7 @@ an SVM, you must delete all non-root volumes in the SVM, otherwise the operation
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
+function delete_storage_virtual_machine end
 function delete_storage_virtual_machine(
     StorageVirtualMachineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1455,6 +1475,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OpenZFSConfiguration"`: For Amazon FSx for OpenZFS volumes, specify whether to delete
   all child volumes and snapshots.
 """
+function delete_volume end
 function delete_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "DeleteVolume",
@@ -1519,6 +1540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If a token is present, the operation continues the list from where the returning
   call left off.
 """
+function describe_backups end
 function describe_backups(; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx("DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1561,6 +1583,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must be an integer greater than zero.
 - `"NextToken"`:
 """
+function describe_data_repository_associations end
 function describe_data_repository_associations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1606,6 +1629,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"TaskIds"`: (Optional) IDs of the tasks whose descriptions you want to retrieve (String).
 """
+function describe_data_repository_tasks end
 function describe_data_repository_tasks(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1653,6 +1677,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`:
 """
+function describe_file_caches end
 function describe_file_caches(; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx("DescribeFileCaches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1689,6 +1714,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation (String). If a token is included in the request, the action continues the list
   from where the previous returning call left off.
 """
+function describe_file_system_aliases end
 function describe_file_system_aliases(
     FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1756,6 +1782,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation (String). If a token present, the operation continues the list from where the
   returning call left off.
 """
+function describe_file_systems end
 function describe_file_systems(; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "DescribeFileSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1783,6 +1810,7 @@ NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual priva
 subnets.
 
 """
+function describe_shared_vpc_configuration end
 function describe_shared_vpc_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1835,6 +1863,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotIds"`: The IDs of the snapshots that you want to retrieve. This parameter value
   overrides any filters. If any IDs aren't found, a SnapshotNotFound error occurs.
 """
+function describe_snapshots end
 function describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx("DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1860,6 +1889,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"StorageVirtualMachineIds"`: Enter the ID of one or more SVMs that you want to view.
 """
+function describe_storage_virtual_machines end
 function describe_storage_virtual_machines(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1894,6 +1924,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"VolumeIds"`: The IDs of the volumes whose descriptions you want to retrieve.
 """
+function describe_volumes end
 function describe_volumes(; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx("DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1927,6 +1958,7 @@ aliases Amazon FSx is disassociating with the file system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
+function disassociate_file_system_aliases end
 function disassociate_file_system_aliases(
     Aliases, FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1996,6 +2028,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation (String). If a token present, the action continues the list from where the
   returning call left off.
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2035,6 +2068,7 @@ Releases the file system lock from an Amazon FSx for OpenZFS file system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
+function release_file_system_nfs_v3_locks end
 function release_file_system_nfs_v3_locks(
     FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2090,6 +2124,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   volumes created from intermediate snapshots. If there are any dependent clone volumes and
   this option isn't used, RestoreVolumeFromSnapshot fails.
 """
+function restore_volume_from_snapshot end
 function restore_volume_from_snapshot(
     SnapshotId, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2144,6 +2179,7 @@ to reconnect to the file system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
+function start_misconfigured_state_recovery end
 function start_misconfigured_state_recovery(
     FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2191,6 +2227,7 @@ Tags an Amazon FSx resource.
   value is replaced by the one specified in this parameter.
 
 """
+function tag_resource end
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "TagResource",
@@ -2232,6 +2269,7 @@ This action removes a tag from an Amazon FSx resource.
   exist, the call will still succeed to be idempotent.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2289,6 +2327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data repository to the file system or automatically exported from the file system to the
   data repository.
 """
+function update_data_repository_association end
 function update_data_repository_association(
     AssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2339,6 +2378,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`:
 - `"LustreConfiguration"`: The configuration updates for an Amazon File Cache resource.
 """
+function update_file_cache end
 function update_file_cache(FileCacheId; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "UpdateFileCache",
@@ -2431,6 +2471,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WindowsConfiguration"`: The configuration updates for an Amazon FSx for Windows File
   Server file system.
 """
+function update_file_system end
 function update_file_system(
     FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2485,6 +2526,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets. Set to true to
   enable or false to disable.
 """
+function update_shared_vpc_configuration end
 function update_shared_vpc_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2526,6 +2568,7 @@ Updates the name of an Amazon FSx for OpenZFS snapshot.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
+function update_snapshot end
 function update_snapshot(
     Name, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2582,6 +2625,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`:
 - `"SvmAdminPassword"`: Specifies a new SvmAdminPassword.
 """
+function update_storage_virtual_machine end
 function update_storage_virtual_machine(
     StorageVirtualMachineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2638,6 +2682,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OntapConfiguration"`: The configuration of the ONTAP volume that you are updating.
 - `"OpenZFSConfiguration"`: The configuration of the OpenZFS volume that you are updating.
 """
+function update_volume end
 function update_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return fsx(
         "UpdateVolume",

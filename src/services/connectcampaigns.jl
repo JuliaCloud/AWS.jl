@@ -20,6 +20,7 @@ Creates a campaign for the specified Amazon Connect account. This API is idempot
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`:
 """
+function create_campaign end
 function create_campaign(
     connectInstanceId,
     dialerConfig,
@@ -79,6 +80,7 @@ Deletes a campaign from the specified Amazon Connect account.
 - `id`:
 
 """
+function delete_campaign end
 function delete_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "DELETE", "/campaigns/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -107,6 +109,7 @@ Deletes a connect instance config from the specified AWS account.
 - `connect_instance_id`:
 
 """
+function delete_connect_instance_config end
 function delete_connect_instance_config(
     connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -142,6 +145,7 @@ Delete the Connect Campaigns onboarding job for the specified Amazon Connect ins
 - `connect_instance_id`:
 
 """
+function delete_instance_onboarding_job end
 function delete_instance_onboarding_job(
     connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -177,6 +181,7 @@ Describes the specific campaign.
 - `id`:
 
 """
+function describe_campaign end
 function describe_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "GET", "/campaigns/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -205,6 +210,7 @@ Get state of a campaign for the specified Amazon Connect account.
 - `id`:
 
 """
+function get_campaign_state end
 function get_campaign_state(id; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "GET",
@@ -236,6 +242,7 @@ Get state of campaigns for the specified Amazon Connect account.
 - `campaign_ids`:
 
 """
+function get_campaign_state_batch end
 function get_campaign_state_batch(
     campaignIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -274,6 +281,7 @@ Get the specific Connect instance config.
 - `connect_instance_id`:
 
 """
+function get_connect_instance_config end
 function get_connect_instance_config(
     connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -309,6 +317,7 @@ Get the specific instance onboarding job status.
 - `connect_instance_id`:
 
 """
+function get_instance_onboarding_job_status end
 function get_instance_onboarding_job_status(
     connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -346,6 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
+function list_campaigns end
 function list_campaigns(; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "POST", "/campaigns-summary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -374,6 +384,7 @@ List tags for a resource.
 - `arn`:
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -402,6 +413,7 @@ Pauses a campaign for the specified Amazon Connect account.
 - `id`:
 
 """
+function pause_campaign end
 function pause_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "POST",
@@ -435,6 +447,7 @@ idempotent.
 - `id`:
 
 """
+function put_dial_request_batch end
 function put_dial_request_batch(
     dialRequests, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -474,6 +487,7 @@ Stops a campaign for the specified Amazon Connect account.
 - `id`:
 
 """
+function resume_campaign end
 function resume_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "POST",
@@ -505,6 +519,7 @@ Starts a campaign for the specified Amazon Connect account.
 - `id`:
 
 """
+function start_campaign end
 function start_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "POST",
@@ -537,6 +552,7 @@ Onboard the specific Amazon Connect instance to Connect Campaigns.
 - `encryption_config`:
 
 """
+function start_instance_onboarding_job end
 function start_instance_onboarding_job(
     connectInstanceId, encryptionConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -578,6 +594,7 @@ Stops a campaign for the specified Amazon Connect account.
 - `id`:
 
 """
+function stop_campaign end
 function stop_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "POST",
@@ -610,6 +627,7 @@ Tag a resource.
 - `tags`:
 
 """
+function tag_resource end
 function tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "POST",
@@ -646,6 +664,7 @@ Untag a resource.
 - `tag_keys`:
 
 """
+function untag_resource end
 function untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "DELETE",
@@ -682,6 +701,7 @@ Updates the dialer config of a campaign. This API is idempotent.
 - `id`:
 
 """
+function update_campaign_dialer_config end
 function update_campaign_dialer_config(
     dialerConfig, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -722,6 +742,7 @@ Updates the name of a campaign. This API is idempotent.
 - `name`:
 
 """
+function update_campaign_name end
 function update_campaign_name(id, name; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcampaigns(
         "POST",
@@ -762,6 +783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"connectContactFlowId"`:
 - `"connectSourcePhoneNumber"`:
 """
+function update_campaign_outbound_call_config end
 function update_campaign_outbound_call_config(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )

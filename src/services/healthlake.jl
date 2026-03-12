@@ -27,6 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided encryption key specified for creating a data store.
 - `"Tags"`:  Resource tags that are applied to a data store when it is created.
 """
+function create_fhirdatastore end
 function create_fhirdatastore(
     DatastoreTypeVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -72,6 +73,7 @@ Deletes a data store.
 - `datastore_id`:  The AWS-generated ID for the data store to be deleted.
 
 """
+function delete_fhirdatastore end
 function delete_fhirdatastore(
     DatastoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -110,6 +112,7 @@ type version, and the data store's endpoint.
 - `datastore_id`: The AWS-generated data store ID.
 
 """
+function describe_fhirdatastore end
 function describe_fhirdatastore(
     DatastoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -149,6 +152,7 @@ of the job.
 - `job_id`: The AWS generated ID for an export job.
 
 """
+function describe_fhirexport_job end
 function describe_fhirexport_job(
     DatastoreId, JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -192,6 +196,7 @@ of the job.
 - `job_id`: The AWS-generated job ID.
 
 """
+function describe_fhirimport_job end
 function describe_fhirimport_job(
     DatastoreId, JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -237,6 +242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListFHIRDatastoresRequest call.
 - `"NextToken"`: Fetches the next page of data stores when results are paginated.
 """
+function list_fhirdatastores end
 function list_fhirdatastores(; aws_config::AbstractAWSConfig=current_aws_config())
     return healthlake(
         "ListFHIRDatastores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -276,6 +282,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubmittedBefore"`:  This parameter limits the response to FHIR export jobs submitted
   before a user specified date.
 """
+function list_fhirexport_jobs end
 function list_fhirexport_jobs(
     DatastoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -327,6 +334,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubmittedBefore"`:  This parameter limits the response to FHIR import jobs submitted
   before a user specified date.
 """
+function list_fhirimport_jobs end
 function list_fhirimport_jobs(
     DatastoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -364,6 +372,7 @@ end
   added.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -408,6 +417,7 @@ Begins a FHIR export job.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"JobName"`: The user generated name for an export job.
 """
+function start_fhirexport_job end
 function start_fhirexport_job(
     ClientToken,
     DataAccessRoleArn,
@@ -474,6 +484,7 @@ Begins a FHIR Import job.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"JobName"`: The name of the FHIR Import job in the StartFHIRImport job request.
 """
+function start_fhirimport_job end
 function start_fhirimport_job(
     ClientToken,
     DataAccessRoleArn,
@@ -537,6 +548,7 @@ end
 - `tags`:  The user specified key and value pair tags being added to a data store.
 
 """
+function tag_resource end
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return healthlake(
         "TagResource",
@@ -578,6 +590,7 @@ end
 - `tag_keys`:  The keys for the tags to be removed from the HealthLake data store.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

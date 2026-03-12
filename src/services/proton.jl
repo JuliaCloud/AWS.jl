@@ -17,6 +17,7 @@ For more information, see Environment account connections in the Proton User gui
 - `id`: The ID of the environment account connection.
 
 """
+function accept_environment_account_connection end
 function accept_environment_account_connection(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -51,6 +52,7 @@ Proton User Guide.
 - `component_name`: The name of the component with the deployment to cancel.
 
 """
+function cancel_component_deployment end
 function cancel_component_deployment(
     componentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -93,6 +95,7 @@ deployment state is SUCCEEDED and the cancellation attempt has no effect.
 - `environment_name`: The name of the environment with the deployment to cancel.
 
 """
+function cancel_environment_deployment end
 function cancel_environment_deployment(
     environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -138,6 +141,7 @@ deployment state is SUCCEEDED and the cancellation attempt has no effect.
 - `service_name`: The name of the service with the service instance deployment to cancel.
 
 """
+function cancel_service_instance_deployment end
 function cancel_service_instance_deployment(
     serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -190,6 +194,7 @@ deployment state is SUCCEEDED and the cancellation attempt has no effect.
 - `service_name`: The name of the service with the service pipeline deployment to cancel.
 
 """
+function cancel_service_pipeline_deployment end
 function cancel_service_pipeline_deployment(
     serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -252,6 +257,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component. A tag is a key-value pair. For more information, see Proton resources and
   tagging in the Proton User Guide.
 """
+function create_component end
 function create_component(
     manifest, name, templateFile; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -349,6 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tagging in the Proton User Guide.
 - `"templateMinorVersion"`: The minor version of the environment template.
 """
+function create_environment end
 function create_environment(
     name,
     spec,
@@ -435,6 +442,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment account connection. A tag is a key-value pair. For more information, see Proton
   resources and tagging in the Proton User Guide.
 """
+function create_environment_account_connection end
 function create_environment_account_connection(
     environmentName, managementAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -503,6 +511,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment template. A tag is a key-value pair. For more information, see Proton resources
   and tagging in the Proton User Guide.
 """
+function create_environment_template end
 function create_environment_template(
     name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -550,6 +559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment template version. A tag is a key-value pair. For more information, see Proton
   resources and tagging in the Proton User Guide.
 """
+function create_environment_template_version end
 function create_environment_template_version(
     source, templateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -615,6 +625,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository. A tag is a key-value pair. For more information, see Proton resources and
   tagging in the Proton User Guide.
 """
+function create_repository end
 function create_repository(
     connectionArn, name, provider; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -686,6 +697,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMinorVersion"`: The minor version of the service template that was used to
   create the service.
 """
+function create_service end
 function create_service(
     name,
     spec,
@@ -755,6 +767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMinorVersion"`: To create a new minor version of the service template, include
   a major Version.
 """
+function create_service_instance end
 function create_service_instance(
     name, serviceName, spec; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -811,6 +824,7 @@ Create the Proton Ops configuration file.
 - `service_name`: The name of the service the Proton Ops file is for.
 
 """
+function create_service_sync_config end
 function create_service_sync_config(
     branch,
     filePath,
@@ -889,6 +903,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service template. A tag is a key-value pair. For more information, see Proton resources and
   tagging in the Proton User Guide.
 """
+function create_service_template end
 function create_service_template(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "CreateServiceTemplate",
@@ -941,6 +956,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service template version. A tag is a key-value pair. For more information, see Proton
   resources and tagging in the Proton User Guide.
 """
+function create_service_template_version end
 function create_service_template_version(
     compatibleEnvironmentTemplates,
     source,
@@ -1010,6 +1026,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subdirectory"`: A repository subdirectory path to your template bundle directory. When
   included, Proton limits the template bundle search to this repository directory.
 """
+function create_template_sync_config end
 function create_template_sync_config(
     branch,
     repositoryName,
@@ -1072,6 +1089,7 @@ components in the Proton User Guide.
 - `name`: The name of the component to delete.
 
 """
+function delete_component end
 function delete_component(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "DeleteComponent",
@@ -1102,6 +1120,7 @@ Delete the deployment.
 - `id`: The ID of the deployment to delete.
 
 """
+function delete_deployment end
 function delete_deployment(id; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "DeleteDeployment",
@@ -1132,6 +1151,7 @@ Delete an environment.
 - `name`: The name of the environment to delete.
 
 """
+function delete_environment end
 function delete_environment(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "DeleteEnvironment",
@@ -1167,6 +1187,7 @@ information, see Environment account connections in the Proton User guide.
 - `id`: The ID of the environment account connection to delete.
 
 """
+function delete_environment_account_connection end
 function delete_environment_account_connection(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1200,6 +1221,7 @@ environment template.
 - `name`: The name of the environment template to delete.
 
 """
+function delete_environment_template end
 function delete_environment_template(
     name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1241,6 +1263,7 @@ version that's backward compatible.
 - `template_name`: The name of the environment template.
 
 """
+function delete_environment_template_version end
 function delete_environment_template_version(
     majorVersion,
     minorVersion,
@@ -1295,6 +1318,7 @@ De-register and unlink your repository.
 - `provider`: The repository provider.
 
 """
+function delete_repository end
 function delete_repository(
     name, provider; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1336,6 +1360,7 @@ components, see Proton components in the Proton User Guide.
 - `name`: The name of the service to delete.
 
 """
+function delete_service end
 function delete_service(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "DeleteService",
@@ -1367,6 +1392,7 @@ Delete the Proton Ops file.
   configuration for.
 
 """
+function delete_service_sync_config end
 function delete_service_sync_config(
     serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1404,6 +1430,7 @@ template.
 - `name`: The name of the service template to delete.
 
 """
+function delete_service_template end
 function delete_service_template(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "DeleteServiceTemplate",
@@ -1443,6 +1470,7 @@ compatible.
 - `template_name`: The name of the service template.
 
 """
+function delete_service_template_version end
 function delete_service_template_version(
     majorVersion,
     minorVersion,
@@ -1497,6 +1525,7 @@ Delete a template sync configuration.
 - `template_type`: The template type.
 
 """
+function delete_template_sync_config end
 function delete_template_sync_config(
     templateName, templateType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1537,6 +1566,7 @@ end
 Get detail data for Proton account-wide settings.
 
 """
+function get_account_settings end
 function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1562,6 +1592,7 @@ components in the Proton User Guide.
 - `name`: The name of the component that you want to get the detailed data for.
 
 """
+function get_component end
 function get_component(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "GetComponent",
@@ -1599,6 +1630,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deployment ID. serviceName must be specified to identify the service instance.
 - `"serviceName"`: The name of the service associated with the given deployment ID.
 """
+function get_deployment end
 function get_deployment(id; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "GetDeployment",
@@ -1629,6 +1661,7 @@ Get detailed data for an environment.
 - `name`: The name of the environment that you want to get the detailed data for.
 
 """
+function get_environment end
 function get_environment(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "GetEnvironment",
@@ -1661,6 +1694,7 @@ more information, see Environment account connections in the Proton User guide.
   for.
 
 """
+function get_environment_account_connection end
 function get_environment_account_connection(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1693,6 +1727,7 @@ Get detailed data for an environment template.
 - `name`: The name of the environment template that you want to get the detailed data for.
 
 """
+function get_environment_template end
 function get_environment_template(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "GetEnvironmentTemplate",
@@ -1728,6 +1763,7 @@ Get detailed data for a major or minor version of an environment template.
   detailed data for.
 
 """
+function get_environment_template_version end
 function get_environment_template_version(
     majorVersion,
     minorVersion,
@@ -1782,6 +1818,7 @@ Get detail data for a linked repository.
 - `provider`: The repository provider.
 
 """
+function get_repository end
 function get_repository(name, provider; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "GetRepository",
@@ -1827,6 +1864,7 @@ see ABAC in the Proton User Guide.
 - `sync_type`: The repository sync type.
 
 """
+function get_repository_sync_status end
 function get_repository_sync_status(
     branch,
     repositoryName,
@@ -1891,6 +1929,7 @@ the Amazon Web Services account. For more information, see Proton dashboard in t
 User Guide.
 
 """
+function get_resources_summary end
 function get_resources_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "GetResourcesSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1918,6 +1957,7 @@ Get detailed data for a service.
 - `name`: The name of the service that you want to get the detailed data for.
 
 """
+function get_service end
 function get_service(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "GetService",
@@ -1950,6 +1990,7 @@ template and it runs in a specific environment.
 - `service_name`: The name of the service that you want the service instance input for.
 
 """
+function get_service_instance end
 function get_service_instance(
     name, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1993,6 +2034,7 @@ Get the status of the synced service instance.
 - `service_name`: The name of the service that the service instance belongs to.
 
 """
+function get_service_instance_sync_status end
 function get_service_instance_sync_status(
     serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2045,6 +2087,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service sync blocker summary for. If given bothe the instance name and the service name,
   only the instance is blocked.
 """
+function get_service_sync_blocker_summary end
 function get_service_sync_blocker_summary(
     serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2082,6 +2125,7 @@ Get detailed information for the service sync configuration.
   configuration for.
 
 """
+function get_service_sync_config end
 function get_service_sync_config(
     serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2118,6 +2162,7 @@ Get detailed data for a service template.
 - `name`: The name of the service template that you want to get detailed data for.
 
 """
+function get_service_template end
 function get_service_template(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "GetServiceTemplate",
@@ -2151,6 +2196,7 @@ Get detailed data for a major or minor version of a service template.
   detailed data for.
 
 """
+function get_service_template_version end
 function get_service_template_version(
     majorVersion,
     minorVersion,
@@ -2205,6 +2251,7 @@ Get detail data for a template sync configuration.
 - `template_type`: The template type.
 
 """
+function get_template_sync_config end
 function get_template_sync_config(
     templateName, templateType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2250,6 +2297,7 @@ Get the status of a template sync.
 - `template_version`: The template major version.
 
 """
+function get_template_sync_status end
 function get_template_sync_status(
     templateName,
     templateType,
@@ -2309,6 +2357,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
+function list_component_outputs end
 function list_component_outputs(
     componentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2351,6 +2400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of provisioned resources, after the list of provisioned resources that was
   previously requested.
 """
+function list_component_provisioned_resources end
 function list_component_provisioned_resources(
     componentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2397,6 +2447,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceName"`: The name of a service for result list filtering. Proton returns
   components attached to service instances of the service.
 """
+function list_components end
 function list_components(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton("ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2430,6 +2481,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceName"`: The name of a service for result list filtering. Proton returns
   deployments associated with service instances of the service.
 """
+function list_deployments end
 function list_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton("ListDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2462,6 +2514,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account connections that was previously requested.
 - `"statuses"`: The status details for each listed environment account connection.
 """
+function list_environment_account_connections end
 function list_environment_account_connections(
     requestedBy; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2504,6 +2557,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   array of environment outputs, after the list of environment outputs that was previously
   requested.
 """
+function list_environment_outputs end
 function list_environment_outputs(
     environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2547,6 +2601,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource in the array of environment provisioned resources, after the list of environment
   provisioned resources that was previously requested.
 """
+function list_environment_provisioned_resources end
 function list_environment_provisioned_resources(
     environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2595,6 +2650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of major or minor versions of an environment template, after the list of major or
   minor versions that was previously requested.
 """
+function list_environment_template_versions end
 function list_environment_template_versions(
     templateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2634,6 +2690,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of environment templates, after the list of environment templates that was
   previously requested.
 """
+function list_environment_templates end
 function list_environment_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "ListEnvironmentTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2664,6 +2721,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next environment in the array
   of environments, after the list of environments that was previously requested.
 """
+function list_environments end
 function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2690,6 +2748,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next repository in the array of
   repositories, after the list of repositories previously requested.
 """
+function list_repositories end
 function list_repositories(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "ListRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2721,6 +2780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the array of repository sync definitions, after the list of repository sync definitions
   previously requested.
 """
+function list_repository_sync_definitions end
 function list_repository_sync_definitions(
     repositoryName,
     repositoryProvider,
@@ -2780,6 +2840,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
+function list_service_instance_outputs end
 function list_service_instance_outputs(
     serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2833,6 +2894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of provisioned resources, after the list of provisioned resources that was
   previously requested.
 """
+function list_service_instance_provisioned_resources end
 function list_service_instance_provisioned_resources(
     serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2889,6 +2951,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: serviceName
 - `"sortOrder"`: Result list sort order. Default: ASCENDING
 """
+function list_service_instances end
 function list_service_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "ListServiceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2921,6 +2984,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
+function list_service_pipeline_outputs end
 function list_service_pipeline_outputs(
     serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2962,6 +3026,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of provisioned resources, after the list of provisioned resources that was
   previously requested.
 """
+function list_service_pipeline_provisioned_resources end
 function list_service_pipeline_provisioned_resources(
     serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3008,6 +3073,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of major or minor versions of a service template, after the list of major or
   minor versions that was previously requested.
 """
+function list_service_template_versions end
 function list_service_template_versions(
     templateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3046,6 +3112,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next service template in the
   array of service templates, after the list of service templates previously requested.
 """
+function list_service_templates end
 function list_service_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "ListServiceTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3075,6 +3142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next service in the array of
   services, after the list of services that was previously requested.
 """
+function list_services end
 function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -3103,6 +3171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next resource tag in the array
   of resource tags, after the list of resource tags that was previously requested.
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3146,6 +3215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of your provisioned resource.
 - `"statusMessage"`: The deployment status message for your provisioned resource.
 """
+function notify_resource_deployment_status_change end
 function notify_resource_deployment_status_change(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3186,6 +3256,7 @@ account connections in the Proton User guide.
 - `id`: The ID of the environment account connection to reject.
 
 """
+function reject_environment_account_connection end
 function reject_environment_account_connection(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3221,6 +3292,7 @@ resource. For more information, see Proton resources and tagging in the Proton U
 - `tags`: A list of customer tags to apply to the Proton resource.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "TagResource",
@@ -3265,6 +3337,7 @@ Proton User Guide.
   from the resource.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3322,6 +3395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provisioning, and by customer-owned automation for self-managed provisioning. To remove a
   previously configured ARN, specify an empty string.
 """
+function update_account_settings end
 function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3375,6 +3449,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   infrastructure that a custom component provisions.  Components support a single IaC file,
   even if you use Terraform as your template language.
 """
+function update_component end
 function update_component(
     deploymentType, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3485,6 +3560,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMajorVersion"`: The major version of the environment to update.
 - `"templateMinorVersion"`: The minor version of the environment to update.
 """
+function update_environment end
 function update_environment(
     deploymentType, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3540,6 +3616,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM service role that's associated
   with the environment account connection to update.
 """
+function update_environment_account_connection end
 function update_environment_account_connection(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3577,6 +3654,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The name of the environment template to update as displayed in the
   developer interface.
 """
+function update_environment_template end
 function update_environment_template(
     name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3617,6 +3695,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of environment template version to update.
 - `"status"`: The status of the environment template minor version to update.
 """
+function update_environment_template_version end
 function update_environment_template_version(
     majorVersion,
     minorVersion,
@@ -3682,6 +3761,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the existing service instances or pipeline. For more information, see Edit a service in the
   Proton User Guide.
 """
+function update_service end
 function update_service(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "UpdateService",
@@ -3734,6 +3814,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMajorVersion"`: The major version of the service template to update.
 - `"templateMinorVersion"`: The minor version of the service template to update.
 """
+function update_service_instance end
 function update_service_instance(
     deploymentType, name, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3816,6 +3897,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMinorVersion"`: The minor version of the service template that was used to
   create the service that the pipeline is associated with.
 """
+function update_service_pipeline end
 function update_service_pipeline(
     deploymentType, serviceName, spec; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3865,6 +3947,7 @@ Update the service sync blocker by resolving it.
 - `resolved_reason`: The reason the service sync blocker was resolved.
 
 """
+function update_service_sync_blocker end
 function update_service_sync_blocker(
     id, resolvedReason; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3911,6 +3994,7 @@ Update the Proton Ops config file.
 - `service_name`: The name of the service the Proton Ops file is for.
 
 """
+function update_service_sync_config end
 function update_service_sync_config(
     branch,
     filePath,
@@ -3977,6 +4061,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The name of the service template to update that's displayed in the
   developer interface.
 """
+function update_service_template end
 function update_service_template(name; aws_config::AbstractAWSConfig=current_aws_config())
     return proton(
         "UpdateServiceTemplate",
@@ -4022,6 +4107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associations.  For more information about components, see Proton components in the Proton
   User Guide.
 """
+function update_service_template_version end
 function update_service_template_version(
     majorVersion,
     minorVersion,
@@ -4086,6 +4172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subdirectory"`: A subdirectory path to your template bundle version. When included,
   limits the template bundle search to this repository directory.
 """
+function update_template_sync_config end
 function update_template_sync_config(
     branch,
     repositoryName,

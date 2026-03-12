@@ -46,6 +46,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Identity Center authorizes all scopes that are configured for the client during the call to
   RegisterClient.
 """
+function create_token end
 function create_token(
     clientId, clientSecret, grantType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -142,6 +143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following value is supported: * Access Token -
   urn:ietf:params:oauth:token-type:access_token
 """
+function create_token_with_iam end
 function create_token_with_iam(
     clientId, grantType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -204,6 +206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scopes"`: The list of scopes that are defined by the client. Upon authorization, this
   list is used to restrict permissions when granting an access token.
 """
+function register_client end
 function register_client(
     clientName, clientType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -254,6 +257,7 @@ authorization service.
   Using the Amazon Web Services access portal in the IAM Identity Center User Guide.
 
 """
+function start_device_authorization end
 function start_device_authorization(
     clientId, clientSecret, startUrl; aws_config::AbstractAWSConfig=current_aws_config()
 )

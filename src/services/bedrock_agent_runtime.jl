@@ -18,6 +18,7 @@ Deletes memory from the specified memory identifier.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"memoryId"`: The unique identifier of the memory.
 """
+function delete_agent_memory end
 function delete_agent_memory(
     agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -65,6 +66,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the request, enter the token returned in the nextToken field in the response in this
   field to return the next batch of results.
 """
+function get_agent_memory end
 function get_agent_memory(
     agentAliasId,
     agentId,
@@ -144,6 +146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returnControlInvocationResults in the sessionState field, the inputText field will be
   ignored.
 """
+function invoke_agent end
 function invoke_agent(
     agentAliasId, agentId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -186,6 +189,7 @@ streaming operations in Amazon Bedrock, including InvokeFlow.
 - `inputs`: A list of objects, each containing information about an input into the flow.
 
 """
+function invoke_flow end
 function invoke_flow(
     flowAliasIdentifier,
     flowIdentifier,
@@ -235,6 +239,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retrievalConfiguration"`: Contains configurations for the knowledge base query and
   retrieval process. For more information, see Query configurations.
 """
+function retrieve end
 function retrieve(
     knowledgeBaseId, retrievalQuery; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -285,6 +290,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allows Amazon Bedrock to maintain context and knowledge from previous interactions. You
   can't explicitly set the sessionId yourself.
 """
+function retrieve_and_generate end
 function retrieve_and_generate(input; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent_runtime(
         "POST",

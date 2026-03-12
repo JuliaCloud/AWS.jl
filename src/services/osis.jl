@@ -31,6 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pipeline. If you don't specify these values, OpenSearch Ingestion creates the pipeline with
   a public endpoint.
 """
+function create_pipeline end
 function create_pipeline(
     MaxUnits,
     MinUnits,
@@ -91,6 +92,7 @@ OpenSearch Ingestion pipelines.
 - `pipeline_name`: The name of the pipeline to delete.
 
 """
+function delete_pipeline end
 function delete_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "DELETE",
@@ -124,6 +126,7 @@ Retrieves information about an OpenSearch Ingestion pipeline.
 - `pipeline_name`: The name of the pipeline.
 
 """
+function get_pipeline end
 function get_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "GET",
@@ -162,6 +165,7 @@ see Using blueprints to create a pipeline.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"format"`: The format format of the blueprint to retrieve.
 """
+function get_pipeline_blueprint end
 function get_pipeline_blueprint(
     BlueprintName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -199,6 +203,7 @@ created. For more information, see Tracking the status of pipeline creation.
 - `pipeline_name`: The name of the pipeline.
 
 """
+function get_pipeline_change_progress end
 function get_pipeline_change_progress(
     PipelineName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -232,6 +237,7 @@ Retrieves a list of all available blueprints for Data Prepper. For more informat
 Using blueprints to create a pipeline.
 
 """
+function list_pipeline_blueprints end
 function list_pipeline_blueprints(; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "POST",
@@ -268,6 +274,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the returned nextToken in subsequent ListPipelines operations, which returns
   results in the next page.
 """
+function list_pipelines end
 function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "GET",
@@ -300,6 +307,7 @@ information, see Tagging Amazon OpenSearch Ingestion pipelines.
 - `arn`: The Amazon Resource Name (ARN) of the pipeline to retrieve tags for.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "GET",
@@ -333,6 +341,7 @@ Ingestion pipeline.
 - `pipeline_name`: The name of the pipeline to start.
 
 """
+function start_pipeline end
 function start_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "PUT",
@@ -367,6 +376,7 @@ Ingestion pipeline.
 - `pipeline_name`: The name of the pipeline to stop.
 
 """
+function stop_pipeline end
 function stop_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "PUT",
@@ -402,6 +412,7 @@ Ingestion pipelines.
 - `arn`: The Amazon Resource Name (ARN) of the pipeline to tag.
 
 """
+function tag_resource end
 function tag_resource(Tags, arn; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "POST",
@@ -441,6 +452,7 @@ Tagging Amazon OpenSearch Ingestion pipelines.
 - `arn`: The Amazon Resource Name (ARN) of the pipeline to remove tags from.
 
 """
+function untag_resource end
 function untag_resource(TagKeys, arn; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "POST",
@@ -490,6 +502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accepts the pipeline configuration as a string or within a .yaml file. If you provide the
   configuration as a string, each new line must be escaped with n.
 """
+function update_pipeline end
 function update_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "PUT",
@@ -526,6 +539,7 @@ For more information, see Creating Amazon OpenSearch Ingestion pipelines.
   configuration as a string, each new line must be escaped with n.
 
 """
+function validate_pipeline end
 function validate_pipeline(
     PipelineConfigurationBody; aws_config::AbstractAWSConfig=current_aws_config()
 )

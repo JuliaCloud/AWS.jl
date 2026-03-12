@@ -19,6 +19,7 @@ accounts that can be associated in one call is 30.
   account IDs.
 
 """
+function associate_accounts end
 function associate_accounts(
     AccountIds, Arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -62,6 +63,7 @@ PricingRuleArn that can be associated in one call is 30.
 - `pricing_rule_arns`:  The PricingRuleArns that are associated with the Pricing Plan.
 
 """
+function associate_pricing_rules end
 function associate_pricing_rules(
     Arn, PricingRuleArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -109,6 +111,7 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BillingPeriodRange"`:
 """
+function batch_associate_resources_to_custom_line_item end
 function batch_associate_resources_to_custom_line_item(
     ResourceArns, TargetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -156,6 +159,7 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BillingPeriodRange"`:
 """
+function batch_disassociate_resources_from_custom_line_item end
 function batch_disassociate_resources_from_custom_line_item(
     ResourceArns, TargetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -212,6 +216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`:  The token that is needed to support idempotency. Idempotency
   isn't currently supported, but will be implemented in a future update.
 """
+function create_billing_group end
 function create_billing_group(
     AccountGrouping,
     ComputationPreference,
@@ -286,6 +291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`:  The token that is needed to support idempotency. Idempotency
   isn't currently supported, but will be implemented in a future update.
 """
+function create_custom_line_item end
 function create_custom_line_item(
     BillingGroupArn,
     ChargeDetails,
@@ -357,6 +363,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`:  The token that is needed to support idempotency. Idempotency
   isn't currently supported, but will be implemented in a future update.
 """
+function create_pricing_plan end
 function create_pricing_plan(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -421,6 +428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`:  The token that's needed to support idempotency. Idempotency
   isn't currently supported, but will be implemented in a future update.
 """
+function create_pricing_rule end
 function create_pricing_rule(
     Name, Scope, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -475,6 +483,7 @@ end
 - `arn`: The Amazon Resource Name (ARN) of the billing group that you're deleting.
 
 """
+function delete_billing_group end
 function delete_billing_group(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -511,6 +520,7 @@ billing period.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BillingPeriodRange"`:
 """
+function delete_custom_line_item end
 function delete_custom_line_item(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -544,6 +554,7 @@ delete successfully.
 - `arn`: The Amazon Resource Name (ARN) of the pricing plan that you're deleting.
 
 """
+function delete_pricing_plan end
 function delete_pricing_plan(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -576,6 +587,7 @@ end
 - `arn`:  The Amazon Resource Name (ARN) of the pricing rule that you are deleting.
 
 """
+function delete_pricing_rule end
 function delete_pricing_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -610,6 +622,7 @@ Removes the specified list of account IDs from the given billing group.
   will disassociate from.
 
 """
+function disassociate_accounts end
 function disassociate_accounts(
     AccountIds, Arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +666,7 @@ end
   rules that will be disassociated.
 
 """
+function disassociate_pricing_rules end
 function disassociate_pricing_rules(
     Arn, PricingRuleArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -706,6 +720,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of margin summary reports to retrieve.
 - `"NextToken"`: The pagination token used on subsequent calls to get reports.
 """
+function get_billing_group_cost_report end
 function get_billing_group_cost_report(
     Arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -749,6 +764,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  The pagination token that's used on subsequent calls to retrieve
   accounts.
 """
+function list_account_associations end
 function list_account_associations(; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -786,6 +802,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of reports to retrieve.
 - `"NextToken"`: The pagination token that's used on subsequent calls to get reports.
 """
+function list_billing_group_cost_reports end
 function list_billing_group_cost_reports(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -825,6 +842,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that's used on subsequent calls to get billing
   groups.
 """
+function list_billing_groups end
 function list_billing_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -863,6 +881,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that's used on subsequent calls to retrieve custom
   line item versions.
 """
+function list_custom_line_item_versions end
 function list_custom_line_item_versions(
     Arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +922,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  The pagination token that's used on subsequent calls to get custom line
   items (FFLIs).
 """
+function list_custom_line_items end
 function list_custom_line_items(; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -939,6 +959,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of pricing plans to retrieve.
 - `"NextToken"`: The pagination token that's used on subsequent call to get pricing plans.
 """
+function list_pricing_plans end
 function list_pricing_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -977,6 +998,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  The optional maximum number of pricing rule associations to retrieve.
 - `"NextToken"`:  The optional pagination token returned by a previous call.
 """
+function list_pricing_plans_associated_with_pricing_rule end
 function list_pricing_plans_associated_with_pricing_rule(
     PricingRuleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1020,6 +1042,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  The maximum number of pricing rules to retrieve.
 - `"NextToken"`:  The pagination token that's used on subsequent call to get pricing rules.
 """
+function list_pricing_rules end
 function list_pricing_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -1058,6 +1081,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The optional maximum number of pricing rule associations to retrieve.
 - `"NextToken"`:  The optional pagination token returned by a previous call.
 """
+function list_pricing_rules_associated_to_pricing_plan end
 function list_pricing_rules_associated_to_pricing_plan(
     PricingPlanArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1105,6 +1129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  (Optional) The maximum number of resource associations to be retrieved.
 - `"NextToken"`:  (Optional) The pagination token that's returned by a previous request.
 """
+function list_resources_associated_to_custom_line_item end
 function list_resources_associated_to_custom_line_item(
     Arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1140,6 +1165,7 @@ end
   tags.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1177,6 +1203,7 @@ tags on a resource are not specified in the request parameters, they are not cha
 - `tags`:  The tags to add to the resource as a list of key-value pairs.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -1213,6 +1240,7 @@ end
 - `tag_keys`:  The tags to delete from the resource as a list of key-value pairs.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1259,6 +1287,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the billing group. The names must be unique to each billing group.
 - `"Status"`: The status of the billing group. Only one of the valid values can be used.
 """
+function update_billing_group end
 function update_billing_group(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -1298,6 +1327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`:  The new line item description of the custom line item.
 - `"Name"`:  The new name for the custom line item.
 """
+function update_custom_line_item end
 function update_custom_line_item(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "POST",
@@ -1334,6 +1364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the pricing plan.
 - `"Name"`: The name of the pricing plan. The name must be unique to each pricing plan.
 """
+function update_pricing_plan end
 function update_pricing_plan(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "PUT",
@@ -1374,6 +1405,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tiering"`:  The set of tiering configurations for the pricing rule.
 - `"Type"`:  The new pricing rule type.
 """
+function update_pricing_rule end
 function update_pricing_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return billingconductor(
         "PUT",

@@ -23,6 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   servicecatalog accept-portfolio-share --portfolio-id \"port-2qwzkwxt3y5fk\"
   --portfolio-share-type AWS_ORGANIZATIONS
 """
+function accept_portfolio_share end
 function accept_portfolio_share(
     PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -60,6 +61,7 @@ Associates the specified budget with the specified resource.
 - `resource_id`:  The resource identifier. Either a portfolio-id or a product-id.
 
 """
+function associate_budget_with_resource end
 function associate_budget_with_resource(
     BudgetName, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -143,6 +145,7 @@ recipient account before it can be associated.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function associate_principal_with_portfolio end
 function associate_principal_with_portfolio(
     PortfolioId,
     PrincipalARN,
@@ -202,6 +205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"SourcePortfolioId"`: The identifier of the source portfolio.
 """
+function associate_product_with_portfolio end
 function associate_product_with_portfolio(
     PortfolioId, ProductId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -252,6 +256,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multiple requests from the same Amazon Web Services account use the same idempotency token,
   the same response is returned for each repeated request.
 """
+function associate_service_action_with_provisioning_artifact end
 function associate_service_action_with_provisioning_artifact(
     ProductId,
     ProvisioningArtifactId,
@@ -308,6 +313,7 @@ Associate the specified TagOption with the specified portfolio or product.
 - `tag_option_id`: The TagOption identifier.
 
 """
+function associate_tag_option_with_resource end
 function associate_tag_option_with_resource(
     ResourceId, TagOptionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -353,6 +359,7 @@ Associates multiple self-service actions with provisioning artifacts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function batch_associate_service_action_with_provisioning_artifact end
 function batch_associate_service_action_with_provisioning_artifact(
     ServiceActionAssociations; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -397,6 +404,7 @@ Disassociates a batch of self-service actions from the specified provisioning ar
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function batch_disassociate_service_action_from_provisioning_artifact end
 function batch_disassociate_service_action_from_provisioning_artifact(
     ServiceActionAssociations; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -456,6 +464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetProductName"`: A name for the target product. The default is the name of the
   source product.
 """
+function copy_product end
 function copy_product(
     IdempotencyToken, SourceProductArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -535,6 +544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Description"`: The description of the constraint.
 """
+function create_constraint end
 function create_constraint(
     IdempotencyToken,
     Parameters,
@@ -605,6 +615,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the portfolio.
 - `"Tags"`: One or more tags.
 """
+function create_portfolio end
 function create_portfolio(
     DisplayName,
     IdempotencyToken,
@@ -694,6 +705,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ShareTagOptions"`: Enables or disables TagOptions  sharing when creating the portfolio
   share. If this flag is not provided, TagOptions sharing is disabled.
 """
+function create_portfolio_share end
 function create_portfolio_share(
     PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -753,6 +765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to validate SupportUrl.
 - `"Tags"`: One or more tags.
 """
+function create_product end
 function create_product(
     IdempotencyToken,
     Name,
@@ -837,6 +850,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   product must have a RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to
   ALLOWED to allow tag updates.
 """
+function create_provisioned_product_plan end
 function create_provisioned_product_plan(
     IdempotencyToken,
     PlanName,
@@ -913,6 +927,7 @@ source in the information data section.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function create_provisioning_artifact end
 function create_provisioning_artifact(
     IdempotencyToken,
     Parameters,
@@ -984,6 +999,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Description"`: The self-service action description.
 """
+function create_service_action end
 function create_service_action(
     Definition,
     DefinitionType,
@@ -1042,6 +1058,7 @@ Creates a TagOption.
 - `value`: The TagOption value.
 
 """
+function create_tag_option end
 function create_tag_option(Key, Value; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "CreateTagOption",
@@ -1080,6 +1097,7 @@ Deletes the specified constraint. A delegated admin is authorized to invoke this
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function delete_constraint end
 function delete_constraint(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeleteConstraint",
@@ -1115,6 +1133,7 @@ authorized to invoke this command.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function delete_portfolio end
 function delete_portfolio(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeletePortfolio",
@@ -1153,6 +1172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccountId"`: The Amazon Web Services account ID.
 - `"OrganizationNode"`: The organization node to whom you are going to stop sharing.
 """
+function delete_portfolio_share end
 function delete_portfolio_share(
     PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1193,6 +1213,7 @@ associated with a portfolio. A delegated admin is authorized to invoke this comm
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function delete_product end
 function delete_product(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeleteProduct",
@@ -1228,6 +1249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IgnoreErrors"`: If set to true, Service Catalog stops managing the specified
   provisioned product even if it cannot delete the underlying resources.
 """
+function delete_provisioned_product_plan end
 function delete_provisioned_product_plan(
     PlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1267,6 +1289,7 @@ product must have at least one provisioning artifact.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function delete_provisioning_artifact end
 function delete_provisioning_artifact(
     ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1319,6 +1342,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multiple requests from the same Amazon Web Services account use the same idempotency token,
   the same response is returned for each repeated request.
 """
+function delete_service_action end
 function delete_service_action(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeleteServiceAction",
@@ -1356,6 +1380,7 @@ product or portfolio.
 - `id`: The TagOption identifier.
 
 """
+function delete_tag_option end
 function delete_tag_option(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeleteTagOption",
@@ -1389,6 +1414,7 @@ Gets information about the specified constraint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function describe_constraint end
 function describe_constraint(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeConstraint",
@@ -1423,6 +1449,7 @@ Gets the status of the specified copy product operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function describe_copy_product_status end
 function describe_copy_product_status(
     CopyProductToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1465,6 +1492,7 @@ this command.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function describe_portfolio end
 function describe_portfolio(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribePortfolio",
@@ -1497,6 +1525,7 @@ the management account in the organization or by a delegated admin.
   returned either by CreatePortfolioShare or by DeletePortfolioShare.
 
 """
+function describe_portfolio_share_status end
 function describe_portfolio_share_status(
     PortfolioShareToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1552,6 +1581,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function describe_portfolio_shares end
 function describe_portfolio_shares(
     PortfolioId, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1596,6 +1626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Id"`: The product identifier.
 - `"Name"`: The product name.
 """
+function describe_product end
 function describe_product(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeProduct"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1628,6 +1659,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sharing is enabled in the portfolio share, the API returns both local and shared TagOptions
   associated with the product. Otherwise only local TagOptions will be returned.
 """
+function describe_product_as_admin end
 function describe_product_as_admin(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeProductAsAdmin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1658,6 +1690,7 @@ Gets information about the specified product.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function describe_product_view end
 function describe_product_view(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeProductView",
@@ -1694,6 +1727,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   both. If you do not provide a name or ID, or you provide both name and ID, an
   InvalidParametersException will occur.
 """
+function describe_provisioned_product end
 function describe_provisioned_product(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeProvisionedProduct"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1727,6 +1761,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function describe_provisioned_product_plan end
 function describe_provisioned_product_plan(
     PlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1767,6 +1802,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisioningArtifactName"`: The provisioning artifact name.
 - `"Verbose"`: Indicates whether a verbose level of detail is enabled.
 """
+function describe_provisioning_artifact end
 function describe_provisioning_artifact(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1815,6 +1851,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisioningArtifactName"`: The name of the provisioning artifact. You must provide the
   name or ID, but not both.
 """
+function describe_provisioning_parameters end
 function describe_provisioning_parameters(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1859,6 +1896,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function describe_record end
 function describe_record(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeRecord",
@@ -1892,6 +1930,7 @@ Describes a self-service action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function describe_service_action end
 function describe_service_action(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeServiceAction",
@@ -1927,6 +1966,7 @@ product and returns a map of the results to the user.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function describe_service_action_execution_parameters end
 function describe_service_action_execution_parameters(
     ProvisionedProductId,
     ServiceActionId;
@@ -1976,6 +2016,7 @@ Gets information about the specified TagOption.
 - `id`: The TagOption identifier.
 
 """
+function describe_tag_option end
 function describe_tag_option(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeTagOption",
@@ -2013,6 +2054,7 @@ organization structure. Specifically, accounts that you removed from the organiz
 disabling Service Catalog access will retain access to the previously shared portfolio.
 
 """
+function disable_awsorganizations_access end
 function disable_awsorganizations_access(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2046,6 +2088,7 @@ Disassociates the specified budget from the specified resource.
   portfolio-id or a product-id.
 
 """
+function disassociate_budget_from_resource end
 function disassociate_budget_from_resource(
     BudgetName, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2108,6 +2151,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IAM_PATTERN if you specify an IAM ARN with no AccountId, with or without wildcard
   characters.
 """
+function disassociate_principal_from_portfolio end
 function disassociate_principal_from_portfolio(
     PortfolioId, PrincipalARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2156,6 +2200,7 @@ authorized to invoke this command.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function disassociate_product_from_portfolio end
 function disassociate_product_from_portfolio(
     PortfolioId, ProductId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2207,6 +2252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multiple requests from the same Amazon Web Services account use the same idempotency token,
   the same response is returned for each repeated request.
 """
+function disassociate_service_action_from_provisioning_artifact end
 function disassociate_service_action_from_provisioning_artifact(
     ProductId,
     ProvisioningArtifactId,
@@ -2263,6 +2309,7 @@ Disassociates the specified TagOption from the specified resource.
 - `tag_option_id`: The TagOption identifier.
 
 """
+function disassociate_tag_option_from_resource end
 function disassociate_tag_option_from_resource(
     ResourceId, TagOptionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2314,6 +2361,7 @@ Amazon Web Services resources when it is no longer authorized to do so. Amazon W
 is working to resolve this issue.
 
 """
+function enable_awsorganizations_access end
 function enable_awsorganizations_access(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2351,6 +2399,7 @@ Provisions or modifies a product based on the resource changes for the specified
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function execute_provisioned_product_plan end
 function execute_provisioned_product_plan(
     IdempotencyToken, PlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2404,6 +2453,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional parameters are passed and default values will be used for any special parameters
   such as TARGET.
 """
+function execute_provisioned_product_service_action end
 function execute_provisioned_product_service_action(
     ExecuteToken,
     ProvisionedProductId,
@@ -2455,6 +2505,7 @@ Get the Access Status for Organizations portfolio share feature. This API can on
 called by the management account in the organization or by a delegated admin.
 
 """
+function get_awsorganizations_access_status end
 function get_awsorganizations_access_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2496,6 +2547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisionedProductName"`: The name of the provisioned product that you want the outputs
   from.
 """
+function get_provisioned_product_outputs end
 function get_provisioned_product_outputs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2553,6 +2605,7 @@ have the IMPORT_COMPLETE status before you import another.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function import_as_provisioned_product end
 function import_as_provisioned_product(
     IdempotencyToken,
     PhysicalId,
@@ -2624,6 +2677,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization.    AWS_SERVICECATALOG - Deprecated type.    IMPORTED - List imported
   portfolios that have been accepted and shared through account-to-account sharing.
 """
+function list_accepted_portfolio_shares end
 function list_accepted_portfolio_shares(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2661,6 +2715,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_budgets_for_resource end
 function list_budgets_for_resource(
     ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2704,6 +2759,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 - `"ProductId"`: The product identifier.
 """
+function list_constraints_for_portfolio end
 function list_constraints_for_portfolio(
     PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2751,6 +2807,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_launch_paths end
 function list_launch_paths(ProductId; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ListLaunchPaths",
@@ -2797,6 +2854,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_organization_portfolio_access end
 function list_organization_portfolio_access(
     OrganizationNodeType, PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2853,6 +2911,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_portfolio_access end
 function list_portfolio_access(
     PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2892,6 +2951,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_portfolios end
 function list_portfolios(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ListPortfolios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2922,6 +2982,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_portfolios_for_product end
 function list_portfolios_for_product(
     ProductId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2965,6 +3026,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_principals_for_portfolio end
 function list_principals_for_portfolio(
     PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3007,6 +3069,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 - `"ProvisionProductId"`: The product identifier.
 """
+function list_provisioned_product_plans end
 function list_provisioned_product_plans(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3041,6 +3104,7 @@ Lists all provisioning artifacts (also known as versions) for the specified prod
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function list_provisioning_artifacts end
 function list_provisioning_artifacts(
     ProductId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3084,6 +3148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_provisioning_artifacts_for_service_action end
 function list_provisioning_artifacts_for_service_action(
     ServiceActionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3127,6 +3192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 - `"SearchFilter"`: The search filter to scope the results.
 """
+function list_record_history end
 function list_record_history(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ListRecordHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3157,6 +3223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, use null.
 - `"ResourceType"`: The resource type.    Portfolio     Product
 """
+function list_resources_for_tag_option end
 function list_resources_for_tag_option(
     TagOptionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3196,6 +3263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_service_actions end
 function list_service_actions(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ListServiceActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3229,6 +3297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_service_actions_for_provisioning_artifact end
 function list_service_actions_for_provisioning_artifact(
     ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3283,6 +3352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_stack_instances_for_provisioned_product end
 function list_stack_instances_for_provisioned_product(
     ProvisionedProductId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3327,6 +3397,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function list_tag_options end
 function list_tag_options(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ListTagOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3362,6 +3433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceIdentifier"`:  The ID for the provisioned product resources that are part of a
   resource group.
 """
+function notify_provision_product_engine_workflow_result end
 function notify_provision_product_engine_workflow_result(
     IdempotencyToken,
     RecordId,
@@ -3427,6 +3499,7 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"FailureReason"`:  The reason why the terminate engine execution failed.
 """
+function notify_terminate_provisioned_product_engine_workflow_result end
 function notify_terminate_provisioned_product_engine_workflow_result(
     IdempotencyToken,
     RecordId,
@@ -3492,6 +3565,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FailureReason"`:  The reason why the update engine execution failed.
 - `"Outputs"`:  The output of the update engine execution.
 """
+function notify_update_provisioned_product_engine_workflow_result end
 function notify_update_provisioned_product_engine_workflow_result(
     IdempotencyToken,
     RecordId,
@@ -3580,6 +3654,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   preferences for a stack set.
 - `"Tags"`: One or more tags.
 """
+function provision_product end
 function provision_product(
     ProvisionToken,
     ProvisionedProductName;
@@ -3638,6 +3713,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   servicecatalog reject-portfolio-share --portfolio-id \"port-2qwzkwxt3y5fk\"
   --portfolio-share-type AWS_ORGANIZATIONS
 """
+function reject_portfolio_share end
 function reject_portfolio_share(
     PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3679,6 +3755,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
+function scan_provisioned_products end
 function scan_provisioned_products(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "ScanProvisionedProducts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3713,6 +3790,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The sort field. If no value is specified, the results are not sorted.
 - `"SortOrder"`: The sort order. If no value is specified, the results are not sorted.
 """
+function search_products end
 function search_products(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "SearchProducts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3746,6 +3824,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The sort field. If no value is specified, the results are not sorted.
 - `"SortOrder"`: The sort order. If no value is specified, the results are not sorted.
 """
+function search_products_as_admin end
 function search_products_as_admin(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "SearchProductsAsAdmin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3785,6 +3864,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid values are arn, id, name, and lastRecordId.
 - `"SortOrder"`: The sort order. If no value is specified, the results are not sorted.
 """
+function search_provisioned_products end
 function search_provisioned_products(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "SearchProvisionedProducts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3830,6 +3910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   it does not remove the CloudFormation stack, stack set, or the underlying resources of the
   deleted provisioned product. The default value is false.
 """
+function terminate_provisioned_product end
 function terminate_provisioned_product(
     TerminateToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3893,6 +3974,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stack set.  TEMPLATE  Specify the Rules property. For more information, see Template
   Constraint Rules.
 """
+function update_constraint end
 function update_constraint(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "UpdateConstraint",
@@ -3931,6 +4013,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProviderName"`: The updated name of the portfolio provider.
 - `"RemoveTags"`: The tags to remove.
 """
+function update_portfolio end
 function update_portfolio(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "UpdatePortfolio",
@@ -3990,6 +4073,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field is not provided, the current state of TagOptions sharing on the portfolio share
   will not be modified.
 """
+function update_portfolio_share end
 function update_portfolio_share(
     PortfolioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4042,6 +4126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SupportEmail"`: The updated support email for the product.
 - `"SupportUrl"`: The updated support URL for the product.
 """
+function update_product end
 function update_product(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "UpdateProduct",
@@ -4099,6 +4184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: One or more tags. Requires the product to have RESOURCE_UPDATE constraint with
   TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates.
 """
+function update_provisioned_product end
 function update_provisioned_product(
     UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4159,6 +4245,7 @@ Requests updates to the properties of the specified provisioned product.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
+function update_provisioned_product_properties end
 function update_provisioned_product_properties(
     IdempotencyToken,
     ProvisionedProductId,
@@ -4227,6 +4314,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deprecated version but cannot launch new provisioned products using a deprecated version.
 - `"Name"`: The updated name of the provisioning artifact.
 """
+function update_provisioning_artifact end
 function update_provisioning_artifact(
     ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4279,6 +4367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The self-service action description.
 - `"Name"`: The self-service action name.
 """
+function update_service_action end
 function update_service_action(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "UpdateServiceAction",
@@ -4313,6 +4402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Active"`: The updated active state.
 - `"Value"`: The updated value.
 """
+function update_tag_option end
 function update_tag_option(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "UpdateTagOption",

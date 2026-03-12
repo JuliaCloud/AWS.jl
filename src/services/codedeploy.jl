@@ -16,6 +16,7 @@ Adds tags to on-premises instances.
   both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
 
 """
+function add_tags_to_on_premises_instances end
 function add_tags_to_on_premises_instances(
     instanceNames, tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -62,6 +63,7 @@ revisions that can be returned is 25.
   RevisionLocation objects you can specify is 25.
 
 """
+function batch_get_application_revisions end
 function batch_get_application_revisions(
     applicationName, revisions; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -107,6 +109,7 @@ can be returned is 100.
   of application names you can specify is 100.
 
 """
+function batch_get_applications end
 function batch_get_applications(
     applicationNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -147,6 +150,7 @@ Gets information about one or more deployment groups.
 - `deployment_group_names`: The names of the deployment groups.
 
 """
+function batch_get_deployment_groups end
 function batch_get_deployment_groups(
     applicationName,
     deploymentGroupNames;
@@ -201,6 +205,7 @@ with all compute platforms. The maximum number of instances that can be returned
   instance IDs you can specify is 25.
 
 """
+function batch_get_deployment_instances end
 function batch_get_deployment_instances(
     deploymentId, instanceIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -262,6 +267,7 @@ by a CloudFormation stack update.
   IDs. Their target type is cloudFormationTarget.
 
 """
+function batch_get_deployment_targets end
 function batch_get_deployment_targets(
     deploymentId, targetIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -305,6 +311,7 @@ be returned is 25.
   deployment IDs you can specify is 25.
 
 """
+function batch_get_deployments end
 function batch_get_deployments(
     deploymentIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -343,6 +350,7 @@ instances that can be returned is 25.
   The maximum number of instance names you can specify is 25.
 
 """
+function batch_get_on_premises_instances end
 function batch_get_on_premises_instances(
     instanceNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -387,6 +395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicates that the deployment is ready to start shifting traffic. TERMINATION_WAIT
   indicates that the traffic is shifted, but the original target is not terminated.
 """
+function continue_deployment end
 function continue_deployment(; aws_config::AbstractAWSConfig=current_aws_config())
     return codedeploy(
         "ContinueDeployment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -419,6 +428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and categorize them. Each tag consists of a key and an optional value, both of which you
   define.
 """
+function create_application end
 function create_application(
     applicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -507,6 +517,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"updateOutdatedInstancesOnly"`:  Indicates whether to deploy to all instances or only to
   instances that are not running the latest application revision.
 """
+function create_deployment end
 function create_deployment(
     applicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -565,6 +576,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information about the zonal configuration feature, see zonal configuration in the
   CodeDeploy User Guide.
 """
+function create_deployment_config end
 function create_deployment_config(
     deploymentConfigName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -666,6 +678,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is created. For examples, see Create a Trigger for an CodeDeploy Event in the CodeDeploy
   User Guide.
 """
+function create_deployment_group end
 function create_deployment_group(
     applicationName,
     deploymentGroupName,
@@ -720,6 +733,7 @@ Deletes an application.
   Amazon Web Services account.
 
 """
+function delete_application end
 function delete_application(
     applicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -760,6 +774,7 @@ currently in use. Predefined configurations cannot be deleted.
   or Amazon Web Services account.
 
 """
+function delete_deployment_config end
 function delete_deployment_config(
     deploymentConfigName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -802,6 +817,7 @@ Deletes a deployment group.
 - `deployment_group_name`: The name of a deployment group for the specified application.
 
 """
+function delete_deployment_group end
 function delete_deployment_group(
     applicationName, deploymentGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -849,6 +865,7 @@ Deletes a GitHub account connection.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tokenName"`: The name of the GitHub account connection to delete.
 """
+function delete_git_hub_account_token end
 function delete_git_hub_account_token(; aws_config::AbstractAWSConfig=current_aws_config())
     return codedeploy(
         "DeleteGitHubAccountToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -881,6 +898,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"externalId"`: The unique ID of an external resource (for example, a CloudFormation
   stack ID) that is linked to one or more CodeDeploy resources.
 """
+function delete_resources_by_external_id end
 function delete_resources_by_external_id(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -912,6 +930,7 @@ Deregisters an on-premises instance.
 - `instance_name`: The name of the on-premises instance to deregister.
 
 """
+function deregister_on_premises_instance end
 function deregister_on_premises_instance(
     instanceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -949,6 +968,7 @@ Gets information about an application.
   Amazon Web Services account.
 
 """
+function get_application end
 function get_application(
     applicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -989,6 +1009,7 @@ Gets information about an application revision.
   location.
 
 """
+function get_application_revision end
 function get_application_revision(
     applicationName, revision; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1035,6 +1056,7 @@ the returned appSpecContent object to get the content of the deployment’s AppS
   Services account.
 
 """
+function get_deployment end
 function get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config())
     return codedeploy(
         "GetDeployment",
@@ -1070,6 +1092,7 @@ Gets information about a deployment configuration.
   or Amazon Web Services account.
 
 """
+function get_deployment_config end
 function get_deployment_config(
     deploymentConfigName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1112,6 +1135,7 @@ Gets information about a deployment group.
 - `deployment_group_name`: The name of a deployment group for the specified application.
 
 """
+function get_deployment_group end
 function get_deployment_group(
     applicationName, deploymentGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1160,6 +1184,7 @@ Gets information about an instance as part of a deployment.
 - `instance_id`:  The unique ID of an instance in the deployment group.
 
 """
+function get_deployment_instance end
 function get_deployment_instance(
     deploymentId, instanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1204,6 +1229,7 @@ end
 - `target_id`:  The unique ID of a deployment target.
 
 """
+function get_deployment_target end
 function get_deployment_target(
     deploymentId, targetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1245,6 +1271,7 @@ end
 - `instance_name`:  The name of the on-premises instance about which to get information.
 
 """
+function get_on_premises_instance end
 function get_on_premises_instance(
     instanceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1302,6 +1329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   order.    descending: descending order.   If not specified, the results are sorted in
   ascending order. If set to null, the results are sorted in an arbitrary order.
 """
+function list_application_revisions end
 function list_application_revisions(
     applicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1341,6 +1369,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier returned from the previous list applications call. It can be
   used to return the next set of applications in the list.
 """
+function list_applications end
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return codedeploy(
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1366,6 +1395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier returned from the previous ListDeploymentConfigs call. It
   can be used to return the next set of deployment configurations in the list.
 """
+function list_deployment_configs end
 function list_deployment_configs(; aws_config::AbstractAWSConfig=current_aws_config())
     return codedeploy(
         "ListDeploymentConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1399,6 +1429,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier returned from the previous list deployment groups call. It
   can be used to return the next set of deployment groups in the list.
 """
+function list_deployment_groups end
 function list_deployment_groups(
     applicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1453,6 +1484,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier returned from the previous list deployment instances call.
   It can be used to return the next set of deployment instances in the list.
 """
+function list_deployment_instances end
 function list_deployment_instances(
     deploymentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1497,6 +1529,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Skipped, Succeeded, or Unknown.     ServerInstanceLabel - A ServerInstanceLabel filter
   string can be Blue or Green.
 """
+function list_deployment_targets end
 function list_deployment_targets(
     deploymentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1551,6 +1584,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier returned from the previous list deployments call. It can be
   used to return the next set of deployments in the list.
 """
+function list_deployments end
 function list_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
     return codedeploy(
         "ListDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1576,6 +1610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier returned from the previous ListGitHubAccountTokenNames call.
   It can be used to return the next set of names in the list.
 """
+function list_git_hub_account_token_names end
 function list_git_hub_account_token_names(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1616,6 +1651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tagFilters"`: The on-premises instance tags that are used to restrict the on-premises
   instance names returned.
 """
+function list_on_premises_instances end
 function list_on_premises_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return codedeploy(
         "ListOnPremisesInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1649,6 +1685,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An identifier returned from the previous ListTagsForResource call. It can
   be used to return the next set of applications in the list.
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1697,6 +1734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The values listed in Valid Values are valid for lifecycle statuses in general; however,
   only Succeeded and Failed can be passed successfully in your API call.
 """
+function put_lifecycle_event_hook_execution_status end
 function put_lifecycle_event_hook_execution_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1734,6 +1772,7 @@ Registers with CodeDeploy a revision for the specified application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A comment about the revision.
 """
+function register_application_revision end
 function register_application_revision(
     applicationName, revision; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1782,6 +1821,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"iamSessionArn"`: The ARN of the IAM session to associate with the on-premises instance.
 - `"iamUserArn"`: The ARN of the user to associate with the on-premises instance.
 """
+function register_on_premises_instance end
 function register_on_premises_instance(
     instanceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1819,6 +1859,7 @@ Removes one or more tags from one or more on-premises instances.
 - `tags`: The tag key-value pairs to remove from the on-premises instances.
 
 """
+function remove_tags_from_on_premises_instances end
 function remove_tags_from_on_premises_instances(
     instanceNames, tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1862,6 +1903,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deploymentId"`:  The unique ID of a blue/green deployment for which you want to skip
   the instance termination wait time.
 """
+function skip_wait_time_for_instance_termination end
 function skip_wait_time_for_instance_termination(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1898,6 +1940,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have been updated should be rolled back to the previous version of the application
   revision.
 """
+function stop_deployment end
 function stop_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config())
     return codedeploy(
         "StopDeployment",
@@ -1936,6 +1979,7 @@ the ResourceArn input parameter.
   identified by the ResourceArn input parameter.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codedeploy(
         "TagResource",
@@ -1980,6 +2024,7 @@ input parameter.
   disassociated from the resource specified by the ResourceArn input parameter.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2022,6 +2067,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"applicationName"`: The current name of the application you want to change.
 - `"newApplicationName"`: The new name to give the application.
 """
+function update_application end
 function update_application(; aws_config::AbstractAWSConfig=current_aws_config())
     return codedeploy(
         "UpdateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2104,6 +2150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is updated. For examples, see Edit a Trigger in a CodeDeploy Deployment Group in the
   CodeDeploy User Guide.
 """
+function update_deployment_group end
 function update_deployment_group(
     applicationName,
     currentDeploymentGroupName;

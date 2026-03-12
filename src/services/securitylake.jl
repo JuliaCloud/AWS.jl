@@ -21,6 +21,7 @@ CreateCustomLogSource to enable data collection from a custom source.
   in Security Lake.
 
 """
+function create_aws_log_source end
 function create_aws_log_source(sources; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "POST",
@@ -77,6 +78,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceVersion"`: Specify the source version for the third-party custom source, to limit
   log collection to a specific version of custom data source.
 """
+function create_custom_log_source end
 function create_custom_log_source(
     configuration, sourceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -143,6 +145,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. For each tag, you must specify both a tag key and a tag value. A tag value
   cannot be null, but it can be an empty string.
 """
+function create_data_lake end
 function create_data_lake(
     configurations,
     metaStoreManagerRoleArn;
@@ -201,6 +204,7 @@ organization you specify.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"exceptionTimeToLive"`: The expiration period and time-to-live (TTL).
 """
+function create_data_lake_exception_subscription end
 function create_data_lake_exception_subscription(
     notificationEndpoint,
     subscriptionProtocol;
@@ -255,6 +259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoEnableNewAccount"`: Enable Security Lake with the specified configuration settings,
   to begin collecting security data for new accounts in your organization.
 """
+function create_data_lake_organization_configuration end
 function create_data_lake_organization_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -300,6 +305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   each tag, you must specify both a tag key and a tag value. A tag value cannot be null, but
   it can be an empty string.
 """
+function create_subscriber end
 function create_subscriber(
     sources,
     subscriberIdentity,
@@ -359,6 +365,7 @@ subscriber.
 - `subscriber_id`: The subscriber ID for the notification subscription.
 
 """
+function create_subscriber_notification end
 function create_subscriber_notification(
     configuration, subscriberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -405,6 +412,7 @@ organization or standalone accounts.
   source in Security Lake.
 
 """
+function delete_aws_log_source end
 function delete_aws_log_source(sources; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "POST",
@@ -444,6 +452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceVersion"`: The source version for the third-party custom source. You can limit
   the custom source removal to the specified source version.
 """
+function delete_custom_log_source end
 function delete_custom_log_source(
     sourceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,6 +494,7 @@ Amazon Web Services account. For more information, see the Amazon Security Lake 
 - `regions`: The list of Regions where Security Lake is enabled.
 
 """
+function delete_data_lake end
 function delete_data_lake(regions; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "POST",
@@ -517,6 +527,7 @@ Deletes the specified notification subscription in Amazon Security Lake for the
 organization you specify.
 
 """
+function delete_data_lake_exception_subscription end
 function delete_data_lake_exception_subscription(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -555,6 +566,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoEnableNewAccount"`: Turns off automatic enablement of Security Lake for member
   accounts that are added to an organization.
 """
+function delete_data_lake_organization_configuration end
 function delete_data_lake_organization_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -592,6 +604,7 @@ deletes the subscriber and removes access to data in the current Amazon Web Serv
   DeleteSubscriber API request.
 
 """
+function delete_subscriber end
 function delete_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "DELETE",
@@ -626,6 +639,7 @@ organization you specify.
 - `subscriber_id`: The ID of the Security Lake subscriber account.
 
 """
+function delete_subscriber_notification end
 function delete_subscriber_notification(
     subscriberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -660,6 +674,7 @@ API can only be called by the organization management account. The organization 
 account cannot be the delegated administrator account.
 
 """
+function deregister_data_lake_delegated_administrator end
 function deregister_data_lake_delegated_administrator(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -690,6 +705,7 @@ end
 Retrieves the details of exception notifications for the account in Amazon Security Lake.
 
 """
+function get_data_lake_exception_subscription end
 function get_data_lake_exception_subscription(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -722,6 +738,7 @@ organization after the organization has onboarded to Amazon Security Lake. This 
 not take input parameters.
 
 """
+function get_data_lake_organization_configuration end
 function get_data_lake_organization_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -764,6 +781,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next page. Keep all other arguments unchanged. Each pagination token expires after 24
   hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
 """
+function get_data_lake_sources end
 function get_data_lake_sources(; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "POST",
@@ -797,6 +815,7 @@ information about a specific subscriber.
   GetSubscriber API request.
 
 """
+function get_subscriber end
 function get_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "GET",
@@ -836,6 +855,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
 - `"regions"`: The Amazon Web Services Regions from which exceptions are retrieved.
 """
+function list_data_lake_exceptions end
 function list_data_lake_exceptions(; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "POST",
@@ -869,6 +889,7 @@ for a Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"regions"`: The list of Regions where Security Lake is enabled.
 """
+function list_data_lakes end
 function list_data_lakes(; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "GET", "/v1/datalakes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -903,6 +924,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"regions"`: The list of Regions for which log sources are displayed.
 - `"sources"`: The list of sources for which log sources are displayed.
 """
+function list_log_sources end
 function list_log_sources(; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "POST",
@@ -938,6 +960,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If nextToken is returned, there are more results available. You can repeat
   the call using the returned token to retrieve the next page.
 """
+function list_subscribers end
 function list_subscribers(; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "GET", "/v1/subscribers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -969,6 +992,7 @@ in a particular Amazon Web Services Region.
   which you want to retrieve the tags.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1007,6 +1031,7 @@ management account cannot be the delegated administrator account.
   administrator.
 
 """
+function register_data_lake_delegated_administrator end
 function register_data_lake_delegated_administrator(
     accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1057,6 +1082,7 @@ resources in the Amazon Security Lake User Guide.
   value. A tag value cannot be null, but it can be an empty string.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "POST",
@@ -1097,6 +1123,7 @@ particular Amazon Web Services Region.
   key for a tag to remove from the Amazon Security Lake resource.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1141,6 +1168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Glue table. This table contains partitions generated by the ingestion and normalization of
   Amazon Web Services log sources and custom sources.
 """
+function update_data_lake end
 function update_data_lake(
     configurations; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1185,6 +1213,7 @@ organization you specify.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"exceptionTimeToLive"`: The time-to-live (TTL) for the exception message to remain.
 """
+function update_data_lake_exception_subscription end
 function update_data_lake_exception_subscription(
     notificationEndpoint,
     subscriptionProtocol;
@@ -1245,6 +1274,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subscriberIdentity"`: The AWS identity used to access your data.
 - `"subscriberName"`: The name of the Security Lake account subscriber.
 """
+function update_subscriber end
 function update_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_aws_config())
     return securitylake(
         "PUT",
@@ -1280,6 +1310,7 @@ switches the notification subscription endpoint for a subscriber.
 - `subscriber_id`: The subscription ID for which the subscription notification is specified.
 
 """
+function update_subscriber_notification end
 function update_subscriber_notification(
     configuration, subscriberId; aws_config::AbstractAWSConfig=current_aws_config()
 )

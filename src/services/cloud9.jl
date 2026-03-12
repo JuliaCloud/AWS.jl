@@ -56,6 +56,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: An array of key-value pairs that will be associated with the new Cloud9
   development environment.
 """
+function create_environment_ec2 end
 function create_environment_ec2(
     imageId, instanceType, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -107,6 +108,7 @@ Adds an environment member to an Cloud9 development environment.
 - `user_arn`: The Amazon Resource Name (ARN) of the environment member you want to add.
 
 """
+function create_environment_membership end
 function create_environment_membership(
     environmentId, permissions, userArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -158,6 +160,7 @@ environment, also terminates the instance.
 - `environment_id`: The ID of the environment to delete.
 
 """
+function delete_environment end
 function delete_environment(
     environmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -196,6 +199,7 @@ Deletes an environment member from a development environment.
   environment.
 
 """
+function delete_environment_membership end
 function delete_environment_membership(
     environmentId, userArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -250,6 +254,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about. If no value is specified, information about all environment members are
   returned.
 """
+function describe_environment_memberships end
 function describe_environment_memberships(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -281,6 +286,7 @@ Gets status information for an Cloud9 development environment.
 - `environment_id`: The ID of the environment to get status information about.
 
 """
+function describe_environment_status end
 function describe_environment_status(
     environmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -317,6 +323,7 @@ Gets information about Cloud9 development environments.
 - `environment_ids`: The IDs of individual environments to get information about.
 
 """
+function describe_environments end
 function describe_environments(
     environmentIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -358,6 +365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call. To get all of the items in the list, keep calling this operation with each subsequent
   next token that is returned, until no more next tokens are returned.
 """
+function list_environments end
 function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloud9(
         "ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -383,6 +391,7 @@ Gets a list of the tags associated with an Cloud9 development environment.
   get the tags for.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -422,6 +431,7 @@ by using this method will NOT be automatically propagated to underlying resource
 - `tags`: The list of tags to add to the given Cloud9 development environment.
 
 """
+function tag_resource end
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return cloud9(
         "TagResource",
@@ -464,6 +474,7 @@ Removes tags from an Cloud9 development environment.
   environment.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -515,6 +526,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment owner.
 - `"name"`: A replacement name for the environment.
 """
+function update_environment end
 function update_environment(
     environmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -559,6 +571,7 @@ environment.
   want to change.
 
 """
+function update_environment_membership end
 function update_environment_membership(
     environmentId, permissions, userArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

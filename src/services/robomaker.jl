@@ -14,6 +14,7 @@ Deletes one or more worlds in a batch operation.
 - `worlds`: A list of Amazon Resource Names (arns) that correspond to worlds to delete.
 
 """
+function batch_delete_worlds end
 function batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -46,6 +47,7 @@ Describes one or more simulation jobs.
 - `jobs`: A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
 
 """
+function batch_describe_simulation_job end
 function batch_describe_simulation_job(
     jobs; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -81,6 +83,7 @@ Cancels the specified deployment job.  This API will no longer be supported as o
 - `job`: The deployment job ARN to cancel.
 
 """
+function cancel_deployment_job end
 function cancel_deployment_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -113,6 +116,7 @@ Cancels the specified simulation job.
 - `job`: The simulation job ARN to cancel.
 
 """
+function cancel_simulation_job end
 function cancel_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -146,6 +150,7 @@ cancelling all of the active simulation jobs created as part of the batch.
 - `batch`: The id of the batch to cancel.
 
 """
+function cancel_simulation_job_batch end
 function cancel_simulation_job_batch(
     batch; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -180,6 +185,7 @@ Cancels the specified export job.
 - `job`: The Amazon Resource Name (arn) of the world export job to cancel.
 
 """
+function cancel_world_export_job end
 function cancel_world_export_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -212,6 +218,7 @@ Cancels the specified world generator job.
 - `job`: The Amazon Resource Name (arn) of the world generator job to cancel.
 
 """
+function cancel_world_generation_job end
 function cancel_world_generation_job(
     job; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -258,6 +265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the deployment
   job.
 """
+function create_deployment_job end
 function create_deployment_job(
     clientRequestToken,
     deploymentApplicationConfigs,
@@ -317,6 +325,7 @@ no longer supported and will throw an error if used.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: A map that contains tag keys and tag values that are attached to the fleet.
 """
+function create_fleet end
 function create_fleet(name; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -354,6 +363,7 @@ Creates a robot.  This API is no longer supported and will throw an error if use
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: A map that contains tag keys and tag values that are attached to the robot.
 """
+function create_robot end
 function create_robot(
     architecture,
     greengrassGroupId,
@@ -418,6 +428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the robot
   application.
 """
+function create_robot_application end
 function create_robot_application(
     name, robotSoftwareSuite; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -471,6 +482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"s3Etags"`: The Amazon S3 identifier for the zip file bundle that you use for your robot
   application.
 """
+function create_robot_application_version end
 function create_robot_application_version(
     application; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -521,6 +533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the simulation
   application.
 """
+function create_simulation_application end
 function create_simulation_application(
     name,
     robotSoftwareSuite,
@@ -584,6 +597,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"s3Etags"`: The Amazon S3 eTag identifier for the zip file bundle that you use to create
   the simulation application.
 """
+function create_simulation_application_version end
 function create_simulation_application_version(
     application; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -649,6 +663,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter identifying the list of security group IDs and subnet IDs. These must belong to
   the same VPC. You must provide at least one security group and one subnet ID.
 """
+function create_simulation_job end
 function create_simulation_job(
     iamRole, maxJobDurationInSeconds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -709,6 +724,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the world
   export job.
 """
+function create_world_export_job end
 function create_world_export_job(
     iamRole, outputLocation, worlds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -773,6 +789,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"worldTags"`: A map that contains tag keys and tag values that are attached to the
   generated worlds.
 """
+function create_world_generation_job end
 function create_world_generation_job(
     template, worldCount; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -830,6 +847,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateBody"`: The world template body.
 - `"templateLocation"`: The location of the world template.
 """
+function create_world_template end
 function create_world_template(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -862,6 +880,7 @@ resources that were created for Deployment Service.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
 """
+function delete_fleet end
 function delete_fleet(fleet; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -895,6 +914,7 @@ resources that were created for Deployment Service.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
+function delete_robot end
 function delete_robot(robot; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -930,6 +950,7 @@ Deletes a robot application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"applicationVersion"`: The version of the robot application to delete.
 """
+function delete_robot_application end
 function delete_robot_application(
     application; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -971,6 +992,7 @@ Deletes a simulation application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"applicationVersion"`: The version of the simulation application to delete.
 """
+function delete_simulation_application end
 function delete_simulation_application(
     application; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1009,6 +1031,7 @@ Deletes a world template.
 - `template`: The Amazon Resource Name (arn) of the world template you want to delete.
 
 """
+function delete_world_template end
 function delete_world_template(template; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1047,6 +1070,7 @@ remove resources that were created for Deployment Service.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
+function deregister_robot end
 function deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1085,6 +1109,7 @@ to remove resources that were created for Deployment Service.
 - `job`: The Amazon Resource Name (ARN) of the deployment job.
 
 """
+function describe_deployment_job end
 function describe_deployment_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1118,6 +1143,7 @@ remove resources that were created for Deployment Service.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
 """
+function describe_fleet end
 function describe_fleet(fleet; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1151,6 +1177,7 @@ remove resources that were created for Deployment Service.
 - `robot`: The Amazon Resource Name (ARN) of the robot to be described.
 
 """
+function describe_robot end
 function describe_robot(robot; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1186,6 +1213,7 @@ Describes a robot application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"applicationVersion"`: The version of the robot application to describe.
 """
+function describe_robot_application end
 function describe_robot_application(
     application; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1227,6 +1255,7 @@ Describes a simulation application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"applicationVersion"`: The version of the simulation application to describe.
 """
+function describe_simulation_application end
 function describe_simulation_application(
     application; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1265,6 +1294,7 @@ Describes a simulation job.
 - `job`: The Amazon Resource Name (ARN) of the simulation job to be described.
 
 """
+function describe_simulation_job end
 function describe_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1297,6 +1327,7 @@ Describes a simulation job batch.
 - `batch`: The id of the batch to describe.
 
 """
+function describe_simulation_job_batch end
 function describe_simulation_job_batch(
     batch; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1331,6 +1362,7 @@ Describes a world.
 - `world`: The Amazon Resource Name (arn) of the world you want to describe.
 
 """
+function describe_world end
 function describe_world(world; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1363,6 +1395,7 @@ Describes a world export job.
 - `job`: The Amazon Resource Name (arn) of the world export job to describe.
 
 """
+function describe_world_export_job end
 function describe_world_export_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1395,6 +1428,7 @@ Describes a world generation job.
 - `job`: The Amazon Resource Name (arn) of the world generation job to describe.
 
 """
+function describe_world_generation_job end
 function describe_world_generation_job(
     job; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1429,6 +1463,7 @@ Describes a world template.
 - `template`: The Amazon Resource Name (arn) of the world template you want to describe.
 
 """
+function describe_world_template end
 function describe_world_template(
     template; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1468,6 +1503,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"generationJob"`: The Amazon Resource Name (arn) of the world generator job.
 - `"template"`: The Amazon Resource Name (arn) of the world template.
 """
+function get_world_template_body end
 function get_world_template_body(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1515,6 +1551,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
+function list_deployment_jobs end
 function list_deployment_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1562,6 +1599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that is only used to retrieve the next items in a list and not for other programmatic
   purposes.
 """
+function list_fleets end
 function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1605,6 +1643,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 - `"versionQualifier"`: The version qualifier of the robot application.
 """
+function list_robot_applications end
 function list_robot_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1651,6 +1690,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken parameter. If there are no remaining results, the previous response object's
   NextToken parameter is set to null.
 """
+function list_robots end
 function list_robots(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST", "/listRobots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1694,6 +1734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response object's NextToken parameter is set to null.
 - `"versionQualifier"`: The version qualifier of the simulation application.
 """
+function list_simulation_applications end
 function list_simulation_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1735,6 +1776,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request object's nextToken parameter. If there are no remaining results, the previous
   response object's NextToken parameter is set to null.
 """
+function list_simulation_job_batches end
 function list_simulation_job_batches(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1782,6 +1824,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
+function list_simulation_jobs end
 function list_simulation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1813,6 +1856,7 @@ Lists all tags on a AWS RoboMaker resource.
 - `resource_arn`: The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1860,6 +1904,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
+function list_world_export_jobs end
 function list_world_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1902,6 +1947,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request object's nextToken parameter. If there are no remaining results, the previous
   response object's NextToken parameter is set to null.
 """
+function list_world_generation_jobs end
 function list_world_generation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1943,6 +1989,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
+function list_world_templates end
 function list_world_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -1984,6 +2031,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken parameter. If there are no remaining results, the previous response object's
   NextToken parameter is set to null.
 """
+function list_worlds end
 function list_worlds(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST", "/listWorlds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2014,6 +2062,7 @@ used.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
+function register_robot end
 function register_robot(fleet, robot; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -2051,6 +2100,7 @@ Restarts a running simulation job.
 - `job`: The Amazon Resource Name (ARN) of the simulation job.
 
 """
+function restart_simulation_job end
 function restart_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -2092,6 +2142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the deployment
   job batch.
 """
+function start_simulation_job_batch end
 function start_simulation_job_batch(
     createSimulationJobRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2144,6 +2195,7 @@ to remove resources that were created for Deployment Service.
 - `fleet`: The target fleet for the synchronization.
 
 """
+function sync_deployment_job end
 function sync_deployment_job(
     clientRequestToken, fleet; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2194,6 +2246,7 @@ Restrictions in the AWS Billing and Cost Management User Guide.
 - `tags`: A map that contains tag keys and tag values that are attached to the resource.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",
@@ -2233,6 +2286,7 @@ specify the tag key. To change the tag value of an existing tag key, use  TagRes
   resource.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2277,6 +2331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"environment"`: The object that contains the Docker image URI for your robot application.
 - `"sources"`: The sources of the robot application.
 """
+function update_robot_application end
 function update_robot_application(
     application, robotSoftwareSuite; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2334,6 +2389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"renderingEngine"`: The rendering engine for the simulation application.
 - `"sources"`: The sources of the simulation application.
 """
+function update_simulation_application end
 function update_simulation_application(
     application,
     robotSoftwareSuite,
@@ -2394,6 +2450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateBody"`: The world template body.
 - `"templateLocation"`: The location of the world template.
 """
+function update_world_template end
 function update_world_template(template; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST",

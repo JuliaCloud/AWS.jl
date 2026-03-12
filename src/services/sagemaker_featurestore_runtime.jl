@@ -21,6 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   BatchGetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null,
   BatchGetRecord will return null.
 """
+function batch_get_record end
 function batch_get_record(Identifiers; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker_featurestore_runtime(
         "POST",
@@ -86,6 +87,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Feature Store deletes the record from all of the stores that you're using for the
   FeatureGroup.
 """
+function delete_record end
 function delete_record(
     EventTime,
     FeatureGroupName,
@@ -151,6 +153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FeatureName"`: List of names of Features to be retrieved. If not specified, the latest
   value for all the Features are returned.
 """
+function get_record end
 function get_record(
     FeatureGroupName,
     RecordIdentifierValueAsString;
@@ -220,6 +223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expiration time is reached; ExpiresAt = EventTime + TtlDuration. For information on
   HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
 """
+function put_record end
 function put_record(
     FeatureGroupName, Record; aws_config::AbstractAWSConfig=current_aws_config()
 )

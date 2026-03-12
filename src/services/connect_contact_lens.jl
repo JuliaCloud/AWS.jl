@@ -20,6 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_realtime_contact_analysis_segments end
 function list_realtime_contact_analysis_segments(
     ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )

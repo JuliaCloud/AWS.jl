@@ -31,6 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceTags"`: An optional list of tags to associate with the specified export. Each
   tag consists of a key and a value, and each key must be unique for the resource.
 """
+function create_export end
 function create_export(Export; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "CreateExport",
@@ -61,6 +62,7 @@ Deletes an existing data export.
 - `export_arn`: The Amazon Resource Name (ARN) for this export.
 
 """
+function delete_export end
 function delete_export(ExportArn; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "DeleteExport",
@@ -97,6 +99,7 @@ Exports data based on the source data update.
   specific execution.
 
 """
+function get_execution end
 function get_execution(
     ExecutionId, ExportArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -138,6 +141,7 @@ Views the definition of an existing data export.
 - `export_arn`: The Amazon Resource Name (ARN) for this export.
 
 """
+function get_export end
 function get_export(ExportArn; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "GetExport",
@@ -179,6 +183,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Tables are not required to have any TableProperties. Each table property has a default
   value that it assumes if not specified.
 """
+function get_table end
 function get_table(TableName; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "GetTable",
@@ -217,6 +222,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
+function list_executions end
 function list_executions(ExportArn; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "ListExecutions",
@@ -252,6 +258,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
+function list_exports end
 function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -277,6 +284,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
+function list_tables end
 function list_tables(; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -305,6 +313,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -343,6 +352,7 @@ Adds tags for an existing data export definition.
   a value, and each key must be unique for the resource.
 
 """
+function tag_resource end
 function tag_resource(
     ResourceArn, ResourceTags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -387,6 +397,7 @@ Deletes tags associated with an existing data export definition.
 - `resource_tag_keys`: The tag keys that are associated with the resource ARN.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, ResourceTagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -434,6 +445,7 @@ must be provided in the UpdateExport request.
 - `export_arn`: The Amazon Resource Name (ARN) for this export.
 
 """
+function update_export end
 function update_export(
     Export, ExportArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

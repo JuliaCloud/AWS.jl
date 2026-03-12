@@ -20,6 +20,7 @@ configures a landing zone, based on the parameters specified in the manifest JSO
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: Tags to be applied to the landing zone.
 """
+function create_landing_zone end
 function create_landing_zone(
     manifest, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -65,6 +66,7 @@ Services Control Tower.
 - `landing_zone_identifier`: The unique identifier of the landing zone.
 
 """
+function delete_landing_zone end
 function delete_landing_zone(
     landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -111,6 +113,7 @@ Amazon Web Services Control Tower User Guide .
   deactivated, in ARN format.
 
 """
+function disable_baseline end
 function disable_baseline(
     enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -160,6 +163,7 @@ the  Controls Reference Guide .
   the targetIdentifier, see the overview page.
 
 """
+function disable_control end
 function disable_control(
     controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -218,6 +222,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is a string and value is a document of any type.
 - `"tags"`: Tags associated with input to EnableBaseline.
 """
+function enable_baseline end
 function enable_baseline(
     baselineIdentifier,
     baselineVersion,
@@ -285,6 +290,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   control when you enable it.
 - `"tags"`: Tags to be applied to the EnabledControl resource.
 """
+function enable_control end
 function enable_control(
     controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -334,6 +340,7 @@ usage examples, see  the Amazon Web Services Control Tower User Guide .
 - `baseline_identifier`: The ARN of the Baseline resource to be retrieved.
 
 """
+function get_baseline end
 function get_baseline(
     baselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -378,6 +385,7 @@ Amazon Web Services Control Tower User Guide .
   (Enable, Disable, Update, Reset).
 
 """
+function get_baseline_operation end
 function get_baseline_operation(
     operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -423,6 +431,7 @@ examples, see the  Controls Reference Guide .
   status. The operation is available for 90 days.
 
 """
+function get_control_operation end
 function get_control_operation(
     operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -466,6 +475,7 @@ Retrieve details of an EnabledBaseline resource by specifying its identifier.
   retrieved, in ARN format.
 
 """
+function get_enabled_baseline end
 function get_enabled_baseline(
     enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -509,6 +519,7 @@ Guide .
 - `enabled_control_identifier`: The controlIdentifier of the enabled control.
 
 """
+function get_enabled_control end
 function get_enabled_control(
     enabledControlIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -551,6 +562,7 @@ Returns details about the landing zone. Displays a message in case of error.
 - `landing_zone_identifier`: The unique identifier of the landing zone.
 
 """
+function get_landing_zone end
 function get_landing_zone(
     landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -594,6 +606,7 @@ available for 90 days.
 - `operation_identifier`: A unique identifier assigned to a landing zone operation.
 
 """
+function get_landing_zone_operation end
 function get_landing_zone_operation(
     operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -638,6 +651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
+function list_baselines end
 function list_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST", "/list-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -670,6 +684,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
+function list_control_operations end
 function list_control_operations(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST",
@@ -706,6 +721,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
+function list_enabled_baselines end
 function list_enabled_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST",
@@ -745,6 +761,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetIdentifier"`: The ARN of the organizational unit. For information on how to find
   the targetIdentifier, see the overview page.
 """
+function list_enabled_controls end
 function list_enabled_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST",
@@ -781,6 +798,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to continue the list from a previous API call with the same
   parameters.
 """
+function list_landing_zone_operations end
 function list_landing_zone_operations(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST",
@@ -816,6 +834,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to continue the list from a previous API call with the same
   parameters.
 """
+function list_landing_zones end
 function list_landing_zones(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST", "/list-landingzones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -845,6 +864,7 @@ Reference Guide .
 - `resource_arn`:  The ARN of the resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -883,6 +903,7 @@ Amazon Web Services Control Tower User Guide .
   re-enabled, in ARN format.
 
 """
+function reset_enabled_baseline end
 function reset_enabled_baseline(
     enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -929,6 +950,7 @@ landing zone version, which is not a supported operation.
 - `landing_zone_identifier`: The unique identifier of the landing zone.
 
 """
+function reset_landing_zone end
 function reset_landing_zone(
     landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -972,6 +994,7 @@ Applies tags to a resource. For usage examples, see the  Controls Reference Guid
 - `tags`: Tags to be applied to the resource.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
         "POST",
@@ -1008,6 +1031,7 @@ Removes tags from a resource. For usage examples, see the  Controls Reference Gu
 - `tag_keys`: Tag keys to be removed from the resource.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1051,6 +1075,7 @@ see  the Amazon Web Services Control Tower User Guide .
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"parameters"`: Parameters to apply when making an update.
 """
+function update_enabled_baseline end
 function update_enabled_baseline(
     baselineVersion,
     enabledBaselineIdentifier;
@@ -1111,6 +1136,7 @@ Reference Guide .
 - `parameters`: A key/value pair, where Key is of type String and Value is of type Document.
 
 """
+function update_enabled_control end
 function update_enabled_control(
     enabledControlIdentifier, parameters; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1167,6 +1193,7 @@ specified in the updated manifest file.
 - `version`: The landing zone version, for example, 3.2.
 
 """
+function update_landing_zone end
 function update_landing_zone(
     landingZoneIdentifier,
     manifest,

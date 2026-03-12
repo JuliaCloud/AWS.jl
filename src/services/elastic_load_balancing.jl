@@ -19,6 +19,7 @@ information, see Tag Your Classic Load Balancer in the Classic Load Balancers Gu
 - `tags`: The tags.
 
 """
+function add_tags end
 function add_tags(
     LoadBalancerNames, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -65,6 +66,7 @@ Balancers Guide.
   Note that you cannot specify the name of the security group.
 
 """
+function apply_security_groups_to_load_balancer end
 function apply_security_groups_to_load_balancer(
     LoadBalancerName, SecurityGroups; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -116,6 +118,7 @@ Balancers Guide.
   Zone.
 
 """
+function attach_load_balancer_to_subnets end
 function attach_load_balancer_to_subnets(
     LoadBalancerName, Subnets; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -162,6 +165,7 @@ Classic Load Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
+function configure_health_check end
 function configure_health_check(
     HealthCheck, LoadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -219,6 +223,7 @@ Application-Controlled Session Stickiness in the Classic Load Balancers Guide.
   for this load balancer.
 
 """
+function create_app_cookie_stickiness_policy end
 function create_app_cookie_stickiness_policy(
     CookieName,
     LoadBalancerName,
@@ -290,6 +295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   considered stale. If you do not specify this parameter, the default value is 0, which
   indicates that the sticky session should last for the duration of the browser session.
 """
+function create_lbcookie_stickiness_policy end
 function create_lbcookie_stickiness_policy(
     LoadBalancerName, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -363,6 +369,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load
   Balancers Guide.
 """
+function create_load_balancer end
 function create_load_balancer(
     Listeners, LoadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -410,6 +417,7 @@ Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
+function create_load_balancer_listeners end
 function create_load_balancer_listeners(
     Listeners, LoadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -462,6 +470,7 @@ or the application server, depending on the policy type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PolicyAttributes"`: The policy attributes.
 """
+function create_load_balancer_policy end
 function create_load_balancer_policy(
     LoadBalancerName,
     PolicyName,
@@ -520,6 +529,7 @@ DeleteLoadBalancer still succeeds.
 - `load_balancer_name`: The name of the load balancer.
 
 """
+function delete_load_balancer end
 function delete_load_balancer(
     LoadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -559,6 +569,7 @@ Deletes the specified listeners from the specified load balancer.
 - `load_balancer_ports`: The client port numbers of the listeners.
 
 """
+function delete_load_balancer_listeners end
 function delete_load_balancer_listeners(
     LoadBalancerName, LoadBalancerPorts; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -607,6 +618,7 @@ enabled for any listeners.
 - `policy_name`: The name of the policy.
 
 """
+function delete_load_balancer_policy end
 function delete_load_balancer_policy(
     LoadBalancerName, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -657,6 +669,7 @@ Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
+function deregister_instances_from_load_balancer end
 function deregister_instances_from_load_balancer(
     Instances, LoadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -703,6 +716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 - `"PageSize"`: The maximum number of results to return with this call.
 """
+function describe_account_limits end
 function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing(
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -737,6 +751,7 @@ terminated instances is not returned.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Instances"`: The IDs of the instances.
 """
+function describe_instance_health end
 function describe_instance_health(
     LoadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -775,6 +790,7 @@ Describes the attributes for the specified load balancer.
 - `load_balancer_name`: The name of the load balancer.
 
 """
+function describe_load_balancer_attributes end
 function describe_load_balancer_attributes(
     LoadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -819,6 +835,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LoadBalancerName"`: The name of the load balancer.
 - `"PolicyNames"`: The names of the policies.
 """
+function describe_load_balancer_policies end
 function describe_load_balancer_policies(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -857,6 +874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyTypeNames"`: The names of the policy types. If no names are specified, describes
   all policy types defined by Elastic Load Balancing.
 """
+function describe_load_balancer_policy_types end
 function describe_load_balancer_policy_types(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -893,6 +911,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of results to return with this call (a number from 1 to
   400). The default is 400.
 """
+function describe_load_balancers end
 function describe_load_balancers(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing(
         "DescribeLoadBalancers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -920,6 +939,7 @@ Describes the tags associated with the specified load balancers.
 - `load_balancer_names`: The names of the load balancers.
 
 """
+function describe_tags end
 function describe_tags(
     LoadBalancerNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -962,6 +982,7 @@ among the remaining routable subnets.
 - `subnets`: The IDs of the subnets.
 
 """
+function detach_load_balancer_from_subnets end
 function detach_load_balancer_from_subnets(
     LoadBalancerName, Subnets; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1013,6 +1034,7 @@ Availability Zones in the Classic Load Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
+function disable_availability_zones_for_load_balancer end
 function disable_availability_zones_for_load_balancer(
     AvailabilityZones, LoadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1065,6 +1087,7 @@ Remove Availability Zones in the Classic Load Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
+function enable_availability_zones_for_load_balancer end
 function enable_availability_zones_for_load_balancer(
     AvailabilityZones, LoadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1117,6 +1140,7 @@ Load Balancing     Connection Draining     Access Logs     Idle Connection Timeo
 - `load_balancer_name`: The name of the load balancer.
 
 """
+function modify_load_balancer_attributes end
 function modify_load_balancer_attributes(
     LoadBalancerAttributes,
     LoadBalancerName;
@@ -1180,6 +1204,7 @@ Instances in the Classic Load Balancers Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
+function register_instances_with_load_balancer end
 function register_instances_with_load_balancer(
     Instances, LoadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1225,6 +1250,7 @@ Removes one or more tags from the specified load balancer.
 - `tags`: The list of tag keys to remove.
 
 """
+function remove_tags end
 function remove_tags(
     LoadBalancerNames, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1271,6 +1297,7 @@ the SSL Certificate for Your Load Balancer in the Classic Load Balancers Guide.
 - `sslcertificate_id`: The Amazon Resource Name (ARN) of the SSL certificate.
 
 """
+function set_load_balancer_listener_sslcertificate end
 function set_load_balancer_listener_sslcertificate(
     LoadBalancerName,
     LoadBalancerPort,
@@ -1337,6 +1364,7 @@ Balancers Guide.
   are removed from the EC2 instance.
 
 """
+function set_load_balancer_policies_for_backend_server end
 function set_load_balancer_policies_for_backend_server(
     InstancePort,
     LoadBalancerName,
@@ -1398,6 +1426,7 @@ Application-Controlled Session Stickiness in the Classic Load Balancers Guide.
   empty, all current policies are disabled.
 
 """
+function set_load_balancer_policies_of_listener end
 function set_load_balancer_policies_of_listener(
     LoadBalancerName,
     LoadBalancerPort,

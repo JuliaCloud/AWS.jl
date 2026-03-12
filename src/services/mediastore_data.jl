@@ -15,6 +15,7 @@ Deletes an object at the specified path.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 
 """
+function delete_object end
 function delete_object(Path; aws_config::AbstractAWSConfig=current_aws_config())
     return mediastore_data(
         "DELETE", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -40,6 +41,7 @@ Gets the headers for an object at the specified path.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 
 """
+function describe_object end
 function describe_object(Path; aws_config::AbstractAWSConfig=current_aws_config())
     return mediastore_data(
         "HEAD", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -84,6 +86,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   MediaStore ignores this header for partially uploaded objects that have streaming upload
   availability.
 """
+function get_object end
 function get_object(Path; aws_config::AbstractAWSConfig=current_aws_config())
     return mediastore_data(
         "GET", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -120,6 +123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Path"`: The path in the container from which to retrieve items. Format: &lt;folder
   name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
+function list_items end
 function list_items(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediastore_data(
         "GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -174,6 +178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default value for this header is standard. To use this header, you must also set the HTTP
   Transfer-Encoding header to chunked.
 """
+function put_object end
 function put_object(Body, Path; aws_config::AbstractAWSConfig=current_aws_config())
     return mediastore_data(
         "PUT",

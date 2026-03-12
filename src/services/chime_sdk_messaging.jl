@@ -20,6 +20,7 @@ AppInstanceBot that makes the API call as the value in the header.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user making the API call.
 
 """
+function associate_channel_flow end
 function associate_channel_flow(
     ChannelFlowArn,
     channelArn,
@@ -86,6 +87,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
   This is only supported by moderators.
 """
+function batch_create_channel_membership end
 function batch_create_channel_membership(
     MemberArns,
     channelArn,
@@ -150,6 +152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeleteResource"`: When a processor determines that a message needs to be DENIED, pass
   this parameter with a value of true.
 """
+function channel_flow_callback end
 function channel_flow_callback(
     CallbackId,
     ChannelMessage,
@@ -224,6 +227,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the AppInstance.
 - `"Tags"`: The tags for the creation request.
 """
+function create_channel end
 function create_channel(
     AppInstanceArn,
     ClientRequestToken,
@@ -292,6 +296,7 @@ makes the API call as the value in the header.
   call.
 
 """
+function create_channel_ban end
 function create_channel_ban(
     MemberArn,
     channelArn,
@@ -359,6 +364,7 @@ in the Amazon Chime developer guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: The tags for the creation request.
 """
+function create_channel_flow end
 function create_channel_flow(
     AppInstanceArn,
     ClientRequestToken,
@@ -435,6 +441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubChannelId"`: The ID of the SubChannel in the request.  Only required when creating
   membership in a SubChannel for a moderator in an elastic channel.
 """
+function create_channel_membership end
 function create_channel_membership(
     MemberArn,
     Type,
@@ -500,6 +507,7 @@ AppInstanceBotof the user that makes the API call as the value in the header.
   call.
 
 """
+function create_channel_moderator end
 function create_channel_moderator(
     ChannelModeratorArn,
     channelArn,
@@ -559,6 +567,7 @@ the header.
   call.
 
 """
+function delete_channel end
 function delete_channel(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -612,6 +621,7 @@ the value in the header.
   call.
 
 """
+function delete_channel_ban end
 function delete_channel_ban(
     channelArn,
     memberArn,
@@ -668,6 +678,7 @@ disassociate a channel flow from all channels.
 - `channel_flow_arn`: The ARN of the channel flow.
 
 """
+function delete_channel_flow end
 function delete_channel_flow(
     channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -710,6 +721,7 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"sub-channel-id"`: The ID of the SubChannel in the request.  Only for use by moderators.
 """
+function delete_channel_membership end
 function delete_channel_membership(
     channelArn,
     memberArn,
@@ -772,6 +784,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sub-channel-id"`: The ID of the SubChannel in the request.  Only required when deleting
   messages in a SubChannel that the user belongs to.
 """
+function delete_channel_message end
 function delete_channel_message(
     channelArn,
     messageId,
@@ -829,6 +842,7 @@ header.
   call.
 
 """
+function delete_channel_moderator end
 function delete_channel_moderator(
     channelArn,
     channelModeratorArn,
@@ -882,6 +896,7 @@ Streaming messaging data in the Amazon Chime SDK Developer Guide.
 - `app_instance_arn`: The ARN of the streaming configurations being deleted.
 
 """
+function delete_messaging_streaming_configurations end
 function delete_messaging_streaming_configurations(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -921,6 +936,7 @@ AppInstanceBot that makes the API call as the value in the header.
   call.
 
 """
+function describe_channel end
 function describe_channel(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -974,6 +990,7 @@ the value in the header.
   call.
 
 """
+function describe_channel_ban end
 function describe_channel_ban(
     channelArn,
     memberArn,
@@ -1027,6 +1044,7 @@ developer API.
 - `channel_flow_arn`: The ARN of the channel flow.
 
 """
+function describe_channel_flow end
 function describe_channel_flow(
     channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1072,6 +1090,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ElasticChannelConfiguration object.  Only required to get a user’s SubChannel membership
   details.
 """
+function describe_channel_membership end
 function describe_channel_membership(
     channelArn,
     memberArn,
@@ -1129,6 +1148,7 @@ AppInstanceUser or AppInstanceBot that makes the API call as the value in the he
   call.
 
 """
+function describe_channel_membership_for_app_instance_user end
 function describe_channel_membership_for_app_instance_user(
     app_instance_user_arn,
     channelArn,
@@ -1188,6 +1208,7 @@ AppInstanceUser or AppInstanceBot that makes the API call as the value in the he
   call.
 
 """
+function describe_channel_moderated_by_app_instance_user end
 function describe_channel_moderated_by_app_instance_user(
     app_instance_user_arn,
     channelArn,
@@ -1247,6 +1268,7 @@ value in the header.
   call.
 
 """
+function describe_channel_moderator end
 function describe_channel_moderator(
     channelArn,
     channelModeratorArn,
@@ -1305,6 +1327,7 @@ the value in the header.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user making the API call.
 
 """
+function disassociate_channel_flow end
 function disassociate_channel_flow(
     channelArn,
     channelFlowArn,
@@ -1366,6 +1389,7 @@ AppInstanceBot that makes the API call as the value in the header.
   call.
 
 """
+function get_channel_membership_preferences end
 function get_channel_membership_preferences(
     channelArn,
     memberArn,
@@ -1427,6 +1451,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sub-channel-id"`: The ID of the SubChannel in the request.  Only required when getting
   messages in a SubChannel that the user belongs to.
 """
+function get_channel_message end
 function get_channel_message(
     channelArn,
     messageId,
@@ -1493,6 +1518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sub-channel-id"`: The ID of the SubChannel in the request.  Only required when getting
   message status in a SubChannel that the user belongs to.
 """
+function get_channel_message_status end
 function get_channel_message_status(
     channelArn,
     messageId,
@@ -1542,6 +1568,7 @@ end
 The details of the endpoint for the messaging session.
 
 """
+function get_messaging_session_endpoint end
 function get_messaging_session_endpoint(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1576,6 +1603,7 @@ Streaming messaging data in the Amazon Chime SDK Developer Guide.
 - `app_instance_arn`: The ARN of the streaming configurations.
 
 """
+function get_messaging_streaming_configurations end
 function get_messaging_streaming_configurations(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1620,6 +1648,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested bans are
   returned.
 """
+function list_channel_bans end
 function list_channel_bans(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1674,6 +1703,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested channel flows
   are returned.
 """
+function list_channel_flows end
 function list_channel_flows(
     app_instance_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1729,6 +1759,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as part of ListChannelMemberships if no type is specified. Hidden members are only returned
   if the type filter in ListChannelMemberships equals HIDDEN.
 """
+function list_channel_memberships end
 function list_channel_memberships(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1787,6 +1818,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token returned from previous API requests until the number of channel
   memberships is reached.
 """
+function list_channel_memberships_for_app_instance_user end
 function list_channel_memberships_for_app_instance_user(
     x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1852,6 +1884,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sub-channel-id"`: The ID of the SubChannel in the request.  Only required when listing
   the messages in a SubChannel that the user belongs to.
 """
+function list_channel_messages end
 function list_channel_messages(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1909,6 +1942,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested moderators are
   returned.
 """
+function list_channel_moderators end
 function list_channel_moderators(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1971,6 +2005,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"privacy"`: The privacy setting. PUBLIC retrieves all the public channels. PRIVATE
   retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
 """
+function list_channels end
 function list_channels(
     app_instance_arn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2028,6 +2063,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested channels are
   returned.
 """
+function list_channels_associated_with_channel_flow end
 function list_channels_associated_with_channel_flow(
     channel_flow_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2077,6 +2113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token returned from previous API requests until the number of
   channels moderated by the user is reached.
 """
+function list_channels_moderated_by_app_instance_user end
 function list_channels_moderated_by_app_instance_user(
     x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2131,6 +2168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested sub-channels
   are returned.
 """
+function list_sub_channels end
 function list_sub_channels(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2179,6 +2217,7 @@ Lists the tags applied to an Amazon Chime SDK messaging resource.
 - `arn`: The ARN of the resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_messaging(
         "GET",
@@ -2222,6 +2261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-chime-bearer"`: The ARN of the AppInstanceUser or AppInstanceBot that makes the
   API call.
 """
+function put_channel_expiration_settings end
 function put_channel_expiration_settings(
     channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2267,6 +2307,7 @@ call as the value in the header.
   call.
 
 """
+function put_channel_membership_preferences end
 function put_channel_membership_preferences(
     Preferences,
     channelArn,
@@ -2325,6 +2366,7 @@ Streaming messaging data in the Amazon Chime SDK Developer Guide.
 - `app_instance_arn`: The ARN of the streaming configuration.
 
 """
+function put_messaging_streaming_configurations end
 function put_messaging_streaming_configurations(
     StreamingConfigurations,
     appInstanceArn;
@@ -2379,6 +2421,7 @@ makes the API call as the value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SubChannelId"`: The ID of the SubChannel in the request.
 """
+function redact_channel_message end
 function redact_channel_message(
     channelArn,
     messageId,
@@ -2440,6 +2483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   channels is reached.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user making the API call.
 """
+function search_channels end
 function search_channels(Fields; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_messaging(
         "POST",
@@ -2499,6 +2543,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   users who can see targeted messages can take actions on them. However, administrators can
   delete targeted messages that they can’t see.
 """
+function send_channel_message end
 function send_channel_message(
     ClientRequestToken,
     Content,
@@ -2566,6 +2611,7 @@ Applies the specified tags to the specified Amazon Chime SDK messaging resource.
 - `tags`: The tag key-value pairs.
 
 """
+function tag_resource end
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_messaging(
         "POST",
@@ -2608,6 +2654,7 @@ Removes the specified tags from the specified Amazon Chime SDK messaging resourc
 - `tag_keys`: The tag keys.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2660,6 +2707,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Mode"`: The mode of the update request.
 - `"Name"`: The name of the channel.
 """
+function update_channel end
 function update_channel(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2710,6 +2758,7 @@ Updates channel flow attributes. This is a developer API.
 - `channel_flow_arn`: The ARN of the channel flow.
 
 """
+function update_channel_flow end
 function update_channel_flow(
     Name, Processors, channelFlowArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2764,6 +2813,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubChannelId"`: The ID of the SubChannel in the request.  Only required when updating
   messages in a SubChannel that the user belongs to.
 """
+function update_channel_message end
 function update_channel_message(
     Content,
     channelArn,
@@ -2824,6 +2874,7 @@ AppInstanceBot that makes the API call as the value in the header.
   call.
 
 """
+function update_channel_read_marker end
 function update_channel_read_marker(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )

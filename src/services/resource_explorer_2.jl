@@ -21,6 +21,7 @@ every Search operation performed in that Region.
   operation. The specified view must already exist in the called Region.
 
 """
+function associate_default_view end
 function associate_default_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",
@@ -56,6 +57,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ViewArns"`: A list of Amazon resource names (ARNs) that identify the views you want
   details for.
 """
+function batch_get_view end
 function batch_get_view(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST", "/BatchGetView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -113,6 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The specified tags are attached only to the index created in this Amazon Web
   Services Region. The tags aren't attached to any of the resources listed in the index.
 """
+function create_index end
 function create_index(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",
@@ -175,6 +178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ARN. If left empty, the default is account.
 - `"Tags"`: Tag key and value pairs that are attached to the view.
 """
+function create_view end
 function create_view(ViewName; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",
@@ -223,6 +227,7 @@ Resource Explorer until another aggregator index is configured.
 - `arn`: The Amazon resource name (ARN) of the index that you want to delete.
 
 """
+function delete_index end
 function delete_index(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",
@@ -257,6 +262,7 @@ to use until you configure a new default by calling the AssociateDefaultView ope
 - `view_arn`: The Amazon resource name (ARN) of the view that you want to delete.
 
 """
+function delete_view end
 function delete_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",
@@ -292,6 +298,7 @@ operation. If an Amazon Web Services Region doesn't have a default view configur
 users must explicitly specify a view with every Search operation performed in that Region.
 
 """
+function disassociate_default_view end
 function disassociate_default_view(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",
@@ -323,6 +330,7 @@ management account or a delegated administrator with service access enabled can 
 API call.
 
 """
+function get_account_level_service_configuration end
 function get_account_level_service_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -355,6 +363,7 @@ Services Region in which you call this operation. You can then call GetView to r
 details of that view.
 
 """
+function get_default_view end
 function get_default_view(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST", "/GetDefaultView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -381,6 +390,7 @@ Retrieves details about the Amazon Web Services Resource Explorer index in the A
 Services Region in which you invoked the operation.
 
 """
+function get_index end
 function get_index(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST", "/GetIndex"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -405,6 +415,7 @@ Retrieves details of the specified view.
 - `view_arn`: The Amazon resource name (ARN) of the view that you want information about.
 
 """
+function get_view end
 function get_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",
@@ -455,6 +466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: If specified, limits the output to only indexes of the specified Type, either
   LOCAL or AGGREGATOR. Use this option to discover the aggregator index for your account.
 """
+function list_indexes end
 function list_indexes(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST", "/ListIndexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -501,6 +513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from. The pagination tokens expire after 24 hours.
 """
+function list_indexes_for_members end
 function list_indexes_for_members(
     AccountIdList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -551,6 +564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from. The pagination tokens expire after 24 hours.
 """
+function list_supported_resource_types end
 function list_supported_resource_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",
@@ -583,6 +597,7 @@ Lists the tags that are attached to the specified resource.
   attach tags to.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -633,6 +648,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from. The pagination tokens expire after 24 hours.
 """
+function list_views end
 function list_views(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST", "/ListViews"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -690,6 +706,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Region either doesn't have a default view or if you don't have permission to use the
   default view, then the operation fails with a 401 Unauthorized exception.
 """
+function search end
 function search(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",
@@ -732,6 +749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tag key and value pairs that you want to attach to the specified view
   or index.
 """
+function tag_resource end
 function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",
@@ -769,6 +787,7 @@ view or index.
   view or index.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -840,6 +859,7 @@ hours before you can promote another index to be the new aggregator index for th
   see Turning on cross-Region search in the Amazon Web Services Resource Explorer User Guide.
 
 """
+function update_index_type end
 function update_index_type(Arn, Type; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",
@@ -892,6 +912,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results from this view. It is a list of objects that each describe a field to include. The
   default is an empty list, with no optional fields included in the results.
 """
+function update_view end
 function update_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST",

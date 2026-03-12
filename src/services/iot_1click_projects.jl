@@ -19,6 +19,7 @@ Associates a physical device with a placement.
   the device.
 
 """
+function associate_device_with_placement end
 function associate_device_with_placement(
     deviceId,
     deviceTemplateName,
@@ -69,6 +70,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attributes"`: Optional user-defined key/value pairs providing contextual data (such as
   location or function) for the placement.
 """
+function create_placement end
 function create_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -119,6 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS
   Tagging Strategies.
 """
+function create_project end
 function create_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_projects(
         "POST",
@@ -157,6 +160,7 @@ it.  When you delete a placement, all associated data becomes irretrievable.
 - `project_name`: The project containing the empty placement to delete.
 
 """
+function delete_placement end
 function delete_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -194,6 +198,7 @@ Deletes a project. To delete a project, it must not have any placements associat
 - `project_name`: The name of the empty project to delete.
 
 """
+function delete_project end
 function delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_projects(
         "DELETE",
@@ -228,6 +233,7 @@ Describes a placement in a project.
 - `project_name`: The project containing the placement to be described.
 
 """
+function describe_placement end
 function describe_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,6 +270,7 @@ Returns an object describing a project.
 - `project_name`: The name of the project to be described.
 
 """
+function describe_project end
 function describe_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_projects(
         "GET",
@@ -299,6 +306,7 @@ Removes a physical device from a placement.
 - `project_name`: The name of the project that contains the placement.
 
 """
+function disassociate_device_from_placement end
 function disassociate_device_from_placement(
     deviceTemplateName,
     placementName,
@@ -340,6 +348,7 @@ Returns an object enumerating the devices in a placement.
 - `project_name`: The name of the project containing the placement.
 
 """
+function get_devices_in_placement end
 function get_devices_in_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -381,6 +390,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default value of 100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
+function list_placements end
 function list_placements(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_projects(
         "GET",
@@ -416,6 +426,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default value of 100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
+function list_projects end
 function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_projects(
         "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -440,6 +451,7 @@ Lists the tags (metadata key/value pairs) which you have assigned to the resourc
 - `resource_arn`: The ARN of the resource whose tags you want to list.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -478,6 +490,7 @@ used to manage a resource. For more information, see AWS Tagging Strategies.
   for the maximum number of tags allowed per resource.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_projects(
         "POST",
@@ -514,6 +527,7 @@ Removes one or more tags (metadata key/value pairs) from a resource.
 - `tag_keys`: The keys of those tags which you want to remove.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -557,6 +571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attributes"`: The user-defined object of attributes used to update the placement. The
   maximum number of key/value pairs is 50.
 """
+function update_placement end
 function update_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -603,6 +618,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   placementTemplate, you can update the associated callbackOverrides for the device
   definition using this API.
 """
+function update_project end
 function update_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_projects(
         "PUT",

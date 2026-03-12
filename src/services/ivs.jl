@@ -14,6 +14,7 @@ Performs GetChannel on multiple ARNs simultaneously.
 - `arns`: Array of ARNs, one per channel.
 
 """
+function batch_get_channel end
 function batch_get_channel(arns; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -46,6 +47,7 @@ Performs GetStreamKey on multiple ARNs simultaneously.
 - `arns`: Array of ARNs, one per stream key.
 
 """
+function batch_get_stream_key end
 function batch_get_stream_key(arns; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -79,6 +81,7 @@ simultaneously.
 - `viewer_sessions`: Array of viewer sessions, one per channel-ARN and viewer-ID pair.
 
 """
+function batch_start_viewer_session_revocation end
 function batch_start_viewer_session_revocation(
     viewerSessions; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -140,6 +143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exceed the allowable input resolution or bitrate, the stream probably will disconnect
   immediately. Default: STANDARD. For details, see Channel Types.
 """
+function create_channel end
 function create_channel(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST", "/CreateChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -182,6 +186,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags and \"Tag naming limits and requirements\"; Amazon IVS has no service-specific
   constraints beyond what is documented there.
 """
+function create_playback_restriction_policy end
 function create_playback_restriction_policy(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -239,6 +244,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recording of thumbnails for a live session and modify the interval at which thumbnails are
   generated for the live session.
 """
+function create_recording_configuration end
 function create_recording_configuration(
     destinationConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -291,6 +297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags and \"Tag naming limits and requirements\"; Amazon IVS has no service-specific
   constraints beyond what is documented there.
 """
+function create_stream_key end
 function create_stream_key(channelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -331,6 +338,7 @@ Amazon IVS.)
 - `arn`: ARN of the channel to be deleted.
 
 """
+function delete_channel end
 function delete_channel(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -365,6 +373,7 @@ the Amazon IVS User Guide.
 - `arn`: ARN of the key pair to be deleted.
 
 """
+function delete_playback_key_pair end
 function delete_playback_key_pair(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -397,6 +406,7 @@ Deletes the specified playback restriction policy.
 - `arn`: ARN of the playback restriction policy to be deleted.
 
 """
+function delete_playback_restriction_policy end
 function delete_playback_restriction_policy(
     arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -435,6 +445,7 @@ empty string, then use DeleteRecordingConfiguration.
 - `arn`: ARN of the recording configuration to be deleted.
 
 """
+function delete_recording_configuration end
 function delete_recording_configuration(
     arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -469,6 +480,7 @@ Deletes the stream key for the specified ARN, so it can no longer be used to str
 - `arn`: ARN of the stream key to be deleted.
 
 """
+function delete_stream_key end
 function delete_stream_key(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -501,6 +513,7 @@ Gets the channel configuration for the specified channel ARN. See also BatchGetC
 - `arn`: ARN of the channel for which the configuration is to be retrieved.
 
 """
+function get_channel end
 function get_channel(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -536,6 +549,7 @@ in the Amazon IVS User Guide.
 - `arn`: ARN of the key pair to be returned.
 
 """
+function get_playback_key_pair end
 function get_playback_key_pair(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -568,6 +582,7 @@ Gets the specified playback restriction policy.
 - `arn`: ARN of the playback restriction policy to be returned.
 
 """
+function get_playback_restriction_policy end
 function get_playback_restriction_policy(
     arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -602,6 +617,7 @@ Gets the recording configuration for the specified ARN.
 - `arn`: ARN of the recording configuration to be retrieved.
 
 """
+function get_recording_configuration end
 function get_recording_configuration(
     arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -636,6 +652,7 @@ Gets information about the active (live) stream on a specified channel.
 - `channel_arn`: Channel ARN for stream to be accessed.
 
 """
+function get_stream end
 function get_stream(channelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -672,6 +689,7 @@ Gets stream-key information for a specified ARN.
 - `arn`: ARN for the stream key to be retrieved.
 
 """
+function get_stream_key end
 function get_stream_key(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -709,6 +727,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   channel. If no streamId is provided, this returns the most recent stream session for the
   channel, if it exists.
 """
+function get_stream_session end
 function get_stream_session(channelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -755,6 +774,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   apply to tags and \"Tag naming limits and requirements\"; Amazon IVS has no
   service-specific constraints beyond what is documented there.
 """
+function import_playback_key_pair end
 function import_playback_key_pair(
     publicKeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -805,6 +825,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first channel to retrieve. This is used for pagination; see the
   nextToken response field.
 """
+function list_channels end
 function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST", "/ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -837,6 +858,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first key pair to retrieve. This is used for pagination; see the
   nextToken response field.
 """
+function list_playback_key_pairs end
 function list_playback_key_pairs(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -870,6 +892,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first policy to retrieve. This is used for pagination; see the
   nextToken response field.
 """
+function list_playback_restriction_policies end
 function list_playback_restriction_policies(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -907,6 +930,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first recording configuration to retrieve. This is used for
   pagination; see the nextToken response field.
 """
+function list_recording_configurations end
 function list_recording_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -943,6 +967,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first stream key to retrieve. This is used for pagination; see the
   nextToken response field.
 """
+function list_stream_keys end
 function list_stream_keys(channelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -985,6 +1010,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first stream to retrieve. This is used for pagination; see the
   nextToken response field.
 """
+function list_stream_sessions end
 function list_stream_sessions(
     channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1027,6 +1053,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first stream to retrieve. This is used for pagination; see the
   nextToken response field.
 """
+function list_streams end
 function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST", "/ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1055,6 +1082,7 @@ Gets information about Amazon Web Services tags for the specified ARN.
 - `resource_arn`: The ARN of the resource to be retrieved. The ARN must be URL-encoded.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1096,6 +1124,7 @@ a Video Stream in the Amazon IVS User Guide.
 - `metadata`: Metadata to insert into the stream. Maximum: 1 KB per request.
 
 """
+function put_metadata end
 function put_metadata(
     channelArn, metadata; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1149,6 +1178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   viewer session to revoke. All versions less than or equal to the specified version will be
   revoked. Default: 0.
 """
+function start_viewer_session_revocation end
 function start_viewer_session_revocation(
     channelArn, viewerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1195,6 +1225,7 @@ stream permanently, you may want to first revoke the streamKey attached to the c
 - `channel_arn`: ARN of the channel for which the stream is to be stopped.
 
 """
+function stop_stream end
 function stop_stream(channelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -1236,6 +1267,7 @@ Adds or updates tags for the Amazon Web Services resource with the specified ARN
   Amazon IVS has no service-specific constraints beyond what is documented there.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -1276,6 +1308,7 @@ Removes tags from the resource with the specified ARN.
   no service-specific constraints beyond what is documented there.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1335,6 +1368,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exceed the allowable input resolution or bitrate, the stream probably will disconnect
   immediately. Default: STANDARD. For details, see Channel Types.
 """
+function update_channel end
 function update_channel(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
         "POST",
@@ -1379,6 +1413,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   site. Default: false.
 - `"name"`: Playback-restriction-policy name. The value does not need to be unique.
 """
+function update_playback_restriction_policy end
 function update_playback_restriction_policy(
     arn; aws_config::AbstractAWSConfig=current_aws_config()
 )

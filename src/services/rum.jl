@@ -53,6 +53,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Evidently experiment that is to receive the metrics. You must have already defined this
   experiment as a valid destination. For more information, see PutRumMetricsDestination.
 """
+function batch_create_rum_metric_definitions end
 function batch_create_rum_metric_definitions(
     AppMonitorName,
     Destination,
@@ -120,6 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Destination is CloudWatch, do not use this parameter.  This parameter specifies the ARN of
   the Evidently experiment that was receiving the metrics that are being deleted.
 """
+function batch_delete_rum_metric_definitions end
 function batch_delete_rum_metric_definitions(
     AppMonitorName,
     destination,
@@ -186,6 +188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
+function batch_get_rum_metric_definitions end
 function batch_get_rum_metric_definitions(
     AppMonitorName, destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -256,6 +259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   strings of characters. You can associate as many as 50 tags with an app monitor. For more
   information, see Tagging Amazon Web Services resources.
 """
+function create_app_monitor end
 function create_app_monitor(
     Domain, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -295,6 +299,7 @@ Deletes an existing app monitor. This immediately stops the collection of data.
 - `name`: The name of the app monitor to delete.
 
 """
+function delete_app_monitor end
 function delete_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "DELETE",
@@ -335,6 +340,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of
   the Evidently experiment that corresponds to the destination to delete.
 """
+function delete_rum_metrics_destination end
 function delete_rum_metrics_destination(
     AppMonitorName, destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -374,6 +380,7 @@ Retrieves the complete configuration information for one app monitor.
 - `name`: The app monitor to retrieve information for.
 
 """
+function get_app_monitor end
 function get_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "GET", "/appmonitor/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -412,6 +419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
+function get_app_monitor_data end
 function get_app_monitor_data(
     Name, TimeRange; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -454,6 +462,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
+function list_app_monitors end
 function list_app_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "POST", "/appmonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -491,6 +500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
+function list_rum_metrics_destinations end
 function list_rum_metrics_destinations(
     AppMonitorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -526,6 +536,7 @@ Displays the tags associated with a CloudWatch RUM resource.
 - `resource_arn`: The ARN of the resource that you want to see the tags of.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -570,6 +581,7 @@ batch of events from one user session.
   batch of events was collected from.
 
 """
+function put_rum_events end
 function put_rum_events(
     AppMonitorDetails,
     BatchId,
@@ -648,6 +660,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to be passed. The  CloudWatchAmazonCloudWatchRUMFullAccess policy doesn't include PassRole
   permissions.
 """
+function put_rum_metrics_destination end
 function put_rum_metrics_destination(
     AppMonitorName, Destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -698,6 +711,7 @@ Web Services resources.
 - `tags`: The list of key-value pairs to associate with the resource.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "POST",
@@ -734,6 +748,7 @@ Removes one or more tags from the specified resource.
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -795,6 +810,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Domain"`: The top-level internet domain name for which your application has
   administrative authority.
 """
+function update_app_monitor end
 function update_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "PATCH",
@@ -840,6 +856,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Evidently experiment that is to receive the metrics. You must have already defined this
   experiment as a valid destination. For more information, see PutRumMetricsDestination.
 """
+function update_rum_metric_definition end
 function update_rum_metric_definition(
     AppMonitorName,
     Destination,

@@ -20,6 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional Boolean flag to indicate whether any effect should take place. It
   tests whether the caller has permission to make the call.
 """
+function create_home_region_control end
 function create_home_region_control(
     HomeRegion, Target; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -63,6 +64,7 @@ does not delete discovery or migration tracking data in the home region.
   always a string that begins with \"hrc-\" followed by 12 lowercase letters and numbers.
 
 """
+function delete_home_region_control end
 function delete_home_region_control(
     ControlId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -107,6 +109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Target"`: The target parameter specifies the identifier to which the home region is
   applied, which is always of type ACCOUNT. It applies the home region to the current ACCOUNT.
 """
+function describe_home_region_controls end
 function describe_home_region_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhub_config(
         "DescribeHomeRegionControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -135,6 +138,7 @@ Application Discovery Service and AWS Migration Hub APIs, to obtain the account'
 Hub home region.
 
 """
+function get_home_region end
 function get_home_region(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhub_config(
         "GetHomeRegion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

@@ -17,6 +17,7 @@ a zonal shift started by a practice run with zonal autoshift.
 - `zonal_shift_id`: The internally-generated identifier of a zonal shift.
 
 """
+function cancel_zonal_shift end
 function cancel_zonal_shift(
     zonalShiftId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -89,6 +90,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   practice runs. This alarm blocks Route 53 ARC from starting practice run zonal shifts, and
   ends a practice run that's in progress, when the alarm is in an ALARM state.
 """
+function create_practice_run_configuration end
 function create_practice_run_configuration(
     outcomeAlarms, resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -141,6 +143,7 @@ runs must be configured for zonal autoshift to be enabled.
   resource.
 
 """
+function delete_practice_run_configuration end
 function delete_practice_run_configuration(
     resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -180,6 +183,7 @@ practice runs and autoshifts in the Amazon Route 53 Application Recovery Control
 Developer Guide.
 
 """
+function get_autoshift_observer_notification_status end
 function get_autoshift_observer_notification_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -221,6 +225,7 @@ Load Balancers with cross-zone load balancing turned off.
   cross-zone load balancing turned off.
 
 """
+function get_managed_resource end
 function get_managed_resource(
     resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -263,6 +268,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 - `"status"`: The status of the autoshift.
 """
+function list_autoshifts end
 function list_autoshifts(; aws_config::AbstractAWSConfig=current_aws_config())
     return arc_zonal_shift(
         "GET", "/autoshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -295,6 +301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more output is available. Set this parameter to the value provided by the previous call's
   NextToken response to request the next page of results.
 """
+function list_managed_resources end
 function list_managed_resources(; aws_config::AbstractAWSConfig=current_aws_config())
     return arc_zonal_shift(
         "GET", "/managedresources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -338,6 +345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   zonal shift has expired (the expiry time was exceeded).    CANCELED: The zonal shift was
   canceled.
 """
+function list_zonal_shifts end
 function list_zonal_shifts(; aws_config::AbstractAWSConfig=current_aws_config())
     return arc_zonal_shift(
         "GET", "/zonalshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -398,6 +406,7 @@ Application Recovery Controller Developer Guide.
   cross-zone load balancing turned off.
 
 """
+function start_zonal_shift end
 function start_zonal_shift(
     awayFrom,
     comment,
@@ -468,6 +477,7 @@ Developer Guide.
   autoshift.
 
 """
+function update_autoshift_observer_notification_status end
 function update_autoshift_observer_notification_status(
     status; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -527,6 +537,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"outcomeAlarms"`: Specify a new the Amazon CloudWatch alarm as the outcome alarm for
   practice runs.
 """
+function update_practice_run_configuration end
 function update_practice_run_configuration(
     resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -577,6 +588,7 @@ weekly practice runs.
   events, on your behalf, to help reduce time to recovery.
 
 """
+function update_zonal_autoshift_configuration end
 function update_zonal_autoshift_configuration(
     resourceIdentifier,
     zonalAutoshiftStatus;
@@ -639,6 +651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   letter h: To specify that the value is in hours.   For example: 20h means the zonal shift
   expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours).
 """
+function update_zonal_shift end
 function update_zonal_shift(
     zonalShiftId; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -24,6 +24,7 @@ from Aws Account 111122223333 has been cancelled.
   request.
 
 """
+function accept_domain_transfer_from_another_aws_account end
 function accept_domain_transfer_from_another_aws_account(
     DomainName, Password; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -71,6 +72,7 @@ see Configuring DNSSEC signing in the Route 53 developer guide.
   key-value, and flags.
 
 """
+function associate_delegation_signer_to_domain end
 function associate_delegation_signer_to_domain(
     DomainName, SigningAttributes; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -123,6 +125,7 @@ information, for example, Domain Transfer from Aws Account 111122223333 has been
   another Amazon Web Services account.
 
 """
+function cancel_domain_transfer_to_another_aws_account end
 function cancel_domain_transfer_to_another_aws_account(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -173,6 +176,7 @@ availability of the domain name.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IdnLangCode"`: Reserved for future use.
 """
+function check_domain_availability end
 function check_domain_availability(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -220,6 +224,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   code to transfer the domain, the code that you got from the current registrar for the
   domain.
 """
+function check_domain_transferability end
 function check_domain_transferability(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,6 +269,7 @@ noreply@domainnameverification.net or noreply@registrar.amazon.com.
 - `domain_name`: Name of the domain to be deleted.
 
 """
+function delete_domain end
 function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53_domains(
         "DeleteDomain",
@@ -300,6 +306,7 @@ consistent; subsequent operations might not immediately represent all issued ope
 - `tags_to_delete`: A list of tag keys to delete.
 
 """
+function delete_tags_for_domain end
 function delete_tags_for_domain(
     DomainName, TagsToDelete; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -343,6 +350,7 @@ This operation disables automatic renewal of domain registration for the specifi
 - `domain_name`: The name of the domain that you want to disable automatic renewal for.
 
 """
+function disable_domain_auto_renew end
 function disable_domain_auto_renew(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -384,6 +392,7 @@ registrant will be notified by email.
 - `domain_name`: The name of the domain that you want to remove the transfer lock for.
 
 """
+function disable_domain_transfer_lock end
 function disable_domain_transfer_lock(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -422,6 +431,7 @@ Deletes a delegation signer (DS) record in the registry zone for this domain nam
   You can retrieve it as part of DNSSEC information returned by GetDomainDetail.
 
 """
+function disassociate_delegation_signer_from_domain end
 function disassociate_delegation_signer_from_domain(
     DomainName, Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -467,6 +477,7 @@ the deadline.
 - `domain_name`: The name of the domain that you want to enable automatic renewal for.
 
 """
+function enable_domain_auto_renew end
 function enable_domain_auto_renew(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -506,6 +517,7 @@ request is not completed successfully, the domain registrant will be notified by
 - `domain_name`: The name of the domain that you want to set the transfer lock for.
 
 """
+function enable_domain_transfer_lock end
 function enable_domain_transfer_lock(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -546,6 +558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainName"`: The name of the domain for which you want to know whether the registrant
   contact has confirmed that the email address is valid.
 """
+function get_contact_reachability_status end
 function get_contact_reachability_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -579,6 +592,7 @@ returned as part of the output.
 - `domain_name`: The name of the domain that you want to get detailed information about.
 
 """
+function get_domain_detail end
 function get_domain_detail(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53_domains(
         "GetDomainDetail",
@@ -628,6 +642,7 @@ The GetDomainSuggestions operation returns a list of suggested domain names.
   return. Specify a value between 1 and 50.
 
 """
+function get_domain_suggestions end
 function get_domain_suggestions(
     DomainName,
     OnlyAvailable,
@@ -682,6 +697,7 @@ This operation returns the current status of an operation that is not completed.
   Route 53 returned the identifier in the response to the original request.
 
 """
+function get_operation_detail end
 function get_operation_detail(
     OperationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -730,6 +746,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortCondition"`: A complex type that contains information about the requested ordering
   of domains in the returned list.
 """
+function list_domains end
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53_domains(
         "ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -768,6 +785,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Unix time format and Coordinated Universal time (UTC).
 - `"Type"`:  An arrays of the domains operation types.
 """
+function list_operations end
 function list_operations(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53_domains(
         "ListOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -803,6 +821,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   .net. If a Tld value is not provided, a list of prices for all TLDs supported by Route 53
   is returned.
 """
+function list_prices end
 function list_prices(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53_domains(
         "ListPrices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -829,6 +848,7 @@ represent all issued operations.
 - `domain_name`: The domain for which you want to get a list of tags.
 
 """
+function list_tags_for_domain end
 function list_tags_for_domain(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -868,6 +888,7 @@ domain is ready to be transferred to another registrar.
 - `target`:  New IPS tag for the domain.
 
 """
+function push_domain end
 function push_domain(DomainName, Target; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53_domains(
         "PushDomain",
@@ -972,6 +993,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the same privacy setting for the administrative, billing, registrant, and technical
   contacts.  Default: true
 """
+function register_domain end
 function register_domain(
     AdminContact,
     DomainName,
@@ -1038,6 +1060,7 @@ information, for example, Domain Transfer from Aws Account 111122223333 has been
   account submitted a TransferDomainToAnotherAwsAccount request.
 
 """
+function reject_domain_transfer_from_another_aws_account end
 function reject_domain_transfer_from_another_aws_account(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1087,6 +1110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53
   Developer Guide. Default: 1
 """
+function renew_domain end
 function renew_domain(
     CurrentExpiryYear, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1135,6 +1159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainName"`: The name of the domain for which you want Route 53 to resend a
   confirmation email to the registrant contact.
 """
+function resend_contact_reachability_email end
 function resend_contact_reachability_email(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1166,6 +1191,7 @@ end
 - `operation_id`:  Operation ID.
 
 """
+function resend_operation_authorization end
 function resend_operation_authorization(
     OperationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1203,6 +1229,7 @@ another registrar, you provide this value to the new registrar.
 - `domain_name`: The name of the domain that you want to get an authorization code for.
 
 """
+function retrieve_domain_auth_code end
 function retrieve_domain_auth_code(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1304,6 +1331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the same privacy setting for the administrative, billing, registrant, and technical
   contacts.  Default: true
 """
+function transfer_domain end
 function transfer_domain(
     AdminContact,
     DomainName,
@@ -1382,6 +1410,7 @@ information, for example, Domain Transfer from Aws Account 111122223333 has been
   Web Services account to another account.
 
 """
+function transfer_domain_to_another_aws_account end
 function transfer_domain_to_another_aws_account(
     AccountId, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1435,6 +1464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RegistrantContact"`: Provides detailed contact information.
 - `"TechContact"`: Provides detailed contact information.
 """
+function update_domain_contact end
 function update_domain_contact(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1509,6 +1539,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the information that you entered for the technical contact.  You must specify the same
   privacy setting for the administrative, billing, registrant, and technical contacts.
 """
+function update_domain_contact_privacy end
 function update_domain_contact_privacy(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1554,6 +1585,7 @@ notified by email.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"FIAuthKey"`: The authorization key for .fi domains
 """
+function update_domain_nameservers end
 function update_domain_nameservers(
     DomainName, Nameservers; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1601,6 +1633,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagsToUpdate"`: A list of the tag keys and values that you want to add or update. If
   you specify a key that already exists, the corresponding value will be replaced.
 """
+function update_tags_for_domain end
 function update_tags_for_domain(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1650,6 +1683,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   billing records. Specify the date and time in Unix time format and Coordinated Universal
   time (UTC).
 """
+function view_billing end
 function view_billing(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53_domains(
         "ViewBilling"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

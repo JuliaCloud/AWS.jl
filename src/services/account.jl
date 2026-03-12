@@ -27,6 +27,7 @@ email address (also known as the root user email address) for the specified acco
   must match the PrimaryEmail from the StartPrimaryEmailUpdate API call.
 
 """
+function accept_primary_email_update end
 function accept_primary_email_update(
     AccountId, Otp, PrimaryEmail; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -94,6 +95,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member of an organization, then don't specify this parameter, and call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
+function delete_alternate_contact end
 function delete_alternate_contact(
     AlternateContactType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -155,6 +157,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization, don't specify this parameter. Instead, call the operation using an identity
   belonging to the account whose contacts you wish to retrieve or modify.
 """
+function disable_region end
 function disable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_config())
     return account(
         "POST",
@@ -210,6 +213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization, don't specify this parameter. Instead, call the operation using an identity
   belonging to the account whose contacts you wish to retrieve or modify.
 """
+function enable_region end
 function enable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_config())
     return account(
         "POST",
@@ -265,6 +269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member of an organization, then don't specify this parameter, and call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
+function get_alternate_contact end
 function get_alternate_contact(
     AlternateContactType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -320,6 +325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization, don't specify this parameter. Instead, call the operation using an identity
   belonging to the account whose contacts you wish to retrieve or modify.
 """
+function get_contact_information end
 function get_contact_information(; aws_config::AbstractAWSConfig=current_aws_config())
     return account(
         "POST",
@@ -359,6 +365,7 @@ Retrieves the primary email address for the specified account.
   can't specify its own AccountId.
 
 """
+function get_primary_email end
 function get_primary_email(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return account(
         "POST",
@@ -411,6 +418,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization, don't specify this parameter. Instead, call the operation using an identity
   belonging to the account whose contacts you wish to retrieve or modify.
 """
+function get_region_opt_status end
 function get_region_opt_status(
     RegionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -474,6 +482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, passing in a value of ENABLING will only return a list of Regions with a Region
   status of ENABLING.
 """
+function list_regions end
 function list_regions(; aws_config::AbstractAWSConfig=current_aws_config())
     return account(
         "POST", "/listRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -525,6 +534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member of an organization, then don't specify this parameter, and call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
+function put_alternate_contact end
 function put_alternate_contact(
     AlternateContactType,
     EmailAddress,
@@ -605,6 +615,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization, don't specify this parameter. Instead, call the operation using an identity
   belonging to the account whose contacts you wish to retrieve or modify.
 """
+function put_contact_information end
 function put_contact_information(
     ContactInformation; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -655,6 +666,7 @@ Starts the process to update the primary email address for the specified account
   address) to use in the specified account.
 
 """
+function start_primary_email_update end
 function start_primary_email_update(
     AccountId, PrimaryEmail; aws_config::AbstractAWSConfig=current_aws_config()
 )

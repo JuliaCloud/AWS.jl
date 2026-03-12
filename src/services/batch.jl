@@ -24,6 +24,7 @@ terminated with the TerminateJob operation.
   recorded in the Batch activity logs.
 
 """
+function cancel_job end
 function cancel_job(jobId, reason; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -164,6 +165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   capacity is reserved.  This parameter is only supported when the type parameter is set to
   UNMANAGED.
 """
+function create_compute_environment end
 function create_compute_environment(
     computeEnvironmentName, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -250,6 +252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your resources. Each tag consists of a key and an optional value. For more information, see
   Tagging your Batch resources in Batch User Guide.
 """
+function create_job_queue end
 function create_job_queue(
     computeEnvironmentOrder,
     jobQueueName,
@@ -314,6 +317,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Reference. These tags can be updated or removed using the TagResource and UntagResource API
   operations.
 """
+function create_scheduling_policy end
 function create_scheduling_policy(name; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -352,6 +356,7 @@ invalid state.
   to delete.
 
 """
+function delete_compute_environment end
 function delete_compute_environment(
     computeEnvironment; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -396,6 +401,7 @@ DeleteJobQueue request.
 - `job_queue`: The short name or full Amazon Resource Name (ARN) of the queue to delete.
 
 """
+function delete_job_queue end
 function delete_job_queue(jobQueue; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -433,6 +439,7 @@ in any job queues.
 - `arn`: The Amazon Resource Name (ARN) of the scheduling policy to delete.
 
 """
+function delete_scheduling_policy end
 function delete_scheduling_policy(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -466,6 +473,7 @@ Deregisters an Batch job definition. Job definitions are permanently deleted aft
   (ARN) of the job definition to deregister.
 
 """
+function deregister_job_definition end
 function deregister_job_definition(
     jobDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -520,6 +528,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Treat this token as an opaque identifier that's only used to retrieve the next items in a
   list and not for other programmatic purposes.
 """
+function describe_compute_environments end
 function describe_compute_environments(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -571,6 +580,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and not for other programmatic purposes.
 - `"status"`: The status used to filter job definitions.
 """
+function describe_job_definitions end
 function describe_job_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -615,6 +625,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   opaque identifier that's only used to retrieve the next items in a list and not for other
   programmatic purposes.
 """
+function describe_job_queues end
 function describe_job_queues(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -646,6 +657,7 @@ Describes a list of Batch jobs.
 - `jobs`: A list of up to 100 job IDs.
 
 """
+function describe_jobs end
 function describe_jobs(jobs; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -678,6 +690,7 @@ Describes one or more of your scheduling policies.
 - `arns`: A list of up to 100 scheduling policy Amazon Resource Name (ARN) entries.
 
 """
+function describe_scheduling_policies end
 function describe_scheduling_policies(
     arns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -712,6 +725,7 @@ Provides a list of the first 100 RUNNABLE jobs associated to a single job queue.
 - `job_queue`: The job queue’s name or full queue Amazon Resource Name (ARN).
 
 """
+function get_job_queue_snapshot end
 function get_job_queue_snapshot(
     jobQueue; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -802,6 +816,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier that's only used to retrieve the next items in a list and not for other
   programmatic purposes.
 """
+function list_jobs end
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST", "/v1/listjobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -842,6 +857,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token as an opaque identifier that's only used to retrieve the next items in a list
   and not for other programmatic purposes.
 """
+function list_scheduling_policies end
 function list_scheduling_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -878,6 +894,7 @@ jobs of array and multi-node parallel (MNP) jobs aren't supported.
   multi-node parallel (MNP) jobs aren't supported.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -966,6 +983,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the timeout configuration defined here. For more information, see Job Timeouts in the Batch
   User Guide.
 """
+function register_job_definition end
 function register_job_definition(
     jobDefinitionName, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1083,6 +1101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   job. For more information, see Job Timeouts in the Amazon Elastic Container Service
   Developer Guide.
 """
+function submit_job end
 function submit_job(
     jobDefinition, jobName, jobQueue; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1144,6 +1163,7 @@ jobs aren't supported.
   Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -1184,6 +1204,7 @@ STARTING state are cancelled.
   recorded in the Batch activity logs.
 
 """
+function terminate_job end
 function terminate_job(jobId, reason; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -1227,6 +1248,7 @@ Deletes specified tags from an Batch resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1307,6 +1329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment. For more information about infrastructure updates, see Updating compute
   environments in the Batch User Guide.
 """
+function update_compute_environment end
 function update_compute_environment(
     computeEnvironment; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1373,6 +1396,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to
   the queue, but jobs already in the queue can finish.
 """
+function update_job_queue end
 function update_job_queue(jobQueue; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",
@@ -1412,6 +1436,7 @@ Updates a scheduling policy.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"fairsharePolicy"`: The fair share policy.
 """
+function update_scheduling_policy end
 function update_scheduling_policy(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
         "POST",

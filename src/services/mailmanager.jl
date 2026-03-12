@@ -23,6 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_addon_instance end
 function create_addon_instance(
     AddonSubscriptionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -77,6 +78,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_addon_subscription end
 function create_addon_subscription(
     AddonName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -127,6 +129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_archive end
 function create_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "CreateArchive",
@@ -180,6 +183,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_ingress_point end
 function create_ingress_point(
     IngressPointName,
     RuleSetId,
@@ -250,6 +254,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_relay end
 function create_relay(
     Authentication,
     RelayName,
@@ -316,6 +321,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_rule_set end
 function create_rule_set(
     RuleSetName, Rules; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -375,6 +381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_traffic_policy end
 function create_traffic_policy(
     DefaultAction,
     PolicyStatements,
@@ -430,6 +437,7 @@ Deletes an Add On instance.
 - `addon_instance_id`: The Add On instance ID to delete.
 
 """
+function delete_addon_instance end
 function delete_addon_instance(
     AddonInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -468,6 +476,7 @@ Deletes an Add On subscription.
 - `addon_subscription_id`: The Add On subscription ID to delete.
 
 """
+function delete_addon_subscription end
 function delete_addon_subscription(
     AddonSubscriptionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -512,6 +521,7 @@ period.
 - `archive_id`: The identifier of the archive to delete.
 
 """
+function delete_archive end
 function delete_archive(ArchiveId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "DeleteArchive",
@@ -547,6 +557,7 @@ Delete an ingress endpoint resource.
   delete.
 
 """
+function delete_ingress_point end
 function delete_ingress_point(
     IngressPointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -583,6 +594,7 @@ Deletes an existing relay resource.
 - `relay_id`: The unique relay identifier.
 
 """
+function delete_relay end
 function delete_relay(RelayId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "DeleteRelay",
@@ -615,6 +627,7 @@ Delete a rule set.
 - `rule_set_id`: The identifier of an existing rule set resource to delete.
 
 """
+function delete_rule_set end
 function delete_rule_set(RuleSetId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "DeleteRuleSet",
@@ -649,6 +662,7 @@ Delete a traffic policy resource.
 - `traffic_policy_id`: The identifier of the traffic policy that you want to delete.
 
 """
+function delete_traffic_policy end
 function delete_traffic_policy(
     TrafficPolicyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -687,6 +701,7 @@ Gets detailed information about an Add On instance.
 - `addon_instance_id`: The Add On instance ID to retrieve information for.
 
 """
+function get_addon_instance end
 function get_addon_instance(
     AddonInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -725,6 +740,7 @@ Gets detailed information about an Add On subscription.
 - `addon_subscription_id`: The Add On subscription ID to retrieve information for.
 
 """
+function get_addon_subscription end
 function get_addon_subscription(
     AddonSubscriptionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -765,6 +781,7 @@ Retrieves the full details and current state of a specified email archive.
 - `archive_id`: The identifier of the archive to retrieve.
 
 """
+function get_archive end
 function get_archive(ArchiveId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "GetArchive",
@@ -799,6 +816,7 @@ Retrieves the details and current status of a specific email archive export job.
 - `export_id`: The identifier of the export job to get details for.
 
 """
+function get_archive_export end
 function get_archive_export(ExportId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "GetArchiveExport",
@@ -834,6 +852,7 @@ message stored in the archive.
 - `archived_message_id`: The unique identifier of the archived email message.
 
 """
+function get_archive_message end
 function get_archive_message(
     ArchivedMessageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -873,6 +892,7 @@ are not included.
 - `archived_message_id`: The unique identifier of the archived email message.
 
 """
+function get_archive_message_content end
 function get_archive_message_content(
     ArchivedMessageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -911,6 +931,7 @@ Retrieves the details and current status of a specific email archive search job.
 - `search_id`: The identifier of the search job to get details for.
 
 """
+function get_archive_search end
 function get_archive_search(SearchId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "GetArchiveSearch",
@@ -945,6 +966,7 @@ Returns the results of a completed email archive search job.
 - `search_id`: The identifier of the completed search job.
 
 """
+function get_archive_search_results end
 function get_archive_search_results(
     SearchId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -981,6 +1003,7 @@ Fetch ingress endpoint resource attributes.
 - `ingress_point_id`: The identifier of an ingress endpoint.
 
 """
+function get_ingress_point end
 function get_ingress_point(
     IngressPointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1017,6 +1040,7 @@ Fetch the relay resource and it's attributes.
 - `relay_id`: A unique relay identifier.
 
 """
+function get_relay end
 function get_relay(RelayId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "GetRelay",
@@ -1049,6 +1073,7 @@ Fetch attributes of a rule set.
 - `rule_set_id`: The identifier of an existing rule set to be retrieved.
 
 """
+function get_rule_set end
 function get_rule_set(RuleSetId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "GetRuleSet",
@@ -1083,6 +1108,7 @@ Fetch attributes of a traffic policy resource.
 - `traffic_policy_id`: The identifier of the traffic policy resource.
 
 """
+function get_traffic_policy end
 function get_traffic_policy(
     TrafficPolicyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1124,6 +1150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
   call. You can use NextToken to obtain further ingress endpoints.
 """
+function list_addon_instances end
 function list_addon_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "ListAddonInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1151,6 +1178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
   call. You can use NextToken to obtain further ingress endpoints.
 """
+function list_addon_subscriptions end
 function list_addon_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "ListAddonSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1185,6 +1213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of archive export jobs that are returned per call. You
   can use NextToken to obtain further pages of archives.
 """
+function list_archive_exports end
 function list_archive_exports(ArchiveId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "ListArchiveExports",
@@ -1226,6 +1255,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of archive search jobs that are returned per call. You
   can use NextToken to obtain further pages of archives.
 """
+function list_archive_searches end
 function list_archive_searches(
     ArchiveId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1266,6 +1296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of archives that are returned per call. You can use
   NextToken to obtain further pages of archives.
 """
+function list_archives end
 function list_archives(; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1293,6 +1324,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
   call. You can use NextToken to obtain further ingress endpoints.
 """
+function list_ingress_points end
 function list_ingress_points(; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "ListIngressPoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1319,6 +1351,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can provide it here to continue paginating through the next page of results.
 - `"PageSize"`: The number of relays to be returned in one request.
 """
+function list_relays end
 function list_relays(; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager("ListRelays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1344,6 +1377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of rule set resources that are returned per call. You
   can use NextToken to obtain further rule sets.
 """
+function list_rule_sets end
 function list_rule_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "ListRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1368,6 +1402,7 @@ end
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to retrieve tags from.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1407,6 +1442,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of traffic policy resources that are returned per call.
   You can use NextToken to obtain further traffic policies.
 """
+function list_traffic_policies end
 function list_traffic_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "ListTrafficPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1441,6 +1477,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Criteria to filter which emails are included in the export.
 - `"MaxResults"`: The maximum number of email items to include in the export.
 """
+function start_archive_export end
 function start_archive_export(
     ArchiveId,
     ExportDestinationConfiguration,
@@ -1504,6 +1541,7 @@ Initiates a search across emails in the specified archive.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Criteria to filter which emails are included in the search results.
 """
+function start_archive_search end
 function start_archive_search(
     ArchiveId,
     FromTimestamp,
@@ -1561,6 +1599,7 @@ Stops an in-progress export of emails from an archive.
 - `export_id`: The identifier of the export job to stop.
 
 """
+function stop_archive_export end
 function stop_archive_export(ExportId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "StopArchiveExport",
@@ -1595,6 +1634,7 @@ Stops an in-progress archive search job.
 - `search_id`: The identifier of the search job to stop.
 
 """
+function stop_archive_search end
 function stop_archive_search(SearchId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "StopArchiveSearch",
@@ -1631,6 +1671,7 @@ end
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "TagResource",
@@ -1672,6 +1713,7 @@ end
   the specified resource.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1717,6 +1759,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ArchiveName"`: A new, unique name for the archive.
 - `"Retention"`: A new retention period for emails in the archive.
 """
+function update_archive end
 function update_archive(ArchiveId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "UpdateArchive",
@@ -1761,6 +1804,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrafficPolicyId"`: The identifier of an existing traffic policy that you attach to an
   ingress endpoint resource.
 """
+function update_ingress_point end
 function update_ingress_point(
     IngressPointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1804,6 +1848,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServerName"`: The destination relay server address.
 - `"ServerPort"`: The destination relay server port.
 """
+function update_relay end
 function update_relay(RelayId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "UpdateRelay",
@@ -1841,6 +1886,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Rules"`: A new set of rules to replace the current rules of the rule set—these rules
   will override all the rules of the rule set.
 """
+function update_rule_set end
 function update_rule_set(RuleSetId; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager(
         "UpdateRuleSet",
@@ -1884,6 +1930,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyStatements"`: The list of conditions to be updated for filtering email traffic.
 - `"TrafficPolicyName"`: A user-friendly name for the traffic policy resource.
 """
+function update_traffic_policy end
 function update_traffic_policy(
     TrafficPolicyId; aws_config::AbstractAWSConfig=current_aws_config()
 )

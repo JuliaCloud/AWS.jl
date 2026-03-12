@@ -22,6 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SINGLE_MASTER channel type.
 - `"Tags"`: A set of tags (key-value pairs) that you want to associate with this channel.
 """
+function create_signaling_channel end
 function create_signaling_channel(
     ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -86,6 +87,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to associate with the specified stream. Each tag is a key-value
   pair (the value is optional).
 """
+function create_stream end
 function create_stream(StreamName; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
@@ -131,6 +133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to delete the edge configuration.
   Specify either the StreamName or the StreamARN.
 """
+function delete_edge_configuration end
 function delete_edge_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
@@ -169,6 +172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can obtain the current version by invoking the DescribeSignalingChannel or
   ListSignalingChannels API operations.
 """
+function delete_signaling_channel end
 function delete_signaling_channel(
     ChannelARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -219,6 +223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stream version, use the DescribeStream API. If not specified, only the CreationTime is
   checked before deleting the stream.
 """
+function delete_stream end
 function delete_stream(StreamARN; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
@@ -262,6 +267,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream whose edge configuration you want to update.
   Specify either the StreamName or the StreamARN.
 """
+function describe_edge_configuration end
 function describe_edge_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
@@ -297,6 +303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to retrieve the image generation
   configuration. You must specify either the StreamName or the StreamARN.
 """
+function describe_image_generation_configuration end
 function describe_image_generation_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -334,6 +341,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream.
 - `"StreamName"`: The name of the stream.
 """
+function describe_mapped_resource_configuration end
 function describe_mapped_resource_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -369,6 +377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ChannelARN"`: The Amazon Resource Name (ARN) of the channel.
 - `"ChannelName"`: The name of the channel.
 """
+function describe_media_storage_configuration end
 function describe_media_storage_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -406,6 +415,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to retrieve the notification
   configuration. You must specify either the StreamName or the StreamARN.
 """
+function describe_notification_configuration end
 function describe_notification_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -441,6 +451,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ChannelARN"`: The ARN of the signaling channel that you want to describe.
 - `"ChannelName"`: The name of the signaling channel that you want to describe.
 """
+function describe_signaling_channel end
 function describe_signaling_channel(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
@@ -474,6 +485,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream.
 - `"StreamName"`: The name of the stream.
 """
+function describe_stream end
 function describe_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST", "/describeStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -513,6 +525,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream that you want to get the endpoint for. You must
   specify either this parameter or a StreamARN in the request.
 """
+function get_data_endpoint end
 function get_data_endpoint(APIName; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
@@ -560,6 +573,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SingleMasterChannelEndpointConfiguration"`: A structure containing the endpoint
   configuration for the SINGLE_MASTER channel type.
 """
+function get_signaling_channel_endpoint end
 function get_signaling_channel_endpoint(
     ChannelARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -607,6 +621,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To get another batch of edge configurations, provide this token in your next
   request.
 """
+function list_edge_agent_configurations end
 function list_edge_agent_configurations(
     HubDeviceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation is truncated, the call returns the NextToken in the response. To get another
   batch of channels, provide this token in your next request.
 """
+function list_signaling_channels end
 function list_signaling_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
@@ -691,6 +707,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamNameCondition"`: Optional: Returns only streams that satisfy a specific
   condition. Currently, you can specify only the prefix of a stream name as a condition.
 """
+function list_streams end
 function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST", "/listStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -725,6 +742,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is truncated, the response includes a token that you can use in the next request to fetch
   the next batch of tags.
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -769,6 +787,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for.
 - `"StreamName"`: The name of the stream that you want to list tags for.
 """
+function list_tags_for_stream end
 function list_tags_for_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST", "/listTagsForStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -816,6 +835,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream whose edge configuration you want to update.
   Specify either the StreamName or the StreamARN.
 """
+function start_edge_configuration_update end
 function start_edge_configuration_update(
     EdgeConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -861,6 +881,7 @@ Management and Cost Management User Guide.
   key-value pair.
 
 """
+function tag_resource end
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
@@ -914,6 +935,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag or tags to.
 - `"StreamName"`: The name of the stream that you want to add the tag or tags to.
 """
+function tag_stream end
 function tag_stream(Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
@@ -950,6 +972,7 @@ ignored.
 - `tag_key_list`: A list of the keys of the tags that you want to remove.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceARN, TagKeyList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1000,6 +1023,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from.
 - `"StreamName"`: The name of the stream that you want to remove tags from.
 """
+function untag_stream end
 function untag_stream(TagKeyList; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",
@@ -1058,6 +1082,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   want to change.
 - `"StreamName"`: The name of the stream whose retention period you want to change.
 """
+function update_data_retention end
 function update_data_retention(
     CurrentVersion,
     DataRetentionChangeInHours,
@@ -1120,6 +1145,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to update the image generation
   configuration. You must specify either the StreamName or the StreamARN.
 """
+function update_image_generation_configuration end
 function update_image_generation_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1162,6 +1188,7 @@ establish a connection between a peer and the storage session.
   storage configuration properties.
 
 """
+function update_media_storage_configuration end
 function update_media_storage_configuration(
     ChannelARN,
     MediaStorageConfiguration;
@@ -1219,6 +1246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to update the notification
   configuration. You must specify either the StreamName or the StreamARN.
 """
+function update_notification_configuration end
 function update_notification_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1261,6 +1289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SingleMasterConfiguration"`: The structure containing the configuration for the
   SINGLE_MASTER type of the signaling channel that you want to update.
 """
+function update_signaling_channel end
 function update_signaling_channel(
     ChannelARN, CurrentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1323,6 +1352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream whose metadata you want to update. The stream name
   is an identifier for the stream, and must be unique for each account and region.
 """
+function update_stream end
 function update_stream(CurrentVersion; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
         "POST",

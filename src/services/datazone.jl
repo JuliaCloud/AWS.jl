@@ -24,6 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request. This field is automatically populated if not provided.
 - `"revision"`: The revision that is to be made to the asset.
 """
+function accept_predictions end
 function accept_predictions(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -70,6 +71,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"decisionComment"`: A description that specifies the reason for accepting the specified
   subscription request.
 """
+function accept_subscription_request end
 function accept_subscription_request(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -113,6 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
+function add_entity_owner end
 function add_entity_owner(
     domainIdentifier,
     entityIdentifier,
@@ -173,6 +176,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
+function add_policy_grant end
 function add_policy_grant(
     detail,
     domainIdentifier,
@@ -239,6 +243,7 @@ Associates the environment role in Amazon DataZone.
 - `environment_role_arn`: The ARN of the environment role.
 
 """
+function associate_environment_role end
 function associate_environment_role(
     domainIdentifier,
     environmentIdentifier,
@@ -281,6 +286,7 @@ Cancels the metadata generation run.
 - `identifier`: The ID of the metadata generation run.
 
 """
+function cancel_metadata_generation_run end
 function cancel_metadata_generation_run(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -319,6 +325,7 @@ Cancels the subscription to the specified asset.
 - `identifier`: The unique identifier of the subscription that is being cancelled.
 
 """
+function cancel_subscription end
 function cancel_subscription(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -369,6 +376,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   business-friendly metadata for the asset.
 - `"typeRevision"`: The revision of this asset's type.
 """
+function create_asset end
 function create_asset(
     domainIdentifier,
     name,
@@ -436,6 +444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"description"`: The description of the asset filter.
 """
+function create_asset_filter end
 function create_asset_filter(
     assetIdentifier,
     configuration,
@@ -506,6 +515,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   business-friendly metadata for the asset.
 - `"typeRevision"`: The revision type of the asset.
 """
+function create_asset_revision end
 function create_asset_revision(
     domainIdentifier, identifier, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -558,6 +568,7 @@ Creates a custom asset type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The descripton of the custom asset type.
 """
+function create_asset_type end
 function create_asset_type(
     domainIdentifier,
     formsInput,
@@ -625,6 +636,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"glossaryTerms"`: The glossary terms of the data product.
 - `"items"`: The data assets of the data product.
 """
+function create_data_product end
 function create_data_product(
     domainIdentifier,
     name,
@@ -690,6 +702,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"glossaryTerms"`: The glossary terms of the data product revision.
 - `"items"`: The data assets of the data product revision.
 """
+function create_data_product_revision end
 function create_data_product_revision(
     domainIdentifier, identifier, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -756,6 +769,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this data source.
 - `"schedule"`: The schedule of the data source runs.
 """
+function create_data_source end
 function create_data_source(
     domainIdentifier,
     environmentIdentifier,
@@ -831,6 +845,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"singleSignOn"`: The single-sign on configuration of the Amazon DataZone domain.
 - `"tags"`: The tags specified for the Amazon DataZone domain.
 """
+function create_domain end
 function create_domain(
     domainExecutionRole, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -889,6 +904,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"description"`: The description of the domain unit.
 """
+function create_domain_unit end
 function create_domain_unit(
     domainIdentifier,
     name,
@@ -962,6 +978,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment.
 - `"userParameters"`: The user parameters of this Amazon DataZone environment.
 """
+function create_environment end
 function create_environment(
     domainIdentifier,
     environmentProfileIdentifier,
@@ -1029,6 +1046,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the environment action that is being created in the
   environment.
 """
+function create_environment_action end
 function create_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -1090,6 +1108,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of this Amazon DataZone environment profile.
 - `"userParameters"`: The user parameters of this Amazon DataZone environment profile.
 """
+function create_environment_profile end
 function create_environment_profile(
     domainIdentifier,
     environmentBlueprintIdentifier,
@@ -1156,6 +1175,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of this Amazon DataZone metadata form type.
 - `"status"`: The status of this Amazon DataZone metadata form type.
 """
+function create_form_type end
 function create_form_type(
     domainIdentifier,
     model,
@@ -1222,6 +1242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of this business glossary.
 - `"status"`: The status of this business glossary.
 """
+function create_glossary end
 function create_glossary(
     domainIdentifier,
     name,
@@ -1288,6 +1309,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of this business glossary term.
 - `"termRelations"`: The term relations of this business glossary term.
 """
+function create_glossary_term end
 function create_glossary_term(
     domainIdentifier,
     glossaryIdentifier,
@@ -1349,6 +1371,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`:  A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
+function create_group_profile end
 function create_group_profile(
     domainIdentifier, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1405,6 +1428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"entityRevision"`: The revision of an asset.
 """
+function create_listing_change_set end
 function create_listing_change_set(
     action,
     domainIdentifier,
@@ -1472,6 +1496,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not specified, then the project is created at the root domain unit level.
 - `"glossaryTerms"`: The glossary terms that can be used in this Amazon DataZone project.
 """
+function create_project end
 function create_project(
     domainIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1513,6 +1538,7 @@ Creates a project membership in Amazon DataZone.
 - `project_identifier`: The ID of the project for which this project membership was created.
 
 """
+function create_project_membership end
 function create_project_membership(
     designation,
     domainIdentifier,
@@ -1573,6 +1599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
+function create_subscription_grant end
 function create_subscription_grant(
     domainIdentifier,
     environmentIdentifier,
@@ -1642,6 +1669,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
+function create_subscription_request end
 function create_subscription_request(
     domainIdentifier,
     requestReason,
@@ -1716,6 +1744,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"provider"`: The provider of the subscription target.
 """
+function create_subscription_target end
 function create_subscription_target(
     applicableAssetTypes,
     authorizedPrincipals,
@@ -1796,6 +1825,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"userType"`: The user type of the user for which the user profile is created.
 """
+function create_user_profile end
 function create_user_profile(
     domainIdentifier, userIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1844,6 +1874,7 @@ Deletes an asset in Amazon DataZone.
 - `identifier`: The identifier of the asset that is deleted.
 
 """
+function delete_asset end
 function delete_asset(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1882,6 +1913,7 @@ Deletes an asset filter.
 - `identifier`: The ID of the asset filter that you want to delete.
 
 """
+function delete_asset_filter end
 function delete_asset_filter(
     assetIdentifier,
     domainIdentifier,
@@ -1924,6 +1956,7 @@ Deletes an asset type in Amazon DataZone.
 - `identifier`: The identifier of the asset type that is deleted.
 
 """
+function delete_asset_type end
 function delete_asset_type(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1962,6 +1995,7 @@ Deletes a data product in Amazon DataZone.
 - `identifier`: The identifier of the data product that is deleted.
 
 """
+function delete_data_product end
 function delete_data_product(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2006,6 +2040,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retainPermissionsOnRevokeFailure"`: Specifies that the granted permissions are retained
   in case of a self-subscribe functionality failure for a data source.
 """
+function delete_data_source end
 function delete_data_source(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2051,6 +2086,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"skipDeletionCheck"`: Specifies the optional flag to delete all child entities within
   the domain.
 """
+function delete_domain end
 function delete_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "DELETE",
@@ -2088,6 +2124,7 @@ Deletes a domain unit.
 - `identifier`: The ID of the domain unit that you want to delete.
 
 """
+function delete_domain_unit end
 function delete_domain_unit(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2126,6 +2163,7 @@ Deletes an environment in Amazon DataZone.
 - `identifier`: The identifier of the environment that is to be deleted.
 
 """
+function delete_environment end
 function delete_environment(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2167,6 +2205,7 @@ tool that is available in this environment.
 - `identifier`: The ID of the environment action that is deleted.
 
 """
+function delete_environment_action end
 function delete_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -2210,6 +2249,7 @@ Deletes the blueprint configuration in Amazon DataZone.
   deleted.
 
 """
+function delete_environment_blueprint_configuration end
 function delete_environment_blueprint_configuration(
     domainIdentifier,
     environmentBlueprintIdentifier;
@@ -2250,6 +2290,7 @@ Deletes an environment profile in Amazon DataZone.
 - `identifier`: The ID of the environment profile that is deleted.
 
 """
+function delete_environment_profile end
 function delete_environment_profile(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2288,6 +2329,7 @@ Delets and metadata form type in Amazon DataZone.
 - `form_type_identifier`: The ID of the metadata form type that is deleted.
 
 """
+function delete_form_type end
 function delete_form_type(
     domainIdentifier, formTypeIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2326,6 +2368,7 @@ Deletes a business glossary in Amazon DataZone.
 - `identifier`: The ID of the business glossary that is deleted.
 
 """
+function delete_glossary end
 function delete_glossary(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2364,6 +2407,7 @@ Deletes a business glossary term in Amazon DataZone.
 - `identifier`: The ID of the business glossary term that is deleted.
 
 """
+function delete_glossary_term end
 function delete_glossary_term(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2401,6 +2445,7 @@ Deletes a listing (a record of an asset at a given time).
 - `identifier`: The ID of the listing to be deleted.
 
 """
+function delete_listing end
 function delete_listing(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2442,6 +2487,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"skipDeletionCheck"`: Specifies the optional flag to delete all child entities within
   the project.
 """
+function delete_project end
 function delete_project(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2482,6 +2528,7 @@ Deletes project membership in Amazon DataZone.
   deleted.
 
 """
+function delete_project_membership end
 function delete_project_membership(
     domainIdentifier,
     member,
@@ -2525,6 +2572,7 @@ Deletes and subscription grant in Amazon DataZone.
 - `identifier`: The ID of the subscription grant that is deleted.
 
 """
+function delete_subscription_grant end
 function delete_subscription_grant(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2563,6 +2611,7 @@ Deletes a subscription request in Amazon DataZone.
 - `identifier`: The ID of the subscription request that is deleted.
 
 """
+function delete_subscription_request end
 function delete_subscription_request(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2603,6 +2652,7 @@ Deletes a subscription target in Amazon DataZone.
 - `identifier`: The ID of the subscription target that is deleted.
 
 """
+function delete_subscription_target end
 function delete_subscription_target(
     domainIdentifier,
     environmentIdentifier,
@@ -2651,6 +2701,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the
   request. This field is automatically populated if not provided.
 """
+function delete_time_series_data_points end
 function delete_time_series_data_points(
     domainIdentifier,
     entityIdentifier,
@@ -2703,6 +2754,7 @@ Disassociates the environment role in Amazon DataZone.
 - `environment_role_arn`: The ARN of the environment role.
 
 """
+function disassociate_environment_role end
 function disassociate_environment_role(
     domainIdentifier,
     environmentIdentifier,
@@ -2747,6 +2799,7 @@ Gets an Amazon DataZone asset.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"revision"`: The revision of the Amazon DataZone asset.
 """
+function get_asset end
 function get_asset(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2785,6 +2838,7 @@ Gets an asset filter.
 - `identifier`: The ID of the asset filter.
 
 """
+function get_asset_filter end
 function get_asset_filter(
     assetIdentifier,
     domainIdentifier,
@@ -2829,6 +2883,7 @@ Gets an Amazon DataZone asset type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"revision"`: The revision of the asset type.
 """
+function get_asset_type end
 function get_asset_type(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2869,6 +2924,7 @@ Gets the data product.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"revision"`: The revision of the data product.
 """
+function get_data_product end
 function get_data_product(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2906,6 +2962,7 @@ Gets an Amazon DataZone data source.
 - `identifier`: The ID of the Amazon DataZone data source.
 
 """
+function get_data_source end
 function get_data_source(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2943,6 +3000,7 @@ Gets an Amazon DataZone data source run.
 - `identifier`: The ID of the data source run.
 
 """
+function get_data_source_run end
 function get_data_source_run(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2979,6 +3037,7 @@ Gets an Amazon DataZone domain.
 - `identifier`: The identifier of the specified Amazon DataZone domain.
 
 """
+function get_domain end
 function get_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "GET",
@@ -3013,6 +3072,7 @@ Gets the details of the specified domain unit.
 - `identifier`: The identifier of the domain unit that you want to get.
 
 """
+function get_domain_unit end
 function get_domain_unit(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3050,6 +3110,7 @@ Gets an Amazon DataZone environment.
 - `identifier`: The ID of the Amazon DataZone environment.
 
 """
+function get_environment end
 function get_environment(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3089,6 +3150,7 @@ Gets the specified environment action.
 - `identifier`: The ID of the environment action
 
 """
+function get_environment_action end
 function get_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -3130,6 +3192,7 @@ Gets an Amazon DataZone blueprint.
 - `identifier`: The ID of this Amazon DataZone blueprint.
 
 """
+function get_environment_blueprint end
 function get_environment_blueprint(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3167,6 +3230,7 @@ Gets the blueprint configuration in Amazon DataZone.
 - `environment_blueprint_identifier`: He ID of the blueprint.
 
 """
+function get_environment_blueprint_configuration end
 function get_environment_blueprint_configuration(
     domainIdentifier,
     environmentBlueprintIdentifier;
@@ -3207,6 +3271,7 @@ Gets the credentials of an environment in Amazon DataZone.
 - `environment_identifier`: The ID of the environment whose credentials this operation gets.
 
 """
+function get_environment_credentials end
 function get_environment_credentials(
     domainIdentifier,
     environmentIdentifier;
@@ -3247,6 +3312,7 @@ Gets an evinronment profile in Amazon DataZone.
 - `identifier`: The ID of the environment profile.
 
 """
+function get_environment_profile end
 function get_environment_profile(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3288,6 +3354,7 @@ Gets a metadata form type in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"revision"`: The revision of this metadata form type.
 """
+function get_form_type end
 function get_form_type(
     domainIdentifier, formTypeIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3326,6 +3393,7 @@ Gets a business glossary in Amazon DataZone.
 - `identifier`: The ID of the business glossary.
 
 """
+function get_glossary end
 function get_glossary(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3364,6 +3432,7 @@ Gets a business glossary term in Amazon DataZone.
 - `identifier`: The ID of the business glossary term.
 
 """
+function get_glossary_term end
 function get_glossary_term(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3402,6 +3471,7 @@ Gets a group profile in Amazon DataZone.
 - `group_identifier`: The identifier of the group profile.
 
 """
+function get_group_profile end
 function get_group_profile(
     domainIdentifier, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3439,6 +3509,7 @@ Gets the data portal URL for the specified Amazon DataZone domain.
   want to get.
 
 """
+function get_iam_portal_login_url end
 function get_iam_portal_login_url(
     domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3481,6 +3552,7 @@ Gets the data lineage node.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"timestamp"`: The event time stamp for which you want to get the data lineage node.
 """
+function get_lineage_node end
 function get_lineage_node(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3522,6 +3594,7 @@ only details that are specific to that version are returned.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"listingRevision"`: The revision of the listing.
 """
+function get_listing end
 function get_listing(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3560,6 +3633,7 @@ Gets a metadata generation run in Amazon DataZone.
 - `identifier`: The identifier of the metadata generation run.
 
 """
+function get_metadata_generation_run end
 function get_metadata_generation_run(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3597,6 +3671,7 @@ Gets a project in Amazon DataZone.
 - `identifier`: The ID of the project.
 
 """
+function get_project end
 function get_project(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3635,6 +3710,7 @@ Gets a subscription in Amazon DataZone.
 - `identifier`: The ID of the subscription.
 
 """
+function get_subscription end
 function get_subscription(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3673,6 +3749,7 @@ Gets the subscription grant in Amazon DataZone.
 - `identifier`: The ID of the subscription grant.
 
 """
+function get_subscription_grant end
 function get_subscription_grant(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3711,6 +3788,7 @@ Gets the details of the specified subscription request.
 - `identifier`: The identifier of the subscription request the details of which to get.
 
 """
+function get_subscription_request_details end
 function get_subscription_request_details(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3751,6 +3829,7 @@ Gets the subscription target in Amazon DataZone.
 - `identifier`: The ID of the subscription target.
 
 """
+function get_subscription_target end
 function get_subscription_target(
     domainIdentifier,
     environmentIdentifier,
@@ -3797,6 +3876,7 @@ Gets the existing data point for the asset.
 - `identifier`: The ID of the data point that you want to get.
 
 """
+function get_time_series_data_point end
 function get_time_series_data_point(
     domainIdentifier,
     entityIdentifier,
@@ -3849,6 +3929,7 @@ Gets a user profile in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"type"`: The type of the user profile.
 """
+function get_user_profile end
 function get_user_profile(
     domainIdentifier, userIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3898,6 +3979,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of asset filters.
 - `"status"`: The status of the asset filter.
 """
+function list_asset_filters end
 function list_asset_filters(
     assetIdentifier, domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3946,6 +4028,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify this NextToken value in a subsequent call to ListAssetRevisions to list the next
   set of revisions.
 """
+function list_asset_revisions end
 function list_asset_revisions(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3995,6 +4078,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token named NextToken. You can specify this NextToken value in a subsequent call to
   ListDataProductRevisions to list the next set of data product revisions.
 """
+function list_data_product_revisions end
 function list_data_product_revisions(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4045,6 +4129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of activities.
 - `"status"`: The status of the data source run.
 """
+function list_data_source_run_activities end
 function list_data_source_run_activities(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4095,6 +4180,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of runs.
 - `"status"`: The status of the data source.
 """
+function list_data_source_runs end
 function list_data_source_runs(
     dataSourceIdentifier,
     domainIdentifier;
@@ -4151,6 +4237,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the data source.
 - `"type"`: The type of the data source.
 """
+function list_data_sources end
 function list_data_sources(
     domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4205,6 +4292,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can specify this NextToken value in a subsequent call to ListDomainUnitsForParent to list
   the next set of domain units.
 """
+function list_domain_units_for_parent end
 function list_domain_units_for_parent(
     domainIdentifier,
     parentDomainUnitIdentifier;
@@ -4261,6 +4349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domains.
 - `"status"`: The status of the data source.
 """
+function list_domains end
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "GET", "/v2/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4298,6 +4387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify this NextToken value in a subsequent call to ListEntityOwners to list the next set
   of entities.
 """
+function list_entity_owners end
 function list_entity_owners(
     domainIdentifier,
     entityIdentifier,
@@ -4351,6 +4441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken. You can specify this NextToken value in a subsequent call to
   ListEnvironmentActions to list the next set of environment actions.
 """
+function list_environment_actions end
 function list_environment_actions(
     domainIdentifier,
     environmentIdentifier;
@@ -4401,6 +4492,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   named NextToken. You can specify this NextToken value in a subsequent call to
   ListEnvironmentBlueprintConfigurations to list the next set of configurations.
 """
+function list_environment_blueprint_configurations end
 function list_environment_blueprint_configurations(
     domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4449,6 +4541,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes a pagination token named NextToken. You can specify this NextToken value in a
   subsequent call to ListEnvironmentBlueprintsto list the next set of blueprints.
 """
+function list_environment_blueprints end
 function list_environment_blueprints(
     domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4503,6 +4596,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListEnvironmentProfiles to list the next set of environment profiles.
 - `"projectIdentifier"`: The identifier of the Amazon DataZone project.
 """
+function list_environment_profiles end
 function list_environment_profiles(
     domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4558,6 +4652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"provider"`: The provider of the environment.
 - `"status"`: The status of the environments that you want to list.
 """
+function list_environments end
 function list_environments(
     domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4620,6 +4715,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"timestampLTE"`: Specifies whether the action is to return data lineage node history
   from the time prior of the event timestamp.
 """
+function list_lineage_node_history end
 function list_lineage_node_history(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4670,6 +4766,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the metadata generation runs.
 - `"type"`: The type of the metadata generation runs.
 """
+function list_metadata_generation_runs end
 function list_metadata_generation_runs(
     domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4721,6 +4818,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subjects"`: The subjects of notifications.
 - `"taskStatus"`: The task status of notifications.
 """
+function list_notifications end
 function list_notifications(
     domainIdentifier, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4772,6 +4870,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify this NextToken value in a subsequent call to ListPolicyGrants to list the next set
   of grants.
 """
+function list_policy_grants end
 function list_policy_grants(
     domainIdentifier,
     entityIdentifier,
@@ -4832,6 +4931,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: The method by which you want to sort the project memberships.
 - `"sortOrder"`: The sort order of the project memberships.
 """
+function list_project_memberships end
 function list_project_memberships(
     domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4882,6 +4982,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   projects.
 - `"userIdentifier"`: The identifier of the Amazon DataZone user.
 """
+function list_projects end
 function list_projects(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "GET",
@@ -4933,6 +5034,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subscriptionId"`: The identifier of the subscription.
 - `"subscriptionTargetId"`: The identifier of the subscription target.
 """
+function list_subscription_grants end
 function list_subscription_grants(
     domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4987,6 +5089,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subscription requests.
 - `"subscribedListingId"`: The identifier of the subscribed listing.
 """
+function list_subscription_requests end
 function list_subscription_requests(
     domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5038,6 +5141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Specifies the way in which the results of this action are to be sorted.
 - `"sortOrder"`: Specifies the sort order for the results of this action.
 """
+function list_subscription_targets end
 function list_subscription_targets(
     domainIdentifier,
     environmentIdentifier;
@@ -5098,6 +5202,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subscriptionRequestIdentifier"`: The identifier of the subscription request for the
   subscriptions that you want to list.
 """
+function list_subscriptions end
 function list_subscriptions(
     domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5133,6 +5238,7 @@ Lists tags for the specified resource in Amazon DataZone.
 - `resource_arn`: The ARN of the resource whose tags you want to list.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5185,6 +5291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of data points.
 - `"startedAt"`: The timestamp at which the data points that you want to list started.
 """
+function list_time_series_data_points end
 function list_time_series_data_points(
     domainIdentifier,
     entityIdentifier,
@@ -5236,6 +5343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
+function post_lineage_event end
 function post_lineage_event(
     domainIdentifier, event; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5288,6 +5396,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
+function post_time_series_data_points end
 function post_time_series_data_points(
     domainIdentifier,
     entityIdentifier,
@@ -5345,6 +5454,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"provisioningRoleArn"`: The ARN of the provisioning role.
 - `"regionalParameters"`: The regional parameters in the environment blueprint.
 """
+function put_environment_blueprint_configuration end
 function put_environment_blueprint_configuration(
     domainIdentifier,
     enabledRegions,
@@ -5398,6 +5508,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rejected.
 - `"revision"`: The revision that is to be made to the asset.
 """
+function reject_predictions end
 function reject_predictions(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5442,6 +5553,7 @@ Rejects the specified subscription request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"decisionComment"`: The decision comment of the rejected subscription request.
 """
+function reject_subscription_request end
 function reject_subscription_request(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5486,6 +5598,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
+function remove_entity_owner end
 function remove_entity_owner(
     domainIdentifier,
     entityIdentifier,
@@ -5543,6 +5656,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
+function remove_policy_grant end
 function remove_policy_grant(
     domainIdentifier,
     entityIdentifier,
@@ -5608,6 +5722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retainPermissions"`: Specifies whether permissions are retained when the subscription
   is revoked.
 """
+function revoke_subscription end
 function revoke_subscription(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5662,6 +5777,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"searchText"`: Specifies the text for which to search.
 - `"sort"`: Specifies the way in which the search results are to be sorted.
 """
+function search end
 function search(
     domainIdentifier, searchScope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5715,6 +5831,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of results.
 - `"searchText"`: Specifies the text for which to search.
 """
+function search_group_profiles end
 function search_group_profiles(
     domainIdentifier, groupType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5770,6 +5887,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"searchText"`: Specifies the text for which to search.
 - `"sort"`: Specifies the way for sorting the search results.
 """
+function search_listings end
 function search_listings(
     domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5823,6 +5941,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"searchText"`: Specifies the text for which to search.
 - `"sort"`: The specifies the way to sort the SearchTypes results.
 """
+function search_types end
 function search_types(
     domainIdentifier,
     managed,
@@ -5884,6 +6003,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of results.
 - `"searchText"`: Specifies the text for which to search.
 """
+function search_user_profiles end
 function search_user_profiles(
     domainIdentifier, userType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5929,6 +6049,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 """
+function start_data_source_run end
 function start_data_source_run(
     dataSourceIdentifier,
     domainIdentifier;
@@ -5979,6 +6100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the
   request. This field is automatically populated if not provided.
 """
+function start_metadata_generation_run end
 function start_metadata_generation_run(
     domainIdentifier,
     owningProjectIdentifier,
@@ -6039,6 +6161,7 @@ Tags a resource in Amazon DataZone.
 - `tags`: Specifies the tags for the TagResource action.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "POST",
@@ -6075,6 +6198,7 @@ Untags a resource in Amazon DataZone.
 - `tag_keys`: Specifies the tag keys for the UntagResource action.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6119,6 +6243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the asset filter.
 - `"name"`: The name of the asset filter.
 """
+function update_asset_filter end
 function update_asset_filter(
     assetIdentifier,
     domainIdentifier,
@@ -6175,6 +6300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in case of a self-subscribe functionality failure for a data source.
 - `"schedule"`: The schedule to be updated as part of the UpdateDataSource action.
 """
+function update_data_source end
 function update_data_source(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6221,6 +6347,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"singleSignOn"`: The single sign-on option to be updated as part of the UpdateDomain
   action.
 """
+function update_domain end
 function update_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "PUT",
@@ -6262,6 +6389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the domain unit that you want to update.
 - `"name"`: The name of the domain unit that you want to update.
 """
+function update_domain_unit end
 function update_domain_unit(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6306,6 +6434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action.
 - `"name"`: The name to be updated as part of the UpdateEnvironment action.
 """
+function update_environment end
 function update_environment(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6349,6 +6478,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the environment action.
 - `"parameters"`: The parameters of the environment action.
 """
+function update_environment_action end
 function update_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -6402,6 +6532,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userParameters"`: The user parameters to be updated as part of the
   UpdateEnvironmentProfile action.
 """
+function update_environment_profile end
 function update_environment_profile(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6447,6 +6578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name to be updated as part of the UpdateGlossary action.
 - `"status"`: The status to be updated as part of the UpdateGlossary action.
 """
+function update_glossary end
 function update_glossary(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6500,6 +6632,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"termRelations"`: The term relations to be updated as part of the UpdateGlossaryTerm
   action.
 """
+function update_glossary_term end
 function update_glossary_term(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6539,6 +6672,7 @@ Updates the specified group profile in Amazon DataZone.
 - `status`: The status of the group profile that is updated.
 
 """
+function update_group_profile end
 function update_group_profile(
     domainIdentifier,
     groupIdentifier,
@@ -6587,6 +6721,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"glossaryTerms"`: The glossary terms to be updated as part of the UpdateProject action.
 - `"name"`: The name to be updated as part of the UpdateProject action.
 """
+function update_project end
 function update_project(
     domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6635,6 +6770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetName"`: The target name to be updated as part of the
   UpdateSubscriptionGrantStatus action.
 """
+function update_subscription_grant_status end
 function update_subscription_grant_status(
     assetIdentifier,
     domainIdentifier,
@@ -6681,6 +6817,7 @@ Updates a specified subscription request in Amazon DataZone.
 - `request_reason`: The reason for the UpdateSubscriptionRequest action.
 
 """
+function update_subscription_request end
 function update_subscription_request(
     domainIdentifier,
     identifier,
@@ -6740,6 +6877,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subscriptionTargetConfig"`: The configuration to be updated as part of the
   UpdateSubscriptionTarget action.
 """
+function update_subscription_target end
 function update_subscription_target(
     domainIdentifier,
     environmentIdentifier,
@@ -6786,6 +6924,7 @@ Updates the specified user profile in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"type"`: The type of the user profile that are to be updated.
 """
+function update_user_profile end
 function update_user_profile(
     domainIdentifier,
     status,

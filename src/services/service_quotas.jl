@@ -14,6 +14,7 @@ template are automatically applied to the account. You can add a quota increase 
 any adjustable quota to your template.
 
 """
+function associate_service_quota_template end
 function associate_service_quota_template(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -50,6 +51,7 @@ Deletes the quota increase request for the specified quota from your quota reque
   Amazon Web Services service, use the ListServices operation.
 
 """
+function delete_service_quota_increase_request_from_template end
 function delete_service_quota_increase_request_from_template(
     AwsRegion, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -97,6 +99,7 @@ requests in the template are not applied to new Amazon Web Services accounts in 
 organization. Disabling a quota request template does not apply its quota increase requests.
 
 """
+function disassociate_service_quota_template end
 function disassociate_service_quota_template(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -125,6 +128,7 @@ end
 Retrieves the status of the association for the quota request template.
 
 """
+function get_association_for_service_quota_template end
 function get_association_for_service_quota_template(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -161,6 +165,7 @@ quota increases.
   Amazon Web Services service, use the ListServices operation.
 
 """
+function get_awsdefault_service_quota end
 function get_awsdefault_service_quota(
     QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -202,6 +207,7 @@ Retrieves information about the specified quota increase request.
 - `request_id`: Specifies the ID of the quota increase request.
 
 """
+function get_requested_service_quota_change end
 function get_requested_service_quota_change(
     RequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -249,6 +255,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applies. The value in this field depends on the context scope associated with the specified
   service quota.
 """
+function get_service_quota end
 function get_service_quota(
     QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -296,6 +303,7 @@ template.
   Amazon Web Services service, use the ListServices operation.
 
 """
+function get_service_quota_increase_request_from_template end
 function get_service_quota_increase_request_from_template(
     AwsRegion, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -360,6 +368,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
+function list_awsdefault_service_quotas end
 function list_awsdefault_service_quotas(
     ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -413,6 +422,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Specifies that you want to filter the results to only the requests with the
   matching status.
 """
+function list_requested_service_quota_change_history end
 function list_requested_service_quota_change_history(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -466,6 +476,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Specifies that you want to filter the results to only the requests with the
   matching status.
 """
+function list_requested_service_quota_change_history_by_quota end
 function list_requested_service_quota_change_history_by_quota(
     QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -521,6 +532,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceCode"`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the ListServices operation.
 """
+function list_service_quota_increase_requests_in_template end
 function list_service_quota_increase_requests_in_template(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -574,6 +586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the
   output for the quota you want.
 """
+function list_service_quotas end
 function list_service_quotas(
     ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -621,6 +634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
+function list_services end
 function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_quotas(
         "ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -648,6 +662,7 @@ Returns a list of the tags assigned to the specified applied quota.
   Amazon Web Services API operation.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -690,6 +705,7 @@ Adds a quota increase request to your quota request template.
   Amazon Web Services service, use the ListServices operation.
 
 """
+function put_service_quota_increase_request_into_template end
 function put_service_quota_increase_request_into_template(
     AwsRegion,
     DesiredValue,
@@ -757,6 +773,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applies. The value in this field depends on the context scope associated with the specified
   service quota.
 """
+function request_service_quota_increase end
 function request_service_quota_increase(
     DesiredValue, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -811,6 +828,7 @@ quota.
 - `tags`: The tags that you want to add to the resource.
 
 """
+function tag_resource end
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return service_quotas(
         "TagResource",
@@ -854,6 +872,7 @@ Removes tags from the specified applied quota. You can specify one or more tags 
 - `tag_keys`: The keys of the tags that you want to remove from the resource.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

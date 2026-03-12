@@ -15,6 +15,7 @@ Configures Amazon CloudWatch log settings for a channel.
 - `log_types`: The types of logs to collect.
 
 """
+function configure_logs_for_channel end
 function configure_logs_for_channel(
     ChannelName, LogTypes; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -64,6 +65,7 @@ Amazon CloudWatch log settings for a playback configuration.
 - `playback_configuration_name`: The name of the playback configuration.
 
 """
+function configure_logs_for_playback_configuration end
 function configure_logs_for_playback_configuration(
     PercentEnabled,
     PlaybackConfigurationName;
@@ -133,6 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associate with Amazon resources to help with organization, access control, and cost
   tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
 """
+function create_channel end
 function create_channel(
     ChannelName, Outputs, PlaybackMode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -185,6 +188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associate with Amazon resources to help with organization, access control, and cost
   tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
 """
+function create_live_source end
 function create_live_source(
     HttpPackageConfigurations,
     LiveSourceName,
@@ -249,6 +253,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, MediaTailor returns all of the prefetch schedules for the playback
   configuration, regardless of StreamId.
 """
+function create_prefetch_schedule end
 function create_prefetch_schedule(
     Consumption,
     Name,
@@ -308,6 +313,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LiveSourceName"`: The name of the LiveSource for this Program.
 - `"VodSourceName"`: The name that's used to refer to a VOD source.
 """
+function create_program end
 function create_program(
     ChannelName,
     ProgramName,
@@ -377,6 +383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can associate with Amazon resources to help with organization, access control, and cost
   tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
 """
+function create_source_location end
 function create_source_location(
     HttpConfiguration,
     SourceLocationName;
@@ -428,6 +435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associate with Amazon resources to help with organization, access control, and cost
   tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
 """
+function create_vod_source end
 function create_vod_source(
     HttpPackageConfigurations,
     SourceLocationName,
@@ -476,6 +484,7 @@ the MediaTailor User Guide.
 - `channel_name`: The name of the channel.
 
 """
+function delete_channel end
 function delete_channel(ChannelName; aws_config::AbstractAWSConfig=current_aws_config())
     return mediatailor(
         "DELETE",
@@ -509,6 +518,7 @@ The channel policy to delete.
 - `channel_name`: The name of the channel associated with this channel policy.
 
 """
+function delete_channel_policy end
 function delete_channel_policy(
     ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -545,6 +555,7 @@ The live source to delete.
 - `source_location_name`: The name of the source location associated with this Live Source.
 
 """
+function delete_live_source end
 function delete_live_source(
     LiveSourceName, SourceLocationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -582,6 +593,7 @@ Working with configurations in AWS Elemental MediaTailor.
 - `name`: The name of the playback configuration.
 
 """
+function delete_playback_configuration end
 function delete_playback_configuration(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -621,6 +633,7 @@ MediaTailor User Guide.
   schedule.
 
 """
+function delete_prefetch_schedule end
 function delete_prefetch_schedule(
     Name, PlaybackConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -659,6 +672,7 @@ programs in the MediaTailor User Guide.
 - `program_name`: The name of the program.
 
 """
+function delete_program end
 function delete_program(
     ChannelName, ProgramName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -697,6 +711,7 @@ User Guide.
 - `source_location_name`: The name of the source location.
 
 """
+function delete_source_location end
 function delete_source_location(
     SourceLocationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -733,6 +748,7 @@ The video on demand (VOD) source to delete.
 - `vod_source_name`: The name of the VOD source.
 
 """
+function delete_vod_source end
 function delete_vod_source(
     SourceLocationName, VodSourceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -770,6 +786,7 @@ in the MediaTailor User Guide.
 - `channel_name`: The name of the channel.
 
 """
+function describe_channel end
 function describe_channel(ChannelName; aws_config::AbstractAWSConfig=current_aws_config())
     return mediatailor(
         "GET",
@@ -804,6 +821,7 @@ The live source to describe.
 - `source_location_name`: The name of the source location associated with this Live Source.
 
 """
+function describe_live_source end
 function describe_live_source(
     LiveSourceName, SourceLocationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -842,6 +860,7 @@ programs in the MediaTailor User Guide.
 - `program_name`: The name of the program.
 
 """
+function describe_program end
 function describe_program(
     ChannelName, ProgramName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -880,6 +899,7 @@ User Guide.
 - `source_location_name`: The name of the source location.
 
 """
+function describe_source_location end
 function describe_source_location(
     SourceLocationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -917,6 +937,7 @@ location.
 - `vod_source_name`: The name of the VOD Source.
 
 """
+function describe_vod_source end
 function describe_vod_source(
     SourceLocationName, VodSourceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -953,6 +974,7 @@ Returns the channel's IAM policy. IAM policies are used to control access to you
 - `channel_name`: The name of the channel associated with this Channel Policy.
 
 """
+function get_channel_policy end
 function get_channel_policy(ChannelName; aws_config::AbstractAWSConfig=current_aws_config())
     return mediatailor(
         "GET",
@@ -999,6 +1021,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the request. If the previous response didn't include a NextToken element, there are no
   more channel schedules to get.
 """
+function get_channel_schedule end
 function get_channel_schedule(
     ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1035,6 +1058,7 @@ Working with configurations in AWS Elemental MediaTailor.
 - `name`: The identifier for the playback configuration.
 
 """
+function get_playback_configuration end
 function get_playback_configuration(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1074,6 +1098,7 @@ information about ad prefetching, see Using ad prefetching in the MediaTailor Us
   schedule, MediaTailor returns an HTTP 404 status code.
 
 """
+function get_prefetch_schedule end
 function get_prefetch_schedule(
     Name, PlaybackConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1117,6 +1142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
+function list_alerts end
 function list_alerts(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediatailor(
         "GET",
@@ -1157,6 +1183,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
+function list_channels end
 function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediatailor(
         "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1190,6 +1217,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
+function list_live_sources end
 function list_live_sources(
     SourceLocationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1230,6 +1258,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
+function list_playback_configurations end
 function list_playback_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediatailor(
         "GET",
@@ -1275,6 +1304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamId"`: An optional filtering parameter whereby MediaTailor filters the prefetch
   schedules to include only specific streams.
 """
+function list_prefetch_schedules end
 function list_prefetch_schedules(
     PlaybackConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1315,6 +1345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
+function list_source_locations end
 function list_source_locations(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediatailor(
         "GET", "/sourceLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1345,6 +1376,7 @@ tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
 - `resource_arn`: The Amazon Resource Name (ARN) associated with this resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1389,6 +1421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
+function list_vod_sources end
 function list_vod_sources(
     SourceLocationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1426,6 +1459,7 @@ channel.
 - `policy`: Adds an IAM role that determines the permissions of your channel.
 
 """
+function put_channel_policy end
 function put_channel_policy(
     ChannelName, Policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1511,6 +1545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can associate with Amazon resources to help with organization, access control, and cost
   tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
 """
+function put_playback_configuration end
 function put_playback_configuration(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1546,6 +1581,7 @@ the MediaTailor User Guide.
 - `channel_name`: The name of the channel.
 
 """
+function start_channel end
 function start_channel(ChannelName; aws_config::AbstractAWSConfig=current_aws_config())
     return mediatailor(
         "PUT",
@@ -1580,6 +1616,7 @@ the MediaTailor User Guide.
 - `channel_name`: The name of the channel.
 
 """
+function stop_channel end
 function stop_channel(ChannelName; aws_config::AbstractAWSConfig=current_aws_config())
     return mediatailor(
         "PUT",
@@ -1618,6 +1655,7 @@ Tagging AWS Elemental MediaTailor Resources.
   tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return mediatailor(
         "POST",
@@ -1654,6 +1692,7 @@ The resource to untag.
 - `tag_keys`: The tag keys associated with the resource.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1701,6 +1740,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeShiftConfiguration"`:  The time-shifted viewing configuration you want to associate
   to the channel.
 """
+function update_channel end
 function update_channel(
     ChannelName, Outputs; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1741,6 +1781,7 @@ Updates a live source's configuration.
 - `source_location_name`: The name of the source location associated with this Live Source.
 
 """
+function update_live_source end
 function update_live_source(
     HttpPackageConfigurations,
     LiveSourceName,
@@ -1794,6 +1835,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AdBreaks"`: The ad break configuration settings.
 - `"AudienceMedia"`: The list of AudienceMedia defined in program.
 """
+function update_program end
 function update_program(
     ChannelName,
     ProgramName,
@@ -1852,6 +1894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SegmentDeliveryConfigurations"`: A list of the segment delivery configurations
   associated with this resource.
 """
+function update_source_location end
 function update_source_location(
     HttpConfiguration,
     SourceLocationName;
@@ -1898,6 +1941,7 @@ Updates a VOD source's configuration.
 - `vod_source_name`: The name of the VOD source.
 
 """
+function update_vod_source end
 function update_vod_source(
     HttpPackageConfigurations,
     SourceLocationName,

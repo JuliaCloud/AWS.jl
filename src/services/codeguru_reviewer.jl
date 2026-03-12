@@ -40,6 +40,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (for example, 111122223333, Production, or a team name). Omitting the tag value is the same
   as using an empty string. Like tag keys, tag values are case sensitive.
 """
+function associate_repository end
 function associate_repository(
     Repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -98,6 +99,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: Amazon CodeGuru Reviewer uses this value to prevent the
   accidental creation of duplicate code reviews if there are failures and retries.
 """
+function create_code_review end
 function create_code_review(
     Name, RepositoryAssociationArn, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -152,6 +154,7 @@ Returns the metadata associated with the code review along with its status.
 - `code_review_arn`: The Amazon Resource Name (ARN) of the CodeReview object.
 
 """
+function describe_code_review end
 function describe_code_review(
     CodeReviewArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -196,6 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information, see  Specifying a Principal in the Amazon Web Services Identity and
   Access Management User Guide.
 """
+function describe_recommendation_feedback end
 function describe_recommendation_feedback(
     CodeReviewArn, RecommendationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -239,6 +243,7 @@ repository association.
   You can retrieve this ARN by calling ListRepositoryAssociations.
 
 """
+function describe_repository_association end
 function describe_repository_association(
     AssociationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -275,6 +280,7 @@ Removes the association between Amazon CodeGuru Reviewer and a repository.
   You can retrieve this ARN by calling ListRepositoryAssociations.
 
 """
+function disassociate_repository end
 function disassociate_repository(
     AssociationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -326,6 +332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   review started and has not completed or failed.    Failed: The code review failed.
   Deleting: The code review is being deleted.
 """
+function list_code_reviews end
 function list_code_reviews(Type; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_reviewer(
         "GET",
@@ -373,6 +380,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Resource Name (ARN). For more information, see  Specifying a Principal in the Amazon Web
   Services Identity and Access Management User Guide.
 """
+function list_recommendation_feedback end
 function list_recommendation_feedback(
     CodeReviewArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -413,6 +421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100.
 - `"NextToken"`: Pagination token.
 """
+function list_recommendations end
 function list_recommendations(
     CodeReviewArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -482,6 +491,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   has been disassociated. For more information, see Using tags to control access to
   associated repositories in the Amazon CodeGuru Reviewer User Guide.
 """
+function list_repository_associations end
 function list_repository_associations(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_reviewer(
         "GET", "/associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -511,6 +521,7 @@ Returns the list of tags associated with an associated repository resource.
   can retrieve this ARN by calling ListRepositoryAssociations.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -551,6 +562,7 @@ again with different reactions the previous feedback is overwritten.
   recommendations and then to collect the feedback.
 
 """
+function put_recommendation_feedback end
 function put_recommendation_feedback(
     CodeReviewArn,
     Reactions,
@@ -612,6 +624,7 @@ Adds one or more tags to an associated repository.
   can retrieve this ARN by calling ListRepositoryAssociations.
 
 """
+function tag_resource end
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_reviewer(
         "POST",
@@ -650,6 +663,7 @@ Removes a tag from an associated repository.
   repository.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

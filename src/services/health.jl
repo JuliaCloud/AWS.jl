@@ -31,6 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
+function describe_affected_accounts_for_organization end
 function describe_affected_accounts_for_organization(
     eventArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -85,6 +86,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
+function describe_affected_entities end
 function describe_affected_entities(
     filter; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -139,6 +141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"organizationEntityFilters"`: A JSON set of elements including the awsAccountId and the
   eventArn.
 """
+function describe_affected_entities_for_organization end
 function describe_affected_entities_for_organization(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -174,6 +177,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101
   \"
 """
+function describe_entity_aggregates end
 function describe_entity_aggregates(; aws_config::AbstractAWSConfig=current_aws_config())
     return health(
         "DescribeEntityAggregates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -210,6 +214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"awsAccountIds"`: A list of 12-digit Amazon Web Services account numbers that contains
   the affected entities.
 """
+function describe_entity_aggregates_for_organization end
 function describe_entity_aggregates_for_organization(
     eventArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -258,6 +263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
+function describe_event_aggregates end
 function describe_event_aggregates(
     aggregateField; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -310,6 +316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
 """
+function describe_event_details end
 function describe_event_details(
     eventArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -370,6 +377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
 """
+function describe_event_details_for_organization end
 function describe_event_details_for_organization(
     organizationEventDetailFilters; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -428,6 +436,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
+function describe_event_types end
 function describe_event_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return health(
         "DescribeEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -472,6 +481,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
+function describe_events end
 function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return health("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -514,6 +524,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
+function describe_events_for_organization end
 function describe_events_for_organization(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -544,6 +555,7 @@ your organization. To call this operation, you must use the organization's manag
 account.
 
 """
+function describe_health_service_status_for_organization end
 function describe_health_service_status_for_organization(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -582,6 +594,7 @@ returns an error. Health continues to aggregate health events for your Amazon We
 account.
 
 """
+function disable_health_service_access_for_organization end
 function disable_health_service_access_for_organization(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -621,6 +634,7 @@ support plan, you can instead use the Health console to enable the organizationa
 feature. For more information, see Aggregating Health events in the Health User Guide.
 
 """
+function enable_health_service_access_for_organization end
 function enable_health_service_access_for_organization(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )

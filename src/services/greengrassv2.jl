@@ -20,6 +20,7 @@ information, see Greengrass service role in the IoT Greengrass Version 2 Develop
   Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
 
 """
+function associate_service_role_to_account end
 function associate_service_role_to_account(
     RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -68,6 +69,7 @@ information, see Interact with local IoT devices in the IoT Greengrass V2 Develo
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"entries"`: The list of client devices to associate.
 """
+function batch_associate_client_device_with_core_device end
 function batch_associate_client_device_with_core_device(
     coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -109,6 +111,7 @@ retrieve the core device's connectivity information and certificates.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"entries"`: The list of client devices to disassociate.
 """
+function batch_disassociate_client_device_from_core_device end
 function batch_disassociate_client_device_from_core_device(
     coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -146,6 +149,7 @@ anything for that device.
 - `deployment_id`: The ID of the deployment.
 
 """
+function cancel_deployment end
 function cancel_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "POST",
@@ -206,6 +210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs that contain metadata for the resource. For more
   information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
 """
+function create_component_version end
 function create_component_version(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "POST",
@@ -269,6 +274,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs that contain metadata for the resource. For more
   information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
 """
+function create_deployment end
 function create_deployment(targetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "POST",
@@ -314,6 +320,7 @@ the component from the deployment or update the deployment to use a valid versio
 - `arn`: The ARN of the component version.
 
 """
+function delete_component end
 function delete_component(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "DELETE",
@@ -348,6 +355,7 @@ information about how to delete the IoT thing, see DeleteThing in the IoT API Re
   thing.
 
 """
+function delete_core_device end
 function delete_core_device(
     coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -387,6 +395,7 @@ deleted.
 - `deployment_id`: The ID of the deployment.
 
 """
+function delete_deployment end
 function delete_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "DELETE",
@@ -420,6 +429,7 @@ Retrieves metadata for a version of a component.
 - `arn`: The ARN of the component version.
 
 """
+function describe_component end
 function describe_component(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "GET",
@@ -452,6 +462,7 @@ more information, see Greengrass service role in the IoT Greengrass Version 2 De
 Guide.
 
 """
+function disassociate_service_role_from_account end
 function disassociate_service_role_from_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -488,6 +499,7 @@ Gets the recipe for a version of a component.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"recipeOutputFormat"`: The format of the recipe.
 """
+function get_component end
 function get_component(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "GET",
@@ -535,6 +547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pre-signed URL endpoint. Specify fips if you want the returned Amazon S3 pre-signed URL to
   point to an Amazon S3 FIPS endpoint. If you don't specify a value, the default is standard.
 """
+function get_component_version_artifact end
 function get_component_version_artifact(
     arn, artifactName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -576,6 +589,7 @@ Version 2 Developer Guide.
 - `thing_name`: The name of the core device. This is also the name of the IoT thing.
 
 """
+function get_connectivity_info end
 function get_connectivity_info(
     thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -621,6 +635,7 @@ core device sends status updates upon local deployment and cloud deployment
   thing.
 
 """
+function get_core_device end
 function get_core_device(
     coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -656,6 +671,7 @@ Gets a deployment. Deployments define the components that run on Greengrass core
 - `deployment_id`: The ID of the deployment.
 
 """
+function get_deployment end
 function get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "GET",
@@ -689,6 +705,7 @@ client devices and manage core device connectivity information. For more informa
 Greengrass service role in the IoT Greengrass Version 2 Developer Guide.
 
 """
+function get_service_role_for_account end
 function get_service_role_for_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "GET",
@@ -725,6 +742,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_client_devices_associated_with_core_device end
 function list_client_devices_associated_with_core_device(
     coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -765,6 +783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_component_versions end
 function list_component_versions(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "GET",
@@ -799,6 +818,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"scope"`: The scope of the components to list. Default: PRIVATE
 """
+function list_components end
 function list_components(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "GET",
@@ -849,6 +869,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that targets the thing group. When you remove a core device from a thing group, the list
   continues to include that core device.
 """
+function list_core_devices end
 function list_core_devices(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "GET",
@@ -887,6 +908,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parentTargetArn"`: The parent deployment's target ARN within a subdeployment.
 - `"targetArn"`: The ARN of the target IoT thing or thing group.
 """
+function list_deployments end
 function list_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "GET",
@@ -924,6 +946,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_effective_deployments end
 function list_effective_deployments(
     coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -981,6 +1004,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deployment. When you choose this option, the list doesn't include components that the core
   device installs as dependencies of other components.   Default: ROOT
 """
+function list_installed_components end
 function list_installed_components(
     coreDeviceThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1016,6 +1040,7 @@ Retrieves the list of tags for an IoT Greengrass resource.
 - `resource_arn`: The ARN of the resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1063,6 +1088,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"componentCandidates"`: The list of components to resolve.
 - `"platform"`: The platform to use to resolve compatible components.
 """
+function resolve_component_candidates end
 function resolve_component_candidates(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "POST",
@@ -1097,6 +1123,7 @@ operation updates the tag's value.
   information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrassv2(
         "POST",
@@ -1133,6 +1160,7 @@ Removes a tag from an IoT Greengrass resource.
 - `tag_keys`: A list of keys for tags to remove from the resource.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1176,6 +1204,7 @@ Version 2 Developer Guide.
 - `thing_name`: The name of the core device. This is also the name of the IoT thing.
 
 """
+function update_connectivity_info end
 function update_connectivity_info(
     ConnectivityInfo, thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )

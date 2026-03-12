@@ -25,6 +25,7 @@ LATEST_WORKING will be listed as partial failure in the response.
 - `name`: The name of the recipe whose versions are to be deleted.
 
 """
+function batch_delete_recipe_version end
 function batch_delete_recipe_version(
     RecipeVersions, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -73,6 +74,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the dataset.
 - `"Tags"`: Metadata tags to apply to this dataset.
 """
+function create_dataset end
 function create_dataset(Input, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "POST",
@@ -139,6 +141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ValidationConfigurations"`: List of validation configurations that are applied to the
   profile job.
 """
+function create_profile_job end
 function create_profile_job(
     DatasetName,
     Name,
@@ -207,6 +210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sample"`:
 - `"Tags"`: Metadata tags to apply to this project.
 """
+function create_project end
 function create_project(
     DatasetName,
     Name,
@@ -273,6 +277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the recipe.
 - `"Tags"`: Metadata tags to apply to this recipe.
 """
+function create_recipe end
 function create_recipe(Name, Steps; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "POST",
@@ -338,6 +343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
 """
+function create_recipe_job end
 function create_recipe_job(
     Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -389,6 +395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the ruleset.
 - `"Tags"`: Metadata tags to apply to the ruleset.
 """
+function create_ruleset end
 function create_ruleset(
     Name, Rules, TargetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -443,6 +450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobNames"`: The name or names of one or more jobs to be run.
 - `"Tags"`: Metadata tags to apply to this schedule.
 """
+function create_schedule end
 function create_schedule(
     CronExpression, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -486,6 +494,7 @@ Deletes a dataset from DataBrew.
 - `name`: The name of the dataset to be deleted.
 
 """
+function delete_dataset end
 function delete_dataset(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "DELETE",
@@ -517,6 +526,7 @@ Deletes the specified DataBrew job.
 - `name`: The name of the job to be deleted.
 
 """
+function delete_job end
 function delete_job(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "DELETE", "/jobs/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -545,6 +555,7 @@ Deletes an existing DataBrew project.
 - `name`: The name of the project to be deleted.
 
 """
+function delete_project end
 function delete_project(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "DELETE",
@@ -578,6 +589,7 @@ Deletes a single version of a DataBrew recipe.
   versions (X.Y) or LATEST_WORKING. LATEST_PUBLISHED is not supported.
 
 """
+function delete_recipe_version end
 function delete_recipe_version(
     name, recipeVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -614,6 +626,7 @@ Deletes a ruleset.
 - `name`: The name of the ruleset to be deleted.
 
 """
+function delete_ruleset end
 function delete_ruleset(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "DELETE",
@@ -645,6 +658,7 @@ Deletes the specified DataBrew schedule.
 - `name`: The name of the schedule to be deleted.
 
 """
+function delete_schedule end
 function delete_schedule(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "DELETE",
@@ -676,6 +690,7 @@ Returns the definition of a specific DataBrew dataset.
 - `name`: The name of the dataset to be described.
 
 """
+function describe_dataset end
 function describe_dataset(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET", "/datasets/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -704,6 +719,7 @@ Returns the definition of a specific DataBrew job.
 - `name`: The name of the job to be described.
 
 """
+function describe_job end
 function describe_job(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET", "/jobs/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -733,6 +749,7 @@ Represents one run of a DataBrew job.
 - `run_id`: The unique identifier of the job run.
 
 """
+function describe_job_run end
 function describe_job_run(name, runId; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET",
@@ -767,6 +784,7 @@ Returns the definition of a specific DataBrew project.
 - `name`: The name of the project to be described.
 
 """
+function describe_project end
 function describe_project(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET", "/projects/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -799,6 +817,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recipeVersion"`: The recipe version identifier. If this parameter isn't specified, then
   the latest published version is returned.
 """
+function describe_recipe end
 function describe_recipe(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET", "/recipes/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -827,6 +846,7 @@ Retrieves detailed information about the ruleset.
 - `name`: The name of the ruleset to be described.
 
 """
+function describe_ruleset end
 function describe_ruleset(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET", "/rulesets/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -855,6 +875,7 @@ Returns the definition of a specific DataBrew schedule.
 - `name`: The name of the schedule to be described.
 
 """
+function describe_schedule end
 function describe_schedule(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET", "/schedules/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -884,6 +905,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
+function list_datasets end
 function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET", "/datasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -912,6 +934,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
+function list_job_runs end
 function list_job_runs(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET",
@@ -950,6 +973,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"projectName"`: The name of a project. Using this parameter indicates to return only
   those jobs that are associated with the specified project.
 """
+function list_jobs end
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -973,6 +997,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
+function list_projects end
 function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1001,6 +1026,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
+function list_recipe_versions end
 function list_recipe_versions(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET",
@@ -1037,6 +1063,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or LATEST_PUBLISHED. If RecipeVersion is omitted, ListRecipes returns all of the
   LATEST_PUBLISHED recipe versions. Valid values: LATEST_WORKING | LATEST_PUBLISHED
 """
+function list_recipes end
 function list_recipes(; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET", "/recipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1068,6 +1095,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter indicates to return only those rulesets that are associated with the specified
   resource.
 """
+function list_rulesets end
 function list_rulesets(; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET", "/rulesets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1094,6 +1122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
+function list_schedules end
 function list_schedules(; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1119,6 +1148,7 @@ Lists all the tags for a DataBrew resource.
   DataBrew resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1158,6 +1188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the recipe to be published, for this version of the
   recipe.
 """
+function publish_recipe end
 function publish_recipe(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "POST",
@@ -1199,6 +1230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   earlier in the view frame stack.
 - `"ViewFrame"`:
 """
+function send_project_session_action end
 function send_project_session_action(
     name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1232,6 +1264,7 @@ Runs a DataBrew job.
 - `name`: The name of the job to be run.
 
 """
+function start_job_run end
 function start_job_run(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "POST",
@@ -1267,6 +1300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AssumeControl"`: A value that, if true, enables you to take control of a session, even
   if a different client is currently accessing the project.
 """
+function start_project_session end
 function start_project_session(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "PUT",
@@ -1299,6 +1333,7 @@ Stops a particular run of a job.
 - `run_id`: The ID of the job run to be stopped.
 
 """
+function stop_job_run end
 function stop_job_run(name, runId; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "POST",
@@ -1337,6 +1372,7 @@ schedule.
 - `tags`: One or more tags to be assigned to the resource.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "POST",
@@ -1374,6 +1410,7 @@ Removes metadata tags from a DataBrew resource.
 - `tag_keys`: The tag keys (names) of one or more tags to be removed.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1418,6 +1455,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PathOptions"`: A set of options that defines how DataBrew interprets an Amazon S3 path
   of the dataset.
 """
+function update_dataset end
 function update_dataset(Input, name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "PUT",
@@ -1479,6 +1517,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ValidationConfigurations"`: List of validation configurations that are applied to the
   profile job.
 """
+function update_profile_job end
 function update_profile_job(
     OutputLocation, RoleArn, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1527,6 +1566,7 @@ Modifies the definition of an existing DataBrew project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Sample"`:
 """
+function update_project end
 function update_project(RoleArn, name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "PUT",
@@ -1567,6 +1607,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Steps"`: One or more steps to be performed by the recipe. Each step consists of an
   action, and the conditions under which the action should succeed.
 """
+function update_recipe end
 function update_recipe(name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "PUT", "/recipes/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1616,6 +1657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
 """
+function update_recipe_job end
 function update_recipe_job(
     RoleArn, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1658,6 +1700,7 @@ Updates specified ruleset.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the ruleset.
 """
+function update_ruleset end
 function update_ruleset(Rules, name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "PUT",
@@ -1698,6 +1741,7 @@ Modifies the definition of an existing DataBrew schedule.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"JobNames"`: The name or names of one or more jobs to be run for this schedule.
 """
+function update_schedule end
 function update_schedule(
     CronExpression, name; aws_config::AbstractAWSConfig=current_aws_config()
 )

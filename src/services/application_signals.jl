@@ -23,6 +23,7 @@ more information about SLO error budgets, see  SLO concepts.
   number of milliseconds since Jan 1, 1970 00:00:00 UTC.
 
 """
+function batch_get_service_level_objective_budget_report end
 function batch_get_service_level_objective_budget_report(
     SloIds, Timestamp; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -118,6 +119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   categorize your resources. You can also use them to scope user permissions by granting a
   user permission to access or change only resources with certain tag values.
 """
+function create_service_level_objective end
 function create_service_level_objective(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -152,6 +154,7 @@ Deletes the specified service level objective.
 - `id`: The ARN or name of the service level objective to delete.
 
 """
+function delete_service_level_objective end
 function delete_service_level_objective(
     Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -196,6 +199,7 @@ Returns information about a service discovered by Application Signals.
   Your requested start time will be rounded to the nearest hour.
 
 """
+function get_service end
 function get_service(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -247,6 +251,7 @@ Returns information about one SLO created in the account.
   find the ARNs of SLOs by using the ListServiceLevelObjectives operation.
 
 """
+function get_service_level_objective end
 function get_service_level_objective(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "GET", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -294,6 +299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of service dependencies.
 """
+function list_service_dependencies end
 function list_service_dependencies(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -366,6 +372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of service dependents.
 """
+function list_service_dependents end
 function list_service_dependents(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -429,6 +436,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of service level objectives.
 - `"OperationName"`: The name of the operation that this SLO is associated with.
 """
+function list_service_level_objectives end
 function list_service_level_objectives(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "POST", "/slos"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -474,6 +482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of service operations.
 """
+function list_service_operations end
 function list_service_operations(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -537,6 +546,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of services.
 """
+function list_services end
 function list_services(
     EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -585,6 +595,7 @@ level objectives.
   Reference.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -627,6 +638,7 @@ to send data to Application Signals. For more information, see  Enabling Applica
 Signals.
 
 """
+function start_discovery end
 function start_discovery(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "POST", "/start-discovery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -669,6 +681,7 @@ resource.
 - `tags`: The list of key-value pairs to associate with the alarm.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "POST",
@@ -715,6 +728,7 @@ Removes one or more tags from the specified resource.
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -771,6 +785,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SliConfig"`: If this SLO is a period-based SLO, this structure defines the information
   about what performance metric this SLO will monitor.
 """
+function update_service_level_objective end
 function update_service_level_objective(
     Id; aws_config::AbstractAWSConfig=current_aws_config()
 )

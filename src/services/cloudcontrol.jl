@@ -17,6 +17,7 @@ resource operations requests with a status of PENDING or IN_PROGRESS can be canc
   operation request.
 
 """
+function cancel_resource_request end
 function cancel_resource_request(
     RequestToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -84,6 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
+function create_resource end
 function create_resource(
     DesiredState, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -164,6 +166,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
+function delete_resource end
 function delete_resource(
     Identifier, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -236,6 +239,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
+function get_resource end
 function get_resource(
     Identifier, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -281,6 +285,7 @@ Control API User Guide.
   operation request.
 
 """
+function get_resource_request_status end
 function get_resource_request_status(
     RequestToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -328,6 +333,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is set to null.
 - `"ResourceRequestStatusFilter"`: The filter criteria to apply to the requests returned.
 """
+function list_resource_requests end
 function list_resource_requests(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudcontrol(
         "ListResourceRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -377,6 +383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
+function list_resources end
 function list_resources(TypeName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudcontrol(
         "ListResources",
@@ -451,6 +458,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
+function update_resource end
 function update_resource(
     Identifier, PatchDocument, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -17,6 +17,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"getTokenBalanceInputs"`: An array of BatchGetTokenBalanceInputItem objects whose
   balance is being requested.
 """
+function batch_get_token_balance end
 function batch_get_token_balance(; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain_query(
         "POST",
@@ -52,6 +53,7 @@ future.
   contract.
 
 """
+function get_asset_contract end
 function get_asset_contract(
     contractIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -101,6 +103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time if a time is not provided in the request.  This time will only be recorded up to the
   second.
 """
+function get_token_balance end
 function get_token_balance(
     ownerIdentifier, tokenIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -156,6 +159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"transactionId"`: The identifier of a Bitcoin transaction. It is generated when a
   transaction is created.   transactionId is only supported on the Bitcoin networks.
 """
+function get_transaction end
 function get_transaction(network; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain_query(
         "POST",
@@ -199,6 +203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to return
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
+function list_asset_contracts end
 function list_asset_contracts(
     contractFilter; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -255,6 +260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"voutFilter"`: This container specifies filtering attributes related to BITCOIN_VOUT
   event types
 """
+function list_filtered_transaction_events end
 function list_filtered_transaction_events(
     addressIdentifierFilter, network; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -321,6 +327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter the request. You must specify the address property of the ownerFilter when listing
   balances of tokens owned by the address.
 """
+function list_token_balances end
 function list_token_balances(
     tokenFilter; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -373,6 +380,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"transactionId"`: The identifier of a Bitcoin transaction. It is generated when a
   transaction is created.   transactionId is only supported on the Bitcoin networks.
 """
+function list_transaction_events end
 function list_transaction_events(
     network; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -425,6 +433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`: The order by which the results will be sorted.
 - `"toBlockchainInstant"`:
 """
+function list_transactions end
 function list_transactions(
     address, network; aws_config::AbstractAWSConfig=current_aws_config()
 )

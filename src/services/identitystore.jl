@@ -20,6 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   displayed when the group is referenced. Administrator and AWSAdministrators are reserved
   names and can't be used for users or groups.
 """
+function create_group end
 function create_group(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return identitystore(
         "CreateGroup",
@@ -61,6 +62,7 @@ specified: GroupId, IdentityStoreId, and MemberId.
   group.
 
 """
+function create_group_membership end
 function create_group_membership(
     GroupId, IdentityStoreId, MemberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -135,6 +137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserType"`: A string indicating the type of user. Possible values are left unspecified.
   The value can vary based on your specific use case.
 """
+function create_user end
 function create_user(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return identitystore(
         "CreateUser",
@@ -172,6 +175,7 @@ Delete a group within an identity store given GroupId.
 - `identity_store_id`: The globally unique identifier for the identity store.
 
 """
+function delete_group end
 function delete_group(
     GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -216,6 +220,7 @@ Delete a membership within a group given MembershipId.
 - `membership_id`: The identifier for a GroupMembership in an identity store.
 
 """
+function delete_group_membership end
 function delete_group_membership(
     IdentityStoreId, MembershipId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -262,6 +267,7 @@ Deletes a user within an identity store given UserId.
 - `user_id`: The identifier for a user in the identity store.
 
 """
+function delete_user end
 function delete_user(
     IdentityStoreId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -309,6 +315,7 @@ Read about member accounts in the Organizations User Guide.
   that a new identity store is created.
 
 """
+function describe_group end
 function describe_group(
     GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -355,6 +362,7 @@ account. Read about member accounts in the Organizations User Guide.
 - `membership_id`: The identifier for a GroupMembership in an identity store.
 
 """
+function describe_group_membership end
 function describe_group_membership(
     IdentityStoreId, MembershipId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -406,6 +414,7 @@ account. Read about member accounts in the Organizations User Guide.
 - `user_id`: The identifier for a user in the identity store.
 
 """
+function describe_user end
 function describe_user(
     IdentityStoreId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -453,6 +462,7 @@ Organizations User Guide.
 - `identity_store_id`: The globally unique identifier for the identity store.
 
 """
+function get_group_id end
 function get_group_id(
     AlternateIdentifier, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -506,6 +516,7 @@ the Organizations User Guide.
   group.
 
 """
+function get_group_membership_id end
 function get_group_membership_id(
     GroupId, IdentityStoreId, MemberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -562,6 +573,7 @@ Organizations User Guide.
 - `identity_store_id`: The globally unique identifier for the identity store.
 
 """
+function get_user_id end
 function get_user_id(
     AlternateIdentifier, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -613,6 +625,7 @@ API from the member account. Read about member accounts in the Organizations Use
 - `member_id`: An object containing the identifier of a group member.
 
 """
+function is_member_in_groups end
 function is_member_in_groups(
     GroupIds, IdentityStoreId, MemberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -675,6 +688,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It is returned in the API response if the total results are more than the size of one page.
   This token is also returned when it is used in the API request to search for the next page.
 """
+function list_group_memberships end
 function list_group_memberships(
     GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -733,6 +747,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It is returned in the API response if the total results are more than the size of one page.
   This token is also returned when it is used in the API request to search for the next page.
 """
+function list_group_memberships_for_member end
 function list_group_memberships_for_member(
     IdentityStoreId, MemberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -794,6 +809,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if the total results are more than the size of one page. This token is also returned when
   it is used in the API request to search for the next page.
 """
+function list_groups end
 function list_groups(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return identitystore(
         "ListGroups",
@@ -847,6 +863,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if the total results are more than the size of one page. This token is also returned when
   it is used in the API request to search for the next page.
 """
+function list_users end
 function list_users(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return identitystore(
         "ListUsers",
@@ -887,6 +904,7 @@ attributes.
   operations might add, replace, or remove an attribute.
 
 """
+function update_group end
 function update_group(
     GroupId, IdentityStoreId, Operations; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -941,6 +959,7 @@ attributes.
 - `user_id`: The identifier for a user in the identity store.
 
 """
+function update_user end
 function update_user(
     IdentityStoreId, Operations, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )

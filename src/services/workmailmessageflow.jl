@@ -14,6 +14,7 @@ Retrieves the raw content of an in-transit email message, in MIME format.
 - `message_id`: The identifier of the email message to retrieve.
 
 """
+function get_raw_message_content end
 function get_raw_message_content(
     messageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -56,6 +57,7 @@ returns an updated message.
 - `message_id`: The identifier of the email message being updated.
 
 """
+function put_raw_message_content end
 function put_raw_message_content(
     content, messageId; aws_config::AbstractAWSConfig=current_aws_config()
 )

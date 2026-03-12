@@ -30,6 +30,7 @@ request size 25 item limit per BatchDeleteAttributes operation
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Items"`: A list of items on which to perform the operation.
 """
+function batch_delete_attributes end
 function batch_delete_attributes(
     DomainName, Item; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -101,6 +102,7 @@ user data storage per domain 25 item limit per BatchPutAttributes operation
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Items"`: A list of items on which to perform the operation.
 """
+function batch_put_attributes end
 function batch_put_attributes(
     DomainName, Item; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -146,6 +148,7 @@ additional domains, go to  http://aws.amazon.com/contact-us/simpledb-limit-reque
   characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
 
 """
+function create_domain end
 function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return simpledb(
         "CreateDomain",
@@ -196,6 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attributes will be deleted or not. The update condition must be satisfied in order for this
   request to be processed and the attributes to be deleted.
 """
+function delete_attributes end
 function delete_attributes(
     DomainName, ItemName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -240,6 +244,7 @@ multiple times using the same domain name will not result in an error response.
 - `domain_name`: The name of the domain to delete.
 
 """
+function delete_domain end
 function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return simpledb(
         "DeleteDomain",
@@ -275,6 +280,7 @@ items and attributes in the domain, and the size of the attribute names and valu
 - `domain_name`: The name of the domain for which to display the metadata of.
 
 """
+function domain_metadata end
 function domain_metadata(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return simpledb(
         "DomainMetadata",
@@ -322,6 +328,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned. Otherwise, results will be consistent eventually, and the client may not see data
   that was written immediately before your read.
 """
+function get_attributes end
 function get_attributes(
     DomainName, ItemName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -370,6 +377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A string informing Amazon SimpleDB where to start the next list of domain
   names.
 """
+function list_domains end
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return simpledb("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -421,6 +429,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attributes will be updated or not. The update condition must be satisfied in order for this
   request to be processed and the attributes to be updated.
 """
+function put_attributes end
 function put_attributes(
     Attribute, DomainName, ItemName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -484,6 +493,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A string informing Amazon SimpleDB where to start the next list of
   ItemNames.
 """
+function select end
 function select(SelectExpression; aws_config::AbstractAWSConfig=current_aws_config())
     return simpledb(
         "Select",

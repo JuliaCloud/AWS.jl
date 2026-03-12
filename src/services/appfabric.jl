@@ -17,6 +17,7 @@ kicked off by the StartUserAccessTasks action.
 - `task_id_list`: The tasks IDs to use for the request.
 
 """
+function batch_get_user_access_tasks end
 function batch_get_user_access_tasks(
     appBundleIdentifier, taskIdList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -72,6 +73,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authRequest"`: Contains OAuth2 authorization information. This is required if the app
   authorization for the request is configured with an OAuth2 (oauth2) authorization type.
 """
+function connect_app_authorization end
 function connect_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier;
@@ -133,6 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IdempotentParameterMismatch error.
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
+function create_app_authorization end
 function create_app_authorization(
     app,
     appBundleIdentifier,
@@ -207,6 +210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services owned key is used for encryption.
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
+function create_app_bundle end
 function create_app_bundle(; aws_config::AbstractAWSConfig=current_aws_config())
     return appfabric(
         "POST",
@@ -258,6 +262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IdempotentParameterMismatch error.
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
+function create_ingestion end
 function create_ingestion(
     app,
     appBundleIdentifier,
@@ -334,6 +339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IdempotentParameterMismatch error.
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
+function create_ingestion_destination end
 function create_ingestion_destination(
     appBundleIdentifier,
     destinationConfiguration,
@@ -395,6 +401,7 @@ delete an app authorization.
   (UUID) of the app bundle to use for the request.
 
 """
+function delete_app_authorization end
 function delete_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier;
@@ -435,6 +442,7 @@ delete an app bundle.
   needs to be deleted.
 
 """
+function delete_app_bundle end
 function delete_app_bundle(
     appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -474,6 +482,7 @@ associated ingestion destinations before you can delete an app ingestion.
   (UUID) of the ingestion to use for the request.
 
 """
+function delete_ingestion end
 function delete_ingestion(
     appBundleIdentifier,
     ingestionIdentifier;
@@ -521,6 +530,7 @@ eventually disabled.
   (UUID) of the ingestion to use for the request.
 
 """
+function delete_ingestion_destination end
 function delete_ingestion_destination(
     appBundleIdentifier,
     ingestionDestinationIdentifier,
@@ -564,6 +574,7 @@ Returns information about an app authorization.
   (UUID) of the app bundle to use for the request.
 
 """
+function get_app_authorization end
 function get_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier;
@@ -603,6 +614,7 @@ Returns information about an app bundle.
   (UUID) of the app bundle to use for the request.
 
 """
+function get_app_bundle end
 function get_app_bundle(
     appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -641,6 +653,7 @@ Returns information about an ingestion.
   (UUID) of the ingestion to use for the request.
 
 """
+function get_ingestion end
 function get_ingestion(
     appBundleIdentifier,
     ingestionIdentifier;
@@ -684,6 +697,7 @@ Returns information about an ingestion destination.
   (UUID) of the ingestion to use for the request.
 
 """
+function get_ingestion_destination end
 function get_ingestion_destination(
     appBundleIdentifier,
     ingestionDestinationIdentifier,
@@ -735,6 +749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
+function list_app_authorizations end
 function list_app_authorizations(
     appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -777,6 +792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
+function list_app_bundles end
 function list_app_bundles(; aws_config::AbstractAWSConfig=current_aws_config())
     return appfabric(
         "GET", "/appbundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -814,6 +830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
+function list_ingestion_destinations end
 function list_ingestion_destinations(
     appBundleIdentifier,
     ingestionIdentifier;
@@ -863,6 +880,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
+function list_ingestions end
 function list_ingestions(
     appBundleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -899,6 +917,7 @@ Returns a list of tags for a resource.
   retrieve tags.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -937,6 +956,7 @@ Starts (enables) an ingestion, which collects data from an application.
   (UUID) of the ingestion to use for the request.
 
 """
+function start_ingestion end
 function start_ingestion(
     appBundleIdentifier,
     ingestionIdentifier;
@@ -979,6 +999,7 @@ calls to the application time out.
 - `email`: The email address of the target user.
 
 """
+function start_user_access_tasks end
 function start_user_access_tasks(
     appBundleIdentifier, email; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1027,6 +1048,7 @@ Stops (disables) an ingestion.
   (UUID) of the ingestion to use for the request.
 
 """
+function stop_ingestion end
 function stop_ingestion(
     appBundleIdentifier,
     ingestionIdentifier;
@@ -1066,6 +1088,7 @@ Assigns one or more tags (key-value pairs) to the specified resource.
 - `tags`: A map of the key-value pairs of the tag or tags to assign to the resource.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return appfabric(
         "POST",
@@ -1103,6 +1126,7 @@ Removes a tag or tags from a resource.
   the specified resource.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1153,6 +1177,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tenant"`: Contains information about an application tenant, such as the application
   display name and identifier.
 """
+function update_app_authorization end
 function update_app_authorization(
     appAuthorizationIdentifier,
     appBundleIdentifier;
@@ -1198,6 +1223,7 @@ processed by Amazon Web Services AppFabric and where it's delivered.
   (UUID) of the ingestion to use for the request.
 
 """
+function update_ingestion_destination end
 function update_ingestion_destination(
     appBundleIdentifier,
     destinationConfiguration,

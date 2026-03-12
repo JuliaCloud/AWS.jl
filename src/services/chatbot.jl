@@ -28,6 +28,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A map of tags assigned to a resource. A tag is a string-to-string map of
   key-value pairs.
 """
+function create_chime_webhook_configuration end
 function create_chime_webhook_configuration(
     ConfigurationName,
     IamRoleArn,
@@ -114,6 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserAuthorizationRequired"`: Enables use of a user role requirement in your chat
   configuration.
 """
+function create_microsoft_teams_channel_configuration end
 function create_microsoft_teams_channel_configuration(
     ChannelId,
     ConfigurationName,
@@ -197,6 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserAuthorizationRequired"`: Enables use of a user role requirement in your chat
   configuration.
 """
+function create_slack_channel_configuration end
 function create_slack_channel_configuration(
     ConfigurationName,
     IamRoleArn,
@@ -257,6 +260,7 @@ Deletes a Amazon Chime webhook configuration for AWS Chatbot.
   to delete.
 
 """
+function delete_chime_webhook_configuration end
 function delete_chime_webhook_configuration(
     ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -300,6 +304,7 @@ Deletes a Microsoft Teams channel configuration for AWS Chatbot
   MicrosoftTeamsChannelConfiguration associated with the user identity to delete.
 
 """
+function delete_microsoft_teams_channel_configuration end
 function delete_microsoft_teams_channel_configuration(
     ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -348,6 +353,7 @@ configured to remove it.
   Administrator Guide.
 
 """
+function delete_microsoft_teams_configured_team end
 function delete_microsoft_teams_configured_team(
     TeamId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -384,6 +390,7 @@ Identifes a user level permission for a channel configuration.
 - `user_id`: The Microsoft Teams user ID.
 
 """
+function delete_microsoft_teams_user_identity end
 function delete_microsoft_teams_user_identity(
     ChatConfigurationArn, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -432,6 +439,7 @@ Deletes a Slack channel configuration for AWS Chatbot
   to delete.
 
 """
+function delete_slack_channel_configuration end
 function delete_slack_channel_configuration(
     ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -477,6 +485,7 @@ Deletes a user level permission for a Slack channel configuration.
 - `slack_user_id`: The ID of the user in Slack
 
 """
+function delete_slack_user_identity end
 function delete_slack_user_identity(
     ChatConfigurationArn,
     SlackTeamId,
@@ -533,6 +542,7 @@ workspace. This requires all configured channels in the workspace to be deleted.
 - `slack_team_id`: The ID of the Slack workspace authorized with AWS Chatbot.
 
 """
+function delete_slack_workspace_authorization end
 function delete_slack_workspace_authorization(
     SlackTeamId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -578,6 +588,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
+function describe_chime_webhook_configurations end
 function describe_chime_webhook_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -618,6 +629,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
+function describe_slack_channel_configurations end
 function describe_slack_channel_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -658,6 +670,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
+function describe_slack_user_identities end
 function describe_slack_user_identities(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -697,6 +710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
+function describe_slack_workspaces end
 function describe_slack_workspaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return chatbot(
         "POST",
@@ -725,6 +739,7 @@ end
 Returns AWS Chatbot account preferences.
 
 """
+function get_account_preferences end
 function get_account_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
     return chatbot(
         "POST",
@@ -757,6 +772,7 @@ Returns a Microsoft Teams channel configuration in an AWS account.
   MicrosoftTeamsChannelConfiguration to retrieve.
 
 """
+function get_microsoft_teams_channel_configuration end
 function get_microsoft_teams_channel_configuration(
     ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -808,6 +824,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   console. Then you can copy and paste the team ID from the console. For more information,
   see Step 1: Configure a Microsoft Teams client in the  AWS Chatbot Administrator Guide.
 """
+function list_microsoft_teams_channel_configurations end
 function list_microsoft_teams_channel_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -846,6 +863,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
+function list_microsoft_teams_configured_teams end
 function list_microsoft_teams_configured_teams(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -886,6 +904,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
+function list_microsoft_teams_user_identities end
 function list_microsoft_teams_user_identities(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -920,6 +939,7 @@ resource can be a user, server, or role.
 - `resource_arn`: The ARN you specified to list the tags of.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -960,6 +980,7 @@ Resources are users, servers, roles, and other entities.
 - `tags`: A list of tags to apply to the configuration.
 
 """
+function tag_resource end
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chatbot(
         "POST",
@@ -1006,6 +1027,7 @@ Resources are users, servers, roles, and other entities.
   search for resources by type. This metadata can be attached to resources for any purpose.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1058,6 +1080,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserAuthorizationRequired"`: Enables use of a user role requirement in your chat
   configuration.
 """
+function update_account_preferences end
 function update_account_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
     return chatbot(
         "POST",
@@ -1101,6 +1124,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the  AWS Chatbot Administrator Guide.
 - `"WebhookUrl"`: The URL for the Amazon Chime webhook.
 """
+function update_chime_webhook_configuration end
 function update_chime_webhook_configuration(
     ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1159,6 +1183,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserAuthorizationRequired"`: Enables use of a user role requirement in your chat
   configuration.
 """
+function update_microsoft_teams_channel_configuration end
 function update_microsoft_teams_channel_configuration(
     ChannelId, ChatConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1224,6 +1249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserAuthorizationRequired"`: Enables use of a user role requirement in your chat
   configuration.
 """
+function update_slack_channel_configuration end
 function update_slack_channel_configuration(
     ChatConfigurationArn, SlackChannelId; aws_config::AbstractAWSConfig=current_aws_config()
 )

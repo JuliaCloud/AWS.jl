@@ -27,6 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and 99 percent of the total value of the Savings Plan. This parameter is only supported if
   the payment option is Partial Upfront.
 """
+function create_savings_plan end
 function create_savings_plan(
     commitment, savingsPlanOfferingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -78,6 +79,7 @@ Deletes the queued purchase for the specified Savings Plan.
 - `savings_plan_id`: The ID of the Savings Plan.
 
 """
+function delete_queued_savings_plan end
 function delete_queued_savings_plan(
     savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -122,6 +124,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results, make another call with the returned token value.
 - `"nextToken"`: The token for the next page of results.
 """
+function describe_savings_plan_rates end
 function describe_savings_plan_rates(
     savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -166,6 +169,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"savingsPlanIds"`: The IDs of the Savings Plans.
 - `"states"`: The current states of the Savings Plans.
 """
+function describe_savings_plans end
 function describe_savings_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return savingsplans(
         "POST",
@@ -208,6 +212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceCodes"`: The services.
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
+function describe_savings_plans_offering_rates end
 function describe_savings_plans_offering_rates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -255,6 +260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceCodes"`: The services.
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
+function describe_savings_plans_offerings end
 function describe_savings_plans_offerings(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -288,6 +294,7 @@ Lists the tags for the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -330,6 +337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
+function return_savings_plan end
 function return_savings_plan(
     savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -378,6 +386,7 @@ Adds the specified tags to the specified resource.
   \"key2\":\"value2\"} }.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return savingsplans(
         "POST",
@@ -420,6 +429,7 @@ Removes the specified tags from the specified resource.
 - `tag_keys`: The tag keys.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -104,6 +104,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   firehose:TagDeliveryStream on resource: arn:aws:firehose:us-east-1:x:deliverystream/x with
   an explicit deny in an identity-based policy. For an example IAM policy, see Tag example.
 """
+function create_delivery_stream end
 function create_delivery_stream(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -161,6 +162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   gave to Firehose. If a failure to retire the grant happens due to an Amazon Web Services
   KMS issue, Firehose keeps retrying the delete operation. The default value is false.
 """
+function delete_delivery_stream end
 function delete_delivery_stream(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -211,6 +213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The limit on the number of destinations to return. You can have one
   destination per delivery stream.
 """
+function describe_delivery_stream end
 function describe_delivery_stream(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -263,6 +266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   immediately after the name you specify in ExclusiveStartDeliveryStreamName.
 - `"Limit"`: The maximum number of delivery streams to list. The default value is 10.
 """
+function list_delivery_streams end
 function list_delivery_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return firehose(
         "ListDeliveryStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -299,6 +303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags associated with the delivery stream, HasMoreTags is set to true in the response. To
   list additional tags, set ExclusiveStartTagKey to the last key in the response.
 """
+function list_tags_for_delivery_stream end
 function list_tags_for_delivery_stream(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -366,6 +371,7 @@ of your records. Instead, concatenate the raw data, then perform base64 encoding
 - `record`: The record.
 
 """
+function put_record end
 function put_record(
     DeliveryStreamName, Record; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -454,6 +460,7 @@ fields of your records. Instead, concatenate the raw data, then perform base64 e
 - `records`: One or more records.
 
 """
+function put_record_batch end
 function put_record_batch(
     DeliveryStreamName, Records; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -531,6 +538,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeliveryStreamEncryptionConfigurationInput"`: Used to specify the type and Amazon
   Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
 """
+function start_delivery_stream_encryption end
 function start_delivery_stream_encryption(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -584,6 +592,7 @@ StopDeliveryStreamEncryption 12 times for the same delivery stream in a 24-hour 
   server-side encryption (SSE).
 
 """
+function stop_delivery_stream_encryption end
 function stop_delivery_stream_encryption(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -630,6 +639,7 @@ five transactions per second per account.
 - `tags`: A set of key-value pairs to use to create the tags.
 
 """
+function tag_delivery_stream end
 function tag_delivery_stream(
     DeliveryStreamName, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -678,6 +688,7 @@ per account.
   stream.
 
 """
+function untag_delivery_stream end
 function untag_delivery_stream(
     DeliveryStreamName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -765,6 +776,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   settings.
 - `"SplunkDestinationUpdate"`: Describes an update for a destination in Splunk.
 """
+function update_destination end
 function update_destination(
     CurrentDeliveryStreamVersionId,
     DeliveryStreamName,

@@ -20,6 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the test case.
 - `"tags"`: The specified tags of the test case.
 """
+function create_test_case end
 function create_test_case(name, steps; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "POST",
@@ -73,6 +74,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceSettings"`: The service settings of the test configuration.
 - `"tags"`: The tags of the test configuration.
 """
+function create_test_configuration end
 function create_test_configuration(
     name, resources; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -130,6 +132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the test suite.
 - `"tags"`: The tags of the test suite.
 """
+function create_test_suite end
 function create_test_suite(
     name, testCases; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -179,6 +182,7 @@ Deletes a test case.
 - `test_case_id`: The test case ID of the test case.
 
 """
+function delete_test_case end
 function delete_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "DELETE",
@@ -212,6 +216,7 @@ Deletes a test configuration.
 - `test_configuration_id`: The test ID of the test configuration.
 
 """
+function delete_test_configuration end
 function delete_test_configuration(
     testConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -247,6 +252,7 @@ Deletes a test run.
 - `test_run_id`: The run ID of the test run.
 
 """
+function delete_test_run end
 function delete_test_run(testRunId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "DELETE",
@@ -280,6 +286,7 @@ Deletes a test suite.
 - `test_suite_id`: The test ID of the test suite.
 
 """
+function delete_test_suite end
 function delete_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "DELETE",
@@ -316,6 +323,7 @@ Gets a test case.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"testCaseVersion"`: The test case version of the test case.
 """
+function get_test_case end
 function get_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "GET",
@@ -352,6 +360,7 @@ Gets a test configuration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"testConfigurationVersion"`: The test configuration version.
 """
+function get_test_configuration end
 function get_test_configuration(
     testConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -392,6 +401,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"testCaseId"`: The test case ID of a test run step.
 - `"testSuiteId"`: The test suite ID of a test run step.
 """
+function get_test_run_step end
 function get_test_run_step(
     stepName, testRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -431,6 +441,7 @@ Gets a test suite.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"testSuiteVersion"`: The version of the test suite.
 """
+function get_test_suite end
 function get_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "GET",
@@ -464,6 +475,7 @@ Lists tags for a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -501,6 +513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next token of the test cases.
 - `"testCaseIds"`: The IDs of the test cases.
 """
+function list_test_cases end
 function list_test_cases(; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "GET", "/testcases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -527,6 +540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next token for the test configurations.
 - `"testConfigurationIds"`: The configuration IDs of the test configurations.
 """
+function list_test_configurations end
 function list_test_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "GET", "/testconfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -561,6 +575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"testCaseId"`: The test case ID of the test run steps.
 - `"testSuiteId"`: The test suite ID of the test run steps.
 """
+function list_test_run_steps end
 function list_test_run_steps(testRunId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "GET",
@@ -599,6 +614,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"nextToken"`: The token from a previous request to retrieve the next page of results.
 """
+function list_test_run_test_cases end
 function list_test_run_test_cases(
     testRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -638,6 +654,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"testSuiteId"`: The test suite ID of the test runs.
 - `"testrunIds"`: The test run IDs of the test runs.
 """
+function list_test_runs end
 function list_test_runs(; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "GET", "/testruns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -664,6 +681,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token from a previous request to retrieve the next page of results.
 - `"testSuiteIds"`: The suite ID of the test suites.
 """
+function list_test_suites end
 function list_test_suites(; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "GET", "/testsuites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -693,6 +711,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags of the test run.
 - `"testConfigurationId"`: The configuration ID of the test run.
 """
+function start_test_run end
 function start_test_run(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "POST",
@@ -736,6 +755,7 @@ Specifies tags of a resource.
 - `tags`: The tags of the resource.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "POST",
@@ -772,6 +792,7 @@ Untags a resource.
 - `tag_keys`: The tag keys of the resource.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -813,6 +834,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the test case.
 - `"steps"`: The steps of the test case.
 """
+function update_test_case end
 function update_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "PATCH",
@@ -852,6 +874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resources"`: The resources of the test configuration.
 - `"serviceSettings"`: The service settings of the test configuration.
 """
+function update_test_configuration end
 function update_test_configuration(
     testConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -893,6 +916,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the test suite.
 - `"testCases"`: The test cases in the test suite.
 """
+function update_test_suite end
 function update_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
         "PATCH",

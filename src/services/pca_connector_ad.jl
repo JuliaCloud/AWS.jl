@@ -22,6 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Idempotency token.
 - `"Tags"`: Metadata assigned to a connector consisting of a key-value pair.
 """
+function create_connector end
 function create_connector(
     CertificateAuthorityArn,
     DirectoryId,
@@ -84,6 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Idempotency token.
 - `"Tags"`: Metadata assigned to a directory registration consisting of a key-value pair.
 """
+function create_directory_registration end
 function create_directory_registration(
     DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -136,6 +138,7 @@ account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Idempotency token.
 """
+function create_service_principal_name end
 function create_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn;
@@ -188,6 +191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Idempotency token.
 - `"Tags"`: Metadata assigned to a template consisting of a key-value pair.
 """
+function create_template end
 function create_template(
     ConnectorArn, Definition, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -253,6 +257,7 @@ and/or autoenrolling with the template based on the group security identifiers (
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Idempotency token.
 """
+function create_template_group_access_control_entry end
 function create_template_group_access_control_entry(
     AccessRights,
     GroupDisplayName,
@@ -319,6 +324,7 @@ tion action.
   CreateConnector.
 
 """
+function delete_connector end
 function delete_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_ad(
         "DELETE",
@@ -354,6 +360,7 @@ Services Private CA with the directory.
   called CreateDirectoryRegistration.
 
 """
+function delete_directory_registration end
 function delete_directory_registration(
     DirectoryRegistrationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -393,6 +400,7 @@ Active Directory.
   called CreateDirectoryRegistration.
 
 """
+function delete_service_principal_name end
 function delete_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn;
@@ -433,6 +441,7 @@ revoked or expired.
   CreateTemplate.
 
 """
+function delete_template end
 function delete_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_ad(
         "DELETE",
@@ -469,6 +478,7 @@ Deletes a group access control entry.
   CreateTemplate.
 
 """
+function delete_template_group_access_control_entry end
 function delete_template_group_access_control_entry(
     GroupSecurityIdentifier, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -507,6 +517,7 @@ Lists information about your connector. You specify the connector on input by it
   CreateConnector.
 
 """
+function get_connector end
 function get_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_ad(
         "GET",
@@ -541,6 +552,7 @@ A structure that contains information about your directory registration.
   called CreateDirectoryRegistration.
 
 """
+function get_directory_registration end
 function get_directory_registration(
     DirectoryRegistrationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -580,6 +592,7 @@ Directory.
   called CreateDirectoryRegistration.
 
 """
+function get_service_principal_name end
 function get_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn;
@@ -620,6 +633,7 @@ private CA.
   CreateTemplate.
 
 """
+function get_template end
 function get_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_ad(
         "GET",
@@ -656,6 +670,7 @@ Retrieves the group access control entries for a template.
   CreateTemplate.
 
 """
+function get_template_group_access_control_entry end
 function get_template_group_access_control_entry(
     GroupSecurityIdentifier, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -699,6 +714,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive a response with truncated results. Set it to the value of the NextToken
   parameter from the response you just received.
 """
+function list_connectors end
 function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_ad(
         "GET", "/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -731,6 +747,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive a response with truncated results. Set it to the value of the NextToken
   parameter from the response you just received.
 """
+function list_directory_registrations end
 function list_directory_registrations(; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_ad(
         "GET",
@@ -773,6 +790,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive a response with truncated results. Set it to the value of the NextToken
   parameter from the response you just received.
 """
+function list_service_principal_names end
 function list_service_principal_names(
     DirectoryRegistrationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -809,6 +827,7 @@ Lists the tags, if any, that are associated with your resource.
   resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -854,6 +873,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive a response with truncated results. Set it to the value of the NextToken
   parameter from the response you just received.
 """
+function list_template_group_access_control_entries end
 function list_template_group_access_control_entries(
     TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -899,6 +919,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive a response with truncated results. Set it to the value of the NextToken
   parameter from the response you just received.
 """
+function list_templates end
 function list_templates(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_ad(
         "GET",
@@ -937,6 +958,7 @@ Adds one or more tags to your resource.
 - `tags`: Metadata assigned to a directory registration consisting of a key-value pair.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_ad(
         "POST",
@@ -975,6 +997,7 @@ Removes one or more tags from your resource.
   resources.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1022,6 +1045,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be increased automatically. All members of Active Directory groups that are allowed to
   enroll with a template will receive a new certificate issued using that template.
 """
+function update_template end
 function update_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_ad(
         "PATCH",
@@ -1065,6 +1089,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupDisplayName"`: Name of the Active Directory group. This name does not need to
   match the group name in Active Directory.
 """
+function update_template_group_access_control_entry end
 function update_template_group_access_control_entry(
     GroupSecurityIdentifier, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -26,6 +26,7 @@ sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
+function associate_access_grants_identity_center end
 function associate_access_grants_identity_center(
     IdentityCenterArn, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -113,6 +114,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Each tag is a label consisting of a user-defined key and value. Tags can help you manage,
   identify, organize, search for, and filter resources.
 """
+function create_access_grant end
 function create_access_grant(
     AccessGrantsLocationId,
     Grantee,
@@ -189,6 +191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Grants instance. Each tag is a label consisting of a user-defined key and value. Tags can
   help you manage, identify, organize, search for, and filter resources.
 """
+function create_access_grants_instance end
 function create_access_grants_instance(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -258,6 +261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Grants location. Each tag is a label consisting of a user-defined key and value. Tags can
   help you manage, identify, organize, search for, and filter resources.
 """
+function create_access_grants_location end
 function create_access_grants_location(
     IAMRoleArn,
     LocationScope,
@@ -348,6 +352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   access point to requests from the specified virtual private cloud (VPC).  This is required
   for creating an access point for Amazon S3 on Outposts buckets.
 """
+function create_access_point end
 function create_access_point(
     Bucket, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -405,6 +410,7 @@ GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
   Lambda Access Point.
 
 """
+function create_access_point_for_object_lambda end
 function create_access_point_for_object_lambda(
     Configuration,
     name,
@@ -490,6 +496,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-outpost-id"`: The ID of the Outposts where the bucket is being created.  This ID
   is required by Amazon S3 on Outposts buckets.
 """
+function create_bucket end
 function create_bucket(name; aws_config::AbstractAWSConfig=current_aws_config())
     return s3_control(
         "PUT",
@@ -548,6 +555,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A set of tags to associate with the S3 Batch Operations job. This is an
   optional parameter.
 """
+function create_job end
 function create_job(
     ClientRequestToken,
     Operation,
@@ -631,6 +639,7 @@ GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
   buckets.
 
 """
+function create_multi_region_access_point end
 function create_multi_region_access_point(
     ClientToken,
     Details,
@@ -702,6 +711,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  The Amazon Web Services resource tags that you're adding to your Storage Lens
   group. This parameter is optional.
 """
+function create_storage_lens_group end
 function create_storage_lens_group(
     StorageLensGroup, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -755,6 +765,7 @@ must have the s3:DeleteAccessGrant permission to use this operation.
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
+function delete_access_grant end
 function delete_access_grant(
     id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -808,6 +819,7 @@ You must have the s3:DeleteAccessGrantsInstance permission to use this operation
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
+function delete_access_grants_instance end
 function delete_access_grants_instance(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -858,6 +870,7 @@ use this operation.
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
+function delete_access_grants_instance_resource_policy end
 function delete_access_grants_instance_resource_policy(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -913,6 +926,7 @@ this operation.
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
+function delete_access_grants_location end
 function delete_access_grants_location(
     id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -977,6 +991,7 @@ following actions are related to DeleteAccessPoint:    CreateAccessPoint     Get
   specified access point.
 
 """
+function delete_access_point end
 function delete_access_point(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1029,6 +1044,7 @@ ListAccessPointsForObjectLambda
   Access Point.
 
 """
+function delete_access_point_for_object_lambda end
 function delete_access_point_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1092,6 +1108,7 @@ PutAccessPointPolicy     GetAccessPointPolicy
 - `x-amz-account-id`: The account ID for the account that owns the specified access point.
 
 """
+function delete_access_point_policy end
 function delete_access_point_policy(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1144,6 +1161,7 @@ PutAccessPointPolicyForObjectLambda
   Access Point.
 
 """
+function delete_access_point_policy_for_object_lambda end
 function delete_access_point_policy_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1210,6 +1228,7 @@ DeleteObject
 - `x-amz-account-id`: The account ID that owns the Outposts bucket.
 
 """
+function delete_bucket end
 function delete_bucket(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1282,6 +1301,7 @@ actions include:    PutBucketLifecycleConfiguration     GetBucketLifecycleConfig
 - `x-amz-account-id`: The account ID of the lifecycle configuration to delete.
 
 """
+function delete_bucket_lifecycle_configuration end
 function delete_bucket_lifecycle_configuration(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1358,6 +1378,7 @@ following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutB
 - `x-amz-account-id`: The account ID of the Outposts bucket.
 
 """
+function delete_bucket_policy end
 function delete_bucket_policy(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1435,6 +1456,7 @@ DeleteBucketReplication:    PutBucketReplication     GetBucketReplication
   the replication configuration for.
 
 """
+function delete_bucket_replication end
 function delete_bucket_replication(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1503,6 +1525,7 @@ PutBucketTagging
   be removed.
 
 """
+function delete_bucket_tagging end
 function delete_bucket_tagging(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1556,6 +1579,7 @@ PutJobTagging
   Operations job.
 
 """
+function delete_job_tagging end
 function delete_job_tagging(
     id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1618,6 +1642,7 @@ ListMultiRegionAccessPoints
   Access Point.
 
 """
+function delete_multi_region_access_point end
 function delete_multi_region_access_point(
     ClientToken,
     Details,
@@ -1677,6 +1702,7 @@ PutPublicAccessBlock
   PublicAccessBlock configuration you want to remove.
 
 """
+function delete_public_access_block end
 function delete_public_access_block(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1729,6 +1755,7 @@ S3 User Guide.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
+function delete_storage_lens_configuration end
 function delete_storage_lens_configuration(
     storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1782,6 +1809,7 @@ Amazon S3 User Guide.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
+function delete_storage_lens_configuration_tagging end
 function delete_storage_lens_configuration_tagging(
     storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1835,6 +1863,7 @@ Storage Lens error codes.
   group that you're trying to delete.
 
 """
+function delete_storage_lens_group end
 function delete_storage_lens_group(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1888,6 +1917,7 @@ UpdateJobStatus
   Operations job.
 
 """
+function describe_job end
 function describe_job(
     id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1945,6 +1975,7 @@ DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAc
   Access Point.
 
 """
+function describe_multi_region_access_point_operation end
 function describe_multi_region_access_point_operation(
     request_token, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1995,6 +2026,7 @@ sso:DeleteApplication permission to use this operation.
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
+function dissociate_access_grants_identity_center end
 function dissociate_access_grants_identity_center(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2044,6 +2076,7 @@ must have the s3:GetAccessGrant permission to use this operation.
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
+function get_access_grant end
 function get_access_grant(
     id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2094,6 +2127,7 @@ API from the account that owns the S3 Access Grants instance.
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
+function get_access_grants_instance end
 function get_access_grants_instance(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2145,6 +2179,7 @@ s3:GetAccessGrantsInstanceForPrefix.
 - `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
 
 """
+function get_access_grants_instance_for_prefix end
 function get_access_grants_instance_for_prefix(
     s3prefix, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2195,6 +2230,7 @@ the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation.
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
+function get_access_grants_instance_resource_policy end
 function get_access_grants_instance_resource_policy(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2247,6 +2283,7 @@ this operation.
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
+function get_access_grants_location end
 function get_access_grants_location(
     id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2312,6 +2349,7 @@ CreateAccessPoint     DeleteAccessPoint     ListAccessPoints
   specified access point.
 
 """
+function get_access_point end
 function get_access_point(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2364,6 +2402,7 @@ GetAccessPointConfigurationForObjectLambda:    PutAccessPointConfigurationForObj
   Access Point.
 
 """
+function get_access_point_configuration_for_object_lambda end
 function get_access_point_configuration_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2416,6 +2455,7 @@ DeleteAccessPointForObjectLambda     ListAccessPointsForObjectLambda
   Access Point.
 
 """
+function get_access_point_for_object_lambda end
 function get_access_point_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2474,6 +2514,7 @@ GetAccessPointPolicy:    PutAccessPointPolicy     DeleteAccessPointPolicy
 - `x-amz-account-id`: The account ID for the account that owns the specified access point.
 
 """
+function get_access_point_policy end
 function get_access_point_policy(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2526,6 +2567,7 @@ PutAccessPointPolicyForObjectLambda
   Access Point.
 
 """
+function get_access_point_policy_for_object_lambda end
 function get_access_point_policy_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2577,6 +2619,7 @@ in the Amazon S3 User Guide.
 - `x-amz-account-id`: The account ID for the account that owns the specified access point.
 
 """
+function get_access_point_policy_status end
 function get_access_point_policy_status(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2627,6 +2670,7 @@ policy associated with an Object Lambda Access Point.
   Access Point.
 
 """
+function get_access_point_policy_status_for_object_lambda end
 function get_access_point_policy_status_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2697,6 +2741,7 @@ PutObject     CreateBucket     DeleteBucket
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
+function get_bucket end
 function get_bucket(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2771,6 +2816,7 @@ actions are related to GetBucketLifecycleConfiguration:    PutBucketLifecycleCon
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
+function get_bucket_lifecycle_configuration end
 function get_bucket_lifecycle_configuration(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2846,6 +2892,7 @@ PutBucketPolicy     DeleteBucketPolicy
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
+function get_bucket_policy end
 function get_bucket_policy(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2926,6 +2973,7 @@ DeleteBucketReplication
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
+function get_bucket_replication end
 function get_bucket_replication(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2995,6 +3043,7 @@ DeleteBucketTagging
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
+function get_bucket_tagging end
 function get_bucket_tagging(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3057,6 +3106,7 @@ PutBucketVersioning     PutBucketLifecycleConfiguration     GetBucketLifecycleCo
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 on Outposts bucket.
 
 """
+function get_bucket_versioning end
 function get_bucket_versioning(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3131,6 +3181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the target data that you would like to access is a path to an object. Do not pass this
   value if the target data is a bucket or a bucket and a prefix.
 """
+function get_data_access end
 function get_data_access(
     permission, target, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3188,6 +3239,7 @@ Guide.   Related actions include:    CreateJob     PutJobTagging     DeleteJobTa
   Operations job.
 
 """
+function get_job_tagging end
 function get_job_tagging(
     id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3247,6 +3299,7 @@ DescribeMultiRegionAccessPointOperation     ListMultiRegionAccessPoints
   Access Point.
 
 """
+function get_multi_region_access_point end
 function get_multi_region_access_point(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3305,6 +3358,7 @@ PutMultiRegionAccessPointPolicy
   Access Point.
 
 """
+function get_multi_region_access_point_policy end
 function get_multi_region_access_point_policy(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3363,6 +3417,7 @@ PutMultiRegionAccessPointPolicy
   Access Point.
 
 """
+function get_multi_region_access_point_policy_status end
 function get_multi_region_access_point_policy_status(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3416,6 +3471,7 @@ us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1
   Access Point.
 
 """
+function get_multi_region_access_point_routes end
 function get_multi_region_access_point_routes(
     mrap, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3467,6 +3523,7 @@ PutPublicAccessBlock
   PublicAccessBlock configuration you want to retrieve.
 
 """
+function get_public_access_block end
 function get_public_access_block(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3520,6 +3577,7 @@ User Guide.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
+function get_storage_lens_configuration end
 function get_storage_lens_configuration(
     storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3573,6 +3631,7 @@ Amazon S3 User Guide.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
+function get_storage_lens_configuration_tagging end
 function get_storage_lens_configuration_tagging(
     storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3627,6 +3686,7 @@ Amazon S3 Storage Lens error codes.
   group that you're trying to retrieve the details for.
 
 """
+function get_storage_lens_group end
 function get_storage_lens_group(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3704,6 +3764,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Grant write-only access to the S3 data.    READWRITE – Grant both read and write access
   to the S3 data.
 """
+function list_access_grants end
 function list_access_grants(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3761,6 +3822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   into a subsequent List Access Grants Instances request in order to retrieve the next page
   of results.
 """
+function list_access_grants_instances end
 function list_access_grants_instances(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3822,6 +3884,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   into a subsequent List Access Grants Locations request in order to retrieve the next page
   of results.
 """
+function list_access_grants_locations end
 function list_access_grants_locations(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3899,6 +3962,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continuation token in the NextToken field, then providing that value here causes Amazon S3
   to retrieve the next page of results.
 """
+function list_access_points end
 function list_access_points(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3960,6 +4024,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this API, this field contains a continuation token that you can provide in subsequent calls
   to this API to retrieve additional access points.
 """
+function list_access_points_for_object_lambda end
 function list_access_points_for_object_lambda(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4023,6 +4088,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   into a subsequent List Caller Access Grants request in order to retrieve the next page of
   results.
 """
+function list_caller_access_grants end
 function list_caller_access_grants(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4084,6 +4150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon S3 returned in the NextToken element of the ListJobsResult from the previous List
   Jobs request.
 """
+function list_jobs end
 function list_jobs(x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config())
     return s3_control(
         "GET",
@@ -4142,6 +4209,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Not currently used. Do not use this parameter.
 - `"nextToken"`: Not currently used. Do not use this parameter.
 """
+function list_multi_region_access_points end
 function list_multi_region_access_points(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4198,6 +4266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-outpost-id"`: The ID of the Outposts resource.  This ID is required by Amazon S3
   on Outposts buckets.
 """
+function list_regional_buckets end
 function list_regional_buckets(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4252,6 +4321,7 @@ S3 User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: A pagination token to request the next page of results.
 """
+function list_storage_lens_configurations end
 function list_storage_lens_configurations(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4307,6 +4377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
+function list_storage_lens_groups end
 function list_storage_lens_groups(
     x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4364,6 +4435,7 @@ List of Amazon S3 Tagging error codes.
 - `x-amz-account-id`:  The Amazon Web Services account ID of the resource owner.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4417,6 +4489,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Organization"`: The Organization of the resource policy of the S3 Access Grants
   instance.
 """
+function put_access_grants_instance_resource_policy end
 function put_access_grants_instance_resource_policy(
     Policy, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4471,6 +4544,7 @@ PutAccessPointConfigurationForObjectLambda:    GetAccessPointConfigurationForObj
   Access Point.
 
 """
+function put_access_point_configuration_for_object_lambda end
 function put_access_point_configuration_for_object_lambda(
     Configuration,
     name,
@@ -4547,6 +4621,7 @@ DeleteAccessPointPolicy
   with the specified access point.
 
 """
+function put_access_point_policy end
 function put_access_point_policy(
     Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4604,6 +4679,7 @@ GetAccessPointPolicyForObjectLambda
   Access Point.
 
 """
+function put_access_point_policy_for_object_lambda end
 function put_access_point_policy_for_object_lambda(
     Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4671,6 +4747,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LifecycleConfiguration"`: Container for lifecycle rules. You can add as many as 1,000
   rules.
 """
+function put_bucket_lifecycle_configuration end
 function put_bucket_lifecycle_configuration(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4752,6 +4829,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you want to remove your permissions to change this bucket policy in the future.  This is
   not supported by Amazon S3 on Outposts buckets.
 """
+function put_bucket_policy end
 function put_bucket_policy(
     Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4853,6 +4931,7 @@ PutBucketReplication:    GetBucketReplication     DeleteBucketReplication
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
+function put_bucket_replication end
 function put_bucket_replication(
     ReplicationConfiguration,
     name,
@@ -4945,6 +5024,7 @@ GetBucketTagging     DeleteBucketTagging
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
+function put_bucket_tagging end
 function put_bucket_tagging(
     Tagging, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5026,6 +5106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
   and the value that is displayed on your authentication device.
 """
+function put_bucket_versioning end
 function put_bucket_versioning(
     VersioningConfiguration,
     name,
@@ -5101,6 +5182,7 @@ DeleteJobTagging
   Operations job.
 
 """
+function put_job_tagging end
 function put_job_tagging(
     Tags, id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5164,6 +5246,7 @@ GetMultiRegionAccessPointPolicyStatus
   Access Point.
 
 """
+function put_multi_region_access_point_policy end
 function put_multi_region_access_point_policy(
     ClientToken,
     Details,
@@ -5226,6 +5309,7 @@ DeletePublicAccessBlock
   PublicAccessBlock configuration you want to set.
 
 """
+function put_public_access_block end
 function put_public_access_block(
     PublicAccessBlockConfiguration,
     x_amz_account_id;
@@ -5289,6 +5373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum
   of 50 tags.
 """
+function put_storage_lens_configuration end
 function put_storage_lens_configuration(
     StorageLensConfiguration,
     storagelensid,
@@ -5354,6 +5439,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum
   of 50 tags.
 """
+function put_storage_lens_configuration_tagging end
 function put_storage_lens_configuration_tagging(
     Tag, storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5425,6 +5511,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RouteUpdates"`: The different routes that make up the new route configuration. Active
   routes return a value of 100, and passive routes return a value of 0.
 """
+function submit_multi_region_access_point_routes end
 function submit_multi_region_access_point_routes(
     Route, mrap, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5494,6 +5581,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  The Amazon Web Services resource tags that you want to add to the specified S3
   resource.
 """
+function tag_resource end
 function tag_resource(
     Tag, resourceArn, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5557,6 +5645,7 @@ List of Amazon S3 Tagging error codes.
   you're trying to remove the tags from.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -5624,6 +5713,7 @@ iam:PassRole
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
+function update_access_grants_location end
 function update_access_grants_location(
     IAMRoleArn, id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5680,6 +5770,7 @@ actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus
   Operations job.
 
 """
+function update_job_priority end
 function update_job_priority(
     id, priority, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5741,6 +5832,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusUpdateReason"`: A description of the reason why you want to change the specified
   job's status. This field can be any string up to the maximum length.
 """
+function update_job_status end
 function update_job_status(
     id,
     requestedJobStatus,
@@ -5800,6 +5892,7 @@ Storage Lens error codes.
 - `x-amz-account-id`:  The Amazon Web Services account ID of the Storage Lens group owner.
 
 """
+function update_storage_lens_group end
 function update_storage_lens_group(
     StorageLensGroup,
     name,

@@ -63,6 +63,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 7
 - `"Tags"`: The tags to apply to the lifecycle policy during creation.
 """
+function create_lifecycle_policy end
 function create_lifecycle_policy(
     Description, ExecutionRoleArn, State; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -116,6 +117,7 @@ specified. For more information about deleting a policy, see Delete lifecycle po
 - `policy_id`: The identifier of the lifecycle policy.
 
 """
+function delete_lifecycle_policy end
 function delete_lifecycle_policy(
     policyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -162,6 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services-added lifecycle tags.
 - `"targetTags"`: The target tag for a policy. Tags are strings in the format key=value.
 """
+function get_lifecycle_policies end
 function get_lifecycle_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return dlm("GET", "/policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -184,6 +187,7 @@ Gets detailed information about the specified lifecycle policy.
 - `policy_id`: The identifier of the lifecycle policy.
 
 """
+function get_lifecycle_policy end
 function get_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=current_aws_config())
     return dlm(
         "GET",
@@ -217,6 +221,7 @@ Lists the tags for the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -253,6 +258,7 @@ Adds the specified tags to the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
+function tag_resource end
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return dlm(
         "POST",
@@ -289,6 +295,7 @@ Removes the specified tags from the specified resource.
 - `tag_keys`: The tag keys.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -361,6 +368,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   least 1 snapshot or AMI at any given time.
 - `"State"`: The desired activation state of the lifecycle policy after creation.
 """
+function update_lifecycle_policy end
 function update_lifecycle_policy(
     policyId; aws_config::AbstractAWSConfig=current_aws_config()
 )

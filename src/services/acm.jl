@@ -29,6 +29,7 @@ have been applied to the certificate, use the ListTagsForCertificate action.
 - `tags`: The key-value pair that defines the tag. The tag value is optional.
 
 """
+function add_tags_to_certificate end
 function add_tags_to_certificate(
     CertificateArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -79,6 +80,7 @@ first be removed.
   information about ARNs, see Amazon Resource Names (ARNs).
 
 """
+function delete_certificate end
 function delete_certificate(
     CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -120,6 +122,7 @@ you can retrieve information about it.
   information about ARNs, see Amazon Resource Names (ARNs).
 
 """
+function describe_certificate end
 function describe_certificate(
     CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -167,6 +170,7 @@ CLI, see Export a Private Certificate.
   the passphrase.  openssl rsa -in encrypted_key.pem -out decrypted_key.pem
 
 """
+function export_certificate end
 function export_certificate(
     CertificateArn, Passphrase; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -207,6 +211,7 @@ end
 Returns the account configuration options associated with an Amazon Web Services account.
 
 """
+function get_account_configuration end
 function get_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return acm(
         "GetAccountConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -241,6 +246,7 @@ inspect individual fields.
   information about ARNs, see Amazon Resource Names (ARNs).
 
 """
+function get_certificate end
 function get_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_aws_config())
     return acm(
         "GetCertificate",
@@ -307,6 +313,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: One or more resource tags to associate with the imported certificate.  Note:
   You cannot apply tags when reimporting a certificate.
 """
+function import_certificate end
 function import_certificate(
     Certificate, PrivateKey; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -366,6 +373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: Specifies the order of sorted results. If you specify SortOrder, you must
   also specify SortBy.
 """
+function list_certificates end
 function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
     return acm("ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -393,6 +401,7 @@ AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate 
   information about ARNs, see Amazon Resource Names (ARNs).
 
 """
+function list_tags_for_certificate end
 function list_tags_for_certificate(
     CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -440,6 +449,7 @@ days before certificate expiration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ExpiryEvents"`: Specifies expiration events associated with an account.
 """
+function put_account_configuration end
 function put_account_configuration(
     IdempotencyToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -487,6 +497,7 @@ ACM certificate, use the ListTagsForCertificate action.
 - `tags`: The key-value pair that defines the tag to remove.
 
 """
+function remove_tags_from_certificate end
 function remove_tags_from_certificate(
     CertificateArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -534,6 +545,7 @@ For more information, see Testing Managed Renewal in the ACM User Guide.
   information about ARNs, see Amazon Resource Names (ARNs).
 
 """
+function renew_certificate end
 function renew_certificate(
     CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -640,6 +652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   certificate to validate that you own or control domain. You can validate with DNS or
   validate with email. We recommend that you use DNS validation.
 """
+function request_certificate end
 function request_certificate(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return acm(
         "RequestCertificate",
@@ -696,6 +709,7 @@ your contact email addresses, see Configure Email for your Domain.
   postmaster@subdomain.example.com   webmaster@subdomain.example.com
 
 """
+function resend_validation_email end
 function resend_validation_email(
     CertificateArn,
     Domain,
@@ -756,6 +770,7 @@ information, see  Opting Out of Certificate Transparency Logging.
   Certificates that have not been logged typically produce an error message in a browser.
 
 """
+function update_certificate_options end
 function update_certificate_options(
     CertificateArn, Options; aws_config::AbstractAWSConfig=current_aws_config()
 )

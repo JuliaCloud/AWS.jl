@@ -20,6 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Chime SDK Voice Connector and removes any previously existing associations. If
   false, does not associate any phone numbers that have previously existing associations.
 """
+function associate_phone_numbers_with_voice_connector end
 function associate_phone_numbers_with_voice_connector(
     E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -67,6 +68,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Chime SDK Voice Connector Group and removes any previously existing associations. If
   false, does not associate any phone numbers that have previously existing associations.
 """
+function associate_phone_numbers_with_voice_connector_group end
 function associate_phone_numbers_with_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId;
@@ -112,6 +114,7 @@ remain in the Deletion queue for 7 days before they are deleted permanently.
 - `phone_number_ids`: List of phone number IDs.
 
 """
+function batch_delete_phone_number end
 function batch_delete_phone_number(
     PhoneNumberIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -153,6 +156,7 @@ phoneNumberId in a request.
 - `update_phone_number_request_items`: Lists the phone numbers in the update request.
 
 """
+function batch_update_phone_number end
 function batch_update_phone_number(
     UpdatePhoneNumberRequestItems; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -202,6 +206,7 @@ must use the Amazon Chime SDK SIP media application dial-in product type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: Specifies the name assigned to one or more phone numbers.
 """
+function create_phone_number_order end
 function create_phone_number_order(
     E164PhoneNumbers, ProductType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -261,6 +266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NumberSelectionBehavior"`: The preference for proxy phone number reuse, or stickiness,
   between the same participants across sessions.
 """
+function create_proxy_session end
 function create_proxy_session(
     Capabilities,
     ParticipantPhoneNumbers,
@@ -320,6 +326,7 @@ Managing SIP media applications and rules in the Amazon Chime SDK Administrator 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: The tags assigned to the SIP media application.
 """
+function create_sip_media_application end
 function create_sip_media_application(
     AwsRegion, Endpoints, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -377,6 +384,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you could pass key-value pairs such as: \"FirstName\": \"John\", \"LastName\": \"Doe\"
 - `"SipHeaders"`: The SIP headers added to an outbound call leg.
 """
+function create_sip_media_application_call end
 function create_sip_media_application_call(
     FromPhoneNumber,
     ToPhoneNumber,
@@ -444,6 +452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetApplications"`: List of SIP media applications, with priority and AWS Region.
   Only one SIP application per AWS Region can be used.
 """
+function create_sip_rule end
 function create_sip_rule(
     Name, TriggerType, TriggerValue; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -502,6 +511,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default value: us-east-1 .
 - `"Tags"`: The tags assigned to the Voice Connector.
 """
+function create_voice_connector end
 function create_voice_connector(
     Name, RequireEncryption; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -552,6 +562,7 @@ in case of availability events.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"VoiceConnectorItems"`: Lists the Voice Connectors that inbound calls are routed to.
 """
+function create_voice_connector_group end
 function create_voice_connector_group(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -591,6 +602,7 @@ Chime SDK Developer Guide.
 - `speaker_search_task_id`: The ID of the speaker search task.
 
 """
+function create_voice_profile end
 function create_voice_profile(
     SpeakerSearchTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -646,6 +658,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the voice profile domain.
 - `"Tags"`: The tags assigned to the domain.
 """
+function create_voice_profile_domain end
 function create_voice_profile_domain(
     Name,
     ServerSideEncryptionConfiguration;
@@ -701,6 +714,7 @@ permanently.
 - `phone_number_id`: The phone number ID.
 
 """
+function delete_phone_number end
 function delete_phone_number(
     phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -737,6 +751,7 @@ Deletes the specified proxy session from the specified Amazon Chime SDK Voice Co
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function delete_proxy_session end
 function delete_proxy_session(
     proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -773,6 +788,7 @@ Deletes a SIP media application.
 - `sip_media_application_id`: The SIP media application ID.
 
 """
+function delete_sip_media_application end
 function delete_sip_media_application(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -808,6 +824,7 @@ Deletes a SIP rule.
 - `sip_rule_id`: The SIP rule ID.
 
 """
+function delete_sip_rule end
 function delete_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "DELETE",
@@ -842,6 +859,7 @@ Chime SDK Voice Connector must be disassociated from it before it can be deleted
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function delete_voice_connector end
 function delete_voice_connector(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -877,6 +895,7 @@ Deletes the emergency calling details from the specified Amazon Chime SDK Voice 
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function delete_voice_connector_emergency_calling_configuration end
 function delete_voice_connector_emergency_calling_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -913,6 +932,7 @@ numbers associated with the group must be removed before it can be deleted.
 - `voice_connector_group_id`: The Voice Connector Group ID.
 
 """
+function delete_voice_connector_group end
 function delete_voice_connector_group(
     voiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -950,6 +970,7 @@ deleting the origination settings.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function delete_voice_connector_origination end
 function delete_voice_connector_origination(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -985,6 +1006,7 @@ Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connec
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function delete_voice_connector_proxy end
 function delete_voice_connector_proxy(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1020,6 +1042,7 @@ Deletes a Voice Connector's streaming configuration.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function delete_voice_connector_streaming_configuration end
 function delete_voice_connector_streaming_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1057,6 +1080,7 @@ deleting the termination settings.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function delete_voice_connector_termination end
 function delete_voice_connector_termination(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1095,6 +1119,7 @@ termination.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function delete_voice_connector_termination_credentials end
 function delete_voice_connector_termination_credentials(
     Usernames, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1135,6 +1160,7 @@ action is not reversible.
 - `voice_profile_id`: The voice profile ID.
 
 """
+function delete_voice_profile end
 function delete_voice_profile(
     VoiceProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1170,6 +1196,7 @@ Deletes all voice profiles in the domain. WARNING: This action is not reversible
 - `voice_profile_domain_id`: The voice profile domain ID.
 
 """
+function delete_voice_profile_domain end
 function delete_voice_profile_domain(
     VoiceProfileDomainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1207,6 +1234,7 @@ Connector.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function disassociate_phone_numbers_from_voice_connector end
 function disassociate_phone_numbers_from_voice_connector(
     E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1250,6 +1278,7 @@ Connector group.
 - `voice_connector_group_id`: The Voice Connector group ID.
 
 """
+function disassociate_phone_numbers_from_voice_connector_group end
 function disassociate_phone_numbers_from_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId;
@@ -1290,6 +1319,7 @@ end
 Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
 
 """
+function get_global_settings end
 function get_global_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1315,6 +1345,7 @@ and product type.
 - `phone_number_id`: The phone number ID.
 
 """
+function get_phone_number end
 function get_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET",
@@ -1349,6 +1380,7 @@ timestamp, phone numbers in E.164 format, product type, and order status.
 - `phone_number_order_id`: The ID of the phone number order .
 
 """
+function get_phone_number_order end
 function get_phone_number_order(
     phoneNumberOrderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1382,6 +1414,7 @@ Retrieves the phone number settings for the administrator's AWS account, such as
 default outbound calling name.
 
 """
+function get_phone_number_settings end
 function get_phone_number_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET",
@@ -1415,6 +1448,7 @@ Connector.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function get_proxy_session end
 function get_proxy_session(
     proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1452,6 +1486,7 @@ endpoints.
 - `sip_media_application_id`: The SIP media application ID .
 
 """
+function get_sip_media_application end
 function get_sip_media_application(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1489,6 +1524,7 @@ refer to the Alexa Smart Properties page.
 - `sip_media_application_id`: The SIP media application ID.
 
 """
+function get_sip_media_application_alexa_skill_configuration end
 function get_sip_media_application_alexa_skill_configuration(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1524,6 +1560,7 @@ Retrieves the logging configuration for the specified SIP media application.
 - `sip_media_application_id`: The SIP media application ID.
 
 """
+function get_sip_media_application_logging_configuration end
 function get_sip_media_application_logging_configuration(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1560,6 +1597,7 @@ endpoints.
 - `sip_rule_id`: The SIP rule ID.
 
 """
+function get_sip_rule end
 function get_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET",
@@ -1594,6 +1632,7 @@ Retrieves the details of the specified speaker search task.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function get_speaker_search_task end
 function get_speaker_search_task(
     SpeakerSearchTaskId,
     VoiceConnectorId;
@@ -1633,6 +1672,7 @@ timestamps,name, outbound host, and encryption requirements.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function get_voice_connector end
 function get_voice_connector(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1668,6 +1708,7 @@ Retrieves the emergency calling configuration details for the specified Voice Co
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function get_voice_connector_emergency_calling_configuration end
 function get_voice_connector_emergency_calling_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1704,6 +1745,7 @@ timestamps,name, and associated VoiceConnectorItems.
 - `voice_connector_group_id`: The Voice Connector group ID.
 
 """
+function get_voice_connector_group end
 function get_voice_connector_group(
     voiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1740,6 +1782,7 @@ whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function get_voice_connector_logging_configuration end
 function get_voice_connector_logging_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1775,6 +1818,7 @@ Retrieves the origination settings for the specified Voice Connector.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function get_voice_connector_origination end
 function get_voice_connector_origination(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1811,6 +1855,7 @@ Connector.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function get_voice_connector_proxy end
 function get_voice_connector_proxy(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1848,6 +1893,7 @@ shows the retention period, in hours, for the Amazon Kinesis data.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function get_voice_connector_streaming_configuration end
 function get_voice_connector_streaming_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1883,6 +1929,7 @@ Retrieves the termination setting details for the specified Voice Connector.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function get_voice_connector_termination end
 function get_voice_connector_termination(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1919,6 +1966,7 @@ infrastructure for the specified Amazon Chime SDK Voice Connector.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function get_voice_connector_termination_health end
 function get_voice_connector_termination_health(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1954,6 +2002,7 @@ Retrieves the details of the specified voice profile.
 - `voice_profile_id`: The voice profile ID.
 
 """
+function get_voice_profile end
 function get_voice_profile(
     VoiceProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1989,6 +2038,7 @@ Retrieves the details of the specified voice profile domain.
 - `voice_profile_domain_id`: The voice profile domain ID.
 
 """
+function get_voice_profile_domain end
 function get_voice_profile_domain(
     VoiceProfileDomainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2027,6 +2077,7 @@ Retrieves the details of a voice tone analysis task.
   callee (responder).
 
 """
+function get_voice_tone_analysis_task end
 function get_voice_tone_analysis_task(
     VoiceConnectorId,
     VoiceToneAnalysisTaskId,
@@ -2067,6 +2118,7 @@ end
 Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector.
 
 """
+function list_available_voice_connector_regions end
 function list_available_voice_connector_regions(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2101,6 +2153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token used to retrieve the next page of results.
 """
+function list_phone_number_orders end
 function list_phone_number_orders(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET",
@@ -2138,6 +2191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"product-type"`: The phone number product types.
 - `"status"`: The status of your organization's phone numbers.
 """
+function list_phone_numbers end
 function list_phone_numbers(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET", "/phone-numbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2171,6 +2225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token used to retrieve the next page of results.
 - `"status"`: The proxy session status.
 """
+function list_proxy_sessions end
 function list_proxy_sessions(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2208,6 +2263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100.
 - `"next-token"`: The token used to return the next page of results.
 """
+function list_sip_media_applications end
 function list_sip_media_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET",
@@ -2242,6 +2298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token used to return the next page of results.
 - `"sip-media-application"`: The SIP media application ID.
 """
+function list_sip_rules end
 function list_sip_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET", "/sip-rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2266,6 +2323,7 @@ Lists the countries that you can order phone numbers from.
 - `product-type`: The phone number product type.
 
 """
+function list_supported_phone_number_countries end
 function list_supported_phone_number_countries(
     product_type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2304,6 +2362,7 @@ Returns a list of the tags in a given resource.
 - `arn`: The resource ARN.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET",
@@ -2337,6 +2396,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token used to return the next page of results.
 """
+function list_voice_connector_groups end
 function list_voice_connector_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET",
@@ -2368,6 +2428,7 @@ Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function list_voice_connector_termination_credentials end
 function list_voice_connector_termination_credentials(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2404,6 +2465,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token used to return the next page of results.
 """
+function list_voice_connectors end
 function list_voice_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET", "/voice-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2433,6 +2495,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token used to return the next page of results.
 """
+function list_voice_profile_domains end
 function list_voice_profile_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET",
@@ -2468,6 +2531,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results in the request.
 - `"next-token"`: The token used to retrieve the next page of results.
 """
+function list_voice_profiles end
 function list_voice_profiles(
     voice_profile_domain_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2515,6 +2579,7 @@ refer to the Alexa Smart Properties page.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SipMediaApplicationAlexaSkillConfiguration"`: The Alexa Skill configuration.
 """
+function put_sip_media_application_alexa_skill_configuration end
 function put_sip_media_application_alexa_skill_configuration(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2554,6 +2619,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SipMediaApplicationLoggingConfiguration"`: The logging configuration for the specified
   SIP media application.
 """
+function put_sip_media_application_logging_configuration end
 function put_sip_media_application_logging_configuration(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2590,6 +2656,7 @@ Updates a Voice Connector's emergency calling configuration.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function put_voice_connector_emergency_calling_configuration end
 function put_voice_connector_emergency_calling_configuration(
     EmergencyCallingConfiguration,
     voiceConnectorId;
@@ -2638,6 +2705,7 @@ Updates a Voice Connector's logging configuration.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function put_voice_connector_logging_configuration end
 function put_voice_connector_logging_configuration(
     LoggingConfiguration,
     voiceConnectorId;
@@ -2684,6 +2752,7 @@ Updates a Voice Connector's origination settings.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function put_voice_connector_origination end
 function put_voice_connector_origination(
     Origination, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2730,6 +2799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Chime SDK Voice Connector.
 - `"FallBackPhoneNumber"`: The phone number to route calls to after a proxy session expires.
 """
+function put_voice_connector_proxy end
 function put_voice_connector_proxy(
     DefaultSessionExpiryMinutes,
     PhoneNumberPoolCountries,
@@ -2784,6 +2854,7 @@ Updates a Voice Connector's streaming configuration settings.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function put_voice_connector_streaming_configuration end
 function put_voice_connector_streaming_configuration(
     StreamingConfiguration,
     voiceConnectorId;
@@ -2830,6 +2901,7 @@ Updates a Voice Connector's termination settings.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function put_voice_connector_termination end
 function put_voice_connector_termination(
     Termination, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2872,6 +2944,7 @@ Updates a Voice Connector's termination credentials.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Credentials"`: The termination credentials being updated.
 """
+function put_voice_connector_termination_credentials end
 function put_voice_connector_termination_credentials(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2907,6 +2980,7 @@ Restores a deleted phone number.
 - `phone_number_id`: The ID of the phone number being restored.
 
 """
+function restore_phone_number end
 function restore_phone_number(
     phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2954,6 +3028,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"toll-free-prefix"`: Confines a search to just the phone numbers associated with the
   specified toll-free prefix.
 """
+function search_available_phone_numbers end
 function search_available_phone_numbers(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2997,6 +3072,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: The unique identifier for the client request. Use a different
   token for different speaker search tasks.
 """
+function start_speaker_search_task end
 function start_speaker_search_task(
     TransactionId,
     VoiceConnectorId,
@@ -3059,6 +3135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: The unique identifier for the client request. Use a different
   token for different voice tone analysis tasks.
 """
+function start_voice_tone_analysis_task end
 function start_voice_tone_analysis_task(
     LanguageCode,
     TransactionId,
@@ -3109,6 +3186,7 @@ Stops a speaker search task.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function stop_speaker_search_task end
 function stop_speaker_search_task(
     SpeakerSearchTaskId,
     VoiceConnectorId;
@@ -3148,6 +3226,7 @@ Stops a voice tone analysis task.
 - `voice_tone_analysis_task_id`: The ID of the voice tone analysis task.
 
 """
+function stop_voice_tone_analysis_task end
 function stop_voice_tone_analysis_task(
     VoiceConnectorId,
     VoiceToneAnalysisTaskId;
@@ -3187,6 +3266,7 @@ Adds a tag to the specified resource.
 - `tags`: A list of the tags being added to the resource.
 
 """
+function tag_resource end
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "POST",
@@ -3229,6 +3309,7 @@ Removes tags from a resource.
 - `tag_keys`: The keys of the tags being removed from the resource.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3272,6 +3353,7 @@ Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS acco
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"VoiceConnector"`: The Voice Connector settings.
 """
+function update_global_settings end
 function update_global_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3307,6 +3389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: Specifies the updated name assigned to one or more phone numbers.
 - `"ProductType"`: The product type.
 """
+function update_phone_number end
 function update_phone_number(
     phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3344,6 +3427,7 @@ days. Outbound calling names can take up to 72 hours to update.
 - `calling_name`: The default outbound calling name for the account.
 
 """
+function update_phone_number_settings end
 function update_phone_number_settings(
     CallingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3387,6 +3471,7 @@ Updates the specified proxy session details, such as voice or SMS capabilities.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ExpiryMinutes"`: The number of minutes allowed for the proxy session.
 """
+function update_proxy_session end
 function update_proxy_session(
     Capabilities,
     proxySessionId,
@@ -3434,6 +3519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Endpoints"`: The new set of endpoints for the specified SIP media application.
 - `"Name"`: The new name for the specified SIP media application.
 """
+function update_sip_media_application end
 function update_sip_media_application(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3473,6 +3559,7 @@ ID in an update request. The Lambda function can then return a new set of action
 - `transaction_id`: The ID of the call transaction.
 
 """
+function update_sip_media_application_call end
 function update_sip_media_application_call(
     Arguments,
     sipMediaApplicationId,
@@ -3521,6 +3608,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Disabled"`: The new value that indicates whether the rule is disabled.
 - `"TargetApplications"`: The new list of target applications.
 """
+function update_sip_rule end
 function update_sip_rule(
     Name, sipRuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3560,6 +3648,7 @@ Updates the details for the specified Amazon Chime SDK Voice Connector.
 - `voice_connector_id`: The Voice Connector ID.
 
 """
+function update_voice_connector end
 function update_voice_connector(
     Name,
     RequireEncryption,
@@ -3610,6 +3699,7 @@ Updates the settings for the specified Amazon Chime SDK Voice Connector group.
 - `voice_connector_group_id`: The Voice Connector ID.
 
 """
+function update_voice_connector_group end
 function update_voice_connector_group(
     Name,
     VoiceConnectorItems,
@@ -3668,6 +3758,7 @@ required under the terms of your agreement with AWS governing your use of the se
 - `voice_profile_id`: The profile ID.
 
 """
+function update_voice_profile end
 function update_voice_profile(
     SpeakerSearchTaskId, VoiceProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3715,6 +3806,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the voice profile domain.
 - `"Name"`: The name of the voice profile domain.
 """
+function update_voice_profile_domain end
 function update_voice_profile_domain(
     VoiceProfileDomainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3759,6 +3851,7 @@ appropriate Public Safety Answering Point.
 - `street_number`: The address street number, such as 200 or 2121.
 
 """
+function validate_e911_address end
 function validate_e911_address(
     AwsAccountId,
     City,

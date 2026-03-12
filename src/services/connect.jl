@@ -19,6 +19,7 @@ form is activated, it is available to start new evaluations based on the form.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function activate_evaluation_form end
 function activate_evaluation_form(
     EvaluationFormId,
     EvaluationFormVersion,
@@ -76,6 +77,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by default this value is the Amazon Web Services account that has the Amazon Connect
   instance.
 """
+function associate_analytics_data_set end
 function associate_analytics_data_set(
     DataSetId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -118,6 +120,7 @@ approved origin to an Amazon Connect instance.
 - `origin`: The domain to add to your allow list.
 
 """
+function associate_approved_origin end
 function associate_approved_origin(
     InstanceId, Origin; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -161,6 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LexBot"`:
 - `"LexV2Bot"`: The Amazon Lex V2 bot to associate with the instance.
 """
+function associate_bot end
 function associate_bot(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "PUT",
@@ -202,6 +206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VocabularyId"`: The identifier of the custom vocabulary. If this is empty, the default
   is set to none.
 """
+function associate_default_vocabulary end
 function associate_default_vocabulary(
     InstanceId, LanguageCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -242,6 +247,7 @@ Associates a connect resource to a flow.
 - `resource_type`: A valid resource type.
 
 """
+function associate_flow end
 function associate_flow(
     FlowId,
     InstanceId,
@@ -313,6 +319,7 @@ association.
 - `storage_config`: A valid storage type.
 
 """
+function associate_instance_storage_config end
 function associate_instance_storage_config(
     InstanceId,
     ResourceType,
@@ -366,6 +373,7 @@ specified Amazon Connect instance to access the specified Lambda function.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function associate_lambda_function end
 function associate_lambda_function(
     FunctionArn, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -409,6 +417,7 @@ supports the association of Amazon Lex V1 bots.
 - `lex_bot`: The Amazon Lex bot to associate with the instance.
 
 """
+function associate_lex_bot end
 function associate_lex_bot(
     InstanceId, LexBot; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -456,6 +465,7 @@ If a UUID is provided in this scenario, you will receive a ResourceNotFoundExcep
 - `phone_number_id`: A unique identifier for the phone number.
 
 """
+function associate_phone_number_contact_flow end
 function associate_phone_number_contact_flow(
     ContactFlowId,
     InstanceId,
@@ -509,6 +519,7 @@ set of quick connects with a queue.
 - `quick_connect_ids`: The quick connects to associate with this queue.
 
 """
+function associate_queue_quick_connects end
 function associate_queue_quick_connects(
     InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -554,6 +565,7 @@ Associates a set of queues with a routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
+function associate_routing_profile_queues end
 function associate_routing_profile_queues(
     InstanceId,
     QueueConfigs,
@@ -600,6 +612,7 @@ security key to the instance.
 - `key`: A valid security key in PEM format as a String.
 
 """
+function associate_security_key end
 function associate_security_key(
     InstanceId, Key; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -643,6 +656,7 @@ Associates an agent with a traffic distribution group.
 - `user_id`: The identifier of the user account. This can be the ID or the ARN of the user.
 
 """
+function associate_traffic_distribution_group_user end
 function associate_traffic_distribution_group_user(
     InstanceId,
     TrafficDistributionGroupId,
@@ -693,6 +707,7 @@ end
 - `user_proficiencies`: The proficiencies to associate with the user.
 
 """
+function associate_user_proficiencies end
 function associate_user_proficiencies(
     InstanceId,
     UserId,
@@ -748,6 +763,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by default this value is the Amazon Web Services account that has the Amazon Connect
   instance.
 """
+function batch_associate_analytics_data_set end
 function batch_associate_analytics_data_set(
     DataSetIds, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -797,6 +813,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, by default this value is the Amazon Web Services account that has the Amazon
   Connect instance.
 """
+function batch_disassociate_analytics_data_set end
 function batch_disassociate_analytics_data_set(
     DataSetIds, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -841,6 +858,7 @@ AssociatedResourceArn.
   to. Cases are the only current supported resource.  This value must be a valid ARN.
 
 """
+function batch_get_attached_file_metadata end
 function batch_get_attached_file_metadata(
     FileIds,
     InstanceId,
@@ -897,6 +915,7 @@ Retrieve the flow associations for the given resources.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ResourceType"`: The type of resource association.
 """
+function batch_get_flow_association end
 function batch_get_flow_association(
     InstanceId, ResourceIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -949,6 +968,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
+function batch_put_contact end
 function batch_put_contact(
     ContactDataRequestList, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1031,6 +1051,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distribution groups that phone number inbound traffic is routed through. You must enter
   InstanceId or TargetArn.
 """
+function claim_phone_number end
 function claim_phone_number(PhoneNumber; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
@@ -1077,6 +1098,7 @@ provided in the StartAttachedFileUpload API.
   to. Cases are the only current supported resource.  This value must be a valid ARN.
 
 """
+function complete_attached_file_upload end
 function complete_attached_file_upload(
     FileId,
     InstanceId,
@@ -1134,6 +1156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_agent_status end
 function create_agent_status(
     InstanceId, Name, State; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1189,6 +1212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_contact_flow end
 function create_contact_flow(
     Content, InstanceId, Name, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1246,6 +1270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_contact_flow_module end
 function create_contact_flow_module(
     Content, InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1308,6 +1333,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the evaluation form.
 - `"ScoringStrategy"`: A scoring strategy of the evaluation form.
 """
+function create_evaluation_form end
 function create_evaluation_form(
     InstanceId, Items, Title; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1367,6 +1393,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_hours_of_operation end
 function create_hours_of_operation(
     Config, InstanceId, Name, TimeZone; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1431,6 +1458,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_instance end
 function create_instance(
     IdentityManagementType,
     InboundCallsEnabled,
@@ -1501,6 +1529,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_integration_association end
 function create_integration_association(
     InstanceId,
     IntegrationArn,
@@ -1563,6 +1592,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
+function create_participant end
 function create_participant(
     ContactId,
     InstanceId,
@@ -1657,6 +1687,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
+function create_persistent_contact_association end
 function create_persistent_contact_association(
     InitialContactId,
     InstanceId,
@@ -1717,6 +1748,7 @@ attributes for routing contacts to agents.
 - `values`:  The values of the predefined attribute.
 
 """
+function create_predefined_attribute end
 function create_predefined_attribute(
     InstanceId, Name, Values; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1767,6 +1799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_prompt end
 function create_prompt(
     InstanceId, Name, S3Uri; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1832,6 +1865,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_queue end
 function create_queue(
     HoursOfOperationId, InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1886,6 +1920,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_quick_connect end
 function create_quick_connect(
     InstanceId, Name, QuickConnectConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1950,6 +1985,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_routing_profile end
 function create_routing_profile(
     DefaultOutboundQueueId,
     Description,
@@ -2023,6 +2059,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
+function create_rule end
 function create_rule(
     Actions,
     Function,
@@ -2112,6 +2149,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_security_profile end
 function create_security_profile(
     InstanceId, SecurityProfileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2172,6 +2210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task
   that refers to this template cannot be created.
 """
+function create_task_template end
 function create_task_template(
     Fields, InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2236,6 +2275,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_traffic_distribution_group end
 function create_traffic_distribution_group(
     InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2293,6 +2333,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_use_case end
 function create_use_case(
     InstanceId,
     IntegrationAssociationId,
@@ -2365,6 +2406,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_user end
 function create_user(
     InstanceId,
     PhoneConfig,
@@ -2434,6 +2476,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_user_hierarchy_group end
 function create_user_hierarchy_group(
     InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2490,6 +2533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags can be used to organize, track, or control access for this resource. For example, {
   \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_view end
 function create_view(
     Content, InstanceId, Name, Status; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2544,6 +2588,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionDescription"`: The description for the version being published.
 - `"ViewContentSha256"`: Indicates the checksum value of the latest published view content.
 """
+function create_view_version end
 function create_view_version(
     InstanceId, ViewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2600,6 +2645,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function create_vocabulary end
 function create_vocabulary(
     Content,
     InstanceId,
@@ -2665,6 +2711,7 @@ form.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function deactivate_evaluation_form end
 function deactivate_evaluation_form(
     EvaluationFormId,
     EvaluationFormVersion,
@@ -2716,6 +2763,7 @@ permanently deleted if S3 bucket versioning is not enabled.
   to. Cases are the only current supported resource.  This value must be a valid ARN.
 
 """
+function delete_attached_file end
 function delete_attached_file(
     FileId,
     InstanceId,
@@ -2765,6 +2813,7 @@ Deletes a contact evaluation in the specified Amazon Connect instance.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function delete_contact_evaluation end
 function delete_contact_evaluation(
     EvaluationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2803,6 +2852,7 @@ Deletes a flow for the specified Amazon Connect instance.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function delete_contact_flow end
 function delete_contact_flow(
     ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2841,6 +2891,7 @@ Deletes the specified flow module.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function delete_contact_flow_module end
 function delete_contact_flow_module(
     ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2884,6 +2935,7 @@ version is provided, then the full form (all versions) is deleted.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"version"`: The unique identifier for the evaluation form.
 """
+function delete_evaluation_form end
 function delete_evaluation_form(
     EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2923,6 +2975,7 @@ hours of operation.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function delete_hours_of_operation end
 function delete_hours_of_operation(
     HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2966,6 +3019,7 @@ instances in your account.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function delete_instance end
 function delete_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "DELETE",
@@ -3002,6 +3056,7 @@ association must not have any use cases associated with it.
 - `integration_association_id`: The identifier for the integration association.
 
 """
+function delete_integration_association end
 function delete_integration_association(
     InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3040,6 +3095,7 @@ Deletes a predefined attribute from the specified Amazon Connect instance.
 - `name`:  The name of the predefined attribute.
 
 """
+function delete_predefined_attribute end
 function delete_predefined_attribute(
     InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3078,6 +3134,7 @@ Deletes a prompt.
 - `prompt_id`: A unique identifier for the prompt.
 
 """
+function delete_prompt end
 function delete_prompt(
     InstanceId, PromptId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3117,6 +3174,7 @@ website.
 - `queue_id`: The identifier for the queue.
 
 """
+function delete_queue end
 function delete_queue(
     InstanceId, QueueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3160,6 +3218,7 @@ Resiliency.
 - `quick_connect_id`: The identifier for the quick connect.
 
 """
+function delete_quick_connect end
 function delete_quick_connect(
     InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3198,6 +3257,7 @@ Deletes a routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
+function delete_routing_profile end
 function delete_routing_profile(
     InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3236,6 +3296,7 @@ Deletes a rule for the specified Amazon Connect instance.
 - `rule_id`: A unique identifier for the rule.
 
 """
+function delete_rule end
 function delete_rule(InstanceId, RuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "DELETE",
@@ -3272,6 +3333,7 @@ Deletes a security profile.
 - `security_profile_id`: The identifier for the security profle.
 
 """
+function delete_security_profile end
 function delete_security_profile(
     InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3310,6 +3372,7 @@ Deletes the task template.
 - `task_template_id`: A unique identifier for the task template.
 
 """
+function delete_task_template end
 function delete_task_template(
     InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3352,6 +3415,7 @@ Administrator Guide.
   Region.
 
 """
+function delete_traffic_distribution_group end
 function delete_traffic_distribution_group(
     TrafficDistributionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3390,6 +3454,7 @@ Deletes a use case from an integration association.
 - `use_case_id`: The identifier for the use case.
 
 """
+function delete_use_case end
 function delete_use_case(
     InstanceId,
     IntegrationAssociationId,
@@ -3439,6 +3504,7 @@ Amazon Connect Global Resiliency.
 - `user_id`: The identifier of the user.
 
 """
+function delete_user end
 function delete_user(InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "DELETE",
@@ -3476,6 +3542,7 @@ any active child groups.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function delete_user_hierarchy_group end
 function delete_user_hierarchy_group(
     HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3515,6 +3582,7 @@ aliases).
 - `view_id`: The identifier of the view. Both ViewArn and ViewId can be used.
 
 """
+function delete_view end
 function delete_view(InstanceId, ViewId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "DELETE",
@@ -3552,6 +3620,7 @@ Deletes the particular version specified in ViewVersion identifier.
 - `view_version`: The version number of the view.
 
 """
+function delete_view_version end
 function delete_view_version(
     InstanceId, ViewId, ViewVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3591,6 +3660,7 @@ Deletes the vocabulary that has the given identifier.
 - `vocabulary_id`: The identifier of the custom vocabulary.
 
 """
+function delete_vocabulary end
 function delete_vocabulary(
     InstanceId, VocabularyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3630,6 +3700,7 @@ agent status.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function describe_agent_status end
 function describe_agent_status(
     AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3670,6 +3741,7 @@ authentication profile.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function describe_authentication_profile end
 function describe_authentication_profile(
     AuthenticationProfileId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3711,6 +3783,7 @@ API.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function describe_contact end
 function describe_contact(
     ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3749,6 +3822,7 @@ Describes a contact evaluation in the specified Amazon Connect instance.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function describe_contact_evaluation end
 function describe_contact_evaluation(
     EvaluationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3792,6 +3866,7 @@ SAVED | PUBLISHED
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 """
+function describe_contact_flow end
 function describe_contact_flow(
     ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3833,6 +3908,7 @@ published.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function describe_contact_flow_module end
 function describe_contact_flow_module(
     ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3875,6 +3951,7 @@ property is not provided, the latest version of the evaluation form is described
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"version"`: A version of the evaluation form.
 """
+function describe_evaluation_form end
 function describe_evaluation_form(
     EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3914,6 +3991,7 @@ hours of operation.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function describe_hours_of_operation end
 function describe_hours_of_operation(
     HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3956,6 +4034,7 @@ invoked.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function describe_instance end
 function describe_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -3992,6 +4071,7 @@ specified instance attribute.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function describe_instance_attribute end
 function describe_instance_attribute(
     AttributeType, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4034,6 +4114,7 @@ instance ID.
 - `resource_type`: A valid resource type.
 
 """
+function describe_instance_storage_config end
 function describe_instance_storage_config(
     AssociationId,
     InstanceId,
@@ -4084,6 +4165,7 @@ in this scenario, you will receive a ResourceNotFoundException.
 - `phone_number_id`: A unique identifier for the phone number.
 
 """
+function describe_phone_number end
 function describe_phone_number(
     PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4124,6 +4206,7 @@ attributes for routing contacts to agents.
 - `name`: The name of the predefined attribute.
 
 """
+function describe_predefined_attribute end
 function describe_predefined_attribute(
     InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4162,6 +4245,7 @@ Describes the prompt.
 - `prompt_id`: A unique identifier for the prompt.
 
 """
+function describe_prompt end
 function describe_prompt(
     InstanceId, PromptId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4201,6 +4285,7 @@ specified queue.
 - `queue_id`: The identifier for the queue.
 
 """
+function describe_queue end
 function describe_queue(
     InstanceId, QueueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4239,6 +4324,7 @@ Describes the quick connect.
 - `quick_connect_id`: The identifier for the quick connect.
 
 """
+function describe_quick_connect end
 function describe_quick_connect(
     InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4277,6 +4363,7 @@ Describes the specified routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
+function describe_routing_profile end
 function describe_routing_profile(
     InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4315,6 +4402,7 @@ Describes a rule for the specified Amazon Connect instance.
 - `rule_id`: A unique identifier for the rule.
 
 """
+function describe_rule end
 function describe_rule(
     InstanceId, RuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4356,6 +4444,7 @@ profile permissions.
 - `security_profile_id`: The identifier for the security profle.
 
 """
+function describe_security_profile end
 function describe_security_profile(
     InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4395,6 +4484,7 @@ Gets details and status of a traffic distribution group.
   Region.
 
 """
+function describe_traffic_distribution_group end
 function describe_traffic_distribution_group(
     TrafficDistributionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4434,6 +4524,7 @@ list the users and note the IDs provided in the output.
 - `user_id`: The identifier of the user account.
 
 """
+function describe_user end
 function describe_user(
     InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4472,6 +4563,7 @@ Describes the specified hierarchy group.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function describe_user_hierarchy_group end
 function describe_user_hierarchy_group(
     HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4509,6 +4601,7 @@ Describes the hierarchy structure of the specified Amazon Connect instance.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function describe_user_hierarchy_structure end
 function describe_user_hierarchy_structure(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4553,6 +4646,7 @@ Version 1 is assumed for Amazon Web Services managed views.
   views.
 
 """
+function describe_view end
 function describe_view(
     InstanceId, ViewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4591,6 +4685,7 @@ Describes the specified vocabulary.
 - `vocabulary_id`: The identifier of the custom vocabulary.
 
 """
+function describe_vocabulary end
 function describe_vocabulary(
     InstanceId, VocabularyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4636,6 +4731,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by default this value is the Amazon Web Services account that has the Amazon Connect
   instance.
 """
+function disassociate_analytics_data_set end
 function disassociate_analytics_data_set(
     DataSetId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4678,6 +4774,7 @@ to integrated applications from Amazon Connect.
 - `origin`: The domain URL of the integrated application.
 
 """
+function disassociate_approved_origin end
 function disassociate_approved_origin(
     InstanceId, origin; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4722,6 +4819,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LexBot"`:
 - `"LexV2Bot"`: The Amazon Lex V2 bot to disassociate from the instance.
 """
+function disassociate_bot end
 function disassociate_bot(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
@@ -4758,6 +4856,7 @@ Disassociates a connect resource from a flow.
 - `resource_type`: A valid resource type.
 
 """
+function disassociate_flow end
 function disassociate_flow(
     InstanceId, ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4800,6 +4899,7 @@ storage type configurations for the specified resource type and association ID.
 - `resource_type`: A valid resource type.
 
 """
+function disassociate_instance_storage_config end
 function disassociate_instance_storage_config(
     AssociationId,
     InstanceId,
@@ -4846,6 +4946,7 @@ Lambda function from the dropdown options available in the relevant flow blocks.
 - `function_arn`: The Amazon Resource Name (ARN) of the Lambda function being disassociated.
 
 """
+function disassociate_lambda_function end
 function disassociate_lambda_function(
     InstanceId, functionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4889,6 +4990,7 @@ authorization from the specified instance to access the specified Amazon Lex bot
 - `lex_region`: The Amazon Web Services Region in which the Amazon Lex bot has been created.
 
 """
+function disassociate_lex_bot end
 function disassociate_lex_bot(
     InstanceId, botName, lexRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4942,6 +5044,7 @@ If a UUID is provided in this scenario, you will receive a ResourceNotFoundExcep
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function disassociate_phone_number_contact_flow end
 function disassociate_phone_number_contact_flow(
     PhoneNumberId, instanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4985,6 +5088,7 @@ set of quick connects from a queue.
 - `quick_connect_ids`: The quick connects to disassociate from the queue.
 
 """
+function disassociate_queue_quick_connects end
 function disassociate_queue_quick_connects(
     InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5030,6 +5134,7 @@ Disassociates a set of queues from a routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
+function disassociate_routing_profile_queues end
 function disassociate_routing_profile_queues(
     InstanceId,
     QueueReferences,
@@ -5079,6 +5184,7 @@ specified security key.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function disassociate_security_key end
 function disassociate_security_key(
     AssociationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5121,6 +5227,7 @@ Disassociates an agent from a traffic distribution group.
 - `user_id`: The identifier for the user. This can be the ID or the ARN of the user.
 
 """
+function disassociate_traffic_distribution_group_user end
 function disassociate_traffic_distribution_group_user(
     InstanceId,
     TrafficDistributionGroupId,
@@ -5171,6 +5278,7 @@ Disassociates a set of proficiencies from a user.
 - `user_proficiencies`: The proficiencies to disassociate from the user.
 
 """
+function disassociate_user_proficiencies end
 function disassociate_user_proficiencies(
     InstanceId,
     UserId,
@@ -5221,6 +5329,7 @@ are in a MISSED, ERROR, ENDED, or REJECTED state in the Agent Event Stream.
 - `user_id`: The identifier of the user account.
 
 """
+function dismiss_user_contact end
 function dismiss_user_contact(
     ContactId, InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5270,6 +5379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"urlExpiryInSeconds"`: Optional override for the expiry of the pre-signed S3 URL in
   seconds. The default value is 300.
 """
+function get_attached_file end
 function get_attached_file(
     FileId,
     InstanceId,
@@ -5318,6 +5428,7 @@ Retrieves the contact attributes for the specified contact.
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 """
+function get_contact_attributes end
 function get_contact_attributes(
     InitialContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5407,6 +5518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metric collection is sorted based on the input metrics. Note the following:   Sorting on
   SLOTS_ACTIVE and SLOTS_AVAILABLE is not supported.
 """
+function get_current_metric_data end
 function get_current_metric_data(
     CurrentMetrics, Filters, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5463,6 +5575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function get_current_user_data end
 function get_current_user_data(
     Filters, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5507,6 +5620,7 @@ Principal: .... User: .... cannot be used for federation with Amazon Connect
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function get_federation_token end
 function get_federation_token(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5545,6 +5659,7 @@ Retrieves the flow associated for a given resource.
 - `resource_type`: A valid resource type.
 
 """
+function get_flow_association end
 function get_flow_association(
     InstanceId, ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5637,6 +5752,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function get_metric_data end
 function get_metric_data(
     EndTime,
     Filters,
@@ -6046,6 +6162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function get_metric_data_v2 end
 function get_metric_data_v2(
     EndTime,
     Filters,
@@ -6111,6 +6228,7 @@ Gets the prompt file.
 - `prompt_id`: A unique identifier for the prompt.
 
 """
+function get_prompt_file end
 function get_prompt_file(
     InstanceId, PromptId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6153,6 +6271,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"snapshotVersion"`: The system generated version of a task template that is associated
   with a task, when the task is created.
 """
+function get_task_template end
 function get_task_template(
     InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6191,6 +6310,7 @@ Retrieves the current traffic distribution for a given traffic distribution grou
   ARN must be provided if the call is from the replicated Region.
 
 """
+function get_traffic_distribution end
 function get_traffic_distribution(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -6249,6 +6369,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
+function import_phone_number end
 function import_phone_number(
     InstanceId, SourcePhoneNumberArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6308,6 +6429,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_agent_statuses end
 function list_agent_statuses(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -6349,6 +6471,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_analytics_data_associations end
 function list_analytics_data_associations(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6391,6 +6514,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_approved_origins end
 function list_approved_origins(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6434,6 +6558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_authentication_profiles end
 function list_authentication_profiles(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6479,6 +6604,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_bots end
 function list_bots(
     InstanceId, lexVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6525,6 +6651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.  This is not
   expected to be set because the value returned in the previous response is always null.
 """
+function list_contact_evaluations end
 function list_contact_evaluations(
     InstanceId, contactId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6571,6 +6698,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"state"`: The state of the flow module.
 """
+function list_contact_flow_modules end
 function list_contact_flow_modules(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6616,6 +6744,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_contact_flows end
 function list_contact_flows(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -6660,6 +6789,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.  This is not
   expected to be set, because the value returned in the previous response is always null.
 """
+function list_contact_references end
 function list_contact_references(
     ContactId,
     InstanceId,
@@ -6711,6 +6841,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_default_vocabularies end
 function list_default_vocabularies(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6753,6 +6884,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_evaluation_form_versions end
 function list_evaluation_form_versions(
     EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6795,6 +6927,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_evaluation_forms end
 function list_evaluation_forms(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6837,6 +6970,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_flow_associations end
 function list_flow_associations(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6881,6 +7015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_hours_of_operations end
 function list_hours_of_operations(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6923,6 +7058,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_instance_attributes end
 function list_instance_attributes(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6966,6 +7102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_instance_storage_configs end
 function list_instance_storage_configs(
     InstanceId, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7010,6 +7147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_instances end
 function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET", "/instance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -7043,6 +7181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_integration_associations end
 function list_integration_associations(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7086,6 +7225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_lambda_functions end
 function list_lambda_functions(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7130,6 +7270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_lex_bots end
 function list_lex_bots(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -7183,6 +7324,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return phone number types. While ListPhoneNumbers returns number types UIFN, SHARED,
   THIRD_PARTY_TF, and THIRD_PARTY_DID, it incorrectly lists them as TOLL_FREE or DID.
 """
+function list_phone_numbers end
 function list_phone_numbers(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -7239,6 +7381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Connect instances belonging to your account in the same Amazon Web Services Region as the
   request.
 """
+function list_phone_numbers_v2 end
 function list_phone_numbers_v2(; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST", "/phone-number/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -7276,6 +7419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_predefined_attributes end
 function list_predefined_attributes(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7317,6 +7461,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_prompts end
 function list_prompts(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -7359,6 +7504,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_queue_quick_connects end
 function list_queue_quick_connects(
     InstanceId, QueueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7407,6 +7553,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"queueTypes"`: The type of queue.
 """
+function list_queues end
 function list_queues(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -7450,6 +7597,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_quick_connects end
 function list_quick_connects(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -7494,6 +7642,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_realtime_contact_analysis_segments_v2 end
 function list_realtime_contact_analysis_segments_v2(
     ContactId,
     InstanceId,
@@ -7553,6 +7702,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_routing_profile_queues end
 function list_routing_profile_queues(
     InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7598,6 +7748,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_routing_profiles end
 function list_routing_profiles(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7641,6 +7792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"publishStatus"`: The publish status of the rule.
 """
+function list_rules end
 function list_rules(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -7681,6 +7833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_security_keys end
 function list_security_keys(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -7721,6 +7874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_security_profile_applications end
 function list_security_profile_applications(
     InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7767,6 +7921,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_security_profile_permissions end
 function list_security_profile_permissions(
     InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7813,6 +7968,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_security_profiles end
 function list_security_profiles(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7851,6 +8007,7 @@ Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide
   for an instance, for example, see Find your Amazon Connect instance ID/ARN.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7899,6 +8056,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task
   that refers to this template cannot be created.
 """
+function list_task_templates end
 function list_task_templates(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -7940,6 +8098,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_traffic_distribution_group_users end
 function list_traffic_distribution_group_users(
     TrafficDistributionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7979,6 +8138,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_traffic_distribution_groups end
 function list_traffic_distribution_groups(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8019,6 +8179,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_use_cases end
 function list_use_cases(
     InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8064,6 +8225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_user_hierarchy_groups end
 function list_user_hierarchy_groups(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8106,6 +8268,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_user_proficiencies end
 function list_user_proficiencies(
     InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8149,6 +8312,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_users end
 function list_users(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -8191,6 +8355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_view_versions end
 function list_view_versions(
     InstanceId, ViewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8236,6 +8401,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"type"`: The type of the view.
 """
+function list_views end
 function list_views(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
@@ -8281,6 +8447,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
+function monitor_contact end
 function monitor_contact(
     ContactId, InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8340,6 +8507,7 @@ Allows pausing an ongoing task contact.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ContactFlowId"`: The identifier of the flow.
 """
+function pause_contact end
 function pause_contact(
     ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8388,6 +8556,7 @@ status and Set your next status in the Amazon Connect Administrator Guide.
 - `user_id`: The identifier of the user.
 
 """
+function put_user_status end
 function put_user_status(
     AgentStatusId, InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8449,6 +8618,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
+function release_phone_number end
 function release_phone_number(
     PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8500,6 +8670,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
+function replicate_instance end
 function replicate_instance(
     InstanceId,
     ReplicaAlias,
@@ -8560,6 +8731,7 @@ Allows resuming a task contact in a paused state.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ContactFlowId"`: The identifier of the flow.
 """
+function resume_contact end
 function resume_contact(
     ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8610,6 +8782,7 @@ is enabled, then it would resume. Voice and screen recordings are supported.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function resume_contact_recording end
 function resume_contact_recording(
     ContactId,
     InitialContactId,
@@ -8673,6 +8846,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return agent statuses.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
+function search_agent_statuses end
 function search_agent_statuses(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8728,6 +8902,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distribution groups that phone number inbound traffic is routed through. You must enter
   InstanceId or TargetArn.
 """
+function search_available_phone_numbers end
 function search_available_phone_numbers(
     PhoneNumberCountryCode,
     PhoneNumberType;
@@ -8790,6 +8965,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result in invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
+function search_contact_flow_modules end
 function search_contact_flow_modules(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8839,6 +9015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result in invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
+function search_contact_flows end
 function search_contact_flows(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8886,6 +9063,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return contacts.
 - `"Sort"`: Specifies a field to sort by and a sort order.
 """
+function search_contacts end
 function search_contacts(
     InstanceId, TimeRange; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8937,6 +9115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return hours of operations.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
+function search_hours_of_operations end
 function search_hours_of_operations(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8985,6 +9164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"SearchCriteria"`: The search criteria to be used to return predefined attributes.
 """
+function search_predefined_attributes end
 function search_predefined_attributes(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9031,6 +9211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return prompts.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
+function search_prompts end
 function search_prompts(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
@@ -9078,6 +9259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   throw invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
+function search_queues end
 function search_queues(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
@@ -9122,6 +9304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return quick connects.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
+function search_quick_connects end
 function search_quick_connects(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9171,6 +9354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SECURITY_PROFILE   OPERATING_HOURS   PROMPT   CONTACT_FLOW   FLOW_MODULE
 - `"SearchCriteria"`: The search criteria to be used to return tags.
 """
+function search_resource_tags end
 function search_resource_tags(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9220,6 +9404,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   throw invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
+function search_routing_profiles end
 function search_routing_profiles(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9272,6 +9457,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.   The currently supported value for FieldName: name
 - `"SearchFilter"`: Filters to be applied to search results.
 """
+function search_security_profiles end
 function search_security_profiles(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9320,6 +9506,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return UserHierarchyGroups.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
+function search_user_hierarchy_groups end
 function search_user_hierarchy_groups(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9368,6 +9555,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`:
 - `"SearchFilter"`: Filters to be applied to search results.
 """
+function search_users end
 function search_users(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
@@ -9415,6 +9603,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"State"`: The current state of the custom vocabulary.
 """
+function search_vocabularies end
 function search_vocabularies(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
@@ -9466,6 +9655,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Subtype"`: Classification of a channel. This is used in part to uniquely identify chat.
    Valid value: [\"connect:sms\"]
 """
+function send_chat_integration_event end
 function send_chat_integration_event(
     DestinationId, Event, SourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9532,6 +9722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UrlExpiryInSeconds"`: Optional override for the expiry of the pre-signed S3 URL in
   seconds. The default value is 300.
 """
+function start_attached_file_upload end
 function start_attached_file_upload(
     FileName,
     FileSizeInBytes,
@@ -9654,6 +9845,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application/vnd.amazonaws.connect.message.interactive is required to use the Show view flow
   block.
 """
+function start_chat_contact end
 function start_chat_contact(
     ContactFlowId,
     InstanceId,
@@ -9723,6 +9915,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
+function start_contact_evaluation end
 function start_contact_evaluation(
     ContactId,
     EvaluationFormId,
@@ -9791,6 +9984,7 @@ in the Set recording behavior block. Only voice recordings are supported at this
 - `voice_recording_configuration`: The person being recorded.
 
 """
+function start_contact_recording end
 function start_contact_recording(
     ContactId,
     InitialContactId,
@@ -9862,6 +10056,7 @@ Amazon Connect     Amazon Connect Chat security best practices
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function start_contact_streaming end
 function start_contact_streaming(
     ChatStreamingConfiguration,
     ClientToken,
@@ -9976,6 +10171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   handled differently by Amazon Connect. The default value is GENERAL. Use CAMPAIGN if
   EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
 """
+function start_outbound_voice_contact end
 function start_outbound_voice_contact(
     ContactFlowId,
     DestinationPhoneNumber,
@@ -10092,6 +10288,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TaskTemplateId"`: A unique identifier for the task template. For more information about
   task templates, see Create task templates in the Amazon Connect Administrator Guide.
 """
+function start_task_contact end
 function start_task_contact(
     InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10171,6 +10368,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RelatedContactId"`: The unique identifier for an Amazon Connect contact. This
   identifier is related to the contact starting.
 """
+function start_web_rtccontact end
 function start_web_rtccontact(
     ContactFlowId,
     InstanceId,
@@ -10237,6 +10435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisconnectReason"`: The reason a contact can be disconnected. Only Amazon Connect
   outbound campaigns can provide this field.
 """
+function stop_contact end
 function stop_contact(
     ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10289,6 +10488,7 @@ voice recordings are supported at this time.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function stop_contact_recording end
 function stop_contact_recording(
     ContactId,
     InitialContactId,
@@ -10349,6 +10549,7 @@ contact, call the StartContactStreaming API.
 - `streaming_id`: The identifier of the streaming configuration enabled.
 
 """
+function stop_contact_streaming end
 function stop_contact_streaming(
     ContactId, InstanceId, StreamingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10412,6 +10613,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Answers"`: A map of question identifiers to answer value.
 - `"Notes"`: A map of question identifiers to note value.
 """
+function submit_contact_evaluation end
 function submit_contact_evaluation(
     EvaluationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10458,6 +10660,7 @@ recordings are supported.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function suspend_contact_recording end
 function suspend_contact_recording(
     ContactId,
     InitialContactId,
@@ -10518,6 +10721,7 @@ used, see Set up granular billing for a detailed view of your Amazon Connect usa
   {\"key1\":\"value1\", \"key2\":\"value2\"} }.  Authorization is not supported by this tag.
 
 """
+function tag_contact end
 function tag_contact(
     ContactId, InstanceId, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10572,6 +10776,7 @@ Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
@@ -10625,6 +10830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueueId"`: The identifier for the queue.
 - `"UserId"`: The identifier for the user. This can be the ID or the ARN of the user.
 """
+function transfer_contact end
 function transfer_contact(
     ContactFlowId, ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10684,6 +10890,7 @@ is used, see Set up granular billing for a detailed view of your Amazon Connect 
   this list will be removed.
 
 """
+function untag_contact end
 function untag_contact(
     ContactId, InstanceId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10723,6 +10930,7 @@ Removes the specified tags from the specified resource.
 - `tag_keys`: The tag keys.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10770,6 +10978,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResetOrderNumber"`: A number indicating the reset order of the agent status.
 - `"State"`: The state of the agent status.
 """
+function update_agent_status end
 function update_agent_status(
     AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10826,6 +11035,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configure IP addresses, see Configure session timeouts in the Amazon Connect Administrator
   Guide.
 """
+function update_authentication_profile end
 function update_authentication_profile(
     AuthenticationProfileId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10874,6 +11084,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"References"`: Well-formed data on contact, shown to agents on Contact Control Panel
   (CCP).
 """
+function update_contact end
 function update_contact(
     ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10933,6 +11144,7 @@ Administrator Guide.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function update_contact_attributes end
 function update_contact_attributes(
     Attributes,
     InitialContactId,
@@ -10997,6 +11209,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Answers"`: A map of question identifiers to answer value.
 - `"Notes"`: A map of question identifiers to note value.
 """
+function update_contact_evaluation end
 function update_contact_evaluation(
     EvaluationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11040,6 +11253,7 @@ needs to be supplied to view saved content that has not been published.
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 """
+function update_contact_flow_content end
 function update_contact_flow_content(
     ContactFlowId, Content, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11085,6 +11299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the flow.
 - `"Name"`: The name of the flow.
 """
+function update_contact_flow_metadata end
 function update_contact_flow_metadata(
     ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11128,6 +11343,7 @@ supplied to view saved content that has not been published.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function update_contact_flow_module_content end
 function update_contact_flow_module_content(
     ContactFlowModuleId,
     Content,
@@ -11176,6 +11392,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the flow module.
 - `"State"`: The state of flow module.
 """
+function update_contact_flow_module_metadata end
 function update_contact_flow_module_metadata(
     ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11218,6 +11435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the flow.
 - `"Name"`: The name of the flow.
 """
+function update_contact_flow_name end
 function update_contact_flow_name(
     ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11276,6 +11494,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoutingCriteria"`: Updates the routing criteria on the contact. These properties can be
   used to change how a&#x2028; contact is routed within the queue.
 """
+function update_contact_routing_data end
 function update_contact_routing_data(
     ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11317,6 +11536,7 @@ Updates the scheduled time of a task contact that is already scheduled.
   in future.
 
 """
+function update_contact_schedule end
 function update_contact_schedule(
     ContactId, InstanceId, ScheduledTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11386,6 +11606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the evaluation form.
 - `"ScoringStrategy"`: A scoring strategy of the evaluation form.
 """
+function update_evaluation_form end
 function update_evaluation_form(
     EvaluationFormId,
     EvaluationFormVersion,
@@ -11456,6 +11677,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the hours of operation.
 - `"TimeZone"`: The time zone of the hours of operation.
 """
+function update_hours_of_operation end
 function update_hours_of_operation(
     HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11498,6 +11720,7 @@ value for the specified attribute type.
 - `value`: The value for the attribute. Maximum character limit is 100.
 
 """
+function update_instance_attribute end
 function update_instance_attribute(
     AttributeType, InstanceId, Value; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11542,6 +11765,7 @@ existing configuration for a resource type. This API is idempotent.
 - `resource_type`: A valid resource type.
 
 """
+function update_instance_storage_config end
 function update_instance_storage_config(
     AssociationId,
     InstanceId,
@@ -11600,6 +11824,7 @@ chat timeouts for human participants.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function update_participant_role_config end
 function update_participant_role_config(
     ChannelConfiguration,
     ContactId,
@@ -11665,6 +11890,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distribution groups that phone number inbound traffic is routed through. You must enter
   InstanceId or TargetArn.
 """
+function update_phone_number end
 function update_phone_number(
     PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11710,6 +11936,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"PhoneNumberDescription"`: The description of the phone number.
 """
+function update_phone_number_metadata end
 function update_phone_number_metadata(
     PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11756,6 +11983,7 @@ attributes for routing contacts to agents.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Values"`: The values of the predefined attribute.
 """
+function update_predefined_attribute end
 function update_predefined_attribute(
     InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11800,6 +12028,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3Uri"`: The URI for the S3 bucket where the prompt is stored. You can provide S3
   pre-signed URLs returned by the GetPromptFile API instead of providing S3 URIs.
 """
+function update_prompt end
 function update_prompt(
     InstanceId, PromptId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11840,6 +12069,7 @@ hours of operation for the specified queue.
 - `queue_id`: The identifier for the queue.
 
 """
+function update_queue_hours_of_operation end
 function update_queue_hours_of_operation(
     HoursOfOperationId,
     InstanceId,
@@ -11892,6 +12122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxContacts"`: The maximum number of contacts that can be in the queue before it is
   considered full.
 """
+function update_queue_max_contacts end
 function update_queue_max_contacts(
     InstanceId, QueueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11935,6 +12166,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the queue.
 - `"Name"`: The name of the queue.
 """
+function update_queue_name end
 function update_queue_name(
     InstanceId, QueueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11987,6 +12219,7 @@ group, see Allow or Deny queue API actions for phone numbers in a replica Region
 - `queue_id`: The identifier for the queue.
 
 """
+function update_queue_outbound_caller_config end
 function update_queue_outbound_caller_config(
     InstanceId,
     OutboundCallerConfig,
@@ -12038,6 +12271,7 @@ status of the queue.
 - `status`: The status of the queue.
 
 """
+function update_queue_status end
 function update_queue_status(
     InstanceId, QueueId, Status; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12080,6 +12314,7 @@ Updates the configuration settings for the specified quick connect.
 - `quick_connect_id`: The identifier for the quick connect.
 
 """
+function update_quick_connect_config end
 function update_quick_connect_config(
     InstanceId,
     QuickConnectConfig,
@@ -12132,6 +12367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the quick connect.
 - `"Name"`: The name of the quick connect.
 """
+function update_quick_connect_name end
 function update_quick_connect_name(
     InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12174,6 +12410,7 @@ time since their last inbound contact or longest idle time.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
+function update_routing_profile_agent_availability_timer end
 function update_routing_profile_agent_availability_timer(
     AgentAvailabilityTimer,
     InstanceId,
@@ -12226,6 +12463,7 @@ routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
+function update_routing_profile_concurrency end
 function update_routing_profile_concurrency(
     InstanceId,
     MediaConcurrencies,
@@ -12274,6 +12512,7 @@ Updates the default outbound queue of a routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
+function update_routing_profile_default_outbound_queue end
 function update_routing_profile_default_outbound_queue(
     DefaultOutboundQueueId,
     InstanceId,
@@ -12329,6 +12568,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters.
 - `"Name"`: The name of the routing profile. Must not be more than 127 characters.
 """
+function update_routing_profile_name end
 function update_routing_profile_name(
     InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12369,6 +12609,7 @@ Updates the properties associated with a set of queues for a routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
+function update_routing_profile_queues end
 function update_routing_profile_queues(
     InstanceId,
     QueueConfigs,
@@ -12421,6 +12662,7 @@ to code conditions for the rule.
 - `rule_id`: A unique identifier for the rule.
 
 """
+function update_rule end
 function update_rule(
     Actions,
     Function,
@@ -12502,6 +12744,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagRestrictedResources"`: The list of resources that a security profile applies tag
   restrictions to in Amazon Connect.
 """
+function update_security_profile end
 function update_security_profile(
     InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12555,6 +12798,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task
   that refers to this template cannot be created.
 """
+function update_task_template end
 function update_task_template(
     InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12605,6 +12849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   should be used to sign in agents in to both the instance and its replica(s).
 - `"TelephonyConfig"`: The distribution of traffic between the instance and its replica(s).
 """
+function update_traffic_distribution end
 function update_traffic_distribution(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "PUT",
@@ -12641,6 +12886,7 @@ Assigns the specified hierarchy group to the specified user.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HierarchyGroupId"`: The identifier of the hierarchy group.
 """
+function update_user_hierarchy end
 function update_user_hierarchy(
     InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12680,6 +12926,7 @@ Updates the name of the user hierarchy group.
 - `name`: The name of the hierarchy group. Must not be more than 100 characters.
 
 """
+function update_user_hierarchy_group_name end
 function update_user_hierarchy_group_name(
     HierarchyGroupId, InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12720,6 +12967,7 @@ Updates the user hierarchy structure: add, remove, and rename user hierarchy lev
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
+function update_user_hierarchy_structure end
 function update_user_hierarchy_structure(
     HierarchyStructure, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12769,6 +13017,7 @@ Practices for Security Profiles in the Amazon Connect Administrator Guide.
 - `user_id`: The identifier of the user account.
 
 """
+function update_user_identity_info end
 function update_user_identity_info(
     IdentityInfo, InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12812,6 +13061,7 @@ Updates the phone configuration settings for the specified user.
 - `user_id`: The identifier of the user account.
 
 """
+function update_user_phone_config end
 function update_user_phone_config(
     InstanceId, PhoneConfig, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12856,6 +13106,7 @@ Updates the properties associated with the proficiencies of a user.
   first be associated to the user. You can do this using AssociateUserProficiencies API.
 
 """
+function update_user_proficiencies end
 function update_user_proficiencies(
     InstanceId,
     UserId,
@@ -12904,6 +13155,7 @@ Assigns the specified routing profile to the specified user.
 - `user_id`: The identifier of the user account.
 
 """
+function update_user_routing_profile end
 function update_user_routing_profile(
     InstanceId, RoutingProfileId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12949,6 +13201,7 @@ Assigns the specified security profiles to the specified user.
 - `user_id`: The identifier of the user account.
 
 """
+function update_user_security_profiles end
 function update_user_security_profiles(
     InstanceId,
     SecurityProfileIds,
@@ -13004,6 +13257,7 @@ be updated, but the LATEST alias' content will only be updated if Status is PUBL
 - `view_id`: The identifier of the view. Both ViewArn and ViewId can be used.
 
 """
+function update_view_content end
 function update_view_content(
     Content, InstanceId, Status, ViewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13053,6 +13307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the view.
 - `"Name"`: The name of the view.
 """
+function update_view_metadata end
 function update_view_metadata(
     InstanceId, ViewId; aws_config::AbstractAWSConfig=current_aws_config()
 )

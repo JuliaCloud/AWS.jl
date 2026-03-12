@@ -33,6 +33,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevisionId"`: Only update the policy if the revision ID matches the ID specified. Use
   this option to avoid modifying a policy that has changed since you last read it.
 """
+function add_layer_version_permission end
 function add_layer_version_permission(
     Action,
     LayerName,
@@ -138,6 +139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
   Note that Lambda configures the comparison using the StringLike operator.
 """
+function add_permission end
 function add_permission(
     Action,
     FunctionName,
@@ -206,6 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the alias.
 - `"RoutingConfig"`: The routing configuration of the alias.
 """
+function create_alias end
 function create_alias(
     FunctionName, FunctionVersion, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -257,6 +260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   validation checks fail.
 - `"Description"`: Descriptive name for this code signing configuration.
 """
+function create_code_signing_config end
 function create_code_signing_config(
     AllowedPublishers; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -388,6 +392,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds
   indicates no tumbling window.
 """
+function create_event_source_mapping end
 function create_event_source_mapping(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -525,6 +530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VPC, it can access resources and the internet only through that VPC. For more information,
   see Configuring a Lambda function to access resources in a VPC.
 """
+function create_function end
 function create_function(
     Code, FunctionName, Role; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -590,6 +596,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response payload size is 20 MB, however, you can request a quota increase.
 - `"Qualifier"`: The alias name.
 """
+function create_function_url_config end
 function create_function_url_config(
     AuthType, FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -634,6 +641,7 @@ Deletes a Lambda function alias.
 - `name`: The name of the alias.
 
 """
+function delete_alias end
 function delete_alias(
     FunctionName, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -672,6 +680,7 @@ if no function is using it.
   configuration.
 
 """
+function delete_code_signing_config end
 function delete_code_signing_config(
     CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -709,6 +718,7 @@ state and might not be completely deleted for several seconds.
 - `uuid`: The identifier of the event source mapping.
 
 """
+function delete_event_source_mapping end
 function delete_event_source_mapping(
     UUID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -756,6 +766,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Qualifier"`: Specify a version to delete. You can't delete a version that an alias
   references.
 """
+function delete_function end
 function delete_function(FunctionName; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "DELETE",
@@ -793,6 +804,7 @@ Removes the code signing configuration from the function.
   length.
 
 """
+function delete_function_code_signing_config end
 function delete_function_code_signing_config(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -832,6 +844,7 @@ Removes a concurrent execution limit from a function.
   you specify only the function name, it is limited to 64 characters in length.
 
 """
+function delete_function_concurrency end
 function delete_function_concurrency(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -876,6 +889,7 @@ configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Qualifier"`: A version number or alias name.
 """
+function delete_function_event_invoke_config end
 function delete_function_event_invoke_config(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -919,6 +933,7 @@ Creating a new function URL results in a different URL address.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Qualifier"`: The alias name.
 """
+function delete_function_url_config end
 function delete_function_url_config(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -957,6 +972,7 @@ functions refer to it.
 - `version_number`: The version number.
 
 """
+function delete_layer_version end
 function delete_layer_version(
     LayerName, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -998,6 +1014,7 @@ Deletes the provisioned concurrency configuration for a function.
 - `qualifier`: The version number or alias name.
 
 """
+function delete_provisioned_concurrency_config end
 function delete_provisioned_concurrency_config(
     FunctionName, Qualifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1034,6 +1051,7 @@ end
 Retrieves details about your account's limits and usage in an Amazon Web Services Region.
 
 """
+function get_account_settings end
 function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -1070,6 +1088,7 @@ Returns details about a Lambda function alias.
 - `name`: The name of the alias.
 
 """
+function get_alias end
 function get_alias(FunctionName, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -1105,6 +1124,7 @@ Returns information about the specified code signing configuration.
   configuration.
 
 """
+function get_code_signing_config end
 function get_code_signing_config(
     CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1141,6 +1161,7 @@ the output of ListEventSourceMappings.
 - `uuid`: The identifier of the event source mapping.
 
 """
+function get_event_source_mapping end
 function get_event_source_mapping(UUID; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -1183,6 +1204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Qualifier"`: Specify a version or alias to get details about a published version of the
   function.
 """
+function get_function end
 function get_function(FunctionName; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -1220,6 +1242,7 @@ Returns the code signing configuration for the specified function.
   length.
 
 """
+function get_function_code_signing_config end
 function get_function_code_signing_config(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1260,6 +1283,7 @@ concurrency limit for a function, use PutFunctionConcurrency.
   you specify only the function name, it is limited to 64 characters in length.
 
 """
+function get_function_concurrency end
 function get_function_concurrency(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1307,6 +1331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Qualifier"`: Specify a version or alias to get details about a published version of the
   function.
 """
+function get_function_configuration end
 function get_function_configuration(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1351,6 +1376,7 @@ To configure options for asynchronous invocation, use PutFunctionEventInvokeConf
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Qualifier"`: A version number or alias name.
 """
+function get_function_event_invoke_config end
 function get_function_event_invoke_config(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1386,6 +1412,7 @@ Returns your function's recursive loop detection configuration.
 - `function_name`:
 
 """
+function get_function_recursion_config end
 function get_function_recursion_config(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1428,6 +1455,7 @@ Returns details about a Lambda function URL.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Qualifier"`: The alias name.
 """
+function get_function_url_config end
 function get_function_url_config(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1465,6 +1493,7 @@ archive that's valid for 10 minutes.
 - `version_number`: The version number.
 
 """
+function get_layer_version end
 function get_layer_version(
     LayerName, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1502,6 +1531,7 @@ archive that's valid for 10 minutes.
 - `arn`: The ARN of the layer version.
 
 """
+function get_layer_version_by_arn end
 function get_layer_version_by_arn(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -1536,6 +1566,7 @@ AddLayerVersionPermission.
 - `version_number`: The version number.
 
 """
+function get_layer_version_policy end
 function get_layer_version_policy(
     LayerName, VersionNumber; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1580,6 +1611,7 @@ Returns the resource-based IAM policy for a function, version, or alias.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Qualifier"`: Specify a version or alias to get the policy for that resource.
 """
+function get_policy end
 function get_policy(FunctionName; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -1618,6 +1650,7 @@ Retrieves the provisioned concurrency configuration for a function's alias or ve
 - `qualifier`: The version number or alias name.
 
 """
+function get_provisioned_concurrency_config end
 function get_provisioned_concurrency_config(
     FunctionName, Qualifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1669,6 +1702,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version number. If no value is specified, the configuration for the LATEST version is
   returned.
 """
+function get_runtime_management_config end
 function get_runtime_management_config(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1753,6 +1787,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amz-Log-Type"`: Set to Tail to include the execution log in the response. Applies to
   synchronously invoked functions only.
 """
+function invoke end
 function invoke(FunctionName; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "POST",
@@ -1794,6 +1829,7 @@ on.
 - `invoke_args`: The JSON that you want to provide to your Lambda function as input.
 
 """
+function invoke_async end
 function invoke_async(
     FunctionName, InvokeArgs; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1855,6 +1891,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amz-Log-Type"`: Set to Tail to include the execution log in the response. Applies to
   synchronously invoked functions only.
 """
+function invoke_with_response_stream end
 function invoke_with_response_stream(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1901,6 +1938,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 - `"MaxItems"`: Limit the number of aliases returned.
 """
+function list_aliases end
 function list_aliases(FunctionName; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -1938,6 +1976,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 - `"MaxItems"`: Maximum number of items to return.
 """
+function list_code_signing_configs end
 function list_code_signing_configs(; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -1985,6 +2024,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListEventSourceMappings returns a maximum of 100 items in each response, even if you set
   the number higher.
 """
+function list_event_source_mappings end
 function list_event_source_mappings(; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -2026,6 +2066,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 - `"MaxItems"`: The maximum number of configurations to return.
 """
+function list_function_event_invoke_configs end
 function list_function_event_invoke_configs(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2072,6 +2113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListFunctionUrlConfigs returns a maximum of 50 items in each response, even if you set the
   number higher.
 """
+function list_function_url_configs end
 function list_function_url_configs(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2123,6 +2165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListFunctions returns a maximum of 50 items in each response, even if you set the number
   higher.
 """
+function list_functions end
 function list_functions(; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -2162,6 +2205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 - `"MaxItems"`: Maximum number of items to return.
 """
+function list_functions_by_code_signing_config end
 function list_functions_by_code_signing_config(
     CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2208,6 +2252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: A pagination token returned by a previous call.
 - `"MaxItems"`: The maximum number of versions to return.
 """
+function list_layer_versions end
 function list_layer_versions(LayerName; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -2249,6 +2294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: A pagination token returned by a previous call.
 - `"MaxItems"`: The maximum number of layers to return.
 """
+function list_layers end
 function list_layers(; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET", "/2018-10-31/layers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2286,6 +2332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 - `"MaxItems"`: Specify a number to limit the number of configurations returned.
 """
+function list_provisioned_concurrency_configs end
 function list_provisioned_concurrency_configs(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2322,6 +2369,7 @@ Returns a function's tags. You can also view tags with GetFunction.
   tags to aliases or versions.
 
 """
+function list_tags end
 function list_tags(ARN; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
@@ -2364,6 +2412,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of versions to return. Note that ListVersionsByFunction
   returns a maximum of 50 items in each response, even if you set the number higher.
 """
+function list_versions_by_function end
 function list_versions_by_function(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2412,6 +2461,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   license identifier. For example, MIT.   The URL of a license hosted on the internet. For
   example, https://opensource.org/licenses/MIT.   The full text of the license.
 """
+function publish_layer_version end
 function publish_layer_version(
     Content, LayerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2469,6 +2519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified. Use this option to avoid publishing a version if the function configuration has
   changed since you last updated it.
 """
+function publish_version end
 function publish_version(FunctionName; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "POST",
@@ -2510,6 +2561,7 @@ function.
   length.
 
 """
+function put_function_code_signing_config end
 function put_function_code_signing_config(
     CodeSigningConfigArn, FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2567,6 +2619,7 @@ per-function limit. For more information, see Lambda function scaling.
   the function.
 
 """
+function put_function_concurrency end
 function put_function_concurrency(
     FunctionName,
     ReservedConcurrentExecutions;
@@ -2641,6 +2694,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an error.
 - `"Qualifier"`: A version number or alias name.
 """
+function put_function_event_invoke_config end
 function put_function_event_invoke_config(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2701,6 +2755,7 @@ notifies you.
   Serverless Land.
 
 """
+function put_function_recursion_config end
 function put_function_recursion_config(
     FunctionName, RecursiveLoop; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2747,6 +2802,7 @@ Adds a provisioned concurrency configuration to a function's alias or version.
 - `qualifier`: The version number or alias name.
 
 """
+function put_provisioned_concurrency_config end
 function put_provisioned_concurrency_config(
     FunctionName,
     ProvisionedConcurrentExecutions,
@@ -2825,6 +2881,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuntimeVersionArn"`: The ARN of the runtime version you want the function to use.  This
   is only required if you're using the Manual runtime update mode.
 """
+function put_runtime_management_config end
 function put_runtime_management_config(
     FunctionName, UpdateRuntimeOn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2873,6 +2930,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevisionId"`: Only update the policy if the revision ID matches the ID specified. Use
   this option to avoid modifying a policy that has changed since you last read it.
 """
+function remove_layer_version_permission end
 function remove_layer_version_permission(
     LayerName,
     StatementId,
@@ -2927,6 +2985,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified. Use this option to avoid modifying a policy that has changed since you last read
   it.
 """
+function remove_permission end
 function remove_permission(
     FunctionName, StatementId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2964,6 +3023,7 @@ Adds tags to a function.
 - `tags`: A list of tags to apply to the function.
 
 """
+function tag_resource end
 function tag_resource(ARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "POST",
@@ -3000,6 +3060,7 @@ Removes tags from a function.
 - `tag_keys`: A list of tag keys to remove from the function.
 
 """
+function untag_resource end
 function untag_resource(ARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "DELETE",
@@ -3047,6 +3108,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use this option to avoid modifying an alias that has changed since you last read it.
 - `"RoutingConfig"`: The routing configuration of the alias.
 """
+function update_alias end
 function update_alias(
     FunctionName, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3090,6 +3152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CodeSigningPolicies"`: The code signing policy.
 - `"Description"`: Descriptive name for this code signing configuration.
 """
+function update_code_signing_config end
 function update_code_signing_config(
     CodeSigningConfigArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3199,6 +3262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds
   indicates no tumbling window.
 """
+function update_event_source_mapping end
 function update_event_source_mapping(
     UUID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3271,6 +3335,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK and CLI clients handle the encoding for you. Use only with a function defined with a
   .zip file archive deployment package.
 """
+function update_function_code end
 function update_function_code(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3372,6 +3437,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VPC, it can access resources and the internet only through that VPC. For more information,
   see Configuring a Lambda function to access resources in a VPC.
 """
+function update_function_configuration end
 function update_function_configuration(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3424,6 +3490,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an error.
 - `"Qualifier"`: A version number or alias name.
 """
+function update_function_event_invoke_config end
 function update_function_event_invoke_config(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3477,6 +3544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response payload size is 20 MB, however, you can request a quota increase.
 - `"Qualifier"`: The alias name.
 """
+function update_function_url_config end
 function update_function_url_config(
     FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )

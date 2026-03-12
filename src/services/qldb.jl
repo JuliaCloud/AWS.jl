@@ -19,6 +19,7 @@ this limit expires.
   be canceled.
 
 """
+function cancel_journal_kinesis_stream end
 function cancel_journal_kinesis_stream(
     name, streamId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -97,6 +98,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value pairs to add as tags to the ledger that you want to create. Tag
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
+function create_ledger end
 function create_ledger(
     Name, PermissionsMode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -142,6 +144,7 @@ disable it by calling the UpdateLedger operation to set this parameter to false.
 - `name`: The name of the ledger that you want to delete.
 
 """
+function delete_ledger end
 function delete_ledger(name; aws_config::AbstractAWSConfig=current_aws_config())
     return qldb(
         "DELETE", "/ledgers/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -176,6 +179,7 @@ QLDB Developer Guide.
   describe.
 
 """
+function describe_journal_kinesis_stream end
 function describe_journal_kinesis_stream(
     name, streamId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -219,6 +223,7 @@ doesn't exist, then throws ResourceNotFoundException.
 - `name`: The name of the ledger.
 
 """
+function describe_journal_s3_export end
 function describe_journal_s3_export(
     exportId, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -256,6 +261,7 @@ rest settings, and when it was created.
 - `name`: The name of the ledger that you want to describe.
 
 """
+function describe_ledger end
 function describe_ledger(name; aws_config::AbstractAWSConfig=current_aws_config())
     return qldb(
         "GET", "/ledgers/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -316,6 +322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can use this format to directly integrate JSON exports with analytics tools such as Amazon
   Athena and Glue because these services can parse newline-delimited JSON automatically.
 """
+function export_journal_to_s3 end
 function export_journal_to_s3(
     ExclusiveEndTime,
     InclusiveStartTime,
@@ -391,6 +398,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request a proof. An address is an Amazon Ion structure that has two fields: strandId and
   sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}.
 """
+function get_block end
 function get_block(BlockAddress, name; aws_config::AbstractAWSConfig=current_aws_config())
     return qldb(
         "POST",
@@ -429,6 +437,7 @@ includes a 256-bit hash value and a block address.
 - `name`: The name of the ledger.
 
 """
+function get_digest end
 function get_digest(name; aws_config::AbstractAWSConfig=current_aws_config())
     return qldb(
         "POST",
@@ -471,6 +480,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request a proof. An address is an Amazon Ion structure that has two fields: strandId and
   sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}.
 """
+function get_revision end
 function get_revision(
     BlockAddress, DocumentId, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -529,6 +539,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If you received a value for NextToken in the response from a previous
   ListJournalKinesisStreamsForLedger call, you should use that value as input here.
 """
+function list_journal_kinesis_streams_for_ledger end
 function list_journal_kinesis_streams_for_ledger(
     name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -570,6 +581,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If you received a value for NextToken in the response from a previous
   ListJournalS3Exports call, then you should use that value as input here.
 """
+function list_journal_s3_exports end
 function list_journal_s3_exports(; aws_config::AbstractAWSConfig=current_aws_config())
     return qldb(
         "GET", "/journal-s3-exports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -610,6 +622,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If you received a value for NextToken in the response from a previous
   ListJournalS3ExportsForLedger call, then you should use that value as input here.
 """
+function list_journal_s3_exports_for_ledger end
 function list_journal_s3_exports_for_ledger(
     name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -649,6 +662,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If you received a value for NextToken in the response from a previous ListLedgers
   call, then you should use that value as input here.
 """
+function list_ledgers end
 function list_ledgers(; aws_config::AbstractAWSConfig=current_aws_config())
     return qldb("GET", "/ledgers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -672,6 +686,7 @@ Returns all tags for a specified Amazon QLDB resource.
   arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -735,6 +750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value pairs to add as tags to the stream that you want to create. Tag
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
+function stream_journal_to_kinesis end
 function stream_journal_to_kinesis(
     InclusiveStartTime,
     KinesisConfiguration,
@@ -802,6 +818,7 @@ an error.
   example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
 
 """
+function tag_resource end
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return qldb(
         "POST",
@@ -840,6 +857,7 @@ tag keys to remove.
 - `tag_keys`: The list of tag keys to remove.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -900,6 +918,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    For more information, see Key
   identifiers (KeyId) in the Key Management Service Developer Guide.
 """
+function update_ledger end
 function update_ledger(name; aws_config::AbstractAWSConfig=current_aws_config())
     return qldb(
         "PATCH", "/ledgers/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -945,6 +964,7 @@ QLDB Developer Guide.
 - `name`: The name of the ledger.
 
 """
+function update_ledger_permissions_mode end
 function update_ledger_permissions_mode(
     PermissionsMode, name; aws_config::AbstractAWSConfig=current_aws_config()
 )

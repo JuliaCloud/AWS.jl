@@ -23,6 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SerialPort"`: The serial port of the EC2 instance. Currently only port 0 is supported.
   Default: 0
 """
+function send_serial_console_sshpublic_key end
 function send_serial_console_sshpublic_key(
     InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -75,6 +76,7 @@ EC2 Instance Connect in the Amazon EC2 User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AvailabilityZone"`: The Availability Zone in which the EC2 instance was launched.
 """
+function send_sshpublic_key end
 function send_sshpublic_key(
     InstanceId,
     InstanceOSUser,

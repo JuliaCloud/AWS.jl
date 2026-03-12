@@ -44,6 +44,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created or reopened.
 - `"notifyOnResolveCase"`: Whether you want to get notified when a support case is resolved.
 """
+function create_slack_channel_configuration end
 function create_slack_channel_configuration(
     channelId,
     channelRoleArn,
@@ -102,6 +103,7 @@ Services Support App page of the Amazon Web Services Support Center. The alias a
 in Slack messages from the Amazon Web Services Support App.
 
 """
+function delete_account_alias end
 function delete_account_alias(; aws_config::AbstractAWSConfig=current_aws_config())
     return support_app(
         "POST",
@@ -137,6 +139,7 @@ doesn't delete your Slack channel.
   T012ABCDEFG.
 
 """
+function delete_slack_channel_configuration end
 function delete_slack_channel_configuration(
     channelId, teamId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -182,6 +185,7 @@ operation doesn't delete your Slack workspace.
   T012ABCDEFG.
 
 """
+function delete_slack_workspace_configuration end
 function delete_slack_workspace_configuration(
     teamId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -215,6 +219,7 @@ Web Services Support App page of the Amazon Web Services Support Center. The ali
 appears in Slack messages from the Amazon Web Services Support App.
 
 """
+function get_account_alias end
 function get_account_alias(; aws_config::AbstractAWSConfig=current_aws_config())
     return support_app(
         "POST",
@@ -249,6 +254,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of results, reissue the search request and include the returned token. When the API
   returns the last set of results, the response doesn't include a pagination token value.
 """
+function list_slack_channel_configurations end
 function list_slack_channel_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -285,6 +291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of results, reissue the search request and include the returned token. When the API
   returns the last set of results, the response doesn't include a pagination token value.
 """
+function list_slack_workspace_configurations end
 function list_slack_workspace_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -320,6 +327,7 @@ Center. The alias also appears in Slack messages from the Amazon Web Services Su
 - `account_alias`: An alias or short name for an Amazon Web Services account.
 
 """
+function put_account_alias end
 function put_account_alias(accountAlias; aws_config::AbstractAWSConfig=current_aws_config())
     return support_app(
         "POST",
@@ -372,6 +380,7 @@ Slack channel.
   T012ABCDEFG. Specify the Slack workspace that you want to use for your organization.
 
 """
+function register_slack_workspace_for_organization end
 function register_slack_workspace_for_organization(
     teamId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -428,6 +437,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created or reopened.
 - `"notifyOnResolveCase"`: Whether you want to get notified when a support case is resolved.
 """
+function update_slack_channel_configuration end
 function update_slack_channel_configuration(
     channelId, teamId; aws_config::AbstractAWSConfig=current_aws_config()
 )

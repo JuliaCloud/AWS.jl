@@ -33,6 +33,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function associate_assets end
 function associate_assets(
     assetId, childAssetId, hierarchyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -97,6 +98,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function associate_time_series_to_asset_property end
 function associate_time_series_to_asset_property(
     alias, assetId, propertyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -157,6 +159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function batch_associate_project_assets end
 function batch_associate_project_assets(
     assetIds, projectId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -206,6 +209,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function batch_disassociate_project_assets end
 function batch_disassociate_project_assets(
     assetIds, projectId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -258,6 +262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of maxResults. The maximum value of maxResults is 4000.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function batch_get_asset_property_aggregates end
 function batch_get_asset_property_aggregates(
     entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -299,6 +304,7 @@ current values in the IoT SiteWise User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function batch_get_asset_property_value end
 function batch_get_asset_property_value(
     entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -344,6 +350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of maxResults. The maximum value of maxResults is 20000.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function batch_get_asset_property_value_history end
 function batch_get_asset_property_value_history(
     entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -394,6 +401,7 @@ BatchPutAssetPropertyValue authorization in the IoT SiteWise User Guide.
   specify up to 10 entries per request.
 
 """
+function batch_put_asset_property_value end
 function batch_put_asset_property_value(
     entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -444,6 +452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs that contain metadata for the access policy. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
+function create_access_policy end
 function create_access_policy(
     accessPolicyIdentity,
     accessPolicyPermission,
@@ -521,6 +530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs that contain metadata for the asset. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
+function create_asset end
 function create_asset(
     assetModelId, assetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -614,6 +624,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs that contain metadata for the asset model. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
+function create_asset_model end
 function create_asset_model(
     assetModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -706,6 +717,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parentAssetModelCompositeModelId"`: The ID of the parent composite model in this asset
   model relationship.
 """
+function create_asset_model_composite_model end
 function create_asset_model_composite_model(
     assetModelCompositeModelName,
     assetModelCompositeModelType,
@@ -779,6 +791,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deleteFilesAfterImport"`: If set to true, your data files is deleted from S3, after
   ingestion into IoT SiteWise storage.
 """
+function create_bulk_import_job end
 function create_bulk_import_job(
     errorReportLocation,
     files,
@@ -853,6 +866,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs that contain metadata for the dashboard. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
+function create_dashboard end
 function create_dashboard(
     dashboardDefinition,
     dashboardName,
@@ -918,6 +932,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs that contain metadata for the gateway. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
+function create_gateway end
 function create_gateway(
     gatewayName, gatewayPlatform; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -998,6 +1013,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs that contain metadata for the portal. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
+function create_portal end
 function create_portal(
     portalContactEmail,
     portalName,
@@ -1065,6 +1081,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs that contain metadata for the project. For more
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 """
+function create_project end
 function create_project(
     portalId, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1123,6 +1140,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function delete_access_policy end
 function delete_access_policy(
     accessPolicyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1170,6 +1188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function delete_asset end
 function delete_asset(assetId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "DELETE",
@@ -1226,6 +1245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function delete_asset_model end
 function delete_asset_model(
     assetModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1283,6 +1303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function delete_asset_model_composite_model end
 function delete_asset_model_composite_model(
     assetModelCompositeModelId,
     assetModelId;
@@ -1329,6 +1350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function delete_dashboard end
 function delete_dashboard(dashboardId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "DELETE",
@@ -1366,6 +1388,7 @@ remain in your gateway's file system.
 - `gateway_id`: The ID of the gateway to delete.
 
 """
+function delete_gateway end
 function delete_gateway(gatewayId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "DELETE",
@@ -1404,6 +1427,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function delete_portal end
 function delete_portal(portalId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "DELETE",
@@ -1445,6 +1469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function delete_project end
 function delete_project(projectId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "DELETE",
@@ -1497,6 +1522,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   format, or else externalId: followed by the external ID, if it has one. For more
   information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
 """
+function delete_time_series end
 function delete_time_series(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "POST",
@@ -1532,6 +1558,7 @@ portal or project.
 - `access_policy_id`: The ID of the access policy.
 
 """
+function describe_access_policy end
 function describe_access_policy(
     accessPolicyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1567,6 +1594,7 @@ Retrieves information about an action.
 - `action_id`: The ID of the action.
 
 """
+function describe_action end
 function describe_action(actionId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET",
@@ -1605,6 +1633,7 @@ Retrieves information about an asset.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"excludeProperties"`:  Whether or not to exclude asset properties from the response.
 """
+function describe_asset end
 function describe_asset(assetId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET", "/assets/$(assetId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1643,6 +1672,7 @@ information about the model this is based on, call DescribeAssetModelCompositeMo
   Referencing objects with external IDs in the IoT SiteWise User Guide.
 
 """
+function describe_asset_composite_model end
 function describe_asset_composite_model(
     assetCompositeModelId, assetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1688,6 +1718,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"excludeProperties"`:  Whether or not to exclude asset model properties from the
   response.
 """
+function describe_asset_model end
 function describe_asset_model(
     assetModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1736,6 +1767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the asset model. The details are returned in the response. The default value is LATEST. See
    Asset model versions in the IoT SiteWise User Guide.
 """
+function describe_asset_model_composite_model end
 function describe_asset_model_composite_model(
     assetModelCompositeModelId,
     assetModelId;
@@ -1783,6 +1815,7 @@ property. To get the value of an asset property, use GetAssetPropertyValue.
   information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
 
 """
+function describe_asset_property end
 function describe_asset_property(
     assetId, propertyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1820,6 +1853,7 @@ bulk import job (CLI) in the Amazon Simple Storage Service User Guide.
 - `job_id`: The ID of the job.
 
 """
+function describe_bulk_import_job end
 function describe_bulk_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1848,6 +1882,7 @@ Retrieves information about a dashboard.
 - `dashboard_id`: The ID of the dashboard.
 
 """
+function describe_dashboard end
 function describe_dashboard(dashboardId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET",
@@ -1880,6 +1915,7 @@ Services account in the default or specified Region. For more information, see K
 management in the IoT SiteWise User Guide.
 
 """
+function describe_default_encryption_configuration end
 function describe_default_encryption_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1913,6 +1949,7 @@ Retrieves information about a gateway.
 - `gateway_id`: The ID of the gateway device.
 
 """
+function describe_gateway end
 function describe_gateway(gatewayId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET",
@@ -1954,6 +1991,7 @@ capability configurations for a gateway, use DescribeGateway.
 - `gateway_id`: The ID of the gateway that defines the capability configuration.
 
 """
+function describe_gateway_capability_configuration end
 function describe_gateway_capability_configuration(
     capabilityNamespace, gatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1987,6 +2025,7 @@ end
 Retrieves the current IoT SiteWise logging options.
 
 """
+function describe_logging_options end
 function describe_logging_options(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2011,6 +2050,7 @@ Retrieves information about a portal.
 - `portal_id`: The ID of the portal.
 
 """
+function describe_portal end
 function describe_portal(portalId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET",
@@ -2044,6 +2084,7 @@ Retrieves information about a project.
 - `project_id`: The ID of the project.
 
 """
+function describe_project end
 function describe_project(projectId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET",
@@ -2074,6 +2115,7 @@ end
 Retrieves information about the storage configuration for IoT SiteWise.
 
 """
+function describe_storage_configuration end
 function describe_storage_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2118,6 +2160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   format, or else externalId: followed by the external ID, if it has one. For more
   information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
 """
+function describe_time_series end
 function describe_time_series(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET",
@@ -2168,6 +2211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function disassociate_assets end
 function disassociate_assets(
     assetId, childAssetId, hierarchyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2232,6 +2276,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function disassociate_time_series_from_asset_property end
 function disassociate_time_series_from_asset_property(
     alias, assetId, propertyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2293,6 +2338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function execute_action end
 function execute_action(
     actionDefinitionId,
     actionPayload,
@@ -2353,6 +2399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 - `"nextToken"`: The string that specifies the next page of results.
 """
+function execute_query end
 function execute_query(queryStatement; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "POST",
@@ -2413,6 +2460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"timeOrdering"`: The chronological sorting order of the requested information. Default:
   ASCENDING
 """
+function get_asset_property_aggregates end
 function get_asset_property_aggregates(
     aggregateTypes,
     endDate,
@@ -2480,6 +2528,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
 - `"propertyId"`: The ID of the asset property, in UUID format.
 """
+function get_asset_property_value end
 function get_asset_property_value(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET", "/properties/latest"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2529,6 +2578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"timeOrdering"`: The chronological sorting order of the requested information. Default:
   ASCENDING
 """
+function get_asset_property_value_history end
 function get_asset_property_value_history(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2613,6 +2663,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"propertyId"`: The ID of the asset property, in UUID format.
 - `"startTimeOffsetInNanos"`: The nanosecond offset converted from startTimeInSeconds.
 """
+function get_interpolated_asset_property_values end
 function get_interpolated_asset_property_values(
     endTimeInSeconds,
     intervalInSeconds,
@@ -2690,6 +2741,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceType"`: The type of resource (portal or project). This parameter is required if
   you specify resourceId.
 """
+function list_access_policies end
 function list_access_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET", "/access-policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2723,6 +2775,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_actions end
 function list_actions(
     targetResourceId, targetResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2782,6 +2835,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_asset_model_composite_models end
 function list_asset_model_composite_models(
     assetModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2833,6 +2887,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not specified, the default value is 50.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_asset_model_properties end
 function list_asset_model_properties(
     assetModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2878,6 +2933,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_asset_models end
 function list_asset_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET", "/asset-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2919,6 +2975,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not specified, the default value is 50.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_asset_properties end
 function list_asset_properties(assetId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET",
@@ -2963,6 +3020,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_asset_relationships end
 function list_asset_relationships(
     assetId, traversalType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3016,6 +3074,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_assets end
 function list_assets(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET", "/assets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3058,6 +3117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following options:    CHILD – The list includes all child assets associated to the asset.
      PARENT – The list includes the asset's parent asset.   Default: CHILD
 """
+function list_associated_assets end
 function list_associated_assets(assetId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET",
@@ -3094,6 +3154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_bulk_import_jobs end
 function list_bulk_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3126,6 +3187,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_composition_relationships end
 function list_composition_relationships(
     assetModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3166,6 +3228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_dashboards end
 function list_dashboards(projectId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET",
@@ -3204,6 +3267,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_gateways end
 function list_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET", "/20200301/gateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3234,6 +3298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_portals end
 function list_portals(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET", "/portals"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3263,6 +3328,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_project_assets end
 function list_project_assets(projectId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET",
@@ -3301,6 +3367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
+function list_projects end
 function list_projects(portalId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET",
@@ -3337,6 +3404,7 @@ Retrieves the list of tags for an IoT SiteWise resource.
 - `resource_arn`: The ARN of the resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3384,6 +3452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following values:    ASSOCIATED – The time series is associated with an asset property.
    DISASSOCIATED – The time series isn't associated with any asset property.
 """
+function list_time_series end
 function list_time_series(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "GET", "/timeseries/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3417,6 +3486,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"kmsKeyId"`: The Key ID of the customer managed key used for KMS encryption. This is
   required if you use KMS_BASED_ENCRYPTION.
 """
+function put_default_encryption_configuration end
 function put_default_encryption_configuration(
     encryptionType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3455,6 +3525,7 @@ Sets logging options for IoT SiteWise.
 - `logging_options`: The logging options to set.
 
 """
+function put_logging_options end
 function put_logging_options(
     loggingOptions; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3514,6 +3585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"warmTierRetentionPeriod"`: Set this period to specify how long your data is stored in
   the warm tier before it is deleted. You can set this only if cold tier is enabled.
 """
+function put_storage_configuration end
 function put_storage_configuration(
     storageType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3555,6 +3627,7 @@ operation updates the tag's value.
   information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "POST",
@@ -3597,6 +3670,7 @@ Removes a tag from an IoT SiteWise resource.
 - `tag_keys`: A list of keys for tags to remove from the resource.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3652,6 +3726,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function update_access_policy end
 function update_access_policy(
     accessPolicyId,
     accessPolicyIdentity,
@@ -3724,6 +3799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function update_asset end
 function update_asset(
     assetId, assetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3815,6 +3891,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function update_asset_model end
 function update_asset_model(
     assetModelId, assetModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3895,6 +3972,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function update_asset_model_composite_model end
 function update_asset_model_composite_model(
     assetModelCompositeModelId,
     assetModelCompositeModelName,
@@ -3973,6 +4051,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you don't specify a value for this parameter, the service uses the value of the
   assetModelProperty in the asset model.
 """
+function update_asset_property end
 function update_asset_property(
     assetId, propertyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4021,6 +4100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required.
 - `"dashboardDescription"`: A new description for the dashboard.
 """
+function update_dashboard end
 function update_dashboard(
     dashboardDefinition,
     dashboardId,
@@ -4077,6 +4157,7 @@ Updates a gateway's name.
 - `gateway_name`: A unique name for the gateway.
 
 """
+function update_gateway end
 function update_gateway(
     gatewayId, gatewayName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4127,6 +4208,7 @@ configuration. To list all capability configurations for a gateway, use Describe
 - `gateway_id`: The ID of the gateway to be updated.
 
 """
+function update_gateway_capability_configuration end
 function update_gateway_capability_configuration(
     capabilityConfiguration,
     capabilityNamespace,
@@ -4197,6 +4279,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"portalDescription"`: A new description for the portal.
 - `"portalLogoImage"`:
 """
+function update_portal end
 function update_portal(
     portalContactEmail,
     portalId,
@@ -4263,6 +4346,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required.
 - `"projectDescription"`: A new description for the project.
 """
+function update_project end
 function update_project(
     projectId, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )

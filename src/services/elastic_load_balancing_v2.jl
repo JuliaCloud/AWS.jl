@@ -20,6 +20,7 @@ Balancers Guide.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
 """
+function add_listener_certificates end
 function add_listener_certificates(
     Certificates, ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -67,6 +68,7 @@ resource already has a tag with the same key, AddTags updates its value.
 - `tags`: The tags.
 
 """
+function add_tags end
 function add_tags(ResourceArns, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "AddTags",
@@ -109,6 +111,7 @@ Adds the specified revocation file to the specified trust store.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RevocationContents"`: The revocation file to add.
 """
+function add_trust_store_revocations end
 function add_trust_store_revocations(
     TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -172,6 +175,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Load Balancers Guide and Security policies in the Network Load Balancers Guide.
 - `"Tags"`: The tags to assign to the listener.
 """
+function create_listener end
 function create_listener(
     DefaultActions, LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -267,6 +271,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to assign to the load balancer.
 - `"Type"`: The type of load balancer. The default is application.
 """
+function create_load_balancer end
 function create_load_balancer(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "CreateLoadBalancer",
@@ -309,6 +314,7 @@ information, see Listener rules in the Application Load Balancers Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: The tags to assign to the rule.
 """
+function create_rule end
 function create_rule(
     Actions,
     Conditions,
@@ -437,6 +443,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcId"`: The identifier of the virtual private cloud (VPC). If the target is a Lambda
   function, this parameter does not apply. Otherwise, this parameter is required.
 """
+function create_target_group end
 function create_target_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "CreateTargetGroup",
@@ -475,6 +482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   certificates bundle. If undefined the current version is used.
 - `"Tags"`: The tags to assign to the trust store.
 """
+function create_trust_store end
 function create_trust_store(
     CaCertificatesBundleS3Bucket,
     CaCertificatesBundleS3Key,
@@ -529,6 +537,7 @@ load balancer to which it is attached.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
 """
+function delete_listener end
 function delete_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "DeleteListener",
@@ -569,6 +578,7 @@ or terminate them.
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
 """
+function delete_load_balancer end
 function delete_load_balancer(
     LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -607,6 +617,7 @@ Deletes the specified rule. You can't delete the default rule.
 - `rule_arn`: The Amazon Resource Name (ARN) of the rule.
 
 """
+function delete_rule end
 function delete_rule(RuleArn; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "DeleteRule",
@@ -640,6 +651,7 @@ Deletes a shared trust store association.
 - `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
 
 """
+function delete_shared_trust_store_association end
 function delete_shared_trust_store_association(
     ResourceArn, TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -686,6 +698,7 @@ continue to run until you stop or terminate them.
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 
 """
+function delete_target_group end
 function delete_target_group(
     TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -722,6 +735,7 @@ Deletes a trust store.
 - `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
 
 """
+function delete_trust_store end
 function delete_trust_store(
     TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -768,6 +782,7 @@ target does not exist, the action returns successfully.
   you must specify both the target ID and the port when you deregister it.
 
 """
+function deregister_targets end
 function deregister_targets(
     TargetGroupArn, Targets; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -814,6 +829,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 - `"PageSize"`: The maximum number of results to return with this call.
 """
+function describe_account_limits end
 function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -841,6 +857,7 @@ Describes the attributes for the specified listener.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
 """
+function describe_listener_attributes end
 function describe_listener_attributes(
     ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -886,6 +903,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 - `"PageSize"`: The maximum number of results to return with this call.
 """
+function describe_listener_certificates end
 function describe_listener_certificates(
     ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -928,6 +946,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 - `"PageSize"`: The maximum number of results to return with this call.
 """
+function describe_listeners end
 function describe_listeners(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "DescribeListeners"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -956,6 +975,7 @@ Guide
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
 """
+function describe_load_balancer_attributes end
 function describe_load_balancer_attributes(
     LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -999,6 +1019,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Names"`: The names of the load balancers.
 - `"PageSize"`: The maximum number of results to return with this call.
 """
+function describe_load_balancers end
 function describe_load_balancers(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "DescribeLoadBalancers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1031,6 +1052,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of results to return with this call.
 - `"RuleArns"`: The Amazon Resource Names (ARN) of the rules.
 """
+function describe_rules end
 function describe_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "DescribeRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1062,6 +1084,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Names"`: The names of the policies.
 - `"PageSize"`: The maximum number of results to return with this call.
 """
+function describe_sslpolicies end
 function describe_sslpolicies(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "DescribeSSLPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1092,6 +1115,7 @@ Balancers, target groups, listeners, or rules.
   20 resources in a single call.
 
 """
+function describe_tags end
 function describe_tags(ResourceArns; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "DescribeTags",
@@ -1129,6 +1153,7 @@ Gateway Load Balancers Guide
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 
 """
+function describe_target_group_attributes end
 function describe_target_group_attributes(
     TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1173,6 +1198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of results to return with this call.
 - `"TargetGroupArns"`: The Amazon Resource Names (ARN) of the target groups.
 """
+function describe_target_groups end
 function describe_target_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "DescribeTargetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1204,6 +1230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Include"`: Used to include anomaly detection information.
 - `"Targets"`: The targets.
 """
+function describe_target_health end
 function describe_target_health(
     TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1245,6 +1272,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 - `"PageSize"`: The maximum number of results to return with this call.
 """
+function describe_trust_store_associations end
 function describe_trust_store_associations(
     TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1287,6 +1315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of results to return with this call.
 - `"RevocationIds"`: The revocation IDs of the revocation files you want to describe.
 """
+function describe_trust_store_revocations end
 function describe_trust_store_revocations(
     TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1327,6 +1356,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of results to return with this call.
 - `"TrustStoreArns"`: The Amazon Resource Name (ARN) of the trust store.
 """
+function describe_trust_stores end
 function describe_trust_stores(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "DescribeTrustStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1354,6 +1384,7 @@ Retrieves the resource policy for a specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
+function get_resource_policy end
 function get_resource_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1391,6 +1422,7 @@ active for ten minutes.
 - `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
 
 """
+function get_trust_store_ca_certificates_bundle end
 function get_trust_store_ca_certificates_bundle(
     TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1429,6 +1461,7 @@ active for ten minutes.
 - `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
 
 """
+function get_trust_store_revocation_content end
 function get_trust_store_revocation_content(
     RevocationId, TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1498,6 +1531,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and ciphers are supported. For more information, see Security policies in the Application
   Load Balancers Guide or Security policies in the Network Load Balancers Guide.
 """
+function modify_listener end
 function modify_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "ModifyListener",
@@ -1533,6 +1567,7 @@ Modifies the specified attributes of the specified listener.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
 """
+function modify_listener_attributes end
 function modify_listener_attributes(
     Attributes, ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1578,6 +1613,7 @@ current values.
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
 """
+function modify_load_balancer_attributes end
 function modify_load_balancer_attributes(
     Attributes, LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1628,6 +1664,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Actions"`: The actions.
 - `"Conditions"`: The conditions.
 """
+function modify_rule end
 function modify_rule(RuleArn; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "ModifyRule",
@@ -1688,6 +1725,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UnhealthyThresholdCount"`: The number of consecutive health check failures required
   before considering the target unhealthy.
 """
+function modify_target_group end
 function modify_target_group(
     TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1725,6 +1763,7 @@ Modifies the specified attributes of the specified target group.
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 
 """
+function modify_target_group_attributes end
 function modify_target_group_attributes(
     Attributes, TargetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1774,6 +1813,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CaCertificatesBundleS3ObjectVersion"`: The Amazon S3 object version for the ca
   certificates bundle. If undefined the current version is used.
 """
+function modify_trust_store end
 function modify_trust_store(
     CaCertificatesBundleS3Bucket,
     CaCertificatesBundleS3Key,
@@ -1835,6 +1875,7 @@ HS1, M1, M2, M3, and T1. You can register instances of these types by IP address
 - `targets`: The targets.
 
 """
+function register_targets end
 function register_targets(
     TargetGroupArn, Targets; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1879,6 +1920,7 @@ listener.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
 """
+function remove_listener_certificates end
 function remove_listener_certificates(
     Certificates, ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1925,6 +1967,7 @@ Load Balancers, target groups, listeners, or rules.
 - `tag_keys`: The tag keys for the tags to remove.
 
 """
+function remove_tags end
 function remove_tags(
     ResourceArns, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1967,6 +2010,7 @@ Removes the specified revocation file from the specified trust store.
 - `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
 
 """
+function remove_trust_store_revocations end
 function remove_trust_store_revocations(
     RevocationIds, TrustStoreArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2023,6 +2067,7 @@ Sets the type of IP addresses used by the subnets of the specified load balancer
 - `load_balancer_arn`: The Amazon Resource Name (ARN) of the load balancer.
 
 """
+function set_ip_address_type end
 function set_ip_address_type(
     IpAddressType, LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2070,6 +2115,7 @@ their current priority.
 - `rule_priorities`: The rule priorities.
 
 """
+function set_rule_priorities end
 function set_rule_priorities(
     RulePriorities; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2116,6 +2162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web
   Services PrivateLink. The default is on.
 """
+function set_security_groups end
 function set_security_groups(
     LoadBalancerArn, SecurityGroups; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2194,6 +2241,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You
   can specify subnets from one or more Availability Zones.
 """
+function set_subnets end
 function set_subnets(LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_load_balancing_v2(
         "SetSubnets",

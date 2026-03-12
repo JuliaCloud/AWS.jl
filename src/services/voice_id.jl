@@ -16,6 +16,7 @@ Associates the fraudsters with the watchlist specified in the same domain.
 - `watchlist_id`: The identifier of the watchlist you want to associate with the fraudster.
 
 """
+function associate_fraudster end
 function associate_fraudster(
     DomainId, FraudsterId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -78,6 +79,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A brief description of this domain.
 - `"Tags"`: A list of tags you want added to the domain.
 """
+function create_domain end
 function create_domain(
     Name,
     ServerSideEncryptionConfiguration;
@@ -137,6 +139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"Description"`: A brief description of this watchlist.
 """
+function create_watchlist end
 function create_watchlist(
     DomainId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -182,6 +185,7 @@ Deletes the specified domain from Voice ID.
 - `domain_id`: The identifier of the domain you want to delete.
 
 """
+function delete_domain end
 function delete_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "DeleteDomain",
@@ -218,6 +222,7 @@ any watchlists it is a part of.
 - `fraudster_id`: The identifier of the fraudster you want to delete.
 
 """
+function delete_fraudster end
 function delete_fraudster(
     DomainId, FraudsterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -260,6 +265,7 @@ Deletes the specified speaker from Voice ID.
 - `speaker_id`: The identifier of the speaker you want to delete.
 
 """
+function delete_speaker end
 function delete_speaker(
     DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -305,6 +311,7 @@ deleted.
 - `watchlist_id`: The identifier of the watchlist to be deleted.
 
 """
+function delete_watchlist end
 function delete_watchlist(
     DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -346,6 +353,7 @@ Describes the specified domain.
 - `domain_id`: The identifier of the domain that you are describing.
 
 """
+function describe_domain end
 function describe_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "DescribeDomain",
@@ -381,6 +389,7 @@ Describes the specified fraudster.
 - `fraudster_id`: The identifier of the fraudster you are describing.
 
 """
+function describe_fraudster end
 function describe_fraudster(
     DomainId, FraudsterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -423,6 +432,7 @@ Describes the specified fraudster registration job.
 - `job_id`: The identifier of the fraudster registration job you are describing.
 
 """
+function describe_fraudster_registration_job end
 function describe_fraudster_registration_job(
     DomainId, JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -463,6 +473,7 @@ Describes the specified speaker.
 - `speaker_id`: The identifier of the speaker you are describing.
 
 """
+function describe_speaker end
 function describe_speaker(
     DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -505,6 +516,7 @@ Describes the specified speaker enrollment job.
 - `job_id`: The identifier of the speaker enrollment job you are describing.
 
 """
+function describe_speaker_enrollment_job end
 function describe_speaker_enrollment_job(
     DomainId, JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -545,6 +557,7 @@ Describes the specified watchlist.
 - `watchlist_id`: The identifier of the watchlist that you are describing.
 
 """
+function describe_watchlist end
 function describe_watchlist(
     DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -591,6 +604,7 @@ from its only watchlist, a ValidationException is thrown.
   fraudster.
 
 """
+function disassociate_fraudster end
 function disassociate_fraudster(
     DomainId, FraudsterId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -644,6 +658,7 @@ Connect Voice ID call.
   evaluate. In Voice ID integration, this is the Contact-Id.
 
 """
+function evaluate_session end
 function evaluate_session(
     DomainId, SessionNameOrId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -693,6 +708,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
+function list_domains end
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -726,6 +742,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
+function list_fraudster_registration_jobs end
 function list_fraudster_registration_jobs(
     DomainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -773,6 +790,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WatchlistId"`: The identifier of the watchlist. If provided, all fraudsters in the
   watchlist are listed. If not provided, all fraudsters in the domain are listed.
 """
+function list_fraudsters end
 function list_fraudsters(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "ListFraudsters",
@@ -819,6 +837,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
+function list_speaker_enrollment_jobs end
 function list_speaker_enrollment_jobs(
     DomainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -864,6 +883,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
+function list_speakers end
 function list_speakers(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "ListSpeakers",
@@ -899,6 +919,7 @@ Lists all tags associated with a specified Voice ID resource.
   want to list the tags.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -944,6 +965,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
+function list_watchlists end
 function list_watchlists(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "ListWatchlists",
@@ -983,6 +1005,7 @@ speakers, and opted out speakers have no voice embeddings stored in Voice ID.
 - `speaker_id`: The identifier of the speaker you want opted-out.
 
 """
+function opt_out_speaker end
 function opt_out_speaker(
     DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1042,6 +1065,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   take when a duplicate fraudster is detected, and the similarity threshold to use for
   detecting a duplicate fraudster.
 """
+function start_fraudster_registration_job end
 function start_fraudster_registration_job(
     DataAccessRoleArn,
     DomainId,
@@ -1119,6 +1143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fraudster.
 - `"JobName"`: A name for your speaker enrollment job.
 """
+function start_speaker_enrollment_job end
 function start_speaker_enrollment_job(
     DataAccessRoleArn,
     DomainId,
@@ -1179,6 +1204,7 @@ Tags a Voice ID resource with the provided list of tags.
 - `tags`: The list of tags to assign to the specified resource.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id(
         "TagResource",
@@ -1220,6 +1246,7 @@ Removes specified tags from a specified Amazon Connect Voice ID resource.
 - `tag_keys`: The list of tag keys you want to remove from the specified resource.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1273,6 +1300,7 @@ the domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A brief description about this domain.
 """
+function update_domain end
 function update_domain(
     DomainId,
     Name,
@@ -1333,6 +1361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A brief description about this watchlist.
 - `"Name"`: The name of the watchlist.
 """
+function update_watchlist end
 function update_watchlist(
     DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
 )

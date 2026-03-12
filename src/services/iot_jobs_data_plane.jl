@@ -21,6 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeJobDocument"`: Optional. When set to true, the response contains the job
   document. The default is false.
 """
+function describe_job_execution end
 function describe_job_execution(
     jobId, thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -57,6 +58,7 @@ Gets the list of all jobs for a thing that are not in a terminal status.
 - `thing_name`: The name of the thing that is executing the job.
 
 """
+function get_pending_job_executions end
 function get_pending_job_executions(
     thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -103,6 +105,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timeout has no effect on that job execution timeout which may have been specified when the
   job was created (CreateJob using field timeoutConfig).
 """
+function start_next_pending_job_execution end
 function start_next_pending_job_execution(
     thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -164,6 +167,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this timeout has no effect on that job execution timeout which may have been specified when
   the job was created (CreateJob using field timeoutConfig).
 """
+function update_job_execution end
 function update_job_execution(
     jobId, status, thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )

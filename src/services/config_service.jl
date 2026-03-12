@@ -19,6 +19,7 @@ resources.    The API does not return tags and relationships.
 - `resource_identifiers`: A list of aggregate ResourceIdentifiers objects.
 
 """
+function batch_get_aggregate_resource_config end
 function batch_get_aggregate_resource_config(
     ConfigurationAggregatorName,
     ResourceIdentifiers;
@@ -74,6 +75,7 @@ section of the API response.
   element in the list consists of the resource type and resource ID.
 
 """
+function batch_get_resource_config end
 function batch_get_resource_config(
     resourceKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -113,6 +115,7 @@ specified region.
 - `authorized_aws_region`: The region authorized to collect aggregated data.
 
 """
+function delete_aggregation_authorization end
 function delete_aggregation_authorization(
     AuthorizedAccountId,
     AuthorizedAwsRegion;
@@ -166,6 +169,7 @@ DescribeConfigRules request.
 - `config_rule_name`: The name of the Config rule that you want to delete.
 
 """
+function delete_config_rule end
 function delete_config_rule(
     ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -203,6 +207,7 @@ aggregator.
 - `configuration_aggregator_name`: The name of the configuration aggregator.
 
 """
+function delete_configuration_aggregator end
 function delete_configuration_aggregator(
     ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -252,6 +257,7 @@ Config console until you create a new configuration recorder.
   DescribeConfigurationRecorders action.
 
 """
+function delete_configuration_recorder end
 function delete_configuration_recorder(
     ConfigurationRecorderName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -295,6 +301,7 @@ while it is in this state.
 - `conformance_pack_name`: Name of the conformance pack you want to delete.
 
 """
+function delete_conformance_pack end
 function delete_conformance_pack(
     ConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -336,6 +343,7 @@ configuration recorder by using the StopConfigurationRecorder action.
 - `delivery_channel_name`: The name of the delivery channel to delete.
 
 """
+function delete_delivery_channel end
 function delete_delivery_channel(
     DeliveryChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -380,6 +388,7 @@ against the rule.
   evaluation results.
 
 """
+function delete_evaluation_results end
 function delete_evaluation_results(
     ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -422,6 +431,7 @@ deletion is complete. You cannot update a rule while it is in this state.
   delete.
 
 """
+function delete_organization_config_rule end
 function delete_organization_config_rule(
     OrganizationConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -471,6 +481,7 @@ pack while it is in this state.
   want to delete.
 
 """
+function delete_organization_conformance_pack end
 function delete_organization_conformance_pack(
     OrganizationConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -518,6 +529,7 @@ region.
 - `requester_aws_region`: The region requesting to aggregate data.
 
 """
+function delete_pending_aggregation_request end
 function delete_pending_aggregation_request(
     RequesterAccountId,
     RequesterAwsRegion;
@@ -571,6 +583,7 @@ Deletes the remediation configuration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ResourceType"`: The type of a resource.
 """
+function delete_remediation_configuration end
 function delete_remediation_configuration(
     ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -614,6 +627,7 @@ cleared.
   exceptions for 3 resource keys.
 
 """
+function delete_remediation_exceptions end
 function delete_remediation_exceptions(
     ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -662,6 +676,7 @@ ConfigurationItems recorded for this resource in your Config History.
 - `resource_type`: The type of the resource.
 
 """
+function delete_resource_config end
 function delete_resource_config(
     ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -705,6 +720,7 @@ Deletes the retention configuration.
 - `retention_configuration_name`: The name of the retention configuration to delete.
 
 """
+function delete_retention_configuration end
 function delete_retention_configuration(
     RetentionConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -748,6 +764,7 @@ Services Region.
 - `query_name`: The name of the query that you want to delete.
 
 """
+function delete_stored_query end
 function delete_stored_query(QueryName; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "DeleteStoredQuery",
@@ -787,6 +804,7 @@ successfully completed.   Notification of delivery failure, if the delivery fail
   delivered.
 
 """
+function deliver_config_snapshot end
 function deliver_config_snapshot(
     deliveryChannelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -837,6 +855,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function describe_aggregate_compliance_by_config_rules end
 function describe_aggregate_compliance_by_config_rules(
     ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -890,6 +909,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function describe_aggregate_compliance_by_conformance_packs end
 function describe_aggregate_compliance_by_conformance_packs(
     ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -935,6 +955,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function describe_aggregation_authorizations end
 function describe_aggregation_authorizations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -981,6 +1002,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function describe_compliance_by_config_rule end
 function describe_compliance_by_config_rule(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1035,6 +1057,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   compliance information (for example, AWS::EC2::Instance). For this action, you can specify
   that the resource type is an Amazon Web Services account by specifying AWS::::Account.
 """
+function describe_compliance_by_resource end
 function describe_compliance_by_resource(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1076,6 +1099,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function describe_config_rule_evaluation_status end
 function describe_config_rule_evaluation_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1113,6 +1137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function describe_config_rules end
 function describe_config_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "DescribeConfigRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1152,6 +1177,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   moving data.   Valid value SUCCEEDED indicates the data was successfully moved.   Valid
   value OUTDATED indicates the data is not the most recent.
 """
+function describe_configuration_aggregator_sources_status end
 function describe_configuration_aggregator_sources_status(
     ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1200,6 +1226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function describe_configuration_aggregators end
 function describe_configuration_aggregators(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1238,6 +1265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not specified, the action returns the current status of all the configuration recorders
   associated with the account.
 """
+function describe_configuration_recorder_status end
 function describe_configuration_recorder_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1272,6 +1300,7 @@ Amazon Web Services Region for each account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConfigurationRecorderNames"`: A list of configuration recorder names.
 """
+function describe_configuration_recorders end
 function describe_configuration_recorders(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1311,6 +1340,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
+function describe_conformance_pack_compliance end
 function describe_conformance_pack_compliance(
     ConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1355,6 +1385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
+function describe_conformance_pack_status end
 function describe_conformance_pack_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1391,6 +1422,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
+function describe_conformance_packs end
 function describe_conformance_packs(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "DescribeConformancePacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1421,6 +1453,7 @@ account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DeliveryChannelNames"`: A list of delivery channel names.
 """
+function describe_delivery_channel_status end
 function describe_delivery_channel_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1454,6 +1487,7 @@ account.  Currently, you can specify only one delivery channel per region in you
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DeliveryChannelNames"`: A list of delivery channel names.
 """
+function describe_delivery_channels end
 function describe_delivery_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "DescribeDeliveryChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1492,6 +1526,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   want status details. If you do not specify any names, Config returns details for all your
   organization Config rules.
 """
+function describe_organization_config_rule_statuses end
 function describe_organization_config_rule_statuses(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1541,6 +1576,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   want details. If you do not specify any names, Config returns details for all your
   organization Config rules.
 """
+function describe_organization_config_rules end
 function describe_organization_config_rules(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1583,6 +1619,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you want status details. If you do not specify any names, Config returns details for
   all your organization conformance packs.
 """
+function describe_organization_conformance_pack_statuses end
 function describe_organization_conformance_pack_statuses(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1631,6 +1668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OrganizationConformancePackNames"`: The name that you assign to an organization
   conformance pack.
 """
+function describe_organization_conformance_packs end
 function describe_organization_conformance_packs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1665,6 +1703,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function describe_pending_aggregation_requests end
 function describe_pending_aggregation_requests(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1697,6 +1736,7 @@ Returns the details of one or more remediation configurations.
   you want details.
 
 """
+function describe_remediation_configurations end
 function describe_remediation_configurations(
     ConfigRuleNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1751,6 +1791,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   current request. Config adds exception for each resource key. For example, Config adds 3
   exceptions for 3 resource keys.
 """
+function describe_remediation_exceptions end
 function describe_remediation_exceptions(
     ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1798,6 +1839,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceKeys"`: A list of resource keys to be processed with the current request. Each
   element in the list consists of the resource type and resource ID.
 """
+function describe_remediation_execution_status end
 function describe_remediation_execution_status(
     ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1842,6 +1884,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retention configurations for that account.  Currently, Config supports only one retention
   configuration per region in your account.
 """
+function describe_retention_configurations end
 function describe_retention_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1890,6 +1933,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function get_aggregate_compliance_details_by_config_rule end
 function get_aggregate_compliance_details_by_config_rule(
     AccountId,
     AwsRegion,
@@ -1958,6 +2002,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function get_aggregate_config_rule_compliance_summary end
 function get_aggregate_config_rule_compliance_summary(
     ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2013,6 +2058,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function get_aggregate_conformance_pack_compliance_summary end
 function get_aggregate_conformance_pack_compliance_summary(
     ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2069,6 +2115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function get_aggregate_discovered_resource_counts end
 function get_aggregate_discovered_resource_counts(
     ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2113,6 +2160,7 @@ source account and region.
 - `resource_identifier`: An object that identifies aggregate resource.
 
 """
+function get_aggregate_resource_config end
 function get_aggregate_resource_config(
     ConfigurationAggregatorName,
     ResourceIdentifier;
@@ -2173,6 +2221,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function get_compliance_details_by_config_rule end
 function get_compliance_details_by_config_rule(
     ConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2222,6 +2271,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceType"`: The type of the Amazon Web Services resource for which you want
   compliance information.
 """
+function get_compliance_details_by_resource end
 function get_compliance_details_by_resource(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2251,6 +2301,7 @@ Returns the number of Config rules that are compliant and noncompliant, up to a 
 25 for each.
 
 """
+function get_compliance_summary_by_config_rule end
 function get_compliance_summary_by_config_rule(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2288,6 +2339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can specify that the resource type is an Amazon Web Services account by specifying
   AWS::::Account.
 """
+function get_compliance_summary_by_resource_type end
 function get_compliance_summary_by_resource_type(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2327,6 +2379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
+function get_conformance_pack_compliance_details end
 function get_conformance_pack_compliance_details(
     ConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2373,6 +2426,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function get_conformance_pack_compliance_summary end
 function get_conformance_pack_compliance_summary(
     ConformancePackNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2413,6 +2467,7 @@ Returns the policy definition containing the logic for your Config Custom Policy
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConfigRuleName"`: The name of your Config Custom Policy rule.
 """
+function get_custom_rule_policy end
 function get_custom_rule_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "GetCustomRulePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2465,6 +2520,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recording a specific resource type (for example, S3 buckets), that resource type is not
   returned in the list of ResourceCount objects.
 """
+function get_discovered_resource_counts end
 function get_discovered_resource_counts(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2505,6 +2561,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function get_organization_config_rule_detailed_status end
 function get_organization_config_rule_detailed_status(
     OrganizationConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2556,6 +2613,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function get_organization_conformance_pack_detailed_status end
 function get_organization_conformance_pack_detailed_status(
     OrganizationConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2601,6 +2659,7 @@ Policy rule.
 - `organization_config_rule_name`: The name of your organization Config Custom Policy rule.
 
 """
+function get_organization_custom_rule_policy end
 function get_organization_custom_rule_policy(
     OrganizationConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2670,6 +2729,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function get_resource_config_history end
 function get_resource_config_history(
     resourceId, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2720,6 +2780,7 @@ information, see the Examples section.
   execution for which you want to retrieve the evaluation summary.
 
 """
+function get_resource_evaluation_summary end
 function get_resource_evaluation_summary(
     ResourceEvaluationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2760,6 +2821,7 @@ Returns the details of a specific stored query.
 - `query_name`: The name of the query.
 
 """
+function get_stored_query end
 function get_stored_query(QueryName; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "GetStoredQuery",
@@ -2809,6 +2871,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function list_aggregate_discovered_resources end
 function list_aggregate_discovered_resources(
     ConfigurationAggregatorName,
     ResourceType;
@@ -2879,6 +2942,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   conformance packs with a compliance score of INSUFFICIENT_DATA will be last when sorting by
   ascending order and first when sorting by descending order.
 """
+function list_conformance_pack_compliance_scores end
 function list_conformance_pack_compliance_scores(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2935,6 +2999,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response. If you do not specify this parameter, Config lists all resources of the
   specified type that it has discovered.
 """
+function list_discovered_resources end
 function list_discovered_resources(
     resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2975,6 +3040,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function list_resource_evaluations end
 function list_resource_evaluations(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "ListResourceEvaluations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3005,6 +3071,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
+function list_stored_queries end
 function list_stored_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "ListStoredQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3037,6 +3104,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3083,6 +3151,7 @@ different.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: An array of tag object.
 """
+function put_aggregation_authorization end
 function put_aggregation_authorization(
     AuthorizedAccountId,
     AuthorizedAwsRegion;
@@ -3161,6 +3230,7 @@ are different.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: An array of tag object.
 """
+function put_config_rule end
 function put_config_rule(ConfigRule; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "PutConfigRule",
@@ -3216,6 +3286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OrganizationAggregationSource"`: An OrganizationAggregationSource object.
 - `"Tags"`: An array of tag object.
 """
+function put_configuration_aggregator end
 function put_configuration_aggregator(
     ConfigurationAggregatorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3264,6 +3335,7 @@ recordingGroup field specified, the default is to record all supported resource 
   configuration changes for specified resource types.
 
 """
+function put_configuration_recorder end
 function put_configuration_recorder(
     ConfigurationRecorder; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3330,6 +3402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Manager document (SSM document) and the version of the SSM document that is used to create
   a conformance pack.
 """
+function put_conformance_pack end
 function put_conformance_pack(
     ConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3379,6 +3452,7 @@ not changed.  You can have only one delivery channel per region in your account.
   configuration information to an Amazon S3 bucket and to an Amazon SNS topic.
 
 """
+function put_delivery_channel end
 function put_delivery_channel(
     DeliveryChannel; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3429,6 +3503,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   true, PutEvaluations doesn't require a valid value for the ResultToken parameter, but the
   value cannot be null.
 """
+function put_evaluations end
 function put_evaluations(ResultToken; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "PutEvaluations",
@@ -3466,6 +3541,7 @@ check when the name of the Config rule is provided.
   compliance.
 
 """
+function put_external_evaluation end
 function put_external_evaluation(
     ConfigRuleName, ExternalEvaluation; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3563,6 +3639,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services resource along with the rule identifier. It also provides the frequency with
   which you want Config to run evaluations for the rule if the trigger type is periodic.
 """
+function put_organization_config_rule end
 function put_organization_config_rule(
     OrganizationConfigRuleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3640,6 +3717,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket. In addition, in order to ensure a successful deployment, the template object must
   not be in an archived storage class if this parameter is passed.
 """
+function put_organization_conformance_pack end
 function put_organization_conformance_pack(
     OrganizationConformancePackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3706,6 +3784,7 @@ compliance data snapshot.
 - `remediation_configurations`: A list of remediation configuration objects.
 
 """
+function put_remediation_configurations end
 function put_remediation_configurations(
     RemediationConfigurations; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3779,6 +3858,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExpirationTime"`: The exception is automatically deleted after the expiration date.
 - `"Message"`: The message contains an explanation of the exception.
 """
+function put_remediation_exceptions end
 function put_remediation_exceptions(
     ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3848,6 +3928,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PutResourceConfig are tags that you supply for the configuration items of your custom
   resources.
 """
+function put_resource_config end
 function put_resource_config(
     Configuration,
     ResourceId,
@@ -3910,6 +3991,7 @@ Currently, Config supports only one retention configuration per region in your a
   Currently, only applicable to the configuration item history.
 
 """
+function put_retention_configuration end
 function put_retention_configuration(
     RetentionPeriodInDays; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3962,6 +4044,7 @@ previous. In this case, tags will not be updated, even if they are different.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: A list of Tags object.
 """
+function put_stored_query end
 function put_stored_query(StoredQuery; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "PutStoredQuery",
@@ -4014,6 +4097,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
+function select_aggregate_resource_config end
 function select_aggregate_resource_config(
     ConfigurationAggregatorName,
     Expression;
@@ -4070,6 +4154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
+function select_resource_config end
 function select_resource_config(
     Expression; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4122,6 +4207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigRuleNames"`: The list of names of Config rules that you want to run evaluations
   for.
 """
+function start_config_rules_evaluation end
 function start_config_rules_evaluation(; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "StartConfigRulesEvaluation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4152,6 +4238,7 @@ channel to successfully start the configuration recorder.
   configuration change made to the resources.
 
 """
+function start_configuration_recorder end
 function start_configuration_recorder(
     ConfigurationRecorderName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4199,6 +4286,7 @@ must complete before you can call the API again.
   element in the list consists of the resource type and resource ID.
 
 """
+function start_remediation_execution end
 function start_remediation_execution(
     ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4269,6 +4357,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EvaluationTimeout"`: The timeout for an evaluation. The default is 900 seconds. You
   cannot specify a number greater than 3600. If you specify 0, Config uses the default.
 """
+function start_resource_evaluation end
 function start_resource_evaluation(
     EvaluationMode, ResourceDetails; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4316,6 +4405,7 @@ record in your Amazon Web Services account.
   configuration change made to the resources.
 
 """
+function stop_configuration_recorder end
 function stop_configuration_recorder(
     ConfigurationRecorderName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4362,6 +4452,7 @@ deleted, the tags associated with that resource are deleted as well.
 - `tags`: An array of tag object.
 
 """
+function tag_resource end
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return config_service(
         "TagResource",
@@ -4404,6 +4495,7 @@ Deletes specified tags from a resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

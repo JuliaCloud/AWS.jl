@@ -31,6 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"tags"`: The tags to add to the deployment.
 """
+function create_deployment end
 function create_deployment(
     deploymentPatternName,
     name,
@@ -90,6 +91,7 @@ Deletes a deployment.
 - `deployment_id`: The ID of the deployment.
 
 """
+function delete_deployment end
 function delete_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST",
@@ -126,6 +128,7 @@ Returns information about the deployment.
 - `deployment_id`: The ID of the deployment.
 
 """
+function get_deployment end
 function get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST",
@@ -162,6 +165,7 @@ Returns information about a workload.
 - `workload_name`: The name of the workload.
 
 """
+function get_workload end
 function get_workload(workloadName; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST",
@@ -202,6 +206,7 @@ pattern names of a given workload.
 - `workload_name`: The name of the workload.
 
 """
+function get_workload_deployment_pattern end
 function get_workload_deployment_pattern(
     deploymentPatternName, workloadName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -256,6 +261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
+function list_deployment_events end
 function list_deployment_events(
     deploymentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -301,6 +307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
+function list_deployments end
 function list_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST", "/listDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -329,6 +336,7 @@ Lists the tags associated with a specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -371,6 +379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
+function list_workload_deployment_patterns end
 function list_workload_deployment_patterns(
     workloadName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -413,6 +422,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 """
+function list_workloads end
 function list_workloads(; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST", "/listWorkloads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -442,6 +452,7 @@ Adds the specified tags to the given resource.
 - `tags`: One or more tags to attach to the resource.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST",
@@ -478,6 +489,7 @@ Removes the specified tags from the given resource.
 - `tag_keys`: Keys identifying the tags to remove.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

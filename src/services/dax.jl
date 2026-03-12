@@ -57,6 +57,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in a subnet group must exist in the same VPC.
 - `"Tags"`: A set of tags to associate with the DAX cluster.
 """
+function create_cluster end
 function create_cluster(
     ClusterName,
     IamRoleArn,
@@ -119,6 +120,7 @@ apply to all of the nodes in a DAX cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the parameter group.
 """
+function create_parameter_group end
 function create_parameter_group(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -162,6 +164,7 @@ Creates a new subnet group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description for the subnet group
 """
+function create_subnet_group end
 function create_subnet_group(
     SubnetGroupName, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -211,6 +214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AvailabilityZones"`: The Availability Zone(s) from which to remove nodes.
 - `"NodeIdsToRemove"`: The unique identifiers of the nodes to be removed from the cluster.
 """
+function decrease_replication_factor end
 function decrease_replication_factor(
     ClusterName, NewReplicationFactor; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -260,6 +264,7 @@ action.
 - `cluster_name`: The name of the cluster to be deleted.
 
 """
+function delete_cluster end
 function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "DeleteCluster",
@@ -295,6 +300,7 @@ associated with any DAX clusters.
 - `parameter_group_name`: The name of the parameter group to delete.
 
 """
+function delete_parameter_group end
 function delete_parameter_group(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -334,6 +340,7 @@ clusters.
 - `subnet_group_name`: The name of the subnet group to delete.
 
 """
+function delete_subnet_group end
 function delete_subnet_group(
     SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -386,6 +393,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
+function describe_clusters end
 function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -413,6 +421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
 """
+function describe_default_parameters end
 function describe_default_parameters(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "DescribeDefaultParameters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -457,6 +466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: The beginning of the time interval to retrieve events for, specified in
   ISO 8601 format.
 """
+function describe_events end
 function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -486,6 +496,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes only results beyond the token, up to the value specified by MaxResults.
 - `"ParameterGroupNames"`: The names of the parameter groups.
 """
+function describe_parameter_groups end
 function describe_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "DescribeParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -523,6 +534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Source"`: How the parameter is defined. For example, system denotes a system-defined
   parameter.
 """
+function describe_parameters end
 function describe_parameters(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -568,6 +580,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes only results beyond the token, up to the value specified by MaxResults.
 - `"SubnetGroupNames"`: The name of the subnet group.
 """
+function describe_subnet_groups end
 function describe_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "DescribeSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -601,6 +614,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created. All nodes belonging to the cluster are placed in these Availability Zones. Use
   this parameter if you want to distribute the nodes across multiple AZs.
 """
+function increase_replication_factor end
 function increase_replication_factor(
     ClusterName, NewReplicationFactor; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +667,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token.
 """
+function list_tags end
 function list_tags(ResourceName; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "ListTags",
@@ -690,6 +705,7 @@ engine process and does not remove the contents of the cache.
 - `node_id`: The system-assigned ID of the node to be rebooted.
 
 """
+function reboot_node end
 function reboot_node(
     ClusterName, NodeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -733,6 +749,7 @@ second, per account.
 - `tags`: The tags to be assigned to the DAX resource.
 
 """
+function tag_resource end
 function tag_resource(
     ResourceName, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -777,6 +794,7 @@ times per second, per account.
   tags are removed from the cluster.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -833,6 +851,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   node in the DAX cluster. If this parameter is not specified, DAX assigns the default VPC
   security group to each node.
 """
+function update_cluster end
 function update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return dax(
         "UpdateCluster",
@@ -872,6 +891,7 @@ single request by submitting a list parameter name and value pairs.
   TTL Settings.
 
 """
+function update_parameter_group end
 function update_parameter_group(
     ParameterGroupName,
     ParameterNameValues;
@@ -925,6 +945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the subnet group.
 - `"SubnetIds"`: A list of subnet IDs in the subnet group.
 """
+function update_subnet_group end
 function update_subnet_group(
     SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )

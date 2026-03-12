@@ -15,6 +15,7 @@ more event destinations to it.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConfigurationSetName"`: The name that you want to give the configuration set.
 """
+function create_configuration_set end
 function create_configuration_set(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice(
         "POST",
@@ -50,6 +51,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventDestination"`:
 - `"EventDestinationName"`: A name that identifies the event destination.
 """
+function create_configuration_set_event_destination end
 function create_configuration_set_event_destination(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -85,6 +87,7 @@ Deletes an existing configuration set.
 - `configuration_set_name`: ConfigurationSetName
 
 """
+function delete_configuration_set end
 function delete_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -121,6 +124,7 @@ Deletes an event destination in a configuration set.
 - `event_destination_name`: EventDestinationName
 
 """
+function delete_configuration_set_event_destination end
 function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName;
@@ -160,6 +164,7 @@ the Amazon Resource Name (ARN) of the destination, and the name of the event des
 - `configuration_set_name`: ConfigurationSetName
 
 """
+function get_configuration_set_event_destinations end
 function get_configuration_set_event_destinations(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -198,6 +203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   position in the list of results.
 - `"PageSize"`: Used to specify the number of items that should be returned in the response.
 """
+function list_configuration_sets end
 function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice(
         "GET",
@@ -237,6 +243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   voice message. This isn't necessarily the phone number that appears on recipients' devices
   when they receive the message, because you can specify a CallerId parameter in the request.
 """
+function send_voice_message end
 function send_voice_message(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice(
         "POST",
@@ -274,6 +281,7 @@ Amazon CloudWatch destination when a call fails.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EventDestination"`:
 """
+function update_configuration_set_event_destination end
 function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName;

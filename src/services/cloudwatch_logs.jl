@@ -58,6 +58,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation, you must specify either the resourceIdentifier parameter or the logGroup
   parameter, but you can't specify both.
 """
+function associate_kms_key end
 function associate_kms_key(kmsKeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "AssociateKmsKey",
@@ -92,6 +93,7 @@ Cancels the specified export task. The task must be in the PENDING or RUNNING st
 - `task_id`: The ID of the export task.
 
 """
+function cancel_export_task end
 function cancel_export_task(taskId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "CancelExportTask",
@@ -150,6 +152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: An optional list of key-value pairs to associate with the resource. For more
   information about tagging, see Tagging Amazon Web Services resources
 """
+function create_delivery end
 function create_delivery(
     deliveryDestinationArn,
     deliverySourceName;
@@ -228,6 +231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   don't specify a value, no prefix filter is applied.
 - `"taskName"`: The name of the export task.
 """
+function create_export_task end
 function create_export_task(
     destination, from, logGroupName, to; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -321,6 +325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: An optional list of key-value pairs to associate with the resource. For more
   information about tagging, see Tagging Amazon Web Services resources
 """
+function create_log_anomaly_detector end
 function create_log_anomaly_detector(
     logGroupArnList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -391,6 +396,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about using tags to control access, see Controlling access to Amazon Web Services resources
   using tags.
 """
+function create_log_group end
 function create_log_group(logGroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "CreateLogGroup",
@@ -432,6 +438,7 @@ and 512 characters long.   Don't use ':' (colon) or '*' (asterisk) characters.
 - `log_stream_name`: The name of the log stream.
 
 """
+function create_log_stream end
 function create_log_stream(
     logGroupName, logStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -482,6 +489,7 @@ logs:DeleteAccountPolicy permissions.
 - `policy_type`: The type of policy to delete.
 
 """
+function delete_account_policy end
 function delete_account_policy(
     policyName, policyType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -525,6 +533,7 @@ about data protection policies, see PutDataProtectionPolicy.
   protection policy for.
 
 """
+function delete_data_protection_policy end
 function delete_data_protection_policy(
     logGroupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -567,6 +576,7 @@ the delivery source.
   DescribeDeliveries operation.
 
 """
+function delete_delivery end
 function delete_delivery(id; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DeleteDelivery",
@@ -602,6 +612,7 @@ deliveryDestinationArn field in the results.
   of delivery destionation names by using the DescribeDeliveryDestinations operation.
 
 """
+function delete_delivery_destination end
 function delete_delivery_destination(
     name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -636,6 +647,7 @@ PutDeliveryDestinationPolicy.
   the policy for.
 
 """
+function delete_delivery_destination_policy end
 function delete_delivery_destination_policy(
     deliveryDestinationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -680,6 +692,7 @@ field in the results.
 - `name`: The name of the delivery source that you want to delete.
 
 """
+function delete_delivery_source end
 function delete_delivery_source(name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DeleteDeliverySource",
@@ -712,6 +725,7 @@ the destination.
 - `destination_name`: The name of the destination.
 
 """
+function delete_destination end
 function delete_destination(
     destinationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -751,6 +765,7 @@ Deletes the specified CloudWatch Logs anomaly detector.
   of log anomaly detectors in your account by using the ListLogAnomalyDetectors operation.
 
 """
+function delete_log_anomaly_detector end
 function delete_log_anomaly_detector(
     anomalyDetectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -790,6 +805,7 @@ associated with the log group.
 - `log_group_name`: The name of the log group.
 
 """
+function delete_log_group end
 function delete_log_group(logGroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DeleteLogGroup",
@@ -826,6 +842,7 @@ associated with the log stream.
 - `log_stream_name`: The name of the log stream.
 
 """
+function delete_log_stream end
 function delete_log_stream(
     logGroupName, logStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -870,6 +887,7 @@ Deletes the specified metric filter.
 - `log_group_name`: The name of the log group.
 
 """
+function delete_metric_filter end
 function delete_metric_filter(
     filterName, logGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -917,6 +935,7 @@ be able to perform this operation.
   use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions.
 
 """
+function delete_query_definition end
 function delete_query_definition(
     queryDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -956,6 +975,7 @@ that policy to put log events to this account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"policyName"`: The name of the policy to be revoked. This parameter is required.
 """
+function delete_resource_policy end
 function delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -984,6 +1004,7 @@ groups without a retention policy.
 - `log_group_name`: The name of the log group.
 
 """
+function delete_retention_policy end
 function delete_retention_policy(
     logGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1021,6 +1042,7 @@ Deletes the specified subscription filter.
 - `log_group_name`: The name of the log group.
 
 """
+function delete_subscription_filter end
 function delete_subscription_filter(
     filterName, logGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1074,6 +1096,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"policyName"`: Use this parameter to limit the returned policies to only the policy with
   the name that you specify.
 """
+function describe_account_policies end
 function describe_account_policies(
     policyType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1123,6 +1146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"service"`: Use this parameter to filter the response to include only the configuration
   templates that apply to the Amazon Web Services service that you specify here.
 """
+function describe_configuration_templates end
 function describe_configuration_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1160,6 +1184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"limit"`: Optionally specify the maximum number of deliveries to return in the response.
 - `"nextToken"`:
 """
+function describe_deliveries end
 function describe_deliveries(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DescribeDeliveries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1186,6 +1211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response.
 - `"nextToken"`:
 """
+function describe_delivery_destinations end
 function describe_delivery_destinations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1219,6 +1245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response.
 - `"nextToken"`:
 """
+function describe_delivery_sources end
 function describe_delivery_sources(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DescribeDeliverySources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1251,6 +1278,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_destinations end
 function describe_destinations(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DescribeDestinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1286,6 +1314,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"taskId"`: The ID of the export task. Specifying a task ID filters the results to one or
   zero export tasks.
 """
+function describe_export_tasks end
 function describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1345,6 +1374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_log_groups end
 function describe_log_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DescribeLogGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1396,6 +1426,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consistency basis. It typically updates in less than an hour from ingestion, but in rare
   situations might take longer.
 """
+function describe_log_streams end
 function describe_log_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DescribeLogStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1433,6 +1464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_metric_filters end
 function describe_metric_filters(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DescribeMetricFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1466,6 +1498,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Limits the returned queries to only those that have the specified status.
   Valid values are Cancelled, Complete, Failed, Running, and Scheduled.
 """
+function describe_queries end
 function describe_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DescribeQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1497,6 +1530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"queryDefinitionNamePrefix"`: Use this parameter to filter your results to only the
   query definitions that have names that start with the prefix you specify.
 """
+function describe_query_definitions end
 function describe_query_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DescribeQueryDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1526,6 +1560,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API.
 - `"nextToken"`:
 """
+function describe_resource_policies end
 function describe_resource_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DescribeResourcePolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1563,6 +1598,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_subscription_filters end
 function describe_subscription_filters(
     logGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1627,6 +1663,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must specify either the resourceIdentifier parameter or the logGroup parameter, but you
   can't specify both.
 """
+function disassociate_kms_key end
 function disassociate_kms_key(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "DisassociateKmsKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1693,6 +1730,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and visible. The default is false. To use this operation with this parameter, you must be
   signed into an account with the logs:Unmask permission.
 """
+function filter_log_events end
 function filter_log_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "FilterLogEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1718,6 +1756,7 @@ Returns information about a log group data protection policy.
   protection policy that you want to see.
 
 """
+function get_data_protection_policy end
 function get_data_protection_policy(
     logGroupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1762,6 +1801,7 @@ can find the IDs of the deliveries in your account with the DescribeDeliveries o
 - `id`: The ID of the delivery that you want to retrieve.
 
 """
+function get_delivery end
 function get_delivery(id; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "GetDelivery",
@@ -1792,6 +1832,7 @@ Retrieves complete information about one delivery destination.
 - `name`: The name of the delivery destination that you want to retrieve.
 
 """
+function get_delivery_destination end
 function get_delivery_destination(name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "GetDeliveryDestination",
@@ -1825,6 +1866,7 @@ PutDeliveryDestinationPolicy.
   retrieve the policy of.
 
 """
+function get_delivery_destination_policy end
 function get_delivery_destination_policy(
     deliveryDestinationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1865,6 +1907,7 @@ Retrieves complete information about one delivery source.
 - `name`: The name of the delivery source that you want to retrieve.
 
 """
+function get_delivery_source end
 function get_delivery_source(name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "GetDeliverySource",
@@ -1897,6 +1940,7 @@ Retrieves information about the log anomaly detector that you specify.
   ListLogAnomalyDetectors operation.
 
 """
+function get_log_anomaly_detector end
 function get_log_anomaly_detector(
     anomalyDetectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1969,6 +2013,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and visible. The default is false. To use this operation with this parameter, you must be
   signed into an account with the logs:Unmask permission.
 """
+function get_log_events end
 function get_log_events(logStreamName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "GetLogEvents",
@@ -2021,6 +2066,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   minutes up to the current time are searched. The time value is specified as epoch time,
   which is the number of seconds since January 1, 1970, 00:00:00 UTC.
 """
+function get_log_group_fields end
 function get_log_group_fields(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "GetLogGroupFields"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2056,6 +2102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and visible. The default is false. To use this operation with this parameter, you must be
   signed into an account with the logs:Unmask permission.
 """
+function get_log_record end
 function get_log_record(
     logRecordPointer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2103,6 +2150,7 @@ linked source accounts. For more information, see CloudWatch cross-account obser
 - `query_id`: The ID number of the query.
 
 """
+function get_query_results end
 function get_query_results(queryId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "GetQueryResults",
@@ -2142,6 +2190,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"suppressionState"`: You can specify this parameter if you want to the operation to
   return only anomalies that are currently either suppressed or unsuppressed.
 """
+function list_anomalies end
 function list_anomalies(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "ListAnomalies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2170,6 +2219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default maximum value of 50 items is used.
 - `"nextToken"`:
 """
+function list_log_anomaly_detectors end
 function list_log_anomaly_detectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "ListLogAnomalyDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2201,6 +2251,7 @@ destinations support tagging.
   information about ARN format, see CloudWatch Logs resources and operations.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2238,6 +2289,7 @@ ListTagsForResource instead.  Lists the tags for the specified log group.
 - `log_group_name`: The name of the log group.
 
 """
+function list_tags_log_group end
 function list_tags_log_group(
     logGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2358,6 +2410,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   help prevent infinite loops. For more information, see Log recursion prevention. Specifing
   selectionCriteria is valid only when you specify  SUBSCRIPTION_FILTER_POLICY for policyType.
 """
+function put_account_policy end
 function put_account_policy(
     policyDocument,
     policyName,
@@ -2445,6 +2498,7 @@ term specified in either policy is masked.
   specified in policyDocument can be up to 30,720 characters.
 
 """
+function put_data_protection_policy end
 function put_data_protection_policy(
     logGroupIdentifier, policyDocument; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2517,6 +2571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: An optional list of key-value pairs to associate with the resource. For more
   information about tagging, see Tagging Amazon Web Services resources
 """
+function put_delivery_destination end
 function put_delivery_destination(
     deliveryDestinationConfiguration,
     name;
@@ -2582,6 +2637,7 @@ other allows delivery to the chosen destination. See the examples for the needed
 - `delivery_destination_policy`: The contents of the policy.
 
 """
+function put_delivery_destination_policy end
 function put_delivery_destination_policy(
     deliveryDestinationName,
     deliveryDestinationPolicy;
@@ -2663,6 +2719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: An optional list of key-value pairs to associate with the resource. For more
   information about tagging, see Tagging Amazon Web Services resources
 """
+function put_delivery_source end
 function put_delivery_source(
     logType, name, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2724,6 +2781,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: An optional list of key-value pairs to associate with the resource. For more
   information about tagging, see Tagging Amazon Web Services resources
 """
+function put_destination end
 function put_destination(
     destinationName, roleArn, targetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2788,6 +2846,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Updating an existing cross-account subscription  If you omit this parameter, the default
   of false is used.
 """
+function put_destination_policy end
 function put_destination_policy(
     accessPolicy, destinationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2862,6 +2921,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PutLogEvents actions are now accepted and never return InvalidSequenceTokenException or
   DataAlreadyAcceptedException even if the sequence token is not valid.
 """
+function put_log_events end
 function put_log_events(
     logEvents,
     logGroupName,
@@ -2935,6 +2995,7 @@ to Monitor Your Estimated Amazon Web Services Charges.
   emitted.
 
 """
+function put_metric_filter end
 function put_metric_filter(
     filterName,
     filterPattern,
@@ -3016,6 +3077,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creating a query definition, do not specify this parameter. CloudWatch generates a unique
   ID for the new query definition and include it in the response to this operation.
 """
+function put_query_definition end
 function put_query_definition(
     name, queryString; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3079,6 +3141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"myAwsAccountId\" } } } ] }
 - `"policyName"`: Name of the new policy. This parameter is required.
 """
+function put_resource_policy end
 function put_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "PutResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3118,6 +3181,7 @@ value to see how many bytes a log group is storing.
 - `retention_in_days`:
 
 """
+function put_retention_policy end
 function put_retention_policy(
     logGroupName, retentionInDays; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3205,6 +3269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ingested log events to the destination stream. You don't need to provide the ARN when you
   are working with a logical destination for cross-account delivery.
 """
+function put_subscription_filter end
 function put_subscription_filter(
     destinationArn,
     filterName,
@@ -3300,6 +3365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field, you can't also specify the logStreamNamePrefixes field.  You can specify this
   parameter only if you specify only one log group in logGroupIdentifiers.
 """
+function start_live_tail end
 function start_live_tail(
     logGroupIdentifiers; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3379,6 +3445,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   groups.  A StartQuery operation must include exactly one of the following parameters:
   logGroupName, logGroupNames, or logGroupIdentifiers.
 """
+function start_query end
 function start_query(
     endTime, queryString, startTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3429,6 +3496,7 @@ the operation returns an error indicating that the specified query is not runnin
   DescribeQueries.
 
 """
+function stop_query end
 function stop_query(queryId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "StopQuery",
@@ -3469,6 +3537,7 @@ Controlling access to Amazon Web Services resources using tags.
 - `tags`: The key-value pairs to use for the tags.
 
 """
+function tag_log_group end
 function tag_log_group(
     logGroupName, tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3524,6 +3593,7 @@ Logs resource.
 - `tags`: The list of key-value pairs to associate with the resource.
 
 """
+function tag_resource end
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_logs(
         "TagResource",
@@ -3565,6 +3635,7 @@ use this operation to validate the correctness of a metric filter pattern.
 - `log_event_messages`: The log event messages to test.
 
 """
+function test_metric_filter end
 function test_metric_filter(
     filterPattern, logEventMessages; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3615,6 +3686,7 @@ groups using the aws:Resource/key-name  or aws:TagKeys condition keys.
 - `tags`: The tag keys. The corresponding tags are removed from the log group.
 
 """
+function untag_log_group end
 function untag_log_group(
     logGroupName, tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3661,6 +3733,7 @@ Removes one or more tags from the specified resource.
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3721,6 +3794,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   infinite. If you specify LIMITED, you must also specify a suppressionPeriod. If you specify
   INFINITE, any value for suppressionPeriod is ignored.
 """
+function update_anomaly end
 function update_anomaly(
     anomalyDetectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3769,6 +3843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"s3DeliveryConfiguration"`: This structure contains parameters that are valid only when
   the delivery’s delivery destination is an S3 bucket.
 """
+function update_delivery_configuration end
 function update_delivery_configuration(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3814,6 +3889,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   evaluationFrequency to FIFTEEN_MIN might be appropriate.
 - `"filterPattern"`:
 """
+function update_log_anomaly_detector end
 function update_log_anomaly_detector(
     anomalyDetectorArn, enabled; aws_config::AbstractAWSConfig=current_aws_config()
 )

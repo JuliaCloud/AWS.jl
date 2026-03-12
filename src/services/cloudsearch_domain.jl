@@ -216,6 +216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in JSON using the form: {\"FIELD-A\":{},\"FIELD-B\":{}} There are currently no options
   supported for statistics.
 """
+function search end
 function search(q; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch_domain(
         "GET",
@@ -262,6 +263,7 @@ also displayed on the domain dashboard in the Amazon CloudSearch console.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"size"`: Specifies the maximum number of suggestions to return.
 """
+function suggest end
 function suggest(q, suggester; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch_domain(
         "GET",
@@ -316,6 +318,7 @@ Amazon CloudSearch Developer Guide.
 - `documents`: A batch of documents formatted in JSON or HTML.
 
 """
+function upload_documents end
 function upload_documents(
     Content_Type, documents; aws_config::AbstractAWSConfig=current_aws_config()
 )

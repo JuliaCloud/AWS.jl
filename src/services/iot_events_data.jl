@@ -16,6 +16,7 @@ acknowledge them.
   up to 10 requests per operation.
 
 """
+function batch_acknowledge_alarm end
 function batch_acknowledge_alarm(
     acknowledgeActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -60,6 +61,7 @@ detector will no longer appear if referenced in the ListDetectors API call.
 - `detectors`: The list of one or more detectors to be deleted.
 
 """
+function batch_delete_detector end
 function batch_delete_detector(
     detectors; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -99,6 +101,7 @@ Disables one or more alarms. The alarms change to the DISABLED state after you d
   requests per operation.
 
 """
+function batch_disable_alarm end
 function batch_disable_alarm(
     disableActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -142,6 +145,7 @@ Enables one or more alarms. The alarms change to the NORMAL state after you enab
   requests per operation.
 
 """
+function batch_enable_alarm end
 function batch_enable_alarm(
     enableActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -189,6 +193,7 @@ successful response.
   \"messageId\": \"string\", \"inputName\": \"string\", \"payload\": \"string\"}'
 
 """
+function batch_put_message end
 function batch_put_message(messages; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events_data(
         "POST",
@@ -226,6 +231,7 @@ Resets one or more alarms. The alarms return to the NORMAL state after you reset
   requests per operation.
 
 """
+function batch_reset_alarm end
 function batch_reset_alarm(
     resetActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -270,6 +276,7 @@ state after you set them to the snooze mode.
   requests per operation.
 
 """
+function batch_snooze_alarm end
 function batch_snooze_alarm(
     snoozeActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -313,6 +320,7 @@ of a specified detector model.
 - `detectors`: The list of detectors (instances) to update, along with the values to update.
 
 """
+function batch_update_detector end
 function batch_update_detector(
     detectors; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -355,6 +363,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"keyValue"`: The value of the key used as a filter to select only the alarms associated
   with the key.
 """
+function describe_alarm end
 function describe_alarm(alarmModelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events_data(
         "GET",
@@ -393,6 +402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"keyValue"`: A filter used to limit results to detectors (instances) created because of
   the given key ID.
 """
+function describe_detector end
 function describe_detector(
     detectorModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -433,6 +443,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
+function list_alarms end
 function list_alarms(alarmModelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events_data(
         "GET",
@@ -473,6 +484,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stateName"`: A filter that limits results to those detectors (instances) in the given
   state.
 """
+function list_detectors end
 function list_detectors(
     detectorModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )

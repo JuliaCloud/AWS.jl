@@ -22,6 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags, only these tags will be applied to the destination backup. If you do not specify
   tags, the service copies tags from the source backup to the destination backup.
 """
+function copy_backup_to_region end
 function copy_backup_to_region(
     BackupId, DestinationRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -81,6 +82,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   another account, the full ARN must be supplied.
 - `"TagList"`: Tags to apply to the CloudHSM cluster during creation.
 """
+function create_cluster end
 function create_cluster(
     HsmType, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -132,6 +134,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   address from the subnet that maps to the Availability Zone where you are creating the HSM.
   If you don't specify an IP address, one is chosen for you from that subnet.
 """
+function create_hsm end
 function create_hsm(
     AvailabilityZone, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -179,6 +182,7 @@ backup in a different Amazon Web Services account.
   DescribeBackups operation.
 
 """
+function delete_backup end
 function delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm_v2(
         "DeleteBackup",
@@ -217,6 +221,7 @@ an CloudHSM cluster in a different Amazon Web Services account.
   cluster ID, use DescribeClusters.
 
 """
+function delete_cluster end
 function delete_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm_v2(
         "DeleteCluster",
@@ -263,6 +268,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deleting.
 - `"HsmId"`: The identifier (ID) of the HSM that you are deleting.
 """
+function delete_hsm end
 function delete_hsm(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm_v2(
         "DeleteHsm",
@@ -302,6 +308,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceArn"`: Amazon Resource Name (ARN) of the resource from which the policy will be
   removed.
 """
+function delete_resource_policy end
 function delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm_v2(
         "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -357,6 +364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortAscending"`: Designates whether or not to sort the return backups by ascending
   chronological order of generation.
 """
+function describe_backups end
 function describe_backups(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm_v2(
         "DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -395,6 +403,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The NextToken value that you received in the previous response. Use this
   value to get more clusters.
 """
+function describe_clusters end
 function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm_v2(
         "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -421,6 +430,7 @@ Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ResourceArn"`: Amazon Resource Name (ARN) of the resource to which a policy is attached.
 """
+function get_resource_policy end
 function get_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm_v2(
         "GetResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -458,6 +468,7 @@ operation on an CloudHSM cluster in a different Amazon Web Services account.
   characters.
 
 """
+function initialize_cluster end
 function initialize_cluster(
     ClusterId, SignedCert, TrustAnchor; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -521,6 +532,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The NextToken value that you received in the previous response. Use this
   value to get more tags.
 """
+function list_tags end
 function list_tags(ResourceId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm_v2(
         "ListTags",
@@ -560,6 +572,7 @@ operation on an CloudHSM backup in a different Amazon Web Services account.
   service applies the backup retention policy defined at the cluster.
 
 """
+function modify_backup_attributes end
 function modify_backup_attributes(
     BackupId, NeverExpires; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -604,6 +617,7 @@ CloudHSM cluster in a different Amazon Web Services account.
   cluster ID, use DescribeClusters.
 
 """
+function modify_cluster end
 function modify_cluster(
     BackupRetentionPolicy, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -666,6 +680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceArn"`: Amazon Resource Name (ARN) of the resource to which you want to attach a
   policy.
 """
+function put_resource_policy end
 function put_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm_v2(
         "PutResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -693,6 +708,7 @@ perform this operation on an CloudHSM backup in a different Amazon Web Services 
   DescribeBackups operation.
 
 """
+function restore_backup end
 function restore_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm_v2(
         "RestoreBackup",
@@ -731,6 +747,7 @@ Services account.
 - `tag_list`: A list of one or more tags.
 
 """
+function tag_resource end
 function tag_resource(
     ResourceId, TagList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -777,6 +794,7 @@ Services account.
   Specify only the tag keys, not the tag values.
 
 """
+function untag_resource end
 function untag_resource(
     ResourceId, TagKeyList; aws_config::AbstractAWSConfig=current_aws_config()
 )

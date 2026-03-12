@@ -20,6 +20,7 @@ Tag keys must be unique to each resource.
 - `tag_list`: One or more tags.
 
 """
+function add_tags_to_resource end
 function add_tags_to_resource(
     ResourceArn, TagList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -66,6 +67,7 @@ partitions that spans multiple physical HSMs.
 - `label`: The label of the new high-availability partition group.
 
 """
+function create_hapg end
 function create_hapg(Label; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "CreateHapg",
@@ -118,6 +120,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SyslogIp"`: The IP address for the syslog monitoring server. The AWS CloudHSM service
   only supports one syslog monitoring server.
 """
+function create_hsm end
 function create_hsm(
     IamRoleArn,
     SshKey,
@@ -182,6 +185,7 @@ the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Creates an HSM 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Label"`: The label for the client.
 """
+function create_luna_client end
 function create_luna_client(Certificate; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "CreateLunaClient",
@@ -220,6 +224,7 @@ high-availability partition group.
 - `hapg_arn`: The ARN of the high-availability partition group to delete.
 
 """
+function delete_hapg end
 function delete_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DeleteHapg",
@@ -256,6 +261,7 @@ completion, this operation cannot be undone and your key material cannot be reco
 - `hsm_arn`: The ARN of the HSM to delete.
 
 """
+function delete_hsm end
 function delete_hsm(HsmArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DeleteHsm",
@@ -289,6 +295,7 @@ the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Deletes a clien
 - `client_arn`: The ARN of the client to delete.
 
 """
+function delete_luna_client end
 function delete_luna_client(ClientArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DeleteLunaClient",
@@ -327,6 +334,7 @@ about a high-availability partition group.
 - `hapg_arn`: The ARN of the high-availability partition group to describe.
 
 """
+function describe_hapg end
 function describe_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DescribeHapg",
@@ -366,6 +374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HsmSerialNumber"`: The serial number of the HSM. Either the HsmArn or the
   HsmSerialNumber parameter must be specified.
 """
+function describe_hsm end
 function describe_hsm(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm("DescribeHsm"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -393,6 +402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CertificateFingerprint"`: The certificate fingerprint.
 - `"ClientArn"`: The ARN of the client.
 """
+function describe_luna_client end
 function describe_luna_client(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DescribeLunaClient"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -425,6 +435,7 @@ associated with.
   associated with the client.
 
 """
+function get_config end
 function get_config(
     ClientArn, ClientVersion, HapgList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -476,6 +487,7 @@ the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Lists the Avail
 Zones that have available AWS CloudHSM capacity.
 
 """
+function list_available_zones end
 function list_available_zones(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ListAvailableZones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -508,6 +520,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The NextToken value from a previous call to ListHapgs. Pass null if this
   is the first call.
 """
+function list_hapgs end
 function list_hapgs(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm("ListHapgs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -538,6 +551,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The NextToken value from a previous call to ListHsms. Pass null if this is
   the first call.
 """
+function list_hsms end
 function list_hsms(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm("ListHsms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -567,6 +581,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The NextToken value from a previous call to ListLunaClients. Pass null if
   this is the first call.
 """
+function list_luna_clients end
 function list_luna_clients(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ListLunaClients"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -595,6 +610,7 @@ for the specified AWS CloudHSM resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -640,6 +656,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PartitionSerialList"`: The list of partition serial numbers to make members of the
   high-availability partition group.
 """
+function modify_hapg end
 function modify_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ModifyHapg",
@@ -690,6 +707,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SyslogIp"`: The new IP address for the syslog monitoring server. The AWS CloudHSM
   service only supports one syslog monitoring server.
 """
+function modify_hsm end
 function modify_hsm(HsmArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ModifyHsm",
@@ -726,6 +744,7 @@ certificate on the client's HSMs.
 - `client_arn`: The ARN of the client.
 
 """
+function modify_luna_client end
 function modify_luna_client(
     Certificate, ClientArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -774,6 +793,7 @@ remove (not the value). To overwrite the value for an existing tag, use AddTagsT
   the value). To overwrite the value for an existing tag, use AddTagsToResource.
 
 """
+function remove_tags_from_resource end
 function remove_tags_from_resource(
     ResourceArn, TagKeyList; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -15,6 +15,7 @@ Update one or more exclusion status for a list of recommendation resources
   exclusion status to update
 
 """
+function batch_update_recommendation_resource_exclusion end
 function batch_update_recommendation_resource_exclusion(
     recommendationResourceExclusions; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -62,6 +63,7 @@ only prioritized recommendations.
 - `organization_recommendation_identifier`: The Recommendation identifier
 
 """
+function get_organization_recommendation end
 function get_organization_recommendation(
     organizationRecommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -97,6 +99,7 @@ Get a specific Recommendation
 - `recommendation_identifier`: The Recommendation identifier
 
 """
+function get_recommendation end
 function get_recommendation(
     recommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -138,6 +141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pillar"`: The pillar of the check
 - `"source"`: The source of the check
 """
+function list_checks end
 function list_checks(; aws_config::AbstractAWSConfig=current_aws_config())
     return trustedadvisor(
         "GET", "/v1/checks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -169,6 +173,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_organization_recommendation_accounts end
 function list_organization_recommendation_accounts(
     organizationRecommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -215,6 +220,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"regionCode"`: The AWS Region code of the resource
 - `"status"`: The status of the resource
 """
+function list_organization_recommendation_resources end
 function list_organization_recommendation_resources(
     organizationRecommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -261,6 +267,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the Recommendation
 - `"type"`: The type of the Recommendation
 """
+function list_organization_recommendations end
 function list_organization_recommendations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -302,6 +309,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"regionCode"`: The AWS Region code of the resource
 - `"status"`: The status of the resource
 """
+function list_recommendation_resources end
 function list_recommendation_resources(
     recommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -347,6 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the Recommendation
 - `"type"`: The type of the Recommendation
 """
+function list_recommendations end
 function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return trustedadvisor(
         "GET", "/v1/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -382,6 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"updateReason"`: Reason for the lifecycle stage change
 - `"updateReasonCode"`: Reason code for the lifecycle state change
 """
+function update_organization_recommendation_lifecycle end
 function update_organization_recommendation_lifecycle(
     lifecycleStage,
     organizationRecommendationIdentifier;
@@ -429,6 +439,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"updateReason"`: Reason for the lifecycle stage change
 - `"updateReasonCode"`: Reason code for the lifecycle state change
 """
+function update_recommendation_lifecycle end
 function update_recommendation_lifecycle(
     lifecycleStage,
     recommendationIdentifier;

@@ -40,6 +40,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to apply to this notification rule. Key names cannot start with
   \"aws\".
 """
+function create_notification_rule end
 function create_notification_rule(
     DetailType,
     EventTypeIds,
@@ -105,6 +106,7 @@ Deletes a notification rule for a resource.
 - `arn`: The Amazon Resource Name (ARN) of the notification rule you want to delete.
 
 """
+function delete_notification_rule end
 function delete_notification_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
@@ -143,6 +145,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between
   that target and every notification rule in your Amazon Web Services account are deleted.
 """
+function delete_target end
 function delete_target(TargetAddress; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
@@ -179,6 +182,7 @@ Returns information about a specified notification rule.
 - `arn`: The Amazon Resource Name (ARN) of the notification rule.
 
 """
+function describe_notification_rule end
 function describe_notification_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
@@ -215,6 +219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
+function list_event_types end
 function list_event_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST", "/listEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -250,6 +255,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
+function list_notification_rules end
 function list_notification_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
@@ -281,6 +287,7 @@ Returns a list of the tags associated with a notification rule.
 - `arn`: The Amazon Resource Name (ARN) for the notification rule.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
@@ -320,6 +327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
+function list_targets end
 function list_targets(; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST", "/listTargets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -356,6 +364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: An enumeration token that, when provided in a request, returns
   the next batch of the results.
 """
+function subscribe end
 function subscribe(Arn, Target; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
@@ -395,6 +404,7 @@ Associates a set of provided tags with a notification rule.
   \"aws\".
 
 """
+function tag_resource end
 function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
@@ -435,6 +445,7 @@ triggered.
 - `target_address`: The ARN of the Chatbot topic to unsubscribe from the notification rule.
 
 """
+function unsubscribe end
 function unsubscribe(Arn, TargetAddress; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
@@ -478,6 +489,7 @@ Removes the association between one or more provided tags and a notification rul
 - `tag_keys`: The key names of the tags to remove.
 
 """
+function untag_resource end
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -531,6 +543,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Targets"`: The address and type of the targets to receive notifications from this
   notification rule.
 """
+function update_notification_rule end
 function update_notification_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",

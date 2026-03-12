@@ -28,6 +28,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CustomerOwnedIpv4Pool"`: The ID of the customer-owned IPv4 address pool (CoIP pool) for
   the endpoint. IP addresses are allocated from this pool for the endpoint.
 """
+function create_endpoint end
 function create_endpoint(
     OutpostId, SecurityGroupId, SubnetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -82,6 +83,7 @@ actions include:    CreateEndpoint     ListEndpoints
 - `outpost_id`: The ID of the Outposts.
 
 """
+function delete_endpoint end
 function delete_endpoint(
     endpointId, outpostId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -128,6 +130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If a previous response from this operation included a NextToken value,
   provide that value here to retrieve the next page of results.
 """
+function list_endpoints end
 function list_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return s3outposts(
         "GET",
@@ -164,6 +167,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional Outposts.
 """
+function list_outposts_with_s3 end
 function list_outposts_with_s3(; aws_config::AbstractAWSConfig=current_aws_config())
     return s3outposts(
         "GET",
@@ -202,6 +206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If a previous response from this operation included a NextToken value, you
   can provide that value here to retrieve the next page of results.
 """
+function list_shared_endpoints end
 function list_shared_endpoints(
     outpostId; aws_config::AbstractAWSConfig=current_aws_config()
 )

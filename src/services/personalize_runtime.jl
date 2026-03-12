@@ -34,6 +34,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"numResults"`: The number of results to return. The default is 5. The maximum is 100.
 - `"userId"`: The user ID of the user to provide action recommendations for.
 """
+function get_action_recommendations end
 function get_action_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_runtime(
         "POST",
@@ -94,6 +95,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about enabling metadata for a campaign, see Enabling metadata in recommendations for a
   campaign.
 """
+function get_personalized_ranking end
 function get_personalized_ranking(
     campaignArn, inputList, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -185,6 +187,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userId"`: The user ID to provide recommendations for. Required for USER_PERSONALIZATION
   recipe type.
 """
+function get_recommendations end
 function get_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_runtime(
         "POST", "/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

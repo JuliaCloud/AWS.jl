@@ -16,6 +16,7 @@ received a claim code with the device(s).
   manufacturer.
 
 """
+function claim_devices_by_claim_code end
 function claim_devices_by_claim_code(
     claimCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -53,6 +54,7 @@ device.
 - `device_id`: The unique identifier of the device.
 
 """
+function describe_device end
 function describe_device(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
         "GET",
@@ -97,6 +99,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS
   Tagging Strategies.
 """
+function finalize_device_claim end
 function finalize_device_claim(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
         "PUT",
@@ -130,6 +133,7 @@ Given a device ID, returns the invokable methods associated with the device.
 - `device_id`: The unique identifier of the device.
 
 """
+function get_device_methods end
 function get_device_methods(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
         "GET",
@@ -169,6 +173,7 @@ device.
 - `device_id`: The unique identifier of the device.
 
 """
+function initiate_device_claim end
 function initiate_device_claim(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
         "PUT",
@@ -208,6 +213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deviceMethodParameters"`: A JSON encoded string containing the device method request
   parameters.
 """
+function invoke_device_method end
 function invoke_device_method(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
         "POST",
@@ -255,6 +261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
  100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
+function list_device_events end
 function list_device_events(
     deviceId, fromTimeStamp, toTimeStamp; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -305,6 +312,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
  100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
+function list_devices end
 function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
         "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -329,6 +337,7 @@ Lists the tags associated with the specified resource ARN.
 - `resource-arn`: The ARN of the resource.
 
 """
+function list_tags_for_resource end
 function list_tags_for_resource(
     resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -369,6 +378,7 @@ Limits for the maximum number of tags allowed per
   Tagging Strategies.
 
 """
+function tag_resource end
 function tag_resource(
     resource_arn, tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -406,6 +416,7 @@ Disassociates a device from your AWS account using its device ID.
 - `device_id`: The unique identifier of the device.
 
 """
+function unclaim_device end
 function unclaim_device(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
         "PUT",
@@ -442,6 +453,7 @@ ARN.
 - `tag_keys`: A collections of tag keys. For example, {\"key1\",\"key2\"}
 
 """
+function untag_resource end
 function untag_resource(
     resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,6 +497,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enabled"`: If true, the device is enabled. If false, the device is
  disabled.
 """
+function update_device_state end
 function update_device_state(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
         "PUT",
