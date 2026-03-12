@@ -173,7 +173,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"AdditionalMetrics\" : { \"string\" : \"string\" }.
 - `"Filter"`: One or more filters to apply in the request. Restrictions:   Any number of
   filters by the same dimension, as specified in the GroupBy or Partition parameters.   A
-  single filter for any other dimension in this dimension group.
+  single filter for any other dimension in this dimension group.    The db.sql.db_id filter
+  isn't available for RDS for SQL Server DB instances.
 - `"MaxResults"`: The maximum number of items to return in the response. If more items
   exist than the specified MaxRecords value, a pagination token is included in the response
   so that the remaining results can be retrieved.

@@ -233,24 +233,23 @@ from the organization's management account. For more information about creating 
 see Creating a member account in your organization in the Organizations User Guide.    When
 you create an account in an organization using the Organizations console, API, or CLI
 commands, the information required for the account to operate as a standalone account, such
-as a payment method and signing the end user license agreement (EULA) is not automatically
-collected. If you must remove an account from your organization later, you can do so only
-after you provide the missing information. For more information, see Considerations before
-removing an account from an organization in the Organizations User Guide.   If you get an
-exception that indicates that you exceeded your account limits for the organization,
-contact Amazon Web Services Support.   If you get an exception that indicates that the
-operation failed because your organization is still initializing, wait one hour and then
-try again. If the error persists, contact Amazon Web Services Support.   Using
-CreateAccount to create multiple temporary accounts isn't recommended. You can only close
-an account from the Billing and Cost Management console, and you must be signed in as the
-root user. For information on the requirements and process for closing an account, see
-Closing a member account in your organization in the Organizations User Guide.     When you
-create a member account with this operation, you can choose whether to create the account
-with the IAM User and Role Access to Billing Information switch enabled. If you enable it,
-IAM users and roles that have appropriate permissions can view billing information for the
-account. If you disable it, only the account root user can access billing information. For
-information about how to disable this switch for an account, see Granting access to your
-billing information and tools.
+as a payment method is not automatically collected. If you must remove an account from your
+organization later, you can do so only after you provide the missing information. For more
+information, see Considerations before removing an account from an organization in the
+Organizations User Guide.   If you get an exception that indicates that you exceeded your
+account limits for the organization, contact Amazon Web Services Support.   If you get an
+exception that indicates that the operation failed because your organization is still
+initializing, wait one hour and then try again. If the error persists, contact Amazon Web
+Services Support.   Using CreateAccount to create multiple temporary accounts isn't
+recommended. You can only close an account from the Billing and Cost Management console,
+and you must be signed in as the root user. For information on the requirements and process
+for closing an account, see Closing a member account in your organization in the
+Organizations User Guide.     When you create a member account with this operation, you can
+choose whether to create the account with the IAM User and Role Access to Billing
+Information switch enabled. If you enable it, IAM users and roles that have appropriate
+permissions can view billing information for the account. If you disable it, only the
+account root user can access billing information. For information about how to disable this
+switch for an account, see Granting access to your billing information and tools.
 
 # Arguments
 - `account_name`: The friendly name of the member account.

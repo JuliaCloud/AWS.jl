@@ -545,6 +545,7 @@ exactly
   two source URLs for redundancy.
 Only specify sources for PULL type Inputs. Leave
   Destinations empty.
+- `"srtSettings"`: The settings associated with an SRT input.
 - `"tags"`: A collection of key-value pairs.
 - `"type"`:
 - `"vpc"`:
@@ -3306,6 +3307,7 @@ exactly
   two source URLs for redundancy.
 Only specify sources for PULL type Inputs. Leave
   Destinations empty.
+- `"srtSettings"`: The settings associated with an SRT input.
 """
 function update_input(inputId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
@@ -3420,6 +3422,7 @@ Updates a multiplex.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"multiplexSettings"`: The new settings for a multiplex.
 - `"name"`: Name of the multiplex.
+- `"packetIdentifiersMapping"`:
 """
 function update_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(

@@ -297,6 +297,7 @@ managing Amazon OpenSearch Service domains.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AIMLOptions"`: Options for all machine learning features for the specified domain.
 - `"AccessPolicies"`: Identity and Access Management (IAM) policy document specifying the
   access policies for the new domain.
 - `"AdvancedOptions"`: Key-value pairs to specify advanced configuration options. The
@@ -2355,6 +2356,7 @@ Modifies the cluster configuration of the specified Amazon OpenSearch Service do
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AIMLOptions"`: Options for all machine learning features for the specified domain.
 - `"AccessPolicies"`: Identity and Access Management (IAM) access policy as a
   JSON-formatted string.
 - `"AdvancedOptions"`: Key-value pairs to specify advanced configuration options. The

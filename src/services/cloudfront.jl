@@ -3692,7 +3692,8 @@ end
     list_tags_for_resource2020_05_31(resource)
     list_tags_for_resource2020_05_31(resource, params::Dict{String,<:Any})
 
-List tags for a CloudFront resource.
+List tags for a CloudFront resource. For more information, see Tagging a distribution in
+the Amazon CloudFront Developer Guide.
 
 # Arguments
 - `resource`: An ARN of a CloudFront resource.
@@ -3778,7 +3779,8 @@ end
     tag_resource2020_05_31(resource, tags)
     tag_resource2020_05_31(resource, tags, params::Dict{String,<:Any})
 
-Add tags to a CloudFront resource.
+Add tags to a CloudFront resource. For more information, see Tagging a distribution in the
+Amazon CloudFront Developer Guide.
 
 # Arguments
 - `resource`: An ARN of a CloudFront resource.
@@ -3884,7 +3886,8 @@ end
     untag_resource2020_05_31(resource, tag_keys)
     untag_resource2020_05_31(resource, tag_keys, params::Dict{String,<:Any})
 
-Remove tags from a CloudFront resource.
+Remove tags from a CloudFront resource. For more information, see Tagging a distribution in
+the Amazon CloudFront Developer Guide.
 
 # Arguments
 - `resource`: An ARN of a CloudFront resource.

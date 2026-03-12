@@ -11,11 +11,11 @@ using AWS.UUIDs
 This operation allows you to perform batch reads or writes on data stored in DynamoDB,
 using PartiQL. Each read statement in a BatchExecuteStatement must specify an equality
 condition on all key attributes. This enforces that each SELECT statement in a batch
-returns at most a single item.  The entire batch must consist of either read statements or
-write statements, you cannot mix both in one batch.   A HTTP 200 response does not mean
-that all statements in the BatchExecuteStatement succeeded. Error details for individual
-statements can be found under the Error field of the BatchStatementResponse for each
-statement.
+returns at most a single item. For more information, see Running batch operations with
+PartiQL for DynamoDB .  The entire batch must consist of either read statements or write
+statements, you cannot mix both in one batch.   A HTTP 200 response does not mean that all
+statements in the BatchExecuteStatement succeeded. Error details for individual statements
+can be found under the Error field of the BatchStatementResponse for each statement.
 
 # Arguments
 - `statements`: The list of PartiQL statements representing the batch to run.
@@ -165,9 +165,12 @@ internal processing failure occurs, the failed operations are returned in the
 UnprocessedItems response parameter. You can investigate and optionally resend the
 requests. Typically, you would call BatchWriteItem in a loop. Each iteration would check
 for unprocessed items and submit a new BatchWriteItem request with those unprocessed items
-until all items have been processed. If none of the items can be processed due to
-insufficient provisioned throughput on all of the tables in the request, then
-BatchWriteItem returns a ProvisionedThroughputExceededException.  If DynamoDB returns any
+until all items have been processed. For tables and indexes with provisioned capacity, if
+none of the items can be processed due to insufficient provisioned throughput on all of the
+tables in the request, then BatchWriteItem returns a
+ProvisionedThroughputExceededException. For all tables and indexes, if none of the items
+can be processed due to other throttling scenarios (such as exceeding partition level
+limits), then BatchWriteItem returns a ThrottlingException.  If DynamoDB returns any
 unprocessed items, you should retry the batch operation on those items. However, we
 strongly recommend that you use an exponential backoff algorithm. If you retry the batch
 operation immediately, the underlying read or write requests can still fail due to
@@ -733,11 +736,11 @@ does not exist, DynamoDB returns a ResourceNotFoundException. If table is alread
 DELETING state, no error is returned.   For global tables, this operation only applies to
 global tables using Version 2019.11.21 (Current version).    DynamoDB might continue to
 accept data read and write operations, such as GetItem and PutItem, on a table in the
-DELETING state until the table deletion is complete.  When you delete a table, any indexes
-on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the
-corresponding stream on that table goes into the DISABLED state, and the stream is
-automatically deleted after 24 hours. Use the DescribeTable action to check the status of
-the table.
+DELETING state until the table deletion is complete. For the full list of table states, see
+TableStatus.  When you delete a table, any indexes on that table are also deleted. If you
+have DynamoDB Streams enabled on the table, then the corresponding stream on that table
+goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use
+the DescribeTable action to check the status of the table.
 
 # Arguments
 - `table_name`: The name of the table to delete. You can also provide the Amazon Resource
