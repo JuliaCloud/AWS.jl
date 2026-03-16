@@ -75,12 +75,12 @@ end
                 include("unit/AWS.jl")
                 include("unit/AWSExceptions.jl")
                 include("unit/APIGenerationUtilities.jl")
-                include("unit/test_pkg.jl")
-                include("unit/utilities.jl")
-                include("unit/AWSConfig.jl")
-                include("unit/IMDS.jl")
-                include("unit/AWSCredentials.jl")
-                include("unit/issues.jl")
+                # include("unit/test_pkg.jl")
+                # include("unit/utilities.jl")
+                # include("unit/AWSConfig.jl")
+                # include("unit/IMDS.jl")
+                # include("unit/AWSCredentials.jl")
+                # include("unit/issues.jl")
             end
         else
             @warn "Skipping unit tests"

@@ -242,18 +242,17 @@ function _splitline(str; limit)
         # the link on the next line.
         in_link = peek(link_state) !== nothing
 
-        if in_link
-            stop = nothing
-        elseif !in_code && prev_c == '\n'
-            stop = i
-            break
-        elseif i > indent && !in_code && !whitespace_only && (c == ' ' || prev_c == ' ' || prev_c == '-')
-            stop = i
-        else whitespace_only
-            stop = nothing
-            if !isspace(c)
-                whitespace_only = false
+        if !whitespace_only
+            if in_link
+                stop = nothing
+            elseif !in_code && prev_c == '\n'
+                stop = i
+                break
+            elseif i > indent && !in_code && (c == ' ' || prev_c == ' ' || prev_c == '-')
+                stop = i
             end
+        elseif !isspace(c)
+            whitespace_only = false
         end
 
         at_limit = col > limit
@@ -261,7 +260,11 @@ function _splitline(str; limit)
         # println("---")
         # @show c prev_c i col stop limit at_limit max_index whitespace_only in_code
 
-        at_limit && !isnothing(stop) && break
+        # Break early if:
+        # - We are at the line limit
+        # - We have a stop index
+        # - We have iterated through the entire whitespace block
+        at_limit && !isnothing(stop) && !isspace(c) && break
 
         # Ignore any previously found `stop` when we read the end of the string and have
         # yet to it the limit.
@@ -285,8 +288,6 @@ function _splitline(str; limit)
     else
         line, rest = (str, "")
     end
-
-    # @show line rest
 
     return line, rest
 end
