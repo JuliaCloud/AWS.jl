@@ -94,7 +94,7 @@ function _wraplines(str; limit=92, min_indent=0)
         end
 
         # println("===")
-        # @show line str line_limit
+        # @show line str
 
         # Avoid indenting an empty `str` as this will cause an infinite loop
         if !isempty(str)
@@ -106,7 +106,7 @@ function _wraplines(str; limit=92, min_indent=0)
                 indent = get_markdown_indent(line)
                 str = lstrip(str, ' ')
             else
-                indent = 0
+                indent = min_indent
             end
 
             # @show line_indent
@@ -116,7 +116,9 @@ function _wraplines(str; limit=92, min_indent=0)
             end
         end
 
-        if line == "\n"
+        # @show line str
+
+        if strip(line, ' ') == "\n"
             push!(lines, "")
         else
             # Remove trailing whitespace from each line
@@ -127,14 +129,14 @@ function _wraplines(str; limit=92, min_indent=0)
                 # Ensure each non-empty line, besides the first line, is indented by at least
                 # `min_indent` spaces. We need to do this as part of this function as otherwise we
                 # would need to figure out how to re-wrap the lines.
-                if !first_line
-                    line_indent = get_indent(line)
-                    indent = max(min_indent - line_indent, 0)
+                # if !first_line
+                #     line_indent = get_indent(line)
+                #     indent = max(min_indent - line_indent, 0)
 
-                    if indent > 0
-                        line = " "^indent * line
-                    end
-                end
+                #     if indent > 0
+                #         line = " "^indent * line
+                #     end
+                # end
 
                 push!(lines, line)
             end

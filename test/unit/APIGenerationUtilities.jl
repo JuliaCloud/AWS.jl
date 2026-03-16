@@ -597,7 +597,7 @@ end
                 end
             end
 
-             @test _splitline("\nfoo"; limit=5) == ("\n", "foo")
+            @test _splitline("\nfoo"; limit=5) == ("\n", "foo")
         end
 
         @testset "avoid split" begin
@@ -841,12 +841,17 @@ end
         @testset "`min_indent` keyword" begin
             str = string(
                 "- Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\n",
-                "Maecenas scelerisque erat vitae dignissim tempus.",
+                "Maecenas scelerisque erat vitae dignissim tempus.\n\n",
+                "note !!!\n",
+                "    Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.",
             )
             expected = string(
                 "- Lorem ipsum dolor sit amet, consectetur adipiscing\n",
                 "  elit.\n\n",
-                "  Maecenas scelerisque erat vitae dignissim tempus.",
+                "  Maecenas scelerisque erat vitae dignissim tempus.\n\n",
+                "  note !!!\n",
+                "      Morbi lacinia tortor at nibh blandit, id\n",
+                "      dictum dui venenatis.",
             )
             @test _wraplines(str; limit=53, min_indent=2) == expected
         end
