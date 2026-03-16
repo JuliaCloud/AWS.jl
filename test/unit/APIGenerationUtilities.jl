@@ -714,36 +714,51 @@ end
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
-            @test _wraplines(str) == _wraplines(str; limit=92)
+            expected = """
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                labore et dolore magna aliqua."""
+            @test _wraplines(str) == expected
+            @test _wraplines(str; limit=92) == expected
         end
 
-        @testset "auto-indent" begin
+        @testset "auto-indent text" begin
             str = string(
                 "  Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
-            @test _wraplines(str; limit=53) == """
-                  Lorem ipsum dolor sit amet, consectetur adipiscing
-                  elit, sed do eiusmod tempor incididunt ut labore et
-                  dolore magna aliqua."""
+            expected = join(
+                [
+                    "  Lorem ipsum dolor sit amet, consectetur adipiscing"
+                    "  elit, sed do eiusmod tempor incididunt ut labore et"
+                    "  dolore magna aliqua."
+                ],
+                '\n',
+            )
+            @test _wraplines(str; limit=53) == expected
+        end
 
+        @testset "auto-indent unordered list" begin
             str = string(
                 "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
-            @test _wraplines(str; limit=53) == """
+            expected = """
                 - Lorem ipsum dolor sit amet, consectetur adipiscing
                   elit, sed do eiusmod tempor incididunt ut labore et
                   dolore magna aliqua."""
+            @test _wraplines(str; limit=53) == expected
+        end
 
+        @testset "auto-indent ordered list" begin
             str = string(
                 "1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
-            @test _wraplines(str; limit=53) == """
+            expected = """
                 1. Lorem ipsum dolor sit amet, consectetur adipiscing
                    elit, sed do eiusmod tempor incididunt ut labore
                    et dolore magna aliqua."""
+            @test _wraplines(str; limit=53) == expected
         end
 
         @testset "`indent` keyword" begin
@@ -751,12 +766,15 @@ end
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
-            @test _wraplines(str; limit=54, indent=4) == (
-                """
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua."""
+            expected = join(
+                [
+                    "    Lorem ipsum dolor sit amet, consectetur adipiscing"
+                    "    elit, sed do eiusmod tempor incididunt ut labore"
+                    "    et dolore magna aliqua."
+                ],
+                '\n',
             )
+            @test _wraplines(str; limit=54, indent=4) == expected
         end
     end
 end
