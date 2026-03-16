@@ -81,7 +81,7 @@ function _wraplines(str; limit=92, indent=0)
         line_limit = limit - (first_line ? 0 : indent)
 
         if str == prev_str
-            error("fail: $str")
+            error("Internal failure: Splitting $(repr(str)) would cause an infinite loop")
             break
         end
         prev_str = str
@@ -94,7 +94,7 @@ function _wraplines(str; limit=92, indent=0)
         end
 
         # println("===")
-        # @show line str
+        # @show line str line_limit
 
         # Avoid indenting an empty `str` as this will cause an infinite loop
         if !isempty(str)
@@ -116,11 +116,11 @@ function _wraplines(str; limit=92, indent=0)
             end
         end
 
-        # println("===")
-        # @show line str
-
         # Remove trailing whitespace from each line (including the delimiter)
         line = rstrip(line)
+
+        # println("===")
+        # @show line str
 
         if !isempty(line)
             push!(lines, line)
@@ -129,7 +129,8 @@ function _wraplines(str; limit=92, indent=0)
         first_line = false
     end
 
-    return join(lines, "\n")
+    indent_str = " "^indent
+    return join(["$indent_str$line" for line in lines], "\n")
 end
 
 function get_indent(str::AbstractString)
@@ -177,24 +178,6 @@ function _splitline(str; limit)
 
     min_index = firstindex(str)
     max_index = lastindex(str)
-
-    # Fast path: If a newline occurs before the limit we'll wrap the line there. When `str`
-    # is shorter than the limit and doesn't contain a newline we'll return the string as is.
-    stop = findfirst(==('\n'), str)
-    if !isnothing(stop) && stop <= limit
-        # line = SubString(str, min_index, prevind(str, stop))
-        # rest = SubString(str, stop, max_index)
-
-        line = SubString(str, min_index, prevind(str, stop))
-        rest = SubString(str, stop, max_index)
-
-        # line = SubString(str, min_index, stop)
-        # i = nextind(str, stop)
-        # rest = i <= max_index ? SubString(str, i, max_index) : ""
-        return line, rest
-    elseif ncodeunits(str) <= limit
-        return (str, "")
-    end
 
     i = min_index
     col = 1
@@ -259,10 +242,21 @@ function _splitline(str; limit)
 
         at_limit = col > limit
 
-        println("---")
-        @show c i col stop limit at_limit
+        # println("---")
+        # @show c i col stop limit at_limit max_index
 
-        at_limit && !isnothing(stop) && break
+        # Break early if:
+        # - We are at the line limit
+        # - We have a stop index
+        # - We have iterated through the entire whitespace block
+        at_limit && !isnothing(stop) && !isspace(c) && break
+
+        # Ignore any previously found `stop` when we read the end of the string and have
+        # yet to it the limit.
+        if i == max_index
+            stop = nothing
+            break
+        end
 
         i = ii
         col += 1
@@ -279,8 +273,6 @@ function _splitline(str; limit)
     else
         line, rest = (str, "")
     end
-
-    @show line rest
 
     return line, rest
 end

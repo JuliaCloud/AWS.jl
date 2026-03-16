@@ -177,8 +177,8 @@ end
 end
 
 @testset "_html_to_markdown" begin
-    documentation = "<p>To remove one or more tags, use the <a>RemoveTagsFromCertificate</a> action. \$ \\ To view all of the tags that have been applied to the certificate, use the <a>ListTagsForCertificate</a> action."
-    expected_result = "To remove one or more tags, use the RemoveTagsFromCertificate action.   To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action."
+    documentation = "<p>To remove one or more tags, use the <a>RemoveTagsFromCertificate</a> action. \$ \\ To view all of the tags that have been applied to the certificate, use the <a>ListTagsForCertificate</a> action.</p>"
+    expected_result = "To remove one or more tags, use the [`remove_tags_from_certificate`](@ref) action. \\\$ \\\\ To view all of the tags that have been applied to the certificate, use the [`list_tags_for_certificate`](@ref) action."
     result = _html_to_markdown(documentation)
 
     @test result == expected_result
@@ -560,13 +560,11 @@ end
         @testset "basic" begin
             str = "foo-bar baz"
 
-            for limit in 1:(ncodeunits(str) + 1)
+            for limit in 1:(length(str) + 1)
                 @testset let limit = limit
-                    expected = if 1 <= limit <= 6
+                    expected = if limit <= 6
                         ("foo-", "bar baz")
-                    elseif 7 <= limit <= 7
-                        ("foo-bar", " baz")
-                    elseif 8 <= limit <= 10
+                    elseif limit <= 10
                         ("foo-bar ", "baz")
                     else
                         ("foo-bar baz", "")
@@ -578,6 +576,24 @@ end
                     @test typeof(result) <: Tuple{AbstractString,AbstractString}
 
                     @test result == expected
+                end
+            end
+        end
+
+        @testset "respect newlines" begin
+            str = "  foo\n  bar"
+            for limit in 1:length(str)
+                @testset let limit = limit
+                    @test _splitline(str; limit) == ("  foo\n", "  bar")
+                end
+            end
+
+            # Even though we can split earlier (limit=5) we avoid treating trailing spaces
+            # towards our line length to avoid adding extra newlines.
+            str = "  foo \n  bar"
+            for limit in 1:length(str)
+                @testset let limit = limit
+                    @test _splitline(str; limit) == ("  foo \n", "  bar")
                 end
             end
         end
@@ -612,14 +628,14 @@ end
 
             for limit in 1:ncodeunits(str)
                 @testset let limit = limit
-                    if 1 <= limit <= 6
+                    if limit <= 6
                         # Lines are wrapped when they can be.
                         @test _wraplines(str; limit) == "foo-\nbar\nbaz"
-                    elseif 7 <= limit <= 7
+                    elseif limit <= 7
                         # Wrap immediately after "foo-bar" which could accidentally cause
                         # the space to indent the next line.
                         @test _wraplines(str; limit) == "foo-bar\nbaz"
-                    elseif 8 <= limit <= 10
+                    elseif limit <= 10
                         # Limit is long enough we wrap at the the space.
                         @test _wraplines(str; limit) == "foo-bar\nbaz"
                     else
@@ -630,10 +646,17 @@ end
             end
         end
 
-        @testset "respect existing newlines" begin
-            str = "  foo \n  baz"
+        @testset "respect newlines" begin
+            str = "  foo\n  bar"
+            for limit in 1:length(str)
+                @testset let limit = limit
+                    @test _wraplines(str; limit) == "  foo\n  bar"
+                end
+            end
 
-            for limit in 1:ncodeunits(str)
+            # Trim trailing spaces
+            str = "  foo \n  bar"
+            for limit in 1:length(str)
                 @testset let limit = limit
                     @test _wraplines(str; limit) == "  foo\n  bar"
                 end
@@ -641,26 +664,27 @@ end
         end
 
         @testset "code-block" begin
+            # The `limit` is based upon number of characters
             str = "This sentence contains exactly `η = 50` codeunits"
 
-            for limit in 1:ncodeunits(str)
+            for limit in 1:length(str)
                 @testset let limit = limit
-                    if 1 <= limit <= 12
+                    if limit <= 12
                         # Lines are wrapped for each word or code-block.
                         @test _wraplines(str; limit) == "This\nsentence\ncontains\nexactly\n`η = 50`\ncodeunits"
-                    elseif 13 <= limit <= 15
+                    elseif limit <= 15
                         @test _wraplines(str; limit) == "This sentence\ncontains\nexactly\n`η = 50`\ncodeunits"
-                    elseif 16 <= limit <= 18
+                    elseif limit <= 17
                         @test _wraplines(str; limit) == "This sentence\ncontains exactly\n`η = 50`\ncodeunits"
-                    elseif 19 <= limit <= 21
+                    elseif limit <= 21
                         @test _wraplines(str; limit) == "This sentence\ncontains exactly\n`η = 50` codeunits"
-                    elseif 22 <= limit <= 26
+                    elseif limit <= 25
                         @test _wraplines(str; limit) == "This sentence contains\nexactly `η = 50`\ncodeunits"
-                    elseif 27 <= limit <= 29
+                    elseif limit <= 29
                         @test _wraplines(str; limit) == "This sentence contains\nexactly `η = 50` codeunits"
-                    elseif 30 <= limit <= 38
+                    elseif limit <= 38
                         @test _wraplines(str; limit) == "This sentence contains exactly\n`η = 50` codeunits"
-                    elseif 39 <= limit <= 49
+                    elseif limit <= 48
                         @test _wraplines(str; limit) == "This sentence contains exactly `η = 50`\ncodeunits"
                     else
                         @test _wraplines(str; limit) == "This sentence contains exactly `η = 50` codeunits"
@@ -674,7 +698,7 @@ end
 
             for limit in 1:ncodeunits(str)
                 @testset let limit = limit
-                    if 1 <= limit <= 29
+                    if limit <= 29
                         # Set line break before or on the first whitespace character.
                         # Accidental indententation will be removed.
                         @test _wraplines(str; limit) == "16charactersthen\nfourspaces"
