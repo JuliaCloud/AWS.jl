@@ -245,16 +245,12 @@ function _splitline(str; limit)
         if !in_link && !in_code && prev_c == '\n'
             stop = i
             break
-        end
-
-        if !whitespace_only
-            if in_link
-                stop = nothing
-            elseif i > indent && !in_code && (c == ' ' || prev_c == ' ' || prev_c == '-')
-                stop = i
-            end
-        elseif !isspace(c)
+        elseif whitespace_only && !isspace(c)
             whitespace_only = false
+        elseif in_link
+            stop = nothing
+        elseif !whitespace_only && !in_code && (c == ' ' || prev_c == ' ' || prev_c == '-')
+            stop = i
         end
 
         at_limit = col > limit
