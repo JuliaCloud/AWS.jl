@@ -71,14 +71,14 @@ end
 """
 Return a string with line breaks added such that lines are wrapped at or before the limit.
 """
-function _wraplines(str; limit=92, indent=0)
+function _wraplines(str; limit=92, min_indent=0)
     limit >= 1 || throw(DomainError(limit, "Lines limit must at least be 1."))
     lines = String[]
 
     first_line = true
     prev_str = ""
     while !isempty(str)
-        line_limit = limit - (first_line ? 0 : indent)
+        line_limit = limit - (first_line ? 0 : min_indent)
 
         if str == prev_str
             error("Internal failure: Splitting $(repr(str)) would cause an infinite loop")
@@ -93,8 +93,8 @@ function _wraplines(str; limit=92, indent=0)
             rethrow()
         end
 
-        println("===")
-        @show line str line_limit
+        # println("===")
+        # @show line str line_limit
 
         # Avoid indenting an empty `str` as this will cause an infinite loop
         if !isempty(str)
@@ -103,34 +103,49 @@ function _wraplines(str; limit=92, indent=0)
             # ensure Markdown indentation is respected. If the split occurred where a new
             # line already exists we'll respect the whitespace which already existed.
             if !endswith(line, '\n')
-                line_indent = get_markdown_indent(line)
+                indent = get_markdown_indent(line)
                 str = lstrip(str, ' ')
             else
-                line_indent = indent
+                indent = 0
             end
 
             # @show line_indent
 
-            if line_indent > 0
-                str = " "^line_indent * str
+            if indent > 0
+                str = " "^indent * str
             end
         end
 
-        # Remove trailing whitespace from each line (including the delimiter)
-        line = rstrip(line)
+        if line == "\n"
+            push!(lines, "")
+        else
+            # Remove trailing whitespace from each line
+            line = rstrip(line)
 
-        # println("===")
-        # @show line str
+            if !isempty(line)
 
-        if !isempty(line)
-            push!(lines, line)
+                # Ensure each non-empty line, besides the first line, is indented by at least
+                # `min_indent` spaces. We need to do this as part of this function as otherwise we
+                # would need to figure out how to re-wrap the lines.
+                if !first_line
+                    line_indent = get_indent(line)
+                    indent = max(min_indent - line_indent, 0)
+
+                    if indent > 0
+                        line = " "^indent * line
+                    end
+                end
+
+                push!(lines, line)
+            end
         end
+
         # @show lines
+
         first_line = false
     end
 
-    indent_str = " "^indent
-    return join(["$indent_str$line" for line in lines], "\n")
+    return join(lines, "\n")
 end
 
 function get_indent(str::AbstractString)
@@ -227,29 +242,26 @@ function _splitline(str; limit)
         # the link on the next line.
         in_link = peek(link_state) !== nothing
 
-        if !whitespace_only
-            if in_link
-                stop = nothing
-            elseif !in_code && prev_c == '\n'
-                stop = i
-                break
-            elseif i > indent && !in_code && (c == ' ' || prev_c == ' ' || prev_c == '-')
-                stop = i
+        if in_link
+            stop = nothing
+        elseif !in_code && prev_c == '\n'
+            stop = i
+            break
+        elseif i > indent && !in_code && !whitespace_only && (c == ' ' || prev_c == ' ' || prev_c == '-')
+            stop = i
+        else whitespace_only
+            stop = nothing
+            if !isspace(c)
+                whitespace_only = false
             end
-        elseif !isspace(c)
-            whitespace_only = false
         end
 
         at_limit = col > limit
 
         # println("---")
-        # @show c i col stop limit at_limit max_index
+        # @show c prev_c i col stop limit at_limit max_index whitespace_only in_code
 
-        # Break early if:
-        # - We are at the line limit
-        # - We have a stop index
-        # - We have iterated through the entire whitespace block
-        at_limit && !isnothing(stop) && !isspace(c) && break
+        at_limit && !isnothing(stop) && break
 
         # Ignore any previously found `stop` when we read the end of the string and have
         # yet to it the limit.
@@ -273,6 +285,8 @@ function _splitline(str; limit)
     else
         line, rest = (str, "")
     end
+
+    # @show line rest
 
     return line, rest
 end
@@ -373,7 +387,7 @@ function _html_to_markdown(doc::AbstractString)
                        m[1],
                        r"\s*<li>\s*(.*?)\s*</li>"s => (m -> (i += 1; "$i. $(m[1])\n")),
                    ) *
-                   "\n"
+                   "\n\n"
         end,
     )
 
@@ -410,7 +424,7 @@ function _html_to_markdown(doc::AbstractString)
     )
 
     # Remove extra blank lines
-    doc = replace(doc, r"\n([ \t]*\n){2,}" => "\n\n")
+    doc = replace(doc, r"([ \t]*\n){3,}" => "\n\n")
 
     doc = replace(doc, "<p/>" => "")
 

@@ -596,6 +596,8 @@ end
                     @test _splitline(str; limit) == ("  foo \n", "  bar")
                 end
             end
+
+             @test _splitline("\nfoo"; limit=5) == ("\n", "foo")
         end
 
         @testset "avoid split" begin
@@ -671,23 +673,32 @@ end
                 @testset let limit = limit
                     if limit <= 12
                         # Lines are wrapped for each word or code-block.
-                        @test _wraplines(str; limit) == "This\nsentence\ncontains\nexactly\n`η = 50`\ncodeunits"
+                        @test _wraplines(str; limit) ==
+                            "This\nsentence\ncontains\nexactly\n`η = 50`\ncodeunits"
                     elseif limit <= 15
-                        @test _wraplines(str; limit) == "This sentence\ncontains\nexactly\n`η = 50`\ncodeunits"
+                        @test _wraplines(str; limit) ==
+                            "This sentence\ncontains\nexactly\n`η = 50`\ncodeunits"
                     elseif limit <= 17
-                        @test _wraplines(str; limit) == "This sentence\ncontains exactly\n`η = 50`\ncodeunits"
+                        @test _wraplines(str; limit) ==
+                            "This sentence\ncontains exactly\n`η = 50`\ncodeunits"
                     elseif limit <= 21
-                        @test _wraplines(str; limit) == "This sentence\ncontains exactly\n`η = 50` codeunits"
+                        @test _wraplines(str; limit) ==
+                            "This sentence\ncontains exactly\n`η = 50` codeunits"
                     elseif limit <= 25
-                        @test _wraplines(str; limit) == "This sentence contains\nexactly `η = 50`\ncodeunits"
+                        @test _wraplines(str; limit) ==
+                            "This sentence contains\nexactly `η = 50`\ncodeunits"
                     elseif limit <= 29
-                        @test _wraplines(str; limit) == "This sentence contains\nexactly `η = 50` codeunits"
+                        @test _wraplines(str; limit) ==
+                            "This sentence contains\nexactly `η = 50` codeunits"
                     elseif limit <= 38
-                        @test _wraplines(str; limit) == "This sentence contains exactly\n`η = 50` codeunits"
+                        @test _wraplines(str; limit) ==
+                            "This sentence contains exactly\n`η = 50` codeunits"
                     elseif limit <= 48
-                        @test _wraplines(str; limit) == "This sentence contains exactly `η = 50`\ncodeunits"
+                        @test _wraplines(str; limit) ==
+                            "This sentence contains exactly `η = 50`\ncodeunits"
                     else
-                        @test _wraplines(str; limit) == "This sentence contains exactly `η = 50` codeunits"
+                        @test _wraplines(str; limit) ==
+                            "This sentence contains exactly `η = 50` codeunits"
                     end
                 end
             end
@@ -726,13 +737,10 @@ end
                 "  Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
-            expected = join(
-                [
-                    "  Lorem ipsum dolor sit amet, consectetur adipiscing"
-                    "  elit, sed do eiusmod tempor incididunt ut labore et"
-                    "  dolore magna aliqua."
-                ],
-                '\n',
+            expected = string(
+                "  Lorem ipsum dolor sit amet, consectetur adipiscing\n",
+                "  elit, sed do eiusmod tempor incididunt ut labore et\n",
+                "  dolore magna aliqua.",
             )
             @test _wraplines(str; limit=53) == expected
         end
@@ -761,20 +769,86 @@ end
             @test _wraplines(str; limit=53) == expected
         end
 
-        @testset "`indent` keyword" begin
+        @testset "auto-indent list nested" begin
             str = string(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
-                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n",
+                "  - Maecenas scelerisque erat vitae dignissim tempus.\n",
+                "  - Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.\n",
+                "- Nunc a augue eu mauris scelerisque maximus id vel neque.",
             )
-            expected = join(
-                [
-                    "    Lorem ipsum dolor sit amet, consectetur adipiscing"
-                    "    elit, sed do eiusmod tempor incididunt ut labore"
-                    "    et dolore magna aliqua."
-                ],
-                '\n',
+            expected = """
+                - Lorem ipsum dolor sit amet, consectetur adipiscing
+                  elit.
+                  - Maecenas scelerisque erat vitae dignissim tempus.
+                  - Morbi lacinia tortor at nibh blandit, id dictum
+                    dui venenatis.
+                - Nunc a augue eu mauris scelerisque maximus id vel
+                  neque."""
+            @test _wraplines(str; limit=53) == expected
+
+            str = string(
+                "1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n",
+                "   1. Maecenas scelerisque erat vitae dignissim tempus.\n",
+                "   2. Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.\n",
+                "2. Nunc a augue eu mauris scelerisque maximus id vel neque.",
             )
-            @test _wraplines(str; limit=54, indent=4) == expected
+            expected = """
+                1. Lorem ipsum dolor sit amet, consectetur adipiscing
+                   elit.
+                   1. Maecenas scelerisque erat vitae dignissim
+                      tempus.
+                   2. Morbi lacinia tortor at nibh blandit, id dictum
+                      dui venenatis.
+                2. Nunc a augue eu mauris scelerisque maximus id vel
+                   neque."""
+            @test _wraplines(str; limit=53) == expected
+
+            str = string(
+                "1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n",
+                "   - Maecenas scelerisque erat vitae dignissim tempus.\n",
+                "   - Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.\n",
+                "2. Nunc a augue eu mauris scelerisque maximus id vel neque.",
+            )
+            expected = """
+                1. Lorem ipsum dolor sit amet, consectetur adipiscing
+                   elit.
+                   - Maecenas scelerisque erat vitae dignissim
+                     tempus.
+                   - Morbi lacinia tortor at nibh blandit, id dictum
+                     dui venenatis.
+                2. Nunc a augue eu mauris scelerisque maximus id vel
+                   neque."""
+            @test _wraplines(str; limit=53) == expected
+
+            str = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n",
+                "  1. Maecenas scelerisque erat vitae dignissim tempus.\n",
+                "  2. Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.\n",
+                "- Nunc a augue eu mauris scelerisque maximus id vel neque.",
+            )
+            expected = """
+                - Lorem ipsum dolor sit amet, consectetur adipiscing
+                  elit.
+                  1. Maecenas scelerisque erat vitae dignissim
+                     tempus.
+                  2. Morbi lacinia tortor at nibh blandit, id dictum
+                     dui venenatis.
+                - Nunc a augue eu mauris scelerisque maximus id vel
+                  neque."""
+            @test _wraplines(str; limit=53) == expected
+        end
+
+        @testset "`min_indent` keyword" begin
+            str = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\n",
+                "Maecenas scelerisque erat vitae dignissim tempus.",
+            )
+            expected = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing\n",
+                "  elit.\n\n",
+                "  Maecenas scelerisque erat vitae dignissim tempus.",
+            )
+            @test _wraplines(str; limit=53, min_indent=2) == expected
         end
     end
 end
