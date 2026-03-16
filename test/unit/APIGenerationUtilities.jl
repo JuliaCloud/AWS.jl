@@ -553,51 +553,51 @@ end
         str = "This is a short sentence."
 
         @testset "limit < 1" begin
-            @test_throws DomainError _splitline(str; limit=0)
-            @test_throws DomainError _splitline(str; limit=-1)
+            @test_throws DomainError _splitline(""; limit=0)
+            @test_throws DomainError _splitline(""; limit=-1)
         end
 
-        @testset "limit == 1" begin
-            result = _splitline(str; limit=1)
-            @test result isa Tuple{String,String}
-            line1, line2 = result
-            @test line1 == string(first(str)) == "T"
-            @test line2 == str[2:end] == "his is a short sentence."
-        end
+        @testset "basic" begin
+            str = "foo-bar baz"
 
-        @testset "limit >= ncodeunits" begin
-            for limit in (ncodeunits(str), ncodeunits(str) + 1)
-                result = _splitline(str; limit)
-                @test result isa Tuple{String,String}
-                line1, line2 = result
-                @test line1 == str
-                @test line2 == ""
+            for limit in 1:(ncodeunits(str) + 1)
+                @testset let limit = limit
+                    expected = if 1 <= limit <= 6
+                        ("foo-", "bar baz")
+                    elseif 7 <= limit <= 7
+                        ("foo-bar", " baz")
+                    elseif 8 <= limit <= 10
+                        ("foo-bar ", "baz")
+                    else
+                        ("foo-bar baz", "")
+                    end
+
+                    result = _splitline(str; limit)
+
+                    # Provides better context than using `isa`
+                    @test typeof(result) <: Tuple{AbstractString,AbstractString}
+
+                    @test result == expected
+                end
             end
         end
 
-        @testset "split on whitespace when possible" begin
-            abc = "Aa Bb Cc"
-            @test _splitline(abc; limit=1) == ("A", "a Bb Cc")  # No preceding whitespace to split on
-            @test _splitline(abc; limit=2) == ("Aa", " Bb Cc")
-            @test _splitline(abc; limit=3) == ("Aa ", "Bb Cc")
-            @test _splitline(abc; limit=4) == ("Aa ", "Bb Cc")  # 4 == `B`, split on preceding whitespace
-            @test _splitline(abc; limit=5) == ("Aa ", "Bb Cc")  # 5 == 'b', split on preceding whitespace
-            @test _splitline(abc; limit=6) == ("Aa Bb ", "Cc")
-            @test _splitline(abc; limit=ncodeunits(abc) - 1) == ("Aa Bb ", "Cc")
-        end
+        @testset "avoid split" begin
+            # Avoid splitting within a word
+            str = "jμΛIα"
+            @test _splitline(str; limit=1) == (str, "")
 
-        @testset "does not try to split mid-character" begin
-            str = "jμΛIα"  # 'μ' starts at str[2], 'Λ' starts at str[4]
-            @test _splitline(str; limit=2) == ("jμ", "ΛIα")
-            @test _splitline(str; limit=3) == ("jμ", "ΛIα") # should not try to split mid-'μ'
-            @test _splitline(str; limit=4) == ("jμΛ", "Iα")
-        end
+            # Avoid splittling code blocks (would otherwise split on a hypen)
+            str = "`arn:aws:health:us-west-1::event/EBS/AWS`"
+            @test _splitline(str; limit=1) == (str, "")
 
-        @testset "does not split on punctuation" begin
-            str = "\"arn:aws:health:us-west-1::event/EBS/AWS\""
-            result = _splitline(str; limit=ncodeunits(str) - 1)
-            # don't split escaped closing quote `\"` into `\` and `"`
-            @test result == ("\"arn:aws:health:us-west-1::event/EBS/AWS", "\"")
+            # Avoid splitting in links
+            str = "[I'm an inline-style link](https://localhost:8000/inline-link)"
+            @test _splitline(str; limit=1) == (str, "")
+
+            # Avoid splittine nested links
+            str = "[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/YOUTUBE-VIDEO-ID-HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE-VIDEO-ID-HERE)"
+            @test _splitline(str; limit=1) == (str, "")
         end
     end
 
@@ -615,7 +615,7 @@ end
                     if 1 <= limit <= 6
                         # Lines are wrapped when they can be.
                         @test _wraplines(str; limit) == "foo-\nbar\nbaz"
-                    elseif limit == 7
+                    elseif 7 <= limit <= 7
                         # Wrap immediately after "foo-bar" which could accidentally cause
                         # the space to indent the next line.
                         @test _wraplines(str; limit) == "foo-bar\nbaz"
@@ -626,6 +626,16 @@ end
                         # Limit is large enough that no wrapping occurs
                         @test _wraplines(str; limit) == "foo-bar baz"
                     end
+                end
+            end
+        end
+
+        @testset "respect existing newlines" begin
+            str = "  foo \n  baz"
+
+            for limit in 1:ncodeunits(str)
+                @testset let limit = limit
+                    @test _wraplines(str; limit) == "  foo\n  bar"
                 end
             end
         end
@@ -684,6 +694,15 @@ end
         end
 
         @testset "auto-indent" begin
+            str = string(
+                "  Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            )
+            @test _wraplines(str; limit=53) == """
+                  Lorem ipsum dolor sit amet, consectetur adipiscing
+                  elit, sed do eiusmod tempor incididunt ut labore et
+                  dolore magna aliqua."""
+
             str = string(
                 "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",

@@ -93,21 +93,31 @@ function _wraplines(str; limit=92, indent=0)
             rethrow()
         end
 
+        # println("===")
+        # @show line str
+
         # Avoid indenting an empty `str` as this will cause an infinite loop
         if !isempty(str)
-            # Apply the indentation of the original line to where the line was split to
-            # ensure Markdown indentation is respected.
-            line_indent = !endswith(line, '\n') ? get_markdown_indent(line) : indent
 
-            @show line_indent
+            # Apply the indentation of the original line to where the line was split to
+            # ensure Markdown indentation is respected. If the split occurred where a new
+            # line already exists we'll respect the whitespace which already existed.
+            if !endswith(line, '\n')
+                line_indent = get_markdown_indent(line)
+                str = lstrip(str, ' ')
+            else
+                line_indent = indent
+            end
+
+            # @show line_indent
 
             if line_indent > 0
                 str = " "^line_indent * str
             end
         end
 
-        println("===")
-        @show line str
+        # println("===")
+        # @show line str
 
         # Remove trailing whitespace from each line (including the delimiter)
         line = rstrip(line)
@@ -115,7 +125,7 @@ function _wraplines(str; limit=92, indent=0)
         if !isempty(line)
             push!(lines, line)
         end
-        @show lines
+        # @show lines
         first_line = false
     end
 
@@ -176,8 +186,7 @@ function _splitline(str; limit)
         # rest = SubString(str, stop, max_index)
 
         line = SubString(str, min_index, prevind(str, stop))
-        start = stop + get_indent(SubString(str, stop, max_index))
-        rest = SubString(str, start, max_index)
+        rest = SubString(str, stop, max_index)
 
         # line = SubString(str, min_index, stop)
         # i = nextind(str, stop)
@@ -192,6 +201,7 @@ function _splitline(str; limit)
     prev_c = '\0'
     stop = nothing
 
+    whitespace_only = true
     link_state = Symbol[]
     code_state = nothing
     indent = get_markdown_indent(str)
@@ -234,20 +244,23 @@ function _splitline(str; limit)
         # the link on the next line.
         in_link = peek(link_state) !== nothing
 
-        if in_link
-            stop = nothing
-        elseif !in_code && c == '\n'
-            stop = i
-            break
-        elseif i > indent && !in_code && (isspace(c) || isspace(prev_c) || prev_c == '-')
-            stop = i
+        if !whitespace_only
+            if in_link
+                stop = nothing
+            elseif !in_code && prev_c == '\n'
+                stop = i
+                break
+            elseif i > indent && !in_code && (c == ' ' || prev_c == ' ' || prev_c == '-')
+                stop = i
+            end
+        elseif !isspace(c)
+            whitespace_only = false
         end
 
         at_limit = col > limit
 
         println("---")
         @show c i col stop limit at_limit
-
 
         at_limit && !isnothing(stop) && break
 
@@ -258,8 +271,7 @@ function _splitline(str; limit)
 
     if !isnothing(stop)
         line = SubString(str, min_index, prevind(str, stop))
-        start = stop + get_indent(SubString(str, stop, max_index))
-        rest = SubString(str, start, max_index)
+        rest = SubString(str, stop, max_index)
 
         # line = SubString(str, min_index, stop)
         # i = nextind(str, stop)
