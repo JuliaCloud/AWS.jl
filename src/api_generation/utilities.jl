@@ -242,12 +242,14 @@ function _splitline(str; limit)
         # the link on the next line.
         in_link = peek(link_state) !== nothing
 
+        if !in_link && !in_code && prev_c == '\n'
+            stop = i
+            break
+        end
+
         if !whitespace_only
             if in_link
                 stop = nothing
-            elseif !in_code && prev_c == '\n'
-                stop = i
-                break
             elseif i > indent && !in_code && (c == ' ' || prev_c == ' ' || prev_c == '-')
                 stop = i
             end
