@@ -4,15 +4,16 @@ using AWS.AWSExceptions:
     AWSException, IMDSUnavailable, InvalidFileName, NoCredentials, ProtocolNotDefined
 using AWS.APIGeneration:
     ServiceFile,
-    _clean_documentation,
     _filter_latest_service_version,
+    _format_name,
     _generate_low_level_definition,
     _generate_high_level_definition,
     _generate_high_level_definitions,
+    get_markdown_indent,
     _get_service_files,
     _get_service_and_version,
     _get_function_parameters,
-    _format_name,
+    _html_to_markdown,
     _splitline,
     _wraplines,
     _validindex

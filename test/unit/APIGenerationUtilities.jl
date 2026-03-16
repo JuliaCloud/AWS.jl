@@ -176,10 +176,10 @@ end
     end
 end
 
-@testset "_clean_documentation" begin
+@testset "_html_to_markdown" begin
     documentation = "<p>To remove one or more tags, use the <a>RemoveTagsFromCertificate</a> action. \$ \\ To view all of the tags that have been applied to the certificate, use the <a>ListTagsForCertificate</a> action."
     expected_result = "To remove one or more tags, use the RemoveTagsFromCertificate action.   To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action."
-    result = _clean_documentation(documentation)
+    result = _html_to_markdown(documentation)
 
     @test result == expected_result
 end
@@ -532,16 +532,33 @@ end
         @test_throws BoundsError _validindex(str, 10)
     end
 
+    @testset "get_markdown_indent" begin
+        @test get_markdown_indent("foo") == 0
+        @test get_markdown_indent("  foo") == 2
+        @test get_markdown_indent("    foo") == 4
+
+        @test get_markdown_indent("  ") == 0
+        @test get_markdown_indent("    ") == 0
+
+        @test get_markdown_indent("- foo") == 2
+        @test get_markdown_indent("  - foo") == 4
+
+        @test get_markdown_indent("1. foo") == 3
+        @test get_markdown_indent("   1. foo") == 6
+        @test get_markdown_indent("2. foo") == 3
+        @test get_markdown_indent("   2. foo") == 6
+    end
+
     @testset "_splitline" begin
         str = "This is a short sentence."
 
         @testset "limit < 1" begin
-            @test_throws DomainError _splitline(str, 0)
-            @test_throws DomainError _splitline(str, -1)
+            @test_throws DomainError _splitline(str; limit=0)
+            @test_throws DomainError _splitline(str; limit=-1)
         end
 
         @testset "limit == 1" begin
-            result = _splitline(str, 1)
+            result = _splitline(str; limit=1)
             @test result isa Tuple{String,String}
             line1, line2 = result
             @test line1 == string(first(str)) == "T"
@@ -550,7 +567,7 @@ end
 
         @testset "limit >= ncodeunits" begin
             for limit in (ncodeunits(str), ncodeunits(str) + 1)
-                result = _splitline(str, limit)
+                result = _splitline(str; limit)
                 @test result isa Tuple{String,String}
                 line1, line2 = result
                 @test line1 == str
@@ -560,90 +577,143 @@ end
 
         @testset "split on whitespace when possible" begin
             abc = "Aa Bb Cc"
-            @test _splitline(abc, 1) == ("A", "a Bb Cc")  # No preceding whitespace to split on
-            @test _splitline(abc, 2) == ("Aa", " Bb Cc")
-            @test _splitline(abc, 3) == ("Aa ", "Bb Cc")
-            @test _splitline(abc, 4) == ("Aa ", "Bb Cc")  # 4 == `B`, split on preceding whitespace
-            @test _splitline(abc, 5) == ("Aa ", "Bb Cc")  # 5 == 'b', split on preceding whitespace
-            @test _splitline(abc, 6) == ("Aa Bb ", "Cc")
-            @test _splitline(abc, ncodeunits(abc) - 1) == ("Aa Bb ", "Cc")
+            @test _splitline(abc; limit=1) == ("A", "a Bb Cc")  # No preceding whitespace to split on
+            @test _splitline(abc; limit=2) == ("Aa", " Bb Cc")
+            @test _splitline(abc; limit=3) == ("Aa ", "Bb Cc")
+            @test _splitline(abc; limit=4) == ("Aa ", "Bb Cc")  # 4 == `B`, split on preceding whitespace
+            @test _splitline(abc; limit=5) == ("Aa ", "Bb Cc")  # 5 == 'b', split on preceding whitespace
+            @test _splitline(abc; limit=6) == ("Aa Bb ", "Cc")
+            @test _splitline(abc; limit=ncodeunits(abc) - 1) == ("Aa Bb ", "Cc")
         end
 
         @testset "does not try to split mid-character" begin
             str = "jμΛIα"  # 'μ' starts at str[2], 'Λ' starts at str[4]
-            @test _splitline(str, 2) == ("jμ", "ΛIα")
-            @test _splitline(str, 3) == ("jμ", "ΛIα") # should not try to split mid-'μ'
-            @test _splitline(str, 4) == ("jμΛ", "Iα")
+            @test _splitline(str; limit=2) == ("jμ", "ΛIα")
+            @test _splitline(str; limit=3) == ("jμ", "ΛIα") # should not try to split mid-'μ'
+            @test _splitline(str; limit=4) == ("jμΛ", "Iα")
         end
 
         @testset "does not split on punctuation" begin
             str = "\"arn:aws:health:us-west-1::event/EBS/AWS\""
-            result = _splitline(str, ncodeunits(str) - 1)
+            result = _splitline(str; limit=ncodeunits(str) - 1)
             # don't split escaped closing quote `\"` into `\` and `"`
             @test result == ("\"arn:aws:health:us-west-1::event/EBS/AWS", "\"")
         end
     end
 
     @testset "_wraplines" begin
-        str = "This sentence contains exactly `η = 50` codeunits"
-
         @testset "limit < 1" begin
-            @test_throws DomainError _wraplines(str, 0)
-            @test_throws DomainError _wraplines(str, -1)
+            @test_throws DomainError _wraplines(""; limit=0)
+            @test_throws DomainError _wraplines(""; limit=-1)
         end
 
-        @testset "limit == 1" begin
-            wrapped = _wraplines(str, 1)
-            @test wrapped isa String
-            @test startswith(wrapped, "T\nh\ni\ns\n\ns\ne")
-        end
+        @testset "basic" begin
+            str = "foo-bar baz"
 
-        @testset "limit >= ncodeunits" begin
-            for limit in (50, 99)
-                wrapped = _wraplines(str, limit)
-                @test wrapped isa String
-                @test wrapped == str
+            for limit in 1:ncodeunits(str)
+                @testset let limit = limit
+                    if 1 <= limit <= 6
+                        # Lines are wrapped when they can be.
+                        @test _wraplines(str; limit) == "foo-\nbar\nbaz"
+                    elseif limit == 7
+                        # Wrap immediately after "foo-bar" which could accidentally cause
+                        # the space to indent the next line.
+                        @test _wraplines(str; limit) == "foo-bar\nbaz"
+                    elseif 8 <= limit <= 10
+                        # Limit is long enough we wrap at the the space.
+                        @test _wraplines(str; limit) == "foo-bar\nbaz"
+                    else
+                        # Limit is large enough that no wrapping occurs
+                        @test _wraplines(str; limit) == "foo-bar baz"
+                    end
+                end
             end
         end
 
-        @testset "1 < limit < ncodeunits" begin
-            @test _wraplines(str, 20) == """
-                This sentence
-                contains exactly
-                `η = 50` codeunits"""
-            @test _wraplines(str, 25) == """
-                This sentence contains
-                exactly `η = 50`
-                codeunits"""
-            @test _wraplines(str, 30) == """
-                This sentence contains
-                exactly `η = 50` codeunits"""
+        @testset "code-block" begin
+            str = "This sentence contains exactly `η = 50` codeunits"
+
+            for limit in 1:ncodeunits(str)
+                @testset let limit = limit
+                    if 1 <= limit <= 12
+                        # Lines are wrapped for each word or code-block.
+                        @test _wraplines(str; limit) == "This\nsentence\ncontains\nexactly\n`η = 50`\ncodeunits"
+                    elseif 13 <= limit <= 15
+                        @test _wraplines(str; limit) == "This sentence\ncontains\nexactly\n`η = 50`\ncodeunits"
+                    elseif 16 <= limit <= 18
+                        @test _wraplines(str; limit) == "This sentence\ncontains exactly\n`η = 50`\ncodeunits"
+                    elseif 19 <= limit <= 21
+                        @test _wraplines(str; limit) == "This sentence\ncontains exactly\n`η = 50` codeunits"
+                    elseif 22 <= limit <= 26
+                        @test _wraplines(str; limit) == "This sentence contains\nexactly `η = 50`\ncodeunits"
+                    elseif 27 <= limit <= 29
+                        @test _wraplines(str; limit) == "This sentence contains\nexactly `η = 50` codeunits"
+                    elseif 30 <= limit <= 38
+                        @test _wraplines(str; limit) == "This sentence contains exactly\n`η = 50` codeunits"
+                    elseif 39 <= limit <= 49
+                        @test _wraplines(str; limit) == "This sentence contains exactly `η = 50`\ncodeunits"
+                    else
+                        @test _wraplines(str; limit) == "This sentence contains exactly `η = 50` codeunits"
+                    end
+                end
+            end
         end
 
-        @testset "trailing whitespace is stripped" begin
+        @testset "whitespace handling" begin
             str = "16charactersthen    fourspaces "
-            @test _wraplines(str, 16) == "16charactersthen\n    fourspaces"
-            @test _wraplines(str, 17) == "16charactersthen\n   fourspaces"
-            @test _wraplines(str, 18) == "16charactersthen\n  fourspaces"
+
+            for limit in 1:ncodeunits(str)
+                @testset let limit = limit
+                    if 1 <= limit <= 29
+                        # Set line break before or on the first whitespace character.
+                        # Accidental indententation will be removed.
+                        @test _wraplines(str; limit) == "16charactersthen\nfourspaces"
+                    else
+                        @test _wraplines(str; limit) == "16charactersthen    fourspaces"
+                    end
+                end
+            end
         end
 
-        @testset "has default `limit=92` argument" begin
+        @testset "`limit=92` default" begin
             str = string(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
-            @test _wraplines(str) == _wraplines(str, 92)
+            @test _wraplines(str) == _wraplines(str; limit=92)
         end
 
-        @testset "optional `delim` keyword" begin
+        @testset "auto-indent" begin
             str = string(
                 "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
-            @test _wraplines(str, 50; delim="\n  ") == """
-                - Lorem ipsum dolor sit amet, consectetur
-                  adipiscing elit, sed do eiusmod tempor incididunt
-                  ut labore et dolore magna aliqua."""
+            @test _wraplines(str; limit=53) == """
+                - Lorem ipsum dolor sit amet, consectetur adipiscing
+                  elit, sed do eiusmod tempor incididunt ut labore et
+                  dolore magna aliqua."""
+
+            str = string(
+                "1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            )
+            @test _wraplines(str; limit=53) == """
+                1. Lorem ipsum dolor sit amet, consectetur adipiscing
+                   elit, sed do eiusmod tempor incididunt ut labore
+                   et dolore magna aliqua."""
+        end
+
+        @testset "`indent` keyword" begin
+            str = string(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            )
+            @test _wraplines(str; limit=54, indent=4) == (
+                """
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua."""
+            )
         end
     end
 end

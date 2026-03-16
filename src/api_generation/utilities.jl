@@ -72,11 +72,19 @@ end
 Return a string with line breaks added such that lines are wrapped at or before the limit.
 """
 function _wraplines(str; limit=92, indent=0)
+    limit >= 1 || throw(DomainError(limit, "Lines limit must at least be 1."))
     lines = String[]
 
     first_line = true
+    prev_str = ""
     while !isempty(str)
         line_limit = limit - (first_line ? 0 : indent)
+
+        if str == prev_str
+            error("fail: $str")
+            break
+        end
+        prev_str = str
 
         line, str = try
             _splitline(str; limit=line_limit)
@@ -91,15 +99,23 @@ function _wraplines(str; limit=92, indent=0)
             # ensure Markdown indentation is respected.
             line_indent = !endswith(line, '\n') ? get_markdown_indent(line) : indent
 
+            @show line_indent
+
             if line_indent > 0
                 str = " "^line_indent * str
             end
         end
 
+        println("===")
+        @show line str
+
         # Remove trailing whitespace from each line (including the delimiter)
         line = rstrip(line)
 
-        push!(lines, line)
+        if !isempty(line)
+            push!(lines, line)
+        end
+        @show lines
         first_line = false
     end
 
@@ -118,10 +134,9 @@ end
 function get_markdown_indent(str::AbstractString)
     state = :whitespace_only
     indent = 0
+    prev_i = 0
     for (i, c) in enumerate(str)
-        if state in (:whitespace_only, :unordered_list, :ordered_list) && c == ' '
-            indent = i
-        elseif state == :whitespace_only && c == '-'
+        if state == :whitespace_only && c == '-'
             state = :unordered_list
             indent = i
         elseif state == :whitespace_only && isdigit(c)
@@ -129,9 +144,15 @@ function get_markdown_indent(str::AbstractString)
         elseif state == :ordered_list_partial && c == '.'
             state = :ordered_list
             indent = i
-        else
+        elseif state in (:unordered_list, :ordered_list) && c == ' '
+            indent = i
+        elseif state === :whitespace_only && c != ' '
+            indent = prev_i
+            break
+        elseif state !== :whitespace_only
             break
         end
+        prev_i = i
     end
     return indent
 end
@@ -142,7 +163,7 @@ Prefers splitting the string on whitespace rather than mid-word, when possible.
 `limit` is measured in codeunits, which is an upper-bound on the number of characters.
 """
 function _splitline(str; limit)
-    limit >= 1 || throw(DomainError(limit, "Lines cannot be split before the first char."))
+    limit >= 1 || throw(DomainError(limit, "Lines limit must at least be 1."))
 
     min_index = firstindex(str)
     max_index = lastindex(str)
@@ -151,9 +172,16 @@ function _splitline(str; limit)
     # is shorter than the limit and doesn't contain a newline we'll return the string as is.
     stop = findfirst(==('\n'), str)
     if !isnothing(stop) && stop <= limit
-        line = SubString(str, min_index, stop)
-        i = nextind(str, stop)
-        rest = i <= max_index ? SubString(str, i, max_index) : ""
+        # line = SubString(str, min_index, prevind(str, stop))
+        # rest = SubString(str, stop, max_index)
+
+        line = SubString(str, min_index, prevind(str, stop))
+        start = stop + get_indent(SubString(str, stop, max_index))
+        rest = SubString(str, start, max_index)
+
+        # line = SubString(str, min_index, stop)
+        # i = nextind(str, stop)
+        # rest = i <= max_index ? SubString(str, i, max_index) : ""
         return line, rest
     elseif ncodeunits(str) <= limit
         return (str, "")
@@ -161,6 +189,7 @@ function _splitline(str; limit)
 
     i = min_index
     col = 1
+    prev_c = '\0'
     stop = nothing
 
     link_state = Symbol[]
@@ -174,7 +203,7 @@ function _splitline(str; limit)
 
     @inbounds while i <= max_index
         c, ii = iterate(str, i)::Tuple{Char,Int}
-        at_limit = col >= limit
+        # at_limit = col >= limit
 
         # Basic code block handling. Not dealing with multi-line code blocks currently
         if code_state === nothing && c == '`'
@@ -210,23 +239,36 @@ function _splitline(str; limit)
         elseif !in_code && c == '\n'
             stop = i
             break
-        elseif i > indent && !in_code && (isspace(c) || c == '-')
+        elseif i > indent && !in_code && (isspace(c) || isspace(prev_c) || prev_c == '-')
             stop = i
         end
+
+        at_limit = col > limit
+
+        println("---")
+        @show c i col stop limit at_limit
+
 
         at_limit && !isnothing(stop) && break
 
         i = ii
         col += 1
+        prev_c = c
     end
 
     if !isnothing(stop)
-        line = SubString(str, min_index, stop)
-        i = nextind(str, stop)
-        rest = i <= max_index ? SubString(str, i, max_index) : ""
+        line = SubString(str, min_index, prevind(str, stop))
+        start = stop + get_indent(SubString(str, stop, max_index))
+        rest = SubString(str, start, max_index)
+
+        # line = SubString(str, min_index, stop)
+        # i = nextind(str, stop)
+        # rest = i <= max_index ? SubString(str, i, max_index) : ""
     else
         line, rest = (str, "")
     end
+
+    @show line rest
 
     return line, rest
 end
