@@ -108,7 +108,6 @@ function assume_role_creds(
         "AssumeRole",
         params;
         aws_config=principal,
-        feature_set=AWS.FeatureSet(; use_response_type=true),
     )
     body = parse(response)
     role_creds = body["AssumeRoleResult"]["Credentials"]

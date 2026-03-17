@@ -120,7 +120,6 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
         "AssumeRole",
         params;
         aws_config=config,
-        feature_set=FeatureSet(; use_response_type=true),
     )
     role = parse(response)
     role_creds = role["AssumeRoleResult"]["Credentials"]

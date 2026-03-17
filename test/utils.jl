@@ -27,7 +27,6 @@ function get_assumed_role(aws_config::AbstractAWSConfig=current_aws_config())
     r = AWSServices.sts(
         "GetCallerIdentity";
         aws_config,
-        feature_set=AWS.FeatureSet(; use_response_type=true),
     )
     result = parse(r)
     arn = result["GetCallerIdentityResult"]["Arn"]
@@ -46,7 +45,6 @@ function mfa_user_credentials(config::AbstractAWSConfig)
         "GetSecretValue",
         Dict("SecretId" => "AWS.jl-mfa-user-credentials");
         aws_config=config,
-        feature_set=AWS.FeatureSet(; use_response_type=true),
     )
     json = JSON.parse(parse(r)["SecretString"])
     mfa_user_creds = AWSCredentials(json["access_key_id"], json["secret_access_key"])
@@ -56,7 +54,6 @@ function mfa_user_credentials(config::AbstractAWSConfig)
         "GetSecretValue",
         Dict("SecretId" => "AWS.jl-mfa-user-virtual-mfa-devices");
         aws_config=config,
-        feature_set=AWS.FeatureSet(; use_response_type=true),
     )
     json = JSON.parse(parse(r)["SecretString"])
     mfa_devices = [(; mfa_serial=d["mfa_serial"], seed=d["seed"]) for d in json]
