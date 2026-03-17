@@ -327,6 +327,10 @@ function _html_to_markdown(doc::AbstractString)
     # to deal with recursive blocks. If we do we'd need something like:
     # r"<p>((?:(?=<p>)(?R)|.*?)*)</p>"
 
+    # Whitespace isn't very meaningful in HTML so this should be safe. We could run into
+    # issues with code blocks.
+    doc = replace(doc, r"\s{2,}|\n"s => " ")
+
     # Indicates portions of the text the user is intented to replace
     doc = replace(doc, r"<replaceable>{(.*?)}</replaceable>" => s"\\$(\1)")
     doc = replace(doc, r"<replaceable></replaceable>{(.*?)}" => s"\\$(\1)") # Correctable mistake
@@ -371,12 +375,12 @@ function _html_to_markdown(doc::AbstractString)
     # actual value to make the code easier to read.
     doc = _replace(
         doc,
-        r"<ol>\s*(.*?)\s*</ol>"s => function (m)
+        r"\ *<ol>\s*(.*?)\s*</ol>\ *"s => function (m)
             i = 0
             return "\n\n" *
                    _replace(
                        m[1],
-                       r"\ *<li>\s*(.*?)\s*</li>\s*"s =>
+                       r"\ *<li>\s*(.*?)\s*</li>\ *"s =>
                            (m -> (i += 1; "$i. $(m[1])\n")),
                    ) *
                    "\n\n"
@@ -393,12 +397,15 @@ function _html_to_markdown(doc::AbstractString)
     doc = replace(doc, r"(?<!\\)\$" => "\\\$")
     doc = replace(doc, "\"\"\"" => "\\\"\\\"\\\"")
 
-    # Note blocks
+    # Note blocks. We need to be careful to respect any existing Markdown indentation
     doc = _replace(
         doc,
-        r"\s*<(note|important)>\s*(.*?)\s*</\1>"s => function (m)
-            note = replace(m[2], "\n" => "\n    ") # Update indentation
-            return "\n\n!!! $(m[1])\n    $note\n\n"
+        r"\n([^\n]*?)<(note|important)>\s*(.*?)\s*</\2>"s => function (m)
+            base_indent = get_markdown_indent(m[1])
+            base_ind = " "^base_indent
+            note_ind = " "^(base_indent + 4)
+            note = note_ind * replace(m[3], "\n" => "\n$note_ind") # Update indentation
+            return "\n$(m[1])\n\n$(base_ind)!!! $(m[2])\n$(note)\n\n$(base_ind)"
         end,
     )
 
@@ -415,10 +422,16 @@ function _html_to_markdown(doc::AbstractString)
         end,
     )
 
+    doc = replace(doc, "<p/>" => "")
+
     # Remove extra blank lines
     doc = replace(doc, r"([ \t]*\n){3,}" => "\n\n")
 
-    doc = replace(doc, "<p/>" => "")
+    # Remove newlines at the end of the string
+    doc = replace(doc, r"\n+$"s => "")
+
+    # Remove trailing whitespace
+    doc = replace(doc, r"\ +(?=\n)"s => "")
 
     return doc
 end
@@ -426,22 +439,22 @@ end
 function html_to_md_unordered_list(str::AbstractString, indent=0)
     _replace(
         str,
-        r"<ul>((?:(?=<ul>)(?R)|.*?)*)</ul>"s => function (m)
+        r"\ *<ul>((?:(?=<ul>)(?R)|.*?)*)</ul>\ *"s => function (m)
             # Find the deepest nested `<ul>` list
             content = if occursin("<ul>", m[1])
                 html_to_md_unordered_list(m[1], indent + 2)
             else
                 m[1]
             end
-            content = _replace(
+            content = "\n" * _replace(
                 content,
-                r"\ *<li>\s*(.*?)\s*</li>\s*"s => function (m)
+                r"\ *<li>\s*(.*?)\s*</li>\ *"s => function (m)
                     return string(" "^indent, "- ", m[1], "\n")
                 end,
             )
 
             if indent == 0
-                content = "\n\n$content\n"
+                content = "\n$content\n"
             end
 
             return content
