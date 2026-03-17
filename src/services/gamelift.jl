@@ -5912,7 +5912,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     must be enclosed in single quotes. Special characters must be escaped. Boolean and
     string values can only be used with the comparators `=` and `&lt;&gt;`. For example, the
     following filter expression searches on `gameSessionName`:
-    "`FilterExpression": "gameSessionName = 'Matt\\\\'s Awesome Game 1'"`.
+    "`FilterExpression": "gameSessionName = 'Matt\\'s Awesome Game 1'"`.
 
   To chain multiple conditions in a single expression, use the logical keywords `AND`, `OR`,
   and `NOT` and parentheses as needed. For example: `x AND y AND NOT z`, `NOT (x OR y)`.

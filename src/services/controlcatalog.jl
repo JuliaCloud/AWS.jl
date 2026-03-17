@@ -34,7 +34,7 @@ in the example.
   Here is a more general pattern that covers Amazon Web Services Control Tower and Control
   Catalog ARNs:
 
-  `^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\\\-]+\$`
+  `^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+\$`
 """
 function get_control end
 

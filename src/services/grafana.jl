@@ -140,7 +140,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workspaceDescription"`: A description for the workspace. This is used only to help you
   identify this workspace.
 
-  Pattern: `^[\\\\p{L}\\\\p{Z}\\\\p{N}\\\\p{P}]{0,2048}\$`
+  Pattern: `^[\\p{L}\\p{Z}\\p{N}\\p{P}]{0,2048}\$`
 
 - `"workspaceName"`: The name for the workspace. It does not have to be unique.
 

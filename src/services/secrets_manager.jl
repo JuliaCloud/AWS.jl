@@ -517,7 +517,7 @@ Generates a random password. We recommend that you specify the maximum length an
 every character type that the system you are generating a password for can support. By
 default, Secrets Manager uses uppercase and lowercase letters, numbers, and the following
 characters in passwords:
-`!\\"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\\\]^_`{|}~`
+`!\\"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~`
 
 Secrets Manager generates a CloudTrail log entry when you call this action.
 

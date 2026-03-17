@@ -202,9 +202,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authorizerUri"`: The authorizer's Uniform Resource Identifier (URI). For REQUEST
   authorizers, this must be a well-formed Lambda function URI, for example,
   arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-
-  2:\\$(account_id):function:\\$(lambda_function_name)/invocations. In general, the URI has
-this form: arn:aws:apigateway:\\$(region):lambda:path/\\$(service_api) , where \\$(region)
-is the same as the region hosting the Lambda function, path indicates that the remaining
+  2:\$(account_id):function:\$(lambda_function_name)/invocations. In general, the URI has
+this form: arn:aws:apigateway:\$(region):lambda:path/\$(service_api) , where \$(region) is
+the same as the region hosting the Lambda function, path indicates that the remaining
 substring in the URI should be treated as the path to the resource, including the initial /.
 For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST authorizers.
 
@@ -454,8 +454,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter name and the associated value is a method request parameter value or static
   value that must be enclosed within single quotes and pre-encoded as required by the
   backend. The method request parameter value must match the pattern of
-  method.request.\\$(location).\\$(name) , where \\$(location) is querystring, path, or
-  header; and \\$(name) must be a valid and unique method request parameter name.
+  method.request.\$(location).\$(name) , where \$(location) is querystring, path, or header;
+  and \$(name) must be a valid and unique method request parameter name.
 
   For HTTP API integrations with a specified integrationSubtype, request parameters are a
   key-value map specifying parameters that are passed to AWS_PROXY integrations. You can
@@ -2955,9 +2955,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authorizerUri"`: The authorizer's Uniform Resource Identifier (URI). For REQUEST
   authorizers, this must be a well-formed Lambda function URI, for example,
   arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-
-  2:\\$(account_id):function:\\$(lambda_function_name)/invocations. In general, the URI has
-this form: arn:aws:apigateway:\\$(region):lambda:path/\\$(service_api) , where \\$(region)
-is the same as the region hosting the Lambda function, path indicates that the remaining
+  2:\$(account_id):function:\$(lambda_function_name)/invocations. In general, the URI has
+this form: arn:aws:apigateway:\$(region):lambda:path/\$(service_api) , where \$(region) is
+the same as the region hosting the Lambda function, path indicates that the remaining
 substring in the URI should be treated as the path to the resource, including the initial /.
 For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST authorizers.
 
@@ -3209,8 +3209,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter name and the associated value is a method request parameter value or static
   value that must be enclosed within single quotes and pre-encoded as required by the
   backend. The method request parameter value must match the pattern of
-  method.request.\\$(location).\\$(name) , where \\$(location) is querystring, path, or
-  header; and \\$(name) must be a valid and unique method request parameter name.
+  method.request.\$(location).\$(name) , where \$(location) is querystring, path, or header;
+  and \$(name) must be a valid and unique method request parameter name.
 
   For HTTP API integrations with a specified integrationSubtype, request parameters are a
   key-value map specifying parameters that are passed to AWS_PROXY integrations. You can
@@ -3312,10 +3312,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the method response from the backend. The key is a method response header parameter name
   and the mapped value is an integration response header value, a static value enclosed
   within a pair of single quotes, or a JSON expression from the integration response body.
-  The mapping key must match the pattern of method.response.header.\\$(name) , where name is
+  The mapping key must match the pattern of method.response.header.\$(name) , where name is
   a valid and unique header name. The mapped non-static value must match the pattern of
-  integration.response.header.\\$(name) or integration.response.body.\\$(JSON-expression) ,
-  where \\$(name) is a valid and unique response header name and \\$(JSON-expression) is a
+  integration.response.header.\$(name) or integration.response.body.\$(JSON-expression) ,
+  where \$(name) is a valid and unique response header name and \$(JSON-expression) is a
   valid JSON expression without the \$ prefix.
 
 - `"responseTemplates"`: The collection of response templates for the integration response

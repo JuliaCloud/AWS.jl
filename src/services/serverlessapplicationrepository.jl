@@ -27,7 +27,7 @@ version in the same call.
 
   Minimum length=1. Maximum length=140
 
-  Pattern: "[a-zA-Z0-9\\\\-]+";
+  Pattern: "[a-zA-Z0-9\\-]+";
 
 # Optional Parameters
 
@@ -40,7 +40,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Minimum length=1. Maximum length=127. Maximum number of labels: 10
 
-  Pattern: "^[a-zA-Z0-9+\\\\-_:\\\\/@]+\$";
+  Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+\$";
 
 - `"licenseBody"`: A local text file that contains the license of the app that matches the
   spdxLicenseID value of your application. The file has the format
@@ -743,7 +743,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Minimum length=1. Maximum length=127. Maximum number of labels: 10
 
-  Pattern: "^[a-zA-Z0-9+\\\\-_:\\\\/@]+\$";
+  Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+\$";
 
 - `"readmeBody"`: A text readme file in Markdown language that contains a more detailed
   description of the application and how it works.

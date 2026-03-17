@@ -6997,9 +6997,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   options by using a backslash. If you specify a version number, then you don't need to use
   the backslash. For example:
 
-  --document-version "\\$DEFAULT"
+  --document-version "\$DEFAULT"
 
-  --document-version "\\$LATEST"
+  --document-version "\$LATEST"
 
   --document-version "3"
 
