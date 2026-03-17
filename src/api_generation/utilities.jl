@@ -371,7 +371,8 @@ function _html_to_markdown(doc::AbstractString)
             return "\n\n" *
                    _replace(
                        m[1],
-                       r"\s*<li>\s*(.*?)\s*</li>"s => (m -> (i += 1; "$i. $(m[1])\n")),
+                       r"\ *<li>\s*(.*?)\s*</li>\s*"s =>
+                           (m -> (i += 1; "$i. $(m[1])\n")),
                    ) *
                    "\n\n"
         end,
@@ -429,7 +430,7 @@ function html_to_md_unordered_list(str::AbstractString, indent=0)
             end
             content = _replace(
                 content,
-                r"\ *<li>\s*(.*?)\s*</li>"s => function (m)
+                r"\ *<li>\s*(.*?)\s*</li>\s*"s => function (m)
                     return string(" "^indent, "- ", m[1], "\n")
                 end,
             )
