@@ -71,14 +71,14 @@ end
 """
 Return a string with line breaks added such that lines are wrapped at or before the limit.
 """
-function _wraplines(str; limit=92, min_indent=0)
+function _wraplines(str; limit=92, base_indent=0)
     limit >= 1 || throw(DomainError(limit, "Lines limit must at least be 1."))
     lines = String[]
 
     first_line = true
     prev_str = ""
     while !isempty(str)
-        line_limit = limit - (first_line ? 0 : min_indent)
+        line_limit = limit
 
         if str == prev_str
             error("Internal failure: Splitting $(repr(str)) would cause an infinite loop")
@@ -87,7 +87,7 @@ function _wraplines(str; limit=92, min_indent=0)
         prev_str = str
 
         line, str = try
-            _splitline(str; limit=line_limit)
+            _splitline(str; limit)
         catch e
             @warn "Unable to split line on string:\n$(repr(str))"
             rethrow()
@@ -99,14 +99,15 @@ function _wraplines(str; limit=92, min_indent=0)
         # Avoid indenting an empty `str` as this will cause an infinite loop
         if !isempty(str)
 
-            # Apply the indentation of the original line to where the line was split to
-            # ensure Markdown indentation is respected. If the split occurred where a new
-            # line already exists we'll respect the whitespace which already existed.
+            # Inherit the indentation of the original line were we've introduced the split
+            # to ensure Markdown indentation is respected. If the split occurs on an
+            # existing newline we'll apply the `base_indent` which allows the user to alter
+            # the indentation.
             if !endswith(line, '\n')
                 indent = get_markdown_indent(line)
                 str = lstrip(str, ' ')
             else
-                indent = min_indent
+                indent = base_indent
             end
 
             # @show line_indent
@@ -118,28 +119,12 @@ function _wraplines(str; limit=92, min_indent=0)
 
         # @show line str
 
-        if strip(line, ' ') == "\n"
+        if lstrip(line, ' ') == "\n"
             push!(lines, "")
         else
             # Remove trailing whitespace from each line
             line = rstrip(line)
-
-            if !isempty(line)
-
-                # Ensure each non-empty line, besides the first line, is indented by at least
-                # `min_indent` spaces. We need to do this as part of this function as otherwise we
-                # would need to figure out how to re-wrap the lines.
-                # if !first_line
-                #     line_indent = get_indent(line)
-                #     indent = max(min_indent - line_indent, 0)
-
-                #     if indent > 0
-                #         line = " "^indent * line
-                #     end
-                # end
-
-                push!(lines, line)
-            end
+            !isempty(line) && push!(lines, line)
         end
 
         # @show lines

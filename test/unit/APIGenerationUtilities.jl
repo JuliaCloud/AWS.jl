@@ -838,7 +838,7 @@ end
             @test _wraplines(str; limit=53) == expected
         end
 
-        @testset "`min_indent` keyword" begin
+        @testset "`base_indent` keyword" begin
             str = string(
                 "- Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\n",
                 "Maecenas scelerisque erat vitae dignissim tempus.\n\n",
@@ -850,10 +850,10 @@ end
                 "  elit.\n\n",
                 "  Maecenas scelerisque erat vitae dignissim tempus.\n\n",
                 "  note !!!\n",
-                "      Morbi lacinia tortor at nibh blandit, id\n",
-                "      dictum dui venenatis.",
+                "      Morbi lacinia tortor at nibh blandit, id dictum\n",
+                "      dui venenatis.",
             )
-            @test _wraplines(str; limit=53, min_indent=2) == expected
+            @test _wraplines(str; limit=53, base_indent=2) == expected
         end
     end
 end
