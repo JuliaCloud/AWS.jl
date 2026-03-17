@@ -132,6 +132,11 @@ function _wraplines(str; limit=92, base_indent=0)
         first_line = false
     end
 
+    # Remove empty lines at the end of the string
+    while !isempty(lines) && isempty(lines[end])
+        pop!(lines)
+    end
+
     return join(lines, "\n")
 end
 

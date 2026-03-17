@@ -663,6 +663,14 @@ end
                     @test _wraplines(str; limit) == "  foo\n  bar"
                 end
             end
+
+            # Remove newlines at the end of the string
+            str = "  foo\n\n\n\n"
+            for limit in 1:length(str)
+                @testset let limit = limit
+                    @test _wraplines(str; limit) == "  foo"
+                end
+            end
         end
 
         @testset "code-block" begin
