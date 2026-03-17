@@ -1,7 +1,6 @@
 module APIGeneration
 
 using Base64
-using ..AWSExceptions
 using GitHub
 using HTTP
 using JSON: JSON
