@@ -72,7 +72,7 @@ end
 end
 
 @testset "_generate_low_level_definitions" begin
-    services = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "services.json"))
+    services = JSON.parsefile(joinpath(@__DIR__, "resource", "services.json"))
 
     @testset "rest-xml" begin
         expected = "const s3 = AWS.RestXMLService(\"s3\", \"s3\", \"2006-03-01\")"
@@ -252,7 +252,7 @@ end
 end
 
 @testset "_get_function_parameters" begin
-    shapes = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "shapes.json"))
+    shapes = JSON.parsefile(joinpath(@__DIR__, "resource", "shapes.json"))
 
     @testset "required params" begin
         input = "RequiredParams"
@@ -311,8 +311,8 @@ end
 @testset "_generate_high_level_definitions" begin
     service_name = "sample_service"
     protocol = "rest-xml"
-    operations = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "operations.json"))
-    shapes = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "shapes.json"))
+    operations = JSON.parsefile(joinpath(@__DIR__, "resource", "operations.json"))
+    shapes = JSON.parsefile(joinpath(@__DIR__, "resource", "shapes.json"))
 
     expected_result = """
     \"\"\"

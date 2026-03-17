@@ -1,8 +1,7 @@
-module APIGeneration
+module Codegen
 
 using Base64
 using GitHub
-using HTTP
 using JSON: JSON
 using Mocking
 using OrderedCollections: LittleDict, OrderedDict
@@ -13,6 +12,7 @@ const HIGH_LEVEL_SERVICES_DIR = joinpath(PKG_DIR, "src", "services")
 const LOW_LEVEL_SERVICES_FILE = joinpath(PKG_DIR, "src", "AWSServices.jl")
 
 include("utilities.jl")
+include("exceptions.jl")
 include("high_level.jl")
 include("low_level.jl")
 

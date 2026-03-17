@@ -1,4 +1,6 @@
-using APIGeneration:
+using Codegen:
+    InvalidFileName,
+    ProtocolNotDefined,
     ServiceFile,
     _clean_documentation,
     _filter_latest_service_version,
@@ -13,8 +15,38 @@ using APIGeneration:
     _splitline,
     _wraplines,
     _validindex
+using GitHub: GitHub
+using JSON: JSON
+using Mocking: Mocking, apply
+using OrderedCollections: LittleDict
 using Test
 
+module Patches
+
+using GitHub: GitHub
+using HTTP: HTTP
+using Mocking: @patch
+
+_github_tree_patch = @patch function GitHub.tree(repo, tree_obj; kwargs...)
+    if tree_obj == "master"
+        tree = [Dict("path" => "apis", "sha" => "apis-sha", "type" => "tree")]
+        return GitHub.Tree("test-sha", HTTP.URI(), tree, false)
+    else
+        tree = [
+            Dict(
+                "path" => "test-2020-01-01.normal.json",
+                "sha" => "test-sha",
+                "type" => "blob",
+            ),
+        ]
+        return GitHub.Tree("test-sha", HTTP.URI(), tree, false)
+    end
+end
+
+end
+
+Mocking.activate()
+
 @testset "AWS.jl codegen" begin
-    include("APIGenerationUtilities.jl")
+    include("codegen.jl")
 end

@@ -263,5 +263,3 @@ function global_aws_config(config::AbstractAWSConfig)
     aws_config[] = config
     return config
 end
-
-@deprecate_binding AWSMetadata APIGeneration false

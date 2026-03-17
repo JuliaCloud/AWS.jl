@@ -1,22 +1,6 @@
 using AWS
 using AWS: AWSCredentials, AWSServices, assume_role_creds
-using AWS.AWSExceptions:
-    AWSException, IMDSUnavailable, InvalidFileName, NoCredentials, ProtocolNotDefined
-using AWS.APIGeneration:
-    ServiceFile,
-    _clean_documentation,
-    _filter_latest_service_version,
-    _generate_low_level_definition,
-    _generate_high_level_definition,
-    _generate_high_level_definitions,
-    _get_service_files,
-    _get_service_and_version,
-    _get_function_parameters,
-    _clean_uri,
-    _format_name,
-    _splitline,
-    _wraplines,
-    _validindex
+using AWS.AWSExceptions: AWSException, IMDSUnavailable, NoCredentials
 using Base64
 using Compat: mergewith, pkgversion
 using Dates
@@ -74,7 +58,6 @@ end
             ) do
                 include("unit/AWS.jl")
                 include("unit/AWSExceptions.jl")
-                include("unit/APIGenerationUtilities.jl")
                 include("unit/test_pkg.jl")
                 include("unit/utilities.jl")
                 include("unit/AWSConfig.jl")
