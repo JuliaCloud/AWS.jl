@@ -58,8 +58,7 @@ non-breaking behavior.
 
 Currently no experimental features have been added.
 """
-Base.@kwdef struct FeatureSet
-end
+Base.@kwdef struct FeatureSet end
 
 """
     set_user_agent(new_user_agent::String)

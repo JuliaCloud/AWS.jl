@@ -24,10 +24,7 @@ macro test_ecode(error_codes, expr)
 end
 
 function get_assumed_role(aws_config::AbstractAWSConfig=current_aws_config())
-    r = AWSServices.sts(
-        "GetCallerIdentity";
-        aws_config,
-    )
+    r = AWSServices.sts("GetCallerIdentity"; aws_config)
     result = parse(r)
     arn = result["GetCallerIdentityResult"]["Arn"]
     m = match(r":assumed-role/(?<role>[^/]+)", arn)

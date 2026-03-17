@@ -264,9 +264,7 @@ function ec2_instance_credentials(profile::AbstractString)
         params["DurationSeconds"] = parse(Int, duration)
     end
     response = @mock AWSServices.sts(
-        "AssumeRole",
-        params;
-        aws_config=AWSConfig(; creds=instance_profile_creds)
+        "AssumeRole", params; aws_config=AWSConfig(; creds=instance_profile_creds)
     )
     dict = parse(response)
     role_creds = dict["AssumeRoleResult"]["Credentials"]

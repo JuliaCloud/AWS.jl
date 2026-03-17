@@ -104,11 +104,7 @@ function assume_role_creds(
         throw(ArgumentError(msg))
     end
 
-    response = AWSServices.sts(
-        "AssumeRole",
-        params;
-        aws_config=principal,
-    )
+    response = AWSServices.sts("AssumeRole", params; aws_config=principal)
     body = parse(response)
     role_creds = body["AssumeRoleResult"]["Credentials"]
     role_user = body["AssumeRoleResult"]["AssumedRoleUser"]
