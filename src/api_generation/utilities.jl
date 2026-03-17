@@ -229,8 +229,8 @@ function _splitline(str; limit)
         # the link on the next line.
         in_link = peek(link_state) !== nothing
 
-        if !in_link && !in_code && prev_c == '\n'
-            stop = i
+        if !in_link && !in_code && c == '\n'
+            stop = ii
             break
         elseif whitespace_only && !isspace(c)
             whitespace_only = false

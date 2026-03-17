@@ -854,6 +854,18 @@ end
                 "      dui venenatis.",
             )
             @test _wraplines(str; limit=53, base_indent=2) == expected
+
+            str = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing elit:\n\n",
+                "`arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012`.",
+            )
+            expected = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing\n",
+                "  elit:\n",
+                "\n",
+                "  `arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012`.",
+            )
+            @test _wraplines(str; limit=53, base_indent=2) == expected
         end
     end
 end
