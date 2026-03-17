@@ -843,15 +843,15 @@ end
                 "- Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\n",
                 "Maecenas scelerisque erat vitae dignissim tempus.\n\n",
                 "note !!!\n",
-                "    Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.",
+                "     Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.",
             )
             expected = string(
                 "- Lorem ipsum dolor sit amet, consectetur adipiscing\n",
                 "  elit.\n\n",
                 "  Maecenas scelerisque erat vitae dignissim tempus.\n\n",
                 "  note !!!\n",
-                "      Morbi lacinia tortor at nibh blandit, id dictum\n",
-                "      dui venenatis.",
+                "       Morbi lacinia tortor at nibh blandit, id",
+                "       dictum dui venenatis.",
             )
             @test _wraplines(str; limit=53, base_indent=2) == expected
 
