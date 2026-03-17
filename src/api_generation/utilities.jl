@@ -400,13 +400,15 @@ function _html_to_markdown(doc::AbstractString)
     # Note blocks. We need to be careful to respect any existing Markdown indentation
     doc = _replace(
         doc,
-        r"\n([^\n]*?)<(note|important)>\s*(.*?)\s*</\2>"s => function (m)
-            base_indent = get_markdown_indent(m[1])
+        r"((?<=\n)[^\n]+)?<(note|important)>\s*(.*?)\s*</\2>"s => function (m)
+            prefix = @something(m[1], "")
+            base_indent = get_markdown_indent(prefix)
             base_ind = " "^base_indent
             note_ind = " "^(base_indent + 4)
             note = note_ind * replace(m[3], "\n" => "\n$note_ind") # Update indentation
-            return "\n$(m[1])\n\n$(base_ind)!!! $(m[2])\n$(note)\n\n$(base_ind)"
-        end,
+            return "$(prefix)\n\n$(base_ind)!!! $(m[2])\n$(note)\n\n$(base_ind)"
+        end;
+        overlap=true,
     )
 
     # Description list
@@ -427,7 +429,8 @@ function _html_to_markdown(doc::AbstractString)
     # Remove extra blank lines
     doc = replace(doc, r"([ \t]*\n){3,}" => "\n\n")
 
-    # Remove newlines at the end of the string
+    # Remove newlines at the start/end of the documentation
+    doc = replace(doc, r"^\n+"s => "")
     doc = replace(doc, r"\n+$"s => "")
 
     # Remove trailing whitespace
@@ -446,12 +449,13 @@ function html_to_md_unordered_list(str::AbstractString, indent=0)
             else
                 m[1]
             end
-            content = "\n" * _replace(
-                content,
-                r"\ *<li>\s*(.*?)\s*</li>\ *"s => function (m)
-                    return string(" "^indent, "- ", m[1], "\n")
-                end,
-            )
+            content =
+                "\n" * _replace(
+                    content,
+                    r"\ *<li>\s*(.*?)\s*</li>\ *"s => function (m)
+                        return string(" "^indent, "- ", m[1], "\n")
+                    end,
+                )
 
             if indent == 0
                 content = "\n$content\n"
@@ -463,9 +467,10 @@ function html_to_md_unordered_list(str::AbstractString, indent=0)
 end
 
 # Custom `replace` function which allows arbitrary code to be executed in the replacment
-function _replace(str::AbstractString, (pat, sub)::Pair{Regex,<:Function})
+function _replace(str::AbstractString, (pat, sub)::Pair{Regex,<:Function}; overlap::Bool=false)
     i = firstindex(str)
     m = match(pat, str, i)
+    prev_str = ""
     while !isnothing(m)
         replacement = sub(m)
 
@@ -473,8 +478,14 @@ function _replace(str::AbstractString, (pat, sub)::Pair{Regex,<:Function})
         after = SubString(str, m.offset + ncodeunits(m.match))
         str = string(before, replacement, after)
 
-        i = ncodeunits(before) + ncodeunits(replacement)
+        i = if overlap
+            ncodeunits(before) + (str == prev_str ? 1 : 0) + 1
+        else
+            ncodeunits(before) + ncodeunits(replacement) + 1
+        end
+
         m = match(pat, str, i)
+        prev_str = str
     end
 
     return str

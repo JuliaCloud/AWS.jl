@@ -6,6 +6,19 @@ function _clean_high_level_definition(definition::String)
     return definition
 end
 
+@testset "_replace" begin
+    @testset "overlap" begin
+        @test _replace("aaa", r"^(.*)a" => (m -> "$(m[1])b"); overlap=false) == "aab"
+        @test _replace("aaa", r"^(.*)a" => (m -> "$(m[1])b"); overlap=true) == "bbb"
+    end
+
+    @testset "avoid overlap infinite loop" begin
+        # Unless the logic is carefully crafted we'll infinite loop when we perform a
+        # replacement with the exact same value we matched on
+        @test _replace("aaa", r"a" => (m -> m.match); overlap=true) == "aaa"
+    end
+end
+
 @testset "_get_service_files" begin
     apply(Patches._github_tree_patch) do
         service_files = _get_service_files(GitHub.OAuth2("foobar"))
@@ -177,16 +190,22 @@ end
 end
 
 @testset "_html_to_markdown" begin
-    documentation = "<p>To remove one or more tags, use the <a>RemoveTagsFromCertificate</a> action. \$ \\ To view all of the tags that have been applied to the certificate, use the <a>ListTagsForCertificate</a> action.</p>"
-    expected_result = "To remove one or more tags, use the [`remove_tags_from_certificate`](@ref) action. \\\$ \\\\ To view all of the tags that have been applied to the certificate, use the [`list_tags_for_certificate`](@ref) action."
-    result = _html_to_markdown(documentation)
+    html = "<p>To remove one or more tags, use the <a>RemoveTagsFromCertificate</a> action. \$ \\ To view all of the tags that have been applied to the certificate, use the <a>ListTagsForCertificate</a> action.</p>"
+    markdown = "To remove one or more tags, use the [`remove_tags_from_certificate`](@ref) action. \\\$ \\\\ To view all of the tags that have been applied to the certificate, use the [`list_tags_for_certificate`](@ref) action."
+    @test _html_to_markdown(html) == markdown
 
     # From S3 target "com.amazonaws.s3#GrantFullControl"
     html = "<p>Specify access permissions explicitly to give the grantee READ, READ_ACP, and WRITE_ACP permissions\n      on the object.</p>\n         <p>By default, all objects are private. Only the owner has full access control. When uploading an\n      object, you can use this header to explicitly grant access permissions to specific Amazon Web Services accounts or\n      groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For more information, see\n        <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html\">Access Control List (ACL)\n        Overview</a> in the <i>Amazon S3 User Guide</i>.</p>\n         <p>You specify each grantee as a type=value pair, where the type is one of the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>id</code> – if the value specified is the canonical user ID of an Amazon Web Services account</p>\n            </li>\n            <li>\n               <p>\n                  <code>uri</code> – if you are granting permissions to a predefined group</p>\n            </li>\n            <li>\n               <p>\n                  <code>emailAddress</code> – if the value specified is the email address of an\n          Amazon Web Services account</p>\n               <note>\n                  <p>Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions: </p>\n                  <ul>\n                     <li>\n                        <p>US East (N. Virginia)</p>\n                     </li>\n                     <li>\n                        <p>US West (N. California)</p>\n                     </li>\n                     <li>\n                        <p> US West (Oregon)</p>\n                     </li>\n                     <li>\n                        <p> Asia Pacific (Singapore)</p>\n                     </li>\n                     <li>\n                        <p>Asia Pacific (Sydney)</p>\n                     </li>\n                     <li>\n                        <p>Asia Pacific (Tokyo)</p>\n                     </li>\n                     <li>\n                        <p>Europe (Ireland)</p>\n                     </li>\n                     <li>\n                        <p>South America (São Paulo)</p>\n                     </li>\n                  </ul>\n                  <p>For a list of all the Amazon S3 supported Regions and endpoints, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region\">Regions and Endpoints</a> in the Amazon Web Services General Reference.</p>\n               </note>\n            </li>\n         </ul>"
-    # expected = "Specify access permissions explicitly to give the grantee READ, READ_ACP, and WRITE_ACP permissions\n      on the object.\n\n         By default, all objects are private. Only the owner has full access control. When uploading an\n      object, you can use this header to explicitly grant access permissions to specific Amazon Web Services accounts or\n      groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For more information, see\n        [Access Control List (ACL)\n        Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) in the *Amazon S3 User Guide*.\n\n  You specify each grantee as a type=value pair, where the type is one of the following:\n\n- `id` – if the value specified is the canonical user ID of an Amazon Web Services account\n- `uri` – if you are granting permissions to a predefined group\n- `emailAddress` – if the value specified is the email address of an\n          Amazon Web Services account\n\n  !!! note\n      Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions:\n\n        - US East (N. Virginia)\n        - US West (N. California)\n        - US West (Oregon)\n        - Asia Pacific (Singapore)\n        - Asia Pacific (Sydney)\n        - Asia Pacific (Tokyo)\n        - Europe (Ireland)\n        - South America (São Paulo)\n\n      For a list of all the Amazon S3 supported Regions and endpoints, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region) in the Amazon Web Services General Reference."
-    expected = "Specify access permissions explicitly to give the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.\n\nBy default, all objects are private. Only the owner has full access control. When uploading an object, you can use this header to explicitly grant access permissions to specific Amazon Web Services accounts or groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For more information, see [Access Control List (ACL) Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) in the *Amazon S3 User Guide*.\n\nYou specify each grantee as a type=value pair, where the type is one of the following:\n\n- `id` – if the value specified is the canonical user ID of an Amazon Web Services account\n- `uri` – if you are granting permissions to a predefined group\n- `emailAddress` – if the value specified is the email address of an Amazon Web Services account\n\n  !!! note\n      Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions:\n        - US East (N. Virginia)\n        - US West (N. California)\n        - US West (Oregon)\n        - Asia Pacific (Singapore)\n        - Asia Pacific (Sydney)\n        - Asia Pacific (Tokyo)\n        - Europe (Ireland)\n        - South America (São Paulo)\n      For a list of all the Amazon S3 supported Regions and endpoints, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region) in the Amazon Web Services General Reference."
-    markdown = _html_to_markdown(html)
-    @test markdown == expected
+    markdown = "Specify access permissions explicitly to give the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.\n\nBy default, all objects are private. Only the owner has full access control. When uploading an object, you can use this header to explicitly grant access permissions to specific Amazon Web Services accounts or groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For more information, see [Access Control List (ACL) Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) in the *Amazon S3 User Guide*.\n\nYou specify each grantee as a type=value pair, where the type is one of the following:\n\n- `id` – if the value specified is the canonical user ID of an Amazon Web Services account\n- `uri` – if you are granting permissions to a predefined group\n- `emailAddress` – if the value specified is the email address of an Amazon Web Services account\n\n  !!! note\n      Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions:\n        - US East (N. Virginia)\n        - US West (N. California)\n        - US West (Oregon)\n        - Asia Pacific (Singapore)\n        - Asia Pacific (Sydney)\n        - Asia Pacific (Tokyo)\n        - Europe (Ireland)\n        - South America (São Paulo)\n      For a list of all the Amazon S3 supported Regions and endpoints, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region) in the Amazon Web Services General Reference."
+    @test _html_to_markdown(html) == markdown
+
+    html = "<note> hello! </note>"
+    markdown = "!!! note\n    hello!"
+    @test _html_to_markdown(html) == markdown
+
+    html = "<ul><li>list item.<note>foo</note><note>bar</note></li></ul>"
+    markdown = "- list item.\n\n  !!! note\n      foo\n\n  !!! note\n      bar"
+    @test _html_to_markdown(html) == markdown
 end
 
 @testset "_format_name" begin

@@ -14,6 +14,7 @@ using AWS.APIGeneration:
     _get_service_and_version,
     _get_function_parameters,
     _html_to_markdown,
+    _replace,
     _splitline,
     _wraplines,
     _validindex
