@@ -858,7 +858,7 @@ end
                 "  elit.\n\n",
                 "  Maecenas scelerisque erat vitae dignissim tempus.\n\n",
                 "  note !!!\n",
-                "       Morbi lacinia tortor at nibh blandit, id",
+                "       Morbi lacinia tortor at nibh blandit, id\n",
                 "       dictum dui venenatis.",
             )
             @test _wraplines(str; limit=53, base_indent=2) == expected
