@@ -392,8 +392,7 @@ function _html_to_markdown(doc::AbstractString)
     doc = replace(doc, r"\s*<p class=\"title\"> \*\*(.*?)\*\* </p>\s*" => s"\n\n## \1\n\n")
 
     # Escape any backslashes
-    doc = replace(doc, "\\" => "\\\\")
-
+    doc = replace(doc, r"(?<!\\)(\\(?:\\\\)*)(?![\\$])" => s"\\\1")
     doc = replace(doc, r"(?<!\\)\$" => "\\\$")
     doc = replace(doc, "\"\"\"" => "\\\"\\\"\\\"")
 
