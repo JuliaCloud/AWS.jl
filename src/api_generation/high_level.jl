@@ -281,6 +281,10 @@ function _generate_high_level_definition(
             $(_wraplines(documentation))
             """
 
+        # Determine if any of the docstring arguments are considered long such that all
+        # arguments should be separated by two newlines.
+        long_arg(str) = occursin("\n\n", str) || count('\n', str) > 3
+
         # Add in the required parameters if applicable
         if !isempty(required_parameters)
             if !endswith(operation_definition, "\n\n")
@@ -289,13 +293,24 @@ function _generate_high_level_definition(
 
             operation_definition *= "# Arguments\n\n"
 
+            argument_docstrings = String[]
             for (required_key, required_value) in required_parameters
                 key = _format_name(required_key)
-                operation_definition *= _wraplines(
-                    "- `$key`: $(required_value["documentation"])"; base_indent=2
+                push!(
+                    argument_docstrings,
+                    _wraplines(
+                        "- `$key`: $(required_value["documentation"])"; base_indent=2
+                    ),
                 )
-                operation_definition *= "\n"
             end
+
+            operation_definition *= if any(long_arg, argument_docstrings)
+                join(argument_docstrings, "\n\n")
+            else
+                join(argument_docstrings, "\n")
+            end
+
+            operation_definition *= "\n"
         end
 
         # Add in the optional parameters if applicable
@@ -311,13 +326,24 @@ function _generate_high_level_definition(
 
                 """
 
+            optional_docstrings = String[]
             for (optional_key, optional_value) in optional_parameters
-                operation_definition *= _wraplines(
-                    "- `\"$optional_key\"`: $(optional_value["documentation"])";
-                    base_indent=2,
+                push!(
+                    optional_docstrings,
+                    _wraplines(
+                        "- `\"$optional_key\"`: $(optional_value["documentation"])";
+                        base_indent=2,
+                    ),
                 )
-                operation_definition *= "\n"
             end
+
+            operation_definition *= if any(long_arg, optional_docstrings)
+                join(optional_docstrings, "\n\n")
+            else
+                join(optional_docstrings, "\n")
+            end
+
+            operation_definition *= "\n"
         end
 
         return operation_definition *= repeat('"', 3)
