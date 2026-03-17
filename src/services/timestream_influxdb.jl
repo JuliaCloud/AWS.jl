@@ -15,13 +15,13 @@ Creates a new Timestream for InfluxDB DB instance.
 - `allocated_storage`: The amount of storage to allocate for your DB storage type in GiB
   (gibibytes).
 - `db_instance_type`: The Timestream for InfluxDB DB instance type to run InfluxDB on.
-- `name`: The name that uniquely identifies the DB instance when interacting with the
-  Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix
-  included in the endpoint. DB instance names must be unique per customer and per region.
-- `password`: The password of the initial admin user created in InfluxDB. This password
-  will allow you to access the InfluxDB UI to perform various administrative tasks and
-  also use the InfluxDB CLI to create an operator token. These attributes will be stored
-  in a Secret created in AWS SecretManager in your account.
+- `name`: The name that uniquely identifies the DB instance when interacting with the Amazon
+  Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in
+  the endpoint. DB instance names must be unique per customer and per region.
+- `password`: The password of the initial admin user created in InfluxDB. This password will
+  allow you to access the InfluxDB UI to perform various administrative tasks and also use
+  the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret
+  created in AWS SecretManager in your account.
 - `vpc_security_group_ids`: A list of VPC security group IDs to associate with the DB
   instance.
 - `vpc_subnet_ids`: A list of VPC subnet IDs to associate with the DB instance. Provide at
@@ -33,11 +33,13 @@ Creates a new Timestream for InfluxDB DB instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"bucket"`: The name of the initial InfluxDB bucket. All InfluxDB data is stored in a
-  bucket. A bucket combines the concept of a database and a retention period (the
-  duration of time that each data point persists). A bucket belongs to an organization.
+  bucket. A bucket combines the concept of a database and a retention period (the duration
+  of time that each data point persists). A bucket belongs to an organization.
+
 - `"dbParameterGroupIdentifier"`: The id of the DB parameter group to assign to your DB
   instance. DB parameter groups specify how the database is configured. For example, DB
   parameter groups can specify the limit for query concurrency.
+
 - `"dbStorageType"`: The Timestream for InfluxDB DB storage type to read and write InfluxDB
   data.
 
@@ -50,15 +52,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"deploymentType"`: Specifies whether the DB instance will be deployed as a standalone
   instance or with a Multi-AZ standby for high availability.
+
 - `"logDeliveryConfiguration"`: Configuration for sending InfluxDB engine logs to a
   specified S3 bucket.
+
 - `"organization"`: The name of the initial organization for the initial admin user in
   InfluxDB. An InfluxDB organization is a workspace for a group of users.
+
 - `"publiclyAccessible"`: Configures the DB instance with a public IP to facilitate access.
+
 - `"tags"`: A list of key-value pairs to associate with the DB instance.
+
 - `"username"`: The username of the initial admin user created in InfluxDB. Must start with
-  a letter and can't end with a hyphen or contain two consecutive hyphens. For example,
-  my-user1. This username will allow you to access the InfluxDB UI to perform various
+  a letter and can't end with a hyphen or contain two consecutive hyphens. For example, my-
+  user1. This username will allow you to access the InfluxDB UI to perform various
   administrative tasks and also use the InfluxDB CLI to create an operator token. These
   attributes will be stored in a Secret created in Amazon Secrets Manager in your account.
 """
@@ -282,8 +289,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of items to return in the output. If the total number
   of items available is more than the value specified, a NextToken is provided in the
-  output. To resume pagination, provide the NextToken value as argument of a subsequent
-  API invocation.
+  output. To resume pagination, provide the NextToken value as argument of a subsequent API
+  invocation.
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
@@ -315,8 +322,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of items to return in the output. If the total number
   of items available is more than the value specified, a NextToken is provided in the
-  output. To resume pagination, provide the NextToken value as argument of a subsequent
-  API invocation.
+  output. To resume pagination, provide the NextToken value as argument of a subsequent API
+  invocation.
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """

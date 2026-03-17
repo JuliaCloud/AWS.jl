@@ -55,16 +55,16 @@ end
 Adds a third-party custom source in Amazon Security Lake, from the Amazon Web Services
 Region where you want to create a custom source. Security Lake can collect logs and events
 from third-party custom sources. After creating the appropriate IAM role to invoke Glue
-crawler, use this API to add a custom source name in Security Lake. This operation creates
-a partition in the Amazon S3 bucket for Security Lake as the target location for log files
+crawler, use this API to add a custom source name in Security Lake. This operation creates a
+partition in the Amazon S3 bucket for Security Lake as the target location for log files
 from the custom source. In addition, this operation also creates an associated Glue table
 and an Glue crawler.
 
 # Arguments
 
 - `configuration`: The configuration for the third-party custom source.
-- `source_name`: Specify the name for a third-party custom source. This must be a
-  Regionally unique value.
+- `source_name`: Specify the name for a third-party custom source. This must be a Regionally
+  unique value.
 
 # Optional Parameters
 
@@ -158,11 +158,10 @@ you call this API, it will set up the data lake in the Region with the specified
 configurations.
 
 When you enable Security Lake, it starts ingesting security data after the
-`CreateAwsLogSource` call. This includes ingesting security data from sources, storing
-data, and making data accessible to subscribers. Security Lake also enables all the
-existing settings and resources that it stores or maintains for your Amazon Web Services
-account in the current Region, including security log and event data. For more information,
-see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/what-is-security-lake.html).
+`CreateAwsLogSource` call. This includes ingesting security data from sources, storing data,
+and making data accessible to subscribers. Security Lake also enables all the existing
+settings and resources that it stores or maintains for your Amazon Web Services account in
+the current Region, including security log and event data. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/what-is-security-lake.html).
 
 # Arguments
 
@@ -177,8 +176,8 @@ see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-l
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"tags"`: An array of objects, one for each tag to associate with the data lake
-  configuration. For each tag, you must specify both a tag key and a tag value. A tag
-  value cannot be null, but it can be an empty string.
+  configuration. For each tag, you must specify both a tag key and a tag value. A tag value
+  cannot be null, but it can be an empty string.
 """
 function create_data_lake end
 
@@ -227,8 +226,8 @@ end
     create_data_lake_exception_subscription(notification_endpoint, subscription_protocol)
     create_data_lake_exception_subscription(notification_endpoint, subscription_protocol, params::Dict{String,<:Any})
 
-Creates the specified notification subscription in Amazon Security Lake for the
-organization you specify.
+Creates the specified notification subscription in Amazon Security Lake for the organization
+you specify.
 
 # Arguments
 
@@ -348,9 +347,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accessTypes"`: The Amazon S3 or Lake Formation access type.
 - `"subscriberDescription"`: The description for your subscriber account in Security Lake.
-- `"tags"`: An array of objects, one for each tag to associate with the subscriber. For
-  each tag, you must specify both a tag key and a tag value. A tag value cannot be null,
-  but it can be an empty string.
+- `"tags"`: An array of objects, one for each tag to associate with the subscriber. For each
+  tag, you must specify both a tag key and a tag value. A tag value cannot be null, but it
+  can be an empty string.
 """
 function create_subscriber end
 
@@ -451,8 +450,8 @@ end
 Removes a natively supported Amazon Web Service as an Amazon Security Lake source. You can
 remove a source for one or more Regions. When you remove the source, Security Lake stops
 collecting data from that source in the specified Regions and accounts, and subscribers can
-no longer consume new data from the source. However, subscribers can still consume data
-that Security Lake collected from the source before removal.
+no longer consume new data from the source. However, subscribers can still consume data that
+Security Lake collected from the source before removal.
 
 You can choose any source type in any Amazon Web Services Region for either accounts that
 are part of a trusted organization or standalone accounts.
@@ -503,8 +502,8 @@ source to Security Lake.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"sourceVersion"`: The source version for the third-party custom source. You can limit
-  the custom source removal to the specified source version.
+- `"sourceVersion"`: The source version for the third-party custom source. You can limit the
+  custom source removal to the specified source version.
 """
 function delete_custom_log_source end
 
@@ -581,8 +580,8 @@ end
     delete_data_lake_exception_subscription()
     delete_data_lake_exception_subscription(params::Dict{String,<:Any})
 
-Deletes the specified notification subscription in Amazon Security Lake for the
-organization you specify.
+Deletes the specified notification subscription in Amazon Security Lake for the organization
+you specify.
 """
 function delete_data_lake_exception_subscription end
 
@@ -613,11 +612,11 @@ end
     delete_data_lake_organization_configuration()
     delete_data_lake_organization_configuration(params::Dict{String,<:Any})
 
-Turns off automatic enablement of Amazon Security Lake for member accounts that are added
-to an organization in Organizations. Only the delegated Security Lake administrator for an
+Turns off automatic enablement of Amazon Security Lake for member accounts that are added to
+an organization in Organizations. Only the delegated Security Lake administrator for an
 organization can perform this operation. If the delegated Security Lake administrator
-performs this operation, new member accounts won't automatically contribute data to the
-data lake.
+performs this operation, new member accounts won't automatically contribute data to the data
+lake.
 
 # Optional Parameters
 
@@ -657,9 +656,8 @@ end
 
 Deletes the subscription permission and all notification settings for accounts that are
 already enabled in Amazon Security Lake. When you run `DeleteSubscriber`, the subscriber
-will no longer consume data from Security Lake and the subscriber is removed. This
-operation deletes the subscriber and removes access to data in the current Amazon Web
-Services Region.
+will no longer consume data from Security Lake and the subscriber is removed. This operation
+deletes the subscriber and removes access to data in the current Amazon Web Services Region.
 
 # Arguments
 
@@ -695,8 +693,8 @@ end
     delete_subscriber_notification(subscriber_id)
     delete_subscriber_notification(subscriber_id, params::Dict{String,<:Any})
 
-Deletes the specified notification subscription in Amazon Security Lake for the
-organization you specify.
+Deletes the specified notification subscription in Amazon Security Lake for the organization
+you specify.
 
 # Arguments
 
@@ -798,8 +796,8 @@ end
     get_data_lake_organization_configuration(params::Dict{String,<:Any})
 
 Retrieves the configuration that will be automatically set up for accounts added to the
-organization after the organization has onboarded to Amazon Security Lake. This API does
-not take input parameters.
+organization after the organization has onboarded to Amazon Security Lake. This API does not
+take input parameters.
 """
 function get_data_lake_organization_configuration end
 
@@ -840,8 +838,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accounts"`: The Amazon Web Services account ID for which a static snapshot of the
   current Amazon Web Services Region, including enabled accounts and log sources, is
   retrieved.
-- `"maxResults"`: The maximum limit of accounts for which the static snapshot of the
-  current Region, including enabled accounts and log sources, is retrieved.
+
+- `"maxResults"`: The maximum limit of accounts for which the static snapshot of the current
+  Region, including enabled accounts and log sources, is retrieved.
+
 - `"nextToken"`: Lists if there are more results available. The value of nextToken is a
   unique pagination token for each page. Repeat the call using the returned token to
   retrieve the next page. Keep all other arguments unchanged.
@@ -921,12 +921,14 @@ and fix them.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: List the maximum number of failures in Security Lake.
+
 - `"nextToken"`: List if there are more results available. The value of nextToken is a
   unique pagination token for each page. Repeat the call using the returned token to
   retrieve the next page. Keep all other arguments unchanged.
 
   Each pagination token expires after 24 hours. Using an expired pagination token will
   return an HTTP 400 InvalidToken error.
+
 - `"regions"`: The Amazon Web Services Regions from which exceptions are retrieved.
 """
 function list_data_lake_exceptions end
@@ -1156,17 +1158,17 @@ particular Amazon Web Services Region. A *tag* is a label that you can define an
 with Amazon Web Services resources. Each tag consists of a required *tag key* and an
 associated *tag value*. A *tag key* is a general label that acts as a category for a more
 specific tag value. A *tag value* acts as a descriptor for a tag key. Tags can help you
-identify, categorize, and manage resources in different ways, such as by owner,
-environment, or other criteria. For more information, see [Tagging Amazon Security Lake resources](https://docs.aws.amazon.com/security-lake/latest/userguide/tagging-resources.html)
+identify, categorize, and manage resources in different ways, such as by owner, environment,
+or other criteria. For more information, see [Tagging Amazon Security Lake resources](https://docs.aws.amazon.com/security-lake/latest/userguide/tagging-resources.html)
 in the *Amazon Security Lake User Guide*.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Security Lake resource to
-  add or update the tags for.
-- `tags`: An array of objects, one for each tag (key and value) to associate with the
-  Amazon Security Lake resource. For each tag, you must specify both a tag key and a tag
-  value. A tag value cannot be null, but it can be an empty string.
+- `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Security Lake resource to add
+  or update the tags for.
+- `tags`: An array of objects, one for each tag (key and value) to associate with the Amazon
+  Security Lake resource. For each tag, you must specify both a tag key and a tag value. A
+  tag value cannot be null, but it can be an empty string.
 """
 function tag_resource end
 
@@ -1243,8 +1245,8 @@ end
     update_data_lake(configurations)
     update_data_lake(configurations, params::Dict{String,<:Any})
 
-Specifies where to store your security data and for how long. You can add a rollup Region
-to consolidate data from multiple Amazon Web Services Regions.
+Specifies where to store your security data and for how long. You can add a rollup Region to
+consolidate data from multiple Amazon Web Services Regions.
 
 # Arguments
 
@@ -1256,8 +1258,8 @@ to consolidate data from multiple Amazon Web Services Regions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"metaStoreManagerRoleArn"`: The Amazon Resource Name (ARN) used to create and update the
-  Glue table. This table contains partitions generated by the ingestion and normalization
-  of Amazon Web Services log sources and custom sources.
+  Glue table. This table contains partitions generated by the ingestion and normalization of
+  Amazon Web Services log sources and custom sources.
 """
 function update_data_lake end
 
@@ -1293,8 +1295,8 @@ end
     update_data_lake_exception_subscription(notification_endpoint, subscription_protocol)
     update_data_lake_exception_subscription(notification_endpoint, subscription_protocol, params::Dict{String,<:Any})
 
-Updates the specified notification subscription in Amazon Security Lake for the
-organization you specify.
+Updates the specified notification subscription in Amazon Security Lake for the organization
+you specify.
 
 # Arguments
 

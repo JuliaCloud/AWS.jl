@@ -56,16 +56,16 @@ Updates `AttendeeCapabilities` except the capabilities listed in an `ExcludedAtt
 table.
 
 !!! note
-    You use the capabilities with a set of values that control what the capabilities can
-    do, such as `SendReceive` data. For more information about those values, see .
+    You use the capabilities with a set of values that control what the capabilities can do,
+    such as `SendReceive` data. For more information about those values, see .
 
 When using capabilities, be aware of these corner cases:
 
 - If you specify `MeetingFeatures:Video:MaxResolution:None` when you create a meeting, all
   API requests that include `SendReceive`, `Send`, or `Receive` for
   `AttendeeCapabilities:Video` will be rejected with `ValidationError 400`.
-- If you specify `MeetingFeatures:Content:MaxResolution:None` when you create a meeting,
-  all API requests that include `SendReceive`, `Send`, or `Receive` for
+- If you specify `MeetingFeatures:Content:MaxResolution:None` when you create a meeting, all
+  API requests that include `SendReceive`, `Send`, or `Receive` for
   `AttendeeCapabilities:Content` will be rejected with `ValidationError 400`.
 - You can't set `content` capabilities to `SendReceive` or `Receive` unless you also set
   `video` capabilities to `SendReceive` or `Receive`. If you don't set the `video`
@@ -77,8 +77,8 @@ When using capabilities, be aware of these corner cases:
   the other meeting participants.
 - When you change a `video` or `content` capability from `None` or `Receive` to `Send` or
   `SendReceive` , and if the attendee turned on their video or content streams, remote
-  attendees can receive those streams, but only after media renegotiation between the
-  client and the Amazon Chime back-end server.
+  attendees can receive those streams, but only after media renegotiation between the client
+  and the Amazon Chime back-end server.
 
 # Arguments
 
@@ -141,48 +141,48 @@ in the *Amazon Chime Developer Guide*.
 
 # Arguments
 
-- `external_user_id`: The Amazon Chime SDK external user ID. An idempotency token. Links
-  the attendee to an identity managed by a builder application.
+- `external_user_id`: The Amazon Chime SDK external user ID. An idempotency token. Links the
+  attendee to an identity managed by a builder application.
 
   Pattern: `[-_&amp;@+=,(){}\\[\\]\\/«».:|'"#a-zA-Z0-9À-ÿ\\s]*`
 
   Values that begin with `aws:` are reserved. You can't configure a value that uses this
   prefix.
+
 - `meeting_id`: The unique ID of the meeting.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Capabilities"`: The capabilities (`audio`, `video`, or `content`) that you want to
-  grant an attendee. If you don't specify capabilities, all users have send and receive
+- `"Capabilities"`: The capabilities (`audio`, `video`, or `content`) that you want to grant
+  an attendee. If you don't specify capabilities, all users have send and receive
   capabilities on all media channels by default.
 
   !!! note
-      You use the capabilities with a set of values that control what the capabilities
-      can do, such as `SendReceive` data. For more information about those values, see .
+      You use the capabilities with a set of values that control what the capabilities can
+      do, such as `SendReceive` data. For more information about those values, see .
 
   When using capabilities, be aware of these corner cases:
 
-  - If you specify `MeetingFeatures:Video:MaxResolution:None` when you create a meeting,
-    all API requests that include `SendReceive`, `Send`, or `Receive` for
+  - If you specify `MeetingFeatures:Video:MaxResolution:None` when you create a meeting, all
+    API requests that include `SendReceive`, `Send`, or `Receive` for
     `AttendeeCapabilities:Video` will be rejected with `ValidationError 400`.
-  - If you specify `MeetingFeatures:Content:MaxResolution:None` when you create a
-    meeting, all API requests that include `SendReceive`, `Send`, or `Receive` for
+  - If you specify `MeetingFeatures:Content:MaxResolution:None` when you create a meeting,
+    all API requests that include `SendReceive`, `Send`, or `Receive` for
     `AttendeeCapabilities:Content` will be rejected with `ValidationError 400`.
-  - You can't set `content` capabilities to `SendReceive` or `Receive` unless you also
-    set `video` capabilities to `SendReceive` or `Receive`. If you don't set the `video`
+  - You can't set `content` capabilities to `SendReceive` or `Receive` unless you also set
+    `video` capabilities to `SendReceive` or `Receive`. If you don't set the `video`
     capability to receive, the response will contain an HTTP 400 Bad Request status code.
     However, you can set your `video` capability to receive and you set your `content`
     capability to not receive.
   - When you change an `audio` capability from `None` or `Receive` to `Send` or
-    `SendReceive` , and if the attendee left their microphone unmuted, audio will flow
-    from the attendee to the other meeting participants.
-  - When you change a `video` or `content` capability from `None` or `Receive` to `Send`
-    or `SendReceive` , and if the attendee turned on their video or content streams,
-    remote attendees can receive those streams, but only after media renegotiation
-    between the client and the Amazon Chime back-end server.
-
+    `SendReceive` , and if the attendee left their microphone unmuted, audio will flow from
+    the attendee to the other meeting participants.
+  - When you change a `video` or `content` capability from `None` or `Receive` to `Send` or
+    `SendReceive` , and if the attendee turned on their video or content streams, remote
+    attendees can receive those streams, but only after media renegotiation between the
+    client and the Amazon Chime back-end server.
 """
 function create_attendee end
 
@@ -221,20 +221,21 @@ end
 
 Creates a new Amazon Chime SDK meeting in the specified media Region with no initial
 attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html)
-in the *Amazon Chime Developer Guide*. For more information about the Amazon Chime SDK, see
-[Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+in the *Amazon Chime Developer Guide*. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
 in the *Amazon Chime Developer Guide*.
 
 # Arguments
 
 - `client_request_token`: The unique identifier for the client request. Use a different
   token for different meetings.
+
 - `external_meeting_id`: The external meeting ID.
 
   Pattern: `[-_&amp;@+=,(){}\\[\\]\\/«».:|'"#a-zA-Z0-9À-ÿ\\s]*`
 
   Values that begin with `aws:` are reserved. You can't configure a value that uses this
   prefix. Case insensitive.
+
 - `media_region`: The Region in which to create the meeting.
 
   Available values: `af-south-1`, `ap-northeast-1`, `ap-northeast-2`, `ap-south-1`,
@@ -251,25 +252,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MeetingFeatures"`: Lists the audio and video features enabled for a meeting, such as
   echo reduction.
+
 - `"MeetingHostId"`: Reserved.
+
 - `"NotificationsConfiguration"`: The configuration for resource targets to receive
   notifications when meeting and attendee events occur.
-- `"PrimaryMeetingId"`: When specified, replicates the media from the primary meeting to
-  the new meeting.
+
+- `"PrimaryMeetingId"`: When specified, replicates the media from the primary meeting to the
+  new meeting.
+
 - `"Tags"`: Applies one or more tags to an Amazon Chime SDK meeting. Note the following:
 
-  - Not all resources have tags. For a list of services with resources that support
-    tagging using this operation, see [Services that support the Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html).
-    If the resource doesn't yet support this operation, the resource's service might
-    support tagging using its own API operations. For more information, refer to the
-    documentation for that service.
+  - Not all resources have tags. For a list of services with resources that support tagging
+    using this operation, see [Services that support the Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html).
+    If the resource doesn't yet support this operation, the resource's service might support
+    tagging using its own API operations. For more information, refer to the documentation
+    for that service.
   - Each resource can have up to 50 tags. For other limits, see [Tag Naming and Usage Conventions](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html#tag-conventions)
     in the *AWS General Reference*.
-  - You can only tag resources that are located in the specified Amazon Web Services
-    Region for the Amazon Web Services account.
-  - To add tags to a resource, you need the necessary permissions for the service that
-    the resource belongs to as well as permissions for adding tags. For more information,
-    see the documentation for each service.
+  - You can only tag resources that are located in the specified Amazon Web Services Region
+    for the Amazon Web Services account.
+  - To add tags to a resource, you need the necessary permissions for the service that the
+    resource belongs to as well as permissions for adding tags. For more information, see
+    the documentation for each service.
 
   !!! important
       Do not store personally identifiable information (PII) or other confidential or
@@ -279,10 +284,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   **Minimum permissions**
 
-  In addition to the `tag:TagResources` permission required by this operation, you must
-  also have the tagging permission defined by the service that created the resource. For
-  example, to tag a `ChimeSDKMeetings` instance using the [`tag_resources`](@ref)
-  operation, you must have both of the following permissions:
+  In addition to the `tag:TagResources` permission required by this operation, you must also
+  have the tagging permission defined by the service that created the resource. For example,
+  to tag a `ChimeSDKMeetings` instance using the [`tag_resources`](@ref) operation, you must
+  have both of the following permissions:
 
   `tag:TagResources`
 
@@ -350,21 +355,23 @@ end
 
 Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For
 more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html)
-in the *Amazon Chime Developer Guide*. For more information about the Amazon Chime SDK, see
-[Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+in the *Amazon Chime Developer Guide*. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
 in the *Amazon Chime Developer Guide*.
 
 # Arguments
 
 - `attendees`: The attendee information, including attendees' IDs and join tokens.
+
 - `client_request_token`: The unique identifier for the client request. Use a different
   token for different meetings.
+
 - `external_meeting_id`: The external meeting ID.
 
   Pattern: `[-_&amp;@+=,(){}\\[\\]\\/«».:|'"#a-zA-Z0-9À-ÿ\\s]*`
 
   Values that begin with `aws:` are reserved. You can't configure a value that uses this
   prefix. Case insensitive.
+
 - `media_region`: The Region in which to create the meeting.
 
   Available values: `af-south-1`, `ap-northeast-1`, `ap-northeast-2`, `ap-south-1`,
@@ -384,8 +391,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MeetingHostId"`: Reserved.
 - `"NotificationsConfiguration"`: The configuration for resource targets to receive
   notifications when meeting and attendee events occur.
-- `"PrimaryMeetingId"`: When specified, replicates the media from the primary meeting to
-  the new meeting.
+- `"PrimaryMeetingId"`: When specified, replicates the media from the primary meeting to the
+  new meeting.
 - `"Tags"`: The tags in the request.
 - `"TenantIds"`: A consistent and opaque identifier, created and maintained by the builder
   to represent a segment of their users.
@@ -446,8 +453,8 @@ end
     delete_attendee(attendee_id, meeting_id, params::Dict{String,<:Any})
 
 Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
-`JoinToken`. Attendees are automatically deleted when a Amazon Chime SDK meeting is
-deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+`JoinToken`. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted.
+For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
 in the *Amazon Chime Developer Guide*.
 
 # Arguments
@@ -566,8 +573,8 @@ end
     get_meeting(meeting_id)
     get_meeting(meeting_id, params::Dict{String,<:Any})
 
-Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more
-information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information
+about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
 in the *Amazon Chime Developer Guide*.
 
 # Arguments
@@ -764,8 +771,8 @@ in the *Amazon Chime SDK Developer Guide*.
     recording, including properly notifying all participants in a recorded session or
     communication that the session or communication is being recorded, and obtaining all
     necessary consents. You can opt out from Amazon Web Services using audio content to
-    develop and improve Amazon Web Services AI/ML services by configuring an AI services
-    opt out policy using Amazon Web Services Organizations.
+    develop and improve Amazon Web Services AI/ML services by configuring an AI services opt
+    out policy using Amazon Web Services Organizations.
 
 # Arguments
 
@@ -858,8 +865,8 @@ attempt to remove tags from a resource that were already removed. Note the follo
 
 **Minimum permissions**
 
-In addition to the `tag:UntagResources` permission required by this operation, you must
-also have the remove tags permission defined by the service that created the resource. For
+In addition to the `tag:UntagResources` permission required by this operation, you must also
+have the remove tags permission defined by the service that created the resource. For
 example, to remove the tags from an Amazon EC2 instance using the [`untag_resources`](@ref)
 operation, you must have both of the following permissions:
 
@@ -914,16 +921,16 @@ end
 The capabilities that you want to update.
 
 !!! note
-    You use the capabilities with a set of values that control what the capabilities can
-    do, such as `SendReceive` data. For more information about those values, see .
+    You use the capabilities with a set of values that control what the capabilities can do,
+    such as `SendReceive` data. For more information about those values, see .
 
 When using capabilities, be aware of these corner cases:
 
 - If you specify `MeetingFeatures:Video:MaxResolution:None` when you create a meeting, all
   API requests that include `SendReceive`, `Send`, or `Receive` for
   `AttendeeCapabilities:Video` will be rejected with `ValidationError 400`.
-- If you specify `MeetingFeatures:Content:MaxResolution:None` when you create a meeting,
-  all API requests that include `SendReceive`, `Send`, or `Receive` for
+- If you specify `MeetingFeatures:Content:MaxResolution:None` when you create a meeting, all
+  API requests that include `SendReceive`, `Send`, or `Receive` for
   `AttendeeCapabilities:Content` will be rejected with `ValidationError 400`.
 - You can't set `content` capabilities to `SendReceive` or `Receive` unless you also set
   `video` capabilities to `SendReceive` or `Receive`. If you don't set the `video`
@@ -935,8 +942,8 @@ When using capabilities, be aware of these corner cases:
   the other meeting participants.
 - When you change a `video` or `content` capability from `None` or `Receive` to `Send` or
   `SendReceive` , and if the attendee turned on their video or content streams, remote
-  attendees can receive those streams, but only after media renegotiation between the
-  client and the Amazon Chime back-end server.
+  attendees can receive those streams, but only after media renegotiation between the client
+  and the Amazon Chime back-end server.
 
 # Arguments
 

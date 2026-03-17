@@ -23,11 +23,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatastoreName"`: The user generated name for the data store.
 - `"IdentityProviderConfiguration"`: The configuration of the identity provider that you
   want to use for your data store.
-- `"PreloadDataConfig"`: Optional parameter to preload data upon creation of the data
-  store. Currently, the only supported preloaded data is synthetic data generated from
-  Synthea.
-- `"SseConfiguration"`: The server-side encryption key configuration for a customer
-  provided encryption key specified for creating a data store.
+- `"PreloadDataConfig"`: Optional parameter to preload data upon creation of the data store.
+  Currently, the only supported preloaded data is synthetic data generated from Synthea.
+- `"SseConfiguration"`: The server-side encryption key configuration for a customer provided
+  encryption key specified for creating a data store.
 - `"Tags"`: Resource tags that are applied to a data store when it is created.
 """
 function create_fhirdatastore end
@@ -149,8 +148,8 @@ end
     describe_fhirexport_job(datastore_id, job_id)
     describe_fhirexport_job(datastore_id, job_id, params::Dict{String,<:Any})
 
-Displays the properties of a FHIR export job, including the ID, ARN, name, and the status
-of the job.
+Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of
+the job.
 
 # Arguments
 
@@ -195,8 +194,8 @@ end
     describe_fhirimport_job(datastore_id, job_id)
     describe_fhirimport_job(datastore_id, job_id, params::Dict{String,<:Any})
 
-Displays the properties of a FHIR import job, including the ID, ARN, name, and the status
-of the job.
+Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of
+the job.
 
 # Arguments
 
@@ -240,8 +239,7 @@ end
     list_fhirdatastores()
     list_fhirdatastores(params::Dict{String,<:Any})
 
-Lists all FHIR data stores that are in the user’s account, regardless of data store
-status.
+Lists all FHIR data stores that are in the user’s account, regardless of data store status.
 
 # Optional Parameters
 
@@ -291,8 +289,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListFHIRExportJobs to a maximum quantity specified by the user.
 - `"NextToken"`: A pagination token used to identify the next page of results to return for
   a ListFHIRExportJobs query.
-- `"SubmittedAfter"`: This parameter limits the response to FHIR export jobs submitted
-  after a user specified date.
+- `"SubmittedAfter"`: This parameter limits the response to FHIR export jobs submitted after
+  a user specified date.
 - `"SubmittedBefore"`: This parameter limits the response to FHIR export jobs submitted
   before a user specified date.
 """
@@ -341,14 +339,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"JobName"`: This parameter limits the response to the import job with the specified job
   name.
-- `"JobStatus"`: This parameter limits the response to the import job with the specified
-  job status.
+- `"JobStatus"`: This parameter limits the response to the import job with the specified job
+  status.
 - `"MaxResults"`: This parameter limits the number of results returned for a
   ListFHIRImportJobs to a maximum quantity specified by the user.
 - `"NextToken"`: A pagination token used to identify the next page of results to return for
   a ListFHIRImportJobs query.
-- `"SubmittedAfter"`: This parameter limits the response to FHIR import jobs submitted
-  after a user specified date.
+- `"SubmittedAfter"`: This parameter limits the response to FHIR import jobs submitted after
+  a user specified date.
 - `"SubmittedBefore"`: This parameter limits the response to FHIR import jobs submitted
   before a user specified date.
 """

@@ -56,8 +56,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: A data set tag is an optional label that you can assign to a data set when you
   create it. Each tag consists of a key and an optional value, both of which you define.
-  When you use tagging, you can also use tag-based access control in IAM policies to
-  control access to these data sets and revisions.
+  When you use tagging, you can also use tag-based access control in IAM policies to control
+  access to these data sets and revisions.
 """
 function create_data_set end
 
@@ -202,8 +202,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Comment"`: An optional comment about the revision.
 - `"Tags"`: A revision tag is an optional label that you can assign to a revision when you
   create it. Each tag consists of a key and an optional value, both of which you define.
-  When you use tagging, you can also use tag-based access control in IAM policies to
-  control access to these data sets and revisions.
+  When you use tagging, you can also use tag-based access control in IAM policies to control
+  access to these data sets and revisions.
 """
 function create_revision end
 
@@ -870,8 +870,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header- will have that stripped before sending the Asset API request. Use this when you
   want to override a header that AWS Data Exchange uses. Alternatively, you can use the
   header without a prefix to the HTTP request.
-- `"x-amzn-dataexchange-http-method"`: HTTP method value for the API request.
-  Alternatively, you can use the appropriate verb in your request.
+- `"x-amzn-dataexchange-http-method"`: HTTP method value for the API request. Alternatively,
+  you can use the appropriate verb in your request.
 - `"x-amzn-dataexchange-path"`: URI path value for the API request. Alternatively, you can
   set the URI path directly by invoking /v1/{pathValue}.
 """
@@ -1104,14 +1104,17 @@ This operation updates an asset.
 # Arguments
 
 - `asset_id`: The unique identifier for an asset.
+
 - `data_set_id`: The unique identifier for a data set.
+
 - `name`: The name of the asset. When importing from Amazon S3, the Amazon S3 object key is
   used as the asset name. When exporting to Amazon S3, the asset name is used as default
-  target Amazon S3 object key. When importing from Amazon API Gateway API, the API name
-  is used as the asset name. When importing from Amazon Redshift, the datashare name is
-  used as the asset name. When importing from AWS Lake Formation, the static values of
-  "Database(s) included in the LF-tag policy" or "Table(s) included in LF-tag policy" are
-  used as the name.
+  target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is
+  used as the asset name. When importing from Amazon Redshift, the datashare name is used as
+  the asset name. When importing from AWS Lake Formation, the static values of "Database(s)
+  included in the LF-tag policy" or "Table(s) included in LF-tag policy" are used as the
+  name.
+
 - `revision_id`: The unique identifier for a revision.
 """
 function update_asset end
@@ -1247,8 +1250,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Comment"`: An optional comment about the revision.
 - `"Finalized"`: Finalizing a revision tells AWS Data Exchange that your changes to the
-  assets in the revision are complete. After it's in this read-only state, you can
-  publish the revision to your products.
+  assets in the revision are complete. After it's in this read-only state, you can publish
+  the revision to your products.
 """
 function update_revision end
 

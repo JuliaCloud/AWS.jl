@@ -110,11 +110,11 @@ end
 Associates a customer gateway with a device and optionally, with a link. If you specify a
 link, it must be associated with the specified device.
 
-You can only associate customer gateways that are connected to a VPN attachment on a
-transit gateway or core network registered in your global network. When you register a
-transit gateway or core network, customer gateways that are connected to the transit
-gateway are automatically included in the global network. To list customer gateways that
-are connected to a transit gateway, use the [DescribeVpnConnections](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnConnections.html)
+You can only associate customer gateways that are connected to a VPN attachment on a transit
+gateway or core network registered in your global network. When you register a transit
+gateway or core network, customer gateways that are connected to the transit gateway are
+automatically included in the global network. To list customer gateways that are connected
+to a transit gateway, use the [DescribeVpnConnections](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnConnections.html)
 EC2 API and filter by `transit-gateway-id`.
 
 You cannot associate a customer gateway with more than one device and link.
@@ -226,8 +226,8 @@ end
     associate_transit_gateway_connect_peer(device_id, transit_gateway_connect_peer_arn, global_network_id)
     associate_transit_gateway_connect_peer(device_id, transit_gateway_connect_peer_arn, global_network_id, params::Dict{String,<:Any})
 
-Associates a transit gateway Connect peer with a device, and optionally, with a link. If
-you specify a link, it must be associated with the specified device.
+Associates a transit gateway Connect peer with a device, and optionally, with a link. If you
+specify a link, it must be associated with the specified device.
 
 You can only associate transit gateway Connect peers that have been created on a transit
 gateway that's registered in your global network.
@@ -442,9 +442,9 @@ end
     create_connection(connected_device_id, device_id, global_network_id)
     create_connection(connected_device_id, device_id, global_network_id, params::Dict{String,<:Any})
 
-Creates a connection between two devices. The devices can be a physical or virtual
-appliance that connects to a third-party appliance in a VPC, or a physical appliance that
-connects to another physical appliance in an on-premises network.
+Creates a connection between two devices. The devices can be a physical or virtual appliance
+that connects to a third-party appliance in a VPC, or a physical appliance that connects to
+another physical appliance in an on-premises network.
 
 # Arguments
 
@@ -457,10 +457,13 @@ connects to another physical appliance in an on-premises network.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConnectedLinkId"`: The ID of the link for the second device.
+
 - `"Description"`: A description of the connection.
 
   Length Constraints: Maximum length of 256 characters.
+
 - `"LinkId"`: The ID of the link for the first device.
+
 - `"Tags"`: The tags to apply to the resource during creation.
 """
 function create_connection end
@@ -579,19 +582,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AWSLocation"`: The Amazon Web Services location of the device, if applicable. For an on-
   premises device, you can omit this parameter.
+
 - `"Description"`: A description of the device.
 
   Constraints: Maximum length of 256 characters.
+
 - `"Location"`: The location of the device.
+
 - `"Model"`: The model of the device.
 
   Constraints: Maximum length of 128 characters.
+
 - `"SerialNumber"`: The serial number of the device.
 
   Constraints: Maximum length of 128 characters.
+
 - `"SiteId"`: The ID of the site.
+
 - `"Tags"`: The tags to apply to the resource during creation.
+
 - `"Type"`: The type of the device.
+
 - `"Vendor"`: The vendor of the device.
 
   Constraints: Maximum length of 128 characters.
@@ -634,6 +645,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the global network.
 
   Constraints: Maximum length of 256 characters.
+
 - `"Tags"`: The tags to apply to the resource during creation.
 """
 function create_global_network end
@@ -675,15 +687,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the link.
 
   Constraints: Maximum length of 256 characters.
+
 - `"Provider"`: The provider of the link.
 
-  Constraints: Maximum length of 128 characters. Cannot include the following characters:
-  | \\ ^
+  Constraints: Maximum length of 128 characters. Cannot include the following characters: |
+  \\ ^
+
 - `"Tags"`: The tags to apply to the resource during creation.
+
 - `"Type"`: The type of the link.
 
-  Constraints: Maximum length of 128 characters. Cannot include the following characters:
-  | \\ ^
+  Constraints: Maximum length of 128 characters. Cannot include the following characters: |
+  \\ ^
 """
 function create_link end
 
@@ -738,9 +753,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of your site.
 
   Constraints: Maximum length of 256 characters.
-- `"Location"`: The site location. This information is used for visualization in the
-  Network Manager console. If you specify the address, the latitude and longitude are
-  automatically calculated.
+
+- `"Location"`: The site location. This information is used for visualization in the Network
+  Manager console. If you specify the address, the latitude and longitude are automatically
+  calculated.
 
   - `Address`: The physical address of the site.
   - `Latitude`: The latitude of the site.
@@ -1298,8 +1314,8 @@ end
     delete_link(global_network_id, link_id)
     delete_link(global_network_id, link_id, params::Dict{String,<:Any})
 
-Deletes an existing link. You must first disassociate the link from any devices and
-customer gateways.
+Deletes an existing link. You must first disassociate the link from any devices and customer
+gateways.
 
 # Arguments
 
@@ -1492,8 +1508,8 @@ end
     describe_global_networks(params::Dict{String,<:Any})
 
 Describes one or more global networks. By default, all global networks are described. To
-describe the objects in your global network, you must use the appropriate `Get*` action.
-For example, to list the transit gateways in your global network, use [`get_transit_gateway_registrations`](@ref).
+describe the objects in your global network, you must use the appropriate `Get*` action. For
+example, to list the transit gateways in your global network, use [`get_transit_gateway_registrations`](@ref).
 
 # Optional Parameters
 
@@ -2209,8 +2225,8 @@ end
 
 Gets information about one or more links in a specified global network.
 
-If you specify the site ID, you cannot specify the type or provider in the same request.
-You can specify the type and provider in the same request.
+If you specify the site ID, you cannot specify the type or provider in the same request. You
+can specify the type and provider in the same request.
 
 # Arguments
 
@@ -2267,7 +2283,9 @@ Gets the count of network resources, by resource type, for the specified global 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return.
+
 - `"nextToken"`: The token for the next page of results.
+
 - `"resourceType"`: The resource type.
 
   The following are the supported resource types for Direct Connect:
@@ -2295,7 +2313,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `transit-gateway-connect-peer`
   - `transit-gateway-route-table`
   - `vpn-connection`
-
 """
 function get_network_resource_counts end
 
@@ -2339,12 +2356,19 @@ Gets the network resource relationships for the specified global network.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"accountId"`: The Amazon Web Services account ID.
+
 - `"awsRegion"`: The Amazon Web Services Region.
+
 - `"coreNetworkId"`: The ID of a core network.
+
 - `"maxResults"`: The maximum number of results to return.
+
 - `"nextToken"`: The token for the next page of results.
+
 - `"registeredGatewayArn"`: The ARN of the registered gateway.
+
 - `"resourceArn"`: The ARN of the gateway.
+
 - `"resourceType"`: The resource type.
 
   The following are the supported resource types for Direct Connect:
@@ -2372,7 +2396,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `transit-gateway-connect-peer`
   - `transit-gateway-route-table`
   - `vpn-connection`
-
 """
 function get_network_resource_relationships end
 
@@ -2407,8 +2430,8 @@ end
 
 Describes the network resources for the specified global network.
 
-The results include information from the corresponding Describe call for the resource,
-minus any sensitive information such as pre-shared keys.
+The results include information from the corresponding Describe call for the resource, minus
+any sensitive information such as pre-shared keys.
 
 # Arguments
 
@@ -2419,12 +2442,19 @@ minus any sensitive information such as pre-shared keys.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"accountId"`: The Amazon Web Services account ID.
+
 - `"awsRegion"`: The Amazon Web Services Region.
+
 - `"coreNetworkId"`: The ID of a core network.
+
 - `"maxResults"`: The maximum number of results to return.
+
 - `"nextToken"`: The token for the next page of results.
+
 - `"registeredGatewayArn"`: The ARN of the gateway.
+
 - `"resourceArn"`: The ARN of the resource.
+
 - `"resourceType"`: The resource type.
 
   The following are the supported resource types for Direct Connect:
@@ -2452,7 +2482,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `transit-gateway-connect-peer`
   - `transit-gateway-route-table`
   - `vpn-connection`
-
 """
 function get_network_resources end
 
@@ -2499,8 +2528,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DestinationFilters"`: Filter by route table destination. Possible Values:
   TRANSIT_GATEWAY_ATTACHMENT_ID, RESOURCE_ID, or RESOURCE_TYPE.
 - `"ExactCidrMatches"`: An exact CIDR block.
-- `"LongestPrefixMatches"`: The most specific route that matches the traffic (longest
-  prefix match).
+- `"LongestPrefixMatches"`: The most specific route that matches the traffic (longest prefix
+  match).
 - `"PrefixListIds"`: The IDs of the prefix lists.
 - `"States"`: The route states.
 - `"SubnetOfMatches"`: The routes with a subnet that match the specified CIDR filter.
@@ -2560,18 +2589,24 @@ Gets the network telemetry of the specified global network.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"accountId"`: The Amazon Web Services account ID.
+
 - `"awsRegion"`: The Amazon Web Services Region.
+
 - `"coreNetworkId"`: The ID of a core network.
+
 - `"maxResults"`: The maximum number of results to return.
+
 - `"nextToken"`: The token for the next page of results.
+
 - `"registeredGatewayArn"`: The ARN of the gateway.
+
 - `"resourceArn"`: The ARN of the resource.
+
 - `"resourceType"`: The resource type. The following are the supported resource types:
 
   - `connect-peer`
   - `transit-gateway-connect-peer`
   - `vpn-connection`
-
 """
 function get_network_telemetry end
 
@@ -3323,8 +3358,8 @@ end
     register_transit_gateway(transit_gateway_arn, global_network_id)
     register_transit_gateway(transit_gateway_arn, global_network_id, params::Dict{String,<:Any})
 
-Registers a transit gateway in your global network. Not all Regions support transit
-gateways for global networks. For a list of the supported Regions, see [Region Availability](https://docs.aws.amazon.com/network-manager/latest/tgwnm/what-are-global-networks.html#nm-available-regions)
+Registers a transit gateway in your global network. Not all Regions support transit gateways
+for global networks. For a list of the supported Regions, see [Region Availability](https://docs.aws.amazon.com/network-manager/latest/tgwnm/what-are-global-networks.html#nm-available-regions)
 in the *Amazon Web Services Transit Gateways for Global Networks User Guide*. The transit
 gateway can be in any of the supported Amazon Web Services Regions, but it must be owned by
 the same Amazon Web Services account that owns the global network. You cannot register a
@@ -3635,9 +3670,11 @@ parameters, specify an empty string.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConnectedLinkId"`: The ID of the link for the second device in the connection.
+
 - `"Description"`: A description of the connection.
 
   Length Constraints: Maximum length of 256 characters.
+
 - `"LinkId"`: The ID of the link for the first device in the connection.
 """
 function update_connection end
@@ -3715,8 +3752,8 @@ end
     update_device(device_id, global_network_id)
     update_device(device_id, global_network_id, params::Dict{String,<:Any})
 
-Updates the details for an existing device. To remove information for any of the
-parameters, specify an empty string.
+Updates the details for an existing device. To remove information for any of the parameters,
+specify an empty string.
 
 # Arguments
 
@@ -3729,18 +3766,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AWSLocation"`: The Amazon Web Services location of the device, if applicable. For an on-
   premises device, you can omit this parameter.
+
 - `"Description"`: A description of the device.
 
   Constraints: Maximum length of 256 characters.
+
 - `"Location"`:
+
 - `"Model"`: The model of the device.
 
   Constraints: Maximum length of 128 characters.
+
 - `"SerialNumber"`: The serial number of the device.
 
   Constraints: Maximum length of 128 characters.
+
 - `"SiteId"`: The ID of the site.
+
 - `"Type"`: The type of the device.
+
 - `"Vendor"`: The vendor of the device.
 
   Constraints: Maximum length of 128 characters.
@@ -3777,8 +3821,8 @@ end
     update_global_network(global_network_id)
     update_global_network(global_network_id, params::Dict{String,<:Any})
 
-Updates an existing global network. To remove information for any of the parameters,
-specify an empty string.
+Updates an existing global network. To remove information for any of the parameters, specify
+an empty string.
 
 # Arguments
 
@@ -3836,12 +3880,15 @@ specify an empty string.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Bandwidth"`: The upload and download speed in Mbps.
+
 - `"Description"`: A description of the link.
 
   Constraints: Maximum length of 256 characters.
+
 - `"Provider"`: The provider of the link.
 
   Constraints: Maximum length of 128 characters.
+
 - `"Type"`: The type of the link.
 
   Constraints: Maximum length of 128 characters.
@@ -3940,12 +3987,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of your site.
 
   Constraints: Maximum length of 256 characters.
+
 - `"Location"`: The site location:
 
   - `Address`: The physical address of the site.
   - `Latitude`: The latitude of the site.
   - `Longitude`: The longitude of the site.
-
 """
 function update_site end
 

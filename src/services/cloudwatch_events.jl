@@ -93,8 +93,8 @@ events.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A description for the API destination to create.
-- `"InvocationRateLimitPerSecond"`: The maximum number of requests per second to send to
-  the HTTP invocation endpoint.
+- `"InvocationRateLimitPerSecond"`: The maximum number of requests per second to send to the
+  HTTP invocation endpoint.
 """
 function create_api_destination end
 
@@ -151,9 +151,9 @@ end
 
 Creates an archive of events with the specified settings. When you create an archive,
 incoming events might not immediately start being sent to the archive. Allow a short period
-of time for changes to take effect. If you do not specify a pattern to filter events sent
-to the archive, all events are sent to the archive except replayed events. Replayed events
-are not sent to an archive.
+of time for changes to take effect. If you do not specify a pattern to filter events sent to
+the archive, all events are sent to the archive except replayed events. Replayed events are
+not sent to an archive.
 
 # Arguments
 
@@ -208,8 +208,8 @@ end
     create_connection(auth_parameters, authorization_type, name)
     create_connection(auth_parameters, authorization_type, name, params::Dict{String,<:Any})
 
-Creates a connection. A connection defines the authorization type and credentials to use
-for authorization with an API destination HTTP endpoint.
+Creates a connection. A connection defines the authorization type and credentials to use for
+authorization with an API destination HTTP endpoint.
 
 # Arguments
 
@@ -284,8 +284,8 @@ event bus which can be matched to a partner event source.
   Event bus names cannot contain the / character. You can't use the name `default` for a
   custom event bus, as this name is already used for your account's default event bus.
 
-  If this is a partner event bus, the name must exactly match the name of the partner
-  event source that this event bus is matched to.
+  If this is a partner event bus, the name must exactly match the name of the partner event
+  source that this event bus is matched to.
 
 # Optional Parameters
 
@@ -603,8 +603,8 @@ Amazon Web Services customer account becomes DELETED.
 
 # Arguments
 
-- `account`: The Amazon Web Services account ID of the Amazon Web Services customer that
-  the event source was created for.
+- `account`: The Amazon Web Services account ID of the Amazon Web Services customer that the
+  event source was created for.
 - `name`: The name of the event source to delete.
 """
 function delete_partner_event_source end
@@ -646,8 +646,8 @@ Deletes the specified rule.
 
 Before you can delete the rule, you must remove all targets, using [RemoveTargets](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_RemoveTargets.html).
 
-When you delete a rule, incoming events might continue to match to the deleted rule. Allow
-a short period of time for changes to take effect.
+When you delete a rule, incoming events might continue to match to the deleted rule. Allow a
+short period of time for changes to take effect.
 
 If you call delete rule multiple times for the same rule, all calls will succeed. When you
 call delete rule for a non-existent custom eventbus, `ResourceNotFoundException` is
@@ -669,10 +669,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
 - `"Force"`: If this is a managed rule, created by an Amazon Web Services service on your
-  behalf, you must specify `Force` as `True` to delete the rule. This parameter is
-  ignored for rules that are not managed rules. You can check whether a rule is a managed
-  rule by using `DescribeRule` or `ListRules` and checking the `ManagedBy` field of the
-  response.
+  behalf, you must specify `Force` as `True` to delete the rule. This parameter is ignored
+  for rules that are not managed rules. You can check whether a rule is a managed rule by
+  using `DescribeRule` or `ListRules` and checking the `ManagedBy` field of the response.
 """
 function delete_rule end
 
@@ -950,8 +949,8 @@ end
 
 Describes the specified rule.
 
-DescribeRule does not list the targets of a rule. To see the targets associated with a
-rule, use [ListTargetsByRule](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_ListTargetsByRule.html).
+DescribeRule does not list the targets of a rule. To see the targets associated with a rule,
+use [ListTargetsByRule](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_ListTargetsByRule.html).
 
 # Arguments
 
@@ -993,8 +992,8 @@ end
 Disables the specified rule. A disabled rule won't match any events, and won't self-trigger
 if it has a schedule expression.
 
-When you disable a rule, incoming events might continue to match to the disabled rule.
-Allow a short period of time for changes to take effect.
+When you disable a rule, incoming events might continue to match to the disabled rule. Allow
+a short period of time for changes to take effect.
 
 # Arguments
 
@@ -1184,8 +1183,8 @@ buses, and partner event buses.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Limit"`: Specifying this limits the number of results returned by this operation. The
-  operation also returns a NextToken which you can use in a subsequent operation to
-  retrieve the next set of results.
+  operation also returns a NextToken which you can use in a subsequent operation to retrieve
+  the next set of results.
 - `"NamePrefix"`: Specifying this limits the results to only those event buses with names
   that start with the specified prefix.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
@@ -1210,16 +1209,16 @@ end
     list_event_sources()
     list_event_sources(params::Dict{String,<:Any})
 
-You can use this to see all the partner event sources that have been shared with your
-Amazon Web Services account. For more information about partner event sources, see [CreateEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateEventBus.html).
+You can use this to see all the partner event sources that have been shared with your Amazon
+Web Services account. For more information about partner event sources, see [CreateEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateEventBus.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Limit"`: Specifying this limits the number of results returned by this operation. The
-  operation also returns a NextToken which you can use in a subsequent operation to
-  retrieve the next set of results.
+  operation also returns a NextToken which you can use in a subsequent operation to retrieve
+  the next set of results.
 - `"NamePrefix"`: Specifying this limits the results to only those partner event sources
   with names that start with the specified prefix.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
@@ -1258,8 +1257,8 @@ Amazon Web Services customers.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Limit"`: Specifying this limits the number of results returned by this operation. The
-  operation also returns a NextToken which you can use in a subsequent operation to
-  retrieve the next set of results.
+  operation also returns a NextToken which you can use in a subsequent operation to retrieve
+  the next set of results.
 - `"NextToken"`: The token returned by a previous call to this operation. Specifying this
   retrieves the next set of results.
 """
@@ -1310,8 +1309,8 @@ have created. This operation is not used by Amazon Web Services customers.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Limit"`: pecifying this limits the number of results returned by this operation. The
-  operation also returns a NextToken which you can use in a subsequent operation to
-  retrieve the next set of results.
+  operation also returns a NextToken which you can use in a subsequent operation to retrieve
+  the next set of results.
 - `"NextToken"`: The token returned by a previous call to this operation. Specifying this
   retrieves the next set of results.
 """
@@ -1347,8 +1346,8 @@ end
     list_replays()
     list_replays(params::Dict{String,<:Any})
 
-Lists your replays. You can either list all the replays or you can provide a prefix to
-match to the replay names. Filter parameters are exclusive.
+Lists your replays. You can either list all the replays or you can provide a prefix to match
+to the replay names. Filter parameters are exclusive.
 
 # Optional Parameters
 
@@ -1618,8 +1617,8 @@ end
 
 Running `PutPermission` permits the specified Amazon Web Services account or Amazon Web
 Services organization to put events to the specified *event bus*. Amazon EventBridge
-(CloudWatch Events) rules in your account are triggered by these events arriving to an
-event bus in your account.
+(CloudWatch Events) rules in your account are triggered by these events arriving to an event
+bus in your account.
 
 For another account to send events to your account, that external account must have an
 EventBridge rule with your account's event bus as a target.
@@ -1627,8 +1626,8 @@ EventBridge rule with your account's event bus as a target.
 To enable multiple Amazon Web Services accounts to put events to your event bus, run
 `PutPermission` once for each of these accounts. Or, if all the accounts are members of the
 same Amazon Web Services organization, you can run `PutPermission` once specifying
-`Principal` as "*" and specifying the Amazon Web Services organization ID in `Condition`,
-to grant permissions to all accounts in that organization.
+`Principal` as "*" and specifying the Amazon Web Services organization ID in `Condition`, to
+grant permissions to all accounts in that organization.
 
 If you grant permissions using an organization, then accounts in that organization must
 specify a `RoleArn` with proper permissions when they use `PutTarget` to add your account's
@@ -1642,29 +1641,34 @@ The permission policy on the event bus cannot exceed 10 KB in size.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Action"`: The action that you are enabling the other account to perform.
-- `"Condition"`: This parameter enables you to limit the permission to accounts that
-  fulfill a certain condition, such as being a member of a certain Amazon Web Services
-  organization. For more information about Amazon Web Services Organizations, see [What Is Amazon Web Services Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html)
+
+- `"Condition"`: This parameter enables you to limit the permission to accounts that fulfill
+  a certain condition, such as being a member of a certain Amazon Web Services organization.
+  For more information about Amazon Web Services Organizations, see [What Is Amazon Web Services Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html)
   in the *Amazon Web Services Organizations User Guide*.
 
-  If you specify `Condition` with an Amazon Web Services organization ID, and specify "*"
-  as the value for `Principal`, you grant permission to all the accounts in the named
+  If you specify `Condition` with an Amazon Web Services organization ID, and specify "*" as
+  the value for `Principal`, you grant permission to all the accounts in the named
   organization.
 
   The `Condition` is a JSON string which must contain `Type`, `Key`, and `Value` fields.
+
 - `"EventBusName"`: The name of the event bus associated with the rule. If you omit this,
   the default event bus is used.
+
 - `"Policy"`: A JSON string that describes the permission policy statement. You can include
   a `Policy` parameter in the request instead of using the `StatementId`, `Action`,
   `Principal`, or `Condition` parameters.
+
 - `"Principal"`: The 12-digit Amazon Web Services account ID that you are permitting to put
-  events to your default event bus. Specify "*" to permit any account to put events to
-  your default event bus.
+  events to your default event bus. Specify "*" to permit any account to put events to your
+  default event bus.
 
   If you specify "*" without specifying `Condition`, avoid creating rules that may match
-  undesirable events. To create more secure rules, make sure that the event pattern for
-  each rule contains an `account` field with a specific account ID from which to receive
-  events. Rules with an account field do not match any events sent from other accounts.
+  undesirable events. To create more secure rules, make sure that the event pattern for each
+  rule contains an `account` field with a specific account ID from which to receive events.
+  Rules with an account field do not match any events sent from other accounts.
+
 - `"StatementId"`: An identifier string for the external account that you are granting
   permissions to. If you later want to revoke the permission for this external account,
   specify this `StatementId` when you run [RemovePermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_RemovePermission.html).
@@ -1705,11 +1709,10 @@ are not kept. Instead, they are replaced with null values.
 When you create or update a rule, incoming events might not immediately start matching to
 new or updated rules. Allow a short period of time for changes to take effect.
 
-A rule must contain at least an EventPattern or ScheduleExpression. Rules with
-EventPatterns are triggered when a matching event is observed. Rules with
-ScheduleExpressions self-trigger based on the given schedule. A rule can have both an
-EventPattern and a ScheduleExpression, in which case the rule triggers on matching events
-as well as on a schedule.
+A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns
+are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger
+based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression,
+in which case the rule triggers on matching events as well as on a schedule.
 
 When you initially create a rule, you can optionally assign one or more tags to the rule.
 Tags can help you organize and categorize your resources. You can also use them to scope
@@ -1732,9 +1735,9 @@ and trigger software to change them to the desired state. If the rule is not wri
 carefully, the subsequent change to the ACLs fires the rule again, creating an infinite
 loop.
 
-To prevent this, write the rules so that the triggered actions do not re-fire the same
-rule. For example, your rule could fire only if ACLs are found to be in a bad state,
-instead of after any change.
+To prevent this, write the rules so that the triggered actions do not re-fire the same rule.
+For example, your rule could fire only if ACLs are found to be in a bad state, instead of
+after any change.
 
 An infinite loop can quickly cause higher than expected charges. We recommend that you use
 budgeting, which alerts you when charges exceed your specified limit. For more information,
@@ -1749,19 +1752,25 @@ see [Managing Your Costs with Budgets](https://docs.aws.amazon.com/awsaccountbil
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A description of the rule.
+
 - `"EventBusName"`: The name or ARN of the event bus to associate with this rule. If you
   omit this, the default event bus is used.
+
 - `"EventPattern"`: The event pattern. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html)
   in the *Amazon EventBridge User Guide*.
+
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM role associated with the rule.
 
-  If you're setting an event bus in another account as the target and that account
-  granted permission to your account through an organization instead of directly by the
-  account ID, you must specify a `RoleArn` with proper permissions in the `Target`
-  structure, instead of here in this parameter.
+  If you're setting an event bus in another account as the target and that account granted
+  permission to your account through an organization instead of directly by the account ID,
+  you must specify a `RoleArn` with proper permissions in the `Target` structure, instead of
+  here in this parameter.
+
 - `"ScheduleExpression"`: The scheduling expression. For example, "cron(0 20 * * ? *)" or
   "rate(5 minutes)".
+
 - `"State"`: Indicates whether the rule is enabled or disabled.
+
 - `"Tags"`: The list of key-value pairs to associate with the rule.
 """
 function put_rule end
@@ -1790,8 +1799,8 @@ end
     put_targets(rule, targets)
     put_targets(rule, targets, params::Dict{String,<:Any})
 
-Adds the specified targets to the specified rule, or updates the targets if they are
-already associated with the rule.
+Adds the specified targets to the specified rule, or updates the targets if they are already
+associated with the rule.
 
 Targets are the resources that are invoked when a rule is triggered.
 
@@ -1811,8 +1820,8 @@ You can configure the following as targets for Events:
 - Amazon ECS tasks
 - Event bus in a different Amazon Web Services account or Region.
 
-You can use an event bus in the US East (N. Virginia) us-east-1, US West (Oregon) us-west-
-2, or Europe (Ireland) eu-west-1 Regions as a target for a rule.
+You can use an event bus in the US East (N. Virginia) us-east-1, US West (Oregon) us-west-2,
+or Europe (Ireland) eu-west-1 Regions as a target for a rule.
 - Firehose delivery stream (Kinesis Data Firehose)
 - Inspector assessment template (Amazon Inspector)
 - Kinesis stream (Kinesis Data Stream)
@@ -1825,8 +1834,8 @@ You can use an event bus in the US East (N. Virginia) us-east-1, US West (Oregon
 - SSM Run Command
 - Step Functions state machines
 
-Creating rules with built-in targets is supported only in the Amazon Web Services
-Management Console. The built-in targets are `EC2 CreateSnapshot API call`,
+Creating rules with built-in targets is supported only in the Amazon Web Services Management
+Console. The built-in targets are `EC2 CreateSnapshot API call`,
 `EC2 RebootInstances API call`, `EC2 StopInstances API call`, and
 `EC2 TerminateInstances API call`.
 
@@ -1866,8 +1875,8 @@ For more information about enabling cross-account events, see [PutPermission](ht
 parameters of a target. When a rule is triggered due to a matched event:
 
 - If none of the following arguments are specified for a target, then the entire event is
-  passed to the target in JSON format (unless the target is Amazon EC2 Run Command or
-  Amazon ECS task, in which case nothing from the event is passed to the target).
+  passed to the target in JSON format (unless the target is Amazon EC2 Run Command or Amazon
+  ECS task, in which case nothing from the event is passed to the target).
 - If **Input** is specified in the form of valid JSON, then the matched event is overridden
   with this constant.
 - If **InputPath** is specified in the form of JSONPath (for example, `\$.detail`), then
@@ -2116,10 +2125,10 @@ tag values. In EventBridge, rules and event buses can be tagged.
 Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
 strings of characters.
 
-You can use the `TagResource` action with a resource that already has tags. If you specify
-a new tag key, this tag is appended to the list of tags associated with the resource. If
-you specify a tag key that is already associated with the resource, the new tag value that
-you specify replaces the previous value for that tag.
+You can use the `TagResource` action with a resource that already has tags. If you specify a
+new tag key, this tag is appended to the list of tags associated with the resource. If you
+specify a tag key that is already associated with the resource, the new tag value that you
+specify replaces the previous value for that tag.
 
 You can associate as many as 50 tags with a resource.
 

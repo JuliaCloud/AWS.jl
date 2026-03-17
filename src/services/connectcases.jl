@@ -90,8 +90,6 @@ end
     create_case(domain_id, fields, template_id)
     create_case(domain_id, fields, template_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     If you provide a value for `PerformedBy.UserArn` you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
     permission on the User ARN resource that you provide
@@ -306,8 +304,7 @@ end
     create_related_item(case_id, content, domain_id, type)
     create_related_item(case_id, content, domain_id, type, params::Dict{String,<:Any})
 
-Creates a related item (comments, tasks, and contacts) and associates it with a case.
-<note>
+Creates a related item (comments, tasks, and contacts) and associates it with a case. <note>
 
 - A Related Item is a resource that is associated with a case. It may or may not have an
   external identifier linking it to an external resource (for example, a `contactArn`). All
@@ -316,7 +313,7 @@ Creates a related item (comments, tasks, and contacts) and associates it with a 
 - If you provide a value for `performedBy.userArn` you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
   permission on the ARN of the user that you provide.
 
- <pre>`&lt;/note&gt;`</pre>
+<pre>`&lt;/note&gt;`</pre>
 
 # Arguments
 
@@ -372,10 +369,10 @@ end
 
 Creates a template in the Cases domain. This template is used to define the case object
 model (that is, to define what data can be captured on cases) in a Cases domain. A template
-must have a unique name within a domain, and it must reference existing field IDs and
-layout IDs. Additionally, multiple fields with same IDs are not allowed within the same
-Template. A template can be either Active or Inactive, as indicated by its status. Inactive
-templates cannot be used to create cases.
+must have a unique name within a domain, and it must reference existing field IDs and layout
+IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A
+template can be either Active or Inactive, as indicated by its status. Inactive templates
+cannot be used to create cases.
 
 # Arguments
 
@@ -469,8 +466,7 @@ After a field is deleted:
 - Deleted fields are not included in the `ListFields` response.
 - Calling `CreateCase` with a deleted field throws a `ValidationException` denoting which
   field IDs in the request have been deleted.
-- Calling `GetCase` with a deleted field ID returns the deleted field's value if one
-  exists.
+- Calling `GetCase` with a deleted field ID returns the deleted field's value if one exists.
 - Calling `UpdateCase` with a deleted field ID throws a `ValidationException` if the case
   does not already contain a value for the deleted field. Otherwise it succeeds, allowing
   you to update or remove (using `emptyValue: {}`) the field's value from the case.
@@ -1019,8 +1015,8 @@ end
     list_layouts(domain_id)
     list_layouts(domain_id, params::Dict{String,<:Any})
 
-Lists all layouts in the given cases domain. Each list item is a condensed summary object
-of the layout.
+Lists all layouts in the given cases domain. Each list item is a condensed summary object of
+the layout.
 
 # Arguments
 
@@ -1145,8 +1141,8 @@ in the *Amazon Connect Administrator Guide*
 # Arguments
 
 - `domain_id`: The unique identifier of the Cases domain.
-- `event_bridge`: Configuration to enable EventBridge case event delivery and determine
-  what data is delivered.
+- `event_bridge`: Configuration to enable EventBridge case event delivery and determine what
+  data is delivered.
 """
 function put_case_event_configuration end
 
@@ -1200,8 +1196,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"fields"`: The list of field identifiers to be returned as part of the response.
 - `"filter"`: A list of filter objects.
-- `"maxResults"`: The maximum number of cases to return. The current maximum supported
-  value is 25. This is also the default value when no other value is provided.
+- `"maxResults"`: The maximum number of cases to return. The current maximum supported value
+  is 25. This is also the default value when no other value is provided.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 - `"searchTerm"`: A word or phrase used to perform a quick search.
@@ -1365,8 +1361,6 @@ end
     update_case(case_id, domain_id, fields)
     update_case(case_id, domain_id, fields, params::Dict{String,<:Any})
 
-
-
 !!! note
     If you provide a value for `PerformedBy.UserArn` you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
     permission on the User ARN resource that you provide
@@ -1377,8 +1371,8 @@ end
 
 - `case_id`: A unique identifier of the case.
 - `domain_id`: The unique identifier of the Cases domain.
-- `fields`: An array of objects with `fieldId` (matching ListFields/DescribeField) and
-  value union data, structured identical to `CreateCase`.
+- `fields`: An array of objects with `fieldId` (matching ListFields/DescribeField) and value
+  union data, structured identical to `CreateCase`.
 
 # Optional Parameters
 
@@ -1519,10 +1513,10 @@ end
     update_template(domain_id, template_id)
     update_template(domain_id, template_id, params::Dict{String,<:Any})
 
-Updates the attributes of an existing template. The template attributes that can be
-modified include `name`, `description`, `layoutConfiguration`, `requiredFields`, and
-`status`. At least one of these attributes must not be null. If a null value is provided
-for a given attribute, that attribute is ignored and its current value is preserved.
+Updates the attributes of an existing template. The template attributes that can be modified
+include `name`, `description`, `layoutConfiguration`, `requiredFields`, and `status`. At
+least one of these attributes must not be null. If a null value is provided for a given
+attribute, that attribute is ignored and its current value is preserved.
 
 # Arguments
 

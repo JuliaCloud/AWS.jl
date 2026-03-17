@@ -96,8 +96,8 @@ need to call this API again to obtain a new websocket URL and perform the same s
 before.
 
 **Message streaming support**: This API can also be used together with the [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html)
-API to create a participant connection for chat contacts that are not using a websocket.
-For more information about message streaming, [Enable real-time chat message streaming](https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html)
+API to create a participant connection for chat contacts that are not using a websocket. For
+more information about message streaming, [Enable real-time chat message streaming](https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html)
 in the *Amazon Connect Administrator Guide*.
 
 **Feature specifications**: For information about feature specifications, such as the
@@ -119,8 +119,8 @@ in the *Amazon Connect Administrator Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConnectParticipant"`: Amazon Connect Participant is used to mark the participant as
-  connected for customer participant in message streaming, as well as for agent or
-  manager participant in non-streaming chats.
+  connected for customer participant in message streaming, as well as for agent or manager
+  participant in non-streaming chats.
 - `"Type"`: Type of connection information required. If you need `CONNECTION_CREDENTIALS`
   along with marking participant as connected, pass `CONNECTION_CREDENTIALS` in `Type`.
 """
@@ -337,9 +337,9 @@ end
 Retrieves a transcript of the session, including details about any attachments. For
 information about accessing past chat contact transcripts for a persistent chat, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
 
-If you have a process that consumes events in the transcript of an chat that has ended,
-note that chat transcripts contain the following event content types if the event has
-occurred during the chat session:
+If you have a process that consumes events in the transcript of an chat that has ended, note
+that chat transcripts contain the following event content types if the event has occurred
+during the chat session:
 
 - `application/vnd.amazonaws.connect.event.participant.left`
 - `application/vnd.amazonaws.connect.event.participant.joined`
@@ -408,8 +408,6 @@ end
     send_event(content_type, x-_amz-_bearer)
     send_event(content_type, x-_amz-_bearer, params::Dict{String,<:Any})
 
-
-
 !!! note
     The `application/vnd.amazonaws.connect.event.connection.acknowledged` ContentType will
     no longer be supported starting December 31, 2024. This event has been migrated to the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html)
@@ -429,8 +427,8 @@ The Amazon Connect Participant Service APIs do not use [Signature Version 4 auth
 - `content_type`: The content type of the request. Supported types are:
 
   - application/vnd.amazonaws.connect.event.typing
-  - application/vnd.amazonaws.connect.event.connection.acknowledged (will be deprecated
-    on December 31, 2024)
+  - application/vnd.amazonaws.connect.event.connection.acknowledged (will be deprecated on
+    December 31, 2024)
   - application/vnd.amazonaws.connect.event.message.delivered
   - application/vnd.amazonaws.connect.event.message.read
 
@@ -443,6 +441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+
 - `"Content"`: The content of the event to be sent (for example, message text). For content
   related to message receipts, this is supported in the form of a JSON string.
 
@@ -506,8 +505,8 @@ The Amazon Connect Participant Service APIs do not use [Signature Version 4 auth
 
 - `content`: The content of the message.
 
-  - For `text/plain` and `text/markdown`, the Length Constraints are Minimum of 1,
-    Maximum of 1024.
+  - For `text/plain` and `text/markdown`, the Length Constraints are Minimum of 1, Maximum
+    of 1024.
   - For `application/json`, the Length Constraints are Minimum of 1, Maximum of 12000.
   - For `application/vnd.amazonaws.connect.message.interactive.response`, the Length
     Constraints are Minimum of 1, Maximum of 12288.
@@ -515,6 +514,7 @@ The Amazon Connect Participant Service APIs do not use [Signature Version 4 auth
 - `content_type`: The type of the content. Supported types are `text/plain`,
   `text/markdown`, `application/json`, and
   `application/vnd.amazonaws.connect.message.interactive.response`.
+
 - `x-_amz-_bearer`: The authentication token associated with the connection.
 
 # Optional Parameters

@@ -18,10 +18,10 @@ account to view findings generated in the member account.
 
 # Arguments
 
-- `administrator_id`: The account ID of the Security Hub administrator account that sent
-  the invitation.
-- `invitation_id`: The identifier of the invitation sent from the Security Hub
-  administrator account.
+- `administrator_id`: The account ID of the Security Hub administrator account that sent the
+  invitation.
+- `invitation_id`: The identifier of the invitation sent from the Security Hub administrator
+  account.
 """
 function accept_administrator_invitation end
 
@@ -84,8 +84,8 @@ account to view findings generated in the member account.
 
 # Arguments
 
-- `invitation_id`: The identifier of the invitation sent from the Security Hub
-  administrator account.
+- `invitation_id`: The identifier of the invitation sent from the Security Hub administrator
+  account.
 - `master_id`: The account ID of the Security Hub administrator account that sent the
   invitation.
 """
@@ -414,16 +414,16 @@ end
     batch_get_standards_control_associations(standards_control_association_ids)
     batch_get_standards_control_associations(standards_control_association_ids, params::Dict{String,<:Any})
 
-For a batch of security controls and standards, identifies whether each control is
-currently enabled or disabled in a standard.
+For a batch of security controls and standards, identifies whether each control is currently
+enabled or disabled in a standard.
 
 # Arguments
 
 - `standards_control_association_ids`: An array with one or more objects that includes a
-  security control (identified with `SecurityControlId`, `SecurityControlArn`, or a mix
-  of both parameters) and the Amazon Resource Name (ARN) of a standard. This field is
-  used to query the enablement status of a control in a specified standard. The security
-  control ID or ARN is the same across standards.
+  security control (identified with `SecurityControlId`, `SecurityControlArn`, or a mix of
+  both parameters) and the Amazon Resource Name (ARN) of a standard. This field is used to
+  query the enablement status of a control in a specified standard. The security control ID
+  or ARN is the same across standards.
 """
 function batch_get_standards_control_associations end
 
@@ -473,9 +473,9 @@ requested by the finding provider to import its findings into Security Hub.
 `BatchImportFindings` must be called by one of the following:
 
 - The Amazon Web Services account that is associated with a finding if you are using the [default product ARN](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-custom-providers.html#securityhub-custom-providers-bfi-reqs)
-  or are a partner sending findings from within a customer's Amazon Web Services account.
-  In these cases, the identifier of the account that you are calling `BatchImportFindings`
-  from needs to be the same as the `AwsAccountId` attribute for the finding.
+  or are a partner sending findings from within a customer's Amazon Web Services account. In
+  these cases, the identifier of the account that you are calling `BatchImportFindings` from
+  needs to be the same as the `AwsAccountId` attribute for the finding.
 - An Amazon Web Services account that Security Hub has allow-listed for an official partner
   integration. In this case, you can call `BatchImportFindings` from the allow-listed
   account and send findings from different customer accounts in the same batch.
@@ -506,8 +506,8 @@ attributes.
 
 # Arguments
 
-- `findings`: A list of findings to import. To successfully import a finding, it must
-  follow the [Amazon Web Services Security Finding Format](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html).
+- `findings`: A list of findings to import. To successfully import a finding, it must follow
+  the [Amazon Web Services Security Finding Format](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html).
   Maximum of 100 findings per request.
 """
 function batch_import_findings end
@@ -629,20 +629,25 @@ in the *Security Hub User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Confidence"`: The updated value for the finding confidence. Confidence is defined as
-  the likelihood that a finding accurately identifies the behavior or issue that it was
-  intended to identify.
+- `"Confidence"`: The updated value for the finding confidence. Confidence is defined as the
+  likelihood that a finding accurately identifies the behavior or issue that it was intended
+  to identify.
 
   Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent
   confidence and 100 means 100 percent confidence.
+
 - `"Criticality"`: The updated value for the level of importance assigned to the resources
   associated with the findings.
 
-  A score of 0 means that the underlying resources have no criticality, and a score of
-  100 is reserved for the most critical resources.
+  A score of 0 means that the underlying resources have no criticality, and a score of 100
+  is reserved for the most critical resources.
+
 - `"Note"`:
+
 - `"RelatedFindings"`: A list of findings that are related to the updated findings.
+
 - `"Severity"`: Used to update the finding severity.
+
 - `"Types"`: One or more finding types in the format of namespace/category/classifier that
   classify a finding.
 
@@ -656,6 +661,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"UserDefinedFields"`: A list of name/value string pairs associated with the finding.
   These are custom, user-defined fields added to a finding.
+
 - `"VerificationState"`: Indicates the veracity of a finding.
 
   The available values for `VerificationState` are as follows.
@@ -663,8 +669,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `UNKNOWN` – The default disposition of a security finding
   - `TRUE_POSITIVE` – The security finding is confirmed
   - `FALSE_POSITIVE` – The security finding was determined to be a false alarm
-  - `BENIGN_POSITIVE` – A special case of `TRUE_POSITIVE` where the finding doesn't pose
-    any threat, is expected, or both
+  - `BENIGN_POSITIVE` – A special case of `TRUE_POSITIVE` where the finding doesn't pose any
+    threat, is expected, or both
 
 - `"Workflow"`: Used to update the workflow status of a finding.
 
@@ -706,8 +712,8 @@ end
     batch_update_standards_control_associations(standards_control_association_updates)
     batch_update_standards_control_associations(standards_control_association_updates, params::Dict{String,<:Any})
 
-For a batch of security controls and standards, this operation updates the enablement
-status of a control in a standard.
+For a batch of security controls and standards, this operation updates the enablement status
+of a control in a standard.
 
 # Arguments
 
@@ -821,23 +827,23 @@ Creates an automation rule based on input parameters.
 - `description`: A description of the rule.
 - `rule_name`: The name of the rule.
 - `rule_order`: An integer ranging from 1 to 1000 that represents the order in which the
-  rule action is applied to findings. Security Hub applies rules with lower values for
-  this parameter first.
+  rule action is applied to findings. Security Hub applies rules with lower values for this
+  parameter first.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"IsTerminal"`: Specifies whether a rule is the last to be applied with respect to a
-  finding that matches the rule criteria. This is useful when a finding matches the
-  criteria for multiple rules, and each rule has different actions. If a rule is
-  terminal, Security Hub applies the rule action to a finding that matches the rule
-  criteria and doesn't evaluate other rules for the finding. By default, a rule isn't
-  terminal.
-- `"RuleStatus"`: Whether the rule is active after it is created. If this parameter is
-  equal to `ENABLED`, Security Hub starts applying the rule to findings and finding
-  updates after the rule is created. To change the value of this parameter after creating
-  a rule, use [`BatchUpdateAutomationRules`](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
+  finding that matches the rule criteria. This is useful when a finding matches the criteria
+  for multiple rules, and each rule has different actions. If a rule is terminal, Security
+  Hub applies the rule action to a finding that matches the rule criteria and doesn't
+  evaluate other rules for the finding. By default, a rule isn't terminal.
+
+- `"RuleStatus"`: Whether the rule is active after it is created. If this parameter is equal
+  to `ENABLED`, Security Hub starts applying the rule to findings and finding updates after
+  the rule is created. To change the value of this parameter after creating a rule, use [`BatchUpdateAutomationRules`](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
+
 - `"Tags"`: User-defined tags associated with an automation rule.
 """
 function create_automation_rule end
@@ -904,14 +910,15 @@ delegated administrator can invoke this operation from the home Region.
 
 # Arguments
 
-- `configuration_policy`: An object that defines how Security Hub is configured. It
-  includes whether Security Hub is enabled or disabled, a list of enabled security
-  standards, a list of enabled or disabled security controls, and a list of custom
-  parameter values for specified controls. If you provide a list of security controls
-  that are enabled in the configuration policy, Security Hub disables all other controls
-  (including newly released controls). If you provide a list of security controls that
-  are disabled in the configuration policy, Security Hub enables all other controls
-  (including newly released controls).
+- `configuration_policy`: An object that defines how Security Hub is configured. It includes
+  whether Security Hub is enabled or disabled, a list of enabled security standards, a list
+  of enabled or disabled security controls, and a list of custom parameter values for
+  specified controls. If you provide a list of security controls that are enabled in the
+  configuration policy, Security Hub disables all other controls (including newly released
+  controls). If you provide a list of security controls that are disabled in the
+  configuration policy, Security Hub enables all other controls (including newly released
+  controls).
+
 - `name`: The name of the configuration policy. Alphanumeric characters and the following
   ASCII characters are permitted: `-, ., !, *, /`.
 
@@ -976,8 +983,7 @@ in the *Security Hub User Guide*.
   Regions in the current partition. Also determines whether to automatically aggregate
   findings from new Regions as Security Hub supports them and you opt into them.
 
-  The selected option also determines how to use the Regions provided in the Regions
-  list.
+  The selected option also determines how to use the Regions provided in the Regions list.
 
   The options are as follows:
 
@@ -985,12 +991,11 @@ in the *Security Hub User Guide*.
     enabled. When you choose this option, Security Hub also automatically aggregates
     findings from new Regions as Security Hub supports them and you opt into them.
   - `ALL_REGIONS_EXCEPT_SPECIFIED` - Aggregates findings from all of the Regions where
-    Security Hub is enabled, except for the Regions listed in the `Regions` parameter.
-    When you choose this option, Security Hub also automatically aggregates findings from
-    new Regions as Security Hub supports them and you opt into them.
-  - `SPECIFIED_REGIONS` - Aggregates findings only from the Regions listed in the
-    `Regions` parameter. Security Hub does not automatically aggregate findings from new
-    Regions.
+    Security Hub is enabled, except for the Regions listed in the `Regions` parameter. When
+    you choose this option, Security Hub also automatically aggregates findings from new
+    Regions as Security Hub supports them and you opt into them.
+  - `SPECIFIED_REGIONS` - Aggregates findings only from the Regions listed in the `Regions`
+    parameter. Security Hub does not automatically aggregate findings from new Regions.
   - `NO_REGIONS` - Aggregates no data because no Regions are selected as linked Regions.
 
 # Optional Parameters
@@ -998,8 +1003,7 @@ in the *Security Hub User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Regions"`: If `RegionLinkingMode` is `ALL_REGIONS_EXCEPT_SPECIFIED`, then this is a
-  space-separated list of Regions that do not aggregate findings to the aggregation
-  Region.
+  space-separated list of Regions that do not aggregate findings to the aggregation Region.
 
   If `RegionLinkingMode` is `SPECIFIED_REGIONS`, then this is a space-separated list of
   Regions that do aggregate findings to the aggregation Region.
@@ -1050,12 +1054,12 @@ To group the related findings in the insight, use the `GroupByAttribute`.
 
 # Arguments
 
-- `filters`: One or more attributes used to filter the findings included in the insight.
-  The insight only includes findings that match the criteria defined in the filters.
+- `filters`: One or more attributes used to filter the findings included in the insight. The
+  insight only includes findings that match the criteria defined in the filters.
 - `group_by_attribute`: The attribute used to group the findings for the insight. The
-  grouping attribute identifies the type of item that the insight applies to. For
-  example, if an insight is grouped by resource identifier, then the insight produces a
-  list of resource identifiers.
+  grouping attribute identifies the type of item that the insight applies to. For example,
+  if an insight is grouped by resource identifier, then the insight produces a list of
+  resource identifiers.
 - `name`: The name of the custom insight to create.
 """
 function create_insight end
@@ -1117,22 +1121,21 @@ following cases:
 - Security Hub is not configured to automatically add new organization accounts.
 - The account was disassociated or deleted in Security Hub.
 
-This action can only be used by an account that has Security Hub enabled. To enable
-Security Hub, you can use the [`enable_security_hub`](@ref) operation.
+This action can only be used by an account that has Security Hub enabled. To enable Security
+Hub, you can use the [`enable_security_hub`](@ref) operation.
 
 For accounts that are not organization members, you create the account association and then
 send an invitation to the member account. To send the invitation, you use the [`invite_members`](@ref)
-operation. If the account owner accepts the invitation, the account becomes a member
-account in Security Hub.
+operation. If the account owner accepts the invitation, the account becomes a member account
+in Security Hub.
 
 Accounts that are managed using Organizations do not receive an invitation. They
 automatically become a member account in Security Hub.
 
 - If the organization account does not have Security Hub enabled, then Security Hub and the
   default standards are automatically enabled. Note that Security Hub cannot be enabled
-  automatically for the organization management account. The organization management
-  account must enable Security Hub before the administrator account enables it as a member
-  account.
+  automatically for the organization management account. The organization management account
+  must enable Security Hub before the administrator account enables it as a member account.
 - For organization accounts that already have Security Hub enabled, Security Hub does not
   make any other changes to those accounts. It does not change their enabled standards or
   controls.
@@ -1477,9 +1480,11 @@ Returns a list of the custom action targets in Security Hub in your account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ActionTargetArns"`: A list of custom action target ARNs for the custom action targets
-  to retrieve.
+- `"ActionTargetArns"`: A list of custom action target ARNs for the custom action targets to
+  retrieve.
+
 - `"MaxResults"`: The maximum number of results to return.
+
 - `"NextToken"`: The token that is required for pagination. On your first call to the [`describe_action_targets`](@ref)
   operation, set the value of this parameter to `NULL`.
 
@@ -1584,11 +1589,13 @@ product integrations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return.
+
 - `"NextToken"`: The token that is required for pagination. On your first call to the [`describe_products`](@ref)
   operation, set the value of this parameter to `NULL`.
 
   For subsequent calls to the operation, to continue listing data, set the value of this
   parameter to the value returned from the previous response.
+
 - `"ProductArn"`: The ARN of the integration to return.
 """
 function describe_products end
@@ -1620,6 +1627,7 @@ For each standard, the results include the standard ARN, the name, and a descrip
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of standards to return.
+
 - `"NextToken"`: The token that is required for pagination. On your first call to the [`describe_standards`](@ref)
   operation, set the value of this parameter to `NULL`.
 
@@ -1648,20 +1656,21 @@ end
 
 Returns a list of security standards controls.
 
-For each control, the results include information about whether it is currently enabled,
-the severity, and a link to remediation information.
+For each control, the results include information about whether it is currently enabled, the
+severity, and a link to remediation information.
 
 # Arguments
 
-- `standards_subscription_arn`: The ARN of a resource that represents your subscription to
-  a supported standard. To get the subscription ARNs of the standards you have enabled,
-  use the [`get_enabled_standards`](@ref) operation.
+- `standards_subscription_arn`: The ARN of a resource that represents your subscription to a
+  supported standard. To get the subscription ARNs of the standards you have enabled, use
+  the [`get_enabled_standards`](@ref) operation.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of security standard controls to return.
+
 - `"NextToken"`: The token that is required for pagination. On your first call to the [`describe_standards_controls`](@ref)
   operation, set the value of this parameter to `NULL`.
 
@@ -1788,12 +1797,12 @@ You can't disable Security Hub in an account that is currently the Security Hub
 administrator.
 
 When you disable Security Hub, your existing findings and insights and any Security Hub
-configuration settings are deleted after 90 days and cannot be recovered. Any standards
-that were enabled are disabled, and your administrator and member account associations are
+configuration settings are deleted after 90 days and cannot be recovered. Any standards that
+were enabled are disabled, and your administrator and member account associations are
 removed.
 
-If you want to save your existing findings, you must export them before you disable
-Security Hub.
+If you want to save your existing findings, you must export them before you disable Security
+Hub.
 """
 function disable_security_hub end
 
@@ -1986,13 +1995,13 @@ end
     enable_organization_admin_account(admin_account_id)
     enable_organization_admin_account(admin_account_id, params::Dict{String,<:Any})
 
-Designates the Security Hub administrator account for an organization. Can only be called
-by the organization management account.
+Designates the Security Hub administrator account for an organization. Can only be called by
+the organization management account.
 
 # Arguments
 
-- `admin_account_id`: The Amazon Web Services account identifier of the account to
-  designate as the Security Hub administrator account.
+- `admin_account_id`: The Amazon Web Services account identifier of the account to designate
+  as the Security Hub administrator account.
 """
 function enable_organization_admin_account end
 
@@ -2028,8 +2037,8 @@ end
     enable_security_hub()
     enable_security_hub(params::Dict{String,<:Any})
 
-Enables Security Hub for your account in the current Region or the Region you specify in
-the request.
+Enables Security Hub for your account in the current Region or the Region you specify in the
+request.
 
 When you enable Security Hub, you grant to Security Hub the permissions necessary to gather
 findings from other services that are integrated with Security Hub.
@@ -2055,21 +2064,22 @@ in the *Security Hub User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ControlFindingGenerator"`: This field, used when enabling Security Hub, specifies
-  whether the calling account has consolidated control findings turned on. If the value
-  for this field is set to `SECURITY_CONTROL`, Security Hub generates a single finding
-  for a control check even when the check applies to multiple enabled standards.
+  whether the calling account has consolidated control findings turned on. If the value for
+  this field is set to `SECURITY_CONTROL`, Security Hub generates a single finding for a
+  control check even when the check applies to multiple enabled standards.
 
-  If the value for this field is set to `STANDARD_CONTROL`, Security Hub generates
-  separate findings for a control check when the check applies to multiple enabled
-  standards.
+  If the value for this field is set to `STANDARD_CONTROL`, Security Hub generates separate
+  findings for a control check when the check applies to multiple enabled standards.
 
   The value for this field in a member account matches the value in the administrator
-  account. For accounts that aren't part of an organization, the default value of this
-  field is `SECURITY_CONTROL` if you enabled Security Hub on or after February 23, 2023.
-- `"EnableDefaultStandards"`: Whether to enable the security standards that Security Hub
-  has designated as automatically enabled. If you do not provide a value for
+  account. For accounts that aren't part of an organization, the default value of this field
+  is `SECURITY_CONTROL` if you enabled Security Hub on or after February 23, 2023.
+
+- `"EnableDefaultStandards"`: Whether to enable the security standards that Security Hub has
+  designated as automatically enabled. If you do not provide a value for
   `EnableDefaultStandards`, it is set to `true`. To not enable the automatically enabled
   standards, set `EnableDefaultStandards` to `false`.
+
 - `"Tags"`: The tags to add to the hub resource when you enable Security Hub.
 """
 function enable_security_hub end
@@ -2207,11 +2217,13 @@ Returns a list of the standards that are currently enabled.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return in the response.
+
 - `"NextToken"`: The token that is required for pagination. On your first call to the [`get_enabled_standards`](@ref)
   operation, set the value of this parameter to `NULL`.
 
   For subsequent calls to the operation, to continue listing data, set the value of this
   parameter to the value returned from the previous response.
+
 - `"StandardsSubscriptionArns"`: The list of the standards subscription ARNs for the
   standards to retrieve.
 """
@@ -2277,8 +2289,8 @@ end
     get_finding_history(finding_identifier)
     get_finding_history(finding_identifier, params::Dict{String,<:Any})
 
-Returns history for a Security Hub finding in the last 90 days. The history includes
-changes made to any fields in the Amazon Web Services Security Finding Format (ASFF).
+Returns history for a Security Hub finding in the last 90 days. The history includes changes
+made to any fields in the Amazon Web Services Security Finding Format (ASFF).
 
 # Arguments
 
@@ -2292,19 +2304,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   finding history.
 
   If you provide values for both `StartTime` and `EndTime`, Security Hub returns finding
-  history for the specified time period. If you provide a value for `StartTime` but not
-  for `EndTime`, Security Hub returns finding history from the `StartTime` to the time at
-  which the API is called. If you provide a value for `EndTime` but not for `StartTime`,
-  Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt)
+  history for the specified time period. If you provide a value for `StartTime` but not for
+  `EndTime`, Security Hub returns finding history from the `StartTime` to the time at which
+  the API is called. If you provide a value for `EndTime` but not for `StartTime`, Security
+  Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt)
   timestamp of the finding to the `EndTime`. If you provide neither `StartTime` nor
   `EndTime`, Security Hub returns finding history from the CreatedAt timestamp of the
-  finding to the time at which the API is called. In all of these scenarios, the response
-  is limited to 100 results, and the maximum time period is limited to 90 days.
+  finding to the time at which the API is called. In all of these scenarios, the response is
+  limited to 100 results, and the maximum time period is limited to 90 days.
 
   This field accepts only the specified formats. Timestamps can end with `Z` or
-  `("+" / "-") time-hour [":" time-minute]`. The time-secfrac after seconds is limited to
-  a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp
-  formats with examples:
+  `("+" / "-") time-hour [":" time-minute]`. The time-secfrac after seconds is limited to a
+  maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats
+  with examples:
 
   - `YYYY-MM-DDTHH:MM:SSZ` (for example, `2019-01-31T23:00:00Z`)
   - `YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ` (for example, `2019-01-31T23:00:00.123456789Z`)
@@ -2315,27 +2327,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of results to be returned. If you don’t provide it,
   Security Hub returns up to 100 results of finding history.
+
 - `"NextToken"`: A token for pagination purposes. Provide `NULL` as the initial value. In
-  subsequent requests, provide the token included in the response to get up to an
-  additional 100 results of finding history. If you don’t provide `NextToken`, Security
-  Hub returns up to 100 results of finding history for each request.
-- `"StartTime"`: A timestamp that indicates the start time of the requested finding
-  history.
+  subsequent requests, provide the token included in the response to get up to an additional
+  100 results of finding history. If you don’t provide `NextToken`, Security Hub returns up
+to 100 results of finding history for each request.
+
+- `"StartTime"`: A timestamp that indicates the start time of the requested finding history.
 
   If you provide values for both `StartTime` and `EndTime`, Security Hub returns finding
-  history for the specified time period. If you provide a value for `StartTime` but not
-  for `EndTime`, Security Hub returns finding history from the `StartTime` to the time at
-  which the API is called. If you provide a value for `EndTime` but not for `StartTime`,
-  Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt)
+  history for the specified time period. If you provide a value for `StartTime` but not for
+  `EndTime`, Security Hub returns finding history from the `StartTime` to the time at which
+  the API is called. If you provide a value for `EndTime` but not for `StartTime`, Security
+  Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt)
   timestamp of the finding to the `EndTime`. If you provide neither `StartTime` nor
   `EndTime`, Security Hub returns finding history from the CreatedAt timestamp of the
-  finding to the time at which the API is called. In all of these scenarios, the response
-  is limited to 100 results, and the maximum time period is limited to 90 days.
+  finding to the time at which the API is called. In all of these scenarios, the response is
+  limited to 100 results, and the maximum time period is limited to 90 days.
 
   This field accepts only the specified formats. Timestamps can end with `Z` or
-  `("+" / "-") time-hour [":" time-minute]`. The time-secfrac after seconds is limited to
-  a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp
-  formats with examples:
+  `("+" / "-") time-hour [":" time-minute]`. The time-secfrac after seconds is limited to a
+  maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats
+  with examples:
 
   - `YYYY-MM-DDTHH:MM:SSZ` (for example, `2019-01-31T23:00:00Z`)
   - `YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ` (for example, `2019-01-31T23:00:00.123456789Z`)
@@ -2343,7 +2356,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `YYYY-MM-DDTHH:MM:SS-HHMM` (for example, `2024-01-04T15:25:10-1759`)
   - `YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM` (for example,
     `2024-01-04T15:25:10.123456789+17:59`)
-
 """
 function get_finding_history end
 
@@ -2394,17 +2406,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: The finding attributes used to define a condition to filter the returned
   findings.
 
-  You can filter by up to 10 finding attributes. For each attribute, you can provide up
-  to 20 filter values.
+  You can filter by up to 10 finding attributes. For each attribute, you can provide up to
+  20 filter values.
 
-  Note that in the available filter fields, `WorkflowState` is deprecated. To search for
-  a finding based on its workflow status, use `WorkflowStatus`.
+  Note that in the available filter fields, `WorkflowState` is deprecated. To search for a
+  finding based on its workflow status, use `WorkflowStatus`.
+
 - `"MaxResults"`: The maximum number of findings to return.
+
 - `"NextToken"`: The token that is required for pagination. On your first call to the [`get_findings`](@ref)
   operation, set the value of this parameter to `NULL`.
 
   For subsequent calls to the operation, to continue listing data, set the value of this
   parameter to the value returned from the previous response.
+
 - `"SortCriteria"`: The finding attributes used to sort the list of returned findings.
 """
 function get_findings end
@@ -2471,7 +2486,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InsightArns"`: The ARNs of the insights to describe. If you do not provide any insight
   ARNs, then `GetInsights` returns all of your custom insights. It does not return any
   managed insights.
+
 - `"MaxResults"`: The maximum number of items to return in the response.
+
 - `"NextToken"`: The token that is required for pagination. On your first call to the [`get_insights`](@ref)
   operation, set the value of this parameter to `NULL`.
 
@@ -2613,8 +2630,8 @@ description, Region availability, parameter definitions, and other details.
 
 # Arguments
 
-- `security_control_id`: The ID of the security control to retrieve the definition for.
-  This field doesn’t accept an Amazon Resource Name (ARN).
+- `security_control_id`: The ID of the security control to retrieve the definition for. This
+  field doesn’t accept an Amazon Resource Name (ARN).
 """
 function get_security_control_definition end
 
@@ -2750,16 +2767,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of results that's returned by
   `ListConfigurationPolicies` in each page of the response. When this parameter is used,
-  `ListConfigurationPolicies` returns the specified number of results in a single page
-  and a `NextToken` response element. You can see the remaining results of the initial
-  request by sending another `ListConfigurationPolicies` request with the returned
-  `NextToken` value. A valid range for `MaxResults` is between 1 and 100.
+  `ListConfigurationPolicies` returns the specified number of results in a single page and a
+  `NextToken` response element. You can see the remaining results of the initial request by
+  sending another `ListConfigurationPolicies` request with the returned `NextToken` value. A
+  valid range for `MaxResults` is between 1 and 100.
+
 - `"NextToken"`: The NextToken value that's returned from a previous paginated
-  `ListConfigurationPolicies` request where `MaxResults` was used but the results
-  exceeded the value of that parameter. Pagination continues from the `MaxResults` was
-  used but the results exceeded the value of that parameter. Pagination continues from
-  the end of the previous response that returned the `NextToken` value. This value is
-  `null` when there are no more results to return.
+  `ListConfigurationPolicies` request where `MaxResults` was used but the results exceeded
+  the value of that parameter. Pagination continues from the `MaxResults` was used but the
+  results exceeded the value of that parameter. Pagination continues from the end of the
+  previous response that returned the `NextToken` value. This value is `null` when there are
+  no more results to return.
 """
 function list_configuration_policies end
 
@@ -2788,29 +2806,30 @@ end
     list_configuration_policy_associations()
     list_configuration_policy_associations(params::Dict{String,<:Any})
 
-Provides information about the associations for your configuration policies and self-
-managed behavior. Only the Security Hub delegated administrator can invoke this operation
-from the home Region.
+Provides information about the associations for your configuration policies and self-managed
+behavior. Only the Security Hub delegated administrator can invoke this operation from the
+home Region.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Options for filtering the `ListConfigurationPolicyAssociations` response.
-  You can filter by the Amazon Resource Name (ARN) or universally unique identifier
-  (UUID) of a configuration, `AssociationType`, or `AssociationStatus`.
+- `"Filters"`: Options for filtering the `ListConfigurationPolicyAssociations` response. You
+  can filter by the Amazon Resource Name (ARN) or universally unique identifier (UUID) of a
+  configuration, `AssociationType`, or `AssociationStatus`.
+
 - `"MaxResults"`: The maximum number of results that's returned by
   `ListConfigurationPolicies` in each page of the response. When this parameter is used,
-  `ListConfigurationPolicyAssociations` returns the specified number of results in a
-  single page and a `NextToken` response element. You can see the remaining results of
-  the initial request by sending another `ListConfigurationPolicyAssociations` request
-  with the returned `NextToken` value. A valid range for `MaxResults` is between 1 and
-  100.
+  `ListConfigurationPolicyAssociations` returns the specified number of results in a single
+  page and a `NextToken` response element. You can see the remaining results of the initial
+  request by sending another `ListConfigurationPolicyAssociations` request with the returned
+  `NextToken` value. A valid range for `MaxResults` is between 1 and 100.
+
 - `"NextToken"`: The `NextToken` value that's returned from a previous paginated
-  `ListConfigurationPolicyAssociations` request where `MaxResults` was used but the
-  results exceeded the value of that parameter. Pagination continues from the end of the
-  previous response that returned the `NextToken` value. This value is `null` when there
-  are no more results to return.
+  `ListConfigurationPolicyAssociations` request where `MaxResults` was used but the results
+  exceeded the value of that parameter. Pagination continues from the end of the previous
+  response that returned the `NextToken` value. This value is `null` when there are no more
+  results to return.
 """
 function list_configuration_policy_associations end
 
@@ -2849,6 +2868,7 @@ findings from in Security Hub.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return in the response.
+
 - `"NextToken"`: The token that is required for pagination. On your first call to the [`list_enabled_products_for_import`](@ref)
   operation, set the value of this parameter to `NULL`.
 
@@ -2934,6 +2954,7 @@ managed using the integration with Organizations do not receive invitations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return in the response.
+
 - `"NextToken"`: The token that is required for pagination. On your first call to the [`list_invitations`](@ref)
   operation, set the value of this parameter to `NULL`.
 
@@ -2974,19 +2995,20 @@ that were invited manually.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return in the response.
+
 - `"NextToken"`: The token that is required for pagination. On your first call to the [`list_members`](@ref)
   operation, set the value of this parameter to `NULL`.
 
   For subsequent calls to the operation, to continue listing data, set the value of this
   parameter to the value returned from the previous response.
+
 - `"OnlyAssociated"`: Specifies which member accounts to include in the response based on
   their relationship status with the administrator account. The default value is `TRUE`.
 
   If `OnlyAssociated` is set to `TRUE`, the response includes member accounts whose
   relationship status with the administrator account is set to `ENABLED`.
 
-  If `OnlyAssociated` is set to `FALSE`, the response includes all existing member
-  accounts.
+  If `OnlyAssociated` is set to `FALSE`, the response includes all existing member accounts.
 """
 function list_members end
 
@@ -3018,8 +3040,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of items to return in the response.
 - `"NextToken"`: The token that is required for pagination. On your first call to the [`list_organization_admin_accounts`](@ref)
   operation, set the value of this parameter to `NULL`. For subsequent calls to the
-  operation, to continue listing data, set the value of this parameter to the value
-  returned from the previous response.
+  operation, to continue listing data, set the value of this parameter to the value returned
+  from the previous response.
 """
 function list_organization_admin_accounts end
 
@@ -3053,13 +3075,14 @@ Lists all of the security controls that apply to a specified standard.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: An optional parameter that limits the total results of the API response
-  to the specified number. If this parameter isn't provided in the request, the results
-  include the first 25 security controls that apply to the specified standard. The
-  results also include a `NextToken` parameter that you can use in a subsequent API call
-  to get the next 25 controls. This repeats until all controls for the standard are
-  returned.
+- `"MaxResults"`: An optional parameter that limits the total results of the API response to
+  the specified number. If this parameter isn't provided in the request, the results include
+  the first 25 security controls that apply to the specified standard. The results also
+  include a `NextToken` parameter that you can use in a subsequent API call to get the next
+  25 controls. This repeats until all controls for the standard are returned.
+
 - `"NextToken"`: Optional pagination parameter.
+
 - `"StandardsArn"`: The Amazon Resource Name (ARN) of the standard that you want to view
   controls for.
 """
@@ -3092,26 +3115,27 @@ end
     list_standards_control_associations(security_control_id)
     list_standards_control_associations(security_control_id, params::Dict{String,<:Any})
 
-Specifies whether a control is currently enabled or disabled in each enabled standard in
-the calling account.
+Specifies whether a control is currently enabled or disabled in each enabled standard in the
+calling account.
 
 # Arguments
 
-- `security_control_id`: The identifier of the control (identified with
-  `SecurityControlId`, `SecurityControlArn`, or a mix of both parameters) that you want
-  to determine the enablement status of in each enabled standard.
+- `security_control_id`: The identifier of the control (identified with `SecurityControlId`,
+  `SecurityControlArn`, or a mix of both parameters) that you want to determine the
+  enablement status of in each enabled standard.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: An optional parameter that limits the total results of the API response
-  to the specified number. If this parameter isn't provided in the request, the results
-  include the first 25 standard and control associations. The results also include a
-  `NextToken` parameter that you can use in a subsequent API call to get the next 25
-  associations. This repeats until all associations for the specified control are
-  returned. The number of results is limited by the number of supported Security Hub
-  standards that you've enabled in the calling account.
+- `"MaxResults"`: An optional parameter that limits the total results of the API response to
+  the specified number. If this parameter isn't provided in the request, the results include
+  the first 25 standard and control associations. The results also include a `NextToken`
+  parameter that you can use in a subsequent API call to get the next 25 associations. This
+  repeats until all associations for the specified control are returned. The number of
+  results is limited by the number of supported Security Hub standards that you've enabled
+  in the calling account.
+
 - `"NextToken"`: Optional pagination parameter.
 """
 function list_standards_control_associations end
@@ -3195,8 +3219,8 @@ home Region.
 # Arguments
 
 - `configuration_policy_identifier`: The Amazon Resource Name (ARN) of a configuration
-  policy, the universally unique identifier (UUID) of a configuration policy, or a value
-  of `SELF_MANAGED_SECURITY_HUB` for a self-managed configuration.
+  policy, the universally unique identifier (UUID) of a configuration policy, or a value of
+  `SELF_MANAGED_SECURITY_HUB` for a self-managed configuration.
 - `target`: The identifier of the target account, organizational unit, or the root to
   associate with the specified configuration.
 """
@@ -3257,8 +3281,8 @@ administrator can invoke this operation from the home Region.
 # Arguments
 
 - `configuration_policy_identifier`: The Amazon Resource Name (ARN) of a configuration
-  policy, the universally unique identifier (UUID) of a configuration policy, or a value
-  of `SELF_MANAGED_SECURITY_HUB` for a self-managed configuration.
+  policy, the universally unique identifier (UUID) of a configuration policy, or a value of
+  `SELF_MANAGED_SECURITY_HUB` for a self-managed configuration.
 
 # Optional Parameters
 
@@ -3312,9 +3336,8 @@ Adds one or more tags to a resource.
 # Arguments
 
 - `resource_arn`: The ARN of the resource to apply the tags to.
-- `tags`: The tags to add to the resource. You can add up to 50 tags at a time. The tag
-  keys can be no longer than 128 characters. The tag values can be no longer than 256
-  characters.
+- `tags`: The tags to add to the resource. You can add up to 50 tags at a time. The tag keys
+  can be no longer than 128 characters. The tag values can be no longer than 256 characters.
 """
 function tag_resource end
 
@@ -3446,19 +3469,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ConfigurationPolicy"`: An object that defines how Security Hub is configured. It
   includes whether Security Hub is enabled or disabled, a list of enabled security
-  standards, a list of enabled or disabled security controls, and a list of custom
-  parameter values for specified controls. If you provide a list of security controls
-  that are enabled in the configuration policy, Security Hub disables all other controls
-  (including newly released controls). If you provide a list of security controls that
-  are disabled in the configuration policy, Security Hub enables all other controls
-  (including newly released controls).
+  standards, a list of enabled or disabled security controls, and a list of custom parameter
+  values for specified controls. If you provide a list of security controls that are enabled
+  in the configuration policy, Security Hub disables all other controls (including newly
+  released controls). If you provide a list of security controls that are disabled in the
+  configuration policy, Security Hub enables all other controls (including newly released
+  controls).
 
-  When updating a configuration policy, provide a complete list of standards that you
-  want to enable and a complete list of controls that you want to enable or disable. The
-  updated configuration replaces the current configuration.
+  When updating a configuration policy, provide a complete list of standards that you want
+  to enable and a complete list of controls that you want to enable or disable. The updated
+  configuration replaces the current configuration.
+
 - `"Description"`: The description of the configuration policy.
+
 - `"Name"`: The name of the configuration policy. Alphanumeric characters and the following
   ASCII characters are permitted: `-, ., !, *, /`.
+
 - `"UpdatedReason"`: The reason for updating the configuration policy.
 """
 function update_configuration_policy end
@@ -3493,8 +3519,8 @@ end
     update_finding_aggregator(finding_aggregator_arn, region_linking_mode, params::Dict{String,<:Any})
 
 Updates the finding aggregation configuration. Used to update the Region linking mode and
-the list of included or excluded Regions. You cannot use `UpdateFindingAggregator` to
-change the aggregation Region.
+the list of included or excluded Regions. You cannot use `UpdateFindingAggregator` to change
+the aggregation Region.
 
 You must run `UpdateFindingAggregator` from the current aggregation Region.
 
@@ -3502,12 +3528,12 @@ You must run `UpdateFindingAggregator` from the current aggregation Region.
 
 - `finding_aggregator_arn`: The ARN of the finding aggregator. To obtain the ARN, use
   `ListFindingAggregators`.
+
 - `region_linking_mode`: Indicates whether to aggregate findings from all of the available
   Regions in the current partition. Also determines whether to automatically aggregate
   findings from new Regions as Security Hub supports them and you opt into them.
 
-  The selected option also determines how to use the Regions provided in the Regions
-  list.
+  The selected option also determines how to use the Regions provided in the Regions list.
 
   The options are as follows:
 
@@ -3515,12 +3541,11 @@ You must run `UpdateFindingAggregator` from the current aggregation Region.
     enabled. When you choose this option, Security Hub also automatically aggregates
     findings from new Regions as Security Hub supports them and you opt into them.
   - `ALL_REGIONS_EXCEPT_SPECIFIED` - Aggregates findings from all of the Regions where
-    Security Hub is enabled, except for the Regions listed in the `Regions` parameter.
-    When you choose this option, Security Hub also automatically aggregates findings from
-    new Regions as Security Hub supports them and you opt into them.
-  - `SPECIFIED_REGIONS` - Aggregates findings only from the Regions listed in the
-    `Regions` parameter. Security Hub does not automatically aggregate findings from new
-    Regions.
+    Security Hub is enabled, except for the Regions listed in the `Regions` parameter. When
+    you choose this option, Security Hub also automatically aggregates findings from new
+    Regions as Security Hub supports them and you opt into them.
+  - `SPECIFIED_REGIONS` - Aggregates findings only from the Regions listed in the `Regions`
+    parameter. Security Hub does not automatically aggregate findings from new Regions.
   - `NO_REGIONS` - Aggregates no data because no Regions are selected as linked Regions.
 
 # Optional Parameters
@@ -3528,8 +3553,7 @@ You must run `UpdateFindingAggregator` from the current aggregation Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Regions"`: If `RegionLinkingMode` is `ALL_REGIONS_EXCEPT_SPECIFIED`, then this is a
-  space-separated list of Regions that do not aggregate findings to the aggregation
-  Region.
+  space-separated list of Regions that do not aggregate findings to the aggregation Region.
 
   If `RegionLinkingMode` is `SPECIFIED_REGIONS`, then this is a space-separated list of
   Regions that do aggregate findings to the aggregation Region.
@@ -3587,9 +3611,9 @@ end
 `UpdateFindings` is a deprecated operation. Instead of `UpdateFindings`, use the [`batch_update_findings`](@ref)
 operation.
 
-The [`update_findings`](@ref) operation updates the `Note` and `RecordState` of the
-Security Hub aggregated findings that the filter attributes specify. Any member account
-that can view the finding can also see the update to the finding.
+The [`update_findings`](@ref) operation updates the `Note` and `RecordState` of the Security
+Hub aggregated findings that the filter attributes specify. Any member account that can view
+the finding can also see the update to the finding.
 
 Finding updates made with `UpdateFindings` aren't persisted if the same finding is later
 updated by the finding provider through the [`batch_import_findings`](@ref) operation. In
@@ -3689,13 +3713,13 @@ administrator account can invoke this operation.
   they join the organization.
 
   If set to `true`, then Security Hub is automatically enabled in new accounts. If set to
-  `false`, then Security Hub isn't enabled in new accounts automatically. The default
-  value is `false`.
+  `false`, then Security Hub isn't enabled in new accounts automatically. The default value
+  is `false`.
 
   If the `ConfigurationType` of your organization is set to `CENTRAL`, then this field is
   set to `false` and can't be changed in the home Region and linked Regions. However, in
-  that case, the delegated administrator can create a configuration policy in which
-  Security Hub is enabled and associate the policy with new organization accounts.
+  that case, the delegated administrator can create a configuration policy in which Security
+  Hub is enabled and associate the policy with new organization accounts.
 
 # Optional Parameters
 
@@ -3706,15 +3730,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The default value of this parameter is equal to `DEFAULT`.
 
-  If equal to `DEFAULT`, then Security Hub default standards are automatically enabled
-  for new member accounts. If equal to `NONE`, then default standards are not
-  automatically enabled for new member accounts.
+  If equal to `DEFAULT`, then Security Hub default standards are automatically enabled for
+  new member accounts. If equal to `NONE`, then default standards are not automatically
+  enabled for new member accounts.
 
   If the `ConfigurationType` of your organization is set to `CENTRAL`, then this field is
-  set to `NONE` and can't be changed in the home Region and linked Regions. However, in
-  that case, the delegated administrator can create a configuration policy in which
-  specific security standards are enabled and associate the policy with new organization
-  accounts.
+  set to `NONE` and can't be changed in the home Region and linked Regions. However, in that
+  case, the delegated administrator can create a configuration policy in which specific
+  security standards are enabled and associate the policy with new organization accounts.
+
 - `"OrganizationConfiguration"`:
 """
 function update_organization_configuration end
@@ -3763,8 +3787,8 @@ Updates the properties of a security control.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"LastUpdateReason"`: The most recent reason for updating the properties of the security
-  control. This field accepts alphanumeric characters in addition to white spaces,
-  dashes, and underscores.
+  control. This field accepts alphanumeric characters in addition to white spaces, dashes,
+  and underscores.
 """
 function update_security_control end
 
@@ -3820,14 +3844,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   By default, this is set to `true`, and new controls are enabled automatically. To not
   automatically enable new controls, set this to `false`.
-- `"ControlFindingGenerator"`: Updates whether the calling account has consolidated control
-  findings turned on. If the value for this field is set to `SECURITY_CONTROL`, Security
-  Hub generates a single finding for a control check even when the check applies to
-  multiple enabled standards.
 
-  If the value for this field is set to `STANDARD_CONTROL`, Security Hub generates
-  separate findings for a control check when the check applies to multiple enabled
-  standards.
+- `"ControlFindingGenerator"`: Updates whether the calling account has consolidated control
+  findings turned on. If the value for this field is set to `SECURITY_CONTROL`, Security Hub
+  generates a single finding for a control check even when the check applies to multiple
+  enabled standards.
+
+  If the value for this field is set to `STANDARD_CONTROL`, Security Hub generates separate
+  findings for a control check when the check applies to multiple enabled standards.
 
   For accounts that are part of an organization, this value can only be updated in the
   administrator account.

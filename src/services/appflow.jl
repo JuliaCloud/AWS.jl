@@ -78,8 +78,8 @@ end
     create_connector_profile(connection_mode, connector_profile_config, connector_profile_name, connector_type)
     create_connector_profile(connection_mode, connector_profile_config, connector_profile_name, connector_type, params::Dict{String,<:Any})
 
-Creates a new connector profile associated with your Amazon Web Services account. There is
-a soft quota of 100 connector profiles per Amazon Web Services account. If you need more
+Creates a new connector profile associated with your Amazon Web Services account. There is a
+soft quota of 100 connector profiles per Amazon Web Services account. If you need more
 connector profiles than this quota allows, you can submit a request to the Amazon AppFlow
 team through the Amazon AppFlow support channel. In each connector profile that you create,
 you can provide the credentials and properties for only one connector.
@@ -87,8 +87,8 @@ you can provide the credentials and properties for only one connector.
 # Arguments
 
 - `connection_mode`: Indicates the connection mode and specifies whether it is public or
-  private. Private flows use Amazon Web Services PrivateLink to route data over Amazon
-  Web Services infrastructure without exposing it to the public internet.
+  private. Private flows use Amazon Web Services PrivateLink to route data over Amazon Web
+  Services infrastructure without exposing it to the public internet.
 - `connector_profile_config`: Defines the connector-specific configuration and credentials.
 - `connector_profile_name`: The name of the connector profile. The name is unique for each
   `ConnectorProfile` in your Amazon Web Services account.
@@ -98,21 +98,23 @@ you can provide the credentials and properties for only one connector.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that
-  your `CreateConnectorProfile` request completes only once. You choose the value to
-  pass. For example, if you don't receive a response from your request, you can safely
-  retry the request with the same `clientToken` parameter value.
+- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that your
+  `CreateConnectorProfile` request completes only once. You choose the value to pass. For
+  example, if you don't receive a response from your request, you can safely retry the
+  request with the same `clientToken` parameter value.
 
-  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using
-  inserts a value for you. This way, the SDK can safely retry requests multiple times
-  after a network error. You must provide your own value for other use cases.
+  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using inserts
+  a value for you. This way, the SDK can safely retry requests multiple times after a
+  network error. You must provide your own value for other use cases.
 
-  If you specify input parameters that differ from your first request, an error occurs.
-  If you use a different value for `clientToken`, Amazon AppFlow considers it a new call
-  to `CreateConnectorProfile`. The token is active for 8 hours.
+  If you specify input parameters that differ from your first request, an error occurs. If
+  you use a different value for `clientToken`, Amazon AppFlow considers it a new call to
+  `CreateConnectorProfile`. The token is active for 8 hours.
+
 - `"connectorLabel"`: The label of the connector. The label is unique for each
   `ConnectorRegistration` in your Amazon Web Services account. Only needed if calling for
   CUSTOMCONNECTOR connector type/.
+
 - `"kmsArn"`: The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you
   provide for encryption. This is required if you do not want to use the Amazon AppFlow-
   managed KMS key. If you don't provide anything here, Amazon AppFlow uses the Amazon
@@ -197,26 +199,30 @@ once.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that
-  your `CreateFlow` request completes only once. You choose the value to pass. For
-  example, if you don't receive a response from your request, you can safely retry the
-  request with the same `clientToken` parameter value.
+- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that your
+  `CreateFlow` request completes only once. You choose the value to pass. For example, if
+  you don't receive a response from your request, you can safely retry the request with the
+  same `clientToken` parameter value.
 
-  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using
-  inserts a value for you. This way, the SDK can safely retry requests multiple times
-  after a network error. You must provide your own value for other use cases.
+  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using inserts
+  a value for you. This way, the SDK can safely retry requests multiple times after a
+  network error. You must provide your own value for other use cases.
 
-  If you specify input parameters that differ from your first request, an error occurs.
-  If you use a different value for `clientToken`, Amazon AppFlow considers it a new call
-  to `CreateFlow`. The token is active for 8 hours.
+  If you specify input parameters that differ from your first request, an error occurs. If
+  you use a different value for `clientToken`, Amazon AppFlow considers it a new call to
+  `CreateFlow`. The token is active for 8 hours.
+
 - `"description"`: A description of the flow you want to create.
+
 - `"kmsArn"`: The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you
   provide for encryption. This is required if you do not want to use the Amazon AppFlow-
   managed KMS key. If you don't provide anything here, Amazon AppFlow uses the Amazon
   AppFlow-managed KMS key.
+
 - `"metadataCatalogConfig"`: Specifies the configuration that Amazon AppFlow uses when it
-  catalogs the data that's transferred by the associated flow. When Amazon AppFlow
-  catalogs the data from a flow, it stores metadata in a data catalog.
+  catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs
+  the data from a flow, it stores metadata in a data catalog.
+
 - `"tags"`: The tags used to organize, track, or control access for your flow.
 """
 function create_flow end
@@ -291,8 +297,8 @@ Enables you to delete an existing connector profile.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"forceDelete"`: Indicates whether Amazon AppFlow should delete the profile, even if it
-  is currently in use in one or more flows.
+- `"forceDelete"`: Indicates whether Amazon AppFlow should delete the profile, even if it is
+  currently in use in one or more flows.
 """
 function delete_connector_profile end
 
@@ -490,8 +496,8 @@ Returns a list of `connector-profile` details matching the provided `connector-p
 names and `connector-types`. Both input lists are optional, and you can use them to filter
 the result.
 
-If no names or `connector-types` are provided, returns all connector profiles in a
-paginated form. If there is no match, this operation returns an empty list.
+If no names or `connector-types` are provided, returns all connector profiles in a paginated
+form. If there is no match, this operation returns an empty list.
 
 # Optional Parameters
 
@@ -545,8 +551,8 @@ contains a `nextToken` object, which can be be passed in to the next call to the
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"connectorTypes"`: The type of connector, such as Salesforce, Amplitude, and so on.
-- `"maxResults"`: The maximum number of items that should be returned in the result set.
-  The default is 20.
+- `"maxResults"`: The maximum number of items that should be returned in the result set. The
+  default is 20.
 - `"nextToken"`: The pagination token for the next page of data.
 """
 function describe_connectors end
@@ -673,19 +679,24 @@ the *Incident* entity.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"apiVersion"`: The version of the API that's used by the connector.
+
 - `"connectorProfileName"`: The name of the connector profile. The name is unique for each
-  `ConnectorProfile` in the Amazon Web Services account, and is used to query the
-  downstream connector.
+  `ConnectorProfile` in the Amazon Web Services account, and is used to query the downstream
+  connector.
+
 - `"connectorType"`: The type of connector, such as Salesforce, Amplitude, and so on.
+
 - `"entitiesPath"`: This optional parameter is specific to connector implementation. Some
-  connectors support multiple levels or categories of entities. You can find out the list
-  of roots for such providers by sending a request without the `entitiesPath` parameter.
-  If the connector supports entities at different roots, this initial request returns the
-  list of roots. Otherwise, this request returns all entities supported by the provider.
+  connectors support multiple levels or categories of entities. You can find out the list of
+  roots for such providers by sending a request without the `entitiesPath` parameter. If the
+  connector supports entities at different roots, this initial request returns the list of
+  roots. Otherwise, this request returns all entities supported by the provider.
+
 - `"maxResults"`: The maximum number of items that the operation returns in the response.
+
 - `"nextToken"`: A token that was provided by your prior [`list_connector_entities`](@ref)
-  operation if the response was too big for the page size. You specify this token to get
-  the next page of results in paginated response.
+  operation if the response was too big for the page size. You specify this token to get the
+  next page of results in paginated response.
 """
 function list_connector_entities end
 
@@ -828,24 +839,28 @@ register the connector, you must deploy the associated AWS lambda function in yo
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that
-  your `RegisterConnector` request completes only once. You choose the value to pass. For
+- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that your
+  `RegisterConnector` request completes only once. You choose the value to pass. For
   example, if you don't receive a response from your request, you can safely retry the
   request with the same `clientToken` parameter value.
 
-  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using
-  inserts a value for you. This way, the SDK can safely retry requests multiple times
-  after a network error. You must provide your own value for other use cases.
+  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using inserts
+  a value for you. This way, the SDK can safely retry requests multiple times after a
+  network error. You must provide your own value for other use cases.
 
-  If you specify input parameters that differ from your first request, an error occurs.
-  If you use a different value for `clientToken`, Amazon AppFlow considers it a new call
-  to `RegisterConnector`. The token is active for 8 hours.
+  If you specify input parameters that differ from your first request, an error occurs. If
+  you use a different value for `clientToken`, Amazon AppFlow considers it a new call to
+  `RegisterConnector`. The token is active for 8 hours.
+
 - `"connectorLabel"`: The name of the connector. The name is unique for each
   `ConnectorRegistration` in your Amazon Web Services account.
+
 - `"connectorProvisioningConfig"`: The provisioning type of the connector. Currently the
   only supported value is LAMBDA.
+
 - `"connectorProvisioningType"`: The provisioning type of the connector. Currently the only
   supported value is LAMBDA.
+
 - `"description"`: A description about the connector that's being registered.
 """
 function register_connector end
@@ -893,47 +908,51 @@ when you want to get the latest metadata right away.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"apiVersion"`: The API version that you specified in the connector profile that you’re
-  resetting cached metadata for. You must use this parameter only if the connector
-  supports multiple API versions or if the connector type is CustomConnector.
+  resetting cached metadata for. You must use this parameter only if the connector supports
+  multiple API versions or if the connector type is CustomConnector.
 
-  To look up how many versions a connector supports, use the DescribeConnectors action.
-  In the response, find the value that Amazon AppFlow returns for the connectorVersion
+  To look up how many versions a connector supports, use the DescribeConnectors action. In
+  the response, find the value that Amazon AppFlow returns for the connectorVersion
   parameter.
 
-  To look up the connector type, use the DescribeConnectorProfiles action. In the
-  response, find the value that Amazon AppFlow returns for the connectorType parameter.
+  To look up the connector type, use the DescribeConnectorProfiles action. In the response,
+  find the value that Amazon AppFlow returns for the connectorType parameter.
 
   To look up the API version that you specified in a connector profile, use the
   DescribeConnectorProfiles action.
-- `"connectorEntityName"`: Use this parameter if you want to reset cached metadata about
-  the details for an individual entity.
+
+- `"connectorEntityName"`: Use this parameter if you want to reset cached metadata about the
+  details for an individual entity.
 
   If you don't include this parameter in your request, Amazon AppFlow only resets cached
   metadata about entity names, not entity details.
+
 - `"connectorProfileName"`: The name of the connector profile that you want to reset cached
   metadata for.
 
   You can omit this parameter if you're resetting the cache for any of the following
-  connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3,
-  or Upsolver. If you're resetting the cache for any other connector, you must include
-  this parameter in your request.
+  connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or
+  Upsolver. If you're resetting the cache for any other connector, you must include this
+  parameter in your request.
+
 - `"connectorType"`: The type of connector to reset cached metadata for.
 
-  You must include this parameter in your request if you're resetting the cache for any
-  of the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for
-  Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector,
-  you can omit this parameter from your request.
-- `"entitiesPath"`: Use this parameter only if you’re resetting the cached metadata about a
-  nested entity. Only some connectors support nested entities. A nested entity is one
-  that has another entity as a parent. To use this parameter, specify the name of the
-  parent entity.
+  You must include this parameter in your request if you're resetting the cache for any of
+  the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics,
+  Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you can
+  omit this parameter from your request.
 
-  To look up the parent-child relationship of entities, you can send a
-  ListConnectorEntities request that omits the entitiesPath parameter. Amazon AppFlow
-  will return a list of top-level entities. For each one, it indicates whether the entity
-  has nested entities. Then, in a subsequent ListConnectorEntities request, you can
-  specify a parent entity name for the entitiesPath parameter. Amazon AppFlow will return
-  a list of the child entities for that parent.
+- `"entitiesPath"`: Use this parameter only if you’re resetting the cached metadata about a
+  nested entity. Only some connectors support nested entities. A nested entity is one that
+  has another entity as a parent. To use this parameter, specify the name of the parent
+  entity.
+
+  To look up the parent-child relationship of entities, you can send a ListConnectorEntities
+  request that omits the entitiesPath parameter. Amazon AppFlow will return a list of top-
+  level entities. For each one, it indicates whether the entity has nested entities. Then,
+  in a subsequent ListConnectorEntities request, you can specify a parent entity name for
+  the entitiesPath parameter. Amazon AppFlow will return a list of the child entities for
+  that parent.
 """
 function reset_connector_metadata_cache end
 
@@ -976,22 +995,22 @@ For schedule and event-triggered flows, this operation activates the flow.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that
-  your `StartFlow` request completes only once. You choose the value to pass. For
-  example, if you don't receive a response from your request, you can safely retry the
-  request with the same `clientToken` parameter value.
+- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that your
+  `StartFlow` request completes only once. You choose the value to pass. For example, if you
+  don't receive a response from your request, you can safely retry the request with the same
+  `clientToken` parameter value.
 
-  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using
-  inserts a value for you. This way, the SDK can safely retry requests multiple times
-  after a network error. You must provide your own value for other use cases.
+  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using inserts
+  a value for you. This way, the SDK can safely retry requests multiple times after a
+  network error. You must provide your own value for other use cases.
 
-  If you specify input parameters that differ from your first request, an error occurs
-  for flows that run on a schedule or based on an event. However, the error doesn't occur
-  for flows that run on demand. You set the conditions that initiate your flow for the
+  If you specify input parameters that differ from your first request, an error occurs for
+  flows that run on a schedule or based on an event. However, the error doesn't occur for
+  flows that run on demand. You set the conditions that initiate your flow for the
   `triggerConfig` parameter.
 
-  If you use a different value for `clientToken`, Amazon AppFlow considers it a new call
-  to `StartFlow`. The token is active for 8 hours.
+  If you use a different value for `clientToken`, Amazon AppFlow considers it a new call to
+  `StartFlow`. The token is active for 8 hours.
 """
 function start_flow end
 
@@ -1108,8 +1127,8 @@ end
     unregister_connector(connector_label)
     unregister_connector(connector_label, params::Dict{String,<:Any})
 
-Unregisters the custom connector registered in your account that matches the connector
-label provided in the request.
+Unregisters the custom connector registered in your account that matches the connector label
+provided in the request.
 
 # Arguments
 
@@ -1120,8 +1139,8 @@ label provided in the request.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"forceDelete"`: Indicates whether Amazon AppFlow should unregister the connector, even
-  if it is currently in use in one or more connector profiles. The default value is false.
+- `"forceDelete"`: Indicates whether Amazon AppFlow should unregister the connector, even if
+  it is currently in use in one or more connector profiles. The default value is false.
 """
 function unregister_connector end
 
@@ -1211,18 +1230,18 @@ Updates a given connector profile associated with your account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that
-  your `UpdateConnectorProfile` request completes only once. You choose the value to
-  pass. For example, if you don't receive a response from your request, you can safely
-  retry the request with the same `clientToken` parameter value.
+- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that your
+  `UpdateConnectorProfile` request completes only once. You choose the value to pass. For
+  example, if you don't receive a response from your request, you can safely retry the
+  request with the same `clientToken` parameter value.
 
-  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using
-  inserts a value for you. This way, the SDK can safely retry requests multiple times
-  after a network error. You must provide your own value for other use cases.
+  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using inserts
+  a value for you. This way, the SDK can safely retry requests multiple times after a
+  network error. You must provide your own value for other use cases.
 
-  If you specify input parameters that differ from your first request, an error occurs.
-  If you use a different value for `clientToken`, Amazon AppFlow considers it a new call
-  to `UpdateConnectorProfile`. The token is active for 8 hours.
+  If you specify input parameters that differ from your first request, an error occurs. If
+  you use a different value for `clientToken`, Amazon AppFlow considers it a new call to
+  `UpdateConnectorProfile`. The token is active for 8 hours.
 """
 function update_connector_profile end
 
@@ -1292,19 +1311,21 @@ connector with one of the following:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that
-  your `UpdateConnectorRegistration` request completes only once. You choose the value to
-  pass. For example, if you don't receive a response from your request, you can safely
-  retry the request with the same `clientToken` parameter value.
+- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that your
+  `UpdateConnectorRegistration` request completes only once. You choose the value to pass.
+  For example, if you don't receive a response from your request, you can safely retry the
+  request with the same `clientToken` parameter value.
 
-  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using
-  inserts a value for you. This way, the SDK can safely retry requests multiple times
-  after a network error. You must provide your own value for other use cases.
+  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using inserts
+  a value for you. This way, the SDK can safely retry requests multiple times after a
+  network error. You must provide your own value for other use cases.
 
-  If you specify input parameters that differ from your first request, an error occurs.
-  If you use a different value for `clientToken`, Amazon AppFlow considers it a new call
-  to `UpdateConnectorRegistration`. The token is active for 8 hours.
+  If you specify input parameters that differ from your first request, an error occurs. If
+  you use a different value for `clientToken`, Amazon AppFlow considers it a new call to
+  `UpdateConnectorRegistration`. The token is active for 8 hours.
+
 - `"connectorProvisioningConfig"`:
+
 - `"description"`: A description about the update that you're applying to the connector.
 """
 function update_connector_registration end
@@ -1366,22 +1387,24 @@ Updates an existing flow.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that
-  your `UpdateFlow` request completes only once. You choose the value to pass. For
-  example, if you don't receive a response from your request, you can safely retry the
-  request with the same `clientToken` parameter value.
+- `"clientToken"`: The `clientToken` parameter is an idempotency token. It ensures that your
+  `UpdateFlow` request completes only once. You choose the value to pass. For example, if
+  you don't receive a response from your request, you can safely retry the request with the
+  same `clientToken` parameter value.
 
-  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using
-  inserts a value for you. This way, the SDK can safely retry requests multiple times
-  after a network error. You must provide your own value for other use cases.
+  If you omit a `clientToken` value, the Amazon Web Services SDK that you are using inserts
+  a value for you. This way, the SDK can safely retry requests multiple times after a
+  network error. You must provide your own value for other use cases.
 
-  If you specify input parameters that differ from your first request, an error occurs.
-  If you use a different value for `clientToken`, Amazon AppFlow considers it a new call
-  to `UpdateFlow`. The token is active for 8 hours.
+  If you specify input parameters that differ from your first request, an error occurs. If
+  you use a different value for `clientToken`, Amazon AppFlow considers it a new call to
+  `UpdateFlow`. The token is active for 8 hours.
+
 - `"description"`: A description of the flow.
+
 - `"metadataCatalogConfig"`: Specifies the configuration that Amazon AppFlow uses when it
-  catalogs the data that's transferred by the associated flow. When Amazon AppFlow
-  catalogs the data from a flow, it stores metadata in a data catalog.
+  catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs
+  the data from a flow, it stores metadata in a data catalog.
 """
 function update_flow end
 

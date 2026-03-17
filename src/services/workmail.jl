@@ -16,21 +16,21 @@ Adds a member (user or group) to the resource's set of delegates.
 
   The entity ID can accept *UserId or GroupID*, *Username or Groupname*, or *email*.
 
-  - Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
-    123456789-1234
+  - Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-
+    1234
   - Email address: entity@domain.tld
   - Entity: entity
 
 - `organization_id`: The organization under which the resource exists.
+
 - `resource_id`: The resource for which members (users or groups) are associated.
 
-  The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following
-  identity formats are available:
+  The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following identity
+  formats are available:
 
   - Resource ID: r-0123456789a0123456789b0123456789
   - Email address: resource@domain.tld
   - Resource name: resource
-
 """
 function associate_delegate_to_resource end
 
@@ -96,8 +96,8 @@ Adds a member (user or group) to the group's set.
 
   The member ID can accept *UserID or GroupId*, *Username or Groupname*, or *email*.
 
-  - Member: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
-    123456789-1234
+  - Member: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-
+    1234
   - Email address: member@domain.tld
   - Member name: member
 
@@ -321,9 +321,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: An idempotent token that ensures that an API request is executed only
   once.
-- `"EwsProvider"`: Exchange Web Services (EWS) availability provider definition. The
-  request must contain exactly one provider definition, either `EwsProvider` or
-  `LambdaProvider`.
+- `"EwsProvider"`: Exchange Web Services (EWS) availability provider definition. The request
+  must contain exactly one provider definition, either `EwsProvider` or `LambdaProvider`.
 - `"LambdaProvider"`: Lambda availability provider definition. The request must contain
   exactly one provider definition, either `EwsProvider` or `LambdaProvider`.
 """
@@ -571,11 +570,11 @@ end
     create_organization(alias)
     create_organization(alias, params::Dict{String,<:Any})
 
-Creates a new WorkMail organization. Optionally, you can choose to associate an existing
-AWS Directory Service directory with your organization. If an AWS Directory Service
-directory ID is specified, the organization alias must match the directory alias. If you
-choose not to associate an existing directory with your organization, then we create a new
-WorkMail directory for you. For more information, see [Adding an organization](https://docs.aws.amazon.com/workmail/latest/adminguide/add_new_organization.html)
+Creates a new WorkMail organization. Optionally, you can choose to associate an existing AWS
+Directory Service directory with your organization. If an AWS Directory Service directory ID
+is specified, the organization alias must match the directory alias. If you choose not to
+associate an existing directory with your organization, then we create a new WorkMail
+directory for you. For more information, see [Adding an organization](https://docs.aws.amazon.com/workmail/latest/adminguide/add_new_organization.html)
 in the *WorkMail Administrator Guide*.
 
 You can associate multiple email domains with an organization, then choose your default
@@ -585,8 +584,8 @@ and [Choosing the default domain](https://docs.aws.amazon.com/workmail/latest/ad
 in the *WorkMail Administrator Guide*.
 
 Optionally, you can use a customer managed key from AWS Key Management Service (AWS KMS) to
-encrypt email for your organization. If you don't associate an AWS KMS key, WorkMail
-creates a default, AWS managed key for you.
+encrypt email for your organization. If you don't associate an AWS KMS key, WorkMail creates
+a default, AWS managed key for you.
 
 # Arguments
 
@@ -600,8 +599,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DirectoryId"`: The AWS Directory Service directory ID.
 - `"Domains"`: The email domains to associate with the organization.
 - `"EnableInteroperability"`: When `true`, allows organization interoperability between
-  WorkMail and Microsoft Exchange. If `true`, you must include a AD Connector directory
-  ID in the request.
+  WorkMail and Microsoft Exchange. If `true`, you must include a AD Connector directory ID
+  in the request.
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of a customer managed key from AWS KMS.
 """
 function create_organization end
@@ -650,8 +649,8 @@ Creates a new WorkMail resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: Resource description.
-- `"HiddenFromGlobalAddressList"`: If this parameter is enabled, the resource will be
-  hidden from the address book.
+- `"HiddenFromGlobalAddressList"`: If this parameter is enabled, the resource will be hidden
+  from the address book.
 """
 function create_resource end
 
@@ -710,14 +709,18 @@ operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FirstName"`: The first name of the new user.
+
 - `"HiddenFromGlobalAddressList"`: If this parameter is enabled, the user will be hidden
   from the address book.
+
 - `"LastName"`: The last name of the new user.
+
 - `"Password"`: The password for the new user.
+
 - `"Role"`: The role of the new user.
 
-  You cannot pass *SYSTEM_USER* or *RESOURCE* role in a single request. When a user role
-  is not selected, the default role of *USER* is selected.
+  You cannot pass *SYSTEM_USER* or *RESOURCE* role in a single request. When a user role is
+  not selected, the default role of *USER* is selected.
 """
 function create_user end
 
@@ -1060,8 +1063,8 @@ Deletes permissions granted to a member (user or group).
 
   The identifier can be *UserId or Group Id*, *Username or Groupname*, or *email*.
 
-  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
-    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+    S-1-1-12-1234567890-123456789-123456789-1234
   - Email address: entity@domain.tld
   - Entity name: entity
 
@@ -1070,8 +1073,8 @@ Deletes permissions granted to a member (user or group).
   The identifier can be *UserId, ResourceID, or Group Id*, *Username or Groupname*, or
   *email*.
 
-  - Grantee ID: 12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789,
-    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Grantee ID: 12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789, or
+    S-1-1-12-1234567890-123456789-123456789-1234
   - Email address: grantee@domain.tld
   - Grantee name: grantee
 
@@ -1135,8 +1138,10 @@ device.
 
 - `device_id`: The mobile device for which you delete the override. `DeviceId` is case
   insensitive.
+
 - `organization_id`: The WorkMail organization for which the access override will be
   deleted.
+
 - `user_id`: The WorkMail user for which you want to delete the override. Accepts the
   following types of user identities:
 
@@ -1144,7 +1149,6 @@ device.
     `S-1-1-12-1234567890-123456789-123456789-1234`
   - Email address: `user@domain.tld`
   - User name: `user`
-
 """
 function delete_mobile_device_access_override end
 
@@ -1314,16 +1318,16 @@ Deletes the specified resource.
 
 # Arguments
 
-- `organization_id`: The identifier associated with the organization from which the
-  resource is deleted.
+- `organization_id`: The identifier associated with the organization from which the resource
+  is deleted.
+
 - `resource_id`: The identifier of the resource to be deleted.
 
-  The identifier can accept *ResourceId*, or *Resourcename*. The following identity
-  formats are available:
+  The identifier can accept *ResourceId*, or *Resourcename*. The following identity formats
+  are available:
 
   - Resource ID: r-0123456789a0123456789b0123456789
   - Resource name: resource
-
 """
 function delete_resource end
 
@@ -1418,6 +1422,7 @@ days before they are permanently removed.
 # Arguments
 
 - `organization_id`: The organization that contains the user to be deleted.
+
 - `user_id`: The identifier of the user to be deleted.
 
   The identifier can be the *UserId* or *Username*. The following identity formats are
@@ -1426,7 +1431,6 @@ days before they are permanently removed.
   - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
     123456789-1234
   - User name: user
-
 """
 function delete_user end
 
@@ -1465,9 +1469,9 @@ end
     deregister_from_work_mail(entity_id, organization_id)
     deregister_from_work_mail(entity_id, organization_id, params::Dict{String,<:Any})
 
-Mark a user, group, or resource as no longer used in WorkMail. This action disassociates
-the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days before they
-are permanently removed. The functionality in the console is *Disable*.
+Mark a user, group, or resource as no longer used in WorkMail. This action disassociates the
+mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days before they are
+permanently removed. The functionality in the console is *Disable*.
 
 # Arguments
 
@@ -1476,8 +1480,8 @@ are permanently removed. The functionality in the console is *Disable*.
   The identifier can be *UserId, ResourceId, or Group Id*, *Username, Resourcename, or
   Groupname*, or *email*.
 
-  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
-    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+    S-1-1-12-1234567890-123456789-123456789-1234
   - Email address: entity@domain.tld
   - Entity name: entity
 
@@ -1524,9 +1528,9 @@ end
     deregister_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
 
 Removes a domain from WorkMail, stops email routing to WorkMail, and removes the
-authorization allowing WorkMail use. SES keeps the domain because other applications may
-use it. You must first remove any email address used by WorkMail entities before you remove
-the domain.
+authorization allowing WorkMail use. SES keeps the domain because other applications may use
+it. You must first remove any email address used by WorkMail entities before you remove the
+domain.
 
 # Arguments
 
@@ -1576,8 +1580,8 @@ Describes the current email monitoring configuration for a specified organizatio
 
 # Arguments
 
-- `organization_id`: The ID of the organization for which the email monitoring
-  configuration is described.
+- `organization_id`: The ID of the organization for which the email monitoring configuration
+  is described.
 """
 function describe_email_monitoring_configuration end
 
@@ -1834,15 +1838,15 @@ Returns the data available for the resource.
 
 - `organization_id`: The identifier associated with the organization for which the resource
   is described.
+
 - `resource_id`: The identifier of the resource to be described.
 
-  The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following
-  identity formats are available:
+  The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following identity
+  formats are available:
 
   - Resource ID: r-0123456789a0123456789b0123456789
   - Email address: resource@domain.tld
   - Resource name: resource
-
 """
 function describe_resource end
 
@@ -1888,17 +1892,16 @@ Provides information regarding the user.
 # Arguments
 
 - `organization_id`: The identifier for the organization under which the user exists.
+
 - `user_id`: The identifier for the user to be described.
 
-  The identifier can be the *UserId*, *Username*, or *email*. The following identity
-  formats are available:
+  The identifier can be the *UserId*, *Username*, or *email*. The following identity formats
+  are available:
 
   - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
     123456789-1234
   - Email address: user@domain.tld
   - User name: user
-
-
 """
 function describe_user end
 
@@ -1941,27 +1944,27 @@ Removes a member from the resource's set of delegates.
 
 # Arguments
 
-- `entity_id`: The identifier for the member (user, group) to be removed from the
-  resource's delegates.
+- `entity_id`: The identifier for the member (user, group) to be removed from the resource's
+  delegates.
 
   The entity ID can accept *UserId or GroupID*, *Username or Groupname*, or *email*.
 
-  - Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
-    123456789-1234
+  - Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-
+    1234
   - Email address: entity@domain.tld
   - Entity: entity
 
 - `organization_id`: The identifier for the organization under which the resource exists.
+
 - `resource_id`: The identifier of the resource from which delegates' set members are
   removed.
 
-  The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following
-  identity formats are available:
+  The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following identity
+  formats are available:
 
   - Resource ID: r-0123456789a0123456789b0123456789
   - Email address: resource@domain.tld
   - Resource name: resource
-
 """
 function disassociate_delegate_from_resource end
 
@@ -2078,10 +2081,10 @@ end
     get_access_control_effect(action, ip_address, organization_id)
     get_access_control_effect(action, ip_address, organization_id, params::Dict{String,<:Any})
 
-Gets the effects of an organization's access control rules as they apply to a specified
-IPv4 address, access protocol action, and user ID or impersonation role ID. You must
-provide either the user ID or impersonation role ID. Impersonation role ID can only be used
-with Action EWS.
+Gets the effects of an organization's access control rules as they apply to a specified IPv4
+address, access protocol action, and user ID or impersonation role ID. You must provide
+either the user ID or impersonation role ID. Impersonation role ID can only be used with
+Action EWS.
 
 # Arguments
 
@@ -2234,7 +2237,9 @@ Tests whether the given impersonation role can impersonate a target user.
 # Arguments
 
 - `impersonation_role_id`: The impersonation role ID to test.
+
 - `organization_id`: The WorkMail organization where the impersonation role is defined.
+
 - `target_user`: The WorkMail organization user chosen to test the impersonation role. The
   following identity formats are available:
 
@@ -2242,7 +2247,6 @@ Tests whether the given impersonation role can impersonate a target user.
     `S-1-1-12-1234567890-123456789-123456789-1234`
   - Email address: `user@domain.tld`
   - User name: `user`
-
 """
 function get_impersonation_role_effect end
 
@@ -2346,16 +2350,16 @@ Requests a user's mailbox details for a specified organization and user.
 
 - `organization_id`: The identifier for the organization that contains the user whose
   mailbox details are being requested.
+
 - `user_id`: The identifier for the user whose mailbox details are being requested.
 
-  The identifier can be the *UserId*, *Username*, or *email*. The following identity
-  formats are available:
+  The identifier can be the *UserId*, *Username*, or *email*. The following identity formats
+  are available:
 
   - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
     123456789-1234
   - Email address: user@domain.tld
   - User name: user
-
 """
 function get_mailbox_details end
 
@@ -2395,8 +2399,8 @@ end
     get_mobile_device_access_effect(organization_id, params::Dict{String,<:Any})
 
 Simulates the effect of the mobile device access rules for the given attributes of a sample
-access event. Use this method to test the effects of the current set of mobile device
-access rules for the WorkMail organization for a particular user's attributes.
+access event. Use this method to test the effects of the current set of mobile device access
+rules for the WorkMail organization for a particular user's attributes.
 
 # Arguments
 
@@ -2450,7 +2454,9 @@ device.
 
 - `device_id`: The mobile device to which the override applies. `DeviceId` is case
   insensitive.
+
 - `organization_id`: The WorkMail organization to which you want to apply the override.
+
 - `user_id`: Identifies the WorkMail user for the override. Accepts the following types of
   user identities:
 
@@ -2458,7 +2464,6 @@ device.
     `S-1-1-12-1234567890-123456789-123456789-1234`
   - Email address: `user@domain.tld`
   - User name: `user`
-
 """
 function get_mobile_device_access_override end
 
@@ -2826,8 +2831,8 @@ Lists all the impersonation roles for the given WorkMail organization.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results returned in a single call.
-- `"NextToken"`: The token used to retrieve the next page of results. The first call
-  doesn't require a token.
+- `"NextToken"`: The token used to retrieve the next page of results. The first call doesn't
+  require a token.
 """
 function list_impersonation_roles end
 
@@ -2960,11 +2965,9 @@ Lists the mailbox permissions associated with a user, group, or resource mailbox
 - `entity_id`: The identifier of the user, or resource for which to list mailbox
   permissions.
 
-  The entity ID can accept *UserId or ResourceId*, *Username or Resourcename*, or
-  *email*.
+  The entity ID can accept *UserId or ResourceId*, *Username or Resourcename*, or *email*.
 
-  - Entity ID: 12345678-1234-1234-1234-123456789012, or r-
-    0123456789a0123456789b0123456789
+  - Entity ID: 12345678-1234-1234-1234-123456789012, or r-0123456789a0123456789b0123456789
   - Email address: entity@domain.tld
   - Entity name: entity
 
@@ -3031,9 +3034,12 @@ organization, user, or device.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DeviceId"`: The mobile device to which the access override applies.
+
 - `"MaxResults"`: The maximum number of results to return in a single call.
+
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not require a token.
+
 - `"UserId"`: The WorkMail user under which you list the mobile device access overrides.
   Accepts the following types of user identities:
 
@@ -3041,7 +3047,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `S-1-1-12-1234567890-123456789-123456789-1234`
   - Email address: `user@domain.tld`
   - User name: `user`
-
 """
 function list_mobile_device_access_overrides end
 
@@ -3150,10 +3155,11 @@ and answer requests on behalf of the resource.
 
 - `organization_id`: The identifier for the organization that contains the resource for
   which delegates are listed.
+
 - `resource_id`: The identifier for the resource whose delegates are listed.
 
-  The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following
-  identity formats are available:
+  The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following identity
+  formats are available:
 
   - Resource ID: r-0123456789a0123456789b0123456789
   - Email address: resource@domain.tld
@@ -3338,8 +3344,8 @@ end
 
 Adds a new access control rule for the specified organization. The rule allows or denies
 access to the organization for the specified IPv4 addresses, access protocol actions, user
-IDs and impersonation IDs. Adding a new rule with the same name as an existing rule
-replaces the older rule.
+IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces
+the older rule.
 
 # Arguments
 
@@ -3422,8 +3428,8 @@ Creates or updates the email monitoring configuration for a specified organizati
 
 - `log_group_arn`: The Amazon Resource Name (ARN) of the CloudWatch Log group associated
   with the email monitoring configuration.
-- `organization_id`: The ID of the organization for which the email monitoring
-  configuration is set.
+- `organization_id`: The ID of the organization for which the email monitoring configuration
+  is set.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM Role associated with the email
   monitoring configuration.
 """
@@ -3529,8 +3535,8 @@ Sets permissions for a user, group, or resource. This replaces any pre-existing 
   The identifier can be *UserId, ResourceID, or Group Id*, *Username, Resourcename, or
   Groupname*, or *email*.
 
-  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
-    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+    S-1-1-12-1234567890-123456789-123456789-1234
   - Email address: entity@domain.tld
   - Entity name: entity
 
@@ -3540,19 +3546,20 @@ Sets permissions for a user, group, or resource. This replaces any pre-existing 
   The identifier can be *UserId, ResourceID, or Group Id*, *Username, Resourcename, or
   Groupname*, or *email*.
 
-  - Grantee ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
-    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Grantee ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+    S-1-1-12-1234567890-123456789-123456789-1234
   - Email address: grantee@domain.tld
   - Grantee name: grantee
 
 - `organization_id`: The identifier of the organization under which the user, group, or
   resource exists.
-- `permission_values`: The permissions granted to the grantee. SEND_AS allows the grantee
-  to send email as the owner of the mailbox (the grantee is not mentioned on these
-  emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the
-  mailbox (the grantee is not mentioned as the physical sender of these emails).
-  FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-
-  level permissions set on the mailbox.
+
+- `permission_values`: The permissions granted to the grantee. SEND_AS allows the grantee to
+  send email as the owner of the mailbox (the grantee is not mentioned on these emails).
+  SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the
+  grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the
+  grantee full access to the mailbox, irrespective of other folder-level permissions set on
+  the mailbox.
 """
 function put_mailbox_permissions end
 
@@ -3614,8 +3621,11 @@ user, and device.
 
 - `device_id`: The mobile device for which you create the override. `DeviceId` is case
   insensitive.
+
 - `effect`: The effect of the override, `ALLOW` or `DENY`.
+
 - `organization_id`: Identifies the WorkMail organization for which you create the override.
+
 - `user_id`: The WorkMail user for which you create the override. Accepts the following
   types of user identities:
 
@@ -3820,13 +3830,14 @@ be synchronized from your directory. For more information, see [`deregister_from
 # Arguments
 
 - `email`: The email for the user, group, or resource to be updated.
+
 - `entity_id`: The identifier for the user, group, or resource to be updated.
 
-  The identifier can accept *UserId, ResourceId, or GroupId*, or *Username, Resourcename,
-  or Groupname*. The following identity formats are available:
+  The identifier can accept *UserId, ResourceId, or GroupId*, or *Username, Resourcename, or
+  Groupname*. The following identity formats are available:
 
-  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
-    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+    S-1-1-12-1234567890-123456789-123456789-1234
   - Entity name: entity
 
 - `organization_id`: The identifier for the organization under which the user, group, or
@@ -3880,8 +3891,8 @@ Allows the administrator to reset the password for a user.
 
 # Arguments
 
-- `organization_id`: The identifier of the organization that contains the user for which
-  the password is reset.
+- `organization_id`: The identifier of the organization that contains the user for which the
+  password is reset.
 - `password`: The new password for the user.
 - `user_id`: The identifier of the user for whom the password is reset.
 """
@@ -3929,30 +3940,35 @@ end
     start_mailbox_export_job(client_token, entity_id, kms_key_arn, organization_id, role_arn, s3_bucket_name, s3_prefix)
     start_mailbox_export_job(client_token, entity_id, kms_key_arn, organization_id, role_arn, s3_bucket_name, s3_prefix, params::Dict{String,<:Any})
 
-Starts a mailbox export job to export MIME-format email messages and calendar items from
-the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket.
-For more information, see [Exporting mailbox content](https://docs.aws.amazon.com/workmail/latest/adminguide/mail-export.html)
+Starts a mailbox export job to export MIME-format email messages and calendar items from the
+specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket. For
+more information, see [Exporting mailbox content](https://docs.aws.amazon.com/workmail/latest/adminguide/mail-export.html)
 in the *WorkMail Administrator Guide*.
 
 # Arguments
 
 - `client_token`: The idempotency token for the client request.
+
 - `entity_id`: The identifier of the user or resource associated with the mailbox.
 
-  The identifier can accept *UserId or ResourceId*, *Username or Resourcename*, or
-  *email*. The following identity formats are available:
+  The identifier can accept *UserId or ResourceId*, *Username or Resourcename*, or *email*.
+  The following identity formats are available:
 
-  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789 ,
-    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789 , or
+    S-1-1-12-1234567890-123456789-123456789-1234
   - Email address: entity@domain.tld
   - Entity name: entity
 
 - `kms_key_arn`: The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service
   (AWS KMS) key that encrypts the exported mailbox content.
+
 - `organization_id`: The identifier associated with the organization.
-- `role_arn`: The ARN of the AWS Identity and Access Management (IAM) role that grants
-  write permission to the S3 bucket.
+
+- `role_arn`: The ARN of the AWS Identity and Access Management (IAM) role that grants write
+  permission to the S3 bucket.
+
 - `s3_bucket_name`: The name of the S3 bucket.
+
 - `s3_prefix`: The S3 bucket prefix.
 
 # Optional Parameters
@@ -4183,11 +4199,11 @@ domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"EwsProvider"`: The EWS availability provider definition. The request must contain
-  exactly one provider definition, either `EwsProvider` or `LambdaProvider`. The
-  previously stored provider will be overridden by the one provided.
+  exactly one provider definition, either `EwsProvider` or `LambdaProvider`. The previously
+  stored provider will be overridden by the one provided.
 - `"LambdaProvider"`: The Lambda availability provider definition. The request must contain
-  exactly one provider definition, either `EwsProvider` or `LambdaProvider`. The
-  previously stored provider will be overridden by the one provided.
+  exactly one provider definition, either `EwsProvider` or `LambdaProvider`. The previously
+  stored provider will be overridden by the one provided.
 """
 function update_availability_configuration end
 
@@ -4415,18 +4431,19 @@ Updates a user's current mailbox quota for a specified organization and user.
 # Arguments
 
 - `mailbox_quota`: The updated mailbox quota, in MB, for the specified user.
+
 - `organization_id`: The identifier for the organization that contains the user for whom to
   update the mailbox quota.
+
 - `user_id`: The identifer for the user for whom to update the mailbox quota.
 
-  The identifier can be the *UserId*, *Username*, or *email*. The following identity
-  formats are available:
+  The identifier can be the *UserId*, *Username*, or *email*. The following identity formats
+  are available:
 
   - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
     123456789-1234
   - Email address: user@domain.tld
   - User name: user
-
 """
 function update_mailbox_quota end
 
@@ -4494,8 +4511,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceUserAgents"`: User agents that the updated rule will match.
 - `"NotDeviceModels"`: Device models that the updated rule **will not** match. All other
   device models will match.
-- `"NotDeviceOperatingSystems"`: Device operating systems that the updated rule **will
-  not** match. All other device operating systems will match.
+- `"NotDeviceOperatingSystems"`: Device operating systems that the updated rule **will not**
+  match. All other device operating systems will match.
 - `"NotDeviceTypes"`: Device types that the updated rule **will not** match. All other
   device types will match.
 - `"NotDeviceUserAgents"`: User agents that the updated rule **will not** match. All other
@@ -4561,13 +4578,14 @@ and the email provided in the input is promoted as the primary.
 # Arguments
 
 - `email`: The value of the email to be updated as primary.
+
 - `entity_id`: The user, group, or resource to update.
 
   The identifier can accept *UseriD, ResourceId, or GroupId*, *Username, Resourcename, or
   Groupname*, or *email*. The following identity formats are available:
 
-  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789,
-    or S-1-1-12-1234567890-123456789-123456789-1234
+  - Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+    S-1-1-12-1234567890-123456789-123456789-1234
   - Email address: entity@domain.tld
   - Entity name: entity
 
@@ -4625,10 +4643,11 @@ call. The dataset in the request should be the one expected when performing anot
 
 - `organization_id`: The identifier associated with the organization for which the resource
   is updated.
+
 - `resource_id`: The identifier of the resource to be updated.
 
-  The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following
-  identity formats are available:
+  The identifier can accept *ResourceId*, *Resourcename*, or *email*. The following identity
+  formats are available:
 
   - Resource ID: r-0123456789a0123456789b0123456789
   - Email address: resource@domain.tld
@@ -4691,10 +4710,11 @@ call. The dataset in the request should be the one expected when performing anot
 # Arguments
 
 - `organization_id`: The identifier for the organization under which the user exists.
+
 - `user_id`: The identifier for the user to be updated.
 
-  The identifier can be the *UserId*, *Username*, or *email*. The following identity
-  formats are available:
+  The identifier can be the *UserId*, *Username*, or *email*. The following identity formats
+  are available:
 
   - User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-
     123456789-1234
@@ -4706,22 +4726,36 @@ call. The dataset in the request should be the one expected when performing anot
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"City"`: Updates the user's city.
+
 - `"Company"`: Updates the user's company.
+
 - `"Country"`: Updates the user's country.
+
 - `"Department"`: Updates the user's department.
+
 - `"DisplayName"`: Updates the display name of the user.
+
 - `"FirstName"`: Updates the user's first name.
+
 - `"HiddenFromGlobalAddressList"`: If enabled, the user is hidden from the global address
   list.
+
 - `"Initials"`: Updates the user's initials.
+
 - `"JobTitle"`: Updates the user's job title.
+
 - `"LastName"`: Updates the user's last name.
+
 - `"Office"`: Updates the user's office.
+
 - `"Role"`: Updates the user role.
 
   You cannot pass *SYSTEM_USER* or *RESOURCE*.
+
 - `"Street"`: Updates the user's street address.
+
 - `"Telephone"`: Updates the user's contact details.
+
 - `"ZipCode"`: Updates the user's zipcode.
 """
 function update_user end

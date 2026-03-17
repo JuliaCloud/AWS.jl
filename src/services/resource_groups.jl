@@ -8,9 +8,9 @@ using AWS.UUIDs
     create_group(name)
     create_group(name, params::Dict{String,<:Any})
 
-Creates a resource group with the specified name and description. You can optionally
-include either a resource query or a service configuration. For more information about
-constructing a resource query, see [Build queries and groups in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/getting_started-query.html)
+Creates a resource group with the specified name and description. You can optionally include
+either a resource query or a service configuration. For more information about constructing
+a resource query, see [Build queries and groups in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/getting_started-query.html)
 in the *Resource Groups User Guide*. For more information about service-linked groups and
 service configurations, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
 
@@ -23,11 +23,11 @@ To run this command, you must have the following permissions:
 # Arguments
 
 - `name`: The name of the group, which is the identifier of the group in other operations.
-  You can't change the name of a resource group after you create it. A resource group
-  name can consist of letters, numbers, hyphens, periods, and underscores. The name
-  cannot start with `AWS`, `aws`, or any other possible capitalization; these are
-  reserved. A resource group name must be unique within each Amazon Web Services Region
-  in your Amazon Web Services account.
+  You can't change the name of a resource group after you create it. A resource group name
+  can consist of letters, numbers, hyphens, periods, and underscores. The name cannot start
+  with `AWS`, `aws`, or any other possible capitalization; these are reserved. A resource
+  group name must be unique within each Amazon Web Services Region in your Amazon Web
+  Services account.
 
 # Optional Parameters
 
@@ -44,6 +44,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The description of the resource group. Descriptions can consist of
   letters, numbers, hyphens, underscores, periods, and spaces.
+
 - `"ResourceQuery"`: The resource query that determines which Amazon Web Services resources
   are members of this group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag).
 
@@ -385,11 +386,11 @@ To run this command, you must have the following permissions:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters, formatted as [`resource_filter`](@ref) objects, that you want to
-  apply to a [`list_group_resources`](@ref) operation. Filters the results to include
-  only those of the specified resource types.
+  apply to a [`list_group_resources`](@ref) operation. Filters the results to include only
+  those of the specified resource types.
 
-  - `resource-type` - Filter resources by their type. Specify up to five resource types
-    in the format `AWS::ServiceCode::ResourceType`. For example, `AWS::EC2::Instance`, or
+  - `resource-type` - Filter resources by their type. Specify up to five resource types in
+    the format `AWS::ServiceCode::ResourceType`. For example, `AWS::EC2::Instance`, or
     `AWS::S3::Bucket`.
 
   When you specify a `resource-type` filter for `ListGroupResources`, Resource Groups
@@ -397,8 +398,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with the group. For example, if a group contains only S3 buckets because its
   query specifies only that resource type, but your `resource-type` filter includes EC2
   instances, AWS Resource Groups does not filter for EC2 instances. In this case, a
-  `ListGroupResources` request returns a `BadRequestException` error with a message
-  similar to the following:
+  `ListGroupResources` request returns a `BadRequestException` error with a message similar
+  to the following:
 
   `The resource types specified as filters in the request are not valid.`
 
@@ -407,24 +408,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group query specifies `AWS::AllSupported`, because a group based on such a query can
   contain any of the allowed resource types for the query type (tag-based or Amazon
   CloudFront stack-based queries).
-- `"Group"`: The name or the ARN of the resource group
-- `"GroupName"`:
 
-  !!! important
+- `"Group"`: The name or the ARN of the resource group
+
+- `"GroupName"`: !!! important
       ***Deprecated - don't use this parameter. Use the `Group` request field instead.***
 
 - `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific
-  to the operation. If additional items exist beyond the maximum you specify, the
-  `NextToken` response element is present and has a value (is not null). Include that
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
-  maximum even when there are more results available. You should check `NextToken` after
-  every operation to ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a
-  `NextToken` response in a previous request. A `NextToken` response indicates that more
-  output is available. Set this parameter to the value provided by a previous call's
-  `NextToken` response to indicate where the output should continue from.
+  response. If you do not include this parameter, it defaults to a value that is specific to
+  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
+  response element is present and has a value (is not null). Include that value as the
+  `next_token` request parameter in the next call to the operation to get the next part of
+  the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check `NextToken` after every operation to
+  ensure that you receive all of the results.
+
+- `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value provided by a previous call's `NextToken`
+  response to indicate where the output should continue from.
 """
 function list_group_resources end
 
@@ -468,13 +470,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Filters, formatted as [`group_filter`](@ref) objects, that you want to apply
   to a [`list_groups`](@ref) operation.
 
-  - `resource-type` - Filter the results to include only those resource groups that have
-    the specified resource type in their `ResourceTypeFilter`. For example,
-    `AWS::EC2::Instance` would return any resource group with a `ResourceTypeFilter` that
-    includes `AWS::EC2::Instance`.
+  - `resource-type` - Filter the results to include only those resource groups that have the
+    specified resource type in their `ResourceTypeFilter`. For example, `AWS::EC2::Instance`
+    would return any resource group with a `ResourceTypeFilter` that includes
+    `AWS::EC2::Instance`.
   - `configuration-type` - Filter the results to include only those groups that have the
-    specified configuration types attached. The current supported values are:   -
-    `AWS::AppRegistry::Application`
+    specified configuration types attached. The current supported values are:
+    - `AWS::AppRegistry::Application`
     - `AWS::AppRegistry::ApplicationResourceGroups`
     - `AWS::CloudFormation::Stack`
     - `AWS::EC2::CapacityReservationPool`
@@ -482,17 +484,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     - `AWS::NetworkFirewall::RuleGroup`
 
 - `"maxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific
-  to the operation. If additional items exist beyond the maximum you specify, the
-  `NextToken` response element is present and has a value (is not null). Include that
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
-  maximum even when there are more results available. You should check `NextToken` after
-  every operation to ensure that you receive all of the results.
-- `"nextToken"`: The parameter for receiving additional results if you receive a
-  `NextToken` response in a previous request. A `NextToken` response indicates that more
-  output is available. Set this parameter to the value provided by a previous call's
-  `NextToken` response to indicate where the output should continue from.
+  response. If you do not include this parameter, it defaults to a value that is specific to
+  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
+  response element is present and has a value (is not null). Include that value as the
+  `next_token` request parameter in the next call to the operation to get the next part of
+  the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check `NextToken` after every operation to
+  ensure that you receive all of the results.
+
+- `"nextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value provided by a previous call's `NextToken`
+  response to indicate where the output should continue from.
 """
 function list_groups end
 
@@ -518,9 +521,9 @@ end
     put_group_configuration()
     put_group_configuration(params::Dict{String,<:Any})
 
-Attaches a service configuration to the specified group. This occurs asynchronously, and
-can take time to complete. You can use [`get_group_configuration`](@ref) to check the
-status of the update.
+Attaches a service configuration to the specified group. This occurs asynchronously, and can
+take time to complete. You can use [`get_group_configuration`](@ref) to check the status of
+the update.
 
 **Minimum permissions**
 
@@ -534,8 +537,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Configuration"`: The new configuration to associate with the specified group. A
   configuration associates the resource group with an Amazon Web Services service and
-  specifies how the service can interact with the resources in the group. A configuration
-  is an array of [`group_configuration_item`](@ref) elements.
+  specifies how the service can interact with the resources in the group. A configuration is
+  an array of [`group_configuration_item`](@ref) elements.
 
   For information about the syntax of a service configuration, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
 
@@ -573,8 +576,8 @@ end
     search_resources(resource_query)
     search_resources(resource_query, params::Dict{String,<:Any})
 
-Returns a list of Amazon Web Services resource identifiers that matches the specified
-query. The query uses the same format as a resource query in a [`create_group`](@ref) or [`update_group_query`](@ref)
+Returns a list of Amazon Web Services resource identifiers that matches the specified query.
+The query uses the same format as a resource query in a [`create_group`](@ref) or [`update_group_query`](@ref)
 operation.
 
 **Minimum permissions**
@@ -588,25 +591,26 @@ To run this command, you must have the following permissions:
 
 # Arguments
 
-- `resource_query`: The search query, using the same formats that are supported for
-  resource group definition. For more information, see [`create_group`](@ref).
+- `resource_query`: The search query, using the same formats that are supported for resource
+  group definition. For more information, see [`create_group`](@ref).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific
-  to the operation. If additional items exist beyond the maximum you specify, the
-  `NextToken` response element is present and has a value (is not null). Include that
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
-  maximum even when there are more results available. You should check `NextToken` after
-  every operation to ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a
-  `NextToken` response in a previous request. A `NextToken` response indicates that more
-  output is available. Set this parameter to the value provided by a previous call's
-  `NextToken` response to indicate where the output should continue from.
+  response. If you do not include this parameter, it defaults to a value that is specific to
+  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
+  response element is present and has a value (is not null). Include that value as the
+  `next_token` request parameter in the next call to the operation to get the next part of
+  the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check `NextToken` after every operation to
+  ensure that you receive all of the results.
+
+- `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value provided by a previous call's `NextToken`
+  response to indicate where the output should continue from.
 """
 function search_resources end
 
@@ -646,8 +650,7 @@ not changed if they are not specified in the request parameters.
 !!! important
     Do not store personally identifiable information (PII) or other confidential or
     sensitive information in tags. We use tags to provide you with billing and
-    administration services. Tags are not intended to be used for private or sensitive
-    data.
+    administration services. Tags are not intended to be used for private or sensitive data.
 
 **Minimum permissions**
 

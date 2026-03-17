@@ -32,21 +32,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AllowClassicFlow"`: Enables or disables the Basic (Classic) authentication flow. For
   more information, see [Identity Pools (Federated Identities) Authentication Flow](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html)
   in the *Amazon Cognito Developer Guide*.
+
 - `"CognitoIdentityProviders"`: An array of Amazon Cognito user pools and their client IDs.
+
 - `"DeveloperProviderName"`: The "domain" by which Cognito will refer to your users. This
-  name acts as a placeholder that allows your backend and the Cognito service to
-  communicate about the developer provider. For the `DeveloperProviderName`, you can use
-  letters as well as period (`.`), underscore (`_`), and dash (`-`).
+  name acts as a placeholder that allows your backend and the Cognito service to communicate
+  about the developer provider. For the `DeveloperProviderName`, you can use letters as well
+  as period (`.`), underscore (`_`), and dash (`-`).
 
   Once you have set a developer provider name, you cannot change it. Please take care in
   setting this parameter.
+
 - `"IdentityPoolTags"`: Tags to assign to the identity pool. A tag is a label that you can
   apply to identity pools to categorize and manage them in different ways, such as by
   purpose, owner, environment, or other criteria.
+
 - `"OpenIdConnectProviderARNs"`: The Amazon Resource Names (ARN) of the OpenID Connect
   providers.
+
 - `"SamlProviderARNs"`: An array of Amazon Resource Names (ARNs) of the SAML provider for
   your identity pool.
+
 - `"SupportedLoginProviders"`: Optional key:value pairs mapping provider names to provider
   app IDs.
 """
@@ -95,8 +101,8 @@ end
     delete_identities(identity_ids_to_delete)
     delete_identities(identity_ids_to_delete, params::Dict{String,<:Any})
 
-Deletes identities from an identity pool. You can specify a list of 1-60 identities that
-you want to delete.
+Deletes identities from an identity pool. You can specify a list of 1-60 identities that you
+want to delete.
 
 You must use AWS Developer credentials to call this API.
 
@@ -278,18 +284,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CustomRoleArn"`: The Amazon Resource Name (ARN) of the role to be assumed when multiple
   roles were received in the token from the identity provider. For example, a SAML-based
-  identity provider. This parameter is optional for identity providers that do not
-  support role customization.
-- `"Logins"`: A set of optional name-value pairs that map provider names to provider
-  tokens. The name-value pair will follow the syntax "provider_name":
-  "provider_user_identifier".
+  identity provider. This parameter is optional for identity providers that do not support
+  role customization.
+
+- `"Logins"`: A set of optional name-value pairs that map provider names to provider tokens.
+  The name-value pair will follow the syntax "provider_name": "provider_user_identifier".
 
   Logins should not be specified when trying to get credentials for an unauthenticated
   identity.
 
-  The Logins parameter is required when using identities associated with external
-  identity providers such as Facebook. For examples of `Logins` maps, see the code
-  examples in the [External Identity Providers](https://docs.aws.amazon.com/cognito/latest/developerguide/external-identity-providers.html)
+  The Logins parameter is required when using identities associated with external identity
+  providers such as Facebook. For examples of `Logins` maps, see the code examples in the [External Identity Providers](https://docs.aws.amazon.com/cognito/latest/developerguide/external-identity-providers.html)
   section of the Amazon Cognito Developer Guide.
 """
 function get_credentials_for_identity end
@@ -338,8 +343,9 @@ This is a public API. You do not need any credentials to call this API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccountId"`: A standard AWS account ID (9+ digits).
-- `"Logins"`: A set of optional name-value pairs that map provider names to provider
-  tokens. The available provider names for `Logins` are as follows:
+
+- `"Logins"`: A set of optional name-value pairs that map provider names to provider tokens.
+  The available provider names for `Logins` are as follows:
 
   - Facebook: `graph.facebook.com`
   - Amazon Cognito user pool:
@@ -349,7 +355,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Amazon: `www.amazon.com`
   - Twitter: `api.twitter.com`
   - Digits: `www.digits.com`
-
 """
 function get_id end
 
@@ -422,8 +427,8 @@ end
     get_open_id_token(identity_id, params::Dict{String,<:Any})
 
 Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by [`get_id`](@ref).
-You can optionally add additional logins for the identity. Supplying multiple logins
-creates an implicit link.
+You can optionally add additional logins for the identity. Supplying multiple logins creates
+an implicit link.
 
 The OpenID token is valid for 10 minutes.
 
@@ -437,10 +442,10 @@ This is a public API. You do not need any credentials to call this API.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Logins"`: A set of optional name-value pairs that map provider names to provider
-  tokens. When using graph.facebook.com and www.amazon.com, supply the access_token
-  returned from the provider's authflow. For accounts.google.com, an Amazon Cognito user
-  pool provider, or any other OpenID Connect provider, always include the `id_token`.
+- `"Logins"`: A set of optional name-value pairs that map provider names to provider tokens.
+  When using graph.facebook.com and www.amazon.com, supply the access_token returned from
+  the provider's authflow. For accounts.google.com, an Amazon Cognito user pool provider, or
+  any other OpenID Connect provider, always include the `id_token`.
 """
 function get_open_id_token end
 
@@ -490,35 +495,36 @@ You must use AWS Developer credentials to call this API.
 # Arguments
 
 - `identity_pool_id`: An identity pool ID in the format REGION:GUID.
+
 - `logins`: A set of optional name-value pairs that map provider names to provider tokens.
   Each name-value pair represents a user from a public provider or developer provider. If
   the user is from a developer provider, the name-value pair will follow the syntax
   `"developer_provider_name": "developer_user_identifier"`. The developer provider is the
   "domain" by which Cognito will refer to your users; you provided this domain while
-  creating/updating the identity pool. The developer user identifier is an identifier
-  from your backend that uniquely identifies a user. When you create an identity pool,
-  you can specify the supported logins.
+  creating/updating the identity pool. The developer user identifier is an identifier from
+  your backend that uniquely identifies a user. When you create an identity pool, you can
+  specify the supported logins.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"IdentityId"`: A unique identifier in the format REGION:GUID.
+
 - `"PrincipalTags"`: Use this operation to configure attribute mappings for custom
   providers.
+
 - `"TokenDuration"`: The expiration time of the token, in seconds. You can specify a custom
-  expiration time for the token so that you can cache it. If you don't provide an
-  expiration time, the token is valid for 15 minutes. You can exchange the token with
-  Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour.
-  The maximum token duration you can set is 24 hours. You should take care in setting the
-  expiration time for a token, as there are significant security implications: an
-  attacker could use a leaked token to access your AWS resources for the token's
-  duration.
+  expiration time for the token so that you can cache it. If you don't provide an expiration
+  time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for
+  temporary AWS credentials, which are valid for a maximum of one hour. The maximum token
+  duration you can set is 24 hours. You should take care in setting the expiration time for
+  a token, as there are significant security implications: an attacker could use a leaked
+  token to access your AWS resources for the token's duration.
 
   !!! note
       Please provide for a small grace period, usually no more than 5 minutes, to account
       for clock skew.
-
 """
 function get_open_id_token_for_developer_identity end
 
@@ -756,9 +762,9 @@ end
 
 Retrieves the `IdentityID` associated with a `DeveloperUserIdentifier` or the list of
 `DeveloperUserIdentifier` values associated with an `IdentityId` for an existing identity.
-Either `IdentityID` or `DeveloperUserIdentifier` must not be null. If you supply only one
-of these values, the other value will be searched in the database and returned as a part of
-the response. If you supply both, `DeveloperUserIdentifier` will be matched against
+Either `IdentityID` or `DeveloperUserIdentifier` must not be null. If you supply only one of
+these values, the other value will be searched in the database and returned as a part of the
+response. If you supply both, `DeveloperUserIdentifier` will be matched against
 `IdentityID`. If the values are verified against the database, the response returns both
 values and is the same as the request. Otherwise a `ResourceConflictException` is thrown.
 
@@ -779,16 +785,18 @@ You must use AWS Developer credentials to call this API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DeveloperUserIdentifier"`: A unique ID used by your backend authentication process to
-  identify a user. Typically, a developer identity provider would issue many developer
-  user identifiers, in keeping with the number of users.
+  identify a user. Typically, a developer identity provider would issue many developer user
+  identifiers, in keeping with the number of users.
+
 - `"IdentityId"`: A unique identifier in the format REGION:GUID.
+
 - `"MaxResults"`: The maximum number of identities to return.
+
 - `"NextToken"`: A pagination token. The first call you make will have `NextToken` set to
-  null. After that the service will return `NextToken` values as needed. For example,
-  let's say you make a request with `MaxResults` set to 10, and there are 20 matches in
-  the database. The service will return a pagination token as a part of the response.
-  This token can be used to call the API again and get results starting from the 11th
-  match.
+  null. After that the service will return `NextToken` values as needed. For example, let's
+  say you make a request with `MaxResults` set to 10, and there are 20 matches in the
+  database. The service will return a pagination token as a part of the response. This token
+  can be used to call the API again and get results starting from the 11th match.
 """
 function lookup_developer_identity end
 
@@ -830,8 +838,8 @@ associates the given source user (`SourceUserIdentifier`) with the `IdentityId` 
 to be merged are associated with the same public provider, but as two different users, an
 exception will be thrown.
 
-The number of linked logins is limited to 20. So, the number of linked logins for the
-source user, `SourceUserIdentifier`, and the destination user, `DestinationUserIdentifier`,
+The number of linked logins is limited to 20. So, the number of linked logins for the source
+user, `SourceUserIdentifier`, and the destination user, `DestinationUserIdentifier`,
 together should not be larger than 20. Otherwise, an exception will be thrown.
 
 You must use AWS Developer credentials to call this API.
@@ -840,12 +848,15 @@ You must use AWS Developer credentials to call this API.
 
 - `destination_user_identifier`: User identifier for the destination user. The value should
   be a `DeveloperUserIdentifier`.
-- `developer_provider_name`: The "domain" by which Cognito will refer to your users. This
-  is a (pseudo) domain name that you provide while creating an identity pool. This name
-  acts as a placeholder that allows your backend and the Cognito service to communicate
-  about the developer provider. For the `DeveloperProviderName`, you can use letters as
-  well as period (.), underscore (_), and dash (-).
+
+- `developer_provider_name`: The "domain" by which Cognito will refer to your users. This is
+  a (pseudo) domain name that you provide while creating an identity pool. This name acts as
+  a placeholder that allows your backend and the Cognito service to communicate about the
+  developer provider. For the `DeveloperProviderName`, you can use letters as well as period
+  (.), underscore (_), and dash (-).
+
 - `identity_pool_id`: An identity pool ID in the format REGION:GUID.
+
 - `source_user_identifier`: User identifier for the source user. The value should be a
   `DeveloperUserIdentifier`.
 """
@@ -1025,10 +1036,10 @@ you can use to categorize and manage identity pools in different ways, such as b
 owner, environment, or other criteria.
 
 Each tag consists of a key and value, both of which you define. A key is a general category
-for more specific values. For example, if you have two versions of an identity pool, one
-for testing and another for production, you might assign an `Environment` tag key to both
-identity pools. The value of this key might be `Test` for one identity pool and
-`Production` for the other.
+for more specific values. For example, if you have two versions of an identity pool, one for
+testing and another for production, you might assign an `Environment` tag key to both
+identity pools. The value of this key might be `Test` for one identity pool and `Production`
+for the other.
 
 Tags are useful for cost tracking and access control. You can activate your tags so that
 they appear on the Billing and Cost Management console, where you can track the costs
@@ -1078,10 +1089,10 @@ end
     unlink_developer_identity(developer_provider_name, developer_user_identifier, identity_id, identity_pool_id)
     unlink_developer_identity(developer_provider_name, developer_user_identifier, identity_id, identity_pool_id, params::Dict{String,<:Any})
 
-Unlinks a `DeveloperUserIdentifier` from an existing identity. Unlinked developer users
-will be considered new identities next time they are seen. If, for a given Cognito
-identity, you remove all federated identities as well as the developer user identifier, the
-Cognito identity becomes inaccessible.
+Unlinks a `DeveloperUserIdentifier` from an existing identity. Unlinked developer users will
+be considered new identities next time they are seen. If, for a given Cognito identity, you
+remove all federated identities as well as the developer user identifier, the Cognito
+identity becomes inaccessible.
 
 You must use AWS Developer credentials to call this API.
 
@@ -1204,8 +1215,8 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes the specified tags from the specified Amazon Cognito identity pool. You can use
-this action up to 5 times per second, per account
+Removes the specified tags from the specified Amazon Cognito identity pool. You can use this
+action up to 5 times per second, per account
 
 # Arguments
 
@@ -1271,8 +1282,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client ID.
 - `"DeveloperProviderName"`: The "domain" by which Cognito will refer to your users.
 - `"IdentityPoolTags"`: The tags that are assigned to the identity pool. A tag is a label
-  that you can apply to identity pools to categorize and manage them in different ways,
-  such as by purpose, owner, environment, or other criteria.
+  that you can apply to identity pools to categorize and manage them in different ways, such
+  as by purpose, owner, environment, or other criteria.
 - `"OpenIdConnectProviderARNs"`: The ARNs of the OpenID Connect providers.
 - `"SamlProviderARNs"`: An array of Amazon Resource Names (ARNs) of the SAML provider for
   your identity pool.

@@ -19,16 +19,18 @@ Adds cross-account permissions to a signing profile.
 
   You can designate the following actions to an account.
 
-  - `signer:StartSigningJob`. This action isn't supported for container image workflows.
-    For details, see [`start_signing_job`](@ref).
-  - `signer:SignPayload`. This action isn't supported for AWS Lambda workflows. For
-    details, see [`sign_payload`](@ref)
+  - `signer:StartSigningJob`. This action isn't supported for container image workflows. For
+    details, see [`start_signing_job`](@ref).
+  - `signer:SignPayload`. This action isn't supported for AWS Lambda workflows. For details,
+    see [`sign_payload`](@ref)
   - `signer:GetSigningProfile`. For details, see [`get_signing_profile`](@ref).
   - `signer:RevokeSignature`. For details, see [`revoke_signature`](@ref).
 
 - `principal`: The AWS principal receiving cross-account permissions. This may be an IAM
   role or another AWS account ID.
+
 - `profile_name`: The human-readable name of the signing profile.
+
 - `statement_id`: A unique identifier for the cross-account permission statement.
 
 # Optional Parameters
@@ -169,9 +171,9 @@ signing certificate.
 
 - `certificate_hashes`: A list of composite signed hashes that identify certificates.
 
-  A certificate identifier consists of a subject certificate TBS hash (signed by the
-  parent CA) combined with a parent CA TBS hash (signed by the parent CA’s CA). Root
-  certificates are defined as their own CA.
+  A certificate identifier consists of a subject certificate TBS hash (signed by the parent
+  CA) combined with a parent CA TBS hash (signed by the parent CA’s CA). Root certificates
+  are defined as their own CA.
 
   The following example shows how to calculate a hash for this parameter using OpenSSL
   commands:
@@ -185,9 +187,13 @@ signing certificate.
   `openssl sha384 &lt; parentCert.tbs -binary &gt; parentCertTbsHash xxd -p childCertTbsHash &gt; certificateHash.hex xxd -p parentCertTbsHash &gt;&gt; certificateHash.hex`
 
   `cat certificateHash.hex | tr -d '\\n'`
+
 - `job_arn`: The ARN of a signing job.
+
 - `platform_id`: The ID of a signing platform.
+
 - `profile_version_arn`: The version of a signing profile.
+
 - `signature_timestamp`: The timestamp of the signature that validates the profile or job.
 """
 function get_revocation_status end
@@ -391,10 +397,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify, the `nextToken` element is set in the response. Use the `nextToken` value in a
   subsequent request to retrieve additional items.
 - `"nextToken"`: String for specifying the next set of paginated results to return. After
-  you receive a response with truncated results, use this parameter in a subsequent
-  request. Set it to the value of `nextToken` from the response that you just received.
-- `"platformId"`: The ID of microcontroller platform that you specified for the
-  distribution of your code image.
+  you receive a response with truncated results, use this parameter in a subsequent request.
+  Set it to the value of `nextToken` from the response that you just received.
+- `"platformId"`: The ID of microcontroller platform that you specified for the distribution
+  of your code image.
 - `"requestedBy"`: The IAM principal that requested the signing job.
 - `"signatureExpiresAfter"`: Filters results to return only signing jobs with signatures
   expiring after a specified timestamp.
@@ -438,9 +444,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"category"`: The category type of a signing platform.
 - `"maxResults"`: The maximum number of results to be returned by this operation.
-- `"nextToken"`: Value for specifying the next set of paginated results to return. After
-  you receive a response with truncated results, use this parameter in a subsequent
-  request. Set it to the value of `nextToken` from the response that you just received.
+- `"nextToken"`: Value for specifying the next set of paginated results to return. After you
+  receive a response with truncated results, use this parameter in a subsequent request. Set
+  it to the value of `nextToken` from the response that you just received.
 - `"partner"`: Any partner entities connected to a signing platform.
 - `"target"`: The validation template that is used by the target signing platform.
 """
@@ -481,9 +487,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"includeCanceled"`: Designates whether to include profiles with the status of `CANCELED`.
 - `"maxResults"`: The maximum number of profiles to be returned.
-- `"nextToken"`: Value for specifying the next set of paginated results to return. After
-  you receive a response with truncated results, use this parameter in a subsequent
-  request. Set it to the value of `nextToken` from the response that you just received.
+- `"nextToken"`: Value for specifying the next set of paginated results to return. After you
+  receive a response with truncated results, use this parameter in a subsequent request. Set
+  it to the value of `nextToken` from the response that you just received.
 - `"platformId"`: Filters results to return only signing jobs initiated for a specified
   signing platform.
 - `"statuses"`: Filters results to return only signing jobs with statuses in the specified
@@ -850,8 +856,8 @@ For a Java example that shows how to use this action, see [StartSigningJob](http
 
 - `client_request_token`: String that identifies the signing request. All calls after the
   first that use this token return the same response as the first call.
-- `destination`: The S3 bucket in which to save your signed object. The destination
-  contains the name of your bucket and an optional prefix.
+- `destination`: The S3 bucket in which to save your signed object. The destination contains
+  the name of your bucket and an optional prefix.
 - `profile_name`: The name of the signing profile.
 - `source`: The S3 bucket that contains the object to sign or a BLOB that contains your raw
   code.
@@ -917,10 +923,10 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds one or more tags to a signing profile. Tags are labels that you can use to identify
-and organize your AWS resources. Each tag consists of a key and an optional value. To
-specify the signing profile, use its Amazon Resource Name (ARN). To specify the tag, use a
-key-value pair.
+Adds one or more tags to a signing profile. Tags are labels that you can use to identify and
+organize your AWS resources. Each tag consists of a key and an optional value. To specify
+the signing profile, use its Amazon Resource Name (ARN). To specify the tag, use a key-value
+pair.
 
 # Arguments
 

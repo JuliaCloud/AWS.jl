@@ -26,12 +26,18 @@ in the *AWS IoT Events Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"alarmCapabilities"`: Contains the configuration information of alarm state changes.
+
 - `"alarmEventActions"`: Contains information about one or more alarm actions.
+
 - `"alarmModelDescription"`: A description that tells you what the alarm model detects.
+
 - `"alarmNotification"`: Contains information about one or more notification actions.
+
 - `"key"`: An input attribute used as a key to create an alarm. AWS IoT Events routes [inputs](https://docs.aws.amazon.com/iotevents/latest/apireference/API_Input.html)
   associated with this key to the alarm.
+
 - `"severity"`: A non-negative integer that reflects the severity level of the alarm.
+
 - `"tags"`: A list of key-value pairs that contain metadata for the alarm model. The tags
   help you manage the alarm model. For more information, see [Tagging your AWS IoT Events resources](https://docs.aws.amazon.com/iotevents/latest/developerguide/tagging-iotevents.html)
   in the *AWS IoT Events Developer Guide*.
@@ -100,13 +106,16 @@ Creates a detector model.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"detectorModelDescription"`: A brief description of the detector model.
+
 - `"evaluationMethod"`: Information about the order in which events are evaluated and how
   actions are executed.
+
 - `"key"`: The input attribute key used to identify a device or system to create a detector
   (an instance of the detector model) and then to route each input received to the
-  appropriate detector (instance). This parameter uses a JSON-path expression in the
-  message payload of each input to specify the attribute-value pair that is used to
-  identify the device associated with the input.
+  appropriate detector (instance). This parameter uses a JSON-path expression in the message
+  payload of each input to specify the attribute-value pair that is used to identify the
+  device associated with the input.
+
 - `"tags"`: Metadata that can be used to manage the detector model.
 """
 function create_detector_model end
@@ -559,8 +568,8 @@ end
     list_alarm_model_versions(alarm_model_name)
     list_alarm_model_versions(alarm_model_name, params::Dict{String,<:Any})
 
-Lists all the versions of an alarm model. The operation returns only the metadata
-associated with each alarm model version.
+Lists all the versions of an alarm model. The operation returns only the metadata associated
+with each alarm model version.
 
 # Arguments
 
@@ -839,8 +848,8 @@ Sets or updates the AWS IoT Events logging options.
 
 If you update the value of any `loggingOptions` field, it takes up to one minute for the
 change to take effect. If you change the policy attached to the role you specified in the
-`roleArn` field (for example, to correct an invalid policy), it takes up to five minutes
-for that change to take effect.
+`roleArn` field (for example, to correct an invalid policy), it takes up to five minutes for
+that change to take effect.
 
 # Arguments
 

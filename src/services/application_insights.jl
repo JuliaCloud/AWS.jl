@@ -79,19 +79,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoCreate"`: Configures all of the resources in the resource group by applying the
   recommended configurations.
 - `"CWEMonitorEnabled"`: Indicates whether Application Insights can listen to CloudWatch
-  events for the application resources, such as `instance terminated`,
-  `failed deployment`, and others.
+  events for the application resources, such as `instance terminated`, `failed deployment`,
+  and others.
 - `"GroupingType"`: Application Insights can create applications based on a resource group
-  or on an account. To create an account-based application using all of the resources in
-  the account, set this parameter to `ACCOUNT_BASED`.
-- `"OpsCenterEnabled"`: When set to `true`, creates opsItems for any problems detected on
-  an application.
+  or on an account. To create an account-based application using all of the resources in the
+  account, set this parameter to `ACCOUNT_BASED`.
+- `"OpsCenterEnabled"`: When set to `true`, creates opsItems for any problems detected on an
+  application.
 - `"OpsItemSNSTopicArn"`: The SNS topic provided to Application Insights that is associated
   to the created opsItem. Allows you to receive notifications for updates to the opsItem.
 - `"ResourceGroupName"`: The name of the resource group.
 - `"Tags"`: List of tags to add to the application. tag key (`Key`) and an associated tag
-  value (`Value`). The maximum length of a tag key is 128 characters. The maximum length
-  of a tag value is 256 characters.
+  value (`Value`). The maximum length of a tag key is 128 characters. The maximum length of
+  a tag value is 256 characters.
 """
 function create_application end
 
@@ -176,16 +176,20 @@ Adds an log pattern to a `LogPatternSet`.
 
 - `pattern`: The log pattern. The pattern must be DFA compatible. Patterns that utilize
   forward lookahead or backreference constructions are not supported.
+
 - `pattern_name`: The name of the log pattern.
+
 - `pattern_set_name`: The name of the log pattern set.
-- `rank`: Rank of the log pattern. Must be a value between `1` and `1,000,000`. The
-  patterns are sorted by rank, so we recommend that you set your highest priority
-  patterns with the lowest rank. A pattern of rank `1` will be the first to get matched
-  to a log line. A pattern of rank `1,000,000` will be last to get matched. When you
-  configure custom log patterns from the console, a `Low` severity pattern translates to
-  a `750,000` rank. A `Medium` severity pattern translates to a `500,000` rank. And a
-  `High` severity pattern translates to a `250,000` rank. Rank values less than `1` or
-  greater than `1,000,000` are reserved for AWS-provided patterns.
+
+- `rank`: Rank of the log pattern. Must be a value between `1` and `1,000,000`. The patterns
+  are sorted by rank, so we recommend that you set your highest priority patterns with the
+  lowest rank. A pattern of rank `1` will be the first to get matched to a log line. A
+  pattern of rank `1,000,000` will be last to get matched. When you configure custom log
+  patterns from the console, a `Low` severity pattern translates to a `750,000` rank. A
+  `Medium` severity pattern translates to a `500,000` rank. And a `High` severity pattern
+  translates to a `250,000` rank. Rank values less than `1` or greater than `1,000,000` are
+  reserved for AWS-provided patterns.
+
 - `resource_group_name`: The name of the resource group.
 """
 function create_log_pattern end
@@ -962,21 +966,27 @@ Application Insights. Examples of events represented are:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccountId"`: The AWS account ID for the resource group owner.
+
 - `"EndTime"`: The end time of the event.
+
 - `"EventStatus"`: The status of the configuration update event. Possible values include
   INFO, WARN, and ERROR.
+
 - `"MaxResults"`: The maximum number of results returned by `ListConfigurationHistory` in
   paginated output. When this parameter is used, `ListConfigurationHistory` returns only
   `MaxResults` in a single page along with a `NextToken` response element. The remaining
-  results of the initial request can be seen by sending another
-  `ListConfigurationHistory` request with the returned `NextToken` value. If this
-  parameter is not used, then `ListConfigurationHistory` returns all results.
+  results of the initial request can be seen by sending another `ListConfigurationHistory`
+  request with the returned `NextToken` value. If this parameter is not used, then
+  `ListConfigurationHistory` returns all results.
+
 - `"NextToken"`: The `NextToken` value returned from a previous paginated
   `ListConfigurationHistory` request where `MaxResults` was used and the results exceeded
   the value of that parameter. Pagination continues from the end of the previous results
-  that returned the `NextToken` value. This value is `null` when there are no more
-  results to return.
+  that returned the `NextToken` value. This value is `null` when there are no more results
+  to return.
+
 - `"ResourceGroupName"`: Resource group to which the application belongs.
+
 - `"StartTime"`: The start time of the event.
 """
 function list_configuration_history end
@@ -1109,8 +1119,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AccountId"`: The AWS account ID for the resource group owner.
 - `"ComponentName"`: The name of the component.
-- `"EndTime"`: The time when the problem ended, in epoch seconds. If not specified,
-  problems within the past seven days are returned.
+- `"EndTime"`: The time when the problem ended, in epoch seconds. If not specified, problems
+  within the past seven days are returned.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
@@ -1143,8 +1153,8 @@ end
 Retrieve a list of the tags (keys and values) that are associated with a specified
 application. A *tag* is a label that you optionally define and associate with an
 application. Each tag consists of a required *tag key* and an optional associated *tag
-value*. A tag key is a general label that acts as a category for more specific tag values.
-A tag value acts as a descriptor within a tag key.
+value*. A tag key is a general label that acts as a category for more specific tag values. A
+tag value acts as a descriptor within a tag key.
 
 # Arguments
 
@@ -1304,16 +1314,16 @@ manage application in different ways, such as by purpose, owner, environment, or
 criteria.
 
 Each tag consists of a required *tag key* and an associated *tag value*, both of which you
-define. A tag key is a general label that acts as a category for more specific tag values.
-A tag value acts as a descriptor within a tag key.
+define. A tag key is a general label that acts as a category for more specific tag values. A
+tag value acts as a descriptor within a tag key.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the application that you want to add
-  one or more tags to.
+- `resource_arn`: The Amazon Resource Name (ARN) of the application that you want to add one
+  or more tags to.
 - `tags`: A list of tags that to add to the application. A tag consists of a required tag
-  key (`Key`) and an associated tag value (`Value`). The maximum length of a tag key is
-  128 characters. The maximum length of a tag value is 256 characters.
+  key (`Key`) and an associated tag value (`Value`). The maximum length of a tag key is 128
+  characters. The maximum length of a tag value is 256 characters.
 """
 function tag_resource end
 
@@ -1356,6 +1366,7 @@ Remove one or more tags (keys and values) from a specified application.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the application that you want to remove
   one or more tags from.
+
 - `tag_keys`: The tags (tag keys) that you want to remove from the resource. When you
   specify a tag key, the action removes both that key and its associated tag value.
 
@@ -1413,10 +1424,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attached to the instance roles if they are missing.
 - `"AutoConfigEnabled"`: Turns auto-configuration on or off.
 - `"CWEMonitorEnabled"`: Indicates whether Application Insights can listen to CloudWatch
-  events for the application resources, such as `instance terminated`,
-  `failed deployment`, and others.
-- `"OpsCenterEnabled"`: When set to `true`, creates opsItems for any problems detected on
-  an application.
+  events for the application resources, such as `instance terminated`, `failed deployment`,
+  and others.
+- `"OpsCenterEnabled"`: When set to `true`, creates opsItems for any problems detected on an
+  application.
 - `"OpsItemSNSTopicArn"`: The SNS topic provided to Application Insights that is associated
   to the created opsItem. Allows you to receive notifications for updates to the opsItem.
 - `"RemoveSNSTopic"`: Disassociates the SNS topic from the opsItem created for detected
@@ -1527,12 +1538,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AutoConfigEnabled"`: Automatically configures the component by applying the recommended
   configurations.
+
 - `"ComponentConfiguration"`: The configuration settings of the component. The value is the
   escaped JSON of the configuration. For more information about the JSON format, see [Working with JSON](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/working-with-json.html).
   You can send a request to `DescribeComponentConfigurationRecommendation` to see the
   recommended configuration for a component. For the complete format of the component
   configuration file, see [Component Configuration](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/component-config.html).
+
 - `"Monitor"`: Indicates whether the application component is monitored.
+
 - `"Tier"`: The tier of the application component.
 """
 function update_component_configuration end
@@ -1591,14 +1605,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Pattern"`: The log pattern. The pattern must be DFA compatible. Patterns that utilize
   forward lookahead or backreference constructions are not supported.
+
 - `"Rank"`: Rank of the log pattern. Must be a value between `1` and `1,000,000`. The
-  patterns are sorted by rank, so we recommend that you set your highest priority
-  patterns with the lowest rank. A pattern of rank `1` will be the first to get matched
-  to a log line. A pattern of rank `1,000,000` will be last to get matched. When you
-  configure custom log patterns from the console, a `Low` severity pattern translates to
-  a `750,000` rank. A `Medium` severity pattern translates to a `500,000` rank. And a
-  `High` severity pattern translates to a `250,000` rank. Rank values less than `1` or
-  greater than `1,000,000` are reserved for AWS-provided patterns.
+  patterns are sorted by rank, so we recommend that you set your highest priority patterns
+  with the lowest rank. A pattern of rank `1` will be the first to get matched to a log
+  line. A pattern of rank `1,000,000` will be last to get matched. When you configure custom
+  log patterns from the console, a `Low` severity pattern translates to a `750,000` rank. A
+  `Medium` severity pattern translates to a `500,000` rank. And a `High` severity pattern
+  translates to a `250,000` rank. Rank values less than `1` or greater than `1,000,000` are
+  reserved for AWS-provided patterns.
 """
 function update_log_pattern end
 

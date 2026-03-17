@@ -168,10 +168,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"analysisParameters"`: The parameters of the analysis template.
 - `"description"`: The description of the analysis template.
-- `"tags"`: An optional label that you can assign to a resource when you create it. Each
-  tag consists of a key and an optional value, both of which you define. When you use
-  tagging, you can also use tag-based access control in IAM policies to control access to
-  this resource.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each tag
+  consists of a key and an optional value, both of which you define. When you use tagging,
+  you can also use tag-based access control in IAM policies to control access to this
+  resource.
 """
 function create_analysis_template end
 
@@ -239,12 +239,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If the collaboration creator hasn't specified anyone as the member paying for query
   compute costs, then the member who can query is the default payer.
+
 - `"dataEncryptionMetadata"`: The settings for client-side encryption with Cryptographic
   Computing for Clean Rooms.
-- `"tags"`: An optional label that you can assign to a resource when you create it. Each
-  tag consists of a key and an optional value, both of which you define. When you use
-  tagging, you can also use tag-based access control in IAM policies to control access to
-  this resource.
+
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each tag
+  consists of a key and an optional value, both of which you define. When you use tagging,
+  you can also use tag-based access control in IAM policies to control access to this
+  resource.
 """
 function create_collaboration end
 
@@ -315,32 +317,35 @@ Provides the details necessary to create a configured audience model association
 
 - `configured_audience_model_arn`: A unique identifier for the configured audience model
   that you want to associate.
+
 - `configured_audience_model_association_name`: The name of the configured audience model
   association.
+
 - `manage_resource_policies`: When `TRUE`, indicates that the resource policy for the
   configured audience model resource being associated is configured for Clean Rooms to
   manage permissions related to the given collaboration. When `FALSE`, indicates that the
   configured audience model resource owner will manage permissions related to the given
   collaboration.
 
-  Setting this to `TRUE` requires you to have permissions to create, update, and delete
-  the resource policy for the `cleanrooms-ml` resource when you call the [`delete_configured_audience_model_association`](@ref)
-  resource. In addition, if you are the collaboration creator and specify `TRUE`, you
-  must have the same permissions when you call the [`delete_member`](@ref) and [`delete_collaboration`](@ref)
+  Setting this to `TRUE` requires you to have permissions to create, update, and delete the
+  resource policy for the `cleanrooms-ml` resource when you call the [`delete_configured_audience_model_association`](@ref)
+  resource. In addition, if you are the collaboration creator and specify `TRUE`, you must
+  have the same permissions when you call the [`delete_member`](@ref) and [`delete_collaboration`](@ref)
   APIs.
+
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The configured audience model is associated to the collaboration that
-  this membership belongs to. Accepts a membership ID.
+  collaboration. The configured audience model is associated to the collaboration that this
+  membership belongs to. Accepts a membership ID.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: A description of the configured audience model association.
-- `"tags"`: An optional label that you can assign to a resource when you create it. Each
-  tag consists of a key and an optional value, both of which you define. When you use
-  tagging, you can also use tag-based access control in IAM policies to control access to
-  this resource.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each tag
+  consists of a key and an optional value, both of which you define. When you use tagging,
+  you can also use tag-based access control in IAM policies to control access to this
+  resource.
 """
 function create_configured_audience_model_association end
 
@@ -413,10 +418,10 @@ Creates a new configured table resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: A description for the configured table.
-- `"tags"`: An optional label that you can assign to a resource when you create it. Each
-  tag consists of a key and an optional value, both of which you define. When you use
-  tagging, you can also use tag-based access control in IAM policies to control access to
-  this resource.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each tag
+  consists of a key and an optional value, both of which you define. When you use tagging,
+  you can also use tag-based access control in IAM policies to control access to this
+  resource.
 """
 function create_configured_table end
 
@@ -473,8 +478,8 @@ end
     create_configured_table_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_identifier)
     create_configured_table_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_identifier, params::Dict{String,<:Any})
 
-Creates a new analysis rule for a configured table. Currently, only one analysis rule can
-be created for a given configured table.
+Creates a new analysis rule for a configured table. Currently, only one analysis rule can be
+created for a given configured table.
 
 # Arguments
 
@@ -553,10 +558,10 @@ table with a collaboration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: A description for the configured table association.
-- `"tags"`: An optional label that you can assign to a resource when you create it. Each
-  tag consists of a key and an optional value, both of which you define. When you use
-  tagging, you can also use tag-based access control in IAM policies to control access to
-  this resource.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each tag
+  consists of a key and an optional value, both of which you define. When you use tagging,
+  you can also use tag-based access control in IAM policies to control access to this
+  resource.
 """
 function create_configured_table_association end
 
@@ -615,8 +620,8 @@ Creates a new analysis rule for an associated configured table.
 
 # Arguments
 
-- `analysis_rule_policy`: The analysis rule policy that was created for the configured
-  table association.
+- `analysis_rule_policy`: The analysis rule policy that was created for the configured table
+  association.
 - `analysis_rule_type`: The type of analysis rule.
 - `configured_table_association_identifier`: The unique ID for the configured table
   association. Currently accepts the configured table association ID.
@@ -691,10 +696,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the ID mapping table.
 - `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the Amazon Web Services KMS key. This
   value is used to encrypt the mapping table data that is stored by Clean Rooms.
-- `"tags"`: An optional label that you can assign to a resource when you create it. Each
-  tag consists of a key and an optional value, both of which you define. When you use
-  tagging, you can also use tag-based access control in IAM policies to control access to
-  this resource.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each tag
+  consists of a key and an optional value, both of which you define. When you use tagging,
+  you can also use tag-based access control in IAM policies to control access to this
+  resource.
 """
 function create_id_mapping_table end
 
@@ -757,10 +762,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The description of the ID namespace association.
 - `"idMappingConfig"`: The configuration settings for the ID mapping table.
-- `"tags"`: An optional label that you can assign to a resource when you create it. Each
-  tag consists of a key and an optional value, both of which you define. When you use
-  tagging, you can also use tag-based access control in IAM policies to control access to
-  this resource.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each tag
+  consists of a key and an optional value, both of which you define. When you use tagging,
+  you can also use tag-based access control in IAM policies to control access to this
+  resource.
 """
 function create_id_namespace_association end
 
@@ -821,17 +826,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"defaultResultConfiguration"`: The default protected query result configuration as
   specified by the member who can receive results.
+
 - `"paymentConfiguration"`: The payment responsibilities accepted by the collaboration
   member.
 
   Not required if the collaboration member has the member ability to run queries.
 
-  Required if the collaboration member doesn't have the member ability to run queries but
-  is configured as a payer by the collaboration creator.
-- `"tags"`: An optional label that you can assign to a resource when you create it. Each
-  tag consists of a key and an optional value, both of which you define. When you use
-  tagging, you can also use tag-based access control in IAM policies to control access to
-  this resource.
+  Required if the collaboration member doesn't have the member ability to run queries but is
+  configured as a payer by the collaboration creator.
+
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each tag
+  consists of a key and an optional value, both of which you define. When you use tagging,
+  you can also use tag-based access control in IAM policies to control access to this
+  resource.
 """
 function create_membership end
 
@@ -891,26 +898,28 @@ operation.
 
   !!! important
       If you plan to regularly bring new data into the collaboration, you can use
-      `CALENDAR_MONTH` to automatically get a new privacy budget for the collaboration
-      every calendar month. Choosing this option allows arbitrary amounts of information
-      to be revealed about rows of the data when repeatedly queries across refreshes.
-      Avoid choosing this if the same rows will be repeatedly queried between privacy
-      budget refreshes.
+      `CALENDAR_MONTH` to automatically get a new privacy budget for the collaboration every
+      calendar month. Choosing this option allows arbitrary amounts of information to be
+      revealed about rows of the data when repeatedly queries across refreshes. Avoid
+      choosing this if the same rows will be repeatedly queried between privacy budget
+      refreshes.
 
 - `membership_identifier`: A unique identifier for one of your memberships for a
   collaboration. The privacy budget template is created in the collaboration that this
   membership belongs to. Accepts a membership ID.
+
 - `parameters`: Specifies your parameters for the privacy budget template.
+
 - `privacy_budget_type`: Specifies the type of the privacy budget template.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`: An optional label that you can assign to a resource when you create it. Each
-  tag consists of a key and an optional value, both of which you define. When you use
-  tagging, you can also use tag-based access control in IAM policies to control access to
-  this resource.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each tag
+  consists of a key and an optional value, both of which you define. When you use tagging,
+  you can also use tag-based access control in IAM policies to control access to this
+  resource.
 """
 function create_privacy_budget_template end
 
@@ -1128,8 +1137,7 @@ Deletes a configured table analysis rule.
 # Arguments
 
 - `analysis_rule_type`: The analysis rule type to be deleted. Configured table analysis
-  rules are uniquely identified by their configured table identifier and analysis rule
-  type.
+  rules are uniquely identified by their configured table identifier and analysis rule type.
 - `configured_table_identifier`: The unique identifier for the configured table that the
   analysis rule applies to. Currently accepts the configured table ID.
 """
@@ -1260,8 +1268,8 @@ Deletes an ID mapping table.
 
 # Arguments
 
-- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you
-  want to delete.
+- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you want
+  to delete.
 - `membership_identifier`: The unique identifier of the membership that contains the ID
   mapping table that you want to delete.
 """
@@ -1591,8 +1599,8 @@ Retrieves a configured audience model association within a collaboration.
 
 - `collaboration_identifier`: A unique identifier for the collaboration that the configured
   audience model association belongs to. Accepts a collaboration ID.
-- `configured_audience_model_association_identifier`: A unique identifier for the
-  configured audience model association that you want to retrieve.
+- `configured_audience_model_association_identifier`: A unique identifier for the configured
+  audience model association that you want to retrieve.
 """
 function get_collaboration_configured_audience_model_association end
 
@@ -1717,8 +1725,8 @@ Returns information about a configured audience model association.
 
 # Arguments
 
-- `configured_audience_model_association_identifier`: A unique identifier for the
-  configured audience model association that you want to retrieve.
+- `configured_audience_model_association_identifier`: A unique identifier for the configured
+  audience model association that you want to retrieve.
 - `membership_identifier`: A unique identifier for the membership that contains the
   configured audience model association that you want to retrieve.
 """
@@ -1799,8 +1807,8 @@ Retrieves a configured table analysis rule.
 
 - `analysis_rule_type`: The analysis rule to be retrieved. Configured table analysis rules
   are uniquely identified by their configured table identifier and analysis rule type.
-- `configured_table_identifier`: The unique identifier for the configured table to
-  retrieve. Currently accepts the configured table ID.
+- `configured_table_identifier`: The unique identifier for the configured table to retrieve.
+  Currently accepts the configured table ID.
 """
 function get_configured_table_analysis_rule end
 
@@ -2053,8 +2061,8 @@ Returns details for a specified privacy budget template.
 # Arguments
 
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The privacy budget template is retrieved from the collaboration that
-  this membership belongs to. Accepts a membership ID.
+  collaboration. The privacy budget template is retrieved from the collaboration that this
+  membership belongs to. Accepts a membership ID.
 - `privacy_budget_template_identifier`: A unique identifier for your privacy budget
   template.
 """
@@ -2365,9 +2373,9 @@ Returns a list of the ID namespace associations in a collaboration.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum size of the results that is returned per call. Service
-  chooses a default if it has not been set. Service may return a nextToken even if the
-  maximum results has not been met.&gt;
+- `"maxResults"`: The maximum size of the results that is returned per call. Service chooses
+  a default if it has not been set. Service may return a nextToken even if the maximum
+  results has not been met.&gt;
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
 function list_collaboration_id_namespace_associations end
@@ -2411,9 +2419,9 @@ Returns an array that summarizes each privacy budget template in a specified col
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum size of the results that is returned per call. Service
-  chooses a default if it has not been set. Service may return a nextToken even if the
-  maximum results has not been met.
+- `"maxResults"`: The maximum size of the results that is returned per call. Service chooses
+  a default if it has not been set. Service may return a nextToken even if the maximum
+  results has not been met.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
@@ -2461,9 +2469,9 @@ details.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum size of the results that is returned per call. Service
-  chooses a default if it has not been set. Service may return a nextToken even if the
-  maximum results has not been met.
+- `"maxResults"`: The maximum size of the results that is returned per call. Service chooses
+  a default if it has not been set. Service may return a nextToken even if the maximum
+  results has not been met.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
@@ -2512,9 +2520,9 @@ Lists collaborations the caller owns, is active in, or has been invited to.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum size of the results that is returned per call. Service
-  chooses a default if it has not been set. Service may return a nextToken even if the
-  maximum results has not been met.
+- `"maxResults"`: The maximum size of the results that is returned per call. Service chooses
+  a default if it has not been set. Service may return a nextToken even if the maximum
+  results has not been met.
 - `"memberStatus"`: The caller's status in a collaboration.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -2547,16 +2555,16 @@ Lists information about requested configured audience model associations.
 
 # Arguments
 
-- `membership_identifier`: A unique identifier for a membership that contains the
-  configured audience model associations that you want to retrieve.
+- `membership_identifier`: A unique identifier for a membership that contains the configured
+  audience model associations that you want to retrieve.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum size of the results that is returned per call. Service
-  chooses a default if it has not been set. Service may return a nextToken even if the
-  maximum results has not been met.
+- `"maxResults"`: The maximum size of the results that is returned per call. Service chooses
+  a default if it has not been set. Service may return a nextToken even if the maximum
+  results has not been met.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
@@ -2682,9 +2690,9 @@ Returns a list of ID mapping tables.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum size of the results that is returned per call. Service
-  chooses a default if it has not been set. Service may return a nextToken even if the
-  maximum results has not been met.
+- `"maxResults"`: The maximum size of the results that is returned per call. Service chooses
+  a default if it has not been set. Service may return a nextToken even if the maximum
+  results has not been met.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
 function list_id_mapping_tables end
@@ -2729,9 +2737,9 @@ Returns a list of ID namespace associations.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum size of the results that is returned per call. Service
-  chooses a default if it has not been set. Service may return a nextToken even if the
-  maximum results has not been met.
+- `"maxResults"`: The maximum size of the results that is returned per call. Service chooses
+  a default if it has not been set. Service may return a nextToken even if the maximum
+  results has not been met.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
 function list_id_namespace_associations end
@@ -2851,16 +2859,16 @@ Returns detailed information about the privacy budget templates in a specified m
 # Arguments
 
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The privacy budget templates are retrieved from the collaboration that
-  this membership belongs to. Accepts a membership ID.
+  collaboration. The privacy budget templates are retrieved from the collaboration that this
+  membership belongs to. Accepts a membership ID.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum size of the results that is returned per call. Service
-  chooses a default if it has not been set. Service may return a nextToken even if the
-  maximum results has not been met.
+- `"maxResults"`: The maximum size of the results that is returned per call. Service chooses
+  a default if it has not been set. Service may return a nextToken even if the maximum
+  results has not been met.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
@@ -2900,17 +2908,17 @@ Returns detailed information about the privacy budgets in a specified membership
 # Arguments
 
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The privacy budget is retrieved from the collaboration that this
-  membership belongs to. Accepts a membership ID.
+  collaboration. The privacy budget is retrieved from the collaboration that this membership
+  belongs to. Accepts a membership ID.
 - `privacy_budget_type`: The privacy budget type.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum size of the results that is returned per call. Service
-  chooses a default if it has not been set. Service may return a nextToken even if the
-  maximum results has not been met.
+- `"maxResults"`: The maximum size of the results that is returned per call. Service chooses
+  a default if it has not been set. Service may return a nextToken even if the maximum
+  results has not been met.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
@@ -2963,9 +2971,9 @@ Lists protected queries, sorted by the most recent query.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum size of the results that is returned per call. Service
-  chooses a default if it has not been set. Service can return a nextToken even if the
-  maximum results has not been met.
+- `"maxResults"`: The maximum size of the results that is returned per call. Service chooses
+  a default if it has not been set. Service can return a nextToken even if the maximum
+  results has not been met.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 - `"status"`: A filter on the status of the protected query.
@@ -3091,8 +3099,8 @@ Defines the information that's necessary to populate an ID mapping table.
 
 # Arguments
 
-- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you
-  want to populate.
+- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you want
+  to populate.
 - `membership_identifier`: The unique identifier of the membership that contains the ID
   mapping table that you want to populate.
 """
@@ -3178,8 +3186,8 @@ Creates a protected query that is started by Clean Rooms.
 
 # Arguments
 
-- `membership_identifier`: A unique identifier for the membership to run this query
-  against. Currently accepts a membership ID.
+- `membership_identifier`: A unique identifier for the membership to run this query against.
+  Currently accepts a membership ID.
 - `sql_parameters`: The protected SQL query parameters.
 - `type`: The type of the protected query to be started.
 
@@ -3408,8 +3416,8 @@ Provides the details necessary to update a configured audience model association
 
 # Arguments
 
-- `configured_audience_model_association_identifier`: A unique identifier for the
-  configured audience model association that you want to update.
+- `configured_audience_model_association_identifier`: A unique identifier for the configured
+  audience model association that you want to update.
 - `membership_identifier`: A unique identifier of the membership that contains the
   configured audience model association that you want to update.
 
@@ -3506,8 +3514,7 @@ Updates a configured table analysis rule.
 - `analysis_rule_policy`: The new analysis rule policy for the configured table analysis
   rule.
 - `analysis_rule_type`: The analysis rule type to be updated. Configured table analysis
-  rules are uniquely identified by their configured table identifier and analysis rule
-  type.
+  rules are uniquely identified by their configured table identifier and analysis rule type.
 - `configured_table_identifier`: The unique identifier for the configured table that the
   analysis rule applies to. Currently accepts the configured table ID.
 """
@@ -3662,8 +3669,8 @@ Provides the details that are necessary to update an ID mapping table.
 
 # Arguments
 
-- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you
-  want to update.
+- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you want
+  to update.
 - `membership_identifier`: The unique identifier of the membership that contains the ID
   mapping table that you want to update.
 
@@ -3812,8 +3819,8 @@ Updates the privacy budget template for the specified membership.
 - `membership_identifier`: A unique identifier for one of your memberships for a
   collaboration. The privacy budget template is updated in the collaboration that this
   membership belongs to. Accepts a membership ID.
-- `privacy_budget_template_identifier`: A unique identifier for your privacy budget
-  template that you want to update.
+- `privacy_budget_template_identifier`: A unique identifier for your privacy budget template
+  that you want to update.
 - `privacy_budget_type`: Specifies the type of the privacy budget template.
 
 # Optional Parameters

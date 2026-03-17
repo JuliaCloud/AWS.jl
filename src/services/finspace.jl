@@ -27,6 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     data in addition to sample Capital Markets data.
 
 - `"description"`: The description of the FinSpace environment to be created.
+
 - `"federationMode"`: Authentication mode for the environment.
 
   - `FEDERATED` - Users access FinSpace through Single Sign On (SSO) via your Identity
@@ -35,8 +36,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     environment.
 
 - `"federationParameters"`: Configuration information when authentication mode is FEDERATED.
+
 - `"kmsKeyId"`: The KMS key id to encrypt your data in the FinSpace environment.
+
 - `"superuserParameters"`: Configuration information for the superuser.
+
 - `"tags"`: Add tags to your FinSpace environment.
 """
 function create_environment end
@@ -80,33 +84,36 @@ files by using an ordered list of change requests.
   - DELETE – Deletes files in a database.
 
   All the change requests require a mandatory `dbPath` attribute that defines the path
-  within the database directory. All database paths must start with a leading / and end
-  with a trailing /. The `s3Path` attribute defines the s3 source file path and is
-  required for a PUT change type. The `s3path` must end with a trailing / if it is a
-  directory and must end without a trailing / if it is a file.
+  within the database directory. All database paths must start with a leading / and end with
+  a trailing /. The `s3Path` attribute defines the s3 source file path and is required for a
+  PUT change type. The `s3path` must end with a trailing / if it is a directory and must end
+  without a trailing / if it is a file.
 
   Here are few examples of how you can use the change request object:
 
   1. This request adds a single sym file at database root location.
 
-  `{ "changeType": "PUT", "s3Path":"s3://bucket/db/sym", "dbPath":"/"}`2. This request
-  adds files in the given `s3Path` under the 2020.01.02 partition of the database.
+  `{ "changeType": "PUT", "s3Path":"s3://bucket/db/sym", "dbPath":"/"}`
+  2. This request adds files in the given `s3Path` under the 2020.01.02 partition of the
+     database.
 
-  `{ "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/", "dbPath":"/2020.01.02/"}`3.
-  This request adds files in the given `s3Path` under the *taq* table partition of the
-  database.
+  `{ "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/", "dbPath":"/2020.01.02/"}`
+  3. This request adds files in the given `s3Path` under the *taq* table partition of the
+     database.
 
-  `[ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "dbPath":"/2020.01.02/taq/"}]`4.
-  This request deletes the 2020.01.02 partition of the database.
+  `[ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "dbPath":"/2020.01.02/taq/"}]`
+  4. This request deletes the 2020.01.02 partition of the database.
 
-  `[{ "changeType": "DELETE", "dbPath": "/2020.01.02/"} ]`5. The *DELETE* request allows
-  you to delete the existing files under the 2020.01.02 partition of the database, and
-  the *PUT* request adds a new taq table under it.
+  `[{ "changeType": "DELETE", "dbPath": "/2020.01.02/"} ]`
+  5. The *DELETE* request allows you to delete the existing files under the 2020.01.02
+     partition of the database, and the *PUT* request adds a new taq table under it.
 
   `[ {"changeType": "DELETE", "dbPath":"/2020.01.02/"}, {"changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "dbPath":"/2020.01.02/taq/"}]`
 
 - `client_token`: A token that ensures idempotency. This token expires in 10 minutes.
+
 - `database_name`: The name of the kdb database.
+
 - `environment_id`: A unique identifier of the kdb environment.
 """
 function create_kx_changeset end
@@ -167,32 +174,34 @@ Creates a new kdb cluster.
   - `MULTI` – Assigns all the availability zones per cluster.
 
 - `cluster_name`: A unique name for the cluster that you want to create.
+
 - `cluster_type`: Specifies the type of KDB database that is being created. The following
   types are available:
 
-  - HDB – A Historical Database. The data is only accessible with read-only permissions
-    from one of the FinSpace managed kdb databases mounted to the cluster.
+  - HDB – A Historical Database. The data is only accessible with read-only permissions from
+    one of the FinSpace managed kdb databases mounted to the cluster.
   - RDB – A Realtime Database. This type of database captures all the data from a ticker
     plant and stores it in memory until the end of day, after which it writes all of its
     data to a disk and reloads the HDB. This cluster type requires local storage for
-    temporary storage of data during the savedown process. If you specify this field in
-    your request, you must provide the `savedownStorageConfiguration` parameter.
-  - GATEWAY – A gateway cluster allows you to access data across processes in kdb
-    systems. It allows you to create your own routing logic using the initialization
-    scripts and custom code. This type of cluster does not require a writable local
-    storage.
-  - GP – A general purpose cluster allows you to quickly iterate on code during
-    development by granting greater access to system commands and enabling a fast reload
-    of custom code. This cluster type can optionally mount databases including cache and
-    savedown storage. For this cluster type, the node count is fixed at 1. It does not
-    support autoscaling and supports only `SINGLE` AZ mode.
+    temporary storage of data during the savedown process. If you specify this field in your
+    request, you must provide the `savedownStorageConfiguration` parameter.
+  - GATEWAY – A gateway cluster allows you to access data across processes in kdb systems.
+    It allows you to create your own routing logic using the initialization scripts and
+    custom code. This type of cluster does not require a writable local storage.
+  - GP – A general purpose cluster allows you to quickly iterate on code during development
+    by granting greater access to system commands and enabling a fast reload of custom code.
+    This cluster type can optionally mount databases including cache and savedown storage.
+    For this cluster type, the node count is fixed at 1. It does not support autoscaling and
+    supports only `SINGLE` AZ mode.
   - Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on
-    IAM permissions. It can publish to RDBs, other Tickerplants, and real-time
-    subscribers (RTS). Tickerplants can persist messages to log, which is readable by any
-    RDB environment. It supports only single-node that is only one kdb process.
+    IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers
+    (RTS). Tickerplants can persist messages to log, which is readable by any RDB
+    environment. It supports only single-node that is only one kdb process.
 
 - `environment_id`: A unique identifier for the kdb environment.
+
 - `release_label`: The version of FinSpace managed kdb to run.
+
 - `vpc_configuration`: Configuration details about the network where the Privatelink
   endpoint of the cluster resides.
 
@@ -204,8 +213,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scale out nodes in your cluster.
 - `"availabilityZoneId"`: The availability zone identifiers for the requested regions.
 - `"cacheStorageConfigurations"`: The configurations for a read only cache storage
-  associated with a cluster. This cache will be stored as an FSx Lustre that reads from
-  the S3 store.
+  associated with a cluster. This cache will be stored as an FSx Lustre that reads from the
+  S3 store.
 - `"capacityConfiguration"`: A structure for the metadata of a cluster. It includes
   information like the CPUs needed, memory of instances, and number of instances.
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
@@ -217,24 +226,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.
 - `"databases"`: A list of databases that will be available for querying.
 - `"executionRole"`: An IAM role that defines a set of permissions associated with a
-  cluster. These permissions are assumed when a cluster attempts to access another
-  cluster.
+  cluster. These permissions are assumed when a cluster attempts to access another cluster.
 - `"initializationScript"`: Specifies a Q program that will be run at launch of a cluster.
   It is a relative path within *.zip* file that contains the custom code, which will be
   loaded on the cluster. It must include the file name itself. For example,
   `somedir/init.q`.
 - `"savedownStorageConfiguration"`: The size and type of the temporary storage that is used
   to hold data during the savedown process. This parameter is required when you choose
-  `clusterType` as RDB. All the data written to this storage space is lost when the
-  cluster node is restarted.
+  `clusterType` as RDB. All the data written to this storage space is lost when the cluster
+  node is restarted.
 - `"scalingGroupConfiguration"`: The structure that stores the configuration details of a
   scaling group.
 - `"tags"`: A list of key-value pairs to label the cluster. You can add up to 50 tags to a
   cluster.
-- `"tickerplantLogConfiguration"`: A configuration to store Tickerplant logs. It consists
-  of a list of volumes that will be mounted to your cluster. For the cluster type
-  `Tickerplant`, the location of the TP volume on the cluster will be available by using
-  the global variable `.aws.tp_log_path`.
+- `"tickerplantLogConfiguration"`: A configuration to store Tickerplant logs. It consists of
+  a list of volumes that will be mounted to your cluster. For the cluster type
+  `Tickerplant`, the location of the TP volume on the cluster will be available by using the
+  global variable `.aws.tp_log_path`.
 """
 function create_kx_cluster end
 
@@ -379,30 +387,33 @@ scaling group. They are not supported on dedicated clusters.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"autoUpdate"`: The option to specify whether you want to apply all the future additions
-  and corrections automatically to the dataview, when you ingest new changesets. The
-  default value is false.
+  and corrections automatically to the dataview, when you ingest new changesets. The default
+  value is false.
+
 - `"availabilityZoneId"`: The identifier of the availability zones.
+
 - `"changesetId"`: A unique identifier of the changeset that you want to use to ingest data.
+
 - `"description"`: A description of the dataview.
+
 - `"readWrite"`: The option to specify whether you want to make the dataview writable to
   perform database maintenance. The following are some considerations related to writable
   dataviews.&#x2028;&#x2028;
 
   - You cannot create partial writable dataviews. When you create writeable dataviews you
     must provide the entire database path.
-  - You cannot perform updates on a writeable dataview. Hence, `autoUpdate` must be set
-    as **False** if `readWrite` is **True** for a dataview.
-  - You must also use a unique volume for creating a writeable dataview. So, if you
-    choose a volume that is already in use by another dataview, the dataview creation
-    fails.
+  - You cannot perform updates on a writeable dataview. Hence, `autoUpdate` must be set as
+    **False** if `readWrite` is **True** for a dataview.
+  - You must also use a unique volume for creating a writeable dataview. So, if you choose a
+    volume that is already in use by another dataview, the dataview creation fails.
   - Once you create a dataview as writeable, you cannot change it to read-only. So, you
     cannot update the `readWrite` parameter later.
 
 - `"segmentConfigurations"`: The configuration that contains the database path of the data
-  that you want to place on each selected volume. Each segment must have a unique
-  database path for each volume. If you do not explicitly specify any database path for a
-  volume, they are accessible from the cluster through the default S3/object store
-  segment.
+  that you want to place on each selected volume. Each segment must have a unique database
+  path for each volume. If you do not explicitly specify any database path for a volume,
+  they are accessible from the cluster through the default S3/object store segment.
+
 - `"tags"`: A list of key-value pairs to label the dataview. You can add up to 50 tags to a
   dataview.
 """
@@ -523,9 +534,12 @@ Creates a new scaling group.
 # Arguments
 
 - `availability_zone_id`: The identifier of the availability zones.
+
 - `client_token`: A token that ensures idempotency. This token expires in 10 minutes.
+
 - `environment_id`: A unique identifier for the kdb environment, where you want to create
   the scaling group.
+
 - `host_type`: The memory and CPU capabilities of the scaling group host on which FinSpace
   Managed kdb clusters will be placed.
 
@@ -537,12 +551,9 @@ Creates a new scaling group.
   - `kx.sg.4xlarge` – The host type with a configuration of 108 GiB memory and 16 vCPUs.
   - `kx.sg.8xlarge` – The host type with a configuration of 216 GiB memory and 32 vCPUs.
   - `kx.sg.16xlarge` – The host type with a configuration of 432 GiB memory and 64 vCPUs.
-  - `kx.sg.32xlarge` – The host type with a configuration of 864 GiB memory and 128
-    vCPUs.
-  - `kx.sg1.16xlarge` – The host type with a configuration of 1949 GiB memory and 64
-    vCPUs.
-  - `kx.sg1.24xlarge` – The host type with a configuration of 2948 GiB memory and 96
-    vCPUs.
+  - `kx.sg.32xlarge` – The host type with a configuration of 864 GiB memory and 128 vCPUs.
+  - `kx.sg1.16xlarge` – The host type with a configuration of 1949 GiB memory and 64 vCPUs.
+  - `kx.sg1.24xlarge` – The host type with a configuration of 2948 GiB memory and 96 vCPUs.
 
 - `scaling_group_name`: A unique identifier for the kdb scaling group.
 
@@ -1298,8 +1309,8 @@ end
     get_kx_connection_string(cluster_name, environment_id, user_arn)
     get_kx_connection_string(cluster_name, environment_id, user_arn, params::Dict{String,<:Any})
 
-Retrieves a connection string for a user to connect to a kdb cluster. You must call this
-API using the same role that you have defined while creating a user.
+Retrieves a connection string for a user to connect to a kdb cluster. You must call this API
+using the same role that you have defined while creating a user.
 
 # Arguments
 
@@ -1728,28 +1739,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clusterType"`: Specifies the type of KDB database that is being created. The following
   types are available:
 
-  - HDB – A Historical Database. The data is only accessible with read-only permissions
-    from one of the FinSpace managed kdb databases mounted to the cluster.
+  - HDB – A Historical Database. The data is only accessible with read-only permissions from
+    one of the FinSpace managed kdb databases mounted to the cluster.
   - RDB – A Realtime Database. This type of database captures all the data from a ticker
     plant and stores it in memory until the end of day, after which it writes all of its
     data to a disk and reloads the HDB. This cluster type requires local storage for
-    temporary storage of data during the savedown process. If you specify this field in
-    your request, you must provide the `savedownStorageConfiguration` parameter.
-  - GATEWAY – A gateway cluster allows you to access data across processes in kdb
-    systems. It allows you to create your own routing logic using the initialization
-    scripts and custom code. This type of cluster does not require a writable local
-    storage.
-  - GP – A general purpose cluster allows you to quickly iterate on code during
-    development by granting greater access to system commands and enabling a fast reload
-    of custom code. This cluster type can optionally mount databases including cache and
-    savedown storage. For this cluster type, the node count is fixed at 1. It does not
-    support autoscaling and supports only `SINGLE` AZ mode.
+    temporary storage of data during the savedown process. If you specify this field in your
+    request, you must provide the `savedownStorageConfiguration` parameter.
+  - GATEWAY – A gateway cluster allows you to access data across processes in kdb systems.
+    It allows you to create your own routing logic using the initialization scripts and
+    custom code. This type of cluster does not require a writable local storage.
+  - GP – A general purpose cluster allows you to quickly iterate on code during development
+    by granting greater access to system commands and enabling a fast reload of custom code.
+    This cluster type can optionally mount databases including cache and savedown storage.
+    For this cluster type, the node count is fixed at 1. It does not support autoscaling and
+    supports only `SINGLE` AZ mode.
   - Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on
-    IAM permissions. It can publish to RDBs, other Tickerplants, and real-time
-    subscribers (RTS). Tickerplants can persist messages to log, which is readable by any
-    RDB environment. It supports only single-node that is only one kdb process.
+    IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers
+    (RTS). Tickerplants can persist messages to log, which is readable by any RDB
+    environment. It supports only single-node that is only one kdb process.
 
 - `"maxResults"`: The maximum number of results to return in this request.
+
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
 function list_kx_clusters end
@@ -2116,8 +2127,8 @@ Removes metadata tags from a FinSpace resource.
 
 # Arguments
 
-- `resource_arn`: A FinSpace resource from which you want to remove a tag or tags. The
-  value for this parameter is an Amazon Resource Name (ARN).
+- `resource_arn`: A FinSpace resource from which you want to remove a tag or tags. The value
+  for this parameter is an Amazon Resource Name (ARN).
 - `tag_keys`: The tag keys (names) of one or more tags to be removed.
 """
 function untag_resource end
@@ -2164,6 +2175,7 @@ Update your FinSpace environment.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of the environment.
+
 - `"federationMode"`: Authentication mode for the environment.
 
   - `FEDERATED` - Users access FinSpace through Single Sign On (SSO) via your Identity
@@ -2172,6 +2184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     environment.
 
 - `"federationParameters"`:
+
 - `"name"`: The name of the environment.
 """
 function update_environment end
@@ -2221,12 +2234,15 @@ configurations on the cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+
 - `"commandLineArguments"`: Specifies the key-value pairs to make them available inside the
   cluster.
 
   You cannot update this parameter for a `NO_RESTART` deployment.
+
 - `"deploymentConfiguration"`: The configuration that allows you to choose how you want to
   update the code on a cluster.
+
 - `"initializationScript"`: Specifies a Q program that will be run at launch of a cluster.
   It is a relative path within *.zip* file that contains the custom code, which will be
   loaded on the cluster. It must include the file name itself. For example,
@@ -2274,8 +2290,8 @@ end
     update_kx_cluster_databases(cluster_name, databases, environment_id)
     update_kx_cluster_databases(cluster_name, databases, environment_id, params::Dict{String,<:Any})
 
-Updates the databases mounted on a kdb cluster, which includes the `changesetId` and all
-the dbPaths to be cached. This API does not allow you to change a database name or add a
+Updates the databases mounted on a kdb cluster, which includes the `changesetId` and all the
+dbPaths to be cached. This API does not allow you to change a database name or add a
 database if you created a cluster without one.
 
 Using this API you can point a cluster to a different changeset and modify a list of
@@ -2412,10 +2428,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"changesetId"`: A unique identifier for the changeset.
 - `"description"`: The description for a dataview.
 - `"segmentConfigurations"`: The configuration that contains the database path of the data
-  that you want to place on each selected volume. Each segment must have a unique
-  database path for each volume. If you do not explicitly specify any database path for a
-  volume, they are accessible from the cluster through the default S3/object store
-  segment.
+  that you want to place on each selected volume. Each segment must have a unique database
+  path for each volume. If you do not explicitly specify any database path for a volume,
+  they are accessible from the cluster through the default S3/object store segment.
 """
 function update_kx_dataview end
 

@@ -319,8 +319,8 @@ Creates a new version of an annotation store.
 # Arguments
 
 - `name`: The name of an annotation store version from which versions are being created.
-- `version_name`: The name given to an annotation store version to distinguish it from
-  other versions.
+- `version_name`: The name given to an annotation store version to distinguish it from other
+  versions.
 
 # Optional Parameters
 
@@ -556,8 +556,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for each request.
 - `"description"`: A description for the store.
 - `"eTagAlgorithmFamily"`: The ETag algorithm family to use for ingested read sets.
-- `"fallbackLocation"`: An S3 location that is used to store files that have failed a
-  direct upload.
+- `"fallbackLocation"`: An S3 location that is used to store files that have failed a direct
+  upload.
 - `"sseConfig"`: Server-side encryption (SSE) settings for the store.
 - `"tags"`: Tags for the store.
 """
@@ -1010,8 +1010,8 @@ end
     delete_share(share_id, params::Dict{String,<:Any})
 
 Deletes a resource share. If you are the resource owner, the subscriber will no longer have
-access to the shared resource. If you are the subscriber, this operation deletes your
-access to the share.
+access to the shared resource. If you are the subscriber, this operation deletes your access
+to the share.
 
 # Arguments
 
@@ -1872,8 +1872,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: IDs of annotation import jobs to retrieve.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
-- `"nextToken"`: Specifies the pagination token from a previous request to retrieve the
-  next page of results.
+- `"nextToken"`: Specifies the pagination token from a previous request to retrieve the next
+  page of results.
 """
 function list_annotation_import_jobs end
 
@@ -1915,8 +1915,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filter"`: A filter to apply to the list of annotation store versions.
 - `"maxResults"`: The maximum number of annotation store versions to return in one page of
   results.
-- `"nextToken"`: Specifies the pagination token from a previous request to retrieve the
-  next page of results.
+- `"nextToken"`: Specifies the pagination token from a previous request to retrieve the next
+  page of results.
 """
 function list_annotation_store_versions end
 
@@ -2779,8 +2779,8 @@ end
     start_read_set_activation_job(sequence_store_id, sources)
     start_read_set_activation_job(sequence_store_id, sources, params::Dict{String,<:Any})
 
-Activates an archived read set. To reduce storage charges, Amazon Omics archives unused
-read sets after 30 days.
+Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read
+sets after 30 days.
 
 # Arguments
 

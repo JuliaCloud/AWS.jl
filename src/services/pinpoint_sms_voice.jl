@@ -166,8 +166,8 @@ end
     get_configuration_set_event_destinations(configuration_set_name)
     get_configuration_set_event_destinations(configuration_set_name, params::Dict{String,<:Any})
 
-Obtain information about an event destination, including the types of events it reports,
-the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
+Obtain information about an event destination, including the types of events it reports, the
+Amazon Resource Name (ARN) of the destination, and the name of the event destination.
 
 # Arguments
 
@@ -255,9 +255,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content"`:
 - `"DestinationPhoneNumber"`: The phone number that you want to send the voice message to.
 - `"OriginationPhoneNumber"`: The phone number that Amazon Pinpoint should use to send the
-  voice message. This isn't necessarily the phone number that appears on recipients'
-  devices when they receive the message, because you can specify a CallerId parameter in
-  the request.
+  voice message. This isn't necessarily the phone number that appears on recipients' devices
+  when they receive the message, because you can specify a CallerId parameter in the
+  request.
 """
 function send_voice_message end
 

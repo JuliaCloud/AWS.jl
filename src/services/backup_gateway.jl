@@ -232,8 +232,8 @@ end
     get_bandwidth_rate_limit_schedule(gateway_arn)
     get_bandwidth_rate_limit_schedule(gateway_arn, params::Dict{String,<:Any})
 
-Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways
-do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in
+Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do
+not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in
 effect. Use this to get a gateway's bandwidth rate limit schedule.
 
 # Arguments
@@ -484,8 +484,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of gateways to list.
 - `"NextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return `MaxResults` number of resources, `NextToken` allows you
-  to return more items in your list starting at the location pointed to by the next token.
+  if a request is made to return `MaxResults` number of resources, `NextToken` allows you to
+  return more items in your list starting at the location pointed to by the next token.
 """
 function list_gateways end
 
@@ -515,8 +515,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of hypervisors to list.
 - `"NextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return `maxResults` number of resources, `NextToken` allows you
-  to return more items in your list starting at the location pointed to by the next token.
+  if a request is made to return `maxResults` number of resources, `NextToken` allows you to
+  return more items in your list starting at the location pointed to by the next token.
 """
 function list_hypervisors end
 
@@ -586,8 +586,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   virtual machine.
 - `"MaxResults"`: The maximum number of virtual machines to list.
 - `"NextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return `maxResults` number of resources, `NextToken` allows you
-  to return more items in your list starting at the location pointed to by the next token.
+  if a request is made to return `maxResults` number of resources, `NextToken` allows you to
+  return more items in your list starting at the location pointed to by the next token.
 """
 function list_virtual_machines end
 
@@ -613,14 +613,14 @@ end
     put_bandwidth_rate_limit_schedule(bandwidth_rate_limit_intervals, gateway_arn, params::Dict{String,<:Any})
 
 This action sets the bandwidth rate limit schedule for a specified gateway. By default,
-gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate
-limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
+gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting
+is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
 
 # Arguments
 
 - `bandwidth_rate_limit_intervals`: An array containing bandwidth rate limit schedule
-  intervals for a gateway. When no bandwidth rate limit intervals have been scheduled,
-  the array is empty.
+  intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the
+  array is empty.
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [`ListGateways`](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
   operation to return a list of gateways for your account and Amazon Web Services Region.
 """
@@ -677,8 +677,8 @@ hypervisor to the properties available in Amazon Web Services.
 
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 - `iam_role_arn`: The Amazon Resource Name (ARN) of the IAM role.
-- `vmware_to_aws_tag_mappings`: This action requests the mappings of on-premises VMware
-  tags to the Amazon Web Services tags.
+- `vmware_to_aws_tag_mappings`: This action requests the mappings of on-premises VMware tags
+  to the Amazon Web Services tags.
 """
 function put_hypervisor_property_mappings end
 
@@ -745,6 +745,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DayOfMonth"`: The day of the month start maintenance on a gateway.
 
   Valid values range from `Sunday` to `Saturday`.
+
 - `"DayOfWeek"`: The day of the week to start maintenance on a gateway.
 """
 function put_maintenance_start_time end
@@ -1017,8 +1018,8 @@ Updates the gateway virtual machine (VM) software. The request immediately trigg
 software update.
 
 !!! note
-    When you make this request, you get a `200 OK` success response immediately. However,
-    it might take some time for the update to complete.
+    When you make this request, you get a `200 OK` success response immediately. However, it
+    might take some time for the update to complete.
 
 # Arguments
 

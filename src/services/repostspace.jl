@@ -15,8 +15,8 @@ Creates an AWS re:Post Private private re:Post.
 - `name`: The name for the private re:Post. This must be unique in your account.
 - `subdomain`: The subdomain that you use to access your AWS re:Post Private private
   re:Post. All custom subdomains must be approved by AWS before use. In addition to your
-  custom subdomain, all private re:Posts are issued an AWS generated subdomain for
-  immediate use.
+  custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate
+  use.
 - `tier`: The pricing tier for the private re:Post.
 
 # Optional Parameters
@@ -29,8 +29,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unanswered questions into AWS support tickets.
 - `"tags"`: The list of tags associated with the private re:Post.
 - `"userKMSKey"`: The AWS KMS key ARN that’s used for the AWS KMS encryption. If you don't
-  provide a key, your data is encrypted by default with a key that AWS owns and manages
-  for you.
+  provide a key, your data is encrypted by default with a key that AWS owns and manages for
+  you.
 """
 function create_space end
 
@@ -340,16 +340,16 @@ end
 
 Associates tags with an AWS re:Post Private resource. Currently, the only resource that can
 be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is
-appended to the list of tags that are associated with the resource. If you specify a tag
-key that’s already associated with the resource, the new tag value that you specify
-replaces the previous value for that tag.
+appended to the list of tags that are associated with the resource. If you specify a tag key
+that’s already associated with the resource, the new tag value that you specify replaces the
+previous value for that tag.
 
 # Arguments
 
 - `resource_arn`: The ARN of the resource that the tag is associated with.
-- `tags`: The list of tag keys and values that must be associated with the resource. You
-  can associate tag keys only, tags (key and values) only, or a combination of tag keys
-  and tags.
+- `tags`: The list of tag keys and values that must be associated with the resource. You can
+  associate tag keys only, tags (key and values) only, or a combination of tag keys and
+  tags.
 """
 function tag_resource end
 

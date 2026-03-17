@@ -11,8 +11,8 @@ using AWS.UUIDs
 Adds one or more attachments to an attachment set.
 
 An attachment set is a temporary container for attachments that you add to a case or case
-communication. The set is available for 1 hour after it's created. The `expiryTime`
-returned in the response is when the set expires.
+communication. The set is available for 1 hour after it's created. The `expiryTime` returned
+in the response is when the set expires.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
@@ -29,8 +29,8 @@ returned in the response is when the set expires.
 
   In the `Attachment` object, use the `data` parameter to specify the contents of the
   attachment file. In the previous request syntax, the value for `data` appear as `blob`,
-  which is represented as a base64-encoded string. The value for `fileName` is the name
-  of the attachment, such as `troubleshoot-screenshot.png`.
+  which is represented as a base64-encoded string. The value for `fileName` is the name of
+  the attachment, such as `troubleshoot-screenshot.png`.
 
 # Optional Parameters
 
@@ -38,8 +38,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"attachmentSetId"`: The ID of the attachment set. If an `attachmentSetId` is not
   specified, a new attachment set is created, and the ID of the set is returned in the
-  response. If an `attachmentSetId` is specified, the attachments are added to the
-  specified set, if it exists.
+  response. If an `attachmentSetId` is specified, the attachments are added to the specified
+  set, if it exists.
 """
 function add_attachments_to_set end
 
@@ -74,9 +74,9 @@ end
     add_communication_to_case(communication_body, params::Dict{String,<:Any})
 
 Adds additional customer communication to an Amazon Web Services Support case. Use the
-`caseId` parameter to identify the case to which to add communication. You can list a set
-of email addresses to copy on the communication by using the `ccEmailAddresses` parameter.
-The `communicationBody` value contains the text of the communication.
+`caseId` parameter to identify the case to which to add communication. You can list a set of
+email addresses to copy on the communication by using the `ccEmailAddresses` parameter. The
+`communicationBody` value contains the text of the communication.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
@@ -179,25 +179,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"attachmentSetId"`: The ID of a set of one or more attachments for the case. Create the
   set by using the [`add_attachments_to_set`](@ref) operation.
+
 - `"categoryCode"`: The category of problem for the support case. You also use the [`describe_services`](@ref)
-  operation to get the category code for a service. Each Amazon Web Services service
-  defines its own set of category codes.
-- `"ccEmailAddresses"`: A list of email addresses that Amazon Web Services Support copies
-  on case correspondence. Amazon Web Services Support identifies the account that creates
-  the case when you specify your Amazon Web Services credentials in an HTTP POST method
-  or use the [Amazon Web Services SDKs](http://aws.amazon.com/tools/).
+  operation to get the category code for a service. Each Amazon Web Services service defines
+  its own set of category codes.
+
+- `"ccEmailAddresses"`: A list of email addresses that Amazon Web Services Support copies on
+  case correspondence. Amazon Web Services Support identifies the account that creates the
+  case when you specify your Amazon Web Services credentials in an HTTP POST method or use
+  the [Amazon Web Services SDKs](http://aws.amazon.com/tools/).
+
 - `"issueType"`: The type of issue for the case. You can specify `customer-service` or
   `technical`. If you don't specify a value, the default is `technical`.
+
 - `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
   Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja")
-  and Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if
-  you want support in that language.
+  and Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if you
+  want support in that language.
+
 - `"serviceCode"`: The code for the Amazon Web Services service. You can use the [`describe_services`](@ref)
   operation to get the possible `serviceCode` values.
+
 - `"severityCode"`: A value that indicates the urgency of the case. This value determines
   the response time according to your service level agreement with Amazon Web Services
-  Support. You can use the [`describe_severity_levels`](@ref) operation to get the
-  possible values for `severityCode`.
+  Support. You can use the [`describe_severity_levels`](@ref) operation to get the possible
+  values for `severityCode`.
 
   For more information, see [`severity_level`](@ref) and [Choosing a Severity](https://docs.aws.amazon.com/awssupport/latest/user/getting-started.html#choosing-severity)
   in the *Amazon Web Services Support User Guide*.
@@ -205,7 +211,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       The availability of severity levels depends on the support plan for the Amazon Web
       Services account.
-
 """
 function create_case end
 
@@ -246,11 +251,11 @@ end
     describe_attachment(attachment_id)
     describe_attachment(attachment_id, params::Dict{String,<:Any})
 
-Returns the attachment that has the specified ID. Attachments can include screenshots,
-error logs, or other files that describe your issue. Attachment IDs are generated by the
-case management system when you add an attachment to a case or case communication.
-Attachment IDs are returned in the [`attachment_details`](@ref) objects that are returned
-by the [`describe_communications`](@ref) operation.
+Returns the attachment that has the specified ID. Attachments can include screenshots, error
+logs, or other files that describe your issue. Attachment IDs are generated by the case
+management system when you add an attachment to a case or case communication. Attachment IDs
+are returned in the [`attachment_details`](@ref) objects that are returned by the [`describe_communications`](@ref)
+operation.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
@@ -338,8 +343,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `DescribeCases` response. By default, resolved cases aren't included.
 - `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
   Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja")
-  and Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if
-  you want support in that language.
+  and Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if you
+  want support in that language.
 - `"maxResults"`: The maximum number of results to return before paginating.
 - `"nextToken"`: A resumption point for pagination.
 """
@@ -438,14 +443,14 @@ language availability. You can specify the `language` `categoryCode`, `issueType
 # Arguments
 
 - `category_code`: The category of problem for the support case. You also use the [`describe_services`](@ref)
-  operation to get the category code for a service. Each Amazon Web Services service
-  defines its own set of category codes.
+  operation to get the category code for a service. Each Amazon Web Services service defines
+  its own set of category codes.
 - `issue_type`: The type of issue for the case. You can specify `customer-service` or
   `technical`. If you don't specify a value, the default is `technical`.
-- `language`: The language in which Amazon Web Services Support handles the case. Amazon
-  Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja")
-  and Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if
-  you want support in that language.
+- `language`: The language in which Amazon Web Services Support handles the case. Amazon Web
+  Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and
+  Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if you
+  want support in that language.
 - `service_code`: The code for the Amazon Web Services service. You can use the [`describe_services`](@ref)
   operation to get the possible `serviceCode` values.
 """
@@ -506,12 +511,12 @@ Returns the current list of Amazon Web Services services and a list of service c
 for each service. You then use service names and categories in your [`create_case`](@ref)
 requests. Each Amazon Web Services service has its own set of categories.
 
-The service codes and category codes correspond to the values that appear in the
-**Service** and **Category** lists on the Amazon Web Services Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create)
+The service codes and category codes correspond to the values that appear in the **Service**
+and **Category** lists on the Amazon Web Services Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create)
 page. The values in those fields don't necessarily match the service codes and categories
 returned by the [`describe_services`](@ref) operation. Always use the service codes and
-categories that the [`describe_services`](@ref) operation returns, so that you have the
-most recent set of service and category codes.
+categories that the [`describe_services`](@ref) operation returns, so that you have the most
+recent set of service and category codes.
 
 !!! note
     - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the
@@ -527,8 +532,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
   Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja")
-  and Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if
-  you want support in that language.
+  and Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if you
+  want support in that language.
 - `"serviceCodeList"`: A JSON-formatted list of service codes available for Amazon Web
   Services services.
 """
@@ -570,8 +575,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
   Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja")
-  and Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if
-  you want support in that language.
+  and Korean (“ko”). You must specify the ISO 639-1 code for the `language` parameter if you
+  want support in that language.
 """
 function describe_severity_levels end
 
@@ -611,8 +616,8 @@ Returns a list of supported languages for a specified `categoryCode`, `issueType
 # Arguments
 
 - `category_code`: The category of problem for the support case. You also use the [`describe_services`](@ref)
-  operation to get the category code for a service. Each Amazon Web Services service
-  defines its own set of category codes.
+  operation to get the category code for a service. Each Amazon Web Services service defines
+  its own set of category codes.
 - `issue_type`: The type of issue for the case. You can specify `customer-service` or
   `technical`.
 - `service_code`: The code for the Amazon Web Services service. You can use the [`describe_services`](@ref)
@@ -690,9 +695,8 @@ in the *Amazon Web Services Support User Guide*.
 - `check_ids`: The IDs of the Trusted Advisor checks to get the status.
 
   !!! note
-      If you specify the check ID of a check that is automatically refreshed, you might
-      see an `InvalidParameterValue` error.
-
+      If you specify the check ID of a check that is automatically refreshed, you might see
+      an `InvalidParameterValue` error.
 """
 function describe_trusted_advisor_check_refresh_statuses end
 
@@ -767,8 +771,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"language"`: The ISO 639-1 code for the language that you want your check results to
   appear in.
 
-  The Amazon Web Services Support API currently supports the following languages for
-  Trusted Advisor:
+  The Amazon Web Services Support API currently supports the following languages for Trusted
+  Advisor:
 
   - Chinese, Simplified - `zh`
   - Chinese, Traditional - `zh_TW`
@@ -781,7 +785,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Korean - `ko`
   - Portuguese, Brazilian - `pt_BR`
   - Spanish - `es`
-
 """
 function describe_trusted_advisor_check_result end
 
@@ -893,8 +896,8 @@ in the *Amazon Web Services Support User Guide*.
 
 - `language`: The ISO 639-1 code for the language that you want your checks to appear in.
 
-  The Amazon Web Services Support API currently supports the following languages for
-  Trusted Advisor:
+  The Amazon Web Services Support API currently supports the following languages for Trusted
+  Advisor:
 
   - Chinese, Simplified - `zh`
   - Chinese, Traditional - `zh_TW`
@@ -907,7 +910,6 @@ in the *Amazon Web Services Support User Guide*.
   - Korean - `ko`
   - Portuguese, Brazilian - `pt_BR`
   - Spanish - `es`
-
 """
 function describe_trusted_advisor_checks end
 
@@ -969,7 +971,6 @@ in the *Amazon Web Services Support User Guide*.
   !!! note
       Specifying the check ID of a check that is automatically refreshed causes an
       `InvalidParameterValue` error.
-
 """
 function refresh_trusted_advisor_check end
 

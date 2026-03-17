@@ -176,8 +176,8 @@ end
     create_core_definition()
     create_core_definition(params::Dict{String,<:Any})
 
-Creates a core definition. You may provide the initial version of the core definition now
-or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain
+Creates a core definition. You may provide the initial version of the core definition now or
+use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain
 exactly one Greengrass core.
 
 # Optional Parameters
@@ -216,8 +216,8 @@ end
     create_core_definition_version(core_definition_id)
     create_core_definition_version(core_definition_id, params::Dict{String,<:Any})
 
-Creates a version of a core definition that has already been defined. Greengrass groups
-must each contain exactly one Greengrass core.
+Creates a version of a core definition that has already been defined. Greengrass groups must
+each contain exactly one Greengrass core.
 
 # Arguments
 
@@ -397,8 +397,8 @@ end
     create_function_definition(params::Dict{String,<:Any})
 
 Creates a Lambda function definition which contains a list of Lambda functions and their
-configurations to be used in a group. You can create an initial version of the definition
-by providing a list of Lambda functions and their configurations now, or use
+configurations to be used in a group. You can create an initial version of the definition by
+providing a list of Lambda functions and their configurations now, or use
 ''CreateFunctionDefinitionVersion'' later.
 
 # Optional Parameters
@@ -707,8 +707,8 @@ end
     create_resource_definition(params::Dict{String,<:Any})
 
 Creates a resource definition which contains a list of resources to be used in a group. You
-can create an initial version of the definition by providing a list of resources now, or
-use ''CreateResourceDefinitionVersion'' later.
+can create an initial version of the definition by providing a list of resources now, or use
+''CreateResourceDefinitionVersion'' later.
 
 # Optional Parameters
 
@@ -792,8 +792,8 @@ end
 
 Creates a software update for a core or group of cores (specified as an IoT thing group.)
 Use this to update the OTA Agent as well as the Greengrass core software. It makes use of
-the IoT Jobs feature which provides additional commands to manage a Greengrass core
-software update job.
+the IoT Jobs feature which provides additional commands to manage a Greengrass core software
+update job.
 
 # Arguments
 
@@ -1470,11 +1470,12 @@ infrastructure, device protocols, AWS, and other cloud services.
 # Arguments
 
 - `connector_definition_id`: The ID of the connector definition.
+
 - `connector_definition_version_id`: The ID of the connector definition version. This value
-  maps to the ''Version'' property of the corresponding ''VersionInformation'' object,
-  which is returned by ''ListConnectorDefinitionVersions'' requests. If the version is
-  the last one that was associated with a connector definition, the value also maps to
-  the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
+  maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which
+  is returned by ''ListConnectorDefinitionVersions'' requests. If the version is the last
+  one that was associated with a connector definition, the value also maps to the
+  ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
 
@@ -1559,11 +1560,12 @@ Retrieves information about a core definition version.
 # Arguments
 
 - `core_definition_id`: The ID of the core definition.
+
 - `core_definition_version_id`: The ID of the core definition version. This value maps to
   the ''Version'' property of the corresponding ''VersionInformation'' object, which is
-  returned by ''ListCoreDefinitionVersions'' requests. If the version is the last one
-  that was associated with a core definition, the value also maps to the
-  ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
+  returned by ''ListCoreDefinitionVersions'' requests. If the version is the last one that
+  was associated with a core definition, the value also maps to the ''LatestVersion''
+  property of the corresponding ''DefinitionInformation'' object.
 """
 function get_core_definition_version end
 
@@ -1680,11 +1682,12 @@ Retrieves information about a device definition version.
 # Arguments
 
 - `device_definition_id`: The ID of the device definition.
+
 - `device_definition_version_id`: The ID of the device definition version. This value maps
-  to the ''Version'' property of the corresponding ''VersionInformation'' object, which
-  is returned by ''ListDeviceDefinitionVersions'' requests. If the version is the last
-  one that was associated with a device definition, the value also maps to the
-  ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
+  to the ''Version'' property of the corresponding ''VersionInformation'' object, which is
+  returned by ''ListDeviceDefinitionVersions'' requests. If the version is the last one that
+  was associated with a device definition, the value also maps to the ''LatestVersion''
+  property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
 
@@ -1771,10 +1774,11 @@ functions are included in the version and their configurations.
 # Arguments
 
 - `function_definition_id`: The ID of the Lambda function definition.
+
 - `function_definition_version_id`: The ID of the function definition version. This value
-  maps to the ''Version'' property of the corresponding ''VersionInformation'' object,
-  which is returned by ''ListFunctionDefinitionVersions'' requests. If the version is the
-  last one that was associated with a function definition, the value also maps to the
+  maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which
+  is returned by ''ListFunctionDefinitionVersions'' requests. If the version is the last one
+  that was associated with a function definition, the value also maps to the
   ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
@@ -1934,10 +1938,11 @@ Retrieves information about a group version.
 # Arguments
 
 - `group_id`: The ID of the Greengrass group.
+
 - `group_version_id`: The ID of the group version. This value maps to the ''Version''
   property of the corresponding ''VersionInformation'' object, which is returned by
-  ''ListGroupVersions'' requests. If the version is the last one that was associated with
-  a group, the value also maps to the ''LatestVersion'' property of the corresponding
+  ''ListGroupVersions'' requests. If the version is the last one that was associated with a
+  group, the value also maps to the ''LatestVersion'' property of the corresponding
   ''GroupInformation'' object.
 """
 function get_group_version end
@@ -2014,11 +2019,12 @@ Retrieves information about a logger definition version.
 # Arguments
 
 - `logger_definition_id`: The ID of the logger definition.
+
 - `logger_definition_version_id`: The ID of the logger definition version. This value maps
-  to the ''Version'' property of the corresponding ''VersionInformation'' object, which
-  is returned by ''ListLoggerDefinitionVersions'' requests. If the version is the last
-  one that was associated with a logger definition, the value also maps to the
-  ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
+  to the ''Version'' property of the corresponding ''VersionInformation'' object, which is
+  returned by ''ListLoggerDefinitionVersions'' requests. If the version is the last one that
+  was associated with a logger definition, the value also maps to the ''LatestVersion''
+  property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
 
@@ -2105,10 +2111,11 @@ included in the version.
 # Arguments
 
 - `resource_definition_id`: The ID of the resource definition.
+
 - `resource_definition_version_id`: The ID of the resource definition version. This value
-  maps to the ''Version'' property of the corresponding ''VersionInformation'' object,
-  which is returned by ''ListResourceDefinitionVersions'' requests. If the version is the
-  last one that was associated with a resource definition, the value also maps to the
+  maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which
+  is returned by ''ListResourceDefinitionVersions'' requests. If the version is the last one
+  that was associated with a resource definition, the value also maps to the
   ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 """
 function get_resource_definition_version end
@@ -2216,12 +2223,12 @@ Retrieves information about a subscription definition version.
 # Arguments
 
 - `subscription_definition_id`: The ID of the subscription definition.
+
 - `subscription_definition_version_id`: The ID of the subscription definition version. This
-  value maps to the ''Version'' property of the corresponding ''VersionInformation''
-  object, which is returned by ''ListSubscriptionDefinitionVersions'' requests. If the
-  version is the last one that was associated with a subscription definition, the value
-  also maps to the ''LatestVersion'' property of the corresponding
-  ''DefinitionInformation'' object.
+  value maps to the ''Version'' property of the corresponding ''VersionInformation'' object,
+  which is returned by ''ListSubscriptionDefinitionVersions'' requests. If the version is
+  the last one that was associated with a subscription definition, the value also maps to
+  the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
 
@@ -3199,20 +3206,21 @@ end
 Deploys multiple groups in one operation. This action starts the bulk deployment of a
 specified set of group versions. Each group version deployment will be triggered with an
 adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-
-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are
-idempotent with respect to the token and the request parameters.
+Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent
+with respect to the token and the request parameters.
 
 # Arguments
 
 - `execution_role_arn`: The ARN of the execution role to associate with the bulk deployment
   operation. This IAM role must allow the ''greengrass:CreateDeployment'' action for all
-  group versions that are listed in the input file. This IAM role must have access to the
-  S3 bucket containing the input file.
-- `input_file_uri`: The URI of the input file contained in the S3 bucket. The execution
-  role must have ''getObject'' permissions on this bucket to access the input file. The
-  input file is a JSON-serialized, line delimited file with UTF-8 encoding that provides
-  a list of group and version IDs and the deployment type. This file must be less than
-  100 MB. Currently, AWS IoT Greengrass supports only ''NewDeployment'' deployment types.
+  group versions that are listed in the input file. This IAM role must have access to the S3
+  bucket containing the input file.
+
+- `input_file_uri`: The URI of the input file contained in the S3 bucket. The execution role
+  must have ''getObject'' permissions on this bucket to access the input file. The input
+  file is a JSON-serialized, line delimited file with UTF-8 encoding that provides a list of
+  group and version IDs and the deployment type. This file must be less than 100 MB.
+  Currently, AWS IoT Greengrass supports only ''NewDeployment'' deployment types.
 
 # Optional Parameters
 
@@ -3264,8 +3272,8 @@ end
     stop_bulk_deployment(bulk_deployment_id)
     stop_bulk_deployment(bulk_deployment_id, params::Dict{String,<:Any})
 
-Stops the execution of a bulk deployment. This action returns a status of ''Stopping''
-until the deployment is stopped. You cannot start a new bulk deployment while a previous
+Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until
+the deployment is stopped. You cannot start a new bulk deployment while a previous
 deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments
 or cancel pending deployments.
 

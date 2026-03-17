@@ -131,8 +131,8 @@ operation to enable your application to set the state of the bot.
 - `locale_id`: The locale where the session is in use.
 - `session_id`: The identifier of the session that receives the session data.
 - `session_state`: Sets the state of the session with the user. You can use this to set the
-  current intent, attributes, context, and dialog action. Use the dialog action to
-  determine the next step that Amazon Lex V2 should use in the conversation with the user.
+  current intent, attributes, context, and dialog action. Use the dialog action to determine
+  the next step that Amazon Lex V2 should use in the conversation with the user.
 
 # Optional Parameters
 
@@ -141,11 +141,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResponseContentType"`: The message that Amazon Lex V2 returns in the response can be
   either text or speech depending on the value of this parameter.
 
-  - If the value is `text/plain; charset=utf-8`, Amazon Lex V2 returns text in the
-    response.
+  - If the value is `text/plain; charset=utf-8`, Amazon Lex V2 returns text in the response.
 
 - `"messages"`: A list of messages to send to the user. Messages are sent in the order that
   they are defined in the list.
+
 - `"requestAttributes"`: Request-specific information passed between Amazon Lex V2 and the
   client application.
 
@@ -205,7 +205,6 @@ response card to display.
 If the optional post-fulfillment response is specified, the messages are returned as
 follows. For more information, see [PostFulfillmentStatusSpecification](https://docs.aws.amazon.com/lexv2/latest/dg/API_PostFulfillmentStatusSpecification.html).
 
-
 - **Success message** - Returned if the Lambda function completes successfully and the
   intent state is fulfilled or ready fulfillment if the message is present.
 - **Failed message** - The failed message is returned if the Lambda function throws an
@@ -233,6 +232,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The namespace `x-amz-lex:` is reserved for special attributes. Don't create any request
   attributes with the prefix `x-amz-lex:`.
+
 - `"sessionState"`: The current state of the dialog between the user and the bot.
 """
 function recognize_text end
@@ -276,12 +276,12 @@ end
     recognize_utterance(content-_type, bot_alias_id, bot_id, locale_id, session_id)
     recognize_utterance(content-_type, bot_alias_id, bot_id, locale_id, session_id, params::Dict{String,<:Any})
 
-Sends user input to Amazon Lex V2. You can send text or speech. Clients use this API to
-send text and audio requests to Amazon Lex V2 at runtime. Amazon Lex V2 interprets the user
-input using the machine learning model built for the bot.
+Sends user input to Amazon Lex V2. You can send text or speech. Clients use this API to send
+text and audio requests to Amazon Lex V2 at runtime. Amazon Lex V2 interprets the user input
+using the machine learning model built for the bot.
 
-The following request fields must be compressed with gzip and then base64 encoded before
-you send them to Amazon Lex V2.
+The following request fields must be compressed with gzip and then base64 encoded before you
+send them to Amazon Lex V2.
 
 - requestAttributes
 - sessionState
@@ -295,12 +295,11 @@ Lex V2. Before you can use these fields, you must decode and decompress them.
 - requestAttributes
 - sessionState
 
-The example contains a Java application that compresses and encodes a Java object to send
-to Amazon Lex V2, and a second that decodes and decompresses a response from Amazon Lex V2.
+The example contains a Java application that compresses and encodes a Java object to send to
+Amazon Lex V2, and a second that decodes and decompresses a response from Amazon Lex V2.
 
 If the optional post-fulfillment response is specified, the messages are returned as
 follows. For more information, see [PostFulfillmentStatusSpecification](https://docs.aws.amazon.com/lexv2/latest/dg/API_PostFulfillmentStatusSpecification.html).
-
 
 - **Success message** - Returned if the Lambda function completes successfully and the
   intent state is fulfilled or ready fulfillment if the message is present.
@@ -317,18 +316,23 @@ For more information, see [Completion message](https://docs.aws.amazon.com/lexv2
 - `content-_type`: Indicates the format for audio input or that the content is text. The
   header must start with one of the following prefixes:
 
-  - PCM format, audio data must be in little-endian byte order.   - audio/l16;
-    rate=16000; channels=1
+  - PCM format, audio data must be in little-endian byte order.
+    - audio/l16; rate=16000; channels=1
     - audio/x-l16; sample-rate=16000; channel-count=1
     - audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-
       endian=false
-  - Opus format   - audio/x-cbr-opus-with-preamble;preamble-size=0;bit-rate=256000;frame-
-    size-milliseconds=4
-  - Text format   - text/plain; charset=utf-8
+  - Opus format
+    - audio/x-cbr-opus-with-preamble;preamble-size=0;bit-rate=256000;frame-size-
+      milliseconds=4
+  - Text format
+    - text/plain; charset=utf-8
 
 - `bot_alias_id`: The alias identifier in use for the bot that should receive the request.
+
 - `bot_id`: The identifier of the bot that should receive the request.
+
 - `locale_id`: The locale where the session is in use.
+
 - `session_id`: The identifier of the session in use.
 
 # Optional Parameters
@@ -338,34 +342,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Response-Content-Type"`: The message that Amazon Lex V2 returns in the response can be
   either text or speech based on the `responseContentType` value.
 
-  - If the value is `text/plain;charset=utf-8`, Amazon Lex V2 returns text in the
-    response.
-  - If the value begins with `audio/`, Amazon Lex V2 returns speech in the response.
-    Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that
-    you specified in the `responseContentType` parameter. For example, if you specify
+  - If the value is `text/plain;charset=utf-8`, Amazon Lex V2 returns text in the response.
+  - If the value begins with `audio/`, Amazon Lex V2 returns speech in the response. Amazon
+    Lex V2 uses Amazon Polly to generate the speech using the configuration that you
+    specified in the `responseContentType` parameter. For example, if you specify
     `audio/mpeg` as the value, Amazon Lex V2 returns speech in the MPEG format.
   - If the value is `audio/pcm`, the speech returned is `audio/pcm` at 16 KHz in 16-bit,
     little-endian format.
-  - The following are the accepted values:   - audio/mpeg
+  - The following are the accepted values:
+    - audio/mpeg
     - audio/ogg
     - audio/pcm (16 KHz)
     - audio/* (defaults to mpeg)
     - text/plain; charset=utf-8
 
-- `"inputStream"`: User input in PCM or Opus audio format or text format as described in
-  the `requestContentType` parameter.
+- `"inputStream"`: User input in PCM or Opus audio format or text format as described in the
+  `requestContentType` parameter.
+
 - `"x-amz-lex-request-attributes"`: Request-specific information passed between the client
   application and Amazon Lex V2
 
   The namespace `x-amz-lex:` is reserved for special attributes. Don't create any request
   attributes for prefix `x-amz-lex:`.
 
-  The `requestAttributes` field must be compressed using gzip and then base64 encoded
-  before sending to Amazon Lex V2.
-- `"x-amz-lex-session-state"`: Sets the state of the session with the user. You can use
-  this to set the current intent, attributes, context, and dialog action. Use the dialog
-  action to determine the next step that Amazon Lex V2 should use in the conversation
-  with the user.
+  The `requestAttributes` field must be compressed using gzip and then base64 encoded before
+  sending to Amazon Lex V2.
+
+- `"x-amz-lex-session-state"`: Sets the state of the session with the user. You can use this
+  to set the current intent, attributes, context, and dialog action. Use the dialog action
+  to determine the next step that Amazon Lex V2 should use in the conversation with the
+  user.
 
   The `sessionState` field must be compressed using gzip and then base64 encoded before
   sending to Amazon Lex V2.

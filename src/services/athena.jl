@@ -8,14 +8,14 @@ using AWS.UUIDs
     batch_get_named_query(named_query_ids)
     batch_get_named_query(named_query_ids, params::Dict{String,<:Any})
 
-Returns the details of a single named query or a list of up to 50 queries, which you
-provide as an array of query ID strings. Requires you to have access to the workgroup in
-which the queries were saved. Use [`list_named_queries_input`](@ref) to get the list of
-named query IDs in the specified workgroup. If information could not be retrieved for a
-submitted query ID, information about the query ID submitted is listed under [`unprocessed_named_query_id`](@ref).
-Named queries differ from executed queries. Use [`batch_get_query_execution_input`](@ref)
-to get details about each unique query execution, and [`list_query_executions_input`](@ref)
-to get a list of query execution IDs.
+Returns the details of a single named query or a list of up to 50 queries, which you provide
+as an array of query ID strings. Requires you to have access to the workgroup in which the
+queries were saved. Use [`list_named_queries_input`](@ref) to get the list of named query
+IDs in the specified workgroup. If information could not be retrieved for a submitted query
+ID, information about the query ID submitted is listed under [`unprocessed_named_query_id`](@ref).
+Named queries differ from executed queries. Use [`batch_get_query_execution_input`](@ref) to
+get details about each unique query execution, and [`list_query_executions_input`](@ref) to
+get a list of query execution IDs.
 
 # Arguments
 
@@ -152,8 +152,8 @@ end
 
 Cancels the capacity reservation with the specified name. Cancelled reservations remain in
 your account and will be deleted 45 days after cancellation. During the 45 days, you cannot
-re-purpose or reuse a reservation that has been cancelled, but you can refer to its tags
-and view it for historical reference.
+re-purpose or reuse a reservation that has been cancelled, but you can refer to its tags and
+view it for historical reference.
 
 # Arguments
 
@@ -243,8 +243,8 @@ are visible to all users of the same Amazon Web Services account.
 
 - `name`: The name of the data catalog to create. The catalog name must be unique for the
   Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at
-  sign, or hyphen characters. The remainder of the length constraint of 256 is reserved
-  for use by Athena.
+  sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for
+  use by Athena.
 - `type`: The type of data catalog to create: `LAMBDA` for a federated catalog, `HIVE` for
   an external hive metastore, or `GLUE` for an Glue Data Catalog.
 
@@ -253,6 +253,7 @@ are visible to all users of the same Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A description of the data catalog to be created.
+
 - `"Parameters"`: Specifies the Lambda function or functions to use for creating the data
   catalog. This is a mapping whose values depend on the catalog type.
 
@@ -262,22 +263,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `metadata-function=*lambda_arn*, sdk-version=*version_number*`
   - For the `LAMBDA` data catalog type, use one of the following sets of required
-    parameters, but not both.   - If you have one Lambda function that processes metadata
-    and another for reading the actual data, use the following syntax. Both parameters
-    are required.
+    parameters, but not both.
+    - If you have one Lambda function that processes metadata and another for reading the
+      actual data, use the following syntax. Both parameters are required.
 
   `metadata-function=*lambda_arn*, record-function=*lambda_arn*`
-    - If you have a composite Lambda function that processes both metadata and data, use
-      the following syntax to specify your Lambda function.
+    - If you have a composite Lambda function that processes both metadata and data, use the
+      following syntax to specify your Lambda function.
 
   `function=*lambda_arn*`
-  - The `GLUE` type takes a catalog ID parameter and is required. The `*catalog_id*` is
-    the account ID of the Amazon Web Services account to which the Glue Data Catalog
-    belongs.
+  - The `GLUE` type takes a catalog ID parameter and is required. The `*catalog_id*` is the
+    account ID of the Amazon Web Services account to which the Glue Data Catalog belongs.
 
-  `catalog-id=*catalog_id*`   - The `GLUE` data catalog type also applies to the default
-  `AwsDataCatalog` that already exists in your account, of which you can have only one
-  and cannot modify.
+  `catalog-id=*catalog_id*`
+    - The `GLUE` data catalog type also applies to the default `AwsDataCatalog` that already
+      exists in your account, of which you can have only one and cannot modify.
 
 - `"Tags"`: A list of comma separated tags to add to the data catalog that is created.
 """
@@ -326,17 +326,18 @@ workgroup.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
-  create the query is idempotent (executes only once). If another `CreateNamedQuery`
-  request is received, the same response is returned and another query is not created. If
-  a parameter has changed, for example, the `QueryString`, an error is returned.
+  create the query is idempotent (executes only once). If another `CreateNamedQuery` request
+  is received, the same response is returned and another query is not created. If a
+  parameter has changed, for example, the `QueryString`, an error is returned.
 
   !!! important
-      This token is listed as not required because Amazon Web Services SDKs (for example
-      the Amazon Web Services SDK for Java) auto-generate the token for users. If you are
-      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
-      provide this token or the action will fail.
+      This token is listed as not required because Amazon Web Services SDKs (for example the
+      Amazon Web Services SDK for Java) auto-generate the token for users. If you are not
+      using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide
+      this token or the action will fail.
 
 - `"Description"`: The query description.
+
 - `"WorkGroup"`: The name of the workgroup in which the named query is being created.
 """
 function create_named_query end
@@ -405,11 +406,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create the notebook is idempotent (executes only once).
 
   !!! important
-      This token is listed as not required because Amazon Web Services SDKs (for example
-      the Amazon Web Services SDK for Java) auto-generate the token for you. If you are
-      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
-      provide this token or the action will fail.
-
+      This token is listed as not required because Amazon Web Services SDKs (for example the
+      Amazon Web Services SDK for Java) auto-generate the token for you. If you are not
+      using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide
+      this token or the action will fail.
 """
 function create_notebook end
 
@@ -510,8 +510,8 @@ end
     create_presigned_notebook_url(session_id, params::Dict{String,<:Any})
 
 Gets an authentication token and the URL at which the notebook can be accessed. During
-programmatic access, `CreatePresignedNotebookUrl` must be called every 10 minutes to
-refresh the authentication token. For information about granting programmatic access, see [Grant programmatic access](https://docs.aws.amazon.com/athena/latest/ug/setting-up.html#setting-up-grant-programmatic-access).
+programmatic access, `CreatePresignedNotebookUrl` must be called every 10 minutes to refresh
+the authentication token. For information about granting programmatic access, see [Grant programmatic access](https://docs.aws.amazon.com/athena/latest/ug/setting-up.html#setting-up-grant-programmatic-access).
 
 # Arguments
 
@@ -560,15 +560,17 @@ workgroup or an Athena SQL workgroup.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Configuration"`: Contains configuration information for creating an Athena SQL
-  workgroup or Spark enabled Athena workgroup. Athena SQL workgroup configuration
-  includes the location in Amazon S3 where query and calculation results are stored, the
-  encryption configuration, if any, used for encrypting query results, whether the Amazon
-  CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes
-  scanned (cutoff) per query, if it is specified, and whether workgroup's settings
-  (specified with `EnforceWorkGroupConfiguration`) in the `WorkGroupConfiguration`
-  override client-side settings. See [`work_group_configuration\$_enforce_work_group_configuration`](@ref).
+- `"Configuration"`: Contains configuration information for creating an Athena SQL workgroup
+  or Spark enabled Athena workgroup. Athena SQL workgroup configuration includes the
+  location in Amazon S3 where query and calculation results are stored, the encryption
+  configuration, if any, used for encrypting query results, whether the Amazon CloudWatch
+  Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff)
+  per query, if it is specified, and whether workgroup's settings (specified with
+  `EnforceWorkGroupConfiguration`) in the `WorkGroupConfiguration` override client-side
+  settings. See [`work_group_configuration\$_enforce_work_group_configuration`](@ref).
+
 - `"Description"`: The workgroup description.
+
 - `"Tags"`: A list of comma separated tags to add to the workgroup that is created.
 """
 function create_work_group end
@@ -598,8 +600,8 @@ end
     delete_capacity_reservation(name, params::Dict{String,<:Any})
 
 Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be
-deleted. A deleted reservation is immediately removed from your account and can no longer
-be referenced, including by its ARN. A deleted reservation cannot be called by
+deleted. A deleted reservation is immediately removed from your account and can no longer be
+referenced, including by its ARN. A deleted reservation cannot be called by
 `GetCapacityReservation`, and deleted reservations do not appear in the output of
 `ListCapacityReservations`.
 
@@ -797,8 +799,8 @@ Deletes the workgroup with the specified name. The primary workgroup cannot be d
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"RecursiveDeleteOption"`: The option to delete the workgroup and its contents even if
-  the workgroup contains any named queries, query executions, or notebooks.
+- `"RecursiveDeleteOption"`: The option to delete the workgroup and its contents even if the
+  workgroup contains any named queries, query executions, or notebooks.
 """
 function delete_work_group end
 
@@ -996,8 +998,8 @@ Gets the capacity assignment configuration for a capacity reservation, if one ex
 
 # Arguments
 
-- `capacity_reservation_name`: The name of the capacity reservation to retrieve the
-  capacity assignment configuration for.
+- `capacity_reservation_name`: The name of the capacity reservation to retrieve the capacity
+  assignment configuration for.
 """
 function get_capacity_assignment_configuration end
 
@@ -1117,8 +1119,8 @@ Returns a database object for the specified database and data catalog.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
-  Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched. Required
+  if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
 function get_database end
 
@@ -1282,8 +1284,8 @@ end
     get_query_execution(query_execution_id, params::Dict{String,<:Any})
 
 Returns information about a single execution of a query if you have access to the workgroup
-in which the query ran. Each time a query executes, information about the query execution
-is saved with a unique ID.
+in which the query ran. Each time a query executes, information about the query execution is
+saved with a unique ID.
 
 # Arguments
 
@@ -1333,10 +1335,10 @@ To stream query results successfully, the IAM principal with permission to call
 Athena query results location.
 
 !!! important
-    IAM principals with permission to the Amazon S3 `GetObject` action for the query
-    results location are able to retrieve query results from Amazon S3 even if permission
-    to the `GetQueryResults` action is denied. To restrict user or role access, ensure that
-    Amazon S3 permissions to the Athena query location are denied.
+    IAM principals with permission to the Amazon S3 `GetObject` action for the query results
+    location are able to retrieve query results from Amazon S3 even if permission to the
+    `GetQueryResults` action is denied. To restrict user or role access, ensure that Amazon
+    S3 permissions to the Athena query location are denied.
 
 # Arguments
 
@@ -1348,8 +1350,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of results (rows) to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the `NextToken` from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the `NextToken` from the response object of the previous page call.
 """
 function get_query_results end
 
@@ -1389,9 +1391,9 @@ Returns query execution runtime statistics related to a single execution of a qu
 have access to the workgroup in which the query ran. Statistics from the `Timeline` section
 of the response object are available as soon as [`query_execution_status\$_state`](@ref) is
 in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like
-stage-level input and output row count and data size) are updated asynchronously and may
-not be available immediately after a query completes. The non-timeline statistics are also
-not included when a query has row-level filters defined in Lake Formation.
+stage-level input and output row count and data size) are updated asynchronously and may not
+be available immediately after a query completes. The non-timeline statistics are also not
+included when a query has row-level filters defined in Lake Formation.
 
 # Arguments
 
@@ -1508,8 +1510,8 @@ Returns table metadata for the specified catalog, database, and table.
 
 # Arguments
 
-- `catalog_name`: The name of the data catalog that contains the database and table
-  metadata to return.
+- `catalog_name`: The name of the data catalog that contains the database and table metadata
+  to return.
 - `database_name`: The name of the database that contains the table metadata to return.
 - `table_name`: The name of the table for which metadata is returned.
 
@@ -1517,8 +1519,8 @@ Returns table metadata for the specified catalog, database, and table.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
-  Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched. Required
+  if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
 function get_table_metadata end
 
@@ -1622,13 +1624,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   import the notebook is idempotent (executes only once).
 
   !!! important
-      This token is listed as not required because Amazon Web Services SDKs (for example
-      the Amazon Web Services SDK for Java) auto-generate the token for you. If you are
-      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
-      provide this token or the action will fail.
+      This token is listed as not required because Amazon Web Services SDKs (for example the
+      Amazon Web Services SDK for Java) auto-generate the token for you. If you are not
+      using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide
+      this token or the action will fail.
 
 - `"NotebookS3LocationUri"`: A URI that specifies the Amazon S3 location of a notebook file
   in `ipynb` format.
+
 - `"Payload"`: The notebook content to be imported. The payload must be in `ipynb` format.
 """
 function import_notebook end
@@ -1715,9 +1718,11 @@ calculations are listed first; older calculations are listed later.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of calculation executions to return.
+
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the `NextToken` from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the `NextToken` from the response object of the previous page call.
+
 - `"StateFilter"`: A filter for a specific calculation execution state. A description of
   each state follows.
 
@@ -1815,8 +1820,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the maximum number of data catalogs to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the NextToken from the response object of the previous page call.
 - `"WorkGroup"`: The name of the workgroup. Required if making an IAM Identity Center
   request.
 """
@@ -1852,10 +1857,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the maximum number of results to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the `NextToken` from the response object of the previous page call.
-- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
-  Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the `NextToken` from the response object of the previous page call.
+- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched. Required
+  if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
 function list_databases end
 
@@ -1896,8 +1901,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of engine versions to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the `NextToken` from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the `NextToken` from the response object of the previous page call.
 """
 function list_engine_versions end
 
@@ -1944,10 +1949,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `TERMINATED` - The executor is no longer running.
 
   `FAILED` - Due to a failure, the executor is no longer running.
+
 - `"MaxResults"`: The maximum number of executors to return.
+
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the `NextToken` from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the `NextToken` from the response object of the previous page call.
 """
 function list_executors end
 
@@ -1989,11 +1996,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of queries to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the `NextToken` from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the `NextToken` from the response object of the previous page call.
 - `"WorkGroup"`: The name of the workgroup from which the named queries are being returned.
-  If a workgroup is not specified, the saved queries for the primary workgroup are
-  returned.
+  If a workgroup is not specified, the saved queries for the primary workgroup are returned.
 """
 function list_named_queries end
 
@@ -2062,9 +2068,9 @@ end
     list_notebook_sessions(notebook_id)
     list_notebook_sessions(notebook_id, params::Dict{String,<:Any})
 
-Lists, in descending order, the sessions that have been created in a notebook that are in
-an active state like `CREATING`, `CREATED`, `IDLE` or `BUSY`. Newer sessions are listed
-first; older sessions are listed later.
+Lists, in descending order, the sessions that have been created in a notebook that are in an
+active state like `CREATING`, `CREATED`, `IDLE` or `BUSY`. Newer sessions are listed first;
+older sessions are listed later.
 
 # Arguments
 
@@ -2076,8 +2082,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of notebook sessions to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the `NextToken` from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the `NextToken` from the response object of the previous page call.
 """
 function list_notebook_sessions end
 
@@ -2123,8 +2129,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of results to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the `NextToken` from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the `NextToken` from the response object of the previous page call.
 """
 function list_prepared_statements end
 
@@ -2158,10 +2164,10 @@ end
     list_query_executions()
     list_query_executions(params::Dict{String,<:Any})
 
-Provides a list of available query execution IDs for the queries in the specified
-workgroup. Athena keeps a query history for 45 days. If a workgroup is not specified,
-returns a list of query execution IDs for the primary workgroup. Requires you to have
-access to the workgroup in which the queries ran.
+Provides a list of available query execution IDs for the queries in the specified workgroup.
+Athena keeps a query history for 45 days. If a workgroup is not specified, returns a list of
+query execution IDs for the primary workgroup. Requires you to have access to the workgroup
+in which the queries ran.
 
 # Optional Parameters
 
@@ -2169,11 +2175,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of query executions to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the `NextToken` from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the `NextToken` from the response object of the previous page call.
 - `"WorkGroup"`: The name of the workgroup from which queries are being returned. If a
-  workgroup is not specified, a list of available query execution IDs for the queries in
-  the primary workgroup is returned.
+  workgroup is not specified, a list of available query execution IDs for the queries in the
+  primary workgroup is returned.
 """
 function list_query_executions end
 
@@ -2210,9 +2216,11 @@ Lists the sessions in a workgroup that are in an active state like `CREATING`, `
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of sessions to return.
+
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the `NextToken` from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the `NextToken` from the response object of the previous page call.
+
 - `"StateFilter"`: A filter for a specific session state. A description of each state
   follows.
 
@@ -2277,10 +2285,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supplied, metadata for all tables are listed.
 - `"MaxResults"`: Specifies the maximum number of results to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the NextToken from the response object of the previous page call.
-- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
-  Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the NextToken from the response object of the previous page call.
+- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched. Required
+  if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
 function list_table_metadata end
 
@@ -2377,8 +2385,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of workgroups to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass
-  in the `NextToken` from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the `NextToken` from the response object of the previous page call.
 """
 function list_work_groups end
 
@@ -2471,19 +2479,21 @@ inline code block within the request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CalculationConfiguration"`: Contains configuration information for the calculation.
+
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
   create the calculation is idempotent (executes only once). If another
-  `StartCalculationExecutionRequest` is received, the same response is returned and
-  another calculation is not created. If a parameter has changed, an error is returned.
+  `StartCalculationExecutionRequest` is received, the same response is returned and another
+  calculation is not created. If a parameter has changed, an error is returned.
 
   !!! important
-      This token is listed as not required because Amazon Web Services SDKs (for example
-      the Amazon Web Services SDK for Java) auto-generate the token for users. If you are
-      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
-      provide this token or the action will fail.
+      This token is listed as not required because Amazon Web Services SDKs (for example the
+      Amazon Web Services SDK for Java) auto-generate the token for users. If you are not
+      using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide
+      this token or the action will fail.
 
 - `"CodeBlock"`: A string that contains the code of the calculation. Use this parameter
   instead of [`calculation_configuration\$_code_block`](@ref), which is deprecated.
+
 - `"Description"`: A description of the calculation.
 """
 function start_calculation_execution end
@@ -2520,8 +2530,7 @@ end
 
 Runs the SQL query statements contained in the `Query`. Requires you to have access to the
 workgroup in which the query ran. Running queries against an external catalog requires [`get_data_catalog`](@ref)
-permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see
-[Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html)
+permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html)
 in the *Amazon Athena User Guide*.
 
 # Arguments
@@ -2537,25 +2546,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request is received, the same response is returned and another query is not created. An
   error is returned if a parameter, such as `QueryString`, has changed. A call to
   `StartQueryExecution` that uses a previous client request token returns the same
-  `QueryExecutionId` even if the requester doesn't have permission on the tables
-  specified in `QueryString`.
+  `QueryExecutionId` even if the requester doesn't have permission on the tables specified
+  in `QueryString`.
 
   !!! important
-      This token is listed as not required because Amazon Web Services SDKs (for example
-      the Amazon Web Services SDK for Java) auto-generate the token for users. If you are
-      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
-      provide this token or the action will fail.
+      This token is listed as not required because Amazon Web Services SDKs (for example the
+      Amazon Web Services SDK for Java) auto-generate the token for users. If you are not
+      using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide
+      this token or the action will fail.
 
 - `"ExecutionParameters"`: A list of values for the parameters in a query. The values are
-  applied sequentially to the parameters in the query in the order in which the
-  parameters occur.
+  applied sequentially to the parameters in the query in the order in which the parameters
+  occur.
+
 - `"QueryExecutionContext"`: The database within which the query executes.
+
 - `"ResultConfiguration"`: Specifies information about where and how to save the results of
   the query execution. If the query runs in a workgroup, then workgroup's settings may
-  override query settings. This affects the query results location. The workgroup
-  settings override is specified in EnforceWorkGroupConfiguration (true/false) in the
+  override query settings. This affects the query results location. The workgroup settings
+  override is specified in EnforceWorkGroupConfiguration (true/false) in the
   WorkGroupConfiguration. See [`work_group_configuration\$_enforce_work_group_configuration`](@ref).
+
 - `"ResultReuseConfiguration"`: Specifies the query result reuse behavior for the query.
+
 - `"WorkGroup"`: The name of the workgroup in which the query is being started.
 """
 function start_query_execution end
@@ -2612,21 +2625,23 @@ reaches an `IDLE` state.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
-  create the session is idempotent (executes only once). If another `StartSessionRequest`
-  is received, the same response is returned and another session is not created. If a
-  parameter has changed, an error is returned.
+  create the session is idempotent (executes only once). If another `StartSessionRequest` is
+  received, the same response is returned and another session is not created. If a parameter
+  has changed, an error is returned.
 
   !!! important
-      This token is listed as not required because Amazon Web Services SDKs (for example
-      the Amazon Web Services SDK for Java) auto-generate the token for users. If you are
-      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
-      provide this token or the action will fail.
+      This token is listed as not required because Amazon Web Services SDKs (for example the
+      Amazon Web Services SDK for Java) auto-generate the token for users. If you are not
+      using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide
+      this token or the action will fail.
 
 - `"Description"`: The session description.
+
 - `"NotebookVersion"`: The notebook version. This value is supplied automatically for
   notebook sessions in the Athena console and is not required for programmatic session
-  access. The only valid notebook version is `Athena notebook version 1`. If you specify
-  a value for `NotebookVersion`, you must also specify a value for `NotebookId`. See [`engine_configuration\$_additional_configs`](@ref).
+  access. The only valid notebook version is `Athena notebook version 1`. If you specify a
+  value for `NotebookVersion`, you must also specify a value for `NotebookId`. See [`engine_configuration\$_additional_configs`](@ref).
+
 - `"SessionIdleTimeoutInMinutes"`: The idle timeout in minutes for the session.
 """
 function start_session end
@@ -2761,15 +2776,15 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds one or more tags to an Athena resource. A tag is a label that you assign to a
-resource. Each tag consists of a key and an optional value, both of which you define. For
-example, you can use tags to categorize Athena workgroups, data catalogs, or capacity
-reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it
-easier to search and filter the resources in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html).
+Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource.
+Each tag consists of a key and an optional value, both of which you define. For example, you
+can use tags to categorize Athena workgroups, data catalogs, or capacity reservations by
+purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search
+and filter the resources in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html).
 Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256
 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the
-following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys
-must be unique per resource. If you specify more than one tag, separate them by commas.
+following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must
+be unique per resource. If you specify more than one tag, separate them by commas.
 
 # Arguments
 
@@ -2945,8 +2960,8 @@ Updates the data catalog that has the specified name.
 
 - `name`: The name of the data catalog to update. The catalog name must be unique for the
   Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at
-  sign, or hyphen characters. The remainder of the length constraint of 256 is reserved
-  for use by Athena.
+  sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for
+  use by Athena.
 - `type`: Specifies the type of data catalog to update. Specify `LAMBDA` for a federated
   catalog, `HIVE` for an external hive metastore, or `GLUE` for an Glue Data Catalog.
 
@@ -2955,6 +2970,7 @@ Updates the data catalog that has the specified name.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: New or modified text that describes the data catalog.
+
 - `"Parameters"`: Specifies the Lambda function or functions to use for updating the data
   catalog. This is a mapping whose values depend on the catalog type.
 
@@ -2964,16 +2980,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `metadata-function=*lambda_arn*, sdk-version=*version_number*`
   - For the `LAMBDA` data catalog type, use one of the following sets of required
-    parameters, but not both.   - If you have one Lambda function that processes metadata
-    and another for reading the actual data, use the following syntax. Both parameters
-    are required.
+    parameters, but not both.
+    - If you have one Lambda function that processes metadata and another for reading the
+      actual data, use the following syntax. Both parameters are required.
 
   `metadata-function=*lambda_arn*, record-function=*lambda_arn*`
-    - If you have a composite Lambda function that processes both metadata and data, use
-      the following syntax to specify your Lambda function.
+    - If you have a composite Lambda function that processes both metadata and data, use the
+      following syntax to specify your Lambda function.
 
   `function=*lambda_arn*`
-
 """
 function update_data_catalog end
 
@@ -3080,10 +3095,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create the notebook is idempotent (executes only once).
 
   !!! important
-      This token is listed as not required because Amazon Web Services SDKs (for example
-      the Amazon Web Services SDK for Java) auto-generate the token for you. If you are
-      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
-      provide this token or the action will fail.
+      This token is listed as not required because Amazon Web Services SDKs (for example the
+      Amazon Web Services SDK for Java) auto-generate the token for you. If you are not
+      using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide
+      this token or the action will fail.
 
 - `"SessionId"`: The active notebook session ID. Required if the notebook has an active
   session.
@@ -3143,11 +3158,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create the notebook is idempotent (executes only once).
 
   !!! important
-      This token is listed as not required because Amazon Web Services SDKs (for example
-      the Amazon Web Services SDK for Java) auto-generate the token for you. If you are
-      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
-      provide this token or the action will fail.
-
+      This token is listed as not required because Amazon Web Services SDKs (for example the
+      Amazon Web Services SDK for Java) auto-generate the token for you. If you are not
+      using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide
+      this token or the action will fail.
 """
 function update_notebook_metadata end
 

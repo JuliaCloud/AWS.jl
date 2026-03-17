@@ -20,14 +20,14 @@ private component of the asymmetric encryption key pair. For data encryption out
 Amazon Web Services Payment Cryptography, you can export the public component of the
 asymmetric key pair by calling [GetPublicCertificate](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetPublicKeyCertificate.html).
 
-For symmetric and DUKPT decryption, Amazon Web Services Payment Cryptography supports
-`TDES` and `AES` algorithms. For EMV decryption, Amazon Web Services Payment Cryptography
-supports `TDES` algorithms. For asymmetric decryption, Amazon Web Services Payment
-Cryptography supports `RSA`.
+For symmetric and DUKPT decryption, Amazon Web Services Payment Cryptography supports `TDES`
+and `AES` algorithms. For EMV decryption, Amazon Web Services Payment Cryptography supports
+`TDES` algorithms. For asymmetric decryption, Amazon Web Services Payment Cryptography
+supports `RSA`.
 
 When you use TDES or TDES DUKPT, the ciphertext data length must be a multiple of 8 bytes.
-For AES or AES DUKPT, the ciphertext data length must be a multiple of 16 bytes. For RSA,
-it sould be equal to the key size unless padding is enabled.
+For AES or AES DUKPT, the ciphertext data length must be a multiple of 16 bytes. For RSA, it
+sould be equal to the key size unless padding is enabled.
 
 For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html)
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
@@ -45,12 +45,14 @@ accounts.
 # Arguments
 
 - `cipher_text`: The ciphertext to decrypt.
+
 - `decryption_attributes`: The encryption key type and attributes for ciphertext decryption.
+
 - `key_identifier`: The `keyARN` of the encryption key that Amazon Web Services Payment
   Cryptography uses for ciphertext decryption.
 
-  When a WrappedKeyBlock is provided, this value will be the identifier to the key
-  wrapping key. Otherwise, it is the key identifier used to perform the operation.
+  When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping
+  key. Otherwise, it is the key identifier used to perform the operation.
 
 # Optional Parameters
 
@@ -116,13 +118,13 @@ calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIR
 You can import your own encryption key by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html).
 For this operation, the key must have `KeyModesOfUse` set to `Encrypt`. In asymmetric
 encryption, plaintext is encrypted using public component. You can import the public
-component of an asymmetric key pair created outside Amazon Web Services Payment
-Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html).
+component of an asymmetric key pair created outside Amazon Web Services Payment Cryptography
+by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html).
 
-For symmetric and DUKPT encryption, Amazon Web Services Payment Cryptography supports
-`TDES` and `AES` algorithms. For EMV encryption, Amazon Web Services Payment Cryptography
-supports `TDES` algorithms.For asymmetric encryption, Amazon Web Services Payment
-Cryptography supports `RSA`.
+For symmetric and DUKPT encryption, Amazon Web Services Payment Cryptography supports `TDES`
+and `AES` algorithms. For EMV encryption, Amazon Web Services Payment Cryptography supports
+`TDES` algorithms.For asymmetric encryption, Amazon Web Services Payment Cryptography
+supports `RSA`.
 
 When you use TDES or TDES DUKPT, the plaintext data length must be a multiple of 8 bytes.
 For AES or AES DUKPT, the plaintext data length must be a multiple of 16 bytes. For RSA, it
@@ -151,11 +153,13 @@ accounts.
 # Arguments
 
 - `encryption_attributes`: The encryption key type and attributes for plaintext encryption.
+
 - `key_identifier`: The `keyARN` of the encryption key that Amazon Web Services Payment
   Cryptography uses for plaintext encryption.
 
-  When a WrappedKeyBlock is provided, this value will be the identifier to the key
-  wrapping key. Otherwise, it is the key identifier used to perform the operation.
+  When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping
+  key. Otherwise, it is the key identifier used to perform the operation.
+
 - `plain_text`: The plaintext to be encrypted.
 
   !!! note
@@ -219,8 +223,8 @@ end
     generate_card_validation_data(generation_attributes, key_identifier, primary_account_number, params::Dict{String,<:Any})
 
 Generates card-related validation data using algorithms such as Card Verification Values
-(CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2), or Card Security Codes (CSC).
-For more information, see [Generate card data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/generate-card-data.html)
+(CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2), or Card Security Codes (CSC). For
+more information, see [Generate card data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/generate-card-data.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
 This operation generates a CVV or CSC value that is printed on a payment credit or debit
@@ -406,9 +410,9 @@ in the *Amazon Web Services Payment Cryptography User Guide*.
 
 PIN data is never transmitted in clear to or from Amazon Web Services Payment Cryptography.
 This operation generates PIN, PVV, or PIN Offset and then encrypts it using Pin Encryption
-Key (PEK) to create an `EncryptedPinBlock` for transmission from Amazon Web Services
-Payment Cryptography. This operation uses a separate Pin Verification Key (PVK) for VISA
-PVV generation.
+Key (PEK) to create an `EncryptedPinBlock` for transmission from Amazon Web Services Payment
+Cryptography. This operation uses a separate Pin Verification Key (PVK) for VISA PVV
+generation.
 
 For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html)
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
@@ -427,20 +431,23 @@ accounts.
 
 - `encryption_key_identifier`: The `keyARN` of the PEK that Amazon Web Services Payment
   Cryptography uses to encrypt the PIN Block.
+
 - `generation_attributes`: The attributes and values to use for PIN, PVV, or PIN Offset
   generation.
+
 - `generation_key_identifier`: The `keyARN` of the PEK that Amazon Web Services Payment
   Cryptography uses for pin data generation.
-- `pin_block_format`: The PIN encoding format for pin data generation as specified in ISO
-  9564. Amazon Web Services Payment Cryptography supports `ISO_Format_0` and
-  `ISO_Format_3`.
 
-  The `ISO_Format_0` PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1
-  PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4
-  to 12 digits in length.
+- `pin_block_format`: The PIN encoding format for pin data generation as specified in ISO
+  9564. Amazon Web Services Payment Cryptography supports `ISO_Format_0` and `ISO_Format_3`.
+
+  The `ISO_Format_0` PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN
+  block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12
+  digits in length.
 
   The `ISO_Format_3` PIN block format is the same as `ISO_Format_0` except that the fill
   digits are random values from 10 to 15.
+
 - `primary_account_number`: The Primary Account Number (PAN), a unique identifier for a
   payment credit or debit card that associates the card with a specific account holder.
 
@@ -511,16 +518,15 @@ end
 
 Re-encrypt ciphertext using DUKPT or Symmetric data encryption keys.
 
-You can either generate an encryption key within Amazon Web Services Payment Cryptography
-by calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
+You can either generate an encryption key within Amazon Web Services Payment Cryptography by
+calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
 or import your own encryption key by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html).
 The `KeyArn` for use with this operation must be in a compatible key state with
 `KeyModesOfUse` set to `Encrypt`.
 
-For symmetric and DUKPT encryption, Amazon Web Services Payment Cryptography supports
-`TDES` and `AES` algorithms. To encrypt using DUKPT, a DUKPT key must already exist within
-your account with `KeyModesOfUse` set to `DeriveKey` or a new DUKPT can be generated by
-calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html).
+For symmetric and DUKPT encryption, Amazon Web Services Payment Cryptography supports `TDES`
+and `AES` algorithms. To encrypt using DUKPT, a DUKPT key must already exist within your
+account with `KeyModesOfUse` set to `DeriveKey` or a new DUKPT can be generated by calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html).
 
 For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html)
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
@@ -540,14 +546,17 @@ accounts.
 
 - `cipher_text`: Ciphertext to be encrypted. The minimum allowed length is 16 bytes and
   maximum allowed length is 4096 bytes.
-- `incoming_encryption_attributes`: The attributes and values for incoming ciphertext.
-- `incoming_key_identifier`: The `keyARN` of the encryption key of incoming ciphertext
-  data.
 
-  When a WrappedKeyBlock is provided, this value will be the identifier to the key
-  wrapping key. Otherwise, it is the key identifier used to perform the operation.
+- `incoming_encryption_attributes`: The attributes and values for incoming ciphertext.
+
+- `incoming_key_identifier`: The `keyARN` of the encryption key of incoming ciphertext data.
+
+  When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping
+  key. Otherwise, it is the key identifier used to perform the operation.
+
 - `outgoing_encryption_attributes`: The attributes and values for outgoing ciphertext data
   after encryption by Amazon Web Services Payment Cryptography.
+
 - `outgoing_key_identifier`: The `keyARN` of the encryption key of outgoing ciphertext data
   after encryption by Amazon Web Services Payment Cryptography.
 
@@ -628,11 +637,11 @@ transformation can be from PEK (Pin Encryption Key) to BDK (Base Derivation Key)
 or from BDK for DUKPT to PEK. Amazon Web Services Payment Cryptography supports `TDES` and
 `AES` key derivation type for DUKPT translations.
 
-The allowed combinations of PIN block format translations are guided by PCI. It is
-important to note that not all encrypted PIN block formats (example, format 1) require PAN
-(Primary Account Number) as input. And as such, PIN block format that requires PAN
-(example, formats 0,3,4) cannot be translated to a format (format 1) that does not require
-a PAN for generation.
+The allowed combinations of PIN block format translations are guided by PCI. It is important
+to note that not all encrypted PIN block formats (example, format 1) require PAN (Primary
+Account Number) as input. And as such, PIN block format that requires PAN (example, formats
+0,3,4) cannot be translated to a format (format 1) that does not require a PAN for
+generation.
 
 For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html)
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
@@ -655,16 +664,19 @@ accounts.
 
 - `encrypted_pin_block`: The encrypted PIN block data that Amazon Web Services Payment
   Cryptography translates.
+
 - `incoming_key_identifier`: The `keyARN` of the encryption key under which incoming PIN
   block data is encrypted. This key type can be PEK or BDK.
 
-  When a WrappedKeyBlock is provided, this value will be the identifier to the key
-  wrapping key for PIN block. Otherwise, it is the key identifier used to perform the
-  operation.
+  When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping
+  key for PIN block. Otherwise, it is the key identifier used to perform the operation.
+
 - `incoming_translation_attributes`: The format of the incoming PIN block data for
   translation within Amazon Web Services Payment Cryptography.
+
 - `outgoing_key_identifier`: The `keyARN` of the encryption key for encrypting outgoing PIN
   block data. This key type can be PEK or BDK.
+
 - `outgoing_translation_attributes`: The format of the outgoing PIN block data after
   translation by Amazon Web Services Payment Cryptography.
 
@@ -744,12 +756,11 @@ Verifies Authorization Request Cryptogram (ARQC) for a EMV chip payment card aut
 For more information, see [Verify auth request cryptogram](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/data-operations.verifyauthrequestcryptogram.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
-ARQC generation is done outside of Amazon Web Services Payment Cryptography and is
-typically generated on a point of sale terminal for an EMV chip card to obtain payment
-authorization during transaction time. For ARQC verification, you must first import the
-ARQC generated outside of Amazon Web Services Payment Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html).
-This operation uses the imported ARQC and an major encryption key (DUKPT) created by
-calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
+ARQC generation is done outside of Amazon Web Services Payment Cryptography and is typically
+generated on a point of sale terminal for an EMV chip card to obtain payment authorization
+during transaction time. For ARQC verification, you must first import the ARQC generated
+outside of Amazon Web Services Payment Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html).
+This operation uses the imported ARQC and an major encryption key (DUKPT) created by calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
 to either provide a boolean ARQC verification result or provide an APRC (Authorization
 Response Cryptogram) response using Method 1 or Method 2. The `ARPC_METHOD_1` uses
 `AuthResponseCode` to generate ARPC and `ARPC_METHOD_2` uses `CardStatusUpdate` to generate
@@ -775,9 +786,8 @@ accounts.
 - `key_identifier`: The `keyARN` of the major encryption key that Amazon Web Services
   Payment Cryptography uses for ARQC verification.
 - `major_key_derivation_mode`: The method to use when deriving the major encryption key for
-  ARQC verification within Amazon Web Services Payment Cryptography. The same key
-  derivation mode was used for ARQC generation outside of Amazon Web Services Payment
-  Cryptography.
+  ARQC verification within Amazon Web Services Payment Cryptography. The same key derivation
+  mode was used for ARQC generation outside of Amazon Web Services Payment Cryptography.
 - `session_key_derivation_attributes`: The attributes and values to use for deriving a
   session key for ARQC verification within Amazon Web Services Payment Cryptography. The
   same attributes were used for ARQC generation outside of Amazon Web Services Payment
@@ -854,17 +864,17 @@ end
     verify_card_validation_data(key_identifier, primary_account_number, validation_data, verification_attributes, params::Dict{String,<:Any})
 
 Verifies card-related validation data using algorithms such as Card Verification Values
-(CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2) and Card Security Codes (CSC).
-For more information, see [Verify card data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/verify-card-data.html)
+(CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2) and Card Security Codes (CSC). For
+more information, see [Verify card data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/verify-card-data.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
 This operation validates the CVV or CSC codes that is printed on a payment credit or debit
 card during card payment transaction. The input values are typically provided as part of an
-inbound transaction to an issuer or supporting platform partner. Amazon Web Services
-Payment Cryptography uses CVV or CSC, PAN (Primary Account Number) and expiration date of
-the card to check its validity during transaction processing. In this operation, the CVK
-(Card Verification Key) encryption key for use with card data verification is same as the
-one in used for [`generate_card_validation_data`](@ref).
+inbound transaction to an issuer or supporting platform partner. Amazon Web Services Payment
+Cryptography uses CVV or CSC, PAN (Primary Account Number) and expiration date of the card
+to check its validity during transaction processing. In this operation, the CVK (Card
+Verification Key) encryption key for use with card data verification is same as the one in
+used for [`generate_card_validation_data`](@ref).
 
 For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html)
 and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html)
@@ -1034,8 +1044,8 @@ end
     verify_pin_data(encrypted_pin_block, encryption_key_identifier, pin_block_format, primary_account_number, verification_attributes, verification_key_identifier)
     verify_pin_data(encrypted_pin_block, encryption_key_identifier, pin_block_format, primary_account_number, verification_attributes, verification_key_identifier, params::Dict{String,<:Any})
 
-Verifies pin-related data such as PIN and PIN Offset using algorithms including VISA PVV
-and IBM3624. For more information, see [Verify PIN data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/verify-pin-data.html)
+Verifies pin-related data such as PIN and PIN Offset using algorithms including VISA PVV and
+IBM3624. For more information, see [Verify PIN data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/verify-pin-data.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
 This operation verifies PIN data for user payment card. A card holder PIN data is never
@@ -1060,21 +1070,25 @@ accounts.
 
 - `encrypted_pin_block`: The encrypted PIN block data that Amazon Web Services Payment
   Cryptography verifies.
+
 - `encryption_key_identifier`: The `keyARN` of the encryption key under which the PIN block
   data is encrypted. This key type can be PEK or BDK.
-- `pin_block_format`: The PIN encoding format for pin data generation as specified in ISO
-  9564. Amazon Web Services Payment Cryptography supports `ISO_Format_0` and
-  `ISO_Format_3`.
 
-  The `ISO_Format_0` PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1
-  PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4
-  to 12 digits in length.
+- `pin_block_format`: The PIN encoding format for pin data generation as specified in ISO
+  9564. Amazon Web Services Payment Cryptography supports `ISO_Format_0` and `ISO_Format_3`.
+
+  The `ISO_Format_0` PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN
+  block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12
+  digits in length.
 
   The `ISO_Format_3` PIN block format is the same as `ISO_Format_0` except that the fill
   digits are random values from 10 to 15.
+
 - `primary_account_number`: The Primary Account Number (PAN), a unique identifier for a
   payment credit or debit card that associates the card with a specific account holder.
+
 - `verification_attributes`: The attributes and values for PIN data verification.
+
 - `verification_key_identifier`: The `keyARN` of the PIN verification key.
 
 # Optional Parameters

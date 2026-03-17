@@ -16,28 +16,31 @@ in the *Amazon Elastic Compute Cloud User Guide*.
 - `resource_type`: The resource type to be retained by the retention rule. Currently, only
   Amazon EBS snapshots and EBS-backed AMIs are supported. To retain snapshots, specify
   `EBS_SNAPSHOT`. To retain EBS-backed AMIs, specify `EC2_IMAGE`.
-- `retention_period`: Information about the retention period for which the retention rule
-  is to retain resources.
+- `retention_period`: Information about the retention period for which the retention rule is
+  to retain resources.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: The retention rule description.
+
 - `"LockConfiguration"`: Information about the retention rule lock configuration.
+
 - `"ResourceTags"`: Specifies the resource tags to use to identify resources that are to be
   retained by a tag-level retention rule. For tag-level retention rules, only deleted
-  resources, of the specified resource type, that have one or more of the specified tag
-  key and value pairs are retained. If a resource is deleted, but it does not have any of
-  the specified tag key and value pairs, it is immediately deleted without being retained
-  by the retention rule.
+  resources, of the specified resource type, that have one or more of the specified tag key
+  and value pairs are retained. If a resource is deleted, but it does not have any of the
+  specified tag key and value pairs, it is immediately deleted without being retained by the
+  retention rule.
 
   You can add the same tag key and value pair to a maximum or five retention rules.
 
   To create a Region-level retention rule, omit this parameter. A Region-level retention
   rule does not have any resource tags specified. It retains all deleted resources of the
-  specified resource type in the Region in which the rule is created, even if the
-  resources are not tagged.
+  specified resource type in the Region in which the rule is created, even if the resources
+  are not tagged.
+
 - `"Tags"`: Information about the tags to assign to the retention rule.
 """
 function create_rule end
@@ -159,10 +162,9 @@ Lists the Recycle Bin retention rules in the Region.
 # Arguments
 
 - `resource_type`: The resource type retained by the retention rule. Only retention rules
-  that retain the specified resource type are listed. Currently, only Amazon EBS
-  snapshots and EBS-backed AMIs are supported. To list retention rules that retain
-  snapshots, specify `EBS_SNAPSHOT`. To list retention rules that retain EBS-backed AMIs,
-  specify `EC2_IMAGE`.
+  that retain the specified resource type are listed. Currently, only Amazon EBS snapshots
+  and EBS-backed AMIs are supported. To list retention rules that retain snapshots, specify
+  `EBS_SNAPSHOT`. To list retention rules that retain EBS-backed AMIs, specify `EC2_IMAGE`.
 
 # Optional Parameters
 
@@ -368,8 +370,8 @@ Unassigns a tag from a retention rule.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the retention rule.
-- `tag_keys`: The tag keys of the tags to unassign. All tags that have the specified tag
-  key are unassigned.
+- `tag_keys`: The tag keys of the tags to unassign. All tags that have the specified tag key
+  are unassigned.
 """
 function untag_resource end
 
@@ -418,22 +420,22 @@ in the *Amazon Elastic Compute Cloud User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: The retention rule description.
+
 - `"ResourceTags"`: Specifies the resource tags to use to identify resources that are to be
   retained by a tag-level retention rule. For tag-level retention rules, only deleted
-  resources, of the specified resource type, that have one or more of the specified tag
-  key and value pairs are retained. If a resource is deleted, but it does not have any of
-  the specified tag key and value pairs, it is immediately deleted without being retained
-  by the retention rule.
+  resources, of the specified resource type, that have one or more of the specified tag key
+  and value pairs are retained. If a resource is deleted, but it does not have any of the
+  specified tag key and value pairs, it is immediately deleted without being retained by the
+  retention rule.
 
   You can add the same tag key and value pair to a maximum or five retention rules.
 
   To create a Region-level retention rule, omit this parameter. A Region-level retention
   rule does not have any resource tags specified. It retains all deleted resources of the
-  specified resource type in the Region in which the rule is created, even if the
-  resources are not tagged.
-- `"ResourceType"`:
+  specified resource type in the Region in which the rule is created, even if the resources
+  are not tagged.
 
-  !!! note
+- `"ResourceType"`: !!! note
       This parameter is currently not supported. You can't update a retention rule's
       resource type after creation.
 

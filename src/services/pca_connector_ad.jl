@@ -8,8 +8,8 @@ using AWS.UUIDs
     create_connector(certificate_authority_arn, directory_id, vpc_information)
     create_connector(certificate_authority_arn, directory_id, vpc_information, params::Dict{String,<:Any})
 
-Creates a connector between Amazon Web Services Private CA and an Active Directory. You
-must specify the private CA, directory ID, and security groups.
+Creates a connector between Amazon Web Services Private CA and an Active Directory. You must
+specify the private CA, directory ID, and security groups.
 
 # Arguments
 
@@ -132,9 +132,8 @@ end
     create_service_principal_name(connector_arn, directory_registration_arn)
     create_service_principal_name(connector_arn, directory_registration_arn, params::Dict{String,<:Any})
 
-Creates a service principal name (SPN) for the service account in Active Directory.
-Kerberos authentication uses SPNs to associate a service instance with a service sign-in
-account.
+Creates a service principal name (SPN) for the service account in Active Directory. Kerberos
+authentication uses SPNs to associate a service instance with a service sign-in account.
 
 # Arguments
 
@@ -194,8 +193,7 @@ membership.
 - `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 - `definition`: Template configuration to define the information included in certificates.
   Define certificate validity and renewal periods, certificate request handling and
-  enrollment options, key usage extensions, application policies, and cryptography
-  settings.
+  enrollment options, key usage extensions, application policies, and cryptography settings.
 - `name`: Name of the template. The template name must be unique.
 
 # Optional Parameters
@@ -262,8 +260,8 @@ and/or autoenrolling with the template based on the group security identifiers (
 
 - `access_rights`: Allow or deny permissions for an Active Directory group to enroll or
   autoenroll certificates for a template.
-- `group_display_name`: Name of the Active Directory group. This name does not need to
-  match the group name in Active Directory.
+- `group_display_name`: Name of the Active Directory group. This name does not need to match
+  the group name in Active Directory.
 - `group_security_identifier`: Security identifier (SID) of the group object from Active
   Directory. The SID starts with "S-".
 - `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
@@ -329,8 +327,8 @@ end
     delete_connector(connector_arn)
     delete_connector(connector_arn, params::Dict{String,<:Any})
 
-Deletes a connector for Active Directory. You must provide the Amazon Resource Name (ARN)
-of the connector that you want to delete. You can find the ARN by calling the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors)
+Deletes a connector for Active Directory. You must provide the Amazon Resource Name (ARN) of
+the connector that you want to delete. You can find the ARN by calling the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors)
 action. Deleting a connector does not deregister your directory with Amazon Web Services
 Private CA. You can deregister your directory by calling the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration)
 action.
@@ -728,8 +726,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the `NextToken` element is sent in the response. Use this
-  `NextToken` value in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
+  value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
@@ -763,8 +761,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the `NextToken` element is sent in the response. Use this
-  `NextToken` value in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
+  value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
@@ -810,8 +808,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the `NextToken` element is sent in the response. Use this
-  `NextToken` value in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
+  value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
@@ -897,8 +895,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the `NextToken` element is sent in the response. Use this
-  `NextToken` value in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
+  value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
@@ -946,8 +944,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the `NextToken` element is sent in the response. Use this
-  `NextToken` value in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
+  value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
@@ -1075,10 +1073,9 @@ Update template configuration to define the information included in certificates
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Definition"`: Template configuration to define the information included in
-  certificates. Define certificate validity and renewal periods, certificate request
-  handling and enrollment options, key usage extensions, application policies, and
-  cryptography settings.
+- `"Definition"`: Template configuration to define the information included in certificates.
+  Define certificate validity and renewal periods, certificate request handling and
+  enrollment options, key usage extensions, application policies, and cryptography settings.
 - `"ReenrollAllCertificateHolders"`: This setting allows the major version of a template to
   be increased automatically. All members of Active Directory groups that are allowed to
   enroll with a template will receive a new certificate issued using that template.
@@ -1126,8 +1123,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AccessRights"`: Allow or deny permissions for an Active Directory group to enroll or
   autoenroll certificates for a template.
-- `"GroupDisplayName"`: Name of the Active Directory group. This name does not need to
-  match the group name in Active Directory.
+- `"GroupDisplayName"`: Name of the Active Directory group. This name does not need to match
+  the group name in Active Directory.
 """
 function update_template_group_access_control_entry end
 

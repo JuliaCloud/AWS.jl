@@ -82,15 +82,13 @@ end
 
 Create a configuration set. *Configuration sets* are groups of rules that you can apply to
 the emails that you send. You apply a configuration set to an email by specifying the name
-of the configuration set when you call the Amazon SES API v2. When you apply a
-configuration set to an email, all of the rules in that configuration set are applied to
-the email.
+of the configuration set when you call the Amazon SES API v2. When you apply a configuration
+set to an email, all of the rules in that configuration set are applied to the email.
 
 # Arguments
 
-- `configuration_set_name`: The name of the configuration set. The name can contain up to
-  64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_)
-  only.
+- `configuration_set_name`: The name of the configuration set. The name can contain up to 64
+  alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
 
 # Optional Parameters
 
@@ -103,10 +101,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SendingOptions"`: An object that defines whether or not Amazon SES can send email that
   you send using the configuration set.
 - `"SuppressionOptions"`:
-- `"Tags"`: An array of objects that define the tags (keys and values) to associate with
-  the configuration set.
-- `"TrackingOptions"`: An object that defines the open and click tracking options for
-  emails that you send using the configuration set.
+- `"Tags"`: An array of objects that define the tags (keys and values) to associate with the
+  configuration set.
+- `"TrackingOptions"`: An object that defines the open and click tracking options for emails
+  that you send using the configuration set.
 - `"VdmOptions"`: An object that defines the VDM options for emails that you send using the
   configuration set.
 """
@@ -149,9 +147,9 @@ end
     create_configuration_set_event_destination(configuration_set_name, event_destination, event_destination_name, params::Dict{String,<:Any})
 
 Create an event destination. *Events* include message sends, deliveries, opens, clicks,
-bounces, and complaints. *Event destinations* are places that you can send information
-about these events to. For example, you can send event data to Amazon EventBridge and
-associate a rule to send the event to the specified target.
+bounces, and complaints. *Event destinations* are places that you can send information about
+these events to. For example, you can send event data to Amazon EventBridge and associate a
+rule to send the event to the specified target.
 
 A single configuration set can include more than one event destination.
 
@@ -324,14 +322,14 @@ You can execute this operation no more than once per second.
 
 # Arguments
 
-- `failure_redirection_url`: The URL that the recipient of the verification email is sent
-  to if his or her address is not successfully verified.
+- `failure_redirection_url`: The URL that the recipient of the verification email is sent to
+  if his or her address is not successfully verified.
 - `from_email_address`: The email address that the custom verification email is sent from.
-- `success_redirection_url`: The URL that the recipient of the verification email is sent
-  to if his or her address is successfully verified.
+- `success_redirection_url`: The URL that the recipient of the verification email is sent to
+  if his or her address is successfully verified.
 - `template_content`: The content of the custom verification email. The total size of the
-  email must be less than 10 MB. The message body may contain HTML, with some
-  limitations. For more information, see [Custom verification email frequently asked questions](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom-faq)
+  email must be less than 10 MB. The message body may contain HTML, with some limitations.
+  For more information, see [Custom verification email frequently asked questions](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom-faq)
   in the *Amazon SES Developer Guide*.
 - `template_name`: The name of the custom verification email template.
 - `template_subject`: The subject line of the custom verification email.
@@ -455,15 +453,15 @@ predict how your messages will be handled by various email providers around the 
 you perform a predictive inbox placement test, you provide a sample message that contains
 the content that you plan to send to your customers. Amazon SES then sends that message to
 special email addresses spread across several major email providers. After about 24 hours,
-the test is complete, and you can use the [`get_deliverability_test_report`](@ref)
-operation to view the results of the test.
+the test is complete, and you can use the [`get_deliverability_test_report`](@ref) operation
+to view the results of the test.
 
 # Arguments
 
 - `content`: The HTML body of the message that you sent when you performed the predictive
   inbox placement test.
-- `from_email_address`: The email address that the predictive inbox placement test email
-  was sent from.
+- `from_email_address`: The email address that the predictive inbox placement test email was
+  sent from.
 
 # Optional Parameters
 
@@ -527,12 +525,12 @@ address is verified as soon as you follow the link in the verification email.
 When you verify a domain without specifying the `DkimSigningAttributes` object, this
 operation provides a set of DKIM tokens. You can convert these tokens into CNAME records,
 which you then add to the DNS configuration for your domain. Your domain is verified when
-Amazon SES detects these records in the DNS configuration for your domain. This
-verification method is known as [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
+Amazon SES detects these records in the DNS configuration for your domain. This verification
+method is known as [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
 
-Alternatively, you can perform the verification process by providing your own public-
-private key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To
-use BYODKIM, your call to the [`create_email_identity`](@ref) operation has to include the
+Alternatively, you can perform the verification process by providing your own public-private
+key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To use
+BYODKIM, your call to the [`create_email_identity`](@ref) operation has to include the
 `DkimSigningAttributes` object. When you specify this object, you provide a selector (a
 component of the DNS record name that identifies the public key to use for DKIM
 authentication) and a private key.
@@ -557,14 +555,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigurationSetName"`: The configuration set to use by default when sending from this
   identity. Note that any configuration set defined in the email sending request takes
   precedence.
-- `"DkimSigningAttributes"`: If your request includes this object, Amazon SES configures
-  the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, or,
+
+- `"DkimSigningAttributes"`: If your request includes this object, Amazon SES configures the
+  identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, or,
   configures the key length to be used for [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
 
   You can only specify this object if the email identity is a domain, as opposed to an
   address.
-- `"Tags"`: An array of objects that define the tags (keys and values) to associate with
-  the email identity.
+
+- `"Tags"`: An array of objects that define the tags (keys and values) to associate with the
+  email identity.
 """
 function create_email_identity end
 
@@ -604,24 +604,26 @@ Creates the specified sending authorization policy for the given identity (an em
 or a domain).
 
 !!! note
-    This API is for the identity owner only. If you have not verified the identity, this
-    API will return an error.
+    This API is for the identity owner only. If you have not verified the identity, this API
+    will return an error.
 
-Sending authorization is a feature that enables an identity owner to authorize other
-senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+Sending authorization is a feature that enables an identity owner to authorize other senders
+to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
 
 You can execute this operation no more than once per second.
 
 # Arguments
 
 - `email_identity`: The email identity.
+
 - `policy`: The text of the policy in JSON format. The policy cannot exceed 4 KB.
 
   For information about the syntax of sending authorization policies, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-policies.html).
+
 - `policy_name`: The name of the policy.
 
-  The policy name cannot exceed 64 characters and can only include alphanumeric
-  characters, dashes, and underscores.
+  The policy name cannot exceed 64 characters and can only include alphanumeric characters,
+  dashes, and underscores.
 """
 function create_email_identity_policy end
 
@@ -664,8 +666,8 @@ You can execute this operation no more than once per second.
 
 # Arguments
 
-- `template_content`: The content of the email template, composed of a subject line, an
-  HTML part, and a text-only part.
+- `template_content`: The content of the email template, composed of a subject line, an HTML
+  part, and a text-only part.
 - `template_name`: The name of the template.
 """
 function create_email_template end
@@ -1103,21 +1105,22 @@ or a domain). This API returns successfully even if a policy with the specified 
 not exist.
 
 !!! note
-    This API is for the identity owner only. If you have not verified the identity, this
-    API will return an error.
+    This API is for the identity owner only. If you have not verified the identity, this API
+    will return an error.
 
-Sending authorization is a feature that enables an identity owner to authorize other
-senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+Sending authorization is a feature that enables an identity owner to authorize other senders
+to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
 
 You can execute this operation no more than once per second.
 
 # Arguments
 
 - `email_identity`: The email identity.
+
 - `policy_name`: The name of the policy.
 
-  The policy name cannot exceed 64 characters and can only include alphanumeric
-  characters, dashes, and underscores.
+  The policy name cannot exceed 64 characters and can only include alphanumeric characters,
+  dashes, and underscores.
 """
 function delete_email_identity_policy end
 
@@ -1424,8 +1427,8 @@ end
     get_contact_list(contact_list_name)
     get_contact_list(contact_list_name, params::Dict{String,<:Any})
 
-Returns contact list metadata. It does not return any information about the contacts
-present in the list.
+Returns contact list metadata. It does not return any information about the contacts present
+in the list.
 
 # Arguments
 
@@ -1511,9 +1514,8 @@ address.
 
 # Arguments
 
-- `ip`: The IP address that you want to obtain more information about. The value you
-  specify has to be a dedicated IP address that's assocaited with your Amazon Web
-  Services account.
+- `ip`: The IP address that you want to obtain more information about. The value you specify
+  has to be a dedicated IP address that's assocaited with your Amazon Web Services account.
 """
 function get_dedicated_ip end
 
@@ -1586,9 +1588,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token returned from a previous call to `GetDedicatedIps` to indicate the
   position of the dedicated IP pool in the list of IP pools.
 - `"PageSize"`: The number of results to show in a single call to `GetDedicatedIpsRequest`.
-  If the number of results is larger than the number you specified in this parameter,
-  then the response includes a `NextToken` element, which you can use to obtain
-  additional results.
+  If the number of results is larger than the number you specified in this parameter, then
+  the response includes a `NextToken` element, which you can use to obtain additional
+  results.
 - `"PoolName"`: The name of the IP pool that the dedicated IP address is associated with.
 """
 function get_dedicated_ips end
@@ -1618,15 +1620,15 @@ end
     get_deliverability_dashboard_options()
     get_deliverability_dashboard_options(params::Dict{String,<:Any})
 
-Retrieve information about the status of the Deliverability dashboard for your account.
-When the Deliverability dashboard is enabled, you gain access to reputation,
-deliverability, and other metrics for the domains that you use to send email. You also gain
-the ability to perform predictive inbox placement tests.
+Retrieve information about the status of the Deliverability dashboard for your account. When
+the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and
+other metrics for the domains that you use to send email. You also gain the ability to
+perform predictive inbox placement tests.
 
 When you use the Deliverability dashboard, you pay a monthly subscription charge, in
-addition to any other fees that you accrue by using Amazon SES and other Amazon Web
-Services services. For more information about the features and cost of a Deliverability
-dashboard subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
+addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services
+services. For more information about the features and cost of a Deliverability dashboard
+subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
 """
 function get_deliverability_dashboard_options end
 
@@ -1695,8 +1697,8 @@ end
     get_domain_deliverability_campaign(campaign_id, params::Dict{String,<:Any})
 
 Retrieve all the deliverability data for a specific campaign. This data is available for a
-campaign only if the campaign sent email by using a domain that the Deliverability
-dashboard is enabled for.
+campaign only if the campaign sent email by using a domain that the Deliverability dashboard
+is enabled for.
 
 # Arguments
 
@@ -1740,8 +1742,8 @@ Retrieve inbox placement and engagement rates for the domains that you use to se
 
 - `domain`: The domain that you want to obtain deliverability metrics for.
 - `end_date`: The last day (in Unix time) that you want to obtain domain deliverability
-  metrics for. The `EndDate` that you specify has to be less than or equal to 30 days
-  after the `StartDate`.
+  metrics for. The `EndDate` that you specify has to be less than or equal to 30 days after
+  the `StartDate`.
 - `start_date`: The first day (in Unix time) that you want to obtain domain deliverability
   metrics for.
 """
@@ -1825,15 +1827,15 @@ end
     get_email_identity_policies(email_identity, params::Dict{String,<:Any})
 
 Returns the requested sending authorization policies for the given identity (an email
-address or a domain). The policies are returned as a map of policy names to policy
-contents. You can retrieve a maximum of 20 policies at a time.
+address or a domain). The policies are returned as a map of policy names to policy contents.
+You can retrieve a maximum of 20 policies at a time.
 
 !!! note
-    This API is for the identity owner only. If you have not verified the identity, this
-    API will return an error.
+    This API is for the identity owner only. If you have not verified the identity, this API
+    will return an error.
 
-Sending authorization is a feature that enables an identity owner to authorize other
-senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+Sending authorization is a feature that enables an identity owner to authorize other senders
+to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
 
 You can execute this operation no more than once per second.
 
@@ -2017,8 +2019,8 @@ end
     get_suppressed_destination(email_address)
     get_suppressed_destination(email_address, params::Dict{String,<:Any})
 
-Retrieves information about a specific email address that's on the suppression list for
-your account.
+Retrieves information about a specific email address that's on the suppression list for your
+account.
 
 # Arguments
 
@@ -2069,9 +2071,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token returned from a previous call to `ListConfigurationSets` to
   indicate the position in the list of configuration sets.
 - `"PageSize"`: The number of results to show in a single call to `ListConfigurationSets`.
-  If the number of results is larger than the number you specified in this parameter,
-  then the response includes a `NextToken` element, which you can use to obtain
-  additional results.
+  If the number of results is larger than the number you specified in this parameter, then
+  the response includes a `NextToken` element, which you can use to obtain additional
+  results.
 """
 function list_configuration_sets end
 
@@ -2153,14 +2155,16 @@ Lists the contacts present in a specific contact list.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filter"`: A filter that can be applied to a list of contacts.
-- `"NextToken"`: A string token indicating that there might be additional contacts
-  available to be listed. Use the token provided in the Response to use in the subsequent
-  call to ListContacts with the same parameters to retrieve the next page of contacts.
+
+- `"NextToken"`: A string token indicating that there might be additional contacts available
+  to be listed. Use the token provided in the Response to use in the subsequent call to
+  ListContacts with the same parameters to retrieve the next page of contacts.
+
 - `"PageSize"`: The number of contacts that may be returned at once, which is dependent on
-  if there are more or less contacts than the value of the PageSize. Use this parameter
-  to paginate results. If additional contacts exist beyond the specified limit, the
-  `NextToken` element is sent in the response. Use the `NextToken` value in subsequent
-  requests to retrieve additional contacts.
+  if there are more or less contacts than the value of the PageSize. Use this parameter to
+  paginate results. If additional contacts exist beyond the specified limit, the `NextToken`
+  element is sent in the response. Use the `NextToken` value in subsequent requests to
+  retrieve additional contacts.
 """
 function list_contacts end
 
@@ -2206,10 +2210,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token returned from a previous call to
   `ListCustomVerificationEmailTemplates` to indicate the position in the list of custom
   verification email templates.
+
 - `"PageSize"`: The number of results to show in a single call to
-  `ListCustomVerificationEmailTemplates`. If the number of results is larger than the
-  number you specified in this parameter, then the response includes a `NextToken`
-  element, which you can use to obtain additional results.
+  `ListCustomVerificationEmailTemplates`. If the number of results is larger than the number
+  you specified in this parameter, then the response includes a `NextToken` element, which
+  you can use to obtain additional results.
 
   The value you specify has to be at least 1, and can be no more than 50.
 """
@@ -2249,12 +2254,11 @@ current Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NextToken"`: A token returned from a previous call to `ListDedicatedIpPools` to
-  indicate the position in the list of dedicated IP pools.
-- `"PageSize"`: The number of results to show in a single call to `ListDedicatedIpPools`.
-  If the number of results is larger than the number you specified in this parameter,
-  then the response includes a `NextToken` element, which you can use to obtain
-  additional results.
+- `"NextToken"`: A token returned from a previous call to `ListDedicatedIpPools` to indicate
+  the position in the list of dedicated IP pools.
+- `"PageSize"`: The number of results to show in a single call to `ListDedicatedIpPools`. If
+  the number of results is larger than the number you specified in this parameter, then the
+  response includes a `NextToken` element, which you can use to obtain additional results.
 """
 function list_dedicated_ip_pools end
 
@@ -2291,12 +2295,13 @@ operation to view the results.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NextToken"`: A token returned from a previous call to `ListDeliverabilityTestReports`
-  to indicate the position in the list of predictive inbox placement tests.
+- `"NextToken"`: A token returned from a previous call to `ListDeliverabilityTestReports` to
+  indicate the position in the list of predictive inbox placement tests.
+
 - `"PageSize"`: The number of results to show in a single call to
   `ListDeliverabilityTestReports`. If the number of results is larger than the number you
-  specified in this parameter, then the response includes a `NextToken` element, which
-  you can use to obtain additional results.
+  specified in this parameter, then the response includes a `NextToken` element, which you
+  can use to obtain additional results.
 
   The value you specify has to be at least 0, and can be no more than 1000.
 """
@@ -2329,9 +2334,9 @@ end
     list_domain_deliverability_campaigns(end_date, start_date, subscribed_domain)
     list_domain_deliverability_campaigns(end_date, start_date, subscribed_domain, params::Dict{String,<:Any})
 
-Retrieve deliverability data for all the campaigns that used a specific domain to send
-email during a specified time range. This data is available for a domain only if you
-enabled the Deliverability dashboard for the domain.
+Retrieve deliverability data for all the campaigns that used a specific domain to send email
+during a specified time range. This data is available for a domain only if you enabled the
+Deliverability dashboard for the domain.
 
 # Arguments
 
@@ -2346,10 +2351,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: A token that’s returned from a previous call to the [`list_domain_deliverability_campaigns`](@ref)
   operation. This token indicates the position of a campaign in the list of campaigns.
-- `"PageSize"`: The maximum number of results to include in response to a single call to
-  the [`list_domain_deliverability_campaigns`](@ref) operation. If the number of results
-  is larger than the number that you specify in this parameter, the response includes a
-  `NextToken` element, which you can use to obtain additional results.
+- `"PageSize"`: The maximum number of results to include in response to a single call to the [`list_domain_deliverability_campaigns`](@ref)
+  operation. If the number of results is larger than the number that you specify in this
+  parameter, the response includes a `NextToken` element, which you can use to obtain
+  additional results.
 """
 function list_domain_deliverability_campaigns end
 
@@ -2402,10 +2407,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: A token returned from a previous call to `ListEmailIdentities` to indicate
   the position in the list of identities.
+
 - `"PageSize"`: The number of results to show in a single call to `ListEmailIdentities`. If
-  the number of results is larger than the number you specified in this parameter, then
-  the response includes a `NextToken` element, which you can use to obtain additional
-  results.
+  the number of results is larger than the number you specified in this parameter, then the
+  response includes a `NextToken` element, which you can use to obtain additional results.
 
   The value you specify has to be at least 0, and can be no more than 1000.
 """
@@ -2447,10 +2452,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: A token returned from a previous call to `ListEmailTemplates` to indicate
   the position in the list of email templates.
+
 - `"PageSize"`: The number of results to show in a single call to `ListEmailTemplates`. If
-  the number of results is larger than the number you specified in this parameter, then
-  the response includes a `NextToken` element, which you can use to obtain additional
-  results.
+  the number of results is larger than the number you specified in this parameter, then the
+  response includes a `NextToken` element, which you can use to obtain additional results.
 
   The value you specify has to be at least 1, and can be no more than 100.
 """
@@ -2491,8 +2496,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate the position in the list of export jobs.
 - `"PageSize"`: Maximum number of export jobs to return at once. Use this parameter to
   paginate results. If additional export jobs exist beyond the specified limit, the
-  `NextToken` element is sent in the response. Use the `NextToken` value in subsequent
-  calls to `ListExportJobs` to retrieve additional export jobs.
+  `NextToken` element is sent in the response. Use the `NextToken` value in subsequent calls
+  to `ListExportJobs` to retrieve additional export jobs.
 """
 function list_export_jobs end
 
@@ -2530,8 +2535,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ImportDestinationType"`: The destination of the import job, which can be used to list
   import jobs that have a certain `ImportDestinationType`.
 - `"NextToken"`: A string token indicating that there might be additional import jobs
-  available to be listed. Copy this token to a subsequent call to `ListImportJobs` with
-  the same parameters to retrieve the next page of import jobs.
+  available to be listed. Copy this token to a subsequent call to `ListImportJobs` with the
+  same parameters to retrieve the next page of import jobs.
 - `"PageSize"`: Maximum number of import jobs to return at once. Use this parameter to
   paginate results. If additional import jobs exist beyond the specified limit, the
   `NextToken` element is sent in the response. Use the `NextToken` value in subsequent
@@ -2575,12 +2580,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filter"`: Filters applied when retrieving recommendations. Can eiter be an individual
   filter, or combinations of `STATUS` and `IMPACT` or `STATUS` and `TYPE`
+
 - `"NextToken"`: A token returned from a previous call to `ListRecommendations` to indicate
   the position in the list of recommendations.
+
 - `"PageSize"`: The number of results to show in a single call to `ListRecommendations`. If
-  the number of results is larger than the number you specified in this parameter, then
-  the response includes a `NextToken` element, which you can use to obtain additional
-  results.
+  the number of results is larger than the number you specified in this parameter, then the
+  response includes a `NextToken` element, which you can use to obtain additional results.
 
   The value you specify has to be at least 1, and can be no more than 100.
 """
@@ -2623,8 +2629,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate the position in the list of suppressed email addresses.
 - `"PageSize"`: The number of results to show in a single call to
   `ListSuppressedDestinations`. If the number of results is larger than the number you
-  specified in this parameter, then the response includes a `NextToken` element, which
-  you can use to obtain additional results.
+  specified in this parameter, then the response includes a `NextToken` element, which you
+  can use to obtain additional results.
 - `"Reason"`: The factors that caused the email address to be added to .
 - `"StartDate"`: Used to filter the list of suppressed email destinations so that it only
   includes addresses that were added to the list after a specific date.
@@ -2656,9 +2662,9 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieve a list of the tags (keys and values) that are associated with a specified
-resource. A *tag* is a label that you optionally define and associate with a resource. Each
-tag consists of a required *tag key* and an optional associated *tag value*. A tag key is a
+Retrieve a list of the tags (keys and values) that are associated with a specified resource.
+A *tag* is a label that you optionally define and associate with a resource. Each tag
+consists of a required *tag key* and an optional associated *tag value*. A tag key is a
 general label that acts as a category for more specific tag values. A tag value acts as a
 descriptor within a tag key.
 
@@ -2709,8 +2715,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AutoWarmupEnabled"`: Enables or disables the automatic warm-up feature for dedicated IP
   addresses that are associated with your Amazon SES account in the current Amazon Web
-  Services Region. Set to `true` to enable the automatic warm-up feature, or set to
-  `false` to disable it.
+  Services Region. Set to `true` to enable the automatic warm-up feature, or set to `false`
+  to disable it.
 """
 function put_account_dedicated_ip_warmup_attributes end
 
@@ -2755,7 +2761,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AdditionalContactEmailAddresses"`: Additional email addresses that you would like to be
   notified regarding Amazon SES matters.
+
 - `"ContactLanguage"`: The language you would prefer to be contacted with.
+
 - `"ProductionAccessEnabled"`: Indicates whether or not your account should have production
   access in the current Amazon Web Services Region.
 
@@ -2765,6 +2773,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the value is `true`, then your account has production access. When your account has
   production access, you can send email to any address. The sending quota and maximum
   sending rate for your account vary based on your specific use case.
+
 - `"UseCaseDescription"`: A description of the types of email that you plan to send.
 """
 function put_account_details end
@@ -2816,9 +2825,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `true` to enable email sending, or set to `false` to disable email sending.
 
   !!! note
-      If Amazon Web Services paused your account's ability to send email, you can't use
-      this operation to resume your account's ability to send email.
-
+      If Amazon Web Services paused your account's ability to send email, you can't use this
+      operation to resume your account's ability to send email.
 """
 function put_account_sending_attributes end
 
@@ -2856,14 +2864,13 @@ Change the settings for the account-level suppression list.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"SuppressedReasons"`: A list that contains the reasons that email addresses will be
-  automatically added to the suppression list for your account. This list can contain any
-  or all of the following:
+  automatically added to the suppression list for your account. This list can contain any or
+  all of the following:
 
-  - `COMPLAINT` – Amazon SES adds an email address to the suppression list for your
-    account when a message sent to that address results in a complaint.
+  - `COMPLAINT` – Amazon SES adds an email address to the suppression list for your account
+    when a message sent to that address results in a complaint.
   - `BOUNCE` – Amazon SES adds an email address to the suppression list for your account
     when a message sent to that address results in a hard bounce.
-
 """
 function put_account_suppression_attributes end
 
@@ -2948,12 +2955,12 @@ create groups of dedicated IP addresses for sending specific types of email.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"SendingPoolName"`: The name of the dedicated IP pool to associate with the
-  configuration set.
+- `"SendingPoolName"`: The name of the dedicated IP pool to associate with the configuration
+  set.
 - `"TlsPolicy"`: Specifies whether messages that use the configuration set are required to
-  use Transport Layer Security (TLS). If the value is `Require`, messages are only
-  delivered if a TLS connection can be established. If the value is `Optional`, messages
-  can be delivered in plain text if a TLS connection can't be established.
+  use Transport Layer Security (TLS). If the value is `Require`, messages are only delivered
+  if a TLS connection can be established. If the value is `Optional`, messages can be
+  delivered in plain text if a TLS connection can't be established.
 """
 function put_configuration_set_delivery_options end
 
@@ -2997,8 +3004,8 @@ particular configuration set in a specific Amazon Web Services Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ReputationMetricsEnabled"`: If `true`, tracking of reputation metrics is enabled for
-  the configuration set. If `false`, tracking of reputation metrics is disabled for the
+- `"ReputationMetricsEnabled"`: If `true`, tracking of reputation metrics is enabled for the
+  configuration set. If `false`, tracking of reputation metrics is disabled for the
   configuration set.
 """
 function put_configuration_set_reputation_options end
@@ -3082,22 +3089,21 @@ Specify the account suppression list preferences for a configuration set.
 
 # Arguments
 
-- `configuration_set_name`: The name of the configuration set to change the suppression
-  list preferences for.
+- `configuration_set_name`: The name of the configuration set to change the suppression list
+  preferences for.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"SuppressedReasons"`: A list that contains the reasons that email addresses are
-  automatically added to the suppression list for your account. This list can contain any
-  or all of the following:
+  automatically added to the suppression list for your account. This list can contain any or
+  all of the following:
 
-  - `COMPLAINT` – Amazon SES adds an email address to the suppression list for your
-    account when a message sent to that address results in a complaint.
+  - `COMPLAINT` – Amazon SES adds an email address to the suppression list for your account
+    when a message sent to that address results in a complaint.
   - `BOUNCE` – Amazon SES adds an email address to the suppression list for your account
     when a message sent to that address results in a hard bounce.
-
 """
 function put_configuration_set_suppression_options end
 
@@ -3224,16 +3230,15 @@ Move a dedicated IP address to an existing dedicated IP pool.
     The dedicated IP address that you specify must already exist, and must be associated
     with your Amazon Web Services account.
 
-    The dedicated IP pool you specify must already exist. You can create a new pool by
-    using the [`create_dedicated_ip_pool`](@ref) operation.
+    The dedicated IP pool you specify must already exist. You can create a new pool by using
+    the [`create_dedicated_ip_pool`](@ref) operation.
 
 # Arguments
 
 - `destination_pool_name`: The name of the IP pool that you want to add the dedicated IP
   address to. You have to specify an IP pool that already exists.
-- `ip`: The IP address that you want to move to the dedicated IP pool. The value you
-  specify has to be a dedicated IP address that's associated with your Amazon Web
-  Services account.
+- `ip`: The IP address that you want to move to the dedicated IP pool. The value you specify
+  has to be a dedicated IP address that's associated with your Amazon Web Services account.
 """
 function put_dedicated_ip_in_pool end
 
@@ -3282,11 +3287,11 @@ Used to convert a dedicated IP pool to a different scaling mode.
 # Arguments
 
 - `pool_name`: The name of the dedicated IP pool.
+
 - `scaling_mode`: The scaling mode to apply to the dedicated IP pool.
 
   !!! note
       Changing the scaling mode from `MANAGED` to `STANDARD` is not supported.
-
 """
 function put_dedicated_ip_pool_scaling_attributes end
 
@@ -3373,9 +3378,9 @@ that you use to send email. You also gain the ability to perform predictive inbo
 tests.
 
 When you use the Deliverability dashboard, you pay a monthly subscription charge, in
-addition to any other fees that you accrue by using Amazon SES and other Amazon Web
-Services services. For more information about the features and cost of a Deliverability
-dashboard subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
+addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services
+services. For more information about the features and cost of a Deliverability dashboard
+subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
 
 # Arguments
 
@@ -3481,8 +3486,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SigningEnabled"`: Sets the DKIM signing configuration for the identity.
 
   When you set this value `true`, then the messages that are sent from the identity are
-  signed using DKIM. If you set this value to `false`, your messages are sent without
-  DKIM signing.
+  signed using DKIM. If you set this value to `false`, your messages are sent without DKIM
+  signing.
 """
 function put_email_identity_dkim_attributes end
 
@@ -3528,6 +3533,7 @@ You can use this operation to do any of the following:
 # Arguments
 
 - `email_identity`: The email identity.
+
 - `signing_attributes_origin`: The method to use to configure DKIM for the identity. There
   are the following possible values:
 
@@ -3539,8 +3545,8 @@ You can use this operation to do any of the following:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"SigningAttributes"`: An object that contains information about the private key and
-  selector that you want to use to configure DKIM for the identity for Bring Your Own
-  DKIM (BYODKIM) for the identity, or, configures the key length to be used for [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
+  selector that you want to use to configure DKIM for the identity for Bring Your Own DKIM
+  (BYODKIM) for the identity, or, configures the key length to be used for [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
 """
 function put_email_identity_dkim_signing_attributes end
 
@@ -3593,8 +3599,8 @@ header of the original email.
 
 You're required to have a method of tracking bounces and complaints. If you haven't set up
 another mechanism for receiving bounce or complaint notifications (for example, by setting
-up an event destination), you receive an email notification when these events occur (even
-if this setting is disabled).
+up an event destination), you receive an email notification when these events occur (even if
+this setting is disabled).
 
 # Arguments
 
@@ -3607,13 +3613,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EmailForwardingEnabled"`: Sets the feedback forwarding configuration for the identity.
 
   If the value is `true`, you receive email notifications when bounce or complaint events
-  occur. These notifications are sent to the address that you specified in the
-  `Return-Path` header of the original email.
+  occur. These notifications are sent to the address that you specified in the `Return-Path`
+  header of the original email.
 
-  You're required to have a method of tracking bounces and complaints. If you haven't set
-  up another mechanism for receiving bounce or complaint notifications (for example, by
-  setting up an event destination), you receive an email notification when these events
-  occur (even if this setting is disabled).
+  You're required to have a method of tracking bounces and complaints. If you haven't set up
+  another mechanism for receiving bounce or complaint notifications (for example, by setting
+  up an event destination), you receive an email notification when these events occur (even
+  if this setting is disabled).
 """
 function put_email_identity_feedback_attributes end
 
@@ -3656,14 +3662,15 @@ Used to enable or disable the custom Mail-From domain configuration for an email
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"BehaviorOnMxFailure"`: The action to take if the required MX record isn't found when
-  you send an email. When you set this value to `UseDefaultValue`, the mail is sent using
-  *amazonses.com* as the MAIL FROM domain. When you set this value to `RejectMessage`,
-  the Amazon SES API v2 returns a `MailFromDomainNotVerified` error, and doesn't attempt
-  to deliver the email.
+- `"BehaviorOnMxFailure"`: The action to take if the required MX record isn't found when you
+  send an email. When you set this value to `UseDefaultValue`, the mail is sent using
+  *amazonses.com* as the MAIL FROM domain. When you set this value to `RejectMessage`, the
+  Amazon SES API v2 returns a `MailFromDomainNotVerified` error, and doesn't attempt to
+  deliver the email.
 
   These behaviors are taken when the custom MAIL FROM domain configuration is in the
   `Pending`, `Failed`, and `TemporaryFailure` states.
+
 - `"MailFromDomain"`: The custom MAIL FROM domain that you want the verified identity to
   use. The MAIL FROM domain must meet the following criteria:
 
@@ -3671,7 +3678,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - It can't be used to receive email.
   - It can't be used in a "From" address if the MAIL FROM domain is a destination for
     feedback forwarding emails.
-
 """
 function put_email_identity_mail_from_attributes end
 
@@ -3765,12 +3771,15 @@ Composes an email message to multiple destinations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConfigurationSetName"`: The name of the configuration set to use when sending the email.
+
 - `"DefaultEmailTags"`: A list of tags, in the form of name/value pairs, to apply to an
   email that you send using the [`send_email`](@ref) operation. Tags correspond to
   characteristics of the email that you define, so that you can publish email sending
   events.
+
 - `"FeedbackForwardingEmailAddress"`: The address that you want bounce and complaint
   notifications to be sent to.
+
 - `"FeedbackForwardingEmailAddressIdentityArn"`: This parameter is used only for sending
   authorization. It is the ARN of the identity that is associated with the sending
   authorization policy that permits you to use the email address specified in the
@@ -3778,26 +3787,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-
   1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use
-  feedback@example.com, then you would specify the
-  `FeedbackForwardingEmailAddressIdentityArn` to be arn:aws:ses:us-east-
-  1:123456789012:identity/example.com, and the `FeedbackForwardingEmailAddress` to be
-  feedback@example.com.
+feedback@example.com, then you would specify the `FeedbackForwardingEmailAddressIdentityArn`
+to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the
+`FeedbackForwardingEmailAddress` to be feedback@example.com.
 
   For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+
 - `"FromEmailAddress"`: The email address to use as the "From" address for the email. The
   address that you specify has to be verified.
-- `"FromEmailAddressIdentityArn"`: This parameter is used only for sending authorization.
-  It is the ARN of the identity that is associated with the sending authorization policy
-  that permits you to use the email address specified in the `FromEmailAddress`
-  parameter.
+
+- `"FromEmailAddressIdentityArn"`: This parameter is used only for sending authorization. It
+  is the ARN of the identity that is associated with the sending authorization policy that
+  permits you to use the email address specified in the `FromEmailAddress` parameter.
 
   For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-
   1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use
-  sender@example.com, then you would specify the `FromEmailAddressIdentityArn` to be
-  arn:aws:ses:us-east-1:123456789012:identity/example.com, and the `FromEmailAddress` to
-  be sender@example.com.
+sender@example.com, then you would specify the `FromEmailAddressIdentityArn` to be
+arn:aws:ses:us-east-1:123456789012:identity/example.com, and the `FromEmailAddress` to be
+sender@example.com.
 
   For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+
 - `"ReplyToAddresses"`: The "Reply-to" email addresses for the message. When the recipient
   replies to the message, each Reply-to address receives the reply.
 """
@@ -3865,8 +3875,8 @@ You can execute this operation no more than once per second.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ConfigurationSetName"`: Name of a configuration set to use when sending the
-  verification email.
+- `"ConfigurationSetName"`: Name of a configuration set to use when sending the verification
+  email.
 """
 function send_custom_verification_email end
 
@@ -3932,12 +3942,16 @@ messages:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConfigurationSetName"`: The name of the configuration set to use when sending the email.
+
 - `"Destination"`: An object that contains the recipients of the email message.
+
 - `"EmailTags"`: A list of tags, in the form of name/value pairs, to apply to an email that
-  you send using the [`send_email`](@ref) operation. Tags correspond to characteristics
-  of the email that you define, so that you can publish email sending events.
+  you send using the [`send_email`](@ref) operation. Tags correspond to characteristics of
+  the email that you define, so that you can publish email sending events.
+
 - `"FeedbackForwardingEmailAddress"`: The address that you want bounce and complaint
   notifications to be sent to.
+
 - `"FeedbackForwardingEmailAddressIdentityArn"`: This parameter is used only for sending
   authorization. It is the ARN of the identity that is associated with the sending
   authorization policy that permits you to use the email address specified in the
@@ -3945,31 +3959,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-
   1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use
-  feedback@example.com, then you would specify the
-  `FeedbackForwardingEmailAddressIdentityArn` to be arn:aws:ses:us-east-
-  1:123456789012:identity/example.com, and the `FeedbackForwardingEmailAddress` to be
-  feedback@example.com.
+feedback@example.com, then you would specify the `FeedbackForwardingEmailAddressIdentityArn`
+to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the
+`FeedbackForwardingEmailAddress` to be feedback@example.com.
 
   For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+
 - `"FromEmailAddress"`: The email address to use as the "From" address for the email. The
   address that you specify has to be verified.
-- `"FromEmailAddressIdentityArn"`: This parameter is used only for sending authorization.
-  It is the ARN of the identity that is associated with the sending authorization policy
-  that permits you to use the email address specified in the `FromEmailAddress`
-  parameter.
+
+- `"FromEmailAddressIdentityArn"`: This parameter is used only for sending authorization. It
+  is the ARN of the identity that is associated with the sending authorization policy that
+  permits you to use the email address specified in the `FromEmailAddress` parameter.
 
   For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-
   1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use
-  sender@example.com, then you would specify the `FromEmailAddressIdentityArn` to be
-  arn:aws:ses:us-east-1:123456789012:identity/example.com, and the `FromEmailAddress` to
-  be sender@example.com.
+sender@example.com, then you would specify the `FromEmailAddressIdentityArn` to be
+arn:aws:ses:us-east-1:123456789012:identity/example.com, and the `FromEmailAddress` to be
+sender@example.com.
 
   For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
 
-  For Raw emails, the `FromEmailAddressIdentityArn` value overrides the X-SES-SOURCE-ARN
-  and X-SES-FROM-ARN headers specified in raw email message content.
+  For Raw emails, the `FromEmailAddressIdentityArn` value overrides the X-SES-SOURCE-ARN and
+  X-SES-FROM-ARN headers specified in raw email message content.
+
 - `"ListManagementOptions"`: An object used to specify a list or topic to which an email
   belongs, which will be used when a contact chooses to unsubscribe.
+
 - `"ReplyToAddresses"`: The "Reply-to" email addresses for the message. When the recipient
   replies to the message, each Reply-to address receives the reply.
 """
@@ -4009,13 +4025,13 @@ resources in different ways, such as by purpose, owner, environment, or other cr
 resource can have as many as 50 tags.
 
 Each tag consists of a required *tag key* and an associated *tag value*, both of which you
-define. A tag key is a general label that acts as a category for more specific tag values.
-A tag value acts as a descriptor within a tag key.
+define. A tag key is a general label that acts as a category for more specific tag values. A
+tag value acts as a descriptor within a tag key.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to add one
-  or more tags to.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to add one or
+  more tags to.
 - `tags`: A list of the tags that you want to add to the resource. A tag consists of a
   required tag key (`Key`) and an associated tag value (`Value`). The maximum length of a
   tag key is 128 characters. The maximum length of a tag value is 256 characters.
@@ -4057,8 +4073,8 @@ end
     test_render_email_template(template_data, template_name)
     test_render_email_template(template_data, template_name, params::Dict{String,<:Any})
 
-Creates a preview of the MIME content of an email when provided with a template and a set
-of replacement data.
+Creates a preview of the MIME content of an email when provided with a template and a set of
+replacement data.
 
 You can execute this operation no more than once per second.
 
@@ -4108,13 +4124,14 @@ Remove one or more tags (keys and values) from a specified resource.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to remove
-  one or more tags from.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to remove one
+  or more tags from.
+
 - `tag_keys`: The tags (tag keys) that you want to remove from the resource. When you
   specify a tag key, the action removes both that key and its associated tag value.
 
-  To remove more than one tag from the resource, append the `TagKeys` parameter and
-  argument for each additional tag to remove, separated by an ampersand. For example:
+  To remove more than one tag from the resource, append the `TagKeys` parameter and argument
+  for each additional tag to remove, separated by an ampersand. For example:
   `/v2/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2`
 """
 function untag_resource end
@@ -4319,14 +4336,14 @@ You can execute this operation no more than once per second.
 
 # Arguments
 
-- `failure_redirection_url`: The URL that the recipient of the verification email is sent
-  to if his or her address is not successfully verified.
+- `failure_redirection_url`: The URL that the recipient of the verification email is sent to
+  if his or her address is not successfully verified.
 - `from_email_address`: The email address that the custom verification email is sent from.
-- `success_redirection_url`: The URL that the recipient of the verification email is sent
-  to if his or her address is successfully verified.
+- `success_redirection_url`: The URL that the recipient of the verification email is sent to
+  if his or her address is successfully verified.
 - `template_content`: The content of the custom verification email. The total size of the
-  email must be less than 10 MB. The message body may contain HTML, with some
-  limitations. For more information, see [Custom verification email frequently asked questions](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom-faq)
+  email must be less than 10 MB. The message body may contain HTML, with some limitations.
+  For more information, see [Custom verification email frequently asked questions](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom-faq)
   in the *Amazon SES Developer Guide*.
 - `template_name`: The name of the custom verification email template that you want to
   update.
@@ -4398,24 +4415,26 @@ or a domain). This API returns successfully even if a policy with the specified 
 not exist.
 
 !!! note
-    This API is for the identity owner only. If you have not verified the identity, this
-    API will return an error.
+    This API is for the identity owner only. If you have not verified the identity, this API
+    will return an error.
 
-Sending authorization is a feature that enables an identity owner to authorize other
-senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
+Sending authorization is a feature that enables an identity owner to authorize other senders
+to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
 
 You can execute this operation no more than once per second.
 
 # Arguments
 
 - `email_identity`: The email identity.
+
 - `policy`: The text of the policy in JSON format. The policy cannot exceed 4 KB.
 
   For information about the syntax of sending authorization policies, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-policies.html).
+
 - `policy_name`: The name of the policy.
 
-  The policy name cannot exceed 64 characters and can only include alphanumeric
-  characters, dashes, and underscores.
+  The policy name cannot exceed 64 characters and can only include alphanumeric characters,
+  dashes, and underscores.
 """
 function update_email_identity_policy end
 
@@ -4458,8 +4477,8 @@ You can execute this operation no more than once per second.
 
 # Arguments
 
-- `template_content`: The content of the email template, composed of a subject line, an
-  HTML part, and a text-only part.
+- `template_content`: The content of the email template, composed of a subject line, an HTML
+  part, and a text-only part.
 - `template_name`: The name of the template.
 """
 function update_email_template end

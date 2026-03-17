@@ -52,60 +52,65 @@ Adds a new Authorizer resource to an existing RestApi resource.
 
 - `name`: The name of the authorizer.
 - `restapi_id`: The string identifier of the associated RestApi.
-- `type`: The authorizer type. Valid values are `TOKEN` for a Lambda function using a
-  single authorization token submitted in a custom header, `REQUEST` for a Lambda
-  function using incoming request parameters, and `COGNITO_USER_POOLS` for using an
-  Amazon Cognito user pool.
+- `type`: The authorizer type. Valid values are `TOKEN` for a Lambda function using a single
+  authorization token submitted in a custom header, `REQUEST` for a Lambda function using
+  incoming request parameters, and `COGNITO_USER_POOLS` for using an Amazon Cognito user
+  pool.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authType"`: Optional customer-defined field, used in OpenAPI imports and exports
-  without functional impact.
+- `"authType"`: Optional customer-defined field, used in OpenAPI imports and exports without
+  functional impact.
+
 - `"authorizerCredentials"`: Specifies the required credentials as an IAM role for API
   Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use
   the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda
   function, specify null.
+
 - `"authorizerResultTtlInSeconds"`: The TTL in seconds of cached authorizer results. If it
   equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will
   cache authorizer responses. If this field is not set, the default value is 300. The
   maximum value is 3600, or 1 hour.
+
 - `"authorizerUri"`: Specifies the authorizer's Uniform Resource Identifier (URI). For
   `TOKEN` or `REQUEST` authorizers, this must be a well-formed Lambda function URI, for
   example,
   `arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations`.
-  In general, the URI has this form
-  `arn:aws:apigateway:{region}:lambda:path/{service_api}`, where `{region}` is the same
-  as the region hosting the Lambda function, `path` indicates that the remaining
-  substring in the URI should be treated as the path to the resource, including the
-  initial `/`. For Lambda functions, this is usually of the form
+  In general, the URI has this form `arn:aws:apigateway:{region}:lambda:path/{service_api}`,
+  where `{region}` is the same as the region hosting the Lambda function, `path` indicates
+  that the remaining substring in the URI should be treated as the path to the resource,
+  including the initial `/`. For Lambda functions, this is usually of the form
   `/2015-03-31/functions/[FunctionARN]/invocations`.
+
 - `"identitySource"`: The identity source for which authorization is requested. For a
   `TOKEN` or `COGNITO_USER_POOLS` authorizer, this is required and specifies the request
-  header mapping expression for the custom header holding the authorization token
-  submitted by the client. For example, if the token header name is `Auth`, the header
-  mapping expression is `method.request.header.Auth`. For the `REQUEST` authorizer, this
-  is required when authorization caching is enabled. The value is a comma-separated
-  string of one or more mapping expressions of the specified request parameters. For
-  example, if an `Auth` header, a `Name` query string parameter are defined as identity
-  sources, this value is `method.request.header.Auth, method.request.querystring.Name`.
-  These parameters will be used to derive the authorization caching key and to perform
-  runtime validation of the `REQUEST` authorizer by verifying all of the identity-related
-  request parameters are present, not null and non-empty. Only when this is true does the
-  authorizer invoke the authorizer Lambda function, otherwise, it returns a 401
-  Unauthorized response without calling the Lambda function. The valid value is a string
-  of comma-separated mapping expressions of the specified request parameters. When the
-  authorization caching is not enabled, this property is optional.
-- `"identityValidationExpression"`: A validation expression for the incoming identity
-  token. For `TOKEN` authorizers, this value is a regular expression. For
-  `COGNITO_USER_POOLS` authorizers, API Gateway will match the `aud` field of the
-  incoming token from the client against the specified regular expression. It will invoke
-  the authorizer's Lambda function when there is a match. Otherwise, it will return a 401
-  Unauthorized response without calling the Lambda function. The validation expression
-  does not apply to the `REQUEST` authorizer.
-- `"providerARNs"`: A list of the Amazon Cognito user pool ARNs for the
-  `COGNITO_USER_POOLS` authorizer. Each element is of this format:
+  header mapping expression for the custom header holding the authorization token submitted
+  by the client. For example, if the token header name is `Auth`, the header mapping
+  expression is `method.request.header.Auth`. For the `REQUEST` authorizer, this is required
+  when authorization caching is enabled. The value is a comma-separated string of one or
+  more mapping expressions of the specified request parameters. For example, if an `Auth`
+  header, a `Name` query string parameter are defined as identity sources, this value is
+  `method.request.header.Auth, method.request.querystring.Name`. These parameters will be
+  used to derive the authorization caching key and to perform runtime validation of the
+  `REQUEST` authorizer by verifying all of the identity-related request parameters are
+  present, not null and non-empty. Only when this is true does the authorizer invoke the
+  authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without
+  calling the Lambda function. The valid value is a string of comma-separated mapping
+  expressions of the specified request parameters. When the authorization caching is not
+  enabled, this property is optional.
+
+- `"identityValidationExpression"`: A validation expression for the incoming identity token.
+  For `TOKEN` authorizers, this value is a regular expression. For `COGNITO_USER_POOLS`
+  authorizers, API Gateway will match the `aud` field of the incoming token from the client
+  against the specified regular expression. It will invoke the authorizer's Lambda function
+  when there is a match. Otherwise, it will return a 401 Unauthorized response without
+  calling the Lambda function. The validation expression does not apply to the `REQUEST`
+  authorizer.
+
+- `"providerARNs"`: A list of the Amazon Cognito user pool ARNs for the `COGNITO_USER_POOLS`
+  authorizer. Each element is of this format:
   `arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}`. For a `TOKEN` or
   `REQUEST` authorizer, this is not defined.
 """
@@ -157,9 +162,9 @@ Creates a new BasePathMapping resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"basePath"`: The base path name that callers of the API must provide as part of the URL
-  after the domain name. This value must be unique for all of the mappings across a
-  single API. Specify '(none)' if you do not want callers to specify a base path name
-  after the domain name.
+  after the domain name. This value must be unique for all of the mappings across a single
+  API. Specify '(none)' if you do not want callers to specify a base path name after the
+  domain name.
 - `"stage"`: The name of the API's stage that you want to use for this mapping. Specify
   '(none)' if you want callers to explicitly specify the stage name after any base path
   name.
@@ -216,8 +221,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"canarySettings"`: The input configuration for the canary deployment when the deployment
   is a canary release deployment.
 - `"description"`: The description for the Deployment resource to create.
-- `"stageDescription"`: The description of the Stage resource for the Deployment resource
-  to create.
+- `"stageDescription"`: The description of the Stage resource for the Deployment resource to
+  create.
 - `"stageName"`: The name of the Stage resource for the Deployment resource to create.
 - `"tracingEnabled"`: Specifies whether active tracing with X-ray is enabled for the Stage.
 - `"variables"`: A map that defines the stage variables for the Stage resource that is
@@ -260,8 +265,8 @@ Creates a documentation part.
 - `location`: The location of the targeted API entity of the to-be-created documentation
   part.
 - `properties`: The new documentation content map of the targeted API entity. Enclosed key-
-  value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be
-  exported and, hence, published.
+  value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be exported
+  and, hence, published.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
 function create_documentation_part end
@@ -368,8 +373,8 @@ Creates a new domain name.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"certificateArn"`: The reference to an Amazon Web Services-managed certificate that will
-  be used by edge-optimized endpoint for this domain name. Certificate Manager is the
-  only supported source.
+  be used by edge-optimized endpoint for this domain name. Certificate Manager is the only
+  supported source.
 - `"certificateBody"`: [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
 - `"certificateChain"`: [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
 - `"certificateName"`: The user-friendly name of the certificate that will be used by edge-
@@ -379,8 +384,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endpoint types of the domain name.
 - `"mutualTlsAuthentication"`:
 - `"ownershipVerificationCertificateArn"`: The ARN of the public certificate issued by ACM
-  to validate ownership of your custom domain. Only required when configuring mutual TLS
-  and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
+  to validate ownership of your custom domain. Only required when configuring mutual TLS and
+  using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
 - `"regionalCertificateArn"`: The reference to an Amazon Web Services-managed certificate
   that will be used by regional endpoint for this domain name. Certificate Manager is the
   only supported source.
@@ -583,24 +588,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   plan. Valid values are: `HEADER` to read the API key from the `X-API-Key` header of a
   request. `AUTHORIZER` to read the API key from the `UsageIdentifierKey` from a custom
   authorizer.
-- `"binaryMediaTypes"`: The list of binary media types supported by the RestApi. By
-  default, the RestApi supports only UTF-8-encoded text payloads.
+
+- `"binaryMediaTypes"`: The list of binary media types supported by the RestApi. By default,
+  the RestApi supports only UTF-8-encoded text payloads.
+
 - `"cloneFrom"`: The ID of the RestApi that you want to clone from.
+
 - `"description"`: The description of the RestApi.
+
 - `"disableExecuteApiEndpoint"`: Specifies whether clients can invoke your API by using the
-  default `execute-api` endpoint. By default, clients can invoke your API with the
-  default `https://{api_id}.execute-api.{region}.amazonaws.com` endpoint. To require that
-  clients use a custom domain name to invoke your API, disable the default endpoint
-- `"endpointConfiguration"`: The endpoint configuration of this RestApi showing the
-  endpoint types of the API.
+  default `execute-api` endpoint. By default, clients can invoke your API with the default
+  `https://{api_id}.execute-api.{region}.amazonaws.com` endpoint. To require that clients
+  use a custom domain name to invoke your API, disable the default endpoint
+
+- `"endpointConfiguration"`: The endpoint configuration of this RestApi showing the endpoint
+  types of the API.
+
 - `"minimumCompressionSize"`: A nullable integer that is used to enable compression (with
-  non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression
-  (with a null value) on an API. When compression is enabled, compression or
-  decompression is not applied on the payload if the payload size is smaller than this
-  value. Setting it to zero allows compression for any payload size.
+  non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a
+  null value) on an API. When compression is enabled, compression or decompression is not
+  applied on the payload if the payload size is smaller than this value. Setting it to zero
+  allows compression for any payload size.
+
 - `"policy"`: A stringified JSON policy document that applies to this RestApi regardless of
   the caller and Method configuration.
+
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
+
 - `"version"`: A version identifier for the API.
 """
 function create_rest_api end
@@ -652,9 +666,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"documentationVersion"`: The version of the associated API documentation.
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 - `"tracingEnabled"`: Specifies whether active tracing with X-ray is enabled for the Stage.
-- `"variables"`: A map that defines the stage variables for the new Stage resource.
-  Variable names can have alphanumeric and underscore characters, and the values must
-  match `[A-Za-z0-9-._~:/?#&amp;=,]+`.
+- `"variables"`: A map that defines the stage variables for the new Stage resource. Variable
+  names can have alphanumeric and underscore characters, and the values must match
+  `[A-Za-z0-9-._~:/?#&amp;=,]+`.
 """
 function create_stage end
 
@@ -796,8 +810,8 @@ must have permissions to create and update VPC Endpoint services.
 
 - `name`: The name used to label and identify the VPC link.
 - `target_arns`: The ARN of the network load balancer of the VPC targeted by the VPC link.
-  The network load balancer must be owned by the same Amazon Web Services account of the
-  API owner.
+  The network load balancer must be owned by the same Amazon Web Services account of the API
+  owner.
 
 # Optional Parameters
 
@@ -924,6 +938,7 @@ Deletes the BasePathMapping resource.
 - `base_path`: The base path name of the BasePathMapping resource to delete.
 
   To specify an empty base path, set this parameter to `'(none)'`.
+
 - `domain_name`: The domain name of the BasePathMapping resource to delete.
 """
 function delete_base_path_mapping end
@@ -995,8 +1010,8 @@ end
     delete_deployment(deployment_id, restapi_id)
     delete_deployment(deployment_id, restapi_id, params::Dict{String,<:Any})
 
-Deletes a Deployment resource. Deleting a deployment will only succeed if there are no
-Stage resources associated with it.
+Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage
+resources associated with it.
 
 # Arguments
 
@@ -1963,9 +1978,9 @@ Describe a BasePathMapping resource.
 # Arguments
 
 - `base_path`: The base path name that callers of the API must provide as part of the URL
-  after the domain name. This value must be unique for all of the mappings across a
-  single API. Specify '(none)' if you do not want callers to specify any base path name
-  after the domain name.
+  after the domain name. This value must be unique for all of the mappings across a single
+  API. Specify '(none)' if you do not want callers to specify any base path name after the
+  domain name.
 - `domain_name`: The domain name of the BasePathMapping resource to be described.
 """
 function get_base_path_mapping end
@@ -2128,14 +2143,13 @@ Gets information about a Deployment resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"embed"`: A query parameter to retrieve the specified embedded resources of the returned
-  Deployment resource in the response. In a REST API call, this `embed` parameter value
-  is a list of comma-separated strings, as in
+  Deployment resource in the response. In a REST API call, this `embed` parameter value is a
+  list of comma-separated strings, as in
   `GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2`. The SDK and
-  other platform-dependent libraries might use a different format for the list.
-  Currently, this request supports only retrieval of the embedded API summary this way.
-  Hence, the parameter value must be a single-valued list containing only the
-  `"apisummary"` string. For example,
-  `GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary`.
+  other platform-dependent libraries might use a different format for the list. Currently,
+  this request supports only retrieval of the embedded API summary this way. Hence, the
+  parameter value must be a single-valued list containing only the `"apisummary"` string.
+  For example, `GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary`.
 """
 function get_deployment end
 
@@ -2472,13 +2486,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Accept"`: The content-type of the export, for example `application/json`. Currently
   `application/json` and `application/yaml` are supported for `exportType` of`oas30` and
   `swagger`. This should be specified in the `Accept` header for direct API requests.
+
 - `"parameters"`: A key-value map of query string parameters that specify properties of the
-  export, depending on the requested `exportType`. For `exportType` `oas30` and
-  `swagger`, any combination of the following parameters are supported:
-  `extensions='integrations'` or `extensions='apigateway'` will export the API with x-
-  amazon-apigateway-integration extensions. `extensions='authorizers'` will export the
-  API with x-amazon-apigateway-authorizer extensions. `postman` will export the API with
-  Postman extensions, allowing for import to the Postman tool
+  export, depending on the requested `exportType`. For `exportType` `oas30` and `swagger`,
+  any combination of the following parameters are supported: `extensions='integrations'` or
+  `extensions='apigateway'` will export the API with x-amazon-apigateway-integration
+  extensions. `extensions='authorizers'` will export the API with x-amazon-apigateway-
+  authorizer extensions. `postman` will export the API with Postman extensions, allowing for
+  import to the Postman tool
 """
 function get_export end
 
@@ -2552,9 +2567,9 @@ end
     get_gateway_responses(restapi_id)
     get_gateway_responses(restapi_id, params::Dict{String,<:Any})
 
-Gets the GatewayResponses collection on the given RestApi. If an API developer has not
-added any definitions for gateway responses, the result will be the API Gateway-generated
-default GatewayResponses collection for the supported response types.
+Gets the GatewayResponses collection on the given RestApi. If an API developer has not added
+any definitions for gateway responses, the result will be the API Gateway-generated default
+GatewayResponses collection for the supported response types.
 
 # Arguments
 
@@ -2565,11 +2580,10 @@ default GatewayResponses collection for the supported response types.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"limit"`: The maximum number of returned results per page. The default value is 25 and
-  the maximum value is 500. The GatewayResponses collection does not support pagination
-  and the limit does not apply here.
-- `"position"`: The current pagination position in the paged result set. The
-  GatewayResponse collection does not support pagination and the position does not apply
-  here.
+  the maximum value is 500. The GatewayResponses collection does not support pagination and
+  the limit does not apply here.
+- `"position"`: The current pagination position in the paged result set. The GatewayResponse
+  collection does not support pagination and the position does not apply here.
 """
 function get_gateway_responses end
 
@@ -3003,10 +3017,10 @@ Lists information about a resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"embed"`: A query parameter to retrieve the specified resources embedded in the returned
-  Resource representation in the response. This `embed` parameter value is a list of
-  comma-separated strings. Currently, the request supports only retrieval of the embedded
-  Method resources this way. The query parameter value must be a single-valued list and
-  contain the `"methods"` string. For example,
+  Resource representation in the response. This `embed` parameter value is a list of comma-
+  separated strings. Currently, the request supports only retrieval of the embedded Method
+  resources this way. The query parameter value must be a single-valued list and contain the
+  `"methods"` string. For example,
   `GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods`.
 """
 function get_resource end
@@ -3057,8 +3071,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Method resources this way. The query parameter value must be a single-valued list and
   contain the `"methods"` string. For example,
   `GET /restapis/{restapi_id}/resources?embed=methods`.
+
 - `"limit"`: The maximum number of returned results per page. The default value is 25 and
   the maximum value is 500.
+
 - `"position"`: The current pagination position in the paged result set.
 """
 function get_resources end
@@ -3160,8 +3176,8 @@ Generates a client SDK for a RestApi and Stage.
 # Arguments
 
 - `restapi_id`: The string identifier of the associated RestApi.
-- `sdk_type`: The language for the generated SDK. Currently `java`, `javascript`,
-  `android`, `objectivec` (for iOS), `swift` (for iOS), and `ruby` are supported.
+- `sdk_type`: The language for the generated SDK. Currently `java`, `javascript`, `android`,
+  `objectivec` (for iOS), `swift` (for iOS), and `ruby` are supported.
 - `stage_name`: The name of the Stage that the SDK will use.
 
 # Optional Parameters
@@ -3726,8 +3742,8 @@ Imports documentation parts
 
 # Arguments
 
-- `body`: Raw byte array representing the to-be-imported documentation parts. To import
-  from an OpenAPI file, this is a JSON object.
+- `body`: Raw byte array representing the to-be-imported documentation parts. To import from
+  an OpenAPI file, this is a JSON object.
 - `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
@@ -3735,11 +3751,11 @@ Imports documentation parts
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"failonwarnings"`: A query parameter to specify whether to rollback the documentation
-  importation (`true`) or not (`false`) when a warning is encountered. The default value
-  is `false`.
+  importation (`true`) or not (`false`) when a warning is encountered. The default value is
+  `false`.
 - `"mode"`: A query parameter to indicate whether to overwrite (`overwrite`) any existing
-  DocumentationParts definition or to merge (`merge`) the new definition into the
-  existing one. The default value is `merge`.
+  DocumentationParts definition or to merge (`merge`) the new definition into the existing
+  one. The default value is `merge`.
 """
 function import_documentation_parts end
 
@@ -3779,9 +3795,9 @@ definition file.
 
 # Arguments
 
-- `body`: The POST request body containing external API definitions. Currently, only
-  OpenAPI definition JSON/YAML files are supported. The maximum size of the API
-  definition file is 6MB.
+- `body`: The POST request body containing external API definitions. Currently, only OpenAPI
+  definition JSON/YAML files are supported. The maximum size of the API definition file is
+  6MB.
 
 # Optional Parameters
 
@@ -3789,19 +3805,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"failonwarnings"`: A query parameter to indicate whether to rollback the API creation
   (`true`) or not (`false`) when a warning is encountered. The default value is `false`.
-- `"parameters"`: A key-value map of context-specific query string parameters specifying
-  the behavior of different API importing operations. The following shows operation-
-  specific parameters and their supported values.
 
-  To exclude DocumentationParts from the import, set `parameters` as
-  `ignore=documentation`.
+- `"parameters"`: A key-value map of context-specific query string parameters specifying the
+  behavior of different API importing operations. The following shows operation-specific
+  parameters and their supported values.
+
+  To exclude DocumentationParts from the import, set `parameters` as `ignore=documentation`.
 
   To configure the endpoint type, set `parameters` as `endpointConfigurationTypes=EDGE`,
   `endpointConfigurationTypes=REGIONAL`, or `endpointConfigurationTypes=PRIVATE`. The
   default endpoint type is `EDGE`.
 
-  To handle imported `basepath`, set `parameters` as `basepath=ignore`,
-  `basepath=prepend` or `basepath=split`.
+  To handle imported `basepath`, set `parameters` as `basepath=ignore`, `basepath=prepend`
+  or `basepath=split`.
 """
 function import_rest_api end
 
@@ -3831,8 +3847,8 @@ end
     put_gateway_response(response_type, restapi_id)
     put_gateway_response(response_type, restapi_id, params::Dict{String,<:Any})
 
-Creates a customization of a GatewayResponse of a specified response type and status code
-on the given RestApi.
+Creates a customization of a GatewayResponse of a specified response type and status code on
+the given RestApi.
 
 # Arguments
 
@@ -3845,8 +3861,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"responseParameters"`: Response parameters (paths, query strings and headers) of the
   GatewayResponse as a string-to-string map of key-value pairs.
-- `"responseTemplates"`: Response templates of the GatewayResponse as a string-to-string
-  map of key-value pairs.
+- `"responseTemplates"`: Response templates of the GatewayResponse as a string-to-string map
+  of key-value pairs.
 - `"statusCode"`: The HTTP status code of the GatewayResponse.
 """
 function put_gateway_response end
@@ -3897,16 +3913,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cacheKeyParameters"`: A list of request parameters whose values API Gateway caches. To
   be valid values for `cacheKeyParameters`, these parameters must also be specified for
   Method `requestParameters`.
+
 - `"cacheNamespace"`: Specifies a group of related cached parameters. By default, API
   Gateway uses the resource ID as the `cacheNamespace`. You can specify the same
-  `cacheNamespace` across resources to return the same cached data for requests to
-  different resources.
+  `cacheNamespace` across resources to return the same cached data for requests to different
+  resources.
+
 - `"connectionId"`: The ID of the VpcLink used for the integration. Specify this value only
   if you specify `VPC_LINK` as the connection type.
+
 - `"connectionType"`: The type of the network connection to the integration endpoint. The
   valid value is `INTERNET` for connections through the public routable internet or
   `VPC_LINK` for private connections between API Gateway and a network load balancer in a
   VPC. The default value is `INTERNET`.
+
 - `"contentHandling"`: Specifies how to handle request payload content type conversions.
   Supported values are `CONVERT_TO_BINARY` and `CONVERT_TO_TEXT`, with the following
   behaviors:
@@ -3914,42 +3934,50 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If this property is not defined, the request payload will be passed through from the
   method request to integration request without modification, provided that the
   `passthroughBehavior` is configured to support payload pass-through.
+
 - `"credentials"`: Specifies whether credentials are required for a put integration.
+
 - `"httpMethod"`: The HTTP method for the integration.
+
 - `"passthroughBehavior"`: Specifies the pass-through behavior for incoming requests based
-  on the Content-Type header in the request, and the available mapping templates
-  specified as the `requestTemplates` property on the Integration resource. There are
-  three valid values: `WHEN_NO_MATCH`, `WHEN_NO_TEMPLATES`, and `NEVER`.
+  on the Content-Type header in the request, and the available mapping templates specified
+  as the `requestTemplates` property on the Integration resource. There are three valid
+  values: `WHEN_NO_MATCH`, `WHEN_NO_TEMPLATES`, and `NEVER`.
+
 - `"requestParameters"`: A key-value map specifying request parameters that are passed from
-  the method request to the back end. The key is an integration request parameter name
-  and the associated value is a method request parameter value or static value that must
-  be enclosed within single quotes and pre-encoded as required by the back end. The
-  method request parameter value must match the pattern of
-  `method.request.{location}.{name}`, where `location` is `querystring`, `path`, or
-  `header` and `name` must be a valid and unique method request parameter name.
+  the method request to the back end. The key is an integration request parameter name and
+  the associated value is a method request parameter value or static value that must be
+  enclosed within single quotes and pre-encoded as required by the back end. The method
+  request parameter value must match the pattern of `method.request.{location}.{name}`,
+  where `location` is `querystring`, `path`, or `header` and `name` must be a valid and
+  unique method request parameter name.
+
 - `"requestTemplates"`: Represents a map of Velocity templates that are applied on the
   request payload based on the value of the Content-Type header sent by the client. The
   content type value is the key in this map, and the template (as a String) is the value.
+
 - `"timeoutInMillis"`: Custom timeout between 50 and 29,000 milliseconds. The default value
   is 29,000 milliseconds or 29 seconds.
+
 - `"tlsConfig"`:
-- `"uri"`: Specifies Uniform Resource Identifier (URI) of the integration endpoint. For
-  HTTP or `HTTP_PROXY` integrations, the URI must be a fully formed, encoded HTTP(S) URL
+
+- `"uri"`: Specifies Uniform Resource Identifier (URI) of the integration endpoint. For HTTP
+  or `HTTP_PROXY` integrations, the URI must be a fully formed, encoded HTTP(S) URL
   according to the RFC-3986 specification, for either standard integration, where
   `connectionType` is not `VPC_LINK`, or private integration, where `connectionType` is
-  `VPC_LINK`. For a private HTTP integration, the URI is not used for routing. For `AWS`
-  or `AWS_PROXY` integrations, the URI is of the form
-  `arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api`}.
-  Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of
-  the integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated
+  `VPC_LINK`. For a private HTTP integration, the URI is not used for routing. For `AWS` or
+  `AWS_PROXY` integrations, the URI is of the form
+  `arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api`}. Here,
+  {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the
+  integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated
   subdomain supported by certain Amazon Web Services service for fast host-name lookup.
   action can be used for an Amazon Web Services service action-based API, using an
-  Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api}
-  refers to a supported action {name} plus any required input parameters. Alternatively,
-  path can be used for an Amazon Web Services service path-based API. The ensuing
-  service_api refers to the path to an Amazon Web Services service resource, including
-  the region of the integrated Amazon Web Services service, if applicable. For example,
-  for integration with the S3 API of `GetObject`, the `uri` can be either
+  Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers
+  to a supported action {name} plus any required input parameters. Alternatively, path can
+  be used for an Amazon Web Services service path-based API. The ensuing service_api refers
+  to the path to an Amazon Web Services service resource, including the region of the
+  integrated Amazon Web Services service, if applicable. For example, for integration with
+  the S3 API of `GetObject`, the `uri` can be either
   `arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key}` or
   `arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}`.
 """
@@ -4012,17 +4040,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If this property is not defined, the response payload will be passed through from the
   integration response to the method response without modification.
+
 - `"responseParameters"`: A key-value map specifying response parameters that are passed to
-  the method response from the back end. The key is a method response header parameter
-  name and the mapped value is an integration response header value, a static value
-  enclosed within a pair of single quotes, or a JSON expression from the integration
-  response body. The mapping key must match the pattern of
-  `method.response.header.{name}`, where `name` is a valid and unique header name. The
-  mapped non-static value must match the pattern of `integration.response.header.{name}`
-  or `integration.response.body.{JSON-expression}`, where `name` must be a valid and
-  unique response header name and `JSON-expression` a valid JSON expression without the
-  `\$` prefix.
+  the method response from the back end. The key is a method response header parameter name
+  and the mapped value is an integration response header value, a static value enclosed
+  within a pair of single quotes, or a JSON expression from the integration response body.
+  The mapping key must match the pattern of `method.response.header.{name}`, where `name` is
+  a valid and unique header name. The mapped non-static value must match the pattern of
+  `integration.response.header.{name}` or `integration.response.body.{JSON-expression}`,
+  where `name` must be a valid and unique response header name and `JSON-expression` a valid
+  JSON expression without the `\$` prefix.
+
 - `"responseTemplates"`: Specifies a put integration response's templates.
+
 - `"selectionPattern"`: Specifies the selection pattern of a put integration response.
 """
 function put_integration_response end
@@ -4068,8 +4098,8 @@ Add a method to an existing Resource resource.
 # Arguments
 
 - `authorization_type`: The method's authorization type. Valid values are `NONE` for open
-  access, `AWS_IAM` for using AWS IAM permissions, `CUSTOM` for using a custom
-  authorizer, or `COGNITO_USER_POOLS` for using a Cognito user pool.
+  access, `AWS_IAM` for using AWS IAM permissions, `CUSTOM` for using a custom authorizer,
+  or `COGNITO_USER_POOLS` for using a Cognito user pool.
 - `http_method`: Specifies the method request's HTTP method type.
 - `resource_id`: The Resource identifier for the new Method resource.
 - `restapi_id`: The string identifier of the associated RestApi.
@@ -4079,30 +4109,36 @@ Add a method to an existing Resource resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"apiKeyRequired"`: Specifies whether the method required a valid ApiKey.
+
 - `"authorizationScopes"`: A list of authorization scopes configured on the method. The
-  scopes are used with a `COGNITO_USER_POOLS` authorizer to authorize the method
-  invocation. The authorization works by matching the method scopes against the scopes
-  parsed from the access token in the incoming request. The method invocation is
-  authorized if any method scopes matches a claimed scope in the access token. Otherwise,
-  the invocation is not authorized. When the method scope is configured, the client must
-  provide an access token instead of an identity token for authorization purposes.
+  scopes are used with a `COGNITO_USER_POOLS` authorizer to authorize the method invocation.
+  The authorization works by matching the method scopes against the scopes parsed from the
+  access token in the incoming request. The method invocation is authorized if any method
+  scopes matches a claimed scope in the access token. Otherwise, the invocation is not
+  authorized. When the method scope is configured, the client must provide an access token
+  instead of an identity token for authorization purposes.
+
 - `"authorizerId"`: Specifies the identifier of an Authorizer to use on this Method, if the
   type is CUSTOM or COGNITO_USER_POOLS. The authorizer identifier is generated by API
   Gateway when you created the authorizer.
+
 - `"operationName"`: A human-friendly operation identifier for the method. For example, you
-  can assign the `operationName` of `ListPets` for the `GET /pets` method in the
-  `PetStore` example.
+  can assign the `operationName` of `ListPets` for the `GET /pets` method in the `PetStore`
+  example.
+
 - `"requestModels"`: Specifies the Model resources used for the request's content type.
   Request models are represented as a key/value map, with a content type as the key and a
   Model name as the value.
+
 - `"requestParameters"`: A key-value map defining required or optional method request
-  parameters that can be accepted by API Gateway. A key defines a method request
-  parameter name matching the pattern of `method.request.{location}.{name}`, where
-  `location` is `querystring`, `path`, or `header` and `name` is a valid and unique
-  parameter name. The value associated with the key is a Boolean flag indicating whether
-  the parameter is required (`true`) or optional (`false`). The method request parameter
-  names defined here are available in Integration to be mapped to integration request
-  parameters or body-mapping templates.
+  parameters that can be accepted by API Gateway. A key defines a method request parameter
+  name matching the pattern of `method.request.{location}.{name}`, where `location` is
+  `querystring`, `path`, or `header` and `name` is a valid and unique parameter name. The
+  value associated with the key is a Boolean flag indicating whether the parameter is
+  required (`true`) or optional (`false`). The method request parameter names defined here
+  are available in Integration to be mapped to integration request parameters or body-
+  mapping templates.
+
 - `"requestValidatorId"`: The identifier of a RequestValidator for validating the method
   request.
 """
@@ -4163,15 +4199,16 @@ Adds a MethodResponse to an existing Method resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"responseModels"`: Specifies the Model resources used for the response's content type.
-  Response models are represented as a key/value map, with a content type as the key and
-  a Model name as the value.
+  Response models are represented as a key/value map, with a content type as the key and a
+  Model name as the value.
+
 - `"responseParameters"`: A key-value map specifying required or optional response
-  parameters that API Gateway can send back to the caller. A key defines a method
-  response header name and the associated value is a Boolean flag indicating whether the
-  method response parameter is required or not. The method response header names must
-  match the pattern of `method.response.header.{name}`, where `name` is a valid and
-  unique header name. The response parameter names defined here are available in the
-  integration response to be mapped from an integration response header expressed in
+  parameters that API Gateway can send back to the caller. A key defines a method response
+  header name and the associated value is a Boolean flag indicating whether the method
+  response parameter is required or not. The method response header names must match the
+  pattern of `method.response.header.{name}`, where `name` is a valid and unique header
+  name. The response parameter names defined here are available in the integration response
+  to be mapped from an integration response header expressed in
   `integration.response.header.{name}`, a static value enclosed within a pair of single
   quotes (e.g., `'application/json'`), or a JSON expression from the back-end response
   payload in the form of `integration.response.body.{JSON-expression}`, where
@@ -4222,8 +4259,8 @@ into the existing API or overwriting the existing API.
 # Arguments
 
 - `body`: The PUT request body containing external API definitions. Currently, only OpenAPI
-  definition JSON/YAML files are supported. The maximum size of the API definition file
-  is 6MB.
+  definition JSON/YAML files are supported. The maximum size of the API definition file is
+  6MB.
 - `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
@@ -4327,10 +4364,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"headers"`: A key-value map of headers to simulate an incoming invocation request. This
   is where the incoming authorization token, or identity source, should be specified.
 - `"multiValueHeaders"`: The headers as a map from string to list of values to simulate an
-  incoming invocation request. This is where the incoming authorization token, or
-  identity source, may be specified.
-- `"pathWithQueryString"`: The URI path, including query string, of the simulated
-  invocation request. Use this to specify path parameters and query string parameters.
+  incoming invocation request. This is where the incoming authorization token, or identity
+  source, may be specified.
+- `"pathWithQueryString"`: The URI path, including query string, of the simulated invocation
+  request. Use this to specify path parameters and query string parameters.
 - `"stageVariables"`: A key-value map of stage variables to simulate an invocation on a
   deployed Stage.
 """
@@ -4380,14 +4417,14 @@ incoming request body.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"body"`: The simulated request body of an incoming invocation request.
-- `"clientCertificateId"`: A ClientCertificate identifier to use in the test invocation.
-  API Gateway will use the certificate when making the HTTPS request to the defined back-
-  end endpoint.
+- `"clientCertificateId"`: A ClientCertificate identifier to use in the test invocation. API
+  Gateway will use the certificate when making the HTTPS request to the defined back-end
+  endpoint.
 - `"headers"`: A key-value map of headers to simulate an incoming invocation request.
 - `"multiValueHeaders"`: The headers as a map from string to list of values to simulate an
   incoming invocation request.
-- `"pathWithQueryString"`: The URI path, including query string, of the simulated
-  invocation request. Use this to specify path parameters and query string parameters.
+- `"pathWithQueryString"`: The URI path, including query string, of the simulated invocation
+  request. Use this to specify path parameters and query string parameters.
 - `"stageVariables"`: A key-value map of stage variables to simulate an invocation on a
   deployed Stage.
 """
@@ -4585,6 +4622,7 @@ Changes information about the BasePathMapping resource.
 - `base_path`: The base path of the BasePathMapping resource to change.
 
   To specify an empty base path, set this parameter to `'(none)'`.
+
 - `domain_name`: The domain name of the BasePathMapping resource to change.
 
 # Optional Parameters

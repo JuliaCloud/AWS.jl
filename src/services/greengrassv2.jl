@@ -12,8 +12,8 @@ Associates a Greengrass service role with IoT Greengrass for your Amazon Web Ser
 account in this Amazon Web Services Region. IoT Greengrass uses this role to verify the
 identity of client devices and manage core device connectivity information. The role must
 include the [AWSGreengrassResourceAccessRolePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:awsiam::aws:policy/service-role/AWSGreengrassResourceAccessRolePolicy)
-managed policy or a custom policy that defines equivalent permissions for the IoT
-Greengrass features that you use. For more information, see [Greengrass service role](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html)
+managed policy or a custom policy that defines equivalent permissions for the IoT Greengrass
+features that you use. For more information, see [Greengrass service role](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html)
 in the *IoT Greengrass Version 2 Developer Guide*.
 
 # Arguments
@@ -212,8 +212,8 @@ recipe and artifacts from the Lambda function's deployment package. You can use 
 operation to migrate Lambda functions from IoT Greengrass V1 to IoT Greengrass V2.
 
 This function accepts Lambda functions in all supported versions of Python, Node.js, and
-Java runtimes. IoT Greengrass doesn't apply any additional restrictions on deprecated
-Lambda runtime versions.
+Java runtimes. IoT Greengrass doesn't apply any additional restrictions on deprecated Lambda
+runtime versions.
 
 To create a component from a Lambda function, specify `lambdaFunction` when you call this
 operation.
@@ -227,19 +227,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that you can provide to ensure that
   the request is idempotent. Idempotency means that the request is successfully processed
-  only once, even if you send the request multiple times. When a request succeeds, and
-  you specify the same client token for subsequent successful requests, the IoT
-  Greengrass V2 service returns the successful response that it caches from the previous
-  request. IoT Greengrass V2 caches successful responses for idempotent requests for up
-  to 8 hours.
+  only once, even if you send the request multiple times. When a request succeeds, and you
+  specify the same client token for subsequent successful requests, the IoT Greengrass V2
+  service returns the successful response that it caches from the previous request. IoT
+  Greengrass V2 caches successful responses for idempotent requests for up to 8 hours.
+
 - `"inlineRecipe"`: The recipe to use to create the component. The recipe defines the
   component's metadata, parameters, dependencies, lifecycle, artifacts, and platform
   compatibility.
 
   You must specify either `inlineRecipe` or `lambdaFunction`.
+
 - `"lambdaFunction"`: The parameters to create a component from a Lambda function.
 
   You must specify either `inlineRecipe` or `lambdaFunction`.
+
 - `"tags"`: A list of key-value pairs that contain metadata for the resource. For more
   information, see [Tag your resources](https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
   in the *IoT Greengrass V2 Developer Guide*.
@@ -278,9 +280,9 @@ Creates a continuous deployment for a target, which is a Greengrass core device 
 core devices. When you add a new core device to a group of core devices that has a
 deployment, IoT Greengrass deploys that group's deployment to the new device.
 
-You can define one deployment for each target. When you create a new deployment for a
-target that has an existing deployment, you replace the previous deployment. IoT Greengrass
-applies the new deployment to the target devices.
+You can define one deployment for each target. When you create a new deployment for a target
+that has an existing deployment, you replace the previous deployment. IoT Greengrass applies
+the new deployment to the target devices.
 
 Every deployment has a revision number that indicates how many deployment revisions you
 define for a target. Use this operation to create a new revision of an existing deployment.
@@ -291,8 +293,8 @@ in the *IoT Greengrass V2 Developer Guide*.
 # Arguments
 
 - `target_arn`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-  of the target IoT thing or thing group. When creating a subdeployment, the targetARN
-  can only be a thing group.
+  of the target IoT thing or thing group. When creating a subdeployment, the targetARN can
+  only be a thing group.
 
 # Optional Parameters
 
@@ -300,22 +302,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that you can provide to ensure that
   the request is idempotent. Idempotency means that the request is successfully processed
-  only once, even if you send the request multiple times. When a request succeeds, and
-  you specify the same client token for subsequent successful requests, the IoT
-  Greengrass V2 service returns the successful response that it caches from the previous
-  request. IoT Greengrass V2 caches successful responses for idempotent requests for up
-  to 8 hours.
-- `"components"`: The components to deploy. This is a dictionary, where each key is the
-  name of a component, and each key's value is the version and configuration to deploy
-  for that component.
+  only once, even if you send the request multiple times. When a request succeeds, and you
+  specify the same client token for subsequent successful requests, the IoT Greengrass V2
+  service returns the successful response that it caches from the previous request. IoT
+  Greengrass V2 caches successful responses for idempotent requests for up to 8 hours.
+
+- `"components"`: The components to deploy. This is a dictionary, where each key is the name
+  of a component, and each key's value is the version and configuration to deploy for that
+  component.
+
 - `"deploymentName"`: The name of the deployment.
+
 - `"deploymentPolicies"`: The deployment policies for the deployment. These policies define
   how the deployment updates components and handles failure.
+
 - `"iotJobConfiguration"`: The job configuration for the deployment configuration. The job
-  configuration specifies the rollout, timeout, and stop configurations for the
-  deployment configuration.
+  configuration specifies the rollout, timeout, and stop configurations for the deployment
+  configuration.
+
 - `"parentTargetArn"`: The parent deployment's target [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   within a subdeployment.
+
 - `"tags"`: A list of key-value pairs that contain metadata for the resource. For more
   information, see [Tag your resources](https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
   in the *IoT Greengrass V2 Developer Guide*.
@@ -596,12 +603,13 @@ install.
 
 - `arn`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the component version. Specify the ARN of a public or a Lambda component version.
+
 - `artifact_name`: The name of the artifact.
 
   You can use the [GetComponent](https://docs.aws.amazon.com/greengrass/v2/APIReference/API_GetComponent.html)
   operation to download the component recipe, which includes the URI of the artifact. The
-  artifact name is the section of the URI after the scheme. For example, in the artifact
-  URI `greengrass:SomeArtifact.zip`, the artifact name is `SomeArtifact.zip`.
+  artifact name is the section of the URI after the scheme. For example, in the artifact URI
+  `greengrass:SomeArtifact.zip`, the artifact name is `SomeArtifact.zip`.
 
 # Optional Parameters
 
@@ -609,13 +617,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"s3EndpointType"`: Specifies the endpoint to use when getting Amazon S3 pre-signed URLs.
 
-  All Amazon Web Services Regions except US East (N. Virginia) use `REGIONAL` in all
-  cases. In the US East (N. Virginia) Region the default is `GLOBAL`, but you can change
-  it to `REGIONAL` with this parameter.
-- `"x-amz-iot-endpoint-type"`: Determines if the Amazon S3 URL returned is a FIPS pre-
-  signed URL endpoint. Specify `fips` if you want the returned Amazon S3 pre-signed URL
-  to point to an Amazon S3 FIPS endpoint. If you don't specify a value, the default is
-  `standard`.
+  All Amazon Web Services Regions except US East (N. Virginia) use `REGIONAL` in all cases.
+  In the US East (N. Virginia) Region the default is `GLOBAL`, but you can change it to
+  `REGIONAL` with this parameter.
+
+- `"x-amz-iot-endpoint-type"`: Determines if the Amazon S3 URL returned is a FIPS pre-signed
+  URL endpoint. Specify `fips` if you want the returned Amazon S3 pre-signed URL to point to
+  an Amazon S3 FIPS endpoint. If you don't specify a value, the default is `standard`.
 """
 function get_component_version_artifact end
 
@@ -651,10 +659,10 @@ end
 
 Retrieves connectivity information for a Greengrass core device.
 
-Connectivity information includes endpoints and ports where client devices can connect to
-an MQTT broker on the core device. When a client device calls the [IoT Greengrass discovery API](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html),
-IoT Greengrass returns connectivity information for all of the core devices where the
-client device can connect. For more information, see [Connect client devices to core devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/connect-client-devices.html)
+Connectivity information includes endpoints and ports where client devices can connect to an
+MQTT broker on the core device. When a client device calls the [IoT Greengrass discovery API](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html),
+IoT Greengrass returns connectivity information for all of the core devices where the client
+device can connect. For more information, see [Connect client devices to core devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/connect-client-devices.html)
 in the *IoT Greengrass Version 2 Developer Guide*.
 
 # Arguments
@@ -782,8 +790,8 @@ end
     get_service_role_for_account()
     get_service_role_for_account(params::Dict{String,<:Any})
 
-Gets the service role associated with IoT Greengrass for your Amazon Web Services account
-in this Amazon Web Services Region. IoT Greengrass uses this role to verify the identity of
+Gets the service role associated with IoT Greengrass for your Amazon Web Services account in
+this Amazon Web Services Region. IoT Greengrass uses this role to verify the identity of
 client devices and manage core device connectivity information. For more information, see [Greengrass service role](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html)
 in the *IoT Greengrass Version 2 Developer Guide*.
 """
@@ -909,7 +917,9 @@ have permission to view.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
+
 - `"nextToken"`: The token to be used for the next set of paginated results.
+
 - `"scope"`: The scope of the components to list.
 
   Default: `PRIVATE`
@@ -965,21 +975,23 @@ Retrieves a paginated list of Greengrass core devices.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
+
 - `"nextToken"`: The token to be used for the next set of paginated results.
+
 - `"status"`: The core device status by which to filter. If you specify this parameter, the
   list includes only core devices that have this status. Choose one of the following
   options:
 
-  - `HEALTHY` – The IoT Greengrass Core software and all components run on the core
-    device without issue.
+  - `HEALTHY` – The IoT Greengrass Core software and all components run on the core device
+    without issue.
   - `UNHEALTHY` – The IoT Greengrass Core software or a component is in a failed state on
     the core device.
 
 - `"thingGroupArn"`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the IoT thing group by which to filter. If you specify this parameter, the list
-  includes only core devices that have successfully deployed a deployment that targets
-  the thing group. When you remove a core device from a thing group, the list continues
-  to include that core device.
+  includes only core devices that have successfully deployed a deployment that targets the
+  thing group. When you remove a core device from a thing group, the list continues to
+  include that core device.
 """
 function list_core_devices end
 
@@ -1021,12 +1033,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `LATEST_ONLY` – The list includes only the latest revision of each deployment.
 
   Default: `LATEST_ONLY`
+
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
 
   Default: `50`
+
 - `"nextToken"`: The token to be used for the next set of paginated results.
+
 - `"parentTargetArn"`: The parent deployment's target [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   within a subdeployment.
+
 - `"targetArn"`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the target IoT thing or thing group.
 """
@@ -1103,10 +1119,9 @@ end
     list_installed_components(core_device_thing_name)
     list_installed_components(core_device_thing_name, params::Dict{String,<:Any})
 
-Retrieves a paginated list of the components that a Greengrass core device runs. By
-default, this list doesn't include components that are deployed as dependencies of other
-components. To include dependencies in the response, set the `topologyFilter` parameter to
-`ALL`.
+Retrieves a paginated list of the components that a Greengrass core device runs. By default,
+this list doesn't include components that are deployed as dependencies of other components.
+To include dependencies in the response, set the `topologyFilter` parameter to `ALL`.
 
 !!! note
     IoT Greengrass relies on individual devices to send status updates to the Amazon Web
@@ -1135,14 +1150,16 @@ components. To include dependencies in the response, set the `topologyFilter` pa
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
+
 - `"nextToken"`: The token to be used for the next set of paginated results.
+
 - `"topologyFilter"`: The filter for the list of components. Choose from the following
   options:
 
   - `ALL` – The list includes all components installed on the core device.
-  - `ROOT` – The list includes only *root* components, which are components that you
-    specify in a deployment. When you choose this option, the list doesn't include
-    components that the core device installs as dependencies of other components.
+  - `ROOT` – The list includes only *root* components, which are components that you specify
+    in a deployment. When you choose this option, the list doesn't include components that
+    the core device installs as dependencies of other components.
 
   Default: `ROOT`
 """
@@ -1219,19 +1236,19 @@ Retrieves a list of components that meet the component, version, and platform re
 of a deployment. Greengrass core devices call this operation when they receive a deployment
 to identify the components to install.
 
-This operation identifies components that meet all dependency requirements for a
-deployment. If the requirements conflict, then this operation returns an error and the
-deployment fails. For example, this occurs if component `A` requires version `&gt;2.0.0`
-and component `B` requires version `&lt;2.0.0` of a component dependency.
+This operation identifies components that meet all dependency requirements for a deployment.
+If the requirements conflict, then this operation returns an error and the deployment fails.
+For example, this occurs if component `A` requires version `&gt;2.0.0` and component `B`
+requires version `&lt;2.0.0` of a component dependency.
 
 When you specify the component candidates to resolve, IoT Greengrass compares each
 component's digest from the core device with the component's digest in the Amazon Web
-Services Cloud. If the digests don't match, then IoT Greengrass specifies to use the
-version from the Amazon Web Services Cloud.
+Services Cloud. If the digests don't match, then IoT Greengrass specifies to use the version
+from the Amazon Web Services Cloud.
 
 !!! important
-    To use this operation, you must use the data plane API endpoint and authenticate with
-    an IoT device certificate. For more information, see [IoT Greengrass endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/greengrass.html).
+    To use this operation, you must use the data plane API endpoint and authenticate with an
+    IoT device certificate. For more information, see [IoT Greengrass endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/greengrass.html).
 
 # Optional Parameters
 
@@ -1352,10 +1369,10 @@ end
 
 Updates connectivity information for a Greengrass core device.
 
-Connectivity information includes endpoints and ports where client devices can connect to
-an MQTT broker on the core device. When a client device calls the [IoT Greengrass discovery API](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html),
-IoT Greengrass returns connectivity information for all of the core devices where the
-client device can connect. For more information, see [Connect client devices to core devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/connect-client-devices.html)
+Connectivity information includes endpoints and ports where client devices can connect to an
+MQTT broker on the core device. When a client device calls the [IoT Greengrass discovery API](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html),
+IoT Greengrass returns connectivity information for all of the core devices where the client
+device can connect. For more information, see [Connect client devices to core devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/connect-client-devices.html)
 in the *IoT Greengrass Version 2 Developer Guide*.
 
 # Arguments

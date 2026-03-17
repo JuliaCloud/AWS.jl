@@ -21,14 +21,16 @@ Used to acknowledge an engagement to a contact channel during an incident.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AcceptCodeValidation"`: An optional field that Incident Manager uses to `ENFORCE`
-  `AcceptCode` validation when acknowledging an page. Acknowledgement can occur by
-  replying to a page, or when entering the AcceptCode in the console. Enforcing
-  AcceptCode validation causes Incident Manager to verify that the code entered by the
-  user matches the code sent by Incident Manager with the page.
+  `AcceptCode` validation when acknowledging an page. Acknowledgement can occur by replying
+  to a page, or when entering the AcceptCode in the console. Enforcing AcceptCode validation
+  causes Incident Manager to verify that the code entered by the user matches the code sent
+  by Incident Manager with the page.
 
   Incident Manager can also `IGNORE` `AcceptCode` validation. Ignoring `AcceptCode`
   validation causes Incident Manager to accept any value entered for the `AcceptCode`.
+
 - `"ContactChannelId"`: The ARN of the contact channel.
+
 - `"Note"`: Information provided by the user when the user acknowledges the page.
 """
 function accept_page end
@@ -145,8 +147,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The full name of the contact or escalation plan.
 - `"IdempotencyToken"`: A token ensuring that the operation is called only once with the
   specified details.
-- `"Tags"`: Adds a tag to the target. You can only tag resources created in the first
-  Region of your replication set.
+- `"Tags"`: Adds a tag to the target. You can only tag resources created in the first Region
+  of your replication set.
 """
 function create_contact end
 
@@ -202,15 +204,17 @@ A contact channel is the method that Incident Manager uses to engage your contac
 
 - `contact_id`: The Amazon Resource Name (ARN) of the contact you are adding the contact
   channel to.
+
 - `delivery_address`: The details that Incident Manager uses when trying to engage the
-  contact channel. The format is dependent on the type of the contact channel. The
-  following are the expected formats:
+  contact channel. The format is dependent on the type of the contact channel. The following
+  are the expected formats:
 
   - SMS - '+' followed by the country code and phone number
   - VOICE - '+' followed by the country code and phone number
   - EMAIL - any standard email format
 
 - `name`: The name of the contact channel.
+
 - `type`: Incident Manager supports three types of contact channels:
 
   - `SMS`
@@ -222,8 +226,8 @@ A contact channel is the method that Incident Manager uses to engage your contac
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DeferActivation"`: If you want to activate the channel at a later time, you can choose
-  to defer activation. Incident Manager can't engage your contact channel until it has
-  been activated.
+  to defer activation. Incident Manager can't engage your contact channel until it has been
+  activated.
 - `"IdempotencyToken"`: A token ensuring that the operation is called only once with the
   specified details.
 """
@@ -288,12 +292,14 @@ Creates a rotation in an on-call schedule.
 
 - `contact_ids`: The Amazon Resource Names (ARNs) of the contacts to add to the rotation.
 
-  The order that you list the contacts in is their shift order in the rotation schedule.
-  To change the order of the contact's shifts, use the [`update_rotation`](@ref)
-  operation.
+  The order that you list the contacts in is their shift order in the rotation schedule. To
+  change the order of the contact's shifts, use the [`update_rotation`](@ref) operation.
+
 - `name`: The name of the rotation.
+
 - `recurrence`: Information about the rule that specifies when a shift's team members
   rotate.
+
 - `time_zone_id`: The time zone to base the rotation’s activity on in Internet Assigned
   Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or
   "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones)
@@ -307,8 +313,8 @@ Creates a rotation in an on-call schedule.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"IdempotencyToken"`: A token that ensures that the operation is called only once with
-  the specified details.
+- `"IdempotencyToken"`: A token that ensures that the operation is called only once with the
+  specified details.
 - `"StartTime"`: The date and time that the rotation goes into effect.
 - `"Tags"`: Optional metadata to assign to the rotation. Tags enable you to categorize a
   resource in different ways, such as by purpose, owner, or environment. For more
@@ -373,20 +379,23 @@ Creates an override for a rotation in an on-call schedule.
 # Arguments
 
 - `end_time`: The date and time when the override ends.
+
 - `new_contact_ids`: The Amazon Resource Names (ARNs) of the contacts to replace those in
   the current on-call rotation with.
 
   If you want to include any current team members in the override shift, you must include
   their ARNs in the new contact ID list.
+
 - `rotation_id`: The Amazon Resource Name (ARN) of the rotation to create an override for.
+
 - `start_time`: The date and time when the override goes into effect.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"IdempotencyToken"`: A token that ensures that the operation is called only once with
-  the specified details.
+- `"IdempotencyToken"`: A token that ensures that the operation is called only once with the
+  specified details.
 """
 function create_rotation_override end
 
@@ -565,8 +574,8 @@ end
     delete_rotation(rotation_id)
     delete_rotation(rotation_id, params::Dict{String,<:Any})
 
-Deletes a rotation from the system. If a rotation belongs to more than one on-call
-schedule, this operation deletes it from all of them.
+Deletes a rotation from the system. If a rotation belongs to more than one on-call schedule,
+this operation deletes it from all of them.
 
 # Arguments
 
@@ -607,8 +616,8 @@ Deletes an existing override for an on-call rotation.
 # Arguments
 
 - `rotation_id`: The Amazon Resource Name (ARN) of the rotation that was overridden.
-- `rotation_override_id`: The Amazon Resource Name (ARN) of the on-call rotation override
-  to delete.
+- `rotation_override_id`: The Amazon Resource Name (ARN) of the on-call rotation override to
+  delete.
 """
 function delete_rotation_override end
 
@@ -878,8 +887,8 @@ Retrieves information about an override to an on-call rotation.
 
 - `rotation_id`: The Amazon Resource Name (ARN) of the overridden rotation to retrieve
   information about.
-- `rotation_override_id`: The Amazon Resource Name (ARN) of the on-call rotation override
-  to retrieve information about.
+- `rotation_override_id`: The Amazon Resource Name (ARN) of the on-call rotation override to
+  retrieve information about.
 """
 function get_rotation_override end
 
@@ -976,8 +985,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AliasPrefix"`: Used to list only contacts who's aliases start with the specified prefix.
 - `"MaxResults"`: The maximum number of contacts and escalation plans per page of results.
 - `"NextToken"`: The pagination token to continue to the next page of results.
-- `"Type"`: The type of contact. A contact is type `PERSONAL` and an escalation plan is
-  type `ESCALATION`.
+- `"Type"`: The type of contact. A contact is type `PERSONAL` and an escalation plan is type
+  `ESCALATION`.
 """
 function list_contacts end
 
@@ -1070,9 +1079,9 @@ end
     list_page_resolutions(page_id)
     list_page_resolutions(page_id, params::Dict{String,<:Any})
 
-Returns the resolution path of an engagement. For example, the escalation plan engaged in
-an incident might target an on-call schedule that includes several contacts in a rotation,
-but just one contact on-call when the incident starts. The resolution path indicates the
+Returns the resolution path of an engagement. For example, the escalation plan engaged in an
+incident might target an on-call schedule that includes several contacts in a rotation, but
+just one contact on-call when the incident starts. The resolution path indicates the
 hierarchy of *escalation plan &gt; on-call schedule &gt; contact*.
 
 # Arguments
@@ -1115,8 +1124,8 @@ Lists the engagements to a contact's contact channels.
 
 # Arguments
 
-- `contact_id`: The Amazon Resource Name (ARN) of the contact you are retrieving
-  engagements for.
+- `contact_id`: The Amazon Resource Name (ARN) of the contact you are retrieving engagements
+  for.
 
 # Optional Parameters
 
@@ -1207,8 +1216,8 @@ end
 Returns a list of shifts based on rotation configuration parameters.
 
 !!! note
-    The Incident Manager primarily uses this operation to populate the **Preview**
-    calendar. It is not typically run by end users.
+    The Incident Manager primarily uses this operation to populate the **Preview** calendar.
+    It is not typically run by end users.
 
 # Arguments
 
@@ -1224,9 +1233,8 @@ Returns a list of shifts based on rotation configuration parameters.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that can be specified in a subsequent call to get the next set of
-  results.
+- `"MaxResults"`: The maximum number of items to return for this call. The call also returns
+  a token that can be specified in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. This token is used to get the next set of
   results.
 - `"Overrides"`: Information about changes that would be made in a rotation override.
@@ -1301,9 +1309,8 @@ Retrieves a list of overrides currently specified for an on-call rotation.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of
-  results.
+- `"MaxResults"`: The maximum number of items to return for this call. The call also returns
+  a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_rotation_overrides end
@@ -1362,9 +1369,8 @@ Returns a list of shifts generated by an existing rotation in the system.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of
-  results.
+- `"MaxResults"`: The maximum number of items to return for this call. The call also returns
+  a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 - `"StartTime"`: The date and time for the beginning of the time range to list shifts for.
 """
@@ -1411,13 +1417,12 @@ Retrieves a list of on-call rotations.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of
-  results.
+- `"MaxResults"`: The maximum number of items to return for this call. The call also returns
+  a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 - `"RotationNamePrefix"`: A filter to include rotations in list results based on their
-  common prefix. For example, entering prod returns a list of all rotation names that
-  begin with `prod`, such as `production` and `prod-1`.
+  common prefix. For example, entering prod returns a list of all rotation names that begin
+  with `prod`, such as `production` and `prod-1`.
 """
 function list_rotations end
 
@@ -1523,9 +1528,9 @@ end
     send_activation_code(contact_channel_id)
     send_activation_code(contact_channel_id, params::Dict{String,<:Any})
 
-Sends an activation code to a contact channel. The contact can use this code to activate
-the contact channel in the console or with the [`activate_channel`](@ref) operation.
-Incident Manager can't engage a contact channel until it has been activated.
+Sends an activation code to a contact channel. The contact can use this code to activate the
+contact channel in the console or with the [`activate_channel`](@ref) operation. Incident
+Manager can't engage a contact channel until it has been activated.
 
 # Arguments
 
@@ -1876,11 +1881,13 @@ Updates the information specified for an on-call rotation.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ContactIds"`: The Amazon Resource Names (ARNs) of the contacts to include in the
-  updated rotation.
+- `"ContactIds"`: The Amazon Resource Names (ARNs) of the contacts to include in the updated
+  rotation.
 
   The order in which you list the contacts is their shift order in the rotation schedule.
+
 - `"StartTime"`: The date and time the rotation goes into effect.
+
 - `"TimeZoneId"`: The time zone to base the updated rotation’s activity on, in Internet
   Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or
   "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones)
@@ -1889,7 +1896,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       Designators for time zones that don’t support Daylight Savings Time Rules, such as
       Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
-
 """
 function update_rotation end
 

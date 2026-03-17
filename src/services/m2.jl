@@ -62,15 +62,19 @@ and application definition file.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: Unique, case-sensitive identifier the service generates to ensure the
-  idempotency of the request to create an application. The service generates the
-  clientToken when the API call is triggered. The token expires after one hour, so if you
-  retry the API within this timeframe with the same clientToken, you will get the same
-  response. The service also handles deleting the clientToken after it expires.
+  idempotency of the request to create an application. The service generates the clientToken
+  when the API call is triggered. The token expires after one hour, so if you retry the API
+  within this timeframe with the same clientToken, you will get the same response. The
+  service also handles deleting the clientToken after it expires.
+
 - `"description"`: The description of the application.
+
 - `"kmsKeyId"`: The identifier of a customer managed key.
+
 - `"roleArn"`: The Amazon Resource Name (ARN) that identifies a role that the application
-  uses to access Amazon Web Services resources that are not part of the application or
-  are in a different Amazon Web Services account.
+  uses to access Amazon Web Services resources that are not part of the application or are
+  in a different Amazon Web Services account.
+
 - `"tags"`: A list of tags to apply to the application.
 """
 function create_application end
@@ -136,10 +140,10 @@ Starts a data set import task for a specific application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
-  of the request to create a data set import. The service generates the clientToken when
-  the API call is triggered. The token expires after one hour, so if you retry the API
-  within this timeframe with the same clientToken, you will get the same response. The
-  service also handles deleting the clientToken after it expires.
+  of the request to create a data set import. The service generates the clientToken when the
+  API call is triggered. The token expires after one hour, so if you retry the API within
+  this timeframe with the same clientToken, you will get the same response. The service also
+  handles deleting the clientToken after it expires.
 """
 function create_data_set_import_task end
 
@@ -196,10 +200,10 @@ Creates and starts a deployment to deploy an application into a runtime environm
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
-  of the request to create a deployment. The service generates the clientToken when the
-  API call is triggered. The token expires after one hour, so if you retry the API within
-  this timeframe with the same clientToken, you will get the same response. The service
-  also handles deleting the clientToken after it expires.
+  of the request to create a deployment. The service generates the clientToken when the API
+  call is triggered. The token expires after one hour, so if you retry the API within this
+  timeframe with the same clientToken, you will get the same response. The service also
+  handles deleting the clientToken after it expires.
 """
 function create_deployment end
 
@@ -267,25 +271,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request to create an environment. The service generates the clientToken when the
   API call is triggered. The token expires after one hour, so if you retry the API within
-  this timeframe with the same clientToken, you will get the same response. The service
-  also handles deleting the clientToken after it expires.
+  this timeframe with the same clientToken, you will get the same response. The service also
+  handles deleting the clientToken after it expires.
+
 - `"description"`: The description of the runtime environment.
+
 - `"engineVersion"`: The version of the engine type for the runtime environment.
+
 - `"highAvailabilityConfig"`: The details of a high availability configuration for this
   runtime environment.
+
 - `"kmsKeyId"`: The identifier of a customer managed key.
+
 - `"preferredMaintenanceWindow"`: Configures the maintenance window that you want for the
-  runtime environment. The maintenance window must have the format
-  `ddd:hh24:mi-ddd:hh24:mi` and must be less than 24 hours. The following two examples
-  are valid maintenance windows: `sun:23:45-mon:00:15` or `sat:01:00-sat:03:00`.
+  runtime environment. The maintenance window must have the format `ddd:hh24:mi-ddd:hh24:mi`
+  and must be less than 24 hours. The following two examples are valid maintenance windows:
+  `sun:23:45-mon:00:15` or `sat:01:00-sat:03:00`.
 
   If you do not provide a value, a random system-generated value will be assigned.
+
 - `"publiclyAccessible"`: Specifies whether the runtime environment is publicly accessible.
-- `"securityGroupIds"`: The list of security groups for the VPC associated with this
-  runtime environment.
+
+- `"securityGroupIds"`: The list of security groups for the VPC associated with this runtime
+  environment.
+
 - `"storageConfigurations"`: Optional. The storage configurations for this runtime
   environment.
+
 - `"subnetIds"`: The list of subnets associated with the VPC for this runtime environment.
+
 - `"tags"`: The tags for the runtime environment.
 """
 function create_environment end
@@ -375,10 +389,10 @@ end
     delete_application_from_environment(application_id, environment_id)
     delete_application_from_environment(application_id, environment_id, params::Dict{String,<:Any})
 
-Deletes a specific application from the specific runtime environment where it was
-previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any
-application has ever been deployed to it. This API removes the association of the
-application with the runtime environment so you can delete the environment smoothly.
+Deletes a specific application from the specific runtime environment where it was previously
+deployed. You cannot delete a runtime environment using DeleteEnvironment if any application
+has ever been deployed to it. This API removes the association of the application with the
+runtime environment so you can delete the environment smoothly.
 
 # Arguments
 
@@ -805,8 +819,8 @@ all applications associated with that environment.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"environmentId"`: The unique identifier of the runtime environment where the
-  applications are deployed.
+- `"environmentId"`: The unique identifier of the runtime environment where the applications
+  are deployed.
 - `"maxResults"`: The maximum number of applications to return.
 - `"names"`: The names of the applications.
 - `"nextToken"`: A pagination token to control the number of applications displayed in the
@@ -852,8 +866,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token returned from a previous call to this operation. This
   specifies the next item to return. To return to the beginning of the list, exclude this
   parameter.
-- `"prefix"`: If the batch job definition is a FileBatchJobDefinition, the prefix allows
-  you to search on the file names of FileBatchJobDefinitions.
+- `"prefix"`: If the batch job definition is a FileBatchJobDefinition, the prefix allows you
+  to search on the file names of FileBatchJobDefinitions.
 """
 function list_batch_job_definitions end
 
@@ -1024,8 +1038,8 @@ end
 
 Lists the data sets imported for a specific application. In Amazon Web Services Mainframe
 Modernization, data sets are associated with applications deployed on runtime environments.
-This is known as importing data sets. Currently, Amazon Web Services Mainframe
-Modernization can import data sets into catalogs using [CreateDataSetImportTask](https://docs.aws.amazon.com/m2/latest/APIReference/API_CreateDataSetImportTask.html).
+This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization
+can import data sets into catalogs using [CreateDataSetImportTask](https://docs.aws.amazon.com/m2/latest/APIReference/API_CreateDataSetImportTask.html).
 
 # Arguments
 
@@ -1266,8 +1280,8 @@ end
     start_batch_job(application_id, batch_job_identifier)
     start_batch_job(application_id, batch_job_identifier, params::Dict{String,<:Any})
 
-Starts a batch job and returns the unique identifier of this execution of the batch job.
-The associated application must be running in order to start the batch job.
+Starts a batch job and returns the unique identifier of this execution of the batch job. The
+associated application must be running in order to start the batch job.
 
 # Arguments
 
@@ -1329,9 +1343,8 @@ Stops a running application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"forceStop"`: Stopping an application process can take a long time. Setting this
-  parameter to true lets you force stop the application so you don't need to wait until
-  the process finishes to apply another action on the application. The default value is
-  false.
+  parameter to true lets you force stop the application so you don't need to wait until the
+  process finishes to apply another action on the application. The default value is false.
 """
 function stop_application end
 
@@ -1511,11 +1524,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   during the maintenance window. The default is false. Currently, Amazon Web Services
   Mainframe Modernization accepts the `engineVersion` parameter only if
   `applyDuringMaintenanceWindow` is true. If any parameter other than `engineVersion` is
-  provided in `UpdateEnvironmentRequest`, it will fail if `applyDuringMaintenanceWindow`
-  is set to true.
+  provided in `UpdateEnvironmentRequest`, it will fail if `applyDuringMaintenanceWindow` is
+  set to true.
+
 - `"desiredCapacity"`: The desired capacity for the runtime environment to update. The
   minimum possible value is 0 and the maximum is 100.
+
 - `"engineVersion"`: The version of the runtime engine for the runtime environment.
+
 - `"forceUpdate"`: Forces the updates on the environment. This option is needed if the
   applications in the environment are not stopped or if there are ongoing application-
   related activities in the environment.
@@ -1524,13 +1540,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applications, and that you might need to perform repair and recovery procedures for the
   applications.
 
-  This option is not needed if the attribute being updated is
-  `preferredMaintenanceWindow`.
+  This option is not needed if the attribute being updated is `preferredMaintenanceWindow`.
+
 - `"instanceType"`: The instance type for the runtime environment to update.
+
 - `"preferredMaintenanceWindow"`: Configures the maintenance window that you want for the
-  runtime environment. The maintenance window must have the format
-  `ddd:hh24:mi-ddd:hh24:mi` and must be less than 24 hours. The following two examples
-  are valid maintenance windows: `sun:23:45-mon:00:15` or `sat:01:00-sat:03:00`.
+  runtime environment. The maintenance window must have the format `ddd:hh24:mi-ddd:hh24:mi`
+  and must be less than 24 hours. The following two examples are valid maintenance windows:
+  `sun:23:45-mon:00:15` or `sat:01:00-sat:03:00`.
 
   If you do not provide a value, a random system-generated value will be assigned.
 """

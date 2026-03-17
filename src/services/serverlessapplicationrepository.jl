@@ -8,8 +8,8 @@ using AWS.UUIDs
     create_application(author, description, name)
     create_application(author, description, name, params::Dict{String,<:Any})
 
-Creates an application, optionally including an AWS SAM file to create the first
-application version in the same call.
+Creates an application, optionally including an AWS SAM file to create the first application
+version in the same call.
 
 # Arguments
 
@@ -18,9 +18,11 @@ application version in the same call.
   Minimum length=1. Maximum length=127.
 
   Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\$";
+
 - `description`: The description of the application.
 
   Minimum length=1. Maximum length=256
+
 - `name`: The name of the application that you want to publish.
 
   Minimum length=1. Maximum length=140
@@ -33,51 +35,62 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"homePageUrl"`: A URL with more information about the application, for example the
   location of your GitHub repository for the application.
+
 - `"labels"`: Labels to improve discovery of apps in search results.
 
   Minimum length=1. Maximum length=127. Maximum number of labels: 10
 
   Pattern: "^[a-zA-Z0-9+\\\\-_:\\\\/@]+\$";
+
 - `"licenseBody"`: A local text file that contains the license of the app that matches the
-  spdxLicenseID value of your application.
-   The file has the format file://&lt;path>/&lt;filename>.
+  spdxLicenseID value of your application. The file has the format
+  file://&lt;path>/&lt;filename>.
 
   Maximum size 5 MB
 
   You can specify only one of licenseBody and licenseUrl; otherwise, an error results.
+
 - `"licenseUrl"`: A link to the S3 object that contains the license of the app that matches
   the spdxLicenseID value of your application.
 
   Maximum size 5 MB
 
   You can specify only one of licenseBody and licenseUrl; otherwise, an error results.
+
 - `"readmeBody"`: A local text readme file in Markdown language that contains a more
-  detailed description of the application and how it works.
-   The file has the format file://&lt;path>/&lt;filename>.
+  detailed description of the application and how it works. The file has the format
+  file://&lt;path>/&lt;filename>.
 
   Maximum size 5 MB
 
   You can specify only one of readmeBody and readmeUrl; otherwise, an error results.
+
 - `"readmeUrl"`: A link to the S3 object in Markdown language that contains a more detailed
   description of the application and how it works.
 
   Maximum size 5 MB
 
   You can specify only one of readmeBody and readmeUrl; otherwise, an error results.
+
 - `"semanticVersion"`: The semantic version of the application:
 
-   [https://semver.org/](https://semver.org/)
+  [https://semver.org/](https://semver.org/)
+
 - `"sourceCodeArchiveUrl"`: A link to the S3 object that contains the ZIP archive of the
   source code for this version of your application.
 
   Maximum size 50 MB
+
 - `"sourceCodeUrl"`: A link to a public repository for the source code of your application,
   for example the URL of a specific GitHub commit.
+
 - `"spdxLicenseId"`: A valid identifier from [https://spdx.org/licenses/](https://spdx.org/licenses/).
-- `"templateBody"`: The local raw packaged AWS SAM template file of your application.
-   The file has the format file://&lt;path>/&lt;filename>.
+
+- `"templateBody"`: The local raw packaged AWS SAM template file of your application. The
+  file has the format file://&lt;path>/&lt;filename>.
 
   You can specify only one of templateBody and templateUrl; otherwise an error results.
+
 - `"templateUrl"`: A link to the S3 object containing the packaged AWS SAM template of your
   application.
 
@@ -140,9 +153,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source code for this version of your application.
 
   Maximum size 50 MB
+
 - `"sourceCodeUrl"`: A link to a public repository for the source code of your application,
   for example the URL of a specific GitHub commit.
+
 - `"templateBody"`: The raw packaged AWS SAM template of your application.
+
 - `"templateUrl"`: A link to the packaged AWS SAM template of your application.
 """
 function create_application_version end
@@ -183,75 +199,72 @@ Creates an AWS CloudFormation change set for the given application.
 
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 - `stack_name`: This property corresponds to the parameter of the same name for the *AWS
-  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
-  * API.
+  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)*
+  API.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"capabilities"`: A list of values that you must specify before you can deploy certain
-  applications.
-   Some applications might include resources that can affect permissions in your AWS
-   account, for example, by creating new AWS Identity and Access Management (IAM) users.
-   For those applications, you must explicitly acknowledge their capabilities by
-   specifying this parameter.
+  applications. Some applications might include resources that can affect permissions in
+  your AWS account, for example, by creating new AWS Identity and Access Management (IAM)
+  users. For those applications, you must explicitly acknowledge their capabilities by
+  specifying this parameter.
 
   The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
-   CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.
+  CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.
 
-  The following resources require you to specify CAPABILITY_IAM or
-   CAPABILITY_NAMED_IAM:
-   [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html),
-   [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html),
-   [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html),
-   and
-   [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html).
-   If the application contains IAM resources, you can specify either CAPABILITY_IAM
-   or CAPABILITY_NAMED_IAM. If the application contains IAM resources
-   with custom names, you must specify CAPABILITY_NAMED_IAM.
+  The following resources require you to specify CAPABILITY_IAM or CAPABILITY_NAMED_IAM: [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html), [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html), [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html),
+  and [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html).
+  If the application contains IAM resources, you can specify either CAPABILITY_IAM or
+  CAPABILITY_NAMED_IAM. If the application contains IAM resources with custom names, you
+  must specify CAPABILITY_NAMED_IAM.
 
-  The following resources require you to specify CAPABILITY_RESOURCE_POLICY:
-   [AWS::Lambda::Permission](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html),
-   [AWS::IAM:Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html),
-   [AWS::ApplicationAutoScaling::ScalingPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html),
-   [AWS::S3::BucketPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html),
-   [AWS::SQS::QueuePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-policy.html),
-   and
-   [AWS::SNS:TopicPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html).
+  The following resources require you to specify CAPABILITY_RESOURCE_POLICY: [AWS::Lambda::Permission](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html), [AWS::IAM:Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html), [AWS::ApplicationAutoScaling::ScalingPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html), [AWS::S3::BucketPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html), [AWS::SQS::QueuePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-policy.html),
+  and [AWS::SNS:TopicPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html).
 
   Applications that contain one or more nested applications require you to specify
-   CAPABILITY_AUTO_EXPAND.
+  CAPABILITY_AUTO_EXPAND.
 
   If your application template contains any of the above resources, we recommend that you
-  review
-   all permissions associated with the application before deploying. If you don't specify
-   this parameter for an application that requires capabilities, the call will fail.
+  review all permissions associated with the application before deploying. If you don't
+  specify this parameter for an application that requires capabilities, the call will fail.
+
 - `"changeSetName"`: This property corresponds to the parameter of the same name for the
-  *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
-  * API.
+  *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)*
+  API.
+
 - `"clientToken"`: This property corresponds to the parameter of the same name for the *AWS
-  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
-  * API.
+  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)*
+  API.
+
 - `"description"`: This property corresponds to the parameter of the same name for the *AWS
-  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
-  * API.
+  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)*
+  API.
+
 - `"notificationArns"`: This property corresponds to the parameter of the same name for the
-  *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
-  * API.
+  *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)*
+  API.
+
 - `"parameterOverrides"`: A list of parameter values for the parameters of the application.
+
 - `"resourceTypes"`: This property corresponds to the parameter of the same name for the
-  *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
-  * API.
-- `"rollbackConfiguration"`: This property corresponds to the parameter of the same name
-  for the *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
-  * API.
+  *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)*
+  API.
+
+- `"rollbackConfiguration"`: This property corresponds to the parameter of the same name for
+  the *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)*
+  API.
+
 - `"semanticVersion"`: The semantic version of the application:
 
-   [https://semver.org/](https://semver.org/)
+  [https://semver.org/](https://semver.org/)
+
 - `"tags"`: This property corresponds to the parameter of the same name for the *AWS
-  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
-  * API.
+  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)*
+  API.
+
 - `"templateId"`: The UUID returned by CreateCloudFormationTemplate.
 
   Pattern: [0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}
@@ -303,7 +316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"semanticVersion"`: The semantic version of the application:
 
-   [https://semver.org/](https://semver.org/)
+  [https://semver.org/](https://semver.org/)
 """
 function create_cloud_formation_template end
 
@@ -456,6 +469,7 @@ Gets the specified AWS CloudFormation template.
 # Arguments
 
 - `application_id`: The Amazon Resource Name (ARN) of the application.
+
 - `template_id`: The UUID returned by CreateCloudFormationTemplate.
 
   Pattern: [0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}
@@ -615,11 +629,8 @@ end
     put_application_policy(application_id, statements, params::Dict{String,<:Any})
 
 Sets the permission policy for an application. For the list of actions supported for this
-operation, see
- [Application
- Permissions](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-
- resource-based.html#application-permissions)
- .
+operation, see [Application Permissions](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions)
+.
 
 # Arguments
 
@@ -720,20 +731,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum length=1. Maximum length=127.
 
   Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\$";
+
 - `"description"`: The description of the application.
 
   Minimum length=1. Maximum length=256
+
 - `"homePageUrl"`: A URL with more information about the application, for example the
   location of your GitHub repository for the application.
+
 - `"labels"`: Labels to improve discovery of apps in search results.
 
   Minimum length=1. Maximum length=127. Maximum number of labels: 10
 
   Pattern: "^[a-zA-Z0-9+\\\\-_:\\\\/@]+\$";
+
 - `"readmeBody"`: A text readme file in Markdown language that contains a more detailed
   description of the application and how it works.
 
   Maximum size 5 MB
+
 - `"readmeUrl"`: A link to the readme file in Markdown language that contains a more
   detailed description of the application and how it works.
 

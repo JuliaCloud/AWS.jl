@@ -23,8 +23,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata) and the target (for example, a column name) that can be accepted.
 - `"acceptRule"`: Specifies the rule (or the conditions) under which a prediction can be
   accepted.
-- `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the
-  request. This field is automatically populated if not provided.
+- `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
+  This field is automatically populated if not provided.
 - `"revision"`: The revision that is to be made to the asset.
 """
 function accept_predictions end
@@ -171,8 +171,8 @@ end
     add_policy_grant(detail, domain_identifier, entity_identifier, entity_type, policy_type, principal)
     add_policy_grant(detail, domain_identifier, entity_identifier, entity_type, policy_type, principal, params::Dict{String,<:Any})
 
-Adds a policy grant (an authorization policy) to a specified entity, including domain
-units, environment blueprint configurations, or environment profiles.
+Adds a policy grant (an authorization policy) to a specified entity, including domain units,
+environment blueprint configurations, or environment profiles.
 
 # Arguments
 
@@ -254,8 +254,8 @@ Associates the environment role in Amazon DataZone.
 
 # Arguments
 
-- `domain_identifier`: The ID of the Amazon DataZone domain in which the environment role
-  is associated.
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the environment role is
+  associated.
 - `environment_identifier`: The ID of the Amazon DataZone environment.
 - `environment_role_arn`: The ARN of the environment role.
 """
@@ -299,8 +299,8 @@ Cancels the metadata generation run.
 
 # Arguments
 
-- `domain_identifier`: The ID of the Amazon DataZone domain in which the metadata
-  generation run is to be cancelled.
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the metadata generation
+  run is to be cancelled.
 - `identifier`: The ID of the metadata generation run.
 """
 function cancel_metadata_generation_run end
@@ -805,8 +805,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data source works with.
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
-- `"configuration"`: Specifies the configuration of the data source. It can be set to
-  either `glueRunConfiguration` or `redshiftRunConfiguration`.
+- `"configuration"`: Specifies the configuration of the data source. It can be set to either
+  `glueRunConfiguration` or `redshiftRunConfiguration`.
 - `"description"`: The description of the data source.
 - `"enableSetting"`: Specifies whether the data source is enabled.
 - `"publishOnImport"`: Specifies whether the assets that this data source creates in the
@@ -878,9 +878,9 @@ Creates an Amazon DataZone domain.
 
 # Arguments
 
-- `domain_execution_role`: The domain execution role that is created when an Amazon
-  DataZone domain is created. The domain execution role is created in the Amazon Web
-  Services account that houses the Amazon DataZone domain.
+- `domain_execution_role`: The domain execution role that is created when an Amazon DataZone
+  domain is created. The domain execution role is created in the Amazon Web Services account
+  that houses the Amazon DataZone domain.
 - `name`: The name of the Amazon DataZone domain.
 
 # Optional Parameters
@@ -1014,8 +1014,8 @@ Create an Amazon DataZone environment.
 
 # Arguments
 
-- `domain_identifier`: The identifier of the Amazon DataZone domain in which the
-  environment is created.
+- `domain_identifier`: The identifier of the Amazon DataZone domain in which the environment
+  is created.
 - `environment_profile_identifier`: The identifier of the environment profile that is used
   to create this Amazon DataZone environment.
 - `name`: The name of the Amazon DataZone environment.
@@ -1168,8 +1168,8 @@ Creates an Amazon DataZone environment profile.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"awsAccountId"`: The Amazon Web Services account in which the Amazon DataZone
-  environment is created.
+- `"awsAccountId"`: The Amazon Web Services account in which the Amazon DataZone environment
+  is created.
 - `"awsAccountRegion"`: The Amazon Web Services region in which this environment profile is
   created.
 - `"description"`: The description of this Amazon DataZone environment profile.
@@ -1232,12 +1232,12 @@ Creates a metadata form type.
 
 # Arguments
 
-- `domain_identifier`: The ID of the Amazon DataZone domain in which this metadata form
-  type is created.
+- `domain_identifier`: The ID of the Amazon DataZone domain in which this metadata form type
+  is created.
 - `model`: The model of this Amazon DataZone metadata form type.
 - `name`: The name of this Amazon DataZone metadata form type.
-- `owning_project_identifier`: The ID of the Amazon DataZone project that owns this
-  metadata form type.
+- `owning_project_identifier`: The ID of the Amazon DataZone project that owns this metadata
+  form type.
 
 # Optional Parameters
 
@@ -2203,8 +2203,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
-- `"skipDeletionCheck"`: Specifies the optional flag to delete all child entities within
-  the domain.
+- `"skipDeletionCheck"`: Specifies the optional flag to delete all child entities within the
+  domain.
 """
 function delete_domain end
 
@@ -2411,8 +2411,8 @@ Deletes an environment profile in Amazon DataZone.
 
 # Arguments
 
-- `domain_identifier`: The ID of the Amazon DataZone domain in which the environment
-  profile is deleted.
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the environment profile
+  is deleted.
 - `identifier`: The ID of the environment profile that is deleted.
 """
 function delete_environment_profile end
@@ -2617,8 +2617,8 @@ Deletes a project in Amazon DataZone.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"skipDeletionCheck"`: Specifies the optional flag to delete all child entities within
-  the project.
+- `"skipDeletionCheck"`: Specifies the optional flag to delete all child entities within the
+  project.
 """
 function delete_project end
 
@@ -2783,8 +2783,8 @@ Deletes a subscription target in Amazon DataZone.
 
 # Arguments
 
-- `domain_identifier`: The ID of the Amazon DataZone domain in which the subscription
-  target is deleted.
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the subscription target
+  is deleted.
 - `environment_identifier`: The ID of the Amazon DataZone environment in which the
   subscription target is deleted.
 - `identifier`: The ID of the subscription target that is deleted.
@@ -2839,8 +2839,8 @@ Deletes the specified time series form for the specified asset.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the
-  request. This field is automatically populated if not provided.
+- `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
+  This field is automatically populated if not provided.
 """
 function delete_time_series_data_points end
 
@@ -3513,8 +3513,8 @@ Gets a metadata form type in Amazon DataZone.
 
 # Arguments
 
-- `domain_identifier`: The ID of the Amazon DataZone domain in which this metadata form
-  type exists.
+- `domain_identifier`: The ID of the Amazon DataZone domain in which this metadata form type
+  exists.
 - `form_type_identifier`: The ID of the metadata form type.
 
 # Optional Parameters
@@ -3718,12 +3718,12 @@ Gets the data lineage node.
 # Arguments
 
 - `domain_identifier`: The ID of the domain in which you want to get the data lineage node.
+
 - `identifier`: The ID of the data lineage node that you want to get.
 
-  Both, a lineage node identifier generated by Amazon DataZone and a `sourceIdentifier`
-  of the lineage node are supported. If `sourceIdentifier` is greater than 1800
-  characters, you can use lineage node identifier generated by Amazon DataZone to get the
-  node details.
+  Both, a lineage node identifier generated by Amazon DataZone and a `sourceIdentifier` of
+  the lineage node are supported. If `sourceIdentifier` is greater than 1800 characters, you
+  can use lineage node identifier generated by Amazon DataZone to get the node details.
 
 # Optional Parameters
 
@@ -4012,8 +4012,8 @@ Gets the subscription target in Amazon DataZone.
 
 # Arguments
 
-- `domain_identifier`: The ID of the Amazon DataZone domain in which the subscription
-  target exists.
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the subscription target
+  exists.
 - `environment_identifier`: The ID of the environment associated with the subscription
   target.
 - `identifier`: The ID of the subscription target.
@@ -4170,11 +4170,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListAssetFilters`. When the number of asset filters to be listed is greater than the
   value of `MaxResults`, the response contains a `NextToken` value that you can use in a
   subsequent call to `ListAssetFilters` to list the next set of asset filters.
+
 - `"nextToken"`: When the number of asset filters is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of asset filters, the response includes a pagination token named
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of asset filters, the response includes a pagination token named
   `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListAssetFilters` to list the next set of asset filters.
+
 - `"status"`: The status of the asset filter.
 """
 function list_asset_filters end
@@ -4221,14 +4223,15 @@ Lists the revisions for the asset.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of revisions to return in a single call to
-  `ListAssetRevisions`. When the number of revisions to be listed is greater than the
-  value of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  `ListAssetRevisions`. When the number of revisions to be listed is greater than the value
+  of `MaxResults`, the response contains a `NextToken` value that you can use in a
   subsequent call to `ListAssetRevisions` to list the next set of revisions.
+
 - `"nextToken"`: When the number of revisions is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of revisions, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to
-  `ListAssetRevisions` to list the next set of revisions.
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of revisions, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to `ListAssetRevisions` to
+  list the next set of revisions.
 """
 function list_asset_revisions end
 
@@ -4276,15 +4279,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of asset filters to return in a single call to
   `ListDataProductRevisions`. When the number of data product revisions to be listed is
-  greater than the value of `MaxResults`, the response contains a `NextToken` value that
-  you can use in a subsequent call to `ListDataProductRevisions` to list the next set of
-  data product revisions.
-- `"nextToken"`: When the number of data product revisions is greater than the default
-  value for the `MaxResults` parameter, or if you explicitly specify a value for
-  `MaxResults` that is less than the number of data product revisions, the response
-  includes a pagination token named `NextToken`. You can specify this `NextToken` value
-  in a subsequent call to `ListDataProductRevisions` to list the next set of data product
-  revisions.
+  greater than the value of `MaxResults`, the response contains a `NextToken` value that you
+  can use in a subsequent call to `ListDataProductRevisions` to list the next set of data
+  product revisions.
+
+- `"nextToken"`: When the number of data product revisions is greater than the default value
+  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that
+  is less than the number of data product revisions, the response includes a pagination
+  token named `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  `ListDataProductRevisions` to list the next set of data product revisions.
 """
 function list_data_product_revisions end
 
@@ -4331,15 +4334,16 @@ Lists data source run activities.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of activities to return in a single call to
-  `ListDataSourceRunActivities`. When the number of activities to be listed is greater
-  than the value of `MaxResults`, the response contains a `NextToken` value that you can
-  use in a subsequent call to `ListDataSourceRunActivities` to list the next set of
-  activities.
+  `ListDataSourceRunActivities`. When the number of activities to be listed is greater than
+  the value of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  subsequent call to `ListDataSourceRunActivities` to list the next set of activities.
+
 - `"nextToken"`: When the number of activities is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of activities, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of activities, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to
   `ListDataSourceRunActivities` to list the next set of activities.
+
 - `"status"`: The status of the data source run.
 """
 function list_data_source_run_activities end
@@ -4388,13 +4392,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of runs to return in a single call to
   `ListDataSourceRuns`. When the number of runs to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a
-  subsequent call to `ListDataSourceRuns` to list the next set of runs.
+  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
+  call to `ListDataSourceRuns` to list the next set of runs.
+
 - `"nextToken"`: When the number of runs is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of runs, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to
-  `ListDataSourceRuns` to list the next set of runs.
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of runs, the response includes a pagination token named `NextToken`. You
+  can specify this `NextToken` value in a subsequent call to `ListDataSourceRuns` to list
+  the next set of runs.
+
 - `"status"`: The status of the data source.
 """
 function list_data_source_runs end
@@ -4445,17 +4451,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"environmentIdentifier"`: The identifier of the environment in which to list the data
   sources.
+
 - `"maxResults"`: The maximum number of data sources to return in a single call to
-  `ListDataSources`. When the number of data sources to be listed is greater than the
-  value of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  `ListDataSources`. When the number of data sources to be listed is greater than the value
+  of `MaxResults`, the response contains a `NextToken` value that you can use in a
   subsequent call to `ListDataSources` to list the next set of data sources.
+
 - `"name"`: The name of the data source.
+
 - `"nextToken"`: When the number of data sources is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of data sources, the response includes a pagination token named
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of data sources, the response includes a pagination token named
   `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListDataSources` to list the next set of data sources.
+
 - `"status"`: The status of the data source.
+
 - `"type"`: The type of the data source.
 """
 function list_data_sources end
@@ -4508,14 +4519,15 @@ Lists child domain units for the specified parent domain unit.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of domain units to return in a single call to
-  ListDomainUnitsForParent. When the number of domain units to be listed is greater than
-  the value of MaxResults, the response contains a NextToken value that you can use in a
+  ListDomainUnitsForParent. When the number of domain units to be listed is greater than the
+  value of MaxResults, the response contains a NextToken value that you can use in a
   subsequent call to ListDomainUnitsForParent to list the next set of domain units.
+
 - `"nextToken"`: When the number of domain units is greater than the default value for the
   MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
-  than the number of domain units, the response includes a pagination token named
-  NextToken. You can specify this NextToken value in a subsequent call to
-  ListDomainUnitsForParent to list the next set of domain units.
+  than the number of domain units, the response includes a pagination token named NextToken.
+  You can specify this NextToken value in a subsequent call to ListDomainUnitsForParent to
+  list the next set of domain units.
 """
 function list_domain_units_for_parent end
 
@@ -4566,15 +4578,17 @@ Lists Amazon DataZone domains.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of domains to return in a single call to
-  `ListDomains`. When the number of domains to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a
-  subsequent call to `ListDomains` to list the next set of domains.
-- `"nextToken"`: When the number of domains is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of domains, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to
+- `"maxResults"`: The maximum number of domains to return in a single call to `ListDomains`.
+  When the number of domains to be listed is greater than the value of `MaxResults`, the
+  response contains a `NextToken` value that you can use in a subsequent call to
   `ListDomains` to list the next set of domains.
+
+- `"nextToken"`: When the number of domains is greater than the default value for the
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of domains, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to `ListDomains` to list the
+  next set of domains.
+
 - `"status"`: The status of the data source.
 """
 function list_domains end
@@ -4610,14 +4624,15 @@ Lists the entity (domain units) owners.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of entities to return in a single call to
-  `ListEntityOwners`. When the number of entities to be listed is greater than the value
-  of `MaxResults`, the response contains a `NextToken` value that you can use in a
-  subsequent call to `ListEntityOwners` to list the next set of entities.
+  `ListEntityOwners`. When the number of entities to be listed is greater than the value of
+  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
+  call to `ListEntityOwners` to list the next set of entities.
+
 - `"nextToken"`: When the number of entities is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of entities, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to
-  `ListEntityOwners` to list the next set of entities.
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of entities, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to `ListEntityOwners` to list
+  the next set of entities.
 """
 function list_entity_owners end
 
@@ -4659,8 +4674,8 @@ Lists existing environment actions.
 
 # Arguments
 
-- `domain_identifier`: The ID of the Amazon DataZone domain in which the environment
-  actions are listed.
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the environment actions
+  are listed.
 - `environment_identifier`: The ID of the envrironment whose environment actions are listed.
 
 # Optional Parameters
@@ -4668,14 +4683,15 @@ Lists existing environment actions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of environment actions to return in a single call to
-  `ListEnvironmentActions`. When the number of environment actions to be listed is
-  greater than the value of `MaxResults`, the response contains a `NextToken` value that
-  you can use in a subsequent call to `ListEnvironmentActions` to list the next set of
-  environment actions.
+  `ListEnvironmentActions`. When the number of environment actions to be listed is greater
+  than the value of `MaxResults`, the response contains a `NextToken` value that you can use
+  in a subsequent call to `ListEnvironmentActions` to list the next set of environment
+  actions.
+
 - `"nextToken"`: When the number of environment actions is greater than the default value
-  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults`
-  that is less than the number of environment actions, the response includes a pagination
-  token named `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that
+  is less than the number of environment actions, the response includes a pagination token
+  named `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListEnvironmentActions` to list the next set of environment actions.
 """
 function list_environment_actions end
@@ -4725,14 +4741,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of blueprint configurations to return in a single call
   to `ListEnvironmentBlueprintConfigurations`. When the number of configurations to be
   listed is greater than the value of `MaxResults`, the response contains a `NextToken`
-  value that you can use in a subsequent call to `ListEnvironmentBlueprintConfigurations`
-  to list the next set of configurations.
+  value that you can use in a subsequent call to `ListEnvironmentBlueprintConfigurations` to
+  list the next set of configurations.
+
 - `"nextToken"`: When the number of blueprint configurations is greater than the default
   value for the `MaxResults` parameter, or if you explicitly specify a value for
   `MaxResults` that is less than the number of configurations, the response includes a
-  pagination token named `NextToken`. You can specify this `NextToken` value in a
-  subsequent call to `ListEnvironmentBlueprintConfigurations` to list the next set of
-  configurations.
+  pagination token named `NextToken`. You can specify this `NextToken` value in a subsequent
+  call to `ListEnvironmentBlueprintConfigurations` to list the next set of configurations.
 """
 function list_environment_blueprint_configurations end
 
@@ -4776,17 +4792,19 @@ Lists blueprints in an Amazon DataZone environment.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"managed"`: Specifies whether the environment blueprint is managed by Amazon DataZone.
+
 - `"maxResults"`: The maximum number of blueprints to return in a single call to
   `ListEnvironmentBlueprints`. When the number of blueprints to be listed is greater than
-  the value of `MaxResults`, the response contains a `NextToken` value that you can use
-  in a subsequent call to `ListEnvironmentBlueprints` to list the next set of blueprints.
+  the value of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  subsequent call to `ListEnvironmentBlueprints` to list the next set of blueprints.
+
 - `"name"`: The name of the Amazon DataZone environment.
+
 - `"nextToken"`: When the number of blueprints in the environment is greater than the
   default value for the `MaxResults` parameter, or if you explicitly specify a value for
-  `MaxResults` that is less than the number of blueprints in the environment, the
-  response includes a pagination token named `NextToken`. You can specify this
-  `NextToken` value in a subsequent call to `ListEnvironmentBlueprints`to list the next
-  set of blueprints.
+  `MaxResults` that is less than the number of blueprints in the environment, the response
+  includes a pagination token named `NextToken`. You can specify this `NextToken` value in a
+  subsequent call to `ListEnvironmentBlueprints`to list the next set of blueprints.
 """
 function list_environment_blueprints end
 
@@ -4829,24 +4847,29 @@ Lists Amazon DataZone environment profiles.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"awsAccountId"`: The identifier of the Amazon Web Services account where you want to
-  list environment profiles.
+- `"awsAccountId"`: The identifier of the Amazon Web Services account where you want to list
+  environment profiles.
+
 - `"awsAccountRegion"`: The Amazon Web Services region where you want to list environment
   profiles.
+
 - `"environmentBlueprintIdentifier"`: The identifier of the blueprint that was used to
   create the environment profiles that you want to list.
+
 - `"maxResults"`: The maximum number of environment profiles to return in a single call to
-  `ListEnvironmentProfiles`. When the number of environment profiles to be listed is
-  greater than the value of `MaxResults`, the response contains a `NextToken` value that
-  you can use in a subsequent call to `ListEnvironmentProfiles` to list the next set of
-  environment profiles.
-- `"name"`:
-- `"nextToken"`: When the number of environment profiles is greater than the default value
-  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults`
-  that is less than the number of environment profiles, the response includes a
-  pagination token named `NextToken`. You can specify this `NextToken` value in a
-  subsequent call to `ListEnvironmentProfiles` to list the next set of environment
+  `ListEnvironmentProfiles`. When the number of environment profiles to be listed is greater
+  than the value of `MaxResults`, the response contains a `NextToken` value that you can use
+  in a subsequent call to `ListEnvironmentProfiles` to list the next set of environment
   profiles.
+
+- `"name"`:
+
+- `"nextToken"`: When the number of environment profiles is greater than the default value
+  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that
+  is less than the number of environment profiles, the response includes a pagination token
+  named `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  `ListEnvironmentProfiles` to list the next set of environment profiles.
+
 - `"projectIdentifier"`: The identifier of the Amazon DataZone project.
 """
 function list_environment_profiles end
@@ -4891,22 +4914,30 @@ Lists Amazon DataZone environments.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"awsAccountId"`: The identifier of the Amazon Web Services account where you want to
-  list environments.
+- `"awsAccountId"`: The identifier of the Amazon Web Services account where you want to list
+  environments.
+
 - `"awsAccountRegion"`: The Amazon Web Services region where you want to list environments.
+
 - `"environmentBlueprintIdentifier"`: The identifier of the Amazon DataZone blueprint.
+
 - `"environmentProfileIdentifier"`: The identifier of the environment profile.
+
 - `"maxResults"`: The maximum number of environments to return in a single call to
-  `ListEnvironments`. When the number of environments to be listed is greater than the
-  value of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  `ListEnvironments`. When the number of environments to be listed is greater than the value
+  of `MaxResults`, the response contains a `NextToken` value that you can use in a
   subsequent call to `ListEnvironments` to list the next set of environments.
+
 - `"name"`: The name of the environment.
+
 - `"nextToken"`: When the number of environments is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of environments, the response includes a pagination token named
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of environments, the response includes a pagination token named
   `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListEnvironments` to list the next set of environments.
+
 - `"provider"`: The provider of the environment.
+
 - `"status"`: The status of the environments that you want to list.
 """
 function list_environments end
@@ -4962,20 +4993,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   neighbors in that direction. For example, if direction is `UPSTREAM`, the
   `ListLineageNodeHistory` API responds with historical versions with upstream neighbors
   only.
+
 - `"maxResults"`: The maximum number of history items to return in a single call to
   ListLineageNodeHistory. When the number of memberships to be listed is greater than the
   value of MaxResults, the response contains a NextToken value that you can use in a
   subsequent call to ListLineageNodeHistory to list the next set of items.
+
 - `"nextToken"`: When the number of history items is greater than the default value for the
   MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
   than the number of items, the response includes a pagination token named NextToken. You
   can specify this NextToken value in a subsequent call to ListLineageNodeHistory to list
   the next set of items.
+
 - `"sortOrder"`: The order by which you want data lineage node history to be sorted.
-- `"timestampGTE"`: Specifies whether the action is to return data lineage node history
-  from the time after the event timestamp.
-- `"timestampLTE"`: Specifies whether the action is to return data lineage node history
-  from the time prior of the event timestamp.
+
+- `"timestampGTE"`: Specifies whether the action is to return data lineage node history from
+  the time after the event timestamp.
+
+- `"timestampLTE"`: Specifies whether the action is to return data lineage node history from
+  the time prior of the event timestamp.
 """
 function list_lineage_node_history end
 
@@ -5021,16 +5057,18 @@ Lists all metadata generation runs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of metadata generation runs to return in a single call
-  to ListMetadataGenerationRuns. When the number of metadata generation runs to be listed
-  is greater than the value of MaxResults, the response contains a NextToken value that
-  you can use in a subsequent call to ListMetadataGenerationRuns to list the next set of
-  revisions.
+  to ListMetadataGenerationRuns. When the number of metadata generation runs to be listed is
+  greater than the value of MaxResults, the response contains a NextToken value that you can
+  use in a subsequent call to ListMetadataGenerationRuns to list the next set of revisions.
+
 - `"nextToken"`: When the number of metadata generation runs is greater than the default
   value for the MaxResults parameter, or if you explicitly specify a value for MaxResults
   that is less than the number of metadata generation runs, the response includes a
   pagination token named NextToken. You can specify this NextToken value in a subsequent
   call to ListMetadataGenerationRuns to list the next set of revisions.
+
 - `"status"`: The status of the metadata generation runs.
+
 - `"type"`: The type of the metadata generation runs.
 """
 function list_metadata_generation_runs end
@@ -5076,17 +5114,22 @@ Lists all Amazon DataZone notifications.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"afterTimestamp"`: The time after which you want to list notifications.
+
 - `"beforeTimestamp"`: The time before which you want to list notifications.
+
 - `"maxResults"`: The maximum number of notifications to return in a single call to
   `ListNotifications`. When the number of notifications to be listed is greater than the
   value of `MaxResults`, the response contains a `NextToken` value that you can use in a
   subsequent call to `ListNotifications` to list the next set of notifications.
+
 - `"nextToken"`: When the number of notifications is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of notifications, the response includes a pagination token named
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of notifications, the response includes a pagination token named
   `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListNotifications` to list the next set of notifications.
+
 - `"subjects"`: The subjects of notifications.
+
 - `"taskStatus"`: The task status of notifications.
 """
 function list_notifications end
@@ -5137,13 +5180,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of grants to return in a single call to
   `ListPolicyGrants`. When the number of grants to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a
-  subsequent call to `ListPolicyGrants` to list the next set of grants.
+  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
+  call to `ListPolicyGrants` to list the next set of grants.
+
 - `"nextToken"`: When the number of grants is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of grants, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to
-  `ListPolicyGrants` to list the next set of grants.
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of grants, the response includes a pagination token named `NextToken`. You
+  can specify this `NextToken` value in a subsequent call to `ListPolicyGrants` to list the
+  next set of grants.
 """
 function list_policy_grants end
 
@@ -5199,15 +5243,18 @@ Lists all members of the specified project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of memberships to return in a single call to
-  `ListProjectMemberships`. When the number of memberships to be listed is greater than
-  the value of `MaxResults`, the response contains a `NextToken` value that you can use
-  in a subsequent call to `ListProjectMemberships` to list the next set of memberships.
+  `ListProjectMemberships`. When the number of memberships to be listed is greater than the
+  value of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  subsequent call to `ListProjectMemberships` to list the next set of memberships.
+
 - `"nextToken"`: When the number of memberships is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of memberships, the response includes a pagination token named
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of memberships, the response includes a pagination token named
   `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListProjectMemberships` to list the next set of memberships.
+
 - `"sortBy"`: The method by which you want to sort the project memberships.
+
 - `"sortOrder"`: The sort order of the project memberships.
 """
 function list_project_memberships end
@@ -5253,16 +5300,20 @@ Lists Amazon DataZone projects.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"groupIdentifier"`: The identifier of a group.
+
 - `"maxResults"`: The maximum number of projects to return in a single call to
   `ListProjects`. When the number of projects to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a
-  subsequent call to `ListProjects` to list the next set of projects.
+  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
+  call to `ListProjects` to list the next set of projects.
+
 - `"name"`: The name of the project.
+
 - `"nextToken"`: When the number of projects is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of projects, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to
-  `ListProjects` to list the next set of projects.
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of projects, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to `ListProjects` to list the
+  next set of projects.
+
 - `"userIdentifier"`: The identifier of the Amazon DataZone user.
 """
 function list_projects end
@@ -5305,21 +5356,29 @@ Lists subscription grants.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"environmentId"`: The identifier of the Amazon DataZone environment.
+
 - `"maxResults"`: The maximum number of subscription grants to return in a single call to
-  `ListSubscriptionGrants`. When the number of subscription grants to be listed is
-  greater than the value of `MaxResults`, the response contains a `NextToken` value that
-  you can use in a subsequent call to `ListSubscriptionGrants` to list the next set of
-  subscription grants.
+  `ListSubscriptionGrants`. When the number of subscription grants to be listed is greater
+  than the value of `MaxResults`, the response contains a `NextToken` value that you can use
+  in a subsequent call to `ListSubscriptionGrants` to list the next set of subscription
+  grants.
+
 - `"nextToken"`: When the number of subscription grants is greater than the default value
-  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults`
-  that is less than the number of subscription grants, the response includes a pagination
-  token named `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that
+  is less than the number of subscription grants, the response includes a pagination token
+  named `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListSubscriptionGrants` to list the next set of subscription grants.
+
 - `"owningProjectId"`: The ID of the owning project of the subscription grants.
+
 - `"sortBy"`: Specifies the way of sorting the results of this action.
+
 - `"sortOrder"`: Specifies the sort order of this action.
+
 - `"subscribedListingId"`: The identifier of the subscribed listing.
+
 - `"subscriptionId"`: The identifier of the subscription.
+
 - `"subscriptionTargetId"`: The identifier of the subscription target.
 """
 function list_subscription_grants end
@@ -5364,20 +5423,25 @@ Lists Amazon DataZone subscription requests.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"approverProjectId"`: The identifier of the subscription request approver's project.
+
 - `"maxResults"`: The maximum number of subscription requests to return in a single call to
   `ListSubscriptionRequests`. When the number of subscription requests to be listed is
-  greater than the value of `MaxResults`, the response contains a `NextToken` value that
-  you can use in a subsequent call to `ListSubscriptionRequests` to list the next set of
+  greater than the value of `MaxResults`, the response contains a `NextToken` value that you
+  can use in a subsequent call to `ListSubscriptionRequests` to list the next set of
   subscription requests.
+
 - `"nextToken"`: When the number of subscription requests is greater than the default value
-  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults`
-  that is less than the number of subscription requests, the response includes a
-  pagination token named `NextToken`. You can specify this `NextToken` value in a
-  subsequent call to `ListSubscriptionRequests` to list the next set of subscription
-  requests.
+  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that
+  is less than the number of subscription requests, the response includes a pagination token
+  named `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  `ListSubscriptionRequests` to list the next set of subscription requests.
+
 - `"owningProjectId"`: The identifier of the project for the subscription requests.
+
 - `"sortBy"`: Specifies the way to sort the results of this action.
+
 - `"sortOrder"`: Specifies the sort order for the results of this action.
+
 - `"status"`: Specifies the status of the subscription requests.
 
   !!! note
@@ -5431,17 +5495,19 @@ Lists subscription targets in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of subscription targets to return in a single call to
-  `ListSubscriptionTargets`. When the number of subscription targets to be listed is
-  greater than the value of `MaxResults`, the response contains a `NextToken` value that
-  you can use in a subsequent call to `ListSubscriptionTargets` to list the next set of
-  subscription targets.
-- `"nextToken"`: When the number of subscription targets is greater than the default value
-  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults`
-  that is less than the number of subscription targets, the response includes a
-  pagination token named `NextToken`. You can specify this `NextToken` value in a
-  subsequent call to `ListSubscriptionTargets` to list the next set of subscription
+  `ListSubscriptionTargets`. When the number of subscription targets to be listed is greater
+  than the value of `MaxResults`, the response contains a `NextToken` value that you can use
+  in a subsequent call to `ListSubscriptionTargets` to list the next set of subscription
   targets.
+
+- `"nextToken"`: When the number of subscription targets is greater than the default value
+  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that
+  is less than the number of subscription targets, the response includes a pagination token
+  named `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  `ListSubscriptionTargets` to list the next set of subscription targets.
+
 - `"sortBy"`: Specifies the way in which the results of this action are to be sorted.
+
 - `"sortOrder"`: Specifies the sort order for the results of this action.
 """
 function list_subscription_targets end
@@ -5489,18 +5555,24 @@ Lists subscriptions in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"approverProjectId"`: The identifier of the project for the subscription's approver.
+
 - `"maxResults"`: The maximum number of subscriptions to return in a single call to
   `ListSubscriptions`. When the number of subscriptions to be listed is greater than the
   value of `MaxResults`, the response contains a `NextToken` value that you can use in a
   subsequent call to `ListSubscriptions` to list the next set of Subscriptions.
+
 - `"nextToken"`: When the number of subscriptions is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of subscriptions, the response includes a pagination token named
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of subscriptions, the response includes a pagination token named
   `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListSubscriptions` to list the next set of subscriptions.
+
 - `"owningProjectId"`: The identifier of the owning project.
+
 - `"sortBy"`: Specifies the way in which the results of this action are to be sorted.
+
 - `"sortOrder"`: Specifies the sort order for the results of this action.
+
 - `"status"`: The status of the subscriptions that you want to list.
 
   !!! note
@@ -5509,6 +5581,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"subscribedListingId"`: The identifier of the subscribed listing for the subscriptions
   that you want to list.
+
 - `"subscriptionRequestIdentifier"`: The identifier of the subscription request for the
   subscriptions that you want to list.
 """
@@ -5584,8 +5657,8 @@ Lists time series data points.
 
 # Arguments
 
-- `domain_identifier`: The ID of the Amazon DataZone domain that houses the assets for
-  which you want to list time series data points.
+- `domain_identifier`: The ID of the Amazon DataZone domain that houses the assets for which
+  you want to list time series data points.
 - `entity_identifier`: The ID of the asset for which you want to list data points.
 - `entity_type`: The type of the asset for which you want to list data points.
 - `form_name`: The name of the time series data points form.
@@ -5595,15 +5668,18 @@ Lists time series data points.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"endedAt"`: The timestamp at which the data points that you wanted to list ended.
+
 - `"maxResults"`: The maximum number of data points to return in a single call to
-  ListTimeSeriesDataPoints. When the number of data points to be listed is greater than
-  the value of MaxResults, the response contains a NextToken value that you can use in a
+  ListTimeSeriesDataPoints. When the number of data points to be listed is greater than the
+  value of MaxResults, the response contains a NextToken value that you can use in a
   subsequent call to ListTimeSeriesDataPoints to list the next set of data points.
+
 - `"nextToken"`: When the number of data points is greater than the default value for the
   MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
-  than the number of data points, the response includes a pagination token named
-  NextToken. You can specify this NextToken value in a subsequent call to
-  ListTimeSeriesDataPoints to list the next set of data points.
+  than the number of data points, the response includes a pagination token named NextToken.
+  You can specify this NextToken value in a subsequent call to ListTimeSeriesDataPoints to
+  list the next set of data points.
+
 - `"startedAt"`: The timestamp at which the data points that you want to list started.
 """
 function list_time_series_data_points end
@@ -6058,16 +6134,16 @@ Revokes a specified subscription in Amazon DataZone.
 
 # Arguments
 
-- `domain_identifier`: The identifier of the Amazon DataZone domain where you want to
-  revoke a subscription.
+- `domain_identifier`: The identifier of the Amazon DataZone domain where you want to revoke
+  a subscription.
 - `identifier`: The identifier of the revoked subscription.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"retainPermissions"`: Specifies whether permissions are retained when the subscription
-  is revoked.
+- `"retainPermissions"`: Specifies whether permissions are retained when the subscription is
+  revoked.
 """
 function revoke_subscription end
 
@@ -6113,20 +6189,27 @@ Searches for assets in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"additionalAttributes"`: Specifies additional attributes for the `Search` action.
+
 - `"filters"`: Specifies the search filters.
-- `"maxResults"`: The maximum number of results to return in a single call to `Search`.
-  When the number of results to be listed is greater than the value of `MaxResults`, the
-  response contains a `NextToken` value that you can use in a subsequent call to `Search`
-  to list the next set of results.
+
+- `"maxResults"`: The maximum number of results to return in a single call to `Search`. When
+  the number of results to be listed is greater than the value of `MaxResults`, the response
+  contains a `NextToken` value that you can use in a subsequent call to `Search` to list the
+  next set of results.
+
 - `"nextToken"`: When the number of results is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of results, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to `Search` to
-  list the next set of results.
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of results, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to `Search` to list the next
+  set of results.
+
 - `"owningProjectIdentifier"`: The identifier of the owning project specified for the
   search.
+
 - `"searchIn"`: The details of the search.
+
 - `"searchText"`: Specifies the text for which to search.
+
 - `"sort"`: Specifies the way in which the search results are to be sorted.
 """
 function search end
@@ -6177,14 +6260,16 @@ Searches group profiles in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return in a single call to
-  `SearchGroupProfiles`. When the number of results to be listed is greater than the
-  value of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  `SearchGroupProfiles`. When the number of results to be listed is greater than the value
+  of `MaxResults`, the response contains a `NextToken` value that you can use in a
   subsequent call to `SearchGroupProfiles` to list the next set of results.
+
 - `"nextToken"`: When the number of results is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of results, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to
-  `SearchGroupProfiles` to list the next set of results.
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of results, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to `SearchGroupProfiles` to
+  list the next set of results.
+
 - `"searchText"`: Specifies the text for which to search.
 """
 function search_group_profiles end
@@ -6233,18 +6318,24 @@ Searches listings (records of an asset at a given time) in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"additionalAttributes"`: Specifies additional attributes for the search.
+
 - `"filters"`: Specifies the filters for the search of listings.
+
 - `"maxResults"`: The maximum number of results to return in a single call to
   `SearchListings`. When the number of results to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a
-  subsequent call to `SearchListings` to list the next set of results.
+  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
+  call to `SearchListings` to list the next set of results.
+
 - `"nextToken"`: When the number of results is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of results, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to
-  `SearchListings` to list the next set of results.
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of results, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to `SearchListings` to list
+  the next set of results.
+
 - `"searchIn"`: The details of the search.
+
 - `"searchText"`: Specifies the text for which to search.
+
 - `"sort"`: Specifies the way for sorting the search results.
 """
 function search_listings end
@@ -6292,17 +6383,22 @@ Searches for types in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: The filters for the `SearchTypes` action.
-- `"maxResults"`: The maximum number of results to return in a single call to
-  `SearchTypes`. When the number of results to be listed is greater than the value of
-  `MaxResults`, the response contains a `NextToken` value that you can use in a
-  subsequent call to `SearchTypes` to list the next set of results.
-- `"nextToken"`: When the number of results is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of results, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to
+
+- `"maxResults"`: The maximum number of results to return in a single call to `SearchTypes`.
+  When the number of results to be listed is greater than the value of `MaxResults`, the
+  response contains a `NextToken` value that you can use in a subsequent call to
   `SearchTypes` to list the next set of results.
+
+- `"nextToken"`: When the number of results is greater than the default value for the
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of results, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to `SearchTypes` to list the
+  next set of results.
+
 - `"searchIn"`: The details of the search.
+
 - `"searchText"`: Specifies the text for which to search.
+
 - `"sort"`: The specifies the way to sort the `SearchTypes` results.
 """
 function search_types end
@@ -6361,14 +6457,16 @@ Searches user profiles in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return in a single call to
-  `SearchUserProfiles`. When the number of results to be listed is greater than the value
-  of `MaxResults`, the response contains a `NextToken` value that you can use in a
-  subsequent call to `SearchUserProfiles` to list the next set of results.
+  `SearchUserProfiles`. When the number of results to be listed is greater than the value of
+  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
+  call to `SearchUserProfiles` to list the next set of results.
+
 - `"nextToken"`: When the number of results is greater than the default value for the
-  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is
-  less than the number of results, the response includes a pagination token named
-  `NextToken`. You can specify this `NextToken` value in a subsequent call to
-  `SearchUserProfiles` to list the next set of results.
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of results, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to `SearchUserProfiles` to
+  list the next set of results.
+
 - `"searchText"`: Specifies the text for which to search.
 """
 function search_user_profiles end
@@ -6411,8 +6509,8 @@ Start the run of the specified data source in Amazon DataZone.
 # Arguments
 
 - `data_source_identifier`: The identifier of the data source.
-- `domain_identifier`: The identifier of the Amazon DataZone domain in which to start a
-  data source run.
+- `domain_identifier`: The identifier of the Amazon DataZone domain in which to start a data
+  source run.
 
 # Optional Parameters
 
@@ -6473,8 +6571,8 @@ Starts the metadata generation run.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the
-  request. This field is automatically populated if not provided.
+- `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
+  This field is automatically populated if not provided.
 """
 function start_metadata_generation_run end
 
@@ -6930,8 +7028,8 @@ Updates the specified environment profile in Amazon DataZone.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"awsAccountId"`: The Amazon Web Services account in which a specified environment
-  profile is to be udpated.
+- `"awsAccountId"`: The Amazon Web Services account in which a specified environment profile
+  is to be udpated.
 - `"awsAccountRegion"`: The Amazon Web Services Region in which a specified environment
   profile is to be updated.
 - `"description"`: The description to be updated as part of the `UpdateEnvironmentProfile`
@@ -7084,8 +7182,8 @@ Updates the specified group profile in Amazon DataZone.
 
 # Arguments
 
-- `domain_identifier`: The identifier of the Amazon DataZone domain in which a group
-  profile is updated.
+- `domain_identifier`: The identifier of the Amazon DataZone domain in which a group profile
+  is updated.
 - `group_identifier`: The identifier of the group profile that is updated.
 - `status`: The status of the group profile that is updated.
 """
@@ -7288,8 +7386,8 @@ Updates the specified subscription target in Amazon DataZone.
 
 - `domain_identifier`: The identifier of the Amazon DataZone domain in which a subscription
   target is to be updated.
-- `environment_identifier`: The identifier of the environment in which a subscription
-  target is to be updated.
+- `environment_identifier`: The identifier of the environment in which a subscription target
+  is to be updated.
 - `identifier`: Identifier of the subscription target that is to be updated.
 
 # Optional Parameters

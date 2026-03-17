@@ -340,11 +340,13 @@ Lists all the components registered with AWS Systems Manager for SAP.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ApplicationId"`: The ID of the application.
+
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 
   If you do not specify a value for MaxResults, the request returns 50 items per page by
   default.
+
 - `"NextToken"`: The token for the next page of results.
 """
 function list_components end
@@ -380,8 +382,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApplicationId"`: The ID of the application.
 - `"ComponentId"`: The ID of the component.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value. If you do
-  not specify a value for MaxResults, the request returns 50 items per page by default.
+  the remaining results, make another call with the returned nextToken value. If you do not
+  specify a value for MaxResults, the request returns 50 items per page by default.
 - `"NextToken"`: The token for the next page of results.
 """
 function list_databases end
@@ -423,13 +425,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Optionally specify filters to narrow the returned operation event items.
 
-  Valid filter names include `status`, `resourceID`, and `resourceType`. The valid
-  operator for all three filters is `Equals`.
+  Valid filter names include `status`, `resourceID`, and `resourceType`. The valid operator
+  for all three filters is `Equals`.
+
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 
-  If you do not specify a value for `MaxResults`, the request returns 50 items per page
-  by default.
+  If you do not specify a value for `MaxResults`, the request returns 50 items per page by
+  default.
+
 - `"NextToken"`: The token to use to retrieve the next page of results. This value is null
   when there are no more results to return.
 """
@@ -479,8 +483,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: The filters of an operation.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value. If you do
-  not specify a value for MaxResults, the request returns 50 items per page by default.
+  the remaining results, make another call with the returned nextToken value. If you do not
+  specify a value for MaxResults, the request returns 50 items per page by default.
 - `"NextToken"`: The token for the next page of results.
 """
 function list_operations end
@@ -787,8 +791,9 @@ Parameter `ApplicationId` is required. Parameters `StopConnectedEntity` and
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"IncludeEc2InstanceShutdown"`: Boolean. If included and if set to `True`, the
-  StopApplication operation will shut down the associated Amazon EC2 instance in addition
-  to the application.
+  StopApplication operation will shut down the associated Amazon EC2 instance in addition to
+  the application.
+
 - `"StopConnectedEntity"`: Specify the `ConnectedEntityType`. Accepted type is `DBMS`.
 
   If this parameter is included, the connected DBMS (Database Management System) will be

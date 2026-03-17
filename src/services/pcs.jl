@@ -8,10 +8,10 @@ using AWS.UUIDs
     create_cluster(cluster_name, networking, scheduler, size)
     create_cluster(cluster_name, networking, scheduler, size, params::Dict{String,<:Any})
 
-Creates a cluster in your account. Amazon Web Services PCS creates the cluster controller
-in a service-owned account. The cluster controller communicates with the cluster resources
-in your account. The subnets and security groups for the cluster must already exist before
-you use this API action.
+Creates a cluster in your account. Amazon Web Services PCS creates the cluster controller in
+a service-owned account. The cluster controller communicates with the cluster resources in
+your account. The subnets and security groups for the cluster must already exist before you
+use this API action.
 
 !!! note
     It takes time for Amazon Web Services PCS to create the cluster. The cluster is in a
@@ -23,11 +23,14 @@ you use this API action.
 # Arguments
 
 - `cluster_name`: A name to identify the cluster. Example: `MyCluster`
+
 - `networking`: The networking configuration used to set up the cluster's control plane.
+
 - `scheduler`: The cluster management and job scheduling software associated with the
   cluster.
-- `size`: A value that determines the maximum number of compute nodes in the cluster and
-  the maximum number of jobs (active and queued).
+
+- `size`: A value that determines the maximum number of compute nodes in the cluster and the
+  maximum number of jobs (active and queued).
 
   - `SMALL`: 32 compute nodes and 256 jobs
   - `MEDIUM`: 512 compute nodes and 8192 jobs
@@ -38,12 +41,14 @@ you use this API action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only
-  once. With an idempotent request, if the original request completes successfully, the
-  subsequent retries with the same client token return the result from the original
-  successful request and they have no additional effect. If you don't specify a client
-  token, the CLI and SDK automatically generate 1 for you.
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, the subsequent
+  retries with the same client token return the result from the original successful request
+  and they have no additional effect. If you don't specify a client token, the CLI and SDK
+  automatically generate 1 for you.
+
 - `"slurmConfiguration"`: Additional options related to the Slurm scheduler.
+
 - `"tags"`: 1 or more tags added to the resource. Each tag consists of a tag key and tag
   value. The tag value is optional and can be an empty string.
 """
@@ -115,17 +120,23 @@ in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*.
 # Arguments
 
 - `cluster_identifier`: The name or ID of the cluster to create a compute node group in.
+
 - `compute_node_group_name`: A name to identify the cluster. Example: `MyCluster`
+
 - `custom_launch_template`:
+
 - `iam_instance_profile_arn`: The Amazon Resource Name (ARN) of the IAM instance profile
-  used to pass an IAM role when launching EC2 instances. The role contained in your
-  instance profile must have `pcs:RegisterComputeNodeGroupInstance` permissions attached
-  in order to provision instances correctly. The resource identifier of the ARN must
-  start with `AWSPCS`. For example,
+  used to pass an IAM role when launching EC2 instances. The role contained in your instance
+  profile must have `pcs:RegisterComputeNodeGroupInstance` permissions attached in order to
+  provision instances correctly. The resource identifier of the ARN must start with
+  `AWSPCS`. For example,
   `arn:aws:iam:123456789012:instance-profile/AWSPCSMyComputeNodeInstanceProfile`.
-- `instance_configs`: A list of EC2 instance configurations that Amazon Web Services PCS
-  can provision in the compute node group.
+
+- `instance_configs`: A list of EC2 instance configurations that Amazon Web Services PCS can
+  provision in the compute node group.
+
 - `scaling_configuration`: Specifies the boundaries of the compute node group auto scaling.
+
 - `subnet_ids`: The list of subnet IDs where the compute node group launches instances.
   Subnets must be in the same VPC as the cluster.
 
@@ -134,20 +145,25 @@ in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"amiId"`: The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to
-  launch compute nodes (Amazon EC2 instances). If you don't provide this value, Amazon
-  Web Services PCS uses the AMI ID specified in the custom launch template.
+  launch compute nodes (Amazon EC2 instances). If you don't provide this value, Amazon Web
+  Services PCS uses the AMI ID specified in the custom launch template.
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only
-  once. With an idempotent request, if the original request completes successfully, the
-  subsequent retries with the same client token return the result from the original
-  successful request and they have no additional effect. If you don't specify a client
-  token, the CLI and SDK automatically generate 1 for you.
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, the subsequent
+  retries with the same client token return the result from the original successful request
+  and they have no additional effect. If you don't specify a client token, the CLI and SDK
+  automatically generate 1 for you.
+
 - `"purchaseOption"`: Specifies how EC2 instances are purchased on your behalf. Amazon Web
   Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html)
   in the *Amazon Elastic Compute Cloud User Guide*. If you don't provide this option, it
   defaults to On-Demand.
+
 - `"slurmConfiguration"`: Additional options related to the Slurm scheduler.
+
 - `"spotOptions"`:
+
 - `"tags"`: 1 or more tags added to the resource. Each tag consists of a tag key and tag
   value. The tag value is optional and can be an empty string.
 """
@@ -231,13 +247,15 @@ can associate 1 compute node group with multiple queues.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only
-  once. With an idempotent request, if the original request completes successfully, the
-  subsequent retries with the same client token return the result from the original
-  successful request and they have no additional effect. If you don't specify a client
-  token, the CLI and SDK automatically generate 1 for you.
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, the subsequent
+  retries with the same client token return the result from the original successful request
+  and they have no additional effect. If you don't specify a client token, the CLI and SDK
+  automatically generate 1 for you.
+
 - `"computeNodeGroupConfigurations"`: The list of compute node group configurations to
   associate with the queue. Queues assign jobs to associated compute node groups.
+
 - `"tags"`: 1 or more tags added to the resource. Each tag consists of a tag key and tag
   value. The tag value is optional and can be an empty string.
 """
@@ -298,11 +316,11 @@ groups associated with the cluster before you can delete the cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only
-  once. With an idempotent request, if the original request completes successfully, the
-  subsequent retries with the same client token return the result from the original
-  successful request and they have no additional effect. If you don't specify a client
-  token, the CLI and SDK automatically generate 1 for you.
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, the subsequent
+  retries with the same client token return the result from the original successful request
+  and they have no additional effect. If you don't specify a client token, the CLI and SDK
+  automatically generate 1 for you.
 """
 function delete_cluster end
 
@@ -358,11 +376,11 @@ group first.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only
-  once. With an idempotent request, if the original request completes successfully, the
-  subsequent retries with the same client token return the result from the original
-  successful request and they have no additional effect. If you don't specify a client
-  token, the CLI and SDK automatically generate 1 for you.
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, the subsequent
+  retries with the same client token return the result from the original successful request
+  and they have no additional effect. If you don't specify a client token, the CLI and SDK
+  automatically generate 1 for you.
 """
 function delete_compute_node_group end
 
@@ -425,11 +443,11 @@ queue.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only
-  once. With an idempotent request, if the original request completes successfully, the
-  subsequent retries with the same client token return the result from the original
-  successful request and they have no additional effect. If you don't specify a client
-  token, the CLI and SDK automatically generate 1 for you.
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, the subsequent
+  retries with the same client token return the result from the original successful request
+  and they have no additional effect. If you don't specify a client token, the CLI and SDK
+  automatically generate 1 for you.
 """
 function delete_queue end
 
@@ -516,9 +534,9 @@ end
     get_compute_node_group(cluster_identifier, compute_node_group_identifier)
     get_compute_node_group(cluster_identifier, compute_node_group_identifier, params::Dict{String,<:Any})
 
-Returns detailed information about a compute node group. This API action provides
-networking information, EC2 instance type, compute node group status, and scheduler (such
-as Slurm) configuration.
+Returns detailed information about a compute node group. This API action provides networking
+information, EC2 instance type, compute node group status, and scheduler (such as Slurm)
+configuration.
 
 # Arguments
 
@@ -570,8 +588,8 @@ end
     get_queue(cluster_identifier, queue_identifier)
     get_queue(cluster_identifier, queue_identifier, params::Dict{String,<:Any})
 
-Returns detailed information about a queue. The information includes the compute node
-groups that the queue uses to schedule jobs.
+Returns detailed information about a queue. The information includes the compute node groups
+that the queue uses to schedule jobs.
 
 # Arguments
 
@@ -627,13 +645,14 @@ Returns a list of running clusters in your account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  `nextToken` to obtain further pages of results. The default is 10 results, and the
-  maximum allowed page size is 100 results. A value of 0 uses the default.
+  `nextToken` to obtain further pages of results. The default is 10 results, and the maximum
+  allowed page size is 100 results. A value of 0 uses the default.
+
 - `"nextToken"`: The value of `nextToken` is a unique pagination token for each page of
-  results returned. If `nextToken` is returned, there are more results available. Make
-  the call again using the returned token to retrieve the next page. Keep all other
-  arguments unchanged. Each pagination token expires after 24 hours. Using an expired
-  pagination token returns an `HTTP 400 InvalidToken` error.
+  results returned. If `nextToken` is returned, there are more results available. Make the
+  call again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged. Each pagination token expires after 24 hours. Using an expired pagination token
+  returns an `HTTP 400 InvalidToken` error.
 """
 function list_clusters end
 
@@ -664,13 +683,14 @@ Returns a list of all compute node groups associated with a cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  `nextToken` to obtain further pages of results. The default is 10 results, and the
-  maximum allowed page size is 100 results. A value of 0 uses the default.
+  `nextToken` to obtain further pages of results. The default is 10 results, and the maximum
+  allowed page size is 100 results. A value of 0 uses the default.
+
 - `"nextToken"`: The value of `nextToken` is a unique pagination token for each page of
-  results returned. If `nextToken` is returned, there are more results available. Make
-  the call again using the returned token to retrieve the next page. Keep all other
-  arguments unchanged. Each pagination token expires after 24 hours. Using an expired
-  pagination token returns an `HTTP 400 InvalidToken` error.
+  results returned. If `nextToken` is returned, there are more results available. Make the
+  call again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged. Each pagination token expires after 24 hours. Using an expired pagination token
+  returns an `HTTP 400 InvalidToken` error.
 """
 function list_compute_node_groups end
 
@@ -717,13 +737,14 @@ Returns a list of all queues associated with a cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  `nextToken` to obtain further pages of results. The default is 10 results, and the
-  maximum allowed page size is 100 results. A value of 0 uses the default.
+  `nextToken` to obtain further pages of results. The default is 10 results, and the maximum
+  allowed page size is 100 results. A value of 0 uses the default.
+
 - `"nextToken"`: The value of `nextToken` is a unique pagination token for each page of
-  results returned. If `nextToken` is returned, there are more results available. Make
-  the call again using the returned token to retrieve the next page. Keep all other
-  arguments unchanged. Each pagination token expires after 24 hours. Using an expired
-  pagination token returns an `HTTP 400 InvalidToken` error.
+  results returned. If `nextToken` is returned, there are more results available. Make the
+  call again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged. Each pagination token expires after 24 hours. Using an expired pagination token
+  returns an `HTTP 400 InvalidToken` error.
 """
 function list_queues end
 
@@ -794,8 +815,6 @@ end
 """
     register_compute_node_group_instance(bootstrap_id, cluster_identifier)
     register_compute_node_group_instance(bootstrap_id, cluster_identifier, params::Dict{String,<:Any})
-
-
 
 !!! important
     This API action isn't intended for you to use.
@@ -942,9 +961,9 @@ end
     update_compute_node_group(cluster_identifier, compute_node_group_identifier)
     update_compute_node_group(cluster_identifier, compute_node_group_identifier, params::Dict{String,<:Any})
 
-Updates a compute node group. You can update many of the fields related to your compute
-node group including the configurations for networking, compute nodes, and settings
-specific to your scheduler (such as Slurm).
+Updates a compute node group. You can update many of the fields related to your compute node
+group including the configurations for networking, compute nodes, and settings specific to
+your scheduler (such as Slurm).
 
 # Arguments
 
@@ -958,24 +977,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"amiId"`: The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to
   launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in
   the custom launch template.
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only
-  once. With an idempotent request, if the original request completes successfully, the
-  subsequent retries with the same client token return the result from the original
-  successful request and they have no additional effect. If you don't specify a client
-  token, the CLI and SDK automatically generate 1 for you.
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, the subsequent
+  retries with the same client token return the result from the original successful request
+  and they have no additional effect. If you don't specify a client token, the CLI and SDK
+  automatically generate 1 for you.
+
 - `"customLaunchTemplate"`:
-- `"iamInstanceProfileArn"`: The Amazon Resource Name (ARN) of the IAM instance profile
-  used to pass an IAM role when launching EC2 instances. The role contained in your
-  instance profile must have `pcs:RegisterComputeNodeGroupInstance` permissions attached
-  to provision instances correctly.
+
+- `"iamInstanceProfileArn"`: The Amazon Resource Name (ARN) of the IAM instance profile used
+  to pass an IAM role when launching EC2 instances. The role contained in your instance
+  profile must have `pcs:RegisterComputeNodeGroupInstance` permissions attached to provision
+  instances correctly.
+
 - `"purchaseOption"`: Specifies how EC2 instances are purchased on your behalf. Amazon Web
   Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html)
   in the *Amazon Elastic Compute Cloud User Guide*. If you don't provide this option, it
   defaults to On-Demand.
+
 - `"scalingConfiguration"`: Specifies the boundaries of the compute node group auto scaling.
+
 - `"slurmConfiguration"`: Additional options related to the Slurm scheduler.
+
 - `"spotOptions"`:
+
 - `"subnetIds"`: The list of subnet IDs where the compute node group provisions instances.
   The subnets must be in the same VPC as the cluster.
 """
@@ -1039,11 +1066,12 @@ node groups that the queue can send jobs to.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only
-  once. With an idempotent request, if the original request completes successfully, the
-  subsequent retries with the same client token return the result from the original
-  successful request and they have no additional effect. If you don't specify a client
-  token, the CLI and SDK automatically generate 1 for you.
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, the subsequent
+  retries with the same client token return the result from the original successful request
+  and they have no additional effect. If you don't specify a client token, the CLI and SDK
+  automatically generate 1 for you.
+
 - `"computeNodeGroupConfigurations"`: The list of compute node group configurations to
   associate with the queue. Queues assign jobs to associated compute node groups.
 """

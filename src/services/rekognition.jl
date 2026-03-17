@@ -20,17 +20,17 @@ This ensures that the `FaceIds` are associated with the right UserID. The value 
 If successful, an array of `AssociatedFace` objects containing the associated `FaceIds` is
 returned. If a given face is already associated with the given `UserID`, it will be ignored
 and will not be returned in the response. If a given face is already associated to a
-different `UserID`, isn't found in the collection, doesn’t meet the `UserMatchThreshold`,
-or there are already 100 faces associated with the `UserID`, it will be returned as part of
-an array of `UnsuccessfulFaceAssociations.`
+different `UserID`, isn't found in the collection, doesn’t meet the `UserMatchThreshold`, or
+there are already 100 faces associated with the `UserID`, it will be returned as part of an
+array of `UnsuccessfulFaceAssociations.`
 
 The `UserStatus` reflects the status of an operation which updates a UserID representation
 with a list of given faces. The `UserStatus` can be:
 
 - ACTIVE - All associations or disassociations of FaceID(s) for a UserID are complete.
 - CREATED - A UserID has been created, but has no FaceID(s) associated with it.
-- UPDATING - A UserID is being updated and there are current associations or
-  disassociations of FaceID(s) taking place.
+- UPDATING - A UserID is being updated and there are current associations or disassociations
+  of FaceID(s) taking place.
 
 # Arguments
 
@@ -42,10 +42,10 @@ with a list of given faces. The `UserStatus` can be:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientRequestToken"`: Idempotent token used to identify the request to
-  `AssociateFaces`. If you use the same token with multiple `AssociateFaces` requests,
-  the same response is returned. Use ClientRequestToken to prevent the same request from
-  being processed more than once.
+- `"ClientRequestToken"`: Idempotent token used to identify the request to `AssociateFaces`.
+  If you use the same token with multiple `AssociateFaces` requests, the same response is
+  returned. Use ClientRequestToken to prevent the same request from being processed more
+  than once.
 - `"UserMatchThreshold"`: An optional value specifying the minimum confidence in the UserID
   match to return. The default value is 75.
 """
@@ -104,13 +104,13 @@ If the source image contains multiple faces, the service detects the largest fac
 compares it with each face detected in the target image.
 
 !!! note
-    CompareFaces uses machine learning algorithms, which are probabilistic. A false
-    negative is an incorrect prediction that a face in the target image has a low
-    similarity confidence score when compared to the face in the source image. To reduce
-    the probability of false negatives, we recommend that you compare the target image
-    against multiple source images. If you plan to use `CompareFaces` to make a decision
-    that impacts an individual's rights, privacy, or access to services, we recommend that
-    you pass the result to a human for review and further validation before taking action.
+    CompareFaces uses machine learning algorithms, which are probabilistic. A false negative
+    is an incorrect prediction that a face in the target image has a low similarity
+    confidence score when compared to the face in the source image. To reduce the
+    probability of false negatives, we recommend that you compare the target image against
+    multiple source images. If you plan to use `CompareFaces` to make a decision that
+    impacts an individual's rights, privacy, or access to services, we recommend that you
+    pass the result to a human for review and further validation before taking action.
 
 You pass the input and target images either as base64-encoded image bytes or as references
 to images in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition
@@ -130,9 +130,9 @@ match.
     `SimilarityThreshold` parameter.
 
 `CompareFaces` also returns an array of faces that don't match the source image. For each
-face, it returns a bounding box, confidence value, landmarks, pose details, and quality.
-The response also returns information about the face in the source image, including the
-bounding box of the face and confidence value.
+face, it returns a bounding box, confidence value, landmarks, pose details, and quality. The
+response also returns information about the face in the source image, including the bounding
+box of the face and confidence value.
 
 The `QualityFilter` input parameter allows you to filter out detected faces that don’t meet
 a required quality bar. The quality bar is based on a variety of common use cases. Use
@@ -157,35 +157,37 @@ This operation requires permissions to perform the `rekognition:CompareFaces` ac
 # Arguments
 
 - `source_image`: The input image as base64-encoded bytes or an S3 object. If you use the
-  AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is
-  not supported.
+  AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not
+  supported.
 
   If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-
-  encode image bytes passed using the `Bytes` field. For more information, see Images in
-  the Amazon Rekognition developer guide.
+  encode image bytes passed using the `Bytes` field. For more information, see Images in the
+  Amazon Rekognition developer guide.
+
 - `target_image`: The target image as base64-encoded bytes or an S3 object. If you use the
-  AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is
-  not supported.
+  AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not
+  supported.
 
   If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-
-  encode image bytes passed using the `Bytes` field. For more information, see Images in
-  the Amazon Rekognition developer guide.
+  encode image bytes passed using the `Bytes` field. For more information, see Images in the
+  Amazon Rekognition developer guide.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"QualityFilter"`: A filter that specifies a quality bar for how much filtering is done
-  to identify faces. Filtered faces aren't compared. If you specify `AUTO`, Amazon
-  Rekognition chooses the quality bar. If you specify `LOW`, `MEDIUM`, or `HIGH`,
-  filtering removes all faces that don’t meet the chosen quality bar. The quality bar is
-  based on a variety of common use cases. Low-quality detections can occur for a number
-  of reasons. Some examples are an object that's misidentified as a face, a face that's
-  too blurry, or a face with a pose that's too extreme to use. If you specify `NONE`, no
-  filtering is performed. The default value is `NONE`.
+- `"QualityFilter"`: A filter that specifies a quality bar for how much filtering is done to
+  identify faces. Filtered faces aren't compared. If you specify `AUTO`, Amazon Rekognition
+  chooses the quality bar. If you specify `LOW`, `MEDIUM`, or `HIGH`, filtering removes all
+  faces that don’t meet the chosen quality bar. The quality bar is based on a variety of
+  common use cases. Low-quality detections can occur for a number of reasons. Some examples
+  are an object that's misidentified as a face, a face that's too blurry, or a face with a
+  pose that's too extreme to use. If you specify `NONE`, no filtering is performed. The
+  default value is `NONE`.
 
-  To use quality filtering, the collection you are using must be associated with version
-  3 of the face model or higher.
+  To use quality filtering, the collection you are using must be associated with version 3
+  of the face model or higher.
+
 - `"SimilarityThreshold"`: The minimum level of confidence in the face matches that a match
   must meet to be included in the `FaceMatches` array.
 """
@@ -228,8 +230,6 @@ end
     copy_project_version(destination_project_arn, output_config, source_project_arn, source_project_version_arn, version_name)
     copy_project_version(destination_project_arn, output_config, source_project_arn, source_project_version_arn, version_name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
 
@@ -242,8 +242,8 @@ policy known as a *project policy*. You attach the project policy to the source 
 calling [`put_project_policy`](@ref). The project policy gives permission to copy the model
 version from a trusting AWS account to a trusted account.
 
-For more information creating and attaching a project policy, see Attaching a project
-policy (SDK) in the *Amazon Rekognition Custom Labels Developer Guide*.
+For more information creating and attaching a project policy, see Attaching a project policy
+(SDK) in the *Amazon Rekognition Custom Labels Developer Guide*.
 
 If you are copying a model version to a project in the same AWS account, you don't need to
 create a project policy.
@@ -262,8 +262,8 @@ This operation requires permissions to perform the `rekognition:CopyProjectVersi
 
 # Arguments
 
-- `destination_project_arn`: The ARN of the project in the trusted AWS account that you
-  want to copy the model version to.
+- `destination_project_arn`: The ARN of the project in the trusted AWS account that you want
+  to copy the model version to.
 - `output_config`: The S3 bucket and folder location where the training output for the
   source model version is placed.
 - `source_project_arn`: The ARN of the source project in the trusting AWS account.
@@ -278,19 +278,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"KmsKeyId"`: The identifier for your AWS Key Management Service key (AWS KMS key). You
   can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an
-  alias for your KMS key, or an alias ARN. The key is used to encrypt training results
-  and manifest files written to the output Amazon S3 bucket (`OutputConfig`).
+  alias for your KMS key, or an alias ARN. The key is used to encrypt training results and
+  manifest files written to the output Amazon S3 bucket (`OutputConfig`).
 
-  If you choose to use your own KMS key, you need the following permissions on the KMS
-  key.
+  If you choose to use your own KMS key, you need the following permissions on the KMS key.
 
   - kms:CreateGrant
   - kms:DescribeKey
   - kms:GenerateDataKey
   - kms:Decrypt
 
-  If you don't specify a value for `KmsKeyId`, images copied into the service are
-  encrypted using a key that AWS owns and manages.
+  If you don't specify a value for `KmsKeyId`, images copied into the service are encrypted
+  using a key that AWS owns and manages.
+
 - `"Tags"`: The key-value tags to assign to the model version.
 """
 function copy_project_version end
@@ -364,8 +364,8 @@ version.
 !!! note
     Collection names are case-sensitive.
 
-This operation requires permissions to perform the `rekognition:CreateCollection` action.
-If you want to tag your collection, you also require permission to perform the [`rekognition:_tag_resource`](@ref)
+This operation requires permissions to perform the `rekognition:CreateCollection` action. If
+you want to tag your collection, you also require permission to perform the [`rekognition:_tag_resource`](@ref)
 operation.
 
 # Arguments
@@ -408,14 +408,12 @@ end
     create_dataset(dataset_type, project_arn)
     create_dataset(dataset_type, project_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
 
-Creates a new Amazon Rekognition Custom Labels dataset. You can create a dataset by using
-an Amazon Sagemaker format manifest file or by copying an existing Amazon Rekognition
-Custom Labels dataset.
+Creates a new Amazon Rekognition Custom Labels dataset. You can create a dataset by using an
+Amazon Sagemaker format manifest file or by copying an existing Amazon Rekognition Custom
+Labels dataset.
 
 To create a training dataset for a project, specify `TRAIN` for the value of `DatasetType`.
 To create the test dataset for a project, specify `TEST` for the value of `DatasetType`.
@@ -451,8 +449,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DatasetSource"`: The source files for the dataset. You can specify the ARN of an
   existing dataset or specify the Amazon S3 bucket location of an Amazon Sagemaker format
-  manifest file. If you don't specify `datasetSource`, an empty dataset is created. To
-  add labeled images to the dataset, You can use the console or call [`update_dataset_entries`](@ref).
+  manifest file. If you don't specify `datasetSource`, an empty dataset is created. To add
+  labeled images to the dataset, You can use the console or call [`update_dataset_entries`](@ref).
 - `"Tags"`: A set of tags (key-value pairs) that you want to attach to the dataset.
 """
 function create_dataset end
@@ -497,12 +495,12 @@ can use to start streaming Face Liveness video and get the results for a Face Li
 session.
 
 You can use the `OutputConfig` option in the Settings parameter to provide an Amazon S3
-bucket location. The Amazon S3 bucket stores reference images and audit images. If no
-Amazon S3 bucket is defined, raw bytes are sent instead.
+bucket location. The Amazon S3 bucket stores reference images and audit images. If no Amazon
+S3 bucket is defined, raw bytes are sent instead.
 
 You can use `AuditImagesLimit` to limit the number of audit images returned when
-`GetFaceLivenessSessionResults` is called. This number is between 0 and 4. By default, it
-is set to 0. The limit is best effort and based on the duration of the selfie-video.
+`GetFaceLivenessSessionResults` is called. This number is between 0 and 4. By default, it is
+set to 0. The limit is best effort and based on the duration of the selfie-video.
 
 # Optional Parameters
 
@@ -540,9 +538,9 @@ end
     create_project(project_name)
     create_project(project_name, params::Dict{String,<:Any})
 
-Creates a new Amazon Rekognition project. A project is a group of resources (datasets,
-model versions) that you use to create and manage a Amazon Rekognition Custom Labels Model
-or custom adapter. You can specify a feature to create the project with, if no feature is
+Creates a new Amazon Rekognition project. A project is a group of resources (datasets, model
+versions) that you use to create and manage a Amazon Rekognition Custom Labels Model or
+custom adapter. You can specify a feature to create the project with, if no feature is
 specified then Custom Labels is used by default. For adapters, you can also choose whether
 or not to have the project auto update by using the AutoUpdate argument. This operation
 requires permissions to perform the `rekognition:CreateProject` action.
@@ -556,8 +554,8 @@ requires permissions to perform the `rekognition:CreateProject` action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AutoUpdate"`: Specifies whether automatic retraining should be attempted for the
-  versions of the project. Automatic retraining is done as a best effort. Required
-  argument for Content Moderation. Applicable only to adapters.
+  versions of the project. Automatic retraining is done as a best effort. Required argument
+  for Content Moderation. Applicable only to adapters.
 - `"Feature"`: Specifies feature that is being customized. If no value is provided
   CUSTOM_LABELS is used as a default.
 - `"Tags"`: A set of tags (key-value pairs) that you want to attach to the project.
@@ -602,8 +600,8 @@ settings. You can provide a description to the project version by using the
 VersionDescription argment. Training can take a while to complete. You can get the current
 status by calling [`describe_project_versions`](@ref). Training completed successfully if
 the value of the `Status` field is `TRAINING_COMPLETED`. Once training has successfully
-completed, call [`describe_project_versions`](@ref) to get the training results and
-evaluate the model.
+completed, call [`describe_project_versions`](@ref) to get the training results and evaluate
+the model.
 
 This operation requires permissions to perform the `rekognition:CreateProjectVersion`
 action.
@@ -616,18 +614,17 @@ action.
     manifest files in the `TrainingData` and `TestingData` fields.
 
     If you open the console after training a model with manifest files, Amazon Rekognition
-    Custom Labels creates the datasets for you using the most recent manifest files. You
-    can no longer train a model version for the project by specifying manifest files.
+    Custom Labels creates the datasets for you using the most recent manifest files. You can
+    no longer train a model version for the project by specifying manifest files.
 
     Instead of training with a project without associated datasets, we recommend that you
     use the manifest files to create training and test datasets for the project.
 
-
 # Arguments
 
 - `output_config`: The Amazon S3 bucket location to store the results of training. The
-  bucket can be any S3 bucket in your AWS account. You need `s3:PutObject` permission on
-  the bucket.
+  bucket can be any S3 bucket in your AWS account. You need `s3:PutObject` permission on the
+  bucket.
 - `project_arn`: The ARN of the Amazon Rekognition project that will manage the project
   version you want to train.
 - `version_name`: A name for the version of the project version. This value must be unique.
@@ -639,30 +636,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FeatureConfig"`: Feature-specific configuration of the training job. If the job
   configuration does not match the feature type associated with the project, an
   InvalidParameterException is returned.
+
 - `"KmsKeyId"`: The identifier for your AWS Key Management Service key (AWS KMS key). You
   can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an
-  alias for your KMS key, or an alias ARN. The key is used to encrypt training images,
-  test images, and manifest files copied into the service for the project version. Your
-  source images are unaffected. The key is also used to encrypt training results and
-  manifest files written to the output Amazon S3 bucket (`OutputConfig`).
+  alias for your KMS key, or an alias ARN. The key is used to encrypt training images, test
+  images, and manifest files copied into the service for the project version. Your source
+  images are unaffected. The key is also used to encrypt training results and manifest files
+  written to the output Amazon S3 bucket (`OutputConfig`).
 
-  If you choose to use your own KMS key, you need the following permissions on the KMS
-  key.
+  If you choose to use your own KMS key, you need the following permissions on the KMS key.
 
   - kms:CreateGrant
   - kms:DescribeKey
   - kms:GenerateDataKey
   - kms:Decrypt
 
-  If you don't specify a value for `KmsKeyId`, images copied into the service are
-  encrypted using a key that AWS owns and manages.
+  If you don't specify a value for `KmsKeyId`, images copied into the service are encrypted
+  using a key that AWS owns and manages.
+
 - `"Tags"`: A set of tags (key-value pairs) that you want to attach to the project version.
+
 - `"TestingData"`: Specifies an external manifest that the service uses to test the project
   version. If you specify `TestingData` you must also specify `TrainingData`. The project
   must not have any associated datasets.
+
 - `"TrainingData"`: Specifies an external manifest that the services uses to train the
   project version. If you specify `TrainingData` you must also specify `TestingData`. The
   project must not have any associated datasets.
+
 - `"VersionDescription"`: A description applied to the project version being created.
 """
 function create_project_version end
@@ -721,50 +722,54 @@ Amazon Rekognition Video is a consumer of live video from Amazon Kinesis Video S
 There are two different settings for stream processors in Amazon Rekognition: detecting
 faces and detecting labels.
 
-- If you are creating a stream processor for detecting faces, you provide as input a
-  Kinesis video stream (`Input`) and a Kinesis data stream (`Output`) stream for receiving
-  the output. You must use the `FaceSearch` option in `Settings`, specifying the collection
-  that contains the faces you want to recognize. After you have finished analyzing a
-  streaming video, use [`stop_stream_processor`](@ref) to stop processing.
+- If you are creating a stream processor for detecting faces, you provide as input a Kinesis
+  video stream (`Input`) and a Kinesis data stream (`Output`) stream for receiving the
+  output. You must use the `FaceSearch` option in `Settings`, specifying the collection that
+  contains the faces you want to recognize. After you have finished analyzing a streaming
+  video, use [`stop_stream_processor`](@ref) to stop processing.
 - If you are creating a stream processor to detect labels, you provide as input a Kinesis
   video stream (`Input`), Amazon S3 bucket information (`Output`), and an Amazon SNS topic
-  ARN (`NotificationChannel`). You can also provide a KMS key ID to encrypt the data sent
-  to your Amazon S3 bucket. You specify what you want to detect by using the
-  `ConnectedHome` option in settings, and selecting one of the following: `PERSON`, `PET`,
-  `PACKAGE`, `ALL` You can also specify where in the frame you want Amazon Rekognition to
-  monitor with `RegionsOfInterest`. When you run the [`start_stream_processor`](@ref)
-  operation on a label detection stream processor, you input start and stop information to
-  determine the length of the processing time.
+  ARN (`NotificationChannel`). You can also provide a KMS key ID to encrypt the data sent to
+  your Amazon S3 bucket. You specify what you want to detect by using the `ConnectedHome`
+  option in settings, and selecting one of the following: `PERSON`, `PET`, `PACKAGE`, `ALL`
+  You can also specify where in the frame you want Amazon Rekognition to monitor with
+  `RegionsOfInterest`. When you run the [`start_stream_processor`](@ref) operation on a
+  label detection stream processor, you input start and stop information to determine the
+  length of the processing time.
 
 Use `Name` to assign an identifier for the stream processor. You use `Name` to manage the
 stream processor. For example, you can start processing the source video by calling [`start_stream_processor`](@ref)
 with the `Name` field.
 
 This operation requires permissions to perform the `rekognition:CreateStreamProcessor`
-action. If you want to tag your stream processor, you also require permission to perform
-the [`rekognition:_tag_resource`](@ref) operation.
+action. If you want to tag your stream processor, you also require permission to perform the [`rekognition:_tag_resource`](@ref)
+operation.
 
 # Arguments
 
 - `input`: Kinesis video stream stream that provides the source streaming video. If you are
-  using the AWS CLI, the parameter name is `StreamProcessorInput`. This is required for
+  using the AWS CLI, the parameter name is `StreamProcessorInput`. This is required for both
+  face search and label detection stream processors.
+
+- `name`: An identifier you assign to the stream processor. You can use `Name` to manage the
+  stream processor. For example, you can get the current status of the stream processor by
+  calling [`describe_stream_processor`](@ref). `Name` is idempotent. This is required for
   both face search and label detection stream processors.
-- `name`: An identifier you assign to the stream processor. You can use `Name` to manage
-  the stream processor. For example, you can get the current status of the stream
-  processor by calling [`describe_stream_processor`](@ref). `Name` is idempotent. This is
-  required for both face search and label detection stream processors.
+
 - `output`: Kinesis data stream stream or Amazon S3 bucket location to which Amazon
-  Rekognition Video puts the analysis results. If you are using the AWS CLI, the
-  parameter name is `StreamProcessorOutput`. This must be a [`s3_destination`](@ref) of
-  an Amazon S3 bucket that you own for a label detection stream processor or a Kinesis
-  data stream ARN for a face search stream processor.
+  Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter
+  name is `StreamProcessorOutput`. This must be a [`s3_destination`](@ref) of an Amazon S3
+  bucket that you own for a label detection stream processor or a Kinesis data stream ARN
+  for a face search stream processor.
+
 - `role_arn`: The Amazon Resource Number (ARN) of the IAM role that allows access to the
-  stream processor. The IAM role provides Rekognition read permissions for a Kinesis
-  stream. It also provides write permissions to an Amazon S3 bucket and Amazon Simple
-  Notification Service topic for a label detection stream processor. This is required for
-  both face search and label detection stream processors.
-- `settings`: Input parameters used in a streaming video analyzed by a stream processor.
-  You can use `FaceSearch` to recognize faces in a streaming video, or you can use
+  stream processor. The IAM role provides Rekognition read permissions for a Kinesis stream.
+  It also provides write permissions to an Amazon S3 bucket and Amazon Simple Notification
+  Service topic for a label detection stream processor. This is required for both face
+  search and label detection stream processors.
+
+- `settings`: Input parameters used in a streaming video analyzed by a stream processor. You
+  can use `FaceSearch` to recognize faces in a streaming video, or you can use
   `ConnectedHome` to detect labels.
 
 # Optional Parameters
@@ -773,21 +778,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DataSharingPreference"`: Shows whether you are sharing data with Rekognition to improve
   model performance. You can choose this option at the account level or on a per-stream
-  basis. Note that if you opt out at the account level this setting is ignored on
-  individual streams.
+  basis. Note that if you opt out at the account level this setting is ignored on individual
+  streams.
+
 - `"KmsKeyId"`: The identifier for your AWS Key Management Service key (AWS KMS key). This
-  is an optional parameter for label detection stream processors and should not be used
-  to create a face search stream processor. You can supply the Amazon Resource Name (ARN)
-  of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN.
-  The key is used to encrypt results and data published to your Amazon S3 bucket, which
-  includes image frames and hero images. Your source images are unaffected.
+  is an optional parameter for label detection stream processors and should not be used to
+  create a face search stream processor. You can supply the Amazon Resource Name (ARN) of
+  your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key
+  is used to encrypt results and data published to your Amazon S3 bucket, which includes
+  image frames and hero images. Your source images are unaffected.
 
 - `"NotificationChannel"`:
+
 - `"RegionsOfInterest"`: Specifies locations in the frames where Amazon Rekognition checks
-  for objects or people. You can specify up to 10 regions of interest, and each region
-  has either a polygon or a bounding box. This is an optional parameter for label
-  detection stream processors and should not be used to create a face search stream
-  processor.
+  for objects or people. You can specify up to 10 regions of interest, and each region has
+  either a polygon or a bounding box. This is an optional parameter for label detection
+  stream processors and should not be used to create a face search stream processor.
+
 - `"Tags"`: A set of tags (key-value pairs) that you want to attach to the stream processor.
 """
 function create_stream_processor end
@@ -869,9 +876,8 @@ requests. This prevents retries after a network error results from making multip
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: Idempotent token used to identify the request to `CreateUser`. If
-  you use the same token with multiple `CreateUser` requests, the same response is
-  returned. Use ClientRequestToken to prevent the same request from being processed more
-  than once.
+  you use the same token with multiple `CreateUser` requests, the same response is returned.
+  Use ClientRequestToken to prevent the same request from being processed more than once.
 """
 function create_user end
 
@@ -956,8 +962,6 @@ end
 """
     delete_dataset(dataset_arn)
     delete_dataset(dataset_arn, params::Dict{String,<:Any})
-
-
 
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
@@ -1098,8 +1102,6 @@ end
     delete_project_policy(policy_name, project_arn)
     delete_project_policy(policy_name, project_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
 
@@ -1172,8 +1174,8 @@ action.
 
 # Arguments
 
-- `project_version_arn`: The Amazon Resource Name (ARN) of the project version that you
-  want to delete.
+- `project_version_arn`: The Amazon Resource Name (ARN) of the project version that you want
+  to delete.
 """
 function delete_project_version end
 
@@ -1210,8 +1212,8 @@ end
     delete_stream_processor(name, params::Dict{String,<:Any})
 
 Deletes the stream processor identified by `Name`. You assign the value for `Name` when you
-create the stream processor with [`create_stream_processor`](@ref). You might not be able
-to use the same name for a stream processor for a few seconds after calling
+create the stream processor with [`create_stream_processor`](@ref). You might not be able to
+use the same name for a stream processor for a few seconds after calling
 `DeleteStreamProcessor`.
 
 # Arguments
@@ -1247,8 +1249,8 @@ end
 Deletes the specified UserID within the collection. Faces that are associated with the
 UserID are disassociated from the UserID before deleting the specified UserID. If the
 specified `Collection` or `UserID` is already deleted or not found, a
-`ResourceNotFoundException` will be thrown. If the action is successful with a 200
-response, an empty HTTP body is returned.
+`ResourceNotFoundException` will be thrown. If the action is successful with a 200 response,
+an empty HTTP body is returned.
 
 # Arguments
 
@@ -1261,9 +1263,8 @@ response, an empty HTTP body is returned.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: Idempotent token used to identify the request to `DeleteUser`. If
-  you use the same token with multiple `DeleteUser`requests, the same response is
-  returned. Use ClientRequestToken to prevent the same request from being processed more
-  than once.
+  you use the same token with multiple `DeleteUser`requests, the same response is returned.
+  Use ClientRequestToken to prevent the same request from being processed more than once.
 """
 function delete_user end
 
@@ -1352,8 +1353,6 @@ end
     describe_dataset(dataset_arn)
     describe_dataset(dataset_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
 
@@ -1415,14 +1414,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return per paginated call. The largest
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
+
 - `"NextToken"`: If the previous response was incomplete (because there is more results to
-  retrieve), Amazon Rekognition returns a pagination token in the response. You can use
-  this pagination token to retrieve the next set of results.
+  retrieve), Amazon Rekognition returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of results.
+
 - `"VersionNames"`: A list of model or project version names that you want to describe. You
-  can add up to 10 model or project version names to the list. If you don't specify a
-  value, all project version descriptions are returned. A version name is part of a
-  project version ARN. For example, `my-model.2020-01-21T09.10.15` is the version name in
-  the following ARN.
+  can add up to 10 model or project version names to the list. If you don't specify a value,
+  all project version descriptions are returned. A version name is part of a project version
+  ARN. For example, `my-model.2020-01-21T09.10.15` is the version name in the following ARN.
   `arn:aws:rekognition:us-east-1:123456789012:project/getting-started/version/*my-model.2020-01-21T09.10.15*/1234567890123`.
 """
 function describe_project_versions end
@@ -1474,8 +1474,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Rekognition returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of results.
 - `"ProjectNames"`: A list of the projects that you want Rekognition to describe. If you
-  don't specify a value, the response includes descriptions for all the projects in your
-  AWS account.
+  don't specify a value, the response includes descriptions for all the projects in your AWS
+  account.
 """
 function describe_projects end
 
@@ -1531,8 +1531,6 @@ end
     detect_custom_labels(image, project_version_arn)
     detect_custom_labels(image, project_version_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
 
@@ -1557,9 +1555,9 @@ To filter labels that are returned, specify a value for `MinConfidence`.
 `DetectCustomLabelsLabels` only returns labels with a confidence that's higher than the
 specified value. The value of `MinConfidence` maps to the assumed threshold values created
 during training. For more information, see *Assumed threshold* in the Amazon Rekognition
-Custom Labels Developer Guide. Amazon Rekognition Custom Labels metrics expresses an
-assumed threshold as a floating point value between 0-1. The range of `MinConfidence`
-normalizes the threshold value to a percentage value (0-100). Confidence responses from
+Custom Labels Developer Guide. Amazon Rekognition Custom Labels metrics expresses an assumed
+threshold as a floating point value between 0-1. The range of `MinConfidence` normalizes the
+threshold value to a percentage value (0-100). Confidence responses from
 `DetectCustomLabels` are also returned as a percentage. You can use `MinConfidence` to
 change the precision and recall or your model. For more information, see *Analyzing an
 image* in the Amazon Rekognition Custom Labels Developer Guide.
@@ -1578,23 +1576,24 @@ Developer Guide.
 
 - `image`:
 - `project_version_arn`: The ARN of the model version that you want to use. Only models
-  associated with Custom Labels projects accepted by the operation. If a provided ARN
-  refers to a model version associated with a project for a different feature type, then
-  an InvalidParameterException is returned.
+  associated with Custom Labels projects accepted by the operation. If a provided ARN refers
+  to a model version associated with a project for a different feature type, then an
+  InvalidParameterException is returned.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Maximum number of results you want the service to return in the response.
-  The service returns the specified number of highest confidence labels ranked from
-  highest confidence to lowest.
+  The service returns the specified number of highest confidence labels ranked from highest
+  confidence to lowest.
+
 - `"MinConfidence"`: Specifies the minimum confidence level for the labels to return.
-  `DetectCustomLabels` doesn't return any labels with a confidence value that's lower
-  than this specified value. If you specify a value of 0, `DetectCustomLabels` returns
-  all labels, regardless of the assumed threshold applied to each label. If you don't
-  specify a value for `MinConfidence`, `DetectCustomLabels` returns labels based on the
-  assumed threshold of each label.
+  `DetectCustomLabels` doesn't return any labels with a confidence value that's lower than
+  this specified value. If you specify a value of 0, `DetectCustomLabels` returns all
+  labels, regardless of the assumed threshold applied to each label. If you don't specify a
+  value for `MinConfidence`, `DetectCustomLabels` returns labels based on the assumed
+  threshold of each label.
 """
 function detect_custom_labels end
 
@@ -1639,18 +1638,16 @@ Detects faces within an image that is provided as input.
 
 `DetectFaces` detects the 100 largest faces in the image. For each face detected, the
 operation returns face details. These details include a bounding box of the face, a
-confidence value (that the bounding box contains a face), and a fixed set of attributes
-such as facial landmarks (for example, coordinates of eye and mouth), pose, presence of
-facial occlusion, and so on.
+confidence value (that the bounding box contains a face), and a fixed set of attributes such
+as facial landmarks (for example, coordinates of eye and mouth), pose, presence of facial
+occlusion, and so on.
 
-The face-detection algorithm is most effective on frontal faces. For non-frontal or
-obscured faces, the algorithm might not detect the faces or might detect faces with lower
-confidence.
+The face-detection algorithm is most effective on frontal faces. For non-frontal or obscured
+faces, the algorithm might not detect the faces or might detect faces with lower confidence.
 
 You pass the input image either as base64-encoded image bytes or as a reference to an image
 in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations,
-passing image bytes is not supported. The image must be either a PNG or JPEG formatted
-file.
+passing image bytes is not supported. The image must be either a PNG or JPEG formatted file.
 
 !!! note
     This is a stateless API operation. That is, the operation does not persist any data.
@@ -1664,8 +1661,8 @@ This operation requires permissions to perform the `rekognition:DetectFaces` act
   supported.
 
   If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-
-  encode image bytes passed using the `Bytes` field. For more information, see Images in
-  the Amazon Rekognition developer guide.
+  encode image bytes passed using the `Bytes` field. For more information, see Images in the
+  Amazon Rekognition developer guide.
 
 # Optional Parameters
 
@@ -1673,8 +1670,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Attributes"`: An array of facial attributes you want to be returned. A `DEFAULT` subset
   of facial attributes - `BoundingBox`, `Confidence`, `Pose`, `Quality`, and `Landmarks` -
-   will always be returned. You can request for specific facial attributes (in addition
-   to the default list) - by using [`"DEFAULT", "FACE_OCCLUDED"`] or just [`"FACE_OCCLUDED"`]. You can request for all facial attributes by using [`"ALL"]`. Requesting more attributes may increase response time.
+  will always be returned. You can request for specific facial attributes (in addition to
+  the default list) - by using [`"DEFAULT", "FACE_OCCLUDED"`] or just [`"FACE_OCCLUDED"`]. You can request for all facial attributes by using [`"ALL"]`. Requesting more attributes may increase response time.
 
 If you provide both, `["ALL", "DEFAULT"]`, the service uses a logical "AND" operator to determine which attributes to return (in this case, all attributes).
 
@@ -1710,8 +1707,8 @@ Detects instances of real-world entities within an image (JPEG or PNG) provided 
 This includes objects like flower, tree, and table; events like wedding, graduation, and
 birthday party; and concepts like landscape, evening, and nature.
 
-For an example, see Analyzing images stored in an Amazon S3 bucket in the Amazon
-Rekognition Developer Guide.
+For an example, see Analyzing images stored in an Amazon S3 bucket in the Amazon Rekognition
+Developer Guide.
 
 You pass the input image as base64-encoded image bytes or as a reference to an image in an
 Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing
@@ -1729,10 +1726,10 @@ the Settings parameter. You can filter with sets of individual labels or with la
 categories. You can specify inclusive filters, exclusive filters, or a combination of
 inclusive and exclusive filters. For more information on filtering see [Detecting Labels in an Image](https://docs.aws.amazon.com/rekognition/latest/dg/labels-detect-labels-image.html).
 
-When getting labels, you can specify `MinConfidence` to control the confidence threshold
-for the labels returned. The default is 55%. You can also add the `MaxLabels` parameter to
-limit the number of labels returned. The default and upper limit is 1000 labels. These
-arguments are only valid when supplying GENERAL_LABELS as a feature type.
+When getting labels, you can specify `MinConfidence` to control the confidence threshold for
+the labels returned. The default is 55%. You can also add the `MaxLabels` parameter to limit
+the number of labels returned. The default and upper limit is 1000 labels. These arguments
+are only valid when supplying GENERAL_LABELS as a feature type.
 
 **Response Elements**
 
@@ -1744,9 +1741,9 @@ following types of information about labels:
 - Parents - The ancestor labels for a detected label. DetectLabels returns a hierarchical
   taxonomy of detected labels. For example, a detected car might be assigned the label car.
   The label car has two parent labels: Vehicle (its parent) and Transportation (its
-  grandparent). The response includes the all ancestors for a label, where every ancestor
-  is a unique label. In the previous example, Car, Vehicle, and Transportation are returned
-  as unique labels in the response.
+  grandparent). The response includes the all ancestors for a label, where every ancestor is
+  a unique label. In the previous example, Car, Vehicle, and Transportation are returned as
+  unique labels in the response.
 - Aliases - Possible Aliases for the label.
 - Categories - The label categories that the detected label belongs to.
 - BoundingBox — Bounding boxes are described for all instances of detected common object
@@ -1761,14 +1758,14 @@ ImageProperties structure:
   scored between 0 to 100. Image quality is returned for the entire image, as well as the
   background and the foreground.
 - Dominant Color - An array of the dominant colors in the image.
-- Foreground - Information about the sharpness, brightness, and dominant colors of the
-  input image’s foreground.
-- Background - Information about the sharpness, brightness, and dominant colors of the
-  input image’s background.
+- Foreground - Information about the sharpness, brightness, and dominant colors of the input
+  image’s foreground.
+- Background - Information about the sharpness, brightness, and dominant colors of the input
+  image’s background.
 
-The list of returned labels will include at least one label for every detected object,
-along with information about that label. In the following example, suppose the input image
-has a lighthouse, the sea, and a rock. The response includes all three labels, one for each
+The list of returned labels will include at least one label for every detected object, along
+with information about that label. In the following example, suppose the input image has a
+lighthouse, the sea, and a rock. The response includes all three labels, one for each
 object, as well as the confidence in the label:
 
 `{Name: lighthouse, Confidence: 98.4629}`
@@ -1800,12 +1797,12 @@ This operation requires permissions to perform the `rekognition:DetectLabels` ac
 # Arguments
 
 - `image`: The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI
-  to call Amazon Rekognition operations, passing image bytes is not supported. Images
-  stored in an S3 Bucket do not need to be base64-encoded.
+  to call Amazon Rekognition operations, passing image bytes is not supported. Images stored
+  in an S3 Bucket do not need to be base64-encoded.
 
   If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-
-  encode image bytes passed using the `Bytes` field. For more information, see Images in
-  the Amazon Rekognition developer guide.
+  encode image bytes passed using the `Bytes` field. For more information, see Images in the
+  Amazon Rekognition developer guide.
 
 # Optional Parameters
 
@@ -1815,16 +1812,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the label detection feature, while specifying IMAGE_PROPERTIES returns information
   regarding image color and quality. If no option is specified GENERAL_LABELS is used by
   default.
+
 - `"MaxLabels"`: Maximum number of labels you want the service to return in the response.
   The service returns the specified number of highest confidence labels. Only valid when
   GENERAL_LABELS is specified as a feature type in the Feature input parameter.
-- `"MinConfidence"`: Specifies the minimum confidence level for the labels to return.
-  Amazon Rekognition doesn't return any labels with confidence lower than this specified
-  value.
 
-  If `MinConfidence` is not specified, the operation returns labels with a confidence
-  values greater than or equal to 55 percent. Only valid when GENERAL_LABELS is specified
-  as a feature type in the Feature input parameter.
+- `"MinConfidence"`: Specifies the minimum confidence level for the labels to return. Amazon
+  Rekognition doesn't return any labels with confidence lower than this specified value.
+
+  If `MinConfidence` is not specified, the operation returns labels with a confidence values
+  greater than or equal to 55 percent. Only valid when GENERAL_LABELS is specified as a
+  feature type in the Feature input parameter.
+
 - `"Settings"`: A list of the filters to be applied to returned detected labels and image
   properties. Specified filters can be inclusive, exclusive, or a combination of both.
   Filters can be used for individual labels or label categories. The exact label names or
@@ -1856,10 +1855,9 @@ end
     detect_moderation_labels(image)
     detect_moderation_labels(image, params::Dict{String,<:Any})
 
-Detects unsafe content in a specified JPEG or PNG format image. Use
-`DetectModerationLabels` to moderate images depending on your requirements. For example,
-you might want to filter images that contain nudity, but not images containing suggestive
-content.
+Detects unsafe content in a specified JPEG or PNG format image. Use `DetectModerationLabels`
+to moderate images depending on your requirements. For example, you might want to filter
+images that contain nudity, but not images containing suggestive content.
 
 To filter images, use the labels returned by `DetectModerationLabels` to determine which
 types of content are appropriate.
@@ -1869,8 +1867,7 @@ Rekognition Developer Guide.
 
 You pass the input image either as base64-encoded image bytes or as a reference to an image
 in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations,
-passing image bytes is not supported. The image must be either a PNG or JPEG formatted
-file.
+passing image bytes is not supported. The image must be either a PNG or JPEG formatted file.
 
 You can specify an adapter to use when retrieving label predictions by providing a
 `ProjectVersionArn` to the `ProjectVersion` argument.
@@ -1882,8 +1879,8 @@ You can specify an adapter to use when retrieving label predictions by providing
   supported.
 
   If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-
-  encode image bytes passed using the `Bytes` field. For more information, see Images in
-  the Amazon Rekognition developer guide.
+  encode image bytes passed using the `Bytes` field. For more information, see Images in the
+  Amazon Rekognition developer guide.
 
 # Optional Parameters
 
@@ -1891,12 +1888,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"HumanLoopConfig"`: Sets up the configuration for human evaluation, including the
   FlowDefinition the image will be sent to.
-- `"MinConfidence"`: Specifies the minimum confidence level for the labels to return.
-  Amazon Rekognition doesn't return any labels with a confidence level lower than this
-  specified value.
 
-  If you don't specify `MinConfidence`, the operation returns labels with confidence
-  values greater than or equal to 50 percent.
+- `"MinConfidence"`: Specifies the minimum confidence level for the labels to return. Amazon
+  Rekognition doesn't return any labels with a confidence level lower than this specified
+  value.
+
+  If you don't specify `MinConfidence`, the operation returns labels with confidence values
+  greater than or equal to 50 percent.
+
 - `"ProjectVersion"`: Identifier for the custom adapter. Expects the ProjectVersionArn as a
   value. Use the CreateProject or CreateProjectVersion APIs to create a custom adapter.
 """
@@ -1941,9 +1940,9 @@ Amazon S3 bucket. The image must be either a PNG or JPG formatted file.
 For each person detected in the image the API returns an array of body parts (face, head,
 left-hand, right-hand). For each body part, an array of detected items of PPE is returned,
 including an indicator of whether or not the PPE covers the body part. The API returns the
-confidence it has in each detection (person, PPE, body part and body part coverage). It
-also returns a bounding box ([`bounding_box`](@ref)) for each detected person and each
-detected item of PPE.
+confidence it has in each detection (person, PPE, body part and body part coverage). It also
+returns a bounding box ([`bounding_box`](@ref)) for each detected person and each detected
+item of PPE.
 
 You can optionally request a summary of detected PPE items with the
 `SummarizationAttributes` input parameter. The summary provides the following information.
@@ -2004,8 +2003,8 @@ pass it as a reference to an image in an Amazon S3 bucket. For the AWS CLI, pass
 bytes is not supported. The image must be either a .png or .jpeg formatted file.
 
 The [`detect_text`](@ref) operation returns text in an array of [`text_detection`](@ref)
-elements, `TextDetections`. Each `TextDetection` element provides information about a
-single word or line of text that was detected in the image.
+elements, `TextDetections`. Each `TextDetection` element provides information about a single
+word or line of text that was detected in the image.
 
 A word is one or more script characters that are not separated by spaces. `DetectText` can
 detect up to 100 words in an image.
@@ -2031,8 +2030,8 @@ For more information, see Detecting text in the Amazon Rekognition Developer Gui
   AWS CLI to call Amazon Rekognition operations, you can't pass image bytes.
 
   If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-
-  encode image bytes passed using the `Bytes` field. For more information, see Images in
-  the Amazon Rekognition developer guide.
+  encode image bytes passed using the `Bytes` field. For more information, see Images in the
+  Amazon Rekognition developer guide.
 
 # Optional Parameters
 
@@ -2071,9 +2070,9 @@ Removes the association between a `Face` supplied in an array of `FaceIds` and t
 the User is not present already, then a `ResourceNotFound` exception is thrown. If
 successful, an array of faces that are disassociated from the User is returned. If a given
 face is already disassociated from the given UserID, it will be ignored and not be returned
-in the response. If a given face is already associated with a different User or not found
-in the collection it will be returned as part of `UnsuccessfulDisassociations`. You can
-remove 1 - 100 face IDs from a user at one time.
+in the response. If a given face is already associated with a different User or not found in
+the collection it will be returned as part of `UnsuccessfulDisassociations`. You can remove
+1 - 100 face IDs from a user at one time.
 
 # Arguments
 
@@ -2086,9 +2085,9 @@ remove 1 - 100 face IDs from a user at one time.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: Idempotent token used to identify the request to
-  `DisassociateFaces`. If you use the same token with multiple `DisassociateFaces`
-  requests, the same response is returned. Use ClientRequestToken to prevent the same
-  request from being processed more than once.
+  `DisassociateFaces`. If you use the same token with multiple `DisassociateFaces` requests,
+  the same response is returned. Use ClientRequestToken to prevent the same request from
+  being processed more than once.
 """
 function disassociate_faces end
 
@@ -2138,8 +2137,6 @@ end
     distribute_dataset_entries(datasets)
     distribute_dataset_entries(datasets, params::Dict{String,<:Any})
 
-
-
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
 
@@ -2147,10 +2144,10 @@ Distributes the entries (images) in a training dataset across the training datas
 test dataset for a project. `DistributeDatasetEntries` moves 20% of the training dataset
 images to the test dataset. An entry is a JSON Line that describes an image.
 
-You supply the Amazon Resource Names (ARN) of a project's training dataset and test
-dataset. The training dataset must contain the images that you want to split. The test
-dataset must be empty. The datasets must belong to the same project. To create training and
-test datasets for a project, call [`create_dataset`](@ref).
+You supply the Amazon Resource Names (ARN) of a project's training dataset and test dataset.
+The training dataset must contain the images that you want to split. The test dataset must
+be empty. The datasets must belong to the same project. To create training and test datasets
+for a project, call [`create_dataset`](@ref).
 
 Distributing a dataset takes a while to complete. To check the status call
 `DescribeDataset`. The operation is complete when the `Status` field for the training
@@ -2197,9 +2194,9 @@ end
     get_celebrity_info(id)
     get_celebrity_info(id, params::Dict{String,<:Any})
 
-Gets the name and additional information about a celebrity based on their Amazon
-Rekognition ID. The additional information is returned as an array of URLs. If there is no
-additional information about the celebrity, this list is empty.
+Gets the name and additional information about a celebrity based on their Amazon Rekognition
+ID. The additional information is returned as an array of URLs. If there is no additional
+information about the celebrity, this list is empty.
 
 For more information, see Getting information about a celebrity in the Amazon Rekognition
 Developer Guide.
@@ -2239,8 +2236,8 @@ end
 
 Gets the celebrity recognition results for a Amazon Rekognition Video analysis started by [`start_celebrity_recognition`](@ref).
 
-Celebrity recognition in a video is an asynchronous operation. Analysis is started by a
-call to [`start_celebrity_recognition`](@ref) which returns a job identifier (`JobId`).
+Celebrity recognition in a video is an asynchronous operation. Analysis is started by a call
+to [`start_celebrity_recognition`](@ref) which returns a job identifier (`JobId`).
 
 When the celebrity recognition operation finishes, Amazon Rekognition Video publishes a
 completion status to the Amazon Simple Notification Service topic registered in the initial
@@ -2271,8 +2268,8 @@ video). You can also sort the array by celebrity by specifying the value `ID` in
 `SortBy` input parameter.
 
 The `CelebrityDetail` object includes the celebrity identifer and additional information
-urls. If you don't store the additional information urls, you can get them later by calling
-[`get_celebrity_info`](@ref) with the celebrity identifer.
+urls. If you don't store the additional information urls, you can get them later by calling [`get_celebrity_info`](@ref)
+with the celebrity identifer.
 
 No information is returned for faces not recognized as celebrities.
 
@@ -2349,17 +2346,16 @@ Guide.
 moderation labels, and the time they are detected, in an array, `ModerationLabels`, of [`content_moderation_detection`](@ref)
 objects.
 
-By default, the moderated labels are returned sorted by time, in milliseconds from the
-start of the video. You can also sort them by moderated label by specifying `NAME` for the
+By default, the moderated labels are returned sorted by time, in milliseconds from the start
+of the video. You can also sort them by moderated label by specifying `NAME` for the
 `SortBy` input parameter.
 
-Since video analysis can return a large number of results, use the `MaxResults` parameter
-to limit the number of labels returned in a single call to `GetContentModeration`. If there
-are more results than specified in `MaxResults`, the value of `NextToken` in the operation
+Since video analysis can return a large number of results, use the `MaxResults` parameter to
+limit the number of labels returned in a single call to `GetContentModeration`. If there are
+more results than specified in `MaxResults`, the value of `NextToken` in the operation
 response contains a pagination token for getting the next set of results. To get the next
-page of results, call `GetContentModeration` and populate the `next_token` request
-parameter with the value of `NextToken` returned from the previous call to
-`GetContentModeration`.
+page of results, call `GetContentModeration` and populate the `next_token` request parameter
+with the value of `NextToken` returned from the previous call to `GetContentModeration`.
 
 For more information, see moderating content in the Amazon Rekognition Developer Guide.
 
@@ -2373,14 +2369,14 @@ For more information, see moderating content in the Amazon Rekognition Developer
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AggregateBy"`: Defines how to aggregate results of the StartContentModeration request.
-  Default aggregation option is TIMESTAMPS. SEGMENTS mode aggregates moderation labels
-  over time.
+  Default aggregation option is TIMESTAMPS. SEGMENTS mode aggregates moderation labels over
+  time.
 - `"MaxResults"`: Maximum number of results to return per paginated call. The largest value
   you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
   results is returned. The default value is 1000.
 - `"NextToken"`: If the previous response was incomplete (because there is more data to
-  retrieve), Amazon Rekognition returns a pagination token in the response. You can use
-  this pagination token to retrieve the next set of content moderation labels.
+  retrieve), Amazon Rekognition returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of content moderation labels.
 - `"SortBy"`: Sort to use for elements in the `ModerationLabelDetections` array. Use
   `TIMESTAMP` to sort array elements by the time labels are detected. Use `NAME` to
   alphabetically group elements for a label together. Within each label group, the array
@@ -2422,14 +2418,14 @@ call to `StartFaceDetection`. To get the results of the face detection operation
 check that the status value published to the Amazon SNS topic is `SUCCEEDED`. If so, call [`get_face_detection`](@ref)
 and pass the job identifier (`JobId`) from the initial call to `StartFaceDetection`.
 
-`GetFaceDetection` returns an array of detected faces (`Faces`) sorted by the time the
-faces were detected.
+`GetFaceDetection` returns an array of detected faces (`Faces`) sorted by the time the faces
+were detected.
 
 Use MaxResults parameter to limit the number of labels returned. If there are more results
 than specified in `MaxResults`, the value of `NextToken` in the operation response contains
 a pagination token for getting the next set of results. To get the next page of results,
-call `GetFaceDetection` and populate the `next_token` request parameter with the token
-value returned from the previous call to `GetFaceDetection`.
+call `GetFaceDetection` and populate the `next_token` request parameter with the token value
+returned from the previous call to `GetFaceDetection`.
 
 Note that for the [`get_face_detection`](@ref) operation, the returned values for
 `FaceOccluded` and `EyeDirection` will always be "null".
@@ -2479,8 +2475,8 @@ end
 Retrieves the results of a specific Face Liveness session. It requires the `sessionId` as
 input, which was created using `CreateFaceLivenessSession`. Returns the corresponding Face
 Liveness confidence score, a reference image that includes a face bounding box, and audit
-images that also contain face bounding boxes. The Face Liveness confidence score ranges
-from 0 to 100.
+images that also contain face bounding boxes. The Face Liveness confidence score ranges from
+0 to 100.
 
 The number of audit images returned by `GetFaceLivenessSessionResults` is defined by the
 `AuditImagesLimit` paramater when calling `CreateFaceLivenessSession`. Reference images are
@@ -2539,18 +2535,18 @@ For more information, see Searching Faces in a Collection in the Amazon Rekognit
 Developer Guide.
 
 The search results are retured in an array, `Persons`, of [`person_match`](@ref) objects.
-Each`PersonMatch` element contains details about the matching faces in the input
-collection, person information (facial attributes, bounding boxes, and person identifer)
-for the matched person, and the time the person was matched in the video.
+Each`PersonMatch` element contains details about the matching faces in the input collection,
+person information (facial attributes, bounding boxes, and person identifer) for the matched
+person, and the time the person was matched in the video.
 
 !!! note
-    `GetFaceSearch` only returns the default facial attributes (`BoundingBox`,
-    `Confidence`, `Landmarks`, `Pose`, and `Quality`). The other facial attributes listed
-    in the `Face` object of the following response syntax are not returned. For more
-    information, see FaceDetail in the Amazon Rekognition Developer Guide.
+    `GetFaceSearch` only returns the default facial attributes (`BoundingBox`, `Confidence`,
+    `Landmarks`, `Pose`, and `Quality`). The other facial attributes listed in the `Face`
+    object of the following response syntax are not returned. For more information, see
+    FaceDetail in the Amazon Rekognition Developer Guide.
 
-By default, the `Persons` array is sorted by the time, in milliseconds from the start of
-the video, persons are matched. You can also sort by persons by specifying `INDEX` for the
+By default, the `Persons` array is sorted by the time, in milliseconds from the start of the
+video, persons are matched. You can also sort by persons by specifying `INDEX` for the
 `SORTBY` input parameter.
 
 # Arguments
@@ -2566,10 +2562,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000
   results is returned. The default value is 1000.
 - `"NextToken"`: If the previous response was incomplete (because there is more search
-  results to retrieve), Amazon Rekognition Video returns a pagination token in the
-  response. You can use this pagination token to retrieve the next set of search results.
-- `"SortBy"`: Sort to use for grouping faces in the response. Use `TIMESTAMP` to group
-  faces by the time that they are recognized. Use `INDEX` to sort by recognized faces.
+  results to retrieve), Amazon Rekognition Video returns a pagination token in the response.
+  You can use this pagination token to retrieve the next set of search results.
+- `"SortBy"`: Sort to use for grouping faces in the response. Use `TIMESTAMP` to group faces
+  by the time that they are recognized. Use `INDEX` to sort by recognized faces.
 """
 function get_face_search end
 
@@ -2610,8 +2606,7 @@ and pass the job identifier (`JobId`) from the initial call to `StartLabelDetect
 
 `GetLabelDetection` returns an array of detected labels (`Labels`) sorted by the time the
 labels were detected. You can also sort by the label name by specifying `NAME` for the
-`SortBy` input parameter. If there is no `NAME` specified, the default sort is by
-timestamp.
+`SortBy` input parameter. If there is no `NAME` specified, the default sort is by timestamp.
 
 You can select how results are aggregated by using the `AggregateBy` input parameter. The
 default aggregation method is `TIMESTAMPS`. You can also aggregate by `SEGMENTS`, which
@@ -2634,10 +2629,10 @@ The returned Labels array may include the following attributes:
   BoundingBox object, describing the location of the label on the input image. It also
   includes the confidence for the accuracy of the detected bounding box.
 - Timestamp - Time, in milliseconds from the start of the video, that the label was
-  detected. For aggregation by `SEGMENTS`, the `StartTimestampMillis`,
-  `EndTimestampMillis`, and `DurationMillis` structures are what define a segment. Although
-  the “Timestamp” structure is still returned with each label, its value is set to be the
-  same as `StartTimestampMillis`.
+  detected. For aggregation by `SEGMENTS`, the `StartTimestampMillis`, `EndTimestampMillis`,
+  and `DurationMillis` structures are what define a segment. Although the “Timestamp”
+  structure is still returned with each label, its value is set to be the same as
+  `StartTimestampMillis`.
 
 Timestamp and Bounding box information are returned for detected Instances, only if
 aggregation is done by `TIMESTAMPS`. If aggregating by `SEGMENTS`, information about
@@ -2648,11 +2643,11 @@ The version of the label model used for the detection is also returned.
 **Note `DominantColors` isn't returned for `Instances`, although it is shown as part of the
 response in the sample seen below.**
 
-Use `MaxResults` parameter to limit the number of labels returned. If there are more
-results than specified in `MaxResults`, the value of `NextToken` in the operation response
-contains a pagination token for getting the next set of results. To get the next page of
-results, call `GetlabelDetection` and populate the `next_token` request parameter with the
-token value returned from the previous call to `GetLabelDetection`.
+Use `MaxResults` parameter to limit the number of labels returned. If there are more results
+than specified in `MaxResults`, the value of `NextToken` in the operation response contains
+a pagination token for getting the next set of results. To get the next page of results,
+call `GetlabelDetection` and populate the `next_token` request parameter with the token
+value returned from the previous call to `GetLabelDetection`.
 
 If you are retrieving results while using the Amazon Simple Notification Service, note that
 you will receive an "ERROR" notification if the job encounters an issue.
@@ -2675,9 +2670,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Rekognition Video returns a pagination token in the response. You can
   use this pagination token to retrieve the next set of labels.
 - `"SortBy"`: Sort to use for elements in the `Labels` array. Use `TIMESTAMP` to sort array
-  elements by the time labels are detected. Use `NAME` to alphabetically group elements
-  for a label together. Within each label group, the array element are sorted by
-  detection confidence. The default sort is by `TIMESTAMP`.
+  elements by the time labels are detected. Use `NAME` to alphabetically group elements for
+  a label together. Within each label group, the array element are sorted by detection
+  confidence. The default sort is by `TIMESTAMP`.
 """
 function get_label_detection end
 
@@ -2755,8 +2750,8 @@ paths were tracked in the video.
 
 !!! note
     `GetPersonTracking` only returns the default facial attributes (`BoundingBox`,
-    `Confidence`, `Landmarks`, `Pose`, and `Quality`). The other facial attributes listed
-    in the `Face` object of the following response syntax are not returned.
+    `Confidence`, `Landmarks`, `Pose`, and `Quality`). The other facial attributes listed in
+    the `Face` object of the following response syntax are not returned.
 
     For more information, see FaceDetail in the Amazon Rekognition Developer Guide.
 
@@ -2784,10 +2779,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If the previous response was incomplete (because there are more persons to
   retrieve), Amazon Rekognition Video returns a pagination token in the response. You can
   use this pagination token to retrieve the next set of persons.
-- `"SortBy"`: Sort to use for elements in the `Persons` array. Use `TIMESTAMP` to sort
-  array elements by the time persons are detected. Use `INDEX` to sort by the tracked
-  persons. If you sort by `INDEX`, the array elements for each person are sorted by
-  detection confidence. The default sort is by `TIMESTAMP`.
+- `"SortBy"`: Sort to use for elements in the `Persons` array. Use `TIMESTAMP` to sort array
+  elements by the time persons are detected. Use `INDEX` to sort by the tracked persons. If
+  you sort by `INDEX`, the array elements for each person are sorted by detection
+  confidence. The default sort is by `TIMESTAMP`.
 """
 function get_person_tracking end
 
@@ -2841,8 +2836,8 @@ response contains a pagination token for getting the next set of results. To get
 page of results, call `GetSegmentDetection` and populate the `next_token` request parameter
 with the token value returned from the previous call to `GetSegmentDetection`.
 
-For more information, see Detecting video segments in stored video in the Amazon
-Rekognition Developer Guide.
+For more information, see Detecting video segments in stored video in the Amazon Rekognition
+Developer Guide.
 
 # Arguments
 
@@ -2887,11 +2882,11 @@ end
 Gets the text detection results of a Amazon Rekognition Video analysis started by [`start_text_detection`](@ref).
 
 Text detection with Amazon Rekognition Video is an asynchronous operation. You start text
-detection by calling [`start_text_detection`](@ref) which returns a job identifier
-(`JobId`) When the text detection operation finishes, Amazon Rekognition publishes a
-completion status to the Amazon Simple Notification Service topic registered in the initial
-call to `StartTextDetection`. To get the results of the text detection operation, first
-check that the status value published to the Amazon SNS topic is `SUCCEEDED`. if so, call
+detection by calling [`start_text_detection`](@ref) which returns a job identifier (`JobId`)
+When the text detection operation finishes, Amazon Rekognition publishes a completion status
+to the Amazon Simple Notification Service topic registered in the initial call to
+`StartTextDetection`. To get the results of the text detection operation, first check that
+the status value published to the Amazon SNS topic is `SUCCEEDED`. if so, call
 `GetTextDetection` and pass the job identifier (`JobId`) from the initial call of
 `StartLabelDetection`.
 
@@ -2952,25 +2947,25 @@ end
 Detects faces in the input image and adds them to the specified collection.
 
 Amazon Rekognition doesn't save the actual faces that are detected. Instead, the underlying
-detection algorithm first detects the faces in the input image. For each face, the
-algorithm extracts facial features into a feature vector, and stores it in the backend
-database. Amazon Rekognition uses feature vectors when it performs face match and search
-operations using the [`search_faces`](@ref) and [`search_faces_by_image`](@ref) operations.
+detection algorithm first detects the faces in the input image. For each face, the algorithm
+extracts facial features into a feature vector, and stores it in the backend database.
+Amazon Rekognition uses feature vectors when it performs face match and search operations
+using the [`search_faces`](@ref) and [`search_faces_by_image`](@ref) operations.
 
 For more information, see Adding faces to a collection in the Amazon Rekognition Developer
 Guide.
 
 To get the number of faces in a collection, call [`describe_collection`](@ref).
 
-If you're using version 1.0 of the face detection model, `IndexFaces` indexes the 15
-largest faces in the input image. Later versions of the face detection model index the 100
-largest faces in the input image.
+If you're using version 1.0 of the face detection model, `IndexFaces` indexes the 15 largest
+faces in the input image. Later versions of the face detection model index the 100 largest
+faces in the input image.
 
 If you're using version 4 or later of the face model, image orientation information is not
 returned in the `OrientationCorrection` field.
 
-To determine which version of the model you're using, call [`describe_collection`](@ref)
-and supply the collection ID. You can also get the model version from the value of
+To determine which version of the model you're using, call [`describe_collection`](@ref) and
+supply the collection ID. You can also get the model version from the value of
 `FaceModelVersion` in the response from `IndexFaces`
 
 For more information, see Model Versioning in the Amazon Rekognition Developer Guide.
@@ -2988,14 +2983,12 @@ smaller faces, such as those belonging to people standing in the background.
 The `QualityFilter` input parameter allows you to filter out detected faces that don’t meet
 a required quality bar. The quality bar is based on a variety of common use cases. By
 default, `IndexFaces` chooses the quality bar that's used to filter faces. You can also
-explicitly choose the quality bar. Use `QualityFilter`, to set the quality bar by
-specifying `LOW`, `MEDIUM`, or `HIGH`. If you do not want to filter detected faces, specify
-`NONE`.
+explicitly choose the quality bar. Use `QualityFilter`, to set the quality bar by specifying
+`LOW`, `MEDIUM`, or `HIGH`. If you do not want to filter detected faces, specify `NONE`.
 
 !!! note
     To use quality filtering, you need a collection associated with version 3 of the face
-    model or higher. To get the version of the face model associated with a collection,
-    call [`describe_collection`](@ref).
+    model or higher. To get the version of the face model associated with a collection, call [`describe_collection`](@ref).
 
 Information about faces detected in an image, but not indexed, is returned in an array of [`unindexed_face`](@ref)
 objects, `UnindexedFaces`. Faces aren't indexed for reasons such as:
@@ -3034,13 +3027,13 @@ This operation requires permissions to perform the `rekognition:IndexFaces` acti
 
 - `collection_id`: The ID of an existing collection to which you want to add the faces that
   are detected in the input images.
+
 - `image`: The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI
-  to call Amazon Rekognition operations, passing base64-encoded image bytes isn't
-  supported.
+  to call Amazon Rekognition operations, passing base64-encoded image bytes isn't supported.
 
   If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-
-  encode image bytes passed using the `Bytes` field. For more information, see Images in
-  the Amazon Rekognition developer guide.
+  encode image bytes passed using the `Bytes` field. For more information, see Images in the
+  Amazon Rekognition developer guide.
 
 # Optional Parameters
 
@@ -3048,39 +3041,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DetectionAttributes"`: An array of facial attributes you want to be returned. A
   `DEFAULT` subset of facial attributes - `BoundingBox`, `Confidence`, `Pose`, `Quality`,
-  and `Landmarks` - will always be returned. You can request for specific facial
-  attributes (in addition to the default list) - by using `["DEFAULT", "FACE_OCCLUDED"]`
-  or just `["FACE_OCCLUDED"]`. You can request for all facial attributes by using
-  `["ALL"]`. Requesting more attributes may increase response time.
+  and `Landmarks` - will always be returned. You can request for specific facial attributes
+  (in addition to the default list) - by using `["DEFAULT", "FACE_OCCLUDED"]` or just
+  `["FACE_OCCLUDED"]`. You can request for all facial attributes by using `["ALL"]`.
+  Requesting more attributes may increase response time.
 
   If you provide both, `["ALL", "DEFAULT"]`, the service uses a logical AND operator to
   determine which attributes to return (in this case, all attributes).
+
 - `"ExternalImageId"`: The ID you want to assign to all the faces detected in the image.
+
 - `"MaxFaces"`: The maximum number of faces to index. The value of `MaxFaces` must be
   greater than or equal to 1. `IndexFaces` returns no more than 100 detected faces in an
   image, even if you specify a larger value for `MaxFaces`.
 
-  If `IndexFaces` detects more faces than the value of `MaxFaces`, the faces with the
-  lowest quality are filtered out first. If there are still more faces than the value of
-  `MaxFaces`, the faces with the smallest bounding boxes are filtered out (up to the
-  number that's needed to satisfy the value of `MaxFaces`). Information about the
-  unindexed faces is available in the `UnindexedFaces` array.
+  If `IndexFaces` detects more faces than the value of `MaxFaces`, the faces with the lowest
+  quality are filtered out first. If there are still more faces than the value of
+  `MaxFaces`, the faces with the smallest bounding boxes are filtered out (up to the number
+  that's needed to satisfy the value of `MaxFaces`). Information about the unindexed faces
+  is available in the `UnindexedFaces` array.
 
   The faces that are returned by `IndexFaces` are sorted by the largest face bounding box
   size to the smallest size, in descending order.
 
   `MaxFaces` can be used with a collection associated with any version of the face model.
-- `"QualityFilter"`: A filter that specifies a quality bar for how much filtering is done
-  to identify faces. Filtered faces aren't indexed. If you specify `AUTO`, Amazon
-  Rekognition chooses the quality bar. If you specify `LOW`, `MEDIUM`, or `HIGH`,
-  filtering removes all faces that don’t meet the chosen quality bar. The default value
-  is `AUTO`. The quality bar is based on a variety of common use cases. Low-quality
-  detections can occur for a number of reasons. Some examples are an object that's
-  misidentified as a face, a face that's too blurry, or a face with a pose that's too
-  extreme to use. If you specify `NONE`, no filtering is performed.
 
-  To use quality filtering, the collection you are using must be associated with version
-  3 of the face model or higher.
+- `"QualityFilter"`: A filter that specifies a quality bar for how much filtering is done to
+  identify faces. Filtered faces aren't indexed. If you specify `AUTO`, Amazon Rekognition
+  chooses the quality bar. If you specify `LOW`, `MEDIUM`, or `HIGH`, filtering removes all
+  faces that don’t meet the chosen quality bar. The default value is `AUTO`. The quality bar
+  is based on a variety of common use cases. Low-quality detections can occur for a number
+  of reasons. Some examples are an object that's misidentified as a face, a face that's too
+  blurry, or a face with a pose that's too extreme to use. If you specify `NONE`, no
+  filtering is performed.
+
+  To use quality filtering, the collection you are using must be associated with version 3
+  of the face model or higher.
 """
 function index_faces end
 
@@ -3120,8 +3116,8 @@ end
     list_collections(params::Dict{String,<:Any})
 
 Returns list of collection IDs in your account. If the result is truncated, the response
-also provides a `NextToken` that you can use in the subsequent request to fetch the next
-set of collection IDs.
+also provides a `NextToken` that you can use in the subsequent request to fetch the next set
+of collection IDs.
 
 For an example, see Listing collections in the Amazon Rekognition Developer Guide.
 
@@ -3154,8 +3150,6 @@ end
     list_dataset_entries(dataset_arn)
     list_dataset_entries(dataset_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
 
@@ -3183,23 +3177,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ContainsLabels"`: Specifies a label filter for the response. The response includes an
   entry only if one or more of the labels in `ContainsLabels` exist in the entry.
+
 - `"HasErrors"`: Specifies an error filter for the response. Specify `True` to only include
   entries that have errors.
-- `"Labeled"`: Specify `true` to get only the JSON Lines where the image is labeled.
-  Specify `false` to get only the JSON Lines where the image isn't labeled. If you don't
-  specify `Labeled`, `ListDatasetEntries` returns JSON Lines for labeled and unlabeled
-  images.
+
+- `"Labeled"`: Specify `true` to get only the JSON Lines where the image is labeled. Specify
+  `false` to get only the JSON Lines where the image isn't labeled. If you don't specify
+  `Labeled`, `ListDatasetEntries` returns JSON Lines for labeled and unlabeled images.
+
 - `"MaxResults"`: The maximum number of results to return per paginated call. The largest
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
+
 - `"NextToken"`: If the previous response was incomplete (because there is more results to
   retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response.
   You can use this pagination token to retrieve the next set of results.
+
 - `"SourceRefContains"`: If specified, `ListDatasetEntries` only returns JSON Lines where
-  the value of `SourceRefContains` is part of the `source-ref` field. The `source-ref`
-  field contains the Amazon S3 location of the image. You can use `SouceRefContains` for
-  tasks such as getting the JSON Line for a single image, or gettting JSON Lines for all
-  images within a specific folder.
+  the value of `SourceRefContains` is part of the `source-ref` field. The `source-ref` field
+  contains the Amazon S3 location of the image. You can use `SouceRefContains` for tasks
+  such as getting the JSON Line for a single image, or gettting JSON Lines for all images
+  within a specific folder.
 """
 function list_dataset_entries end
 
@@ -3232,8 +3230,6 @@ end
 """
     list_dataset_labels(dataset_arn)
     list_dataset_labels(dataset_arn, params::Dict{String,<:Any})
-
-
 
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
@@ -3309,8 +3305,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   collection.
 - `"MaxResults"`: Maximum number of faces to return.
 - `"NextToken"`: If the previous response was incomplete (because there is more data to
-  retrieve), Amazon Rekognition returns a pagination token in the response. You can use
-  this pagination token to retrieve the next set of faces.
+  retrieve), Amazon Rekognition returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of faces.
 - `"UserId"`: An array of user IDs to filter results with when listing faces in a
   collection.
 """
@@ -3379,8 +3375,6 @@ end
     list_project_policies(project_arn)
     list_project_policies(project_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
 
@@ -3400,8 +3394,8 @@ This operation requires permissions to perform the `rekognition:ListProjectPolic
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return per paginated call. The largest
-  value you can specify is 5. If you specify a value greater than 5, a
-  ValidationException error occurs. The default value is 5.
+  value you can specify is 5. If you specify a value greater than 5, a ValidationException
+  error occurs. The default value is 5.
 - `"NextToken"`: If the previous response was incomplete (because there is more results to
   retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response.
   You can use this pagination token to retrieve the next set of results.
@@ -3448,8 +3442,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return in the response. The default is 1000.
 - `"NextToken"`: If the previous response was incomplete (because there are more stream
   processors to retrieve), Amazon Rekognition Video returns a pagination token in the
-  response. You can use this pagination token to retrieve the next set of stream
-  processors.
+  response. You can use this pagination token to retrieve the next set of stream processors.
 """
 function list_stream_processors end
 
@@ -3517,10 +3510,10 @@ end
     list_users(collection_id, params::Dict{String,<:Any})
 
 Returns metadata of the User such as `UserID` in the specified collection. Anonymous User
-(to reserve faces without any identity) is not returned as part of this request. The
-results are sorted by system generated primary key ID. If the response is truncated,
-`NextToken` is returned in the response that can be used in the subsequent request to
-retrieve the next set of identities.
+(to reserve faces without any identity) is not returned as part of this request. The results
+are sorted by system generated primary key ID. If the response is truncated, `NextToken` is
+returned in the response that can be used in the subsequent request to retrieve the next set
+of identities.
 
 # Arguments
 
@@ -3563,23 +3556,20 @@ end
     put_project_policy(policy_document, policy_name, project_arn)
     put_project_policy(policy_document, policy_name, project_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
 
 Attaches a project policy to a Amazon Rekognition Custom Labels project in a trusting AWS
-account. A project policy specifies that a trusted AWS account can copy a model version
-from a trusting AWS account to a project in the trusted AWS account. To copy a model
-version you use the [`copy_project_version`](@ref) operation. Only applies to Custom Labels
-projects.
+account. A project policy specifies that a trusted AWS account can copy a model version from
+a trusting AWS account to a project in the trusted AWS account. To copy a model version you
+use the [`copy_project_version`](@ref) operation. Only applies to Custom Labels projects.
 
 For more information about the format of a project policy document, see Attaching a project
 policy (SDK) in the *Amazon Rekognition Custom Labels Developer Guide*.
 
-The response from `PutProjectPolicy` is a revision ID for the project policy. You can
-attach multiple project policies to a project. You can also update an existing project
-policy by specifying the policy revision ID of the existing policy.
+The response from `PutProjectPolicy` is a revision ID for the project policy. You can attach
+multiple project policies to a project. You can also update an existing project policy by
+specifying the policy revision ID of the existing policy.
 
 To remove a project policy from a project, call [`delete_project_policy`](@ref). To get a
 list of project policies attached to a project, call [`list_project_policies`](@ref).
@@ -3675,8 +3665,7 @@ identify the celebrity in a call to the [`get_celebrity_info`](@ref) operation.
 
 You pass the input image either as base64-encoded image bytes or as a reference to an image
 in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations,
-passing image bytes is not supported. The image must be either a PNG or JPEG formatted
-file.
+passing image bytes is not supported. The image must be either a PNG or JPEG formatted file.
 
 For an example, see Recognizing celebrities in an image in the Amazon Rekognition Developer
 Guide.
@@ -3691,8 +3680,8 @@ operation.
   supported.
 
   If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-
-  encode image bytes passed using the `Bytes` field. For more information, see Images in
-  the Amazon Rekognition developer guide.
+  encode image bytes passed using the `Bytes` field. For more information, see Images in the
+  Amazon Rekognition developer guide.
 """
 function recognize_celebrities end
 
@@ -3722,8 +3711,8 @@ end
 
 For a given input face ID, searches for matching faces in the collection the face belongs
 to. You get a face ID when you add a face to the collection using the [`index_faces`](@ref)
-operation. The operation compares the features of the input face with faces in the
-specified collection.
+operation. The operation compares the features of the input face with faces in the specified
+collection.
 
 !!! note
     You can also search faces without indexing faces by using the [`search_faces_by_image`](@ref)
@@ -3731,9 +3720,9 @@ specified collection.
 
 The operation response returns an array of faces that match, ordered by similarity score
 with the highest similarity first. More specifically, it is an array of metadata for each
-face match that is found. Along with the metadata, the response also includes a
-`confidence` value for each face match, indicating the confidence that the specific face
-matches the input face.
+face match that is found. Along with the metadata, the response also includes a `confidence`
+value for each face match, indicating the confidence that the specific face matches the
+input face.
 
 For an example, see Searching for a face using its face ID in the Amazon Rekognition
 Developer Guide.
@@ -3749,9 +3738,9 @@ This operation requires permissions to perform the `rekognition:SearchFaces` act
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"FaceMatchThreshold"`: Optional value specifying the minimum confidence in the face
-  match to return. For example, don't return any matches where confidence in matches is
-  less than 70%. The default value is 80%.
+- `"FaceMatchThreshold"`: Optional value specifying the minimum confidence in the face match
+  to return. For example, don't return any matches where confidence in matches is less than
+  70%. The default value is 80%.
 - `"MaxFaces"`: Maximum number of faces to return. The operation returns the maximum number
   of faces with the highest confidence in the match.
 """
@@ -3801,21 +3790,20 @@ face with faces in the specified collection.
     operation, and then use the face IDs returned in subsequent calls to the [`search_faces`](@ref)
     operation.
 
-    You can also call the [`detect_faces`](@ref) operation and use the bounding boxes in
-    the response to make face crops, which then you can pass in to the [`search_faces_by_image`](@ref)
+    You can also call the [`detect_faces`](@ref) operation and use the bounding boxes in the
+    response to make face crops, which then you can pass in to the [`search_faces_by_image`](@ref)
     operation.
 
 You pass the input image either as base64-encoded image bytes or as a reference to an image
 in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations,
-passing image bytes is not supported. The image must be either a PNG or JPEG formatted
-file.
+passing image bytes is not supported. The image must be either a PNG or JPEG formatted file.
 
 The response returns an array of faces that match, ordered by similarity score with the
 highest similarity first. More specifically, it is an array of metadata for each face match
 found. Along with the metadata, the response also includes a `similarity` indicating how
 similar the face is to the input face. In the response, the operation also returns the
-bounding box (and a confidence level that the bounding box contains a face) of the face
-that Amazon Rekognition used for the input image.
+bounding box (and a confidence level that the bounding box contains a face) of the face that
+Amazon Rekognition used for the input image.
 
 If no faces are detected in the input image, `SearchFacesByImage` returns an
 `InvalidParameterException` error.
@@ -3831,21 +3819,21 @@ a required quality bar. The quality bar is based on a variety of common use case
 
 !!! note
     To use quality filtering, you need a collection associated with version 3 of the face
-    model or higher. To get the version of the face model associated with a collection,
-    call [`describe_collection`](@ref).
+    model or higher. To get the version of the face model associated with a collection, call [`describe_collection`](@ref).
 
 This operation requires permissions to perform the `rekognition:SearchFacesByImage` action.
 
 # Arguments
 
 - `collection_id`: ID of the collection to search.
+
 - `image`: The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI
   to call Amazon Rekognition operations, passing base64-encoded image bytes is not
   supported.
 
   If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-
-  encode image bytes passed using the `Bytes` field. For more information, see Images in
-  the Amazon Rekognition developer guide.
+  encode image bytes passed using the `Bytes` field. For more information, see Images in the
+  Amazon Rekognition developer guide.
 
 # Optional Parameters
 
@@ -3854,19 +3842,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FaceMatchThreshold"`: (Optional) Specifies the minimum confidence in the face match to
   return. For example, don't return any matches where confidence in matches is less than
   70%. The default value is 80%.
+
 - `"MaxFaces"`: Maximum number of faces to return. The operation returns the maximum number
   of faces with the highest confidence in the match.
-- `"QualityFilter"`: A filter that specifies a quality bar for how much filtering is done
-  to identify faces. Filtered faces aren't searched for in the collection. If you specify
+
+- `"QualityFilter"`: A filter that specifies a quality bar for how much filtering is done to
+  identify faces. Filtered faces aren't searched for in the collection. If you specify
   `AUTO`, Amazon Rekognition chooses the quality bar. If you specify `LOW`, `MEDIUM`, or
   `HIGH`, filtering removes all faces that don’t meet the chosen quality bar. The quality
   bar is based on a variety of common use cases. Low-quality detections can occur for a
   number of reasons. Some examples are an object that's misidentified as a face, a face
-  that's too blurry, or a face with a pose that's too extreme to use. If you specify
-  `NONE`, no filtering is performed. The default value is `NONE`.
+  that's too blurry, or a face with a pose that's too extreme to use. If you specify `NONE`,
+  no filtering is performed. The default value is `NONE`.
 
-  To use quality filtering, the collection you are using must be associated with version
-  3 of the face model or higher.
+  To use quality filtering, the collection you are using must be associated with version 3
+  of the face model or higher.
 """
 function search_faces_by_image end
 
@@ -3906,10 +3896,10 @@ end
     search_users(collection_id, params::Dict{String,<:Any})
 
 Searches for UserIDs within a collection based on a `FaceId` or `UserId`. This API can be
-used to find the closest UserID (with a highest similarity) to associate a face. The
-request must be provided with either `FaceId` or `UserId`. The operation returns an array
-of UserID that match the `FaceId` or `UserId`, ordered by similarity score with the highest
-similarity first.
+used to find the closest UserID (with a highest similarity) to associate a face. The request
+must be provided with either `FaceId` or `UserId`. The operation returns an array of UserID
+that match the `FaceId` or `UserId`, ordered by similarity score with the highest similarity
+first.
 
 # Arguments
 
@@ -3957,16 +3947,16 @@ end
     search_users_by_image(collection_id, image)
     search_users_by_image(collection_id, image, params::Dict{String,<:Any})
 
-Searches for UserIDs using a supplied image. It first detects the largest face in the
-image, and then searches a specified collection for matching UserIDs.
+Searches for UserIDs using a supplied image. It first detects the largest face in the image,
+and then searches a specified collection for matching UserIDs.
 
-The operation returns an array of UserIDs that match the face in the supplied image,
-ordered by similarity score with the highest similarity first. It also returns a bounding
-box for the face found in the input image.
+The operation returns an array of UserIDs that match the face in the supplied image, ordered
+by similarity score with the highest similarity first. It also returns a bounding box for
+the face found in the input image.
 
 Information about faces detected in the supplied image, but not used for the search, is
-returned in an array of `UnsearchedFace` objects. If no valid face is detected in the
-image, the response will contain an empty `UserMatches` list and no `SearchedFace` object.
+returned in an array of `UnsearchedFace` objects. If no valid face is detected in the image,
+the response will contain an empty `UserMatches` list and no `SearchedFace` object.
 
 # Arguments
 
@@ -3978,9 +3968,9 @@ image, the response will contain an empty `UserMatches` list and no `SearchedFac
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxUsers"`: Maximum number of UserIDs to return.
-- `"QualityFilter"`: A filter that specifies a quality bar for how much filtering is done
-  to identify faces. Filtered faces aren't searched for in the collection. The default
-  value is NONE.
+- `"QualityFilter"`: A filter that specifies a quality bar for how much filtering is done to
+  identify faces. Filtered faces aren't searched for in the collection. The default value is
+  NONE.
 - `"UserMatchThreshold"`: Specifies the minimum confidence in the UserID match to return.
   Default value is 80.
 """
@@ -4026,19 +4016,19 @@ Starts asynchronous recognition of celebrities in a stored video.
 Amazon Rekognition Video can detect celebrities in a video must be stored in an Amazon S3
 bucket. Use [`video`](@ref) to specify the bucket name and the filename of the video.
 `StartCelebrityRecognition` returns a job identifier (`JobId`) which you use to get the
-results of the analysis. When celebrity recognition analysis is finished, Amazon
-Rekognition Video publishes a completion status to the Amazon Simple Notification Service
-topic that you specify in `NotificationChannel`. To get the results of the celebrity
-recognition analysis, first check that the status value published to the Amazon SNS topic
-is `SUCCEEDED`. If so, call [`get_celebrity_recognition`](@ref) and pass the job identifier
-(`JobId`) from the initial call to `StartCelebrityRecognition`.
+results of the analysis. When celebrity recognition analysis is finished, Amazon Rekognition
+Video publishes a completion status to the Amazon Simple Notification Service topic that you
+specify in `NotificationChannel`. To get the results of the celebrity recognition analysis,
+first check that the status value published to the Amazon SNS topic is `SUCCEEDED`. If so,
+call [`get_celebrity_recognition`](@ref) and pass the job identifier (`JobId`) from the
+initial call to `StartCelebrityRecognition`.
 
 For more information, see Recognizing celebrities in the Amazon Rekognition Developer Guide.
 
 # Arguments
 
-- `video`: The video in which you want to recognize celebrities. The video must be stored
-  in an Amazon S3 bucket.
+- `video`: The video in which you want to recognize celebrities. The video must be stored in
+  an Amazon S3 bucket.
 
 # Optional Parameters
 
@@ -4046,15 +4036,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`: Idempotent token used to identify the start request. If you use
   the same token with multiple `StartCelebrityRecognition` requests, the same `JobId` is
-  returned. Use `ClientRequestToken` to prevent the same job from being accidently
-  started more than once.
+  returned. Use `ClientRequestToken` to prevent the same job from being accidently started
+  more than once.
 - `"JobTag"`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can
   use `JobTag` to group related jobs and identify them in the completion notification.
 - `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Rekognition Video
-  to publish the completion status of the celebrity recognition analysis to. The Amazon
-  SNS topic must have a topic name that begins with *AmazonRekognition* if you are using
-  the AmazonRekognitionServiceRole permissions policy.
+  to publish the completion status of the celebrity recognition analysis to. The Amazon SNS
+  topic must have a topic name that begins with *AmazonRekognition* if you are using the
+  AmazonRekognitionServiceRole permissions policy.
 """
 function start_celebrity_recognition end
 
@@ -4087,12 +4077,11 @@ end
 Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored
 video. For a list of moderation labels in Amazon Rekognition, see [Using the image and video moderation APIs](https://docs.aws.amazon.com/rekognition/latest/dg/moderation.html#moderation-api).
 
-Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use
-[`video`](@ref) to specify the bucket name and the filename of the video.
-`StartContentModeration` returns a job identifier (`JobId`) which you use to get the
-results of the analysis. When content analysis is finished, Amazon Rekognition Video
-publishes a completion status to the Amazon Simple Notification Service topic that you
-specify in `NotificationChannel`.
+Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use [`video`](@ref)
+to specify the bucket name and the filename of the video. `StartContentModeration` returns a
+job identifier (`JobId`) which you use to get the results of the analysis. When content
+analysis is finished, Amazon Rekognition Video publishes a completion status to the Amazon
+Simple Notification Service topic that you specify in `NotificationChannel`.
 
 To get the results of the content analysis, first check that the status value published to
 the Amazon SNS topic is `SUCCEEDED`. If so, call [`get_content_moderation`](@ref) and pass
@@ -4111,18 +4100,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`: Idempotent token used to identify the start request. If you use
   the same token with multiple `StartContentModeration` requests, the same `JobId` is
-  returned. Use `ClientRequestToken` to prevent the same job from being accidently
-  started more than once.
+  returned. Use `ClientRequestToken` to prevent the same job from being accidently started
+  more than once.
+
 - `"JobTag"`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can
   use `JobTag` to group related jobs and identify them in the completion notification.
+
 - `"MinConfidence"`: Specifies the minimum confidence that Amazon Rekognition must have in
   order to return a moderated content label. Confidence represents how certain Amazon
   Rekognition is that the moderated content is correctly identified. 0 is the lowest
-  confidence. 100 is the highest confidence. Amazon Rekognition doesn't return any
-  moderated content labels with a confidence level lower than this specified value. If
-  you don't specify `MinConfidence`, `GetContentModeration` returns labels with
-  confidence values greater than or equal to 50 percent.
+  confidence. 100 is the highest confidence. Amazon Rekognition doesn't return any moderated
+  content labels with a confidence level lower than this specified value. If you don't
+  specify `MinConfidence`, `GetContentModeration` returns labels with confidence values
+  greater than or equal to 50 percent.
+
 - `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Rekognition Video
   to publish the completion status of the content analysis to. The Amazon SNS topic must
   have a topic name that begins with *AmazonRekognition* if you are using the
@@ -4157,13 +4149,13 @@ end
 Starts asynchronous detection of faces in a stored video.
 
 Amazon Rekognition Video can detect faces in a video stored in an Amazon S3 bucket. Use [`video`](@ref)
-to specify the bucket name and the filename of the video. `StartFaceDetection` returns a
-job identifier (`JobId`) that you use to get the results of the operation. When face
-detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon
-Simple Notification Service topic that you specify in `NotificationChannel`. To get the
-results of the face detection operation, first check that the status value published to the
-Amazon SNS topic is `SUCCEEDED`. If so, call [`get_face_detection`](@ref) and pass the job
-identifier (`JobId`) from the initial call to `StartFaceDetection`.
+to specify the bucket name and the filename of the video. `StartFaceDetection` returns a job
+identifier (`JobId`) that you use to get the results of the operation. When face detection
+is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple
+Notification Service topic that you specify in `NotificationChannel`. To get the results of
+the face detection operation, first check that the status value published to the Amazon SNS
+topic is `SUCCEEDED`. If so, call [`get_face_detection`](@ref) and pass the job identifier
+(`JobId`) from the initial call to `StartFaceDetection`.
 
 For more information, see Detecting faces in a stored video in the Amazon Rekognition
 Developer Guide.
@@ -4178,18 +4170,21 @@ Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: Idempotent token used to identify the start request. If you use
-  the same token with multiple `StartFaceDetection` requests, the same `JobId` is
-  returned. Use `ClientRequestToken` to prevent the same job from being accidently
-  started more than once.
+  the same token with multiple `StartFaceDetection` requests, the same `JobId` is returned.
+  Use `ClientRequestToken` to prevent the same job from being accidently started more than
+  once.
+
 - `"FaceAttributes"`: The face attributes you want returned.
 
   `DEFAULT` - The following subset of facial attributes are returned: BoundingBox,
   Confidence, Pose, Quality and Landmarks.
 
   `ALL` - All facial attributes are returned.
+
 - `"JobTag"`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can
   use `JobTag` to group related jobs and identify them in the completion notification.
+
 - `"NotificationChannel"`: The ARN of the Amazon SNS topic to which you want Amazon
   Rekognition Video to publish the completion status of the face detection operation. The
   Amazon SNS topic must have a topic name that begins with *AmazonRekognition* if you are
@@ -4229,9 +4224,9 @@ name and the filename of the video. `StartFaceSearch` returns a job identifier (
 which you use to get the search results once the search has completed. When searching is
 finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple
 Notification Service topic that you specify in `NotificationChannel`. To get the search
-results, first check that the status value published to the Amazon SNS topic is
-`SUCCEEDED`. If so, call [`get_face_search`](@ref) and pass the job identifier (`JobId`)
-from the initial call to `StartFaceSearch`. For more information, see [Searching stored videos for faces](https://docs.aws.amazon.com/rekognition/latest/dg/procedure-person-search-videos.html).
+results, first check that the status value published to the Amazon SNS topic is `SUCCEEDED`.
+If so, call [`get_face_search`](@ref) and pass the job identifier (`JobId`) from the initial
+call to `StartFaceSearch`. For more information, see [Searching stored videos for faces](https://docs.aws.amazon.com/rekognition/latest/dg/procedure-person-search-videos.html).
 
 # Arguments
 
@@ -4243,12 +4238,11 @@ from the initial call to `StartFaceSearch`. For more information, see [Searching
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: Idempotent token used to identify the start request. If you use
-  the same token with multiple `StartFaceSearch` requests, the same `JobId` is returned.
-  Use `ClientRequestToken` to prevent the same job from being accidently started more
-  than once.
-- `"FaceMatchThreshold"`: The minimum confidence in the person match to return. For
-  example, don't return any matches where confidence in matches is less than 70%. The
-  default value is 80%.
+  the same token with multiple `StartFaceSearch` requests, the same `JobId` is returned. Use
+  `ClientRequestToken` to prevent the same job from being accidently started more than once.
+- `"FaceMatchThreshold"`: The minimum confidence in the person match to return. For example,
+  don't return any matches where confidence in matches is less than 70%. The default value
+  is 80%.
 - `"JobTag"`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can
   use `JobTag` to group related jobs and identify them in the completion notification.
@@ -4298,14 +4292,14 @@ Starts asynchronous detection of labels in a stored video.
 
 Amazon Rekognition Video can detect labels in a video. Labels are instances of real-world
 entities. This includes objects like flower, tree, and table; events like wedding,
-graduation, and birthday party; concepts like landscape, evening, and nature; and
-activities like a person getting out of a car or a person skiing.
+graduation, and birthday party; concepts like landscape, evening, and nature; and activities
+like a person getting out of a car or a person skiing.
 
 The video must be stored in an Amazon S3 bucket. Use [`video`](@ref) to specify the bucket
-name and the filename of the video. `StartLabelDetection` returns a job identifier
-(`JobId`) which you use to get the results of the operation. When label detection is
-finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple
-Notification Service topic that you specify in `NotificationChannel`.
+name and the filename of the video. `StartLabelDetection` returns a job identifier (`JobId`)
+which you use to get the results of the operation. When label detection is finished, Amazon
+Rekognition Video publishes a completion status to the Amazon Simple Notification Service
+topic that you specify in `NotificationChannel`.
 
 To get the results of the label detection operation, first check that the status value
 published to the Amazon SNS topic is `SUCCEEDED`. If so, call [`get_label_detection`](@ref)
@@ -4316,11 +4310,11 @@ and pass the job identifier (`JobId`) from the initial call to `StartLabelDetect
 `StartLabelDetection` has the `GENERAL_LABELS` Feature applied by default. This feature
 allows you to provide filtering criteria to the `Settings` parameter. You can filter with
 sets of individual labels or with label categories. You can specify inclusive filters,
-exclusive filters, or a combination of inclusive and exclusive filters. For more
-information on filtering, see [Detecting labels in a video](https://docs.aws.amazon.com/rekognition/latest/dg/labels-detecting-labels-video.html).
+exclusive filters, or a combination of inclusive and exclusive filters. For more information
+on filtering, see [Detecting labels in a video](https://docs.aws.amazon.com/rekognition/latest/dg/labels-detecting-labels-video.html).
 
-You can specify `MinConfidence` to control the confidence threshold for the labels
-returned. The default is 50.
+You can specify `MinConfidence` to control the confidence threshold for the labels returned.
+The default is 50.
 
 # Arguments
 
@@ -4332,26 +4326,31 @@ returned. The default is 50.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: Idempotent token used to identify the start request. If you use
-  the same token with multiple `StartLabelDetection` requests, the same `JobId` is
-  returned. Use `ClientRequestToken` to prevent the same job from being accidently
-  started more than once.
+  the same token with multiple `StartLabelDetection` requests, the same `JobId` is returned.
+  Use `ClientRequestToken` to prevent the same job from being accidently started more than
+  once.
+
 - `"Features"`: The features to return after video analysis. You can specify that
   GENERAL_LABELS are returned.
+
 - `"JobTag"`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can
   use `JobTag` to group related jobs and identify them in the completion notification.
+
 - `"MinConfidence"`: Specifies the minimum confidence that Amazon Rekognition Video must
   have in order to return a detected label. Confidence represents how certain Amazon
-  Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is
-  the highest confidence. Amazon Rekognition Video doesn't return any labels with a
-  confidence level lower than this specified value.
+  Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the
+  highest confidence. Amazon Rekognition Video doesn't return any labels with a confidence
+  level lower than this specified value.
 
-  If you don't specify `MinConfidence`, the operation returns labels and bounding boxes
-  (if detected) with confidence values greater than or equal to 50 percent.
+  If you don't specify `MinConfidence`, the operation returns labels and bounding boxes (if
+  detected) with confidence values greater than or equal to 50 percent.
+
 - `"NotificationChannel"`: The Amazon SNS topic ARN you want Amazon Rekognition Video to
   publish the completion status of the label detection operation to. The Amazon SNS topic
   must have a topic name that begins with *AmazonRekognition* if you are using the
   AmazonRekognitionServiceRole permissions policy.
+
 - `"Settings"`: The settings for a StartLabelDetection request.Contains the specified
   parameters for the label detection request of an asynchronous label analysis operation.
   Settings can include filters for GENERAL_LABELS.
@@ -4396,9 +4395,9 @@ output is a manifest file and a summary of the manifest stored in the Amazon S3 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: Idempotency token used to prevent the accidental creation of
-  duplicate versions. If you use the same token with multiple
-  `StartMediaAnalysisJobRequest` requests, the same response is returned. Use
-  `ClientRequestToken` to prevent the same request from being processed more than once.
+  duplicate versions. If you use the same token with multiple `StartMediaAnalysisJobRequest`
+  requests, the same response is returned. Use `ClientRequestToken` to prevent the same
+  request from being processed more than once.
 - `"JobName"`: The name of the job. Does not have to be unique.
 - `"KmsKeyId"`: The identifier of customer managed AWS KMS key (name or ARN). The key is
   used to encrypt images copied into the service. The key is also used to encrypt results
@@ -4459,9 +4458,9 @@ Starts the asynchronous tracking of a person's path in a stored video.
 
 Amazon Rekognition Video can track the path of people in a video stored in an Amazon S3
 bucket. Use [`video`](@ref) to specify the bucket name and the filename of the video.
-`StartPersonTracking` returns a job identifier (`JobId`) which you use to get the results
-of the operation. When label detection is finished, Amazon Rekognition publishes a
-completion status to the Amazon Simple Notification Service topic that you specify in
+`StartPersonTracking` returns a job identifier (`JobId`) which you use to get the results of
+the operation. When label detection is finished, Amazon Rekognition publishes a completion
+status to the Amazon Simple Notification Service topic that you specify in
 `NotificationChannel`.
 
 To get the results of the person detection operation, first check that the status value
@@ -4478,15 +4477,15 @@ and pass the job identifier (`JobId`) from the initial call to `StartPersonTrack
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: Idempotent token used to identify the start request. If you use
-  the same token with multiple `StartPersonTracking` requests, the same `JobId` is
-  returned. Use `ClientRequestToken` to prevent the same job from being accidently
-  started more than once.
+  the same token with multiple `StartPersonTracking` requests, the same `JobId` is returned.
+  Use `ClientRequestToken` to prevent the same job from being accidently started more than
+  once.
 - `"JobTag"`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can
   use `JobTag` to group related jobs and identify them in the completion notification.
 - `"NotificationChannel"`: The Amazon SNS topic ARN you want Amazon Rekognition Video to
-  publish the completion status of the people detection operation to. The Amazon SNS
-  topic must have a topic name that begins with *AmazonRekognition* if you are using the
+  publish the completion status of the people detection operation to. The Amazon SNS topic
+  must have a topic name that begins with *AmazonRekognition* if you are using the
   AmazonRekognitionServiceRole permissions policy.
 """
 function start_person_tracking end
@@ -4515,13 +4514,11 @@ end
     start_project_version(min_inference_units, project_version_arn)
     start_project_version(min_inference_units, project_version_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
 
-Starts the running of the version of a model. Starting a model takes a while to complete.
-To check the current state of the model, use [`describe_project_versions`](@ref).
+Starts the running of the version of a model. Starting a model takes a while to complete. To
+check the current state of the model, use [`describe_project_versions`](@ref).
 
 Once the model is running, you can detect custom labels in new images by calling [`detect_custom_labels`](@ref).
 
@@ -4536,18 +4533,19 @@ This operation requires permissions to perform the `rekognition:StartProjectVers
 - `min_inference_units`: The minimum number of inference units to use. A single inference
   unit represents 1 hour of processing.
 
-  Use a higher number to increase the TPS throughput of your model. You are charged for
-  the number of inference units that you use.
-- `project_version_arn`: The Amazon Resource Name(ARN) of the model version that you want
-  to start.
+  Use a higher number to increase the TPS throughput of your model. You are charged for the
+  number of inference units that you use.
+
+- `project_version_arn`: The Amazon Resource Name(ARN) of the model version that you want to
+  start.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxInferenceUnits"`: The maximum number of inference units to use for auto-scaling the
-  model. If you don't specify a value, Amazon Rekognition Custom Labels doesn't auto-
-  scale the model.
+  model. If you don't specify a value, Amazon Rekognition Custom Labels doesn't auto-scale
+  the model.
 """
 function start_project_version end
 
@@ -4610,8 +4608,8 @@ To get the results of the segment detection operation, first check that the stat
 published to the Amazon SNS topic is `SUCCEEDED`. if so, call [`get_segment_detection`](@ref)
 and pass the job identifier (`JobId`) from the initial call to `StartSegmentDetection`.
 
-For more information, see Detecting video segments in stored video in the Amazon
-Rekognition Developer Guide.
+For more information, see Detecting video segments in stored video in the Amazon Rekognition
+Developer Guide.
 
 # Arguments
 
@@ -4625,17 +4623,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`: Idempotent token used to identify the start request. If you use
   the same token with multiple `StartSegmentDetection` requests, the same `JobId` is
-  returned. Use `ClientRequestToken` to prevent the same job from being accidently
-  started more than once.
+  returned. Use `ClientRequestToken` to prevent the same job from being accidently started
+  more than once.
 - `"Filters"`: Filters for technical cue or shot detection.
 - `"JobTag"`: An identifier you specify that's returned in the completion notification
   that's published to your Amazon Simple Notification Service topic. For example, you can
   use `JobTag` to group related jobs and identify them in the completion notification.
 - `"NotificationChannel"`: The ARN of the Amazon SNS topic to which you want Amazon
   Rekognition Video to publish the completion status of the segment detection operation.
-  Note that the Amazon SNS topic must have a topic name that begins with
-  *AmazonRekognition* if you are using the AmazonRekognitionServiceRole permissions
-  policy to access the topic.
+  Note that the Amazon SNS topic must have a topic name that begins with *AmazonRekognition*
+  if you are using the AmazonRekognitionServiceRole permissions policy to access the topic.
 """
 function start_segment_detection end
 
@@ -4690,18 +4687,19 @@ time.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"StartSelector"`: Specifies the starting point in the Kinesis stream to start
-  processing. You can use the producer timestamp or the fragment number. If you use the
-  producer timestamp, you must put the time in milliseconds. For more information about
-  fragment numbers, see [Fragment](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html).
+- `"StartSelector"`: Specifies the starting point in the Kinesis stream to start processing.
+  You can use the producer timestamp or the fragment number. If you use the producer
+  timestamp, you must put the time in milliseconds. For more information about fragment
+  numbers, see [Fragment](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html).
 
-  This is a required parameter for label detection stream processors and should not be
-  used to start a face search stream processor.
+  This is a required parameter for label detection stream processors and should not be used
+  to start a face search stream processor.
+
 - `"StopSelector"`: Specifies when to stop processing the stream. You can specify a maximum
   amount of time to process the video.
 
-  This is a required parameter for label detection stream processors and should not be
-  used to start a face search stream processor.
+  This is a required parameter for label detection stream processors and should not be used
+  to start a face search stream processor.
 """
 function start_stream_processor end
 
@@ -4732,10 +4730,10 @@ end
 Starts asynchronous detection of text in a stored video.
 
 Amazon Rekognition Video can detect text in a video stored in an Amazon S3 bucket. Use [`video`](@ref)
-to specify the bucket name and the filename of the video. `StartTextDetection` returns a
-job identifier (`JobId`) which you use to get the results of the operation. When text
-detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon
-Simple Notification Service topic that you specify in `NotificationChannel`.
+to specify the bucket name and the filename of the video. `StartTextDetection` returns a job
+identifier (`JobId`) which you use to get the results of the operation. When text detection
+is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple
+Notification Service topic that you specify in `NotificationChannel`.
 
 To get the results of the text detection operation, first check that the status value
 published to the Amazon SNS topic is `SUCCEEDED`. if so, call [`get_text_detection`](@ref)
@@ -4750,14 +4748,14 @@ and pass the job identifier (`JobId`) from the initial call to `StartTextDetecti
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: Idempotent token used to identify the start request. If you use
-  the same token with multiple `StartTextDetection` requests, the same `JobId` is
-  returned. Use `ClientRequestToken` to prevent the same job from being accidentaly
-  started more than once.
+  the same token with multiple `StartTextDetection` requests, the same `JobId` is returned.
+  Use `ClientRequestToken` to prevent the same job from being accidentaly started more than
+  once.
 - `"Filters"`: Optional parameters that let you set criteria the text must meet to be
   included in your response.
 - `"JobTag"`: An identifier returned in the completion status published by your Amazon
-  Simple Notification Service topic. For example, you can use `JobTag` to group related
-  jobs and identify them in the completion notification.
+  Simple Notification Service topic. For example, you can use `JobTag` to group related jobs
+  and identify them in the completion notification.
 - `"NotificationChannel"`:
 """
 function start_text_detection end
@@ -4785,8 +4783,6 @@ end
 """
     stop_project_version(project_version_arn)
     stop_project_version(project_version_arn, params::Dict{String,<:Any})
-
-
 
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
@@ -4964,24 +4960,22 @@ end
     update_dataset_entries(changes, dataset_arn)
     update_dataset_entries(changes, dataset_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     This operation applies only to Amazon Rekognition Custom Labels.
 
 Adds or updates one or more entries (images) in a dataset. An entry is a JSON Line which
 contains the information for a single image, including the image location, assigned labels,
-and object location bounding boxes. For more information, see Image-Level labels in
-manifest files and Object localization in manifest files in the *Amazon Rekognition Custom
-Labels Developer Guide*.
+and object location bounding boxes. For more information, see Image-Level labels in manifest
+files and Object localization in manifest files in the *Amazon Rekognition Custom Labels
+Developer Guide*.
 
 If the `source-ref` field in the JSON line references an existing image, the existing image
 in the dataset is updated. If `source-ref` field doesn't reference an existing image, the
 image is added as a new image to the dataset.
 
 You specify the changes that you want to make in the `Changes` input parameter. There isn't
-a limit to the number JSON Lines that you can change, but the size of `Changes` must be
-less than 5MB.
+a limit to the number JSON Lines that you can change, but the size of `Changes` must be less
+than 5MB.
 
 `UpdateDatasetEntries` returns immediatly, but the dataset update might take a while to
 complete. Use [`describe_dataset`](@ref) to check the current status. The dataset updated
@@ -4990,9 +4984,8 @@ successfully if the value of `Status` is `UPDATE_COMPLETE`.
 To check if any non-terminal errors occured, call [`list_dataset_entries`](@ref) and check
 for the presence of `errors` lists in the JSON Lines.
 
-Dataset update fails if a terminal error occurs (`Status` = `UPDATE_FAILED`). Currently,
-you can't access the terminal error information from the Amazon Rekognition Custom Labels
-SDK.
+Dataset update fails if a terminal error occurs (`Status` = `UPDATE_FAILED`). Currently, you
+can't access the terminal error information from the Amazon Rekognition Custom Labels SDK.
 
 This operation requires permissions to perform the `rekognition:UpdateDatasetEntries`
 action.
@@ -5050,14 +5043,14 @@ interest and delete certain parameters.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"DataSharingPreferenceForUpdate"`: Shows whether you are sharing data with Rekognition
-  to improve model performance. You can choose this option at the account level or on a
-  per-stream basis. Note that if you opt out at the account level this setting is ignored
-  on individual streams.
+- `"DataSharingPreferenceForUpdate"`: Shows whether you are sharing data with Rekognition to
+  improve model performance. You can choose this option at the account level or on a per-
+  stream basis. Note that if you opt out at the account level this setting is ignored on
+  individual streams.
 - `"ParametersToDelete"`: A list of parameters you want to delete from the stream processor.
-- `"RegionsOfInterestForUpdate"`: Specifies locations in the frames where Amazon
-  Rekognition checks for objects or people. This is an optional parameter for label
-  detection stream processors.
+- `"RegionsOfInterestForUpdate"`: Specifies locations in the frames where Amazon Rekognition
+  checks for objects or people. This is an optional parameter for label detection stream
+  processors.
 - `"SettingsForUpdate"`: The stream processor settings that you want to update. Label
   detection settings can be updated to detect different labels with a different minimum
   confidence.

@@ -184,8 +184,8 @@ end
     create_qapp(app_definition, instance-id, title, params::Dict{String,<:Any})
 
 Creates a new Amazon Q App based on the provided definition. The Q App definition specifies
-the cards and flow of the Q App. This operation also calculates the dependencies between
-the cards by inspecting the references in the prompts.
+the cards and flow of the Q App. This operation also calculates the dependencies between the
+cards by inspecting the references in the prompts.
 
 # Arguments
 
@@ -249,8 +249,8 @@ end
     delete_library_item(instance-id, library_item_id)
     delete_library_item(instance-id, library_item_id, params::Dict{String,<:Any})
 
-Deletes a library item for an Amazon Q App, removing it from the library so it can no
-longer be discovered or used by other users.
+Deletes a library item for an Amazon Q App, removing it from the library so it can no longer
+be discovered or used by other users.
 
 # Arguments
 
@@ -709,8 +709,8 @@ end
     list_library_items(instance-id)
     list_library_items(instance-id, params::Dict{String,<:Any})
 
-Lists the library items for Amazon Q Apps that are published and available for users in
-your Amazon Web Services account.
+Lists the library items for Amazon Q Apps that are published and available for users in your
+Amazon Web Services account.
 
 # Arguments
 
@@ -977,9 +977,9 @@ end
     stop_qapp_session(instance-id, session_id)
     stop_qapp_session(instance-id, session_id, params::Dict{String,<:Any})
 
-Stops an active session for an Amazon Q App.This deletes all data related to the session
-and makes it invalid for future uses. The results of the session will be persisted as part
-of the conversation.
+Stops an active session for an Amazon Q App.This deletes all data related to the session and
+makes it invalid for future uses. The results of the session will be persisted as part of
+the conversation.
 
 # Arguments
 
@@ -1289,9 +1289,9 @@ end
     update_qapp_session(instance-id, session_id)
     update_qapp_session(instance-id, session_id, params::Dict{String,<:Any})
 
-Updates the session for a given Q App `sessionId`. This is only valid when at least one
-card of the session is in the `WAITING` state. Data for each `WAITING` card can be provided
-as input. If inputs are not provided, the call will be accepted but session will not move
+Updates the session for a given Q App `sessionId`. This is only valid when at least one card
+of the session is in the `WAITING` state. Data for each `WAITING` card can be provided as
+input. If inputs are not provided, the call will be accepted but session will not move
 forward. Inputs for cards that are not in the `WAITING` status will be ignored.
 
 # Arguments

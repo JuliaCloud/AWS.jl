@@ -45,9 +45,9 @@ Deletes the quota increase request for the specified quota from your quota reque
 # Arguments
 
 - `aws_region`: Specifies the Amazon Web Services Region for which the request was made.
-- `quota_code`: Specifies the quota identifier. To find the quota code for a specific
-  quota, use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode`
-  response in the output for the quota you want.
+- `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
+  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
+  the output for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the [`list_services`](@ref) operation.
 """
@@ -160,9 +160,9 @@ quota increases.
 
 # Arguments
 
-- `quota_code`: Specifies the quota identifier. To find the quota code for a specific
-  quota, use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode`
-  response in the output for the quota you want.
+- `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
+  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
+  the output for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the [`list_services`](@ref) operation.
 """
@@ -241,15 +241,15 @@ end
     get_service_quota(quota_code, service_code)
     get_service_quota(quota_code, service_code, params::Dict{String,<:Any})
 
-Retrieves the applied quota value for the specified quota. For some quotas, only the
-default values are available. If the applied quota value is not available for a quota, the
-quota is not retrieved.
+Retrieves the applied quota value for the specified quota. For some quotas, only the default
+values are available. If the applied quota value is not available for a quota, the quota is
+not retrieved.
 
 # Arguments
 
-- `quota_code`: Specifies the quota identifier. To find the quota code for a specific
-  quota, use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode`
-  response in the output for the quota you want.
+- `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
+  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
+  the output for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the [`list_services`](@ref) operation.
 
@@ -304,9 +304,9 @@ template.
 # Arguments
 
 - `aws_region`: Specifies the Amazon Web Services Region for which you made the request.
-- `quota_code`: Specifies the quota identifier. To find the quota code for a specific
-  quota, use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode`
-  response in the output for the quota you want.
+- `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
+  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
+  the output for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the [`list_services`](@ref) operation.
 """
@@ -375,8 +375,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       An API operation can return fewer results than the maximum even when there are more
-      results available. You should check `NextToken` after every operation to ensure
-      that you receive all of the results.
+      results available. You should check `NextToken` after every operation to ensure that
+      you receive all of the results.
 
 - `"NextToken"`: Specifies a value for receiving additional results after you receive a
   `NextToken` response in a previous request. A `NextToken` response indicates that more
@@ -430,17 +430,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       An API operation can return fewer results than the maximum even when there are more
-      results available. You should check `NextToken` after every operation to ensure
-      that you receive all of the results.
+      results available. You should check `NextToken` after every operation to ensure that
+      you receive all of the results.
 
 - `"NextToken"`: Specifies a value for receiving additional results after you receive a
   `NextToken` response in a previous request. A `NextToken` response indicates that more
   output is available. Set this parameter to the value of the previous call's `NextToken`
   response to indicate where the output should continue from.
-- `"QuotaRequestedAtLevel"`: Specifies at which level within the Amazon Web Services
-  account the quota request applies to.
+
+- `"QuotaRequestedAtLevel"`: Specifies at which level within the Amazon Web Services account
+  the quota request applies to.
+
 - `"ServiceCode"`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the [`list_services`](@ref) operation.
+
 - `"Status"`: Specifies that you want to filter the results to only the requests with the
   matching status.
 """
@@ -475,9 +478,9 @@ Retrieves the quota increase requests for the specified quota.
 
 # Arguments
 
-- `quota_code`: Specifies the quota identifier. To find the quota code for a specific
-  quota, use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode`
-  response in the output for the quota you want.
+- `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
+  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
+  the output for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the [`list_services`](@ref) operation.
 
@@ -494,15 +497,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       An API operation can return fewer results than the maximum even when there are more
-      results available. You should check `NextToken` after every operation to ensure
-      that you receive all of the results.
+      results available. You should check `NextToken` after every operation to ensure that
+      you receive all of the results.
 
 - `"NextToken"`: Specifies a value for receiving additional results after you receive a
   `NextToken` response in a previous request. A `NextToken` response indicates that more
   output is available. Set this parameter to the value of the previous call's `NextToken`
   response to indicate where the output should continue from.
-- `"QuotaRequestedAtLevel"`: Specifies at which level within the Amazon Web Services
-  account the quota request applies to.
+
+- `"QuotaRequestedAtLevel"`: Specifies at which level within the Amazon Web Services account
+  the quota request applies to.
+
 - `"Status"`: Specifies that you want to filter the results to only the requests with the
   matching status.
 """
@@ -550,6 +555,7 @@ Lists the quota increase requests in the specified quota request template.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AwsRegion"`: Specifies the Amazon Web Services Region for which you made the request.
+
 - `"MaxResults"`: Specifies the maximum number of results that you want included on each
   page of the response. If you do not include this parameter, it defaults to a value
   appropriate to the operation. If additional items exist beyond those included in the
@@ -559,13 +565,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       An API operation can return fewer results than the maximum even when there are more
-      results available. You should check `NextToken` after every operation to ensure
-      that you receive all of the results.
+      results available. You should check `NextToken` after every operation to ensure that
+      you receive all of the results.
 
 - `"NextToken"`: Specifies a value for receiving additional results after you receive a
   `NextToken` response in a previous request. A `NextToken` response indicates that more
   output is available. Set this parameter to the value of the previous call's `NextToken`
   response to indicate where the output should continue from.
+
 - `"ServiceCode"`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the [`list_services`](@ref) operation.
 """
@@ -618,15 +625,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       An API operation can return fewer results than the maximum even when there are more
-      results available. You should check `NextToken` after every operation to ensure
-      that you receive all of the results.
+      results available. You should check `NextToken` after every operation to ensure that
+      you receive all of the results.
 
 - `"NextToken"`: Specifies a value for receiving additional results after you receive a
   `NextToken` response in a previous request. A `NextToken` response indicates that more
   output is available. Set this parameter to the value of the previous call's `NextToken`
   response to indicate where the output should continue from.
+
 - `"QuotaAppliedAtLevel"`: Specifies at which level of granularity that the quota value is
   applied.
+
 - `"QuotaCode"`: Specifies the quota identifier. To find the quota code for a specific
   quota, use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode`
   response in the output for the quota you want.
@@ -678,8 +687,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       An API operation can return fewer results than the maximum even when there are more
-      results available. You should check `NextToken` after every operation to ensure
-      that you receive all of the results.
+      results available. You should check `NextToken` after every operation to ensure that
+      you receive all of the results.
 
 - `"NextToken"`: Specifies a value for receiving additional results after you receive a
   `NextToken` response in a previous request. A `NextToken` response indicates that more
@@ -710,9 +719,9 @@ Returns a list of the tags assigned to the specified applied quota.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) for the applied quota for which you want
-  to list tags. You can get this information by using the Service Quotas console, or by
-  listing the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html)
+- `resource_arn`: The Amazon Resource Name (ARN) for the applied quota for which you want to
+  list tags. You can get this information by using the Service Quotas console, or by listing
+  the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html)
   CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html)
   Amazon Web Services API operation.
 """
@@ -754,9 +763,9 @@ Adds a quota increase request to your quota request template.
 
 - `aws_region`: Specifies the Amazon Web Services Region to which the template applies.
 - `desired_value`: Specifies the new, increased value for the quota.
-- `quota_code`: Specifies the quota identifier. To find the quota code for a specific
-  quota, use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode`
-  response in the output for the quota you want.
+- `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
+  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
+  the output for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the [`list_services`](@ref) operation.
 """
@@ -818,9 +827,9 @@ Submits a quota increase request for the specified quota.
 # Arguments
 
 - `desired_value`: Specifies the new, increased value for the quota.
-- `quota_code`: Specifies the quota identifier. To find the quota code for a specific
-  quota, use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode`
-  response in the output for the quota you want.
+- `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
+  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
+  the output for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the [`list_services`](@ref) operation.
 
@@ -929,10 +938,11 @@ Removes tags from the specified applied quota. You can specify one or more tags 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) for the applied quota that you want to
-  untag. You can get this information by using the Service Quotas console, or by listing
-  the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html)
+  untag. You can get this information by using the Service Quotas console, or by listing the
+  quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html)
   CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html)
   Amazon Web Services API operation.
+
 - `tag_keys`: The keys of the tags that you want to remove from the resource.
 """
 function untag_resource end

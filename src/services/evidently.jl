@@ -78,9 +78,9 @@ experiment can test as many as five variations at once. Evidently collects exper
 and analyzes it by statistical methods, and provides clear recommendations about which
 variations perform better.
 
-You can optionally specify a `segment` to have the experiment consider only certain
-audience types in the experiment, such as using only user sessions from a certain location
-or who use a certain internet browser.
+You can optionally specify a `segment` to have the experiment consider only certain audience
+types in the experiment, such as using only user sessions from a certain location or who use
+a certain internet browser.
 
 Don't use this operation to update an existing experiment. Instead, use [UpdateExperiment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateExperiment.html).
 
@@ -98,32 +98,37 @@ Don't use this operation to update an existing experiment. Instead, use [UpdateE
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: An optional description of the experiment.
+
 - `"onlineAbConfig"`: A structure that contains the configuration of which variation to use
   as the "control" version. tThe "control" version is used for comparison with other
-  variations. This structure also specifies how much experiment traffic is allocated to
-  each variation.
+  variations. This structure also specifies how much experiment traffic is allocated to each
+  variation.
+
 - `"randomizationSalt"`: When Evidently assigns a particular user session to an experiment,
   it must use a randomization ID to determine which variation the user session is served.
   This randomization ID is a combination of the entity ID and `randomizationSalt`. If you
   omit `randomizationSalt`, Evidently uses the experiment name as the `randomizationSalt`.
+
 - `"samplingRate"`: The portion of the available audience that you want to allocate to this
   experiment, in thousandths of a percent. The available audience is the total audience
   minus the audience that you have allocated to overrides or current launches of this
   feature.
 
-  This is represented in thousandths of a percent. For example, specify 10,000 to
-  allocate 10% of the available audience.
+  This is represented in thousandths of a percent. For example, specify 10,000 to allocate
+  10% of the available audience.
+
 - `"segment"`: Specifies an audience *segment* to use in the experiment. When a segment is
-  used in an experiment, only user sessions that match the segment pattern are used in
-  the experiment.
+  used in an experiment, only user sessions that match the segment pattern are used in the
+  experiment.
+
 - `"tags"`: Assigns one or more tags (key-value pairs) to the experiment.
 
-  Tags can help you organize and categorize your resources. You can also use them to
-  scope user permissions by granting a user permission to access or change only resources
-  with certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
 
-  Tags don't have any semantic meaning to Amazon Web Services and are interpreted
-  strictly as strings of characters.
+  Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly
+  as strings of characters.
 
   You can associate as many as 50 tags with an experiment.
 
@@ -201,27 +206,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This variation must also be listed in the `variations` structure.
 
-  If you omit `defaultVariation`, the first variation listed in the `variations`
-  structure is used as the default variation.
+  If you omit `defaultVariation`, the first variation listed in the `variations` structure
+  is used as the default variation.
+
 - `"description"`: An optional description of the feature.
+
 - `"entityOverrides"`: Specify users that should always be served a specific variation of a
   feature. Each user is specified by a key-value pair . For each key, specify a user by
-  entering their user ID, account ID, or some other identifier. For the value, specify
-  the name of the variation that they are to be served.
+  entering their user ID, account ID, or some other identifier. For the value, specify the
+  name of the variation that they are to be served.
 
-  This parameter is limited to 2500 overrides or a total of 40KB. The 40KB limit includes
-  an overhead of 6 bytes per override.
+  This parameter is limited to 2500 overrides or a total of 40KB. The 40KB limit includes an
+  overhead of 6 bytes per override.
+
 - `"evaluationStrategy"`: Specify `ALL_RULES` to activate the traffic allocation specified
-  by any ongoing launches or experiments. Specify `DEFAULT_VARIATION` to serve the
-  default variation to all users instead.
+  by any ongoing launches or experiments. Specify `DEFAULT_VARIATION` to serve the default
+  variation to all users instead.
+
 - `"tags"`: Assigns one or more tags (key-value pairs) to the feature.
 
-  Tags can help you organize and categorize your resources. You can also use them to
-  scope user permissions by granting a user permission to access or change only resources
-  with certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
 
-  Tags don't have any semantic meaning to Amazon Web Services and are interpreted
-  strictly as strings of characters.
+  Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly
+  as strings of characters.
 
   You can associate as many as 50 tags with a feature.
 
@@ -287,22 +296,26 @@ Don't use this operation to update an existing launch. Instead, use [UpdateLaunc
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: An optional description for the launch.
+
 - `"metricMonitors"`: An array of structures that define the metrics that will be used to
   monitor the launch performance.
+
 - `"randomizationSalt"`: When Evidently assigns a particular user session to a launch, it
-  must use a randomization ID to determine which variation the user session is served.
-  This randomization ID is a combination of the entity ID and `randomizationSalt`. If you
-  omit `randomizationSalt`, Evidently uses the launch name as the `randomizationSalt`.
+  must use a randomization ID to determine which variation the user session is served. This
+  randomization ID is a combination of the entity ID and `randomizationSalt`. If you omit
+  `randomizationSalt`, Evidently uses the launch name as the `randomizationSalt`.
+
 - `"scheduledSplitsConfig"`: An array of structures that define the traffic allocation
   percentages among the feature variations during each step of the launch.
+
 - `"tags"`: Assigns one or more tags (key-value pairs) to the launch.
 
-  Tags can help you organize and categorize your resources. You can also use them to
-  scope user permissions by granting a user permission to access or change only resources
-  with certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
 
-  Tags don't have any semantic meaning to Amazon Web Services and are interpreted
-  strictly as strings of characters.
+  Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly
+  as strings of characters.
 
   You can associate as many as 50 tags with a launch.
 
@@ -358,29 +371,32 @@ To update an existing project, use [UpdateProject](https://docs.aws.amazon.com/c
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"appConfigResource"`: Use this parameter if the project will use *client-side evaluation
-  powered by AppConfig*. Client-side evaluation allows your application to assign
-  variations to user sessions locally instead of by calling the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html)
-  operation. This mitigates the latency and availability risks that come with an API
-  call. For more information, see [Client-side evaluation - powered by AppConfig.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-client-side-evaluation.html)
+  powered by AppConfig*. Client-side evaluation allows your application to assign variations
+  to user sessions locally instead of by calling the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html)
+  operation. This mitigates the latency and availability risks that come with an API call.
+  For more information, see [Client-side evaluation - powered by AppConfig.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-client-side-evaluation.html)
 
   This parameter is a structure that contains information about the AppConfig application
   and environment that will be used as for client-side evaluation.
 
   To create a project that uses client-side evaluation, you must have the
   `evidently:ExportProjectAsConfiguration` permission.
+
 - `"dataDelivery"`: A structure that contains information about where Evidently is to store
   evaluation events for longer term storage, if you choose to do so. If you choose not to
-  store these events, Evidently deletes them after using them to produce metrics and
-  other experiment results that you can view.
+  store these events, Evidently deletes them after using them to produce metrics and other
+  experiment results that you can view.
+
 - `"description"`: An optional description of the project.
+
 - `"tags"`: Assigns one or more tags (key-value pairs) to the project.
 
-  Tags can help you organize and categorize your resources. You can also use them to
-  scope user permissions by granting a user permission to access or change only resources
-  with certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
 
-  Tags don't have any semantic meaning to Amazon Web Services and are interpreted
-  strictly as strings of characters.
+  Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly
+  as strings of characters.
 
   You can associate as many as 50 tags with a project.
 
@@ -419,9 +435,9 @@ audience that share one or more characteristics. Examples could be Chrome browse
 users in Europe, or Firefox browser users in Europe who also fit other criteria that your
 application collects, such as age.
 
-Using a segment in an experiment limits that experiment to evaluate only the users who
-match the segment criteria. Using one or more segments in a launch allows you to define
-different traffic splits for the different audience segments.
+Using a segment in an experiment limits that experiment to evaluate only the users who match
+the segment criteria. Using one or more segments in a launch allows you to define different
+traffic splits for the different audience segments.
 
 For more information about segment pattern syntax, see [Segment rule pattern syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html#CloudWatch-Evidently-segments-syntax.html).
 
@@ -440,14 +456,15 @@ operation, when Evidently assigns a feature variation to a user.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: An optional description for this segment.
+
 - `"tags"`: Assigns one or more tags (key-value pairs) to the segment.
 
-  Tags can help you organize and categorize your resources. You can also use them to
-  scope user permissions by granting a user permission to access or change only resources
-  with certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
 
-  Tags don't have any semantic meaning to Amazon Web Services and are interpreted
-  strictly as strings of characters.
+  Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly
+  as strings of characters.
 
   You can associate as many as 50 tags with a segment.
 
@@ -691,10 +708,10 @@ session's `evaluationContext` matches a segment rule defined in a segment overri
 configuration in the segment overrides is used. For more information about segments, see [CreateSegment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateSegment.html)
 and [Use segments to focus your audience](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html).
 
-If there is a launch with no segment overrides, the user might be assigned to a variation
-in the launch. The chance of this depends on the percentage of users that are allocated to
-that launch. If the user is enrolled in the launch, the variation they are served depends
-on the allocation of the various feature variations used for the launch.
+If there is a launch with no segment overrides, the user might be assigned to a variation in
+the launch. The chance of this depends on the percentage of users that are allocated to that
+launch. If the user is enrolled in the launch, the variation they are served depends on the
+allocation of the various feature variations used for the launch.
 
 If the user is not assigned to a launch, and there is an ongoing experiment for this
 feature, the user might be assigned to a variation in the experiment. The chance of this
@@ -720,10 +737,9 @@ variation.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"evaluationContext"`: A JSON object of attributes that you can optionally pass in as
-  part of the evaluation event sent to Evidently from the user session. Evidently can use
-  this value to match user sessions with defined audience segments. For more information,
-  see [Use segments to focus your audience](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html).
+- `"evaluationContext"`: A JSON object of attributes that you can optionally pass in as part
+  of the evaluation event sent to Evidently from the user session. Evidently can use this
+  value to match user sessions with defined audience segments. For more information, see [Use segments to focus your audience](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html).
 
   If you include this parameter, the value must be a JSON object. A JSON array is not
   supported.
@@ -806,10 +822,10 @@ end
 
 Retrieves the results of a running or completed experiment. No results are available until
 there have been 100 events for each variation and at least 10 minutes have passed since the
-start of the experiment. To increase the statistical power, Evidently performs an
-additional offline p-value analysis at the end of the experiment. Offline p-value analysis
-can detect statistical significance in some cases where the anytime p-values used during
-the experiment do not find statistical significance.
+start of the experiment. To increase the statistical power, Evidently performs an additional
+offline p-value analysis at the end of the experiment. Offline p-value analysis can detect
+statistical significance in some cases where the anytime p-values used during the experiment
+do not find statistical significance.
 
 Experiment results are available up to 63 days after the start of the experiment. They are
 not available after that because of CloudWatch data retention policies.
@@ -820,20 +836,24 @@ not available after that because of CloudWatch data retention policies.
 - `metric_names`: The names of the experiment metrics that you want to see the results of.
 - `project`: The name or ARN of the project that contains the experiment that you want to
   see the results of.
-- `treatment_names`: The names of the experiment treatments that you want to see the
-  results for.
+- `treatment_names`: The names of the experiment treatments that you want to see the results
+  for.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"baseStat"`: The statistic used to calculate experiment results. Currently the only
-  valid value is `mean`, which uses the mean of the collected values as the statistic.
-- `"endTime"`: The date and time that the experiment ended, if it is completed. This must
-  be no longer than 30 days after the experiment start time.
+- `"baseStat"`: The statistic used to calculate experiment results. Currently the only valid
+  value is `mean`, which uses the mean of the collected values as the statistic.
+
+- `"endTime"`: The date and time that the experiment ended, if it is completed. This must be
+  no longer than 30 days after the experiment start time.
+
 - `"period"`: In seconds, the amount of time to aggregate results together.
+
 - `"reportNames"`: The names of the report types that you want to see. Currently,
   `BayesianInference` is the only valid value.
+
 - `"resultStats"`: The statistics that you want to see in the returned results.
 
   - `PValue` specifies to use p-values for the results. A p-value is used in hypothesis
@@ -841,15 +861,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     hypothesis. A general practice is to reject the null hypothesis and declare that the
     results are statistically significant when the p-value is less than 0.05.
   - `ConfidenceInterval` specifies a confidence interval for the results. The confidence
-    interval represents the range of values for the chosen metric that is likely to
-    contain the true difference between the `baseStat` of a variation and the baseline.
-    Evidently returns the 95% confidence interval.
+    interval represents the range of values for the chosen metric that is likely to contain
+    the true difference between the `baseStat` of a variation and the baseline. Evidently
+    returns the 95% confidence interval.
   - `TreatmentEffect` is the difference in the statistic specified by the `baseStat`
     parameter between each variation and the default variation.
-  - `BaseStat` returns the statistical values collected for the metric for each
-    variation. The statistic uses the same statistic specified in the `baseStat`
-    parameter. Therefore, if `baseStat` is `mean`, this returns the mean of the values
-    collected for each variation.
+  - `BaseStat` returns the statistical values collected for the metric for each variation.
+    The statistic uses the same statistic specified in the `baseStat` parameter. Therefore,
+    if `baseStat` is `mean`, this returns the mean of the values collected for each
+    variation.
 
 - `"startTime"`: The date and time that the experiment started.
 """
@@ -900,8 +920,8 @@ end
     get_feature(feature, project)
     get_feature(feature, project, params::Dict{String,<:Any})
 
-Returns the details about one feature. You must already know the feature name. To retrieve
-a list of features in your account, use [ListFeatures](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListFeatures.html).
+Returns the details about one feature. You must already know the feature name. To retrieve a
+list of features in your account, use [ListFeatures](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListFeatures.html).
 
 # Arguments
 
@@ -1059,8 +1079,8 @@ Returns configuration details about all the experiments in the specified project
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to include in the response.
-- `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous [`list_experiments`](@ref) operation.
+- `"nextToken"`: The token to use when requesting the next set of results. You received this
+  token from a previous [`list_experiments`](@ref) operation.
 - `"status"`: Use this optional parameter to limit the returned results to only the
   experiments with the status that you specify here.
 """
@@ -1104,8 +1124,8 @@ Returns configuration details about all the features in the specified project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to include in the response.
-- `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous [`list_features`](@ref) operation.
+- `"nextToken"`: The token to use when requesting the next set of results. You received this
+  token from a previous [`list_features`](@ref) operation.
 """
 function list_features end
 
@@ -1147,10 +1167,10 @@ Returns configuration details about all the launches in the specified project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to include in the response.
-- `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous [`list_launches`](@ref) operation.
-- `"status"`: Use this optional parameter to limit the returned results to only the
-  launches with the status that you specify here.
+- `"nextToken"`: The token to use when requesting the next set of results. You received this
+  token from a previous [`list_launches`](@ref) operation.
+- `"status"`: Use this optional parameter to limit the returned results to only the launches
+  with the status that you specify here.
 """
 function list_launches end
 
@@ -1188,8 +1208,8 @@ Returns configuration details about all the projects in the current Region in yo
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to include in the response.
-- `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous [`list_projects`](@ref) operation.
+- `"nextToken"`: The token to use when requesting the next set of results. You received this
+  token from a previous [`list_projects`](@ref) operation.
 """
 function list_projects end
 
@@ -1225,8 +1245,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to include in the response. If you omit
   this, the default of 50 is used.
-- `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous [`list_segment_references`](@ref) operation.
+- `"nextToken"`: The token to use when requesting the next set of results. You received this
+  token from a previous [`list_segment_references`](@ref) operation.
 """
 function list_segment_references end
 
@@ -1269,8 +1289,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to include in the response. If you omit
   this, the default of 50 is used.
-- `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous [`list_segments`](@ref) operation.
+- `"nextToken"`: The token to use when requesting the next set of results. You received this
+  token from a previous [`list_segments`](@ref) operation.
 """
 function list_segments end
 
@@ -1567,10 +1587,10 @@ certain tag values.
 Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
 strings of characters.
 
-You can use the `TagResource` action with a resource that already has tags. If you specify
-a new tag key for the resource, this tag is appended to the list of tags associated with
-the alarm. If you specify a tag key that is already associated with the resource, the new
-tag value that you specify replaces the previous value for that tag.
+You can use the `TagResource` action with a resource that already has tags. If you specify a
+new tag key for the resource, this tag is appended to the list of tags associated with the
+alarm. If you specify a tag key that is already associated with the resource, the new tag
+value that you specify replaces the previous value for that tag.
 
 You can associate as many as 50 tags with a resource.
 
@@ -1713,28 +1733,35 @@ Don't use this operation to update an experiment's tag. Instead, use [TagResourc
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: An optional description of the experiment.
+
 - `"metricGoals"`: An array of structures that defines the metrics used for the experiment,
   and whether a higher or lower value for each metric is the goal.
+
 - `"onlineAbConfig"`: A structure that contains the configuration of which variation o use
   as the "control" version. The "control" version is used for comparison with other
-  variations. This structure also specifies how much experiment traffic is allocated to
-  each variation.
+  variations. This structure also specifies how much experiment traffic is allocated to each
+  variation.
+
 - `"randomizationSalt"`: When Evidently assigns a particular user session to an experiment,
   it must use a randomization ID to determine which variation the user session is served.
   This randomization ID is a combination of the entity ID and `randomizationSalt`. If you
   omit `randomizationSalt`, Evidently uses the experiment name as the `randomizationSalt`.
+
 - `"removeSegment"`: Removes a segment from being used in an experiment. You can't use this
   parameter if the experiment is currently running.
+
 - `"samplingRate"`: The portion of the available audience that you want to allocate to this
   experiment, in thousandths of a percent. The available audience is the total audience
   minus the audience that you have allocated to overrides or current launches of this
   feature.
 
-  This is represented in thousandths of a percent. For example, specify 20,000 to
-  allocate 20% of the available audience.
+  This is represented in thousandths of a percent. For example, specify 20,000 to allocate
+  20% of the available audience.
+
 - `"segment"`: Adds an audience *segment* to an experiment. When a segment is used in an
-  experiment, only user sessions that match the segment pattern are used in the
-  experiment. You can't use this parameter if the experiment is currently running.
+  experiment, only user sessions that match the segment pattern are used in the experiment.
+  You can't use this parameter if the experiment is currently running.
+
 - `"treatments"`: An array of structures that define the variations being tested in the
   experiment.
 """
@@ -1783,30 +1810,34 @@ You can't use this operation to update the tags of an existing feature. Instead,
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"addOrUpdateVariations"`: To update variation configurations for this feature, or add
-  new ones, specify this structure. In this array, include any variations that you want
-  to add or update. If the array includes a variation name that already exists for this
-  feature, it is updated. If it includes a new variation name, it is added as a new
-  variation.
+- `"addOrUpdateVariations"`: To update variation configurations for this feature, or add new
+  ones, specify this structure. In this array, include any variations that you want to add
+  or update. If the array includes a variation name that already exists for this feature, it
+  is updated. If it includes a new variation name, it is added as a new variation.
+
 - `"defaultVariation"`: The name of the variation to use as the default variation. The
   default variation is served to users who are not allocated to any ongoing launches or
   experiments of this feature.
+
 - `"description"`: An optional description of the feature.
+
 - `"entityOverrides"`: Specified users that should always be served a specific variation of
   a feature. Each user is specified by a key-value pair . For each key, specify a user by
-  entering their user ID, account ID, or some other identifier. For the value, specify
-  the name of the variation that they are to be served.
+  entering their user ID, account ID, or some other identifier. For the value, specify the
+  name of the variation that they are to be served.
 
-  This parameter is limited to 2500 overrides or a total of 40KB. The 40KB limit includes
-  an overhead of 6 bytes per override.
+  This parameter is limited to 2500 overrides or a total of 40KB. The 40KB limit includes an
+  overhead of 6 bytes per override.
+
 - `"evaluationStrategy"`: Specify `ALL_RULES` to activate the traffic allocation specified
-  by any ongoing launches or experiments. Specify `DEFAULT_VARIATION` to serve the
-  default variation to all users instead.
+  by any ongoing launches or experiments. Specify `DEFAULT_VARIATION` to serve the default
+  variation to all users instead.
+
 - `"removeVariations"`: Removes a variation from the feature. If the variation you specify
   doesn't exist, then this makes no change and does not report an error.
 
-  This operation fails if you try to remove a variation that is part of an ongoing launch
-  or experiment.
+  This operation fails if you try to remove a variation that is part of an ongoing launch or
+  experiment.
 """
 function update_feature end
 
@@ -1855,14 +1886,14 @@ Don't use this operation to update the tags of an existing launch. Instead, use 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: An optional description for the launch.
-- `"groups"`: An array of structures that contains the feature and variations that are to
-  be used for the launch.
+- `"groups"`: An array of structures that contains the feature and variations that are to be
+  used for the launch.
 - `"metricMonitors"`: An array of structures that define the metrics that will be used to
   monitor the launch performance.
 - `"randomizationSalt"`: When Evidently assigns a particular user session to a launch, it
-  must use a randomization ID to determine which variation the user session is served.
-  This randomization ID is a combination of the entity ID and `randomizationSalt`. If you
-  omit `randomizationSalt`, Evidently uses the launch name as the `randomizationSalt`.
+  must use a randomization ID to determine which variation the user session is served. This
+  randomization ID is a combination of the entity ID and `randomizationSalt`. If you omit
+  `randomizationSalt`, Evidently uses the launch name as the `randomizationSalt`.
 - `"scheduledSplitsConfig"`: An array of structures that define the traffic allocation
   percentages among the feature variations during each step of the launch.
 """
@@ -1913,13 +1944,14 @@ Don't use this operation to update the tags of a project. Instead, use [TagResou
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"appConfigResource"`: Use this parameter if the project will use client-side evaluation
-  powered by AppConfig. Client-side evaluation allows your application to assign
-  variations to user sessions locally instead of by calling the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html)
-  operation. This mitigates the latency and availability risks that come with an API
-  call. allows you to
+  powered by AppConfig. Client-side evaluation allows your application to assign variations
+  to user sessions locally instead of by calling the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html)
+  operation. This mitigates the latency and availability risks that come with an API call.
+  allows you to
 
   This parameter is a structure that contains information about the AppConfig application
   that will be used for client-side evaluation.
+
 - `"description"`: An optional description of the project.
 """
 function update_project end
@@ -1953,22 +1985,22 @@ end
 
 Updates the data storage options for this project. If you store evaluation events, you an
 keep them and analyze them on your own. If you choose not to store evaluation events,
-Evidently deletes them after using them to produce metrics and other experiment results
-that you can view.
+Evidently deletes them after using them to produce metrics and other experiment results that
+you can view.
 
 You can't specify both `cloudWatchLogs` and `s3Destination` in the same operation.
 
 # Arguments
 
-- `project`: The name or ARN of the project that you want to modify the data storage
-  options for.
+- `project`: The name or ARN of the project that you want to modify the data storage options
+  for.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"cloudWatchLogs"`: A structure containing the CloudWatch Logs log group where you want
-  to store evaluation events.
+- `"cloudWatchLogs"`: A structure containing the CloudWatch Logs log group where you want to
+  store evaluation events.
 - `"s3Destination"`: A structure containing the S3 bucket name and bucket prefix where you
   want to store evaluation events.
 """

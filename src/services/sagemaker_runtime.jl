@@ -14,9 +14,9 @@ endpoint.
 
 For an overview of Amazon SageMaker, see [How It Works](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html).
 
-Amazon SageMaker strips all POST headers except those supported by the API. Amazon
-SageMaker might add additional headers. You should not rely on the behavior of headers
-outside those enumerated in the request syntax.
+Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker
+might add additional headers. You should not rely on the behavior of headers outside those
+enumerated in the request syntax.
 
 Calls to `InvokeEndpoint` are authenticated by using Amazon Web Services Signature Version
 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html)
@@ -38,8 +38,9 @@ set to be 70 seconds.
   Amazon SageMaker passes all of the data in the body to the model.
 
   For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
-- `endpoint_name`: The name of the endpoint that you specified when you created the
-  endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html)
+
+- `endpoint_name`: The name of the endpoint that you specified when you created the endpoint
+  using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html)
   API.
 
 # Optional Parameters
@@ -47,40 +48,46 @@ set to be 70 seconds.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Accept"`: The desired MIME type of the inference response from the model container.
+
 - `"Content-Type"`: The MIME type of the input data in the request body.
+
 - `"X-Amzn-SageMaker-Custom-Attributes"`: Provides additional information about a request
   for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The
-  information is an opaque value that is forwarded verbatim. You could use this value,
-  for example, to provide an ID that you can use to track a request or to provide other
-  metadata that a service endpoint was programmed to process. The value must consist of
-  no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6)
-  of the Hypertext Transfer Protocol (HTTP/1.1).
+  information is an opaque value that is forwarded verbatim. You could use this value, for
+  example, to provide an ID that you can use to track a request or to provide other metadata
+  that a service endpoint was programmed to process. The value must consist of no more than
+  1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6)
+of the Hypertext Transfer Protocol (HTTP/1.1).
 
-  The code in your model is responsible for setting or updating any custom attributes in
-  the response. If your code does not set this value in the response, an empty value is
+  The code in your model is responsible for setting or updating any custom attributes in the
+  response. If your code does not set this value in the response, an empty value is
   returned. For example, if a custom attribute represents the trace ID, your model can
   prepend the custom attribute with `Trace ID:` in your post-processing function.
 
-  This feature is currently supported in the Amazon Web Services SDKs but not in the
-  Amazon SageMaker Python SDK.
-- `"X-Amzn-SageMaker-Enable-Explanations"`: An optional JMESPath expression used to
-  override the `EnableExplanations` parameter of the `ClarifyExplainerConfig` API. See
-  the [EnableExplanations](https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-create-endpoint.html#clarify-online-explainability-create-endpoint-enable)
+  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon
+  SageMaker Python SDK.
+
+- `"X-Amzn-SageMaker-Enable-Explanations"`: An optional JMESPath expression used to override
+  the `EnableExplanations` parameter of the `ClarifyExplainerConfig` API. See the [EnableExplanations](https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-create-endpoint.html#clarify-online-explainability-create-endpoint-enable)
   section in the developer guide for more information.
+
 - `"X-Amzn-SageMaker-Inference-Component"`: If the endpoint hosts one or more inference
   components, this parameter specifies the name of inference component to invoke.
+
 - `"X-Amzn-SageMaker-Inference-Id"`: If you provide a value, it is added to the captured
-  data when you enable data capture on the endpoint. For information about data capture,
-  see [Capture Data](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-data-capture.html).
+  data when you enable data capture on the endpoint. For information about data capture, see [Capture Data](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-data-capture.html).
+
 - `"X-Amzn-SageMaker-Target-Container-Hostname"`: If the endpoint hosts multiple containers
-  and is configured to use direct invocation, this parameter specifies the host name of
-  the container to invoke.
+  and is configured to use direct invocation, this parameter specifies the host name of the
+  container to invoke.
+
 - `"X-Amzn-SageMaker-Target-Model"`: The model to request for inference when invoking a
   multi-model endpoint.
+
 - `"X-Amzn-SageMaker-Target-Variant"`: Specify the production variant to send the inference
-  request to when invoking an endpoint that is running two or more variants. Note that
-  this parameter overrides the default behavior for the endpoint, which is to distribute
-  the invocation traffic based on the variant weights.
+  request to when invoking an endpoint that is running two or more variants. Note that this
+  parameter overrides the default behavior for the endpoint, which is to distribute the
+  invocation traffic based on the variant weights.
 
   For information about how to use variant targeting to perform a/b testing, see [Test models in production](https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html)
 """
@@ -121,14 +128,14 @@ After you deploy a model into production using Amazon SageMaker hosting services
 client applications use this API to get inferences from the model hosted at the specified
 endpoint in an asynchronous manner.
 
-Inference requests sent to this API are enqueued for asynchronous processing. The
-processing of the inference request may or may not complete before you receive a response
-from this API. The response from this API will not contain the result of the inference
-request but contain information about where you can locate it.
+Inference requests sent to this API are enqueued for asynchronous processing. The processing
+of the inference request may or may not complete before you receive a response from this
+API. The response from this API will not contain the result of the inference request but
+contain information about where you can locate it.
 
-Amazon SageMaker strips all POST headers except those supported by the API. Amazon
-SageMaker might add additional headers. You should not rely on the behavior of headers
-outside those enumerated in the request syntax.
+Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker
+might add additional headers. You should not rely on the behavior of headers outside those
+enumerated in the request syntax.
 
 Calls to `InvokeEndpointAsync` are authenticated by using Amazon Web Services Signature
 Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html)
@@ -136,8 +143,8 @@ in the *Amazon S3 API Reference*.
 
 # Arguments
 
-- `endpoint_name`: The name of the endpoint that you specified when you created the
-  endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html)
+- `endpoint_name`: The name of the endpoint that you specified when you created the endpoint
+  using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html)
   API.
 - `x-_amzn-_sage_maker-_input_location`: The Amazon S3 URI where the inference request
   payload is stored.
@@ -148,27 +155,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amzn-SageMaker-Accept"`: The desired MIME type of the inference response from the
   model container.
+
 - `"X-Amzn-SageMaker-Content-Type"`: The MIME type of the input data in the request body.
+
 - `"X-Amzn-SageMaker-Custom-Attributes"`: Provides additional information about a request
   for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The
-  information is an opaque value that is forwarded verbatim. You could use this value,
-  for example, to provide an ID that you can use to track a request or to provide other
-  metadata that a service endpoint was programmed to process. The value must consist of
-  no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6)
-  of the Hypertext Transfer Protocol (HTTP/1.1).
+  information is an opaque value that is forwarded verbatim. You could use this value, for
+  example, to provide an ID that you can use to track a request or to provide other metadata
+  that a service endpoint was programmed to process. The value must consist of no more than
+  1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6)
+of the Hypertext Transfer Protocol (HTTP/1.1).
 
-  The code in your model is responsible for setting or updating any custom attributes in
-  the response. If your code does not set this value in the response, an empty value is
+  The code in your model is responsible for setting or updating any custom attributes in the
+  response. If your code does not set this value in the response, an empty value is
   returned. For example, if a custom attribute represents the trace ID, your model can
   prepend the custom attribute with `Trace ID:` in your post-processing function.
 
-  This feature is currently supported in the Amazon Web Services SDKs but not in the
-  Amazon SageMaker Python SDK.
+  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon
+  SageMaker Python SDK.
+
 - `"X-Amzn-SageMaker-Inference-Id"`: The identifier for the inference request. Amazon
   SageMaker will generate an identifier for you if none is specified.
-- `"X-Amzn-SageMaker-InvocationTimeoutSeconds"`: Maximum amount of time in seconds a
-  request can be processed before it is marked as expired. The default is 15 minutes, or
-  900 seconds.
+
+- `"X-Amzn-SageMaker-InvocationTimeoutSeconds"`: Maximum amount of time in seconds a request
+  can be processed before it is marked as expired. The default is 15 minutes, or 900
+  seconds.
+
 - `"X-Amzn-SageMaker-RequestTTLSeconds"`: Maximum age in seconds a request can be in the
   queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
 """
@@ -239,9 +251,9 @@ Before you can use this operation, your IAM permissions must allow the
 IAM policies, see [Actions, resources, and condition keys for Amazon SageMaker](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonsagemaker.html)
 in the *IAM Service Authorization Reference*.
 
-Amazon SageMaker strips all POST headers except those supported by the API. Amazon
-SageMaker might add additional headers. You should not rely on the behavior of headers
-outside those enumerated in the request syntax.
+Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker
+might add additional headers. You should not rely on the behavior of headers outside those
+enumerated in the request syntax.
 
 Calls to `InvokeEndpointWithResponseStream` are authenticated by using Amazon Web Services
 Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html)
@@ -253,8 +265,9 @@ in the *Amazon S3 API Reference*.
   Amazon SageMaker passes all of the data in the body to the model.
 
   For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
-- `endpoint_name`: The name of the endpoint that you specified when you created the
-  endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html)
+
+- `endpoint_name`: The name of the endpoint that you specified when you created the endpoint
+  using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html)
   API.
 
 # Optional Parameters
@@ -262,34 +275,40 @@ in the *Amazon S3 API Reference*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Content-Type"`: The MIME type of the input data in the request body.
+
 - `"X-Amzn-SageMaker-Accept"`: The desired MIME type of the inference response from the
   model container.
+
 - `"X-Amzn-SageMaker-Custom-Attributes"`: Provides additional information about a request
   for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The
-  information is an opaque value that is forwarded verbatim. You could use this value,
-  for example, to provide an ID that you can use to track a request or to provide other
-  metadata that a service endpoint was programmed to process. The value must consist of
-  no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6)
-  of the Hypertext Transfer Protocol (HTTP/1.1).
+  information is an opaque value that is forwarded verbatim. You could use this value, for
+  example, to provide an ID that you can use to track a request or to provide other metadata
+  that a service endpoint was programmed to process. The value must consist of no more than
+  1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6)
+of the Hypertext Transfer Protocol (HTTP/1.1).
 
-  The code in your model is responsible for setting or updating any custom attributes in
-  the response. If your code does not set this value in the response, an empty value is
+  The code in your model is responsible for setting or updating any custom attributes in the
+  response. If your code does not set this value in the response, an empty value is
   returned. For example, if a custom attribute represents the trace ID, your model can
   prepend the custom attribute with `Trace ID:` in your post-processing function.
 
-  This feature is currently supported in the Amazon Web Services SDKs but not in the
-  Amazon SageMaker Python SDK.
+  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon
+  SageMaker Python SDK.
+
 - `"X-Amzn-SageMaker-Inference-Component"`: If the endpoint hosts one or more inference
   components, this parameter specifies the name of inference component to invoke for a
   streaming response.
+
 - `"X-Amzn-SageMaker-Inference-Id"`: An identifier that you assign to your request.
+
 - `"X-Amzn-SageMaker-Target-Container-Hostname"`: If the endpoint hosts multiple containers
-  and is configured to use direct invocation, this parameter specifies the host name of
-  the container to invoke.
+  and is configured to use direct invocation, this parameter specifies the host name of the
+  container to invoke.
+
 - `"X-Amzn-SageMaker-Target-Variant"`: Specify the production variant to send the inference
-  request to when invoking an endpoint that is running two or more variants. Note that
-  this parameter overrides the default behavior for the endpoint, which is to distribute
-  the invocation traffic based on the variant weights.
+  request to when invoking an endpoint that is running two or more variants. Note that this
+  parameter overrides the default behavior for the endpoint, which is to distribute the
+  invocation traffic based on the variant weights.
 
   For information about how to use variant targeting to perform a/b testing, see [Test models in production](https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html)
 """

@@ -11,10 +11,10 @@ using AWS.UUIDs
 Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront
 distribution.
 
-With this operation you can move an alias that's already in use on a CloudFront
-distribution to a different distribution in one step. This prevents the downtime that could
-occur if you first remove the alias from one distribution and then separately add the alias
-to another distribution.
+With this operation you can move an alias that's already in use on a CloudFront distribution
+to a different distribution in one step. This prevents the downtime that could occur if you
+first remove the alias from one distribution and then separately add the alias to another
+distribution.
 
 To use this operation to associate an alias with a distribution, you provide the alias and
 the ID of the target distribution for the alias. For more information, including how to set
@@ -61,13 +61,13 @@ end
     copy_distribution2020_05_31(caller_reference, primary_distribution_id)
     copy_distribution2020_05_31(caller_reference, primary_distribution_id, params::Dict{String,<:Any})
 
-Creates a staging distribution using the configuration of the provided primary
-distribution. A staging distribution is a copy of an existing distribution (called the
-primary distribution) that you can use in a continuous deployment workflow.
+Creates a staging distribution using the configuration of the provided primary distribution.
+A staging distribution is a copy of an existing distribution (called the primary
+distribution) that you can use in a continuous deployment workflow.
 
 After you create a staging distribution, you can use `UpdateDistribution` to modify the
-staging distribution's configuration. Then you can use `CreateContinuousDeploymentPolicy`
-to incrementally move traffic to the staging distribution.
+staging distribution's configuration. Then you can use `CreateContinuousDeploymentPolicy` to
+incrementally move traffic to the staging distribution.
 
 This API operation requires the following IAM permissions:
 
@@ -88,16 +88,17 @@ This API operation requires the following IAM permissions:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Enabled"`: A Boolean flag to specify the state of the staging distribution when it's
-  created. When you set this value to `True`, the staging distribution is enabled. When
-  you set this value to `False`, the staging distribution is disabled.
+  created. When you set this value to `True`, the staging distribution is enabled. When you
+  set this value to `False`, the staging distribution is disabled.
 
   If you omit this field, the default value is `True`.
+
 - `"If-Match"`: The version identifier of the primary distribution whose configuration you
   are copying. This is the `ETag` value returned in the response to `GetDistribution` and
   `GetDistributionConfig`.
+
 - `"Staging"`: The type of distribution that your primary distribution will be copied to.
-  The only valid value is `True`, indicating that you are copying to a staging
-  distribution.
+  The only valid value is `True`, indicating that you are copying to a staging distribution.
 """
 function copy_distribution2020_05_31 end
 
@@ -140,8 +141,8 @@ end
 
 Creates a cache policy.
 
-After you create a cache policy, you can attach it to one or more cache behaviors. When
-it's attached to a cache behavior, the cache policy determines the following:
+After you create a cache policy, you can attach it to one or more cache behaviors. When it's
+attached to a cache behavior, the cache policy determines the following:
 
 - The values that CloudFront includes in the *cache key*. These values can include HTTP
   headers, cookies, and URL query strings. CloudFront uses the cache key to find an object
@@ -149,11 +150,10 @@ it's attached to a cache behavior, the cache policy determines the following:
 - The default, minimum, and maximum time to live (TTL) values that you want objects to stay
   in the CloudFront cache.
 
-The headers, cookies, and query strings that are included in the cache key are also
-included in requests that CloudFront sends to the origin. CloudFront sends a request when
-it can't find an object in its cache that matches the request's cache key. If you want to
-send values to the origin but *not* include them in the cache key, use
-`OriginRequestPolicy`.
+The headers, cookies, and query strings that are included in the cache key are also included
+in requests that CloudFront sends to the origin. CloudFront sends a request when it can't
+find an object in its cache that matches the request's cache key. If you want to send values
+to the origin but *not* include them in the cache key, use `OriginRequestPolicy`.
 
 For more information about cache policies, see [Controlling the cache key](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html)
 in the *Amazon CloudFront Developer Guide*.
@@ -198,16 +198,16 @@ end
     create_cloud_front_origin_access_identity2020_05_31(cloud_front_origin_access_identity_config)
     create_cloud_front_origin_access_identity2020_05_31(cloud_front_origin_access_identity_config, params::Dict{String,<:Any})
 
-Creates a new origin access identity. If you're using Amazon S3 for your origin, you can
-use an origin access identity to require users to access your content using a CloudFront
-URL instead of the Amazon S3 URL. For more information about how to use origin access
+Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use
+an origin access identity to require users to access your content using a CloudFront URL
+instead of the Amazon S3 URL. For more information about how to use origin access
 identities, see [Serving Private Content through CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html)
 in the *Amazon CloudFront Developer Guide*.
 
 # Arguments
 
-- `cloud_front_origin_access_identity_config`: The current configuration information for
-  the identity.
+- `cloud_front_origin_access_identity_config`: The current configuration information for the
+  identity.
 """
 function create_cloud_front_origin_access_identity2020_05_31 end
 
@@ -501,17 +501,16 @@ end
 
 Creates a CloudFront function.
 
-To create a function, you provide the function code and some configuration information
-about the function. The response contains an Amazon Resource Name (ARN) that uniquely
-identifies the function.
+To create a function, you provide the function code and some configuration information about
+the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies
+the function.
 
-When you create a function, it's in the `DEVELOPMENT` stage. In this stage, you can test
-the function with `TestFunction`, and update it with `UpdateFunction`.
+When you create a function, it's in the `DEVELOPMENT` stage. In this stage, you can test the
+function with `TestFunction`, and update it with `UpdateFunction`.
 
-When you're ready to use your function with a CloudFront distribution, use
-`PublishFunction` to copy the function from the `DEVELOPMENT` stage to `LIVE`. When it's
-live, you can attach the function to a distribution's cache behavior, using the function's
-ARN.
+When you're ready to use your function with a CloudFront distribution, use `PublishFunction`
+to copy the function from the `DEVELOPMENT` stage to `LIVE`. When it's live, you can attach
+the function to a distribution's cache behavior, using the function's ARN.
 
 # Arguments
 
@@ -617,13 +616,13 @@ end
 
 Creates a key group that you can use with [CloudFront signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html).
 
-To create a key group, you must specify at least one public key for the key group. After
-you create a key group, you can reference it from one or more cache behaviors. When you
-reference a key group in a cache behavior, CloudFront requires signed URLs or signed
-cookies for all requests that match the cache behavior. The URLs or cookies must be signed
-with a private key whose corresponding public key is in the key group. The signed URL or
-cookie contains information about which public key CloudFront should use to verify the
-signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html)
+To create a key group, you must specify at least one public key for the key group. After you
+create a key group, you can reference it from one or more cache behaviors. When you
+reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies
+for all requests that match the cache behavior. The URLs or cookies must be signed with a
+private key whose corresponding public key is in the key group. The signed URL or cookie
+contains information about which public key CloudFront should use to verify the signature.
+For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html)
 in the *Amazon CloudFront Developer Guide*.
 
 # Arguments
@@ -670,8 +669,8 @@ from an S3 bucket by providing a valid `ImportSource` that you own.
 
 # Arguments
 
-- `name`: The name of the key value store. The minimum length is 1 character and the
-  maximum length is 64 characters.
+- `name`: The name of the key value store. The minimum length is 1 character and the maximum
+  length is 64 characters.
 
 # Optional Parameters
 
@@ -819,16 +818,16 @@ end
 
 Creates an origin request policy.
 
-After you create an origin request policy, you can attach it to one or more cache
-behaviors. When it's attached to a cache behavior, the origin request policy determines the
-values that CloudFront includes in requests that it sends to the origin. Each request that
-CloudFront sends to the origin includes the following:
+After you create an origin request policy, you can attach it to one or more cache behaviors.
+When it's attached to a cache behavior, the origin request policy determines the values that
+CloudFront includes in requests that it sends to the origin. Each request that CloudFront
+sends to the origin includes the following:
 
 - The request body and the URL path (without the domain name) from the viewer request.
 - The headers that CloudFront automatically includes in every origin request, including
   `Host`, `User-Agent`, and `X-Amz-Cf-Id`.
-- All HTTP headers, cookies, and URL query strings that are specified in the cache policy
-  or the origin request policy. These can include items from the viewer request and, in the
+- All HTTP headers, cookies, and URL query strings that are specified in the cache policy or
+  the origin request policy. These can include items from the viewer request and, in the
   case of headers, additional ones that are added by CloudFront.
 
 CloudFront sends a request when it can't find a valid object in its cache that matches the
@@ -935,14 +934,17 @@ in the *Amazon CloudFront Developer Guide*.
 
 - `end_points`: Contains information about the Amazon Kinesis data stream where you are
   sending real-time log data.
+
 - `field`: A list of fields to include in each real-time log record.
 
   For more information about fields, see [Real-time log configuration fields](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/real-time-logs.html#understand-real-time-log-config-fields)
   in the *Amazon CloudFront Developer Guide*.
+
 - `name`: A unique name to identify this real-time log configuration.
-- `sampling_rate`: The sampling rate for this real-time log configuration. You can specify
-  a whole number between 1 and 100 (inclusive) to determine the percentage of viewer
-  requests that are represented in the real-time log data.
+
+- `sampling_rate`: The sampling rate for this real-time log configuration. You can specify a
+  whole number between 1 and 100 (inclusive) to determine the percentage of viewer requests
+  that are represented in the real-time log data.
 
 # Optional Parameters
 
@@ -1021,8 +1023,8 @@ in the *Amazon CloudFront Developer Guide*.
 
 # Arguments
 
-- `response_headers_policy_config`: Contains metadata about the response headers policy,
-  and a set of configurations that specify the HTTP headers.
+- `response_headers_policy_config`: Contains metadata about the response headers policy, and
+  a set of configurations that specify the HTTP headers.
 """
 function create_response_headers_policy2020_05_31 end
 
@@ -1064,8 +1066,8 @@ end
     create_streaming_distribution2020_05_31(streaming_distribution_config)
     create_streaming_distribution2020_05_31(streaming_distribution_config, params::Dict{String,<:Any})
 
-This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol
-(RTMP) distributions on December 31, 2020. For more information, [read the announcement](http://forums.aws.amazon.com/ann.jspa?annID=7356)
+This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP)
+distributions on December 31, 2020. For more information, [read the announcement](http://forums.aws.amazon.com/ann.jspa?annID=7356)
 on the Amazon CloudFront discussion forum.
 
 # Arguments
@@ -1112,8 +1114,8 @@ end
     create_streaming_distribution_with_tags2020_05_31(streaming_distribution_config_with_tags)
     create_streaming_distribution_with_tags2020_05_31(streaming_distribution_config_with_tags, params::Dict{String,<:Any})
 
-This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol
-(RTMP) distributions on December 31, 2020. For more information, [read the announcement](http://forums.aws.amazon.com/ann.jspa?annID=7356)
+This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP)
+distributions on December 31, 2020. For more information, [read the announcement](http://forums.aws.amazon.com/ann.jspa?annID=7356)
 on the Amazon CloudFront discussion forum.
 
 # Arguments
@@ -1170,8 +1172,8 @@ You cannot delete a cache policy if it's attached to a cache behavior. First upd
 distributions to remove the cache policy from all cache behaviors, then delete the cache
 policy.
 
-To delete a cache policy, you must provide the policy's identifier and version. To get
-these values, you can use `ListCachePolicies` or `GetCachePolicy`.
+To delete a cache policy, you must provide the policy's identifier and version. To get these
+values, you can use `ListCachePolicies` or `GetCachePolicy`.
 
 # Arguments
 
@@ -1397,8 +1399,8 @@ Remove a field-level encryption profile.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"If-Match"`: The value of the `ETag` header that you received when retrieving the
-  profile to delete. For example: `E2QWRUHAPOMQZL`.
+- `"If-Match"`: The value of the `ETag` header that you received when retrieving the profile
+  to delete. For example: `E2QWRUHAPOMQZL`.
 """
 function delete_field_level_encryption_profile2020_05_31 end
 
@@ -1488,8 +1490,8 @@ Deletes a key group.
 You cannot delete a key group that is referenced in a cache behavior. First update your
 distributions to remove the key group from all cache behaviors, then delete the key group.
 
-To delete a key group, you must provide the key group's identifier and version. To get
-these values, use `ListKeyGroups` followed by `GetKeyGroup` or `GetKeyGroupConfig`.
+To delete a key group, you must provide the key group's identifier and version. To get these
+values, use `ListKeyGroups` followed by `GetKeyGroup` or `GetKeyGroupConfig`.
 
 # Arguments
 
@@ -1626,8 +1628,8 @@ to remove the origin access control from all origins, then delete the origin acc
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"If-Match"`: The current version (`ETag` value) of the origin access control that you
-  are deleting.
+- `"If-Match"`: The current version (`ETag` value) of the origin access control that you are
+  deleting.
 """
 function delete_origin_access_control2020_05_31 end
 
@@ -1661,11 +1663,11 @@ end
 Deletes an origin request policy.
 
 You cannot delete an origin request policy if it's attached to any cache behaviors. First
-update your distributions to remove the origin request policy from all cache behaviors,
-then delete the origin request policy.
+update your distributions to remove the origin request policy from all cache behaviors, then
+delete the origin request policy.
 
-To delete an origin request policy, you must provide the policy's identifier and version.
-To get the identifier, you can use `ListOriginRequestPolicies` or `GetOriginRequestPolicy`.
+To delete an origin request policy, you must provide the policy's identifier and version. To
+get the identifier, you can use `ListOriginRequestPolicies` or `GetOriginRequestPolicy`.
 
 # Arguments
 
@@ -1678,8 +1680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"If-Match"`: The version of the origin request policy that you are deleting. The version
   is the origin request policy's `ETag` value, which you can get using
-  `ListOriginRequestPolicies`, `GetOriginRequestPolicy`, or
-  `GetOriginRequestPolicyConfig`.
+  `ListOriginRequestPolicies`, `GetOriginRequestPolicy`, or `GetOriginRequestPolicyConfig`.
 """
 function delete_origin_request_policy2020_05_31 end
 
@@ -1856,22 +1857,24 @@ perform the following steps.
 
 **To delete an RTMP distribution using the CloudFront API**:
 
-1. Disable the RTMP distribution.2. Submit a `GET Streaming Distribution Config` request to
-   get the current configuration and the `Etag` header for the distribution.3. Update the
-   XML document that was returned in the response to your
-   `GET Streaming Distribution Config` request to change the value of `Enabled` to
-   `false`.4. Submit a `PUT Streaming Distribution Config` request to update the
-   configuration for your distribution. In the request body, include the XML document that
-   you updated in Step 3. Then set the value of the HTTP `If-Match` header to the value of
-   the `ETag` header that CloudFront returned when you submitted the
-   `GET Streaming Distribution Config` request in Step 2.5. Review the response to the
-   `PUT Streaming Distribution Config` request to confirm that the distribution was
-   successfully disabled.6. Submit a `GET Streaming Distribution Config` request to confirm
-   that your changes have propagated. When propagation is complete, the value of `Status`
-   is `Deployed`.7. Submit a `DELETE Streaming Distribution` request. Set the value of the
-   HTTP `If-Match` header to the value of the `ETag` header that CloudFront returned when
-   you submitted the `GET Streaming Distribution Config` request in Step 2.8. Review the
-   response to your `DELETE Streaming Distribution` request to confirm that the
+1. Disable the RTMP distribution.
+2. Submit a `GET Streaming Distribution Config` request to get the current configuration and
+   the `Etag` header for the distribution.
+3. Update the XML document that was returned in the response to your
+   `GET Streaming Distribution Config` request to change the value of `Enabled` to `false`.
+4. Submit a `PUT Streaming Distribution Config` request to update the configuration for your
+   distribution. In the request body, include the XML document that you updated in Step 3.
+   Then set the value of the HTTP `If-Match` header to the value of the `ETag` header that
+   CloudFront returned when you submitted the `GET Streaming Distribution Config` request in
+   Step 2.
+5. Review the response to the `PUT Streaming Distribution Config` request to confirm that
+   the distribution was successfully disabled.
+6. Submit a `GET Streaming Distribution Config` request to confirm that your changes have
+   propagated. When propagation is complete, the value of `Status` is `Deployed`.
+7. Submit a `DELETE Streaming Distribution` request. Set the value of the HTTP `If-Match`
+   header to the value of the `ETag` header that CloudFront returned when you submitted the
+   `GET Streaming Distribution Config` request in Step 2.
+8. Review the response to your `DELETE Streaming Distribution` request to confirm that the
    distribution was successfully deleted.
 
 For information about deleting a distribution using the CloudFront console, see [Deleting a Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HowToDeleteDistribution.html)
@@ -2011,8 +2014,8 @@ behavior, you can get the identifier using `ListCachePolicies`.
 
 - `id`: The unique identifier for the cache policy. If the cache policy is attached to a
   distribution's cache behavior, you can get the policy's identifier using
-  `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a
-  cache behavior, you can get the identifier using `ListCachePolicies`.
+  `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache
+  behavior, you can get the identifier using `ListCachePolicies`.
 """
 function get_cache_policy2020_05_31 end
 
@@ -2052,8 +2055,8 @@ cache behavior, you can get the identifier using `ListCachePolicies`.
 
 - `id`: The unique identifier for the cache policy. If the cache policy is attached to a
   distribution's cache behavior, you can get the policy's identifier using
-  `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a
-  cache behavior, you can get the identifier using `ListCachePolicies`.
+  `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache
+  behavior, you can get the identifier using `ListCachePolicies`.
 """
 function get_cache_policy_config2020_05_31 end
 
@@ -2720,11 +2723,10 @@ not attached to a cache behavior, you can get the identifier using
 
 # Arguments
 
-- `id`: The unique identifier for the origin request policy. If the origin request policy
-  is attached to a distribution's cache behavior, you can get the policy's identifier
-  using `ListDistributions` or `GetDistribution`. If the origin request policy is not
-  attached to a cache behavior, you can get the identifier using
-  `ListOriginRequestPolicies`.
+- `id`: The unique identifier for the origin request policy. If the origin request policy is
+  attached to a distribution's cache behavior, you can get the policy's identifier using
+  `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to
+  a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
 """
 function get_origin_request_policy2020_05_31 end
 
@@ -2765,11 +2767,10 @@ policy is not attached to a cache behavior, you can get the identifier using
 
 # Arguments
 
-- `id`: The unique identifier for the origin request policy. If the origin request policy
-  is attached to a distribution's cache behavior, you can get the policy's identifier
-  using `ListDistributions` or `GetDistribution`. If the origin request policy is not
-  attached to a cache behavior, you can get the identifier using
-  `ListOriginRequestPolicies`.
+- `id`: The unique identifier for the origin request policy. If the origin request policy is
+  attached to a distribution's cache behavior, you can get the policy's identifier using
+  `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to
+  a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
 """
 function get_origin_request_policy_config2020_05_31 end
 
@@ -2870,9 +2871,9 @@ end
 
 Gets a real-time log configuration.
 
-To get a real-time log configuration, you can provide the configuration's name or its
-Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront
-uses the name to identify the real-time log configuration to get.
+To get a real-time log configuration, you can provide the configuration's name or its Amazon
+Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the
+name to identify the real-time log configuration to get.
 
 # Optional Parameters
 
@@ -2910,23 +2911,23 @@ end
     get_response_headers_policy2020_05_31(id)
     get_response_headers_policy2020_05_31(id, params::Dict{String,<:Any})
 
-Gets a response headers policy, including metadata (the policy's identifier and the date
-and time when the policy was last modified).
+Gets a response headers policy, including metadata (the policy's identifier and the date and
+time when the policy was last modified).
 
 To get a response headers policy, you must provide the policy's identifier. If the response
 headers policy is attached to a distribution's cache behavior, you can get the policy's
-identifier using `ListDistributions` or `GetDistribution`. If the response headers policy
-is not attached to a cache behavior, you can get the identifier using
+identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is
+not attached to a cache behavior, you can get the identifier using
 `ListResponseHeadersPolicies`.
 
 # Arguments
 
 - `id`: The identifier for the response headers policy.
 
-  If the response headers policy is attached to a distribution's cache behavior, you can
-  get the policy's identifier using `ListDistributions` or `GetDistribution`. If the
-  response headers policy is not attached to a cache behavior, you can get the identifier
-  using `ListResponseHeadersPolicies`.
+  If the response headers policy is attached to a distribution's cache behavior, you can get
+  the policy's identifier using `ListDistributions` or `GetDistribution`. If the response
+  headers policy is not attached to a cache behavior, you can get the identifier using
+  `ListResponseHeadersPolicies`.
 """
 function get_response_headers_policy2020_05_31 end
 
@@ -2959,20 +2960,20 @@ end
 
 Gets a response headers policy configuration.
 
-To get a response headers policy configuration, you must provide the policy's identifier.
-If the response headers policy is attached to a distribution's cache behavior, you can get
-the policy's identifier using `ListDistributions` or `GetDistribution`. If the response
-headers policy is not attached to a cache behavior, you can get the identifier using
+To get a response headers policy configuration, you must provide the policy's identifier. If
+the response headers policy is attached to a distribution's cache behavior, you can get the
+policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers
+policy is not attached to a cache behavior, you can get the identifier using
 `ListResponseHeadersPolicies`.
 
 # Arguments
 
 - `id`: The identifier for the response headers policy.
 
-  If the response headers policy is attached to a distribution's cache behavior, you can
-  get the policy's identifier using `ListDistributions` or `GetDistribution`. If the
-  response headers policy is not attached to a cache behavior, you can get the identifier
-  using `ListResponseHeadersPolicies`.
+  If the response headers policy is attached to a distribution's cache behavior, you can get
+  the policy's identifier using `ListDistributions` or `GetDistribution`. If the response
+  headers policy is not attached to a cache behavior, you can get the identifier using
+  `ListResponseHeadersPolicies`.
 """
 function get_response_headers_policy_config2020_05_31 end
 
@@ -3081,26 +3082,25 @@ Services, or only the custom policies created in your Amazon Web Services accoun
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of cache policies. The response includes cache policies in the list that occur
-  after the marker. To get the next page of the list, set this field's value to the value
-  of `NextMarker` from the current page's response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of cache policies. The response includes cache policies in the list that occur after the
+  marker. To get the next page of the list, set this field's value to the value of
+  `NextMarker` from the current page's response.
+
 - `"MaxItems"`: The maximum number of cache policies that you want in the response.
-- `"Type"`: A filter to return only the specified kinds of cache policies. Valid values
-  are:
+
+- `"Type"`: A filter to return only the specified kinds of cache policies. Valid values are:
 
   - `managed` – Returns only the managed policies created by Amazon Web Services.
-  - `custom` – Returns only the custom policies created in your Amazon Web Services
-    account.
-
+  - `custom` – Returns only the custom policies created in your Amazon Web Services account.
 """
 function list_cache_policies2020_05_31 end
 
@@ -3136,10 +3136,9 @@ Lists origin access identities.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Marker"`: Use this when paginating results to indicate where to begin in your list of
-  origin access identities. The results include identities in the list that occur after
-  the marker. To get the next page of results, set the `Marker` to the value of the
-  `NextMarker` from the current page's response (which is also the ID of the last
-  identity on that page).
+  origin access identities. The results include identities in the list that occur after the
+  marker. To get the next page of results, set the `Marker` to the value of the `NextMarker`
+  from the current page's response (which is also the ID of the last identity on that page).
 - `"MaxItems"`: The maximum number of origin access identities you want in the response
   body.
 """
@@ -3181,21 +3180,21 @@ accounts that you own, but helps to protect the information of ones that you don
 Use this operation to find aliases that are in use in CloudFront that conflict or overlap
 with the provided alias. For example, if you provide `www.example.com` as input, the
 returned list can include `www.example.com` and the overlapping wildcard alternate domain
-name (`*.example.com`), if they exist. If you provide `*.example.com` as input, the
-returned list can include `*.example.com` and any alternate domain names covered by that
-wildcard (for example, `www.example.com`, `test.example.com`, `dev.example.com`, and so
-on), if they exist.
+name (`*.example.com`), if they exist. If you provide `*.example.com` as input, the returned
+list can include `*.example.com` and any alternate domain names covered by that wildcard
+(for example, `www.example.com`, `test.example.com`, `dev.example.com`, and so on), if they
+exist.
 
-To list conflicting aliases, you provide the alias to search and the ID of a distribution
-in your account that has an attached SSL/TLS certificate that includes the provided alias.
-For more information, including how to set up the distribution and certificate, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move)
+To list conflicting aliases, you provide the alias to search and the ID of a distribution in
+your account that has an attached SSL/TLS certificate that includes the provided alias. For
+more information, including how to set up the distribution and certificate, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move)
 in the *Amazon CloudFront Developer Guide*.
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Arguments
 
@@ -3208,9 +3207,9 @@ value in the subsequent request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Marker"`: Use this field when paginating results to indicate where to begin in the list
-  of conflicting aliases. The response includes conflicting aliases in the list that
-  occur after the marker. To get the next page of the list, set this field's value to the
-  value of `NextMarker` from the current page's response.
+  of conflicting aliases. The response includes conflicting aliases in the list that occur
+  after the marker. To get the next page of the list, set this field's value to the value of
+  `NextMarker` from the current page's response.
 - `"MaxItems"`: The maximum number of conflicting aliases that you want in the response.
 """
 function list_conflicting_aliases2020_05_31 end
@@ -3256,18 +3255,18 @@ Gets a list of the continuous deployment policies in your Amazon Web Services ac
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of continuous deployment policies. The response includes policies in the list that
-  occur after the marker. To get the next page of the list, set this field's value to the
-  value of `NextMarker` from the current page's response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of continuous deployment policies. The response includes policies in the list that occur
+  after the marker. To get the next page of the list, set this field's value to the value of
+  `NextMarker` from the current page's response.
 - `"MaxItems"`: The maximum number of continuous deployment policies that you want returned
   in the response.
 """
@@ -3307,10 +3306,9 @@ List CloudFront distributions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Marker"`: Use this when paginating results to indicate where to begin in your list of
-  distributions. The results include distributions in the list that occur after the
-  marker. To get the next page of results, set the `Marker` to the value of the
-  `NextMarker` from the current page's response (which is also the ID of the last
-  distribution on that page).
+  distributions. The results include distributions in the list that occur after the marker.
+  To get the next page of results, set the `Marker` to the value of the `NextMarker` from
+  the current page's response (which is also the ID of the last distribution on that page).
 - `"MaxItems"`: The maximum number of distributions you want in the response body.
 """
 function list_distributions2020_05_31 end
@@ -3345,9 +3343,9 @@ associated with the specified cache policy.
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Arguments
 
@@ -3358,10 +3356,10 @@ value in the subsequent request.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field's value to the value
-  of `NextMarker` from the current page's response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of distribution IDs. The response includes distribution IDs in the list that occur after
+  the marker. To get the next page of the list, set this field's value to the value of
+  `NextMarker` from the current page's response.
 - `"MaxItems"`: The maximum number of distribution IDs that you want in the response.
 """
 function list_distributions_by_cache_policy_id2020_05_31 end
@@ -3395,14 +3393,14 @@ end
     list_distributions_by_key_group2020_05_31(key_group_id)
     list_distributions_by_key_group2020_05_31(key_group_id, params::Dict{String,<:Any})
 
-Gets a list of distribution IDs for distributions that have a cache behavior that
-references the specified key group.
+Gets a list of distribution IDs for distributions that have a cache behavior that references
+the specified key group.
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Arguments
 
@@ -3412,10 +3410,10 @@ value in the subsequent request.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field's value to the value
-  of `NextMarker` from the current page's response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of distribution IDs. The response includes distribution IDs in the list that occur after
+  the marker. To get the next page of the list, set this field's value to the value of
+  `NextMarker` from the current page's response.
 - `"MaxItems"`: The maximum number of distribution IDs that you want in the response.
 """
 function list_distributions_by_key_group2020_05_31 end
@@ -3454,9 +3452,9 @@ associated with the specified origin request policy.
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Arguments
 
@@ -3467,10 +3465,10 @@ value in the subsequent request.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field's value to the value
-  of `NextMarker` from the current page's response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of distribution IDs. The response includes distribution IDs in the list that occur after
+  the marker. To get the next page of the list, set this field's value to the value of
+  `NextMarker` from the current page's response.
 - `"MaxItems"`: The maximum number of distribution IDs that you want in the response.
 """
 function list_distributions_by_origin_request_policy_id2020_05_31 end
@@ -3504,8 +3502,8 @@ end
     list_distributions_by_realtime_log_config2020_05_31()
     list_distributions_by_realtime_log_config2020_05_31(params::Dict{String,<:Any})
 
-Gets a list of distributions that have a cache behavior that's associated with the
-specified real-time log configuration.
+Gets a list of distributions that have a cache behavior that's associated with the specified
+real-time log configuration.
 
 You can specify the real-time log configuration by its name or its Amazon Resource Name
 (ARN). You must provide at least one. If you provide both, CloudFront uses the name to
@@ -3513,17 +3511,17 @@ identify the real-time log configuration to list distributions for.
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of distributions. The response includes distributions in the list that occur after
-  the marker. To get the next page of the list, set this field's value to the value of
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of distributions. The response includes distributions in the list that occur after the
+  marker. To get the next page of the list, set this field's value to the value of
   `NextMarker` from the current page's response.
 - `"MaxItems"`: The maximum number of distributions that you want in the response.
 - `"RealtimeLogConfigArn"`: The Amazon Resource Name (ARN) of the real-time log
@@ -3565,9 +3563,9 @@ associated with the specified response headers policy.
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Arguments
 
@@ -3578,10 +3576,10 @@ value in the subsequent request.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of distribution IDs. The response includes distribution IDs in the list that occur
-  after the marker. To get the next page of the list, set this field's value to the value
-  of `NextMarker` from the current page's response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of distribution IDs. The response includes distribution IDs in the list that occur after
+  the marker. To get the next page of the list, set this field's value to the value of
+  `NextMarker` from the current page's response.
 - `"MaxItems"`: The maximum number of distribution IDs that you want to get in the response.
 """
 function list_distributions_by_response_headers_policy_id2020_05_31 end
@@ -3619,9 +3617,9 @@ List the distributions that are associated with a specified WAF web ACL.
 
 # Arguments
 
-- `web_aclid`: The ID of the WAF web ACL that you want to list the associated
-  distributions. If you specify "null" for the ID, the request returns a list of the
-  distributions that aren't associated with a web ACL.
+- `web_aclid`: The ID of the WAF web ACL that you want to list the associated distributions.
+  If you specify "null" for the ID, the request returns a list of the distributions that
+  aren't associated with a web ACL.
 
   For WAFV2, this is the ARN of the web ACL, such as
   `arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111`.
@@ -3633,11 +3631,12 @@ List the distributions that are associated with a specified WAF web ACL.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use `Marker` and `MaxItems` to control pagination of results. If you have
-  more than `MaxItems` distributions that satisfy the request, the response includes a
+- `"Marker"`: Use `Marker` and `MaxItems` to control pagination of results. If you have more
+  than `MaxItems` distributions that satisfy the request, the response includes a
   `NextMarker` element. To get the next page of results, submit another request. For the
   value of `Marker`, specify the value of `NextMarker` from the last response. (For the
   first request, omit `Marker`.)
+
 - `"MaxItems"`: The maximum number of distributions that you want CloudFront to return in
   the response body. The maximum and default values are both 100.
 """
@@ -3672,8 +3671,8 @@ end
     list_field_level_encryption_configs2020_05_31()
     list_field_level_encryption_configs2020_05_31(params::Dict{String,<:Any})
 
-List all field-level encryption configurations that have been created in CloudFront for
-this account.
+List all field-level encryption configurations that have been created in CloudFront for this
+account.
 
 # Optional Parameters
 
@@ -3681,9 +3680,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Marker"`: Use this when paginating results to indicate where to begin in your list of
   configurations. The results include configurations in the list that occur after the
-  marker. To get the next page of results, set the `Marker` to the value of the
-  `NextMarker` from the current page's response (which is also the ID of the last
-  configuration on that page).
+  marker. To get the next page of results, set the `Marker` to the value of the `NextMarker`
+  from the current page's response (which is also the ID of the last configuration on that
+  page).
+
 - `"MaxItems"`: The maximum number of field-level encryption configurations you want in the
   response body.
 """
@@ -3724,9 +3724,9 @@ this account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Marker"`: Use this when paginating results to indicate where to begin in your list of
-  profiles. The results include profiles in the list that occur after the marker. To get
-  the next page of results, set the `Marker` to the value of the `NextMarker` from the
-  current page's response (which is also the ID of the last profile on that page).
+  profiles. The results include profiles in the list that occur after the marker. To get the
+  next page of results, set the `Marker` to the value of the `NextMarker` from the current
+  page's response (which is also the ID of the last profile on that page).
 - `"MaxItems"`: The maximum number of field-level encryption profiles you want in the
   response body.
 """
@@ -3766,18 +3766,18 @@ stage, either `DEVELOPMENT` or `LIVE`.
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of functions. The response includes functions in the list that occur after the
-  marker. To get the next page of the list, set this field's value to the value of
-  `NextMarker` from the current page's response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of functions. The response includes functions in the list that occur after the marker. To
+  get the next page of the list, set this field's value to the value of `NextMarker` from
+  the current page's response.
 - `"MaxItems"`: The maximum number of functions that you want in the response.
 - `"Stage"`: An optional filter to return only the functions that are in the specified
   stage, either `DEVELOPMENT` or `LIVE`.
@@ -3821,10 +3821,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Marker"`: Use this parameter when paginating results to indicate where to begin in your
   list of invalidation batches. Because the results are returned in decreasing order from
-  most recent to oldest, the most recent results are on the first page, the second page
-  will contain earlier results, and so on. To get the next page of results, set `Marker`
-  to the value of the `NextMarker` from the current page's response. This value is the
-  same as the ID of the last invalidation batch on that page.
+  most recent to oldest, the most recent results are on the first page, the second page will
+  contain earlier results, and so on. To get the next page of results, set `Marker` to the
+  value of the `NextMarker` from the current page's response. This value is the same as the
+  ID of the last invalidation batch on that page.
+
 - `"MaxItems"`: The maximum number of invalidation batches that you want in the response
   body.
 """
@@ -3863,18 +3864,18 @@ Gets a list of key groups.
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of key groups. The response includes key groups in the list that occur after the
-  marker. To get the next page of the list, set this field's value to the value of
-  `NextMarker` from the current page's response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of key groups. The response includes key groups in the list that occur after the marker.
+  To get the next page of the list, set this field's value to the value of `NextMarker` from
+  the current page's response.
 - `"MaxItems"`: The maximum number of key groups that you want in the response.
 """
 function list_key_groups2020_05_31 end
@@ -3947,18 +3948,18 @@ Gets the list of CloudFront origin access controls in this Amazon Web Services a
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send another request
-that specifies the `NextMarker` value from the current response as the `Marker` value in
-the next request.
+maximum, the response is paginated. To get the next page of items, send another request that
+specifies the `NextMarker` value from the current response as the `Marker` value in the next
+request.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of origin access controls. The response includes the items in the list that occur
-  after the marker. To get the next page of the list, set this field's value to the value
-  of `NextMarker` from the current page's response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of origin access controls. The response includes the items in the list that occur after
+  the marker. To get the next page of the list, set this field's value to the value of
+  `NextMarker` from the current page's response.
 - `"MaxItems"`: The maximum number of origin access controls that you want in the response.
 """
 function list_origin_access_controls2020_05_31 end
@@ -3997,26 +3998,26 @@ Services, or only the custom policies created in your Amazon Web Services accoun
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of origin request policies. The response includes origin request policies in the
-  list that occur after the marker. To get the next page of the list, set this field's
-  value to the value of `NextMarker` from the current page's response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of origin request policies. The response includes origin request policies in the list that
+  occur after the marker. To get the next page of the list, set this field's value to the
+  value of `NextMarker` from the current page's response.
+
 - `"MaxItems"`: The maximum number of origin request policies that you want in the response.
+
 - `"Type"`: A filter to return only the specified kinds of origin request policies. Valid
   values are:
 
   - `managed` – Returns only the managed policies created by Amazon Web Services.
-  - `custom` – Returns only the custom policies created in your Amazon Web Services
-    account.
-
+  - `custom` – Returns only the custom policies created in your Amazon Web Services account.
 """
 function list_origin_request_policies2020_05_31 end
 
@@ -4054,9 +4055,9 @@ List all public keys that have been added to CloudFront for this account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Marker"`: Use this when paginating results to indicate where to begin in your list of
-  public keys. The results include public keys in the list that occur after the marker.
-  To get the next page of results, set the `Marker` to the value of the `NextMarker` from
-  the current page's response (which is also the ID of the last public key on that page).
+  public keys. The results include public keys in the list that occur after the marker. To
+  get the next page of results, set the `Marker` to the value of the `NextMarker` from the
+  current page's response (which is also the ID of the last public key on that page).
 - `"MaxItems"`: The maximum number of public keys you want in the response body.
 """
 function list_public_keys2020_05_31 end
@@ -4090,19 +4091,18 @@ Gets a list of real-time log configurations.
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of real-time log configurations. The response includes real-time log
-  configurations in the list that occur after the marker. To get the next page of the
-  list, set this field's value to the value of `NextMarker` from the current page's
-  response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of real-time log configurations. The response includes real-time log configurations in the
+  list that occur after the marker. To get the next page of the list, set this field's value
+  to the value of `NextMarker` from the current page's response.
 - `"MaxItems"`: The maximum number of real-time log configurations that you want in the
   response.
 """
@@ -4142,26 +4142,27 @@ Services, or only the custom policies created in your Amazon Web Services accoun
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the `NextMarker` value from the current response as the `Marker`
-value in the subsequent request.
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Use this field when paginating results to indicate where to begin in your
-  list of response headers policies. The response includes response headers policies in
-  the list that occur after the marker. To get the next page of the list, set this
-  field's value to the value of `NextMarker` from the current page's response.
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of response headers policies. The response includes response headers policies in the list
+  that occur after the marker. To get the next page of the list, set this field's value to
+  the value of `NextMarker` from the current page's response.
+
 - `"MaxItems"`: The maximum number of response headers policies that you want to get in the
   response.
+
 - `"Type"`: A filter to get only the specified kind of response headers policies. Valid
   values are:
 
   - `managed` – Gets only the managed policies created by Amazon Web Services.
   - `custom` – Gets only the custom policies created in your Amazon Web Services account.
-
 """
 function list_response_headers_policies2020_05_31 end
 
@@ -4271,9 +4272,9 @@ end
     publish_function2020_05_31(if-_match, name)
     publish_function2020_05_31(if-_match, name, params::Dict{String,<:Any})
 
-Publishes a CloudFront function by copying the function code from the `DEVELOPMENT` stage
-to `LIVE`. This automatically updates all cache behaviors that are using this function to
-use the newly published copy in the `LIVE` stage.
+Publishes a CloudFront function by copying the function code from the `DEVELOPMENT` stage to
+`LIVE`. This automatically updates all cache behaviors that are using this function to use
+the newly published copy in the `LIVE` stage.
 
 When a function is published to the `LIVE` stage, you can attach the function to a
 distribution's cache behavior, using the function's Amazon Resource Name (ARN).
@@ -4386,8 +4387,8 @@ the event object. To get the function's name and version, you can use `ListFunct
 
 # Arguments
 
-- `event_object`: The event object to test the function with. For more information about
-  the structure of the event object, see [Testing functions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function)
+- `event_object`: The event object to test the function with. For more information about the
+  structure of the event object, see [Testing functions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function)
   in the *Amazon CloudFront Developer Guide*.
 - `if-_match`: The current version (`ETag` value) of the function that you are testing,
   which you can get using `DescribeFunction`.
@@ -4498,10 +4499,10 @@ When you update a cache policy configuration, all the fields are updated with th
 provided in the request. You cannot update some fields independent of others. To update a
 cache policy configuration:
 
-1. Use `GetCachePolicyConfig` to get the current configuration.2. Locally modify the fields
-   in the cache policy configuration that you want to update.3. Call `UpdateCachePolicy` by
-   providing the entire cache policy configuration, including the fields that you modified
-   and those that you didn't.
+1. Use `GetCachePolicyConfig` to get the current configuration.
+2. Locally modify the fields in the cache policy configuration that you want to update.
+3. Call `UpdateCachePolicy` by providing the entire cache policy configuration, including
+   the fields that you modified and those that you didn't.
 
 # Arguments
 
@@ -4622,11 +4623,11 @@ When you update a continuous deployment policy configuration, all the fields are
 with the values that are provided in the request. You cannot update some fields independent
 of others. To update a continuous deployment policy configuration:
 
-1. Use `GetContinuousDeploymentPolicyConfig` to get the current configuration.2. Locally
-   modify the fields in the continuous deployment policy configuration that you want to
-   update.3. Use `UpdateContinuousDeploymentPolicy`, providing the entire continuous
-   deployment policy configuration, including the fields that you modified and those that
-   you didn't.
+1. Use `GetContinuousDeploymentPolicyConfig` to get the current configuration.
+2. Locally modify the fields in the continuous deployment policy configuration that you want
+   to update.
+3. Use `UpdateContinuousDeploymentPolicy`, providing the entire continuous deployment policy
+   configuration, including the fields that you modified and those that you didn't.
 
 # Arguments
 
@@ -4691,16 +4692,17 @@ make your changes, and then submitting an `UpdateDistribution` request to make t
 **To update a web distribution using the CloudFront API**
 
 1. Use `GetDistributionConfig` to get the current configuration, including the version
-   identifier (`ETag`).2. Update the distribution configuration that was returned in the
-   response. Note the following important requirements and restrictions:
+   identifier (`ETag`).
+2. Update the distribution configuration that was returned in the response. Note the
+   following important requirements and restrictions:
 
-- You must rename the `ETag` field to `IfMatch`, leaving the value unchanged. (Set the
-  value of `IfMatch` to the value of `ETag`, then remove the `ETag` field.)
-- You can't change the value of `CallerReference`.3. Submit an `UpdateDistribution`
-  request, providing the distribution configuration. The new configuration replaces the
-  existing configuration. The values that you specify in an `UpdateDistribution` request
-  are not merged into your existing configuration. Make sure to include all fields: the
-  ones that you modified and also the ones that you didn't.
+- You must rename the `ETag` field to `IfMatch`, leaving the value unchanged. (Set the value
+  of `IfMatch` to the value of `ETag`, then remove the `ETag` field.)
+- You can't change the value of `CallerReference`.
+3. Submit an `UpdateDistribution` request, providing the distribution configuration. The new
+   configuration replaces the existing configuration. The values that you specify in an
+   `UpdateDistribution` request are not merged into your existing configuration. Make sure
+   to include all fields: the ones that you modified and also the ones that you didn't.
 
 # Arguments
 
@@ -4782,6 +4784,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distributions. Provide these in the following format:
 
   `&lt;primary ETag&gt;, &lt;staging ETag&gt;`
+
 - `"StagingDistributionId"`: The identifier of the staging distribution whose configuration
   you are copying to the primary distribution.
 """
@@ -4881,8 +4884,8 @@ Update a field-level encryption profile.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"If-Match"`: The value of the `ETag` header that you received when retrieving the
-  profile identity to update. For example: `E2QWRUHAPOMQZL`.
+- `"If-Match"`: The value of the `ETag` header that you received when retrieving the profile
+  identity to update. For example: `E2QWRUHAPOMQZL`.
 """
 function update_field_level_encryption_profile2020_05_31 end
 
@@ -5006,10 +5009,11 @@ Updates a key group.
 When you update a key group, all the fields are updated with the values provided in the
 request. You cannot update some fields independent of others. To update a key group:
 
-1. Get the current key group with `GetKeyGroup` or `GetKeyGroupConfig`.2. Locally modify
-   the fields in the key group that you want to update. For example, add or remove public
-   key IDs.3. Call `UpdateKeyGroup` with the entire key group object, including the fields
-   that you modified and those that you didn't.
+1. Get the current key group with `GetKeyGroup` or `GetKeyGroupConfig`.
+2. Locally modify the fields in the key group that you want to update. For example, add or
+   remove public key IDs.
+3. Call `UpdateKeyGroup` with the entire key group object, including the fields that you
+   modified and those that you didn't.
 
 # Arguments
 
@@ -5122,8 +5126,8 @@ Updates a CloudFront origin access control.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"If-Match"`: The current version (`ETag` value) of the origin access control that you
-  are updating.
+- `"If-Match"`: The current version (`ETag` value) of the origin access control that you are
+  updating.
 """
 function update_origin_access_control2020_05_31 end
 
@@ -5170,16 +5174,17 @@ When you update an origin request policy configuration, all the fields are updat
 values provided in the request. You cannot update some fields independent of others. To
 update an origin request policy configuration:
 
-1. Use `GetOriginRequestPolicyConfig` to get the current configuration.2. Locally modify
-   the fields in the origin request policy configuration that you want to update.3. Call
-   `UpdateOriginRequestPolicy` by providing the entire origin request policy configuration,
-   including the fields that you modified and those that you didn't.
+1. Use `GetOriginRequestPolicyConfig` to get the current configuration.
+2. Locally modify the fields in the origin request policy configuration that you want to
+   update.
+3. Call `UpdateOriginRequestPolicy` by providing the entire origin request policy
+   configuration, including the fields that you modified and those that you didn't.
 
 # Arguments
 
 - `id`: The unique identifier for the origin request policy that you are updating. The
-  identifier is returned in a cache behavior's `OriginRequestPolicyId` field in the
-  response to `GetDistributionConfig`.
+  identifier is returned in a cache behavior's `OriginRequestPolicyId` field in the response
+  to `GetDistributionConfig`.
 - `origin_request_policy_config`: An origin request policy configuration.
 
 # Optional Parameters
@@ -5286,9 +5291,9 @@ When you update a real-time log configuration, all the parameters are updated wi
 values provided in the request. You cannot update some parameters independent of others. To
 update a real-time log configuration:
 
-1. Call `GetRealtimeLogConfig` to get the current real-time log configuration.2. Locally
-   modify the parameters in the real-time log configuration that you want to update.3. Call
-   this API (`UpdateRealtimeLogConfig`) by providing the entire real-time log
+1. Call `GetRealtimeLogConfig` to get the current real-time log configuration.
+2. Locally modify the parameters in the real-time log configuration that you want to update.
+3. Call this API (`UpdateRealtimeLogConfig`) by providing the entire real-time log
    configuration, including the parameters that you modified and those that you didn't.
 
 You cannot update a real-time log configuration's `Name` or `ARN`.
@@ -5298,13 +5303,17 @@ You cannot update a real-time log configuration's `Name` or `ARN`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ARN"`: The Amazon Resource Name (ARN) for this real-time log configuration.
+
 - `"EndPoints"`: Contains information about the Amazon Kinesis data stream where you are
   sending real-time log data.
+
 - `"Fields"`: A list of fields to include in each real-time log record.
 
   For more information about fields, see [Real-time log configuration fields](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/real-time-logs.html#understand-real-time-log-config-fields)
   in the *Amazon CloudFront Developer Guide*.
+
 - `"Name"`: The name for this real-time log configuration.
+
 - `"SamplingRate"`: The sampling rate for this real-time log configuration. The sampling
   rate determines the percentage of viewer requests that are represented in the real-time
   log data. You must provide an integer between 1 and 100, inclusive.
@@ -5341,12 +5350,11 @@ end
 Updates a response headers policy.
 
 When you update a response headers policy, the entire policy is replaced. You cannot update
-some policy fields independent of others. To update a response headers policy
-configuration:
+some policy fields independent of others. To update a response headers policy configuration:
 
-1. Use `GetResponseHeadersPolicyConfig` to get the current policy's configuration.2. Modify
-   the fields in the response headers policy configuration that you want to update.3. Call
-   `UpdateResponseHeadersPolicy`, providing the entire response headers policy
+1. Use `GetResponseHeadersPolicyConfig` to get the current policy's configuration.
+2. Modify the fields in the response headers policy configuration that you want to update.
+3. Call `UpdateResponseHeadersPolicy`, providing the entire response headers policy
    configuration, including the fields that you modified and those that you didn't.
 
 # Arguments

@@ -111,9 +111,9 @@ When a contact uses multiple `DataflowEndpointConfig` objects, each `Config` mus
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"contactPostPassDurationSeconds"`: Amount of time, in seconds, after a contact ends that
-  the Ground Station Dataflow Endpoint Group will be in a `POSTPASS` state. A Ground
-  Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow
-  Endpoint Group enters and exits the `POSTPASS` state.
+  the Ground Station Dataflow Endpoint Group will be in a `POSTPASS` state. A Ground Station
+  Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint
+  Group enters and exits the `POSTPASS` state.
 - `"contactPrePassDurationSeconds"`: Amount of time, in seconds, before a contact starts
   that the Ground Station Dataflow Endpoint Group will be in a `PREPASS` state. A Ground
   Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow
@@ -171,17 +171,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enabled"`: Whether to set the ephemeris status to `ENABLED` after validation.
 
   Setting this to false will set the ephemeris status to `DISABLED` after validation.
+
 - `"ephemeris"`: Ephemeris data.
+
 - `"expirationTime"`: An overall expiration time for the ephemeris in UTC, after which it
   will become `EXPIRED`.
+
 - `"kmsKeyArn"`: The ARN of a KMS key used to encrypt the ephemeris in Ground Station.
-- `"priority"`: Customer-provided priority score to establish the order in which
-  overlapping ephemerides should be used.
+
+- `"priority"`: Customer-provided priority score to establish the order in which overlapping
+  ephemerides should be used.
 
   The default for customer-provided ephemeris priority is 1, and higher numbers take
   precedence.
 
   Priority must be 1 or greater
+
 - `"tags"`: Tags assigned to an ephemeris.
 """
 function create_ephemeris end
@@ -242,8 +247,8 @@ elements: a *from* ARN and a *to* ARN.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like
-  to receive a Ground Station Contact State Change event indicating the pass has finished.
+- `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like to
+  receive a Ground Station Contact State Change event indicating the pass has finished.
 - `"contactPrePassDurationSeconds"`: Amount of time prior to contact start you’d like to
   receive a Ground Station Contact State Change event indicating an upcoming pass.
 - `"streamsKmsKey"`: KMS key to use for encrypting streams.
@@ -523,8 +528,6 @@ end
 """
     get_agent_configuration(agent_id)
     get_agent_configuration(agent_id, params::Dict{String,<:Any})
-
-
 
 !!! note
     For use by AWS Ground Station Agent and shouldn't be called directly.
@@ -898,8 +901,8 @@ List existing ephemerides.
 - `end_time`: The end time to list in UTC. The operation will return an ephemeris if its
   expiration time is within the time range defined by the `startTime` and `endTime`.
 - `satellite_id`: The AWS Ground Station satellite ID to list ephemeris for.
-- `start_time`: The start time to list in UTC. The operation will return an ephemeris if
-  its expiration time is within the time range defined by the `startTime` and `endTime`.
+- `start_time`: The start time to list in UTC. The operation will return an ephemeris if its
+  expiration time is within the time range defined by the `startTime` and `endTime`.
 
 # Optional Parameters
 
@@ -1090,8 +1093,6 @@ end
 """
     register_agent(agent_details, discovery_data)
     register_agent(agent_details, discovery_data, params::Dict{String,<:Any})
-
-
 
 !!! note
     For use by AWS Ground Station Agent and shouldn't be called directly.
@@ -1297,8 +1298,6 @@ end
     update_agent_status(agent_id, aggregate_status, component_statuses, task_id)
     update_agent_status(agent_id, aggregate_status, component_statuses, task_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     For use by AWS Ground Station Agent and shouldn't be called directly.
 
@@ -1431,10 +1430,11 @@ Updates an existing ephemeris
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"name"`: A name string associated with the ephemeris. Used as a human-readable
-  identifier for the ephemeris.
-- `"priority"`: Customer-provided priority score to establish the order in which
-  overlapping ephemerides should be used.
+- `"name"`: A name string associated with the ephemeris. Used as a human-readable identifier
+  for the ephemeris.
+
+- `"priority"`: Customer-provided priority score to establish the order in which overlapping
+  ephemerides should be used.
 
   The default for customer-provided ephemeris priority is 1, and higher numbers take
   precedence.
@@ -1487,8 +1487,8 @@ contacts.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like
-  to receive a Ground Station Contact State Change event indicating the pass has finished.
+- `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like to
+  receive a Ground Station Contact State Change event indicating the pass has finished.
 - `"contactPrePassDurationSeconds"`: Amount of time after a contact ends that you’d like to
   receive a Ground Station Contact State Change event indicating the pass has finished.
 - `"dataflowEdges"`: A list of lists of ARNs. Each list of ARNs is an edge, with a *from*

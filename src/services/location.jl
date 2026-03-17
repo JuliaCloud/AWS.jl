@@ -8,8 +8,8 @@ using AWS.UUIDs
     associate_tracker_consumer(consumer_arn, tracker_name)
     associate_tracker_consumer(consumer_arn, tracker_name, params::Dict{String,<:Any})
 
-Creates an association between a geofence collection and a tracker resource. This allows
-the tracker resource to communicate location data to the linked geofence collection.
+Creates an association between a geofence collection and a tracker resource. This allows the
+tracker resource to communicate location data to the linked geofence collection.
 
 You can associate up to five geofence collections to each tracker resource.
 
@@ -20,8 +20,8 @@ You can associate up to five geofence collections to each tracker resource.
 # Arguments
 
 - `consumer_arn`: The Amazon Resource Name (ARN) for the geofence collection to be
-  associated to tracker resource. Used when you need to specify a resource across all
-  Amazon Web Services.
+  associated to tracker resource. Used when you need to specify a resource across all Amazon
+  Web Services.
 
   - Format example:
     `arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer`
@@ -155,8 +155,7 @@ end
     batch_evaluate_geofences(collection_name, device_position_updates)
     batch_evaluate_geofences(collection_name, device_position_updates, params::Dict{String,<:Any})
 
-Evaluates device positions against the geofence geometries from a given geofence
-collection.
+Evaluates device positions against the geofence geometries from a given geofence collection.
 
 This operation always returns an empty response because geofences are asynchronously
 evaluated. The evaluation determines if the device has entered or exited a geofenced area,
@@ -171,8 +170,8 @@ and then publishes one of the following events to Amazon EventBridge:
     most recent device position update.
 
 !!! note
-    Geofence evaluation uses the given device position. It does not account for the
-    optional `Accuracy` of a `DevicePositionUpdate`.
+    Geofence evaluation uses the given device position. It does not account for the optional
+    `Accuracy` of a `DevicePositionUpdate`.
 
 !!! note
     The `DeviceID` is used as a string to represent the device. You do not need to have a
@@ -182,8 +181,8 @@ and then publishes one of the following events to Amazon EventBridge:
 
 - `collection_name`: The geofence collection used in evaluating the position of devices
   against its geofences.
-- `device_position_updates`: Contains device details for each device to be evaluated
-  against the given geofence collection.
+- `device_position_updates`: Contains device details for each device to be evaluated against
+  the given geofence collection.
 """
 function batch_evaluate_geofences end
 
@@ -271,8 +270,8 @@ end
     batch_put_geofence(collection_name, entries)
     batch_put_geofence(collection_name, entries, params::Dict{String,<:Any})
 
-A batch request for storing geofence geometries into a given geofence collection, or
-updates the geometry of an existing geofence if a geofence ID is included in the request.
+A batch request for storing geofence geometries into a given geofence collection, or updates
+the geometry of an existing geofence if a geofence ID is included in the request.
 
 # Arguments
 
@@ -312,9 +311,9 @@ end
     batch_update_device_position(tracker_name, updates)
     batch_update_device_position(tracker_name, updates, params::Dict{String,<:Any})
 
-Uploads position update data for one or more devices to a tracker resource (up to 10
-devices per batch). Amazon Location uses the data when it reports the last known device
-position and position history. Amazon Location retains location data for 30 days.
+Uploads position update data for one or more devices to a tracker resource (up to 10 devices
+per batch). Amazon Location uses the data when it reports the last known device position and
+position history. Amazon Location retains location data for 30 days.
 
 !!! note
     Position updates are handled based on the `PositionFiltering` property of the tracker.
@@ -324,16 +323,16 @@ position and position history. Amazon Location retains location data for 30 days
     update per 30 seconds is stored for each unique device ID.
 
     When `PositionFiltering` is set to `DistanceBased` filtering, location data is stored
-    and evaluated against linked geofence collections only if the device has moved more
-    than 30 m (98.4 ft).
+    and evaluated against linked geofence collections only if the device has moved more than
+    30 m (98.4 ft).
 
     When `PositionFiltering` is set to `AccuracyBased` filtering, location data is stored
-    and evaluated against linked geofence collections only if the device has moved more
-    than the measured accuracy. For example, if two consecutive updates from a device have
-    a horizontal accuracy of 5 m and 10 m, the second update is neither stored or evaluated
-    if the device has moved less than 15 m. If `PositionFiltering` is set to
-    `AccuracyBased` filtering, Amazon Location uses the default value `{ "Horizontal": 0}`
-    when accuracy is not provided on a `DevicePositionUpdate`.
+    and evaluated against linked geofence collections only if the device has moved more than
+    the measured accuracy. For example, if two consecutive updates from a device have a
+    horizontal accuracy of 5 m and 10 m, the second update is neither stored or evaluated if
+    the device has moved less than 15 m. If `PositionFiltering` is set to `AccuracyBased`
+    filtering, Amazon Location uses the default value `{ "Horizontal": 0}` when accuracy is
+    not provided on a `DevicePositionUpdate`.
 
 # Arguments
 
@@ -386,23 +385,24 @@ Additional options include:
   using either `DepartureTime` or `DepartNow`. This calculates a route based on predictive
   traffic data at the given time.
 
-!!! note
-    You can't specify both `DepartureTime` and `DepartNow` in a single request. Specifying
-    both parameters returns a validation error.
+  !!! note
+      You can't specify both `DepartureTime` and `DepartNow` in a single request. Specifying
+      both parameters returns a validation error.
 
 - [Specifying a travel mode](https://docs.aws.amazon.com/location/latest/developerguide/travel-mode.html)
-  using TravelMode sets the transportation mode used to calculate the routes. This also
-  lets you specify additional route preferences in `CarModeOptions` if traveling by `Car`,
-  or `TruckModeOptions` if traveling by `Truck`.
+  using TravelMode sets the transportation mode used to calculate the routes. This also lets
+  you specify additional route preferences in `CarModeOptions` if traveling by `Car`, or
+  `TruckModeOptions` if traveling by `Truck`.
 
-!!! note
-    If you specify `walking` for the travel mode and your data provider is Esri, the start
-    and destination must be within 40km.
+  !!! note
+      If you specify `walking` for the travel mode and your data provider is Esri, the start
+      and destination must be within 40km.
 
 # Arguments
 
 - `calculator_name`: The name of the route calculator resource that you want to use to
   calculate the route.
+
 - `departure_position`: The start position for the route. Defined in [World Geodetic System (WGS 84)](https://earth-info.nga.mil/index.php?dir=wgs84&amp;action=wgs84)
   format: `[longitude, latitude]`.
 
@@ -410,10 +410,11 @@ Additional options include:
 
   !!! note
       If you specify a departure that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html).
-      If Esri is the provider for your route calculator, specifying a route that is
-      longer than 400 km returns a `400 RoutesValidationException` error.
+      If Esri is the provider for your route calculator, specifying a route that is longer
+      than 400 km returns a `400 RoutesValidationException` error.
 
   Valid Values: `[-180 to 180,-90 to 90]`
+
 - `destination_position`: The finish position for the route. Defined in [World Geodetic System (WGS 84)](https://earth-info.nga.mil/index.php?dir=wgs84&amp;action=wgs84)
   format: `[longitude, latitude]`.
 
@@ -429,8 +430,8 @@ Additional options include:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ArrivalTime"`: Specifies the desired time of arrival. Uses the given time to calculate
-  the route. Otherwise, the best time of day to travel with the best traffic conditions
-  is used to calculate the route.
+  the route. Otherwise, the best time of day to travel with the best traffic conditions is
+  used to calculate the route.
 
   !!! note
       ArrivalTime is not supported Esri.
@@ -439,6 +440,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   routes that use ferries or tolls.
 
   Requirements: `TravelMode` must be specified as `Car`.
+
 - `"DepartNow"`: Sets the time of departure as the current time. Uses the current time to
   calculate a route. Otherwise, the best time of day to travel with the best traffic
   conditions is used to calculate the route.
@@ -446,6 +448,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default Value: `false`
 
   Valid Values: `false` | `true`
+
 - `"DepartureTime"`: Specifies the desired time of departure. Uses the given time to
   calculate the route. Otherwise, the best time of day to travel with the best traffic
   conditions is used to calculate the route.
@@ -456,20 +459,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DistanceUnit"`: Set the unit system to specify the distance.
 
   Default Value: `Kilometers`
+
 - `"IncludeLegGeometry"`: Set to include the geometry details in the result for each path
   between a pair of positions.
 
   Default Value: `false`
 
   Valid Values: `false` | `true`
+
 - `"OptimizeFor"`: Specifies the distance to optimize for when calculating a route.
+
 - `"TravelMode"`: Specifies the mode of transport when calculating a route. Used in
   estimating the speed of travel and road compatibility. You can choose `Car`, `Truck`,
   `Walking`, `Bicycle` or `Motorcycle` as options for the `TravelMode`.
 
   !!! note
-      `Bicycle` and `Motorcycle` are only valid when using Grab as a data provider, and
-      only within Southeast Asia.
+      `Bicycle` and `Motorcycle` are only valid when using Grab as a data provider, and only
+      within Southeast Asia.
 
       `Truck` is not available for Grab.
 
@@ -482,27 +488,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - If traveling by `Truck` use the `TruckModeOptions` parameter.
 
   Default Value: `Car`
+
 - `"TruckModeOptions"`: Specifies route preferences when traveling by `Truck`, such as
   avoiding routes that use ferries or tolls, and truck specifications to consider when
   choosing an optimal road.
 
   Requirements: `TravelMode` must be specified as `Truck`.
+
 - `"WaypointPositions"`: Specifies an ordered list of up to 23 intermediate positions to
   include along a route between the departure position and destination position.
 
   - For example, from the `DeparturePosition` `[-123.115, 49.285]`, the route follows the
-    order that the waypoint positions are given
-    `[[-122.757, 49.0021],[-122.349, 47.620]]`
+    order that the waypoint positions are given `[[-122.757, 49.0021],[-122.349, 47.620]]`
 
   !!! note
       If you specify a waypoint position that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html).
 
       Specifying more than 23 waypoints returns a `400 ValidationException` error.
 
-      If Esri is the provider for your route calculator, specifying a route that is
-      longer than 400 km returns a `400 RoutesValidationException` error.
+      If Esri is the provider for your route calculator, specifying a route that is longer
+      than 400 km returns a `400 RoutesValidationException` error.
 
   Valid Values: `[-180 to 180,-90 to 90]`
+
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
@@ -558,11 +566,11 @@ end
 [Calculates a route matrix](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html)
 given the following required parameters: `DeparturePositions` and `DestinationPositions`.
 `CalculateRouteMatrix` calculates routes and returns the travel time and travel distance
-from each departure position to each destination position in the request. For example,
-given departure positions A and B, and destination positions X and Y,
-`CalculateRouteMatrix` will return time and distance for routes from A to X, A to Y, B to
-X, and B to Y (in that order). The number of results returned (and routes calculated) will
-be the number of `DeparturePositions` times the number of `DestinationPositions`.
+from each departure position to each destination position in the request. For example, given
+departure positions A and B, and destination positions X and Y, `CalculateRouteMatrix` will
+return time and distance for routes from A to X, A to Y, B to X, and B to Y (in that order).
+The number of results returned (and routes calculated) will be the number of
+`DeparturePositions` times the number of `DestinationPositions`.
 
 !!! note
     Your account is charged for each route calculated, not the number of requests.
@@ -578,46 +586,48 @@ Additional options include:
   using either `DepartureTime` or `DepartNow`. This calculates routes based on predictive
   traffic data at the given time.
 
-!!! note
-    You can't specify both `DepartureTime` and `DepartNow` in a single request. Specifying
-    both parameters returns a validation error.
+  !!! note
+      You can't specify both `DepartureTime` and `DepartNow` in a single request. Specifying
+      both parameters returns a validation error.
 
 - [Specifying a travel mode](https://docs.aws.amazon.com/location/latest/developerguide/travel-mode.html)
-  using TravelMode sets the transportation mode used to calculate the routes. This also
-  lets you specify additional route preferences in `CarModeOptions` if traveling by `Car`,
-  or `TruckModeOptions` if traveling by `Truck`.
+  using TravelMode sets the transportation mode used to calculate the routes. This also lets
+  you specify additional route preferences in `CarModeOptions` if traveling by `Car`, or
+  `TruckModeOptions` if traveling by `Truck`.
 
 # Arguments
 
 - `calculator_name`: The name of the route calculator resource that you want to use to
   calculate the route matrix.
+
 - `departure_positions`: The list of departure (origin) positions for the route matrix. An
   array of points, each of which is itself a 2-value array defined in [WGS 84](https://earth-info.nga.mil/GandG/wgs84/index.html)
   format: `[longitude, latitude]`. For example, `[-123.115, 49.285]`.
 
   !!! important
-      Depending on the data provider selected in the route calculator resource there may
-      be additional restrictions on the inputs you can choose. See [Position restrictions](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html#matrix-routing-position-limits)
+      Depending on the data provider selected in the route calculator resource there may be
+      additional restrictions on the inputs you can choose. See [Position restrictions](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html#matrix-routing-position-limits)
       in the *Amazon Location Service Developer Guide*.
 
   !!! note
-      For route calculators that use Esri as the data provider, if you specify a
-      departure that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html).
+      For route calculators that use Esri as the data provider, if you specify a departure
+      that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html).
       The snapped value is available in the result in `SnappedDeparturePositions`.
 
   Valid Values: `[-180 to 180,-90 to 90]`
+
 - `destination_positions`: The list of destination positions for the route matrix. An array
   of points, each of which is itself a 2-value array defined in [WGS 84](https://earth-info.nga.mil/GandG/wgs84/index.html)
   format: `[longitude, latitude]`. For example, `[-122.339, 47.615]`
 
   !!! important
-      Depending on the data provider selected in the route calculator resource there may
-      be additional restrictions on the inputs you can choose. See [Position restrictions](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html#matrix-routing-position-limits)
+      Depending on the data provider selected in the route calculator resource there may be
+      additional restrictions on the inputs you can choose. See [Position restrictions](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html#matrix-routing-position-limits)
       in the *Amazon Location Service Developer Guide*.
 
   !!! note
-      For route calculators that use Esri as the data provider, if you specify a
-      destination that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html).
+      For route calculators that use Esri as the data provider, if you specify a destination
+      that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html).
       The snapped value is available in the result in `SnappedDestinationPositions`.
 
   Valid Values: `[-180 to 180,-90 to 90]`
@@ -630,18 +640,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   routes that use ferries or tolls.
 
   Requirements: `TravelMode` must be specified as `Car`.
+
 - `"DepartNow"`: Sets the time of departure as the current time. Uses the current time to
-  calculate the route matrix. You can't set both `DepartureTime` and `DepartNow`. If
-  neither is set, the best time of day to travel with the best traffic conditions is used
-  to calculate the route matrix.
+  calculate the route matrix. You can't set both `DepartureTime` and `DepartNow`. If neither
+  is set, the best time of day to travel with the best traffic conditions is used to
+  calculate the route matrix.
 
   Default Value: `false`
 
   Valid Values: `false` | `true`
+
 - `"DepartureTime"`: Specifies the desired time of departure. Uses the given time to
-  calculate the route matrix. You can't set both `DepartureTime` and `DepartNow`. If
-  neither is set, the best time of day to travel with the best traffic conditions is used
-  to calculate the route matrix.
+  calculate the route matrix. You can't set both `DepartureTime` and `DepartNow`. If neither
+  is set, the best time of day to travel with the best traffic conditions is used to
+  calculate the route matrix.
 
   !!! note
       Setting a departure time in the past returns a `400 ValidationException` error.
@@ -652,6 +664,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DistanceUnit"`: Set the unit system to specify the distance.
 
   Default Value: `Kilometers`
+
 - `"TravelMode"`: Specifies the mode of transport when calculating a route. Used in
   estimating the speed of travel and road compatibility.
 
@@ -670,11 +683,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       in the *Amazon Location Service Developer Guide*.
 
   Default Value: `Car`
+
 - `"TruckModeOptions"`: Specifies route preferences when traveling by `Truck`, such as
   avoiding routes that use ferries or tolls, and truck specifications to consider when
   choosing an optimal road.
 
   Requirements: `TravelMode` must be specified as `Truck`.
+
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
@@ -745,11 +760,15 @@ Creates a geofence collection, which manages and stores geofences.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: An optional description for the geofence collection.
+
 - `"KmsKeyId"`: A key identifier for an [Amazon Web Services KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
   Enter a key ID, key ARN, alias name, or alias ARN.
+
 - `"PricingPlan"`: No longer used. If included, the only allowed value is
   `RequestBasedUsage`.
+
 - `"PricingPlanDataSource"`: This parameter is no longer used.
+
 - `"Tags"`: Applies one or more tags to the geofence collection. A tag is a key-value pair
   helps manage, identify, search, and filter your resources by labelling them.
 
@@ -761,10 +780,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Each resource tag must be unique with a maximum of one value.
   - Maximum key length: 128 Unicode characters in UTF-8
   - Maximum value length: 256 Unicode characters in UTF-8
-  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - =
-    . _ : / @.
+  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _
+    : / @.
   - Cannot use "aws:" as a prefix for a key.
-
 """
 function create_geofence_collection end
 
@@ -824,10 +842,13 @@ actions for Amazon Location resources to the API key bearer.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: An optional description for the API key resource.
+
 - `"ExpireTime"`: The optional timestamp for when the API key resource will expire in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html)
   format: `YYYY-MM-DDThh:mm:ss.sssZ`. One of `NoExpiry` or `ExpireTime` must be set.
+
 - `"NoExpiry"`: Optionally set to `true` to set no expiration time for the API key. One of
   `NoExpiry` or `ExpireTime` must be set.
+
 - `"Tags"`: Applies one or more tags to the map resource. A tag is a key-value pair that
   helps manage, identify, search, and filter your resources by labelling them.
 
@@ -839,10 +860,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Each resource tag must be unique with a maximum of one value.
   - Maximum key length: 128 Unicode characters in UTF-8
   - Maximum value length: 256 Unicode characters in UTF-8
-  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - =
-    . _ : / @.
+  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _
+    : / @.
   - Cannot use "aws:" as a prefix for a key.
-
 """
 function create_key end
 
@@ -895,14 +915,15 @@ different styles sourced from global location data providers.
 # Arguments
 
 - `configuration`: Specifies the `MapConfiguration`, including the map style, for the map
-  resource that you create. The map style defines the look of maps and the data provider
-  for your map resource.
+  resource that you create. The map style defines the look of maps and the data provider for
+  your map resource.
+
 - `map_name`: The name for the map resource.
 
   Requirements:
 
-  - Must contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.),
-    and underscores (_).
+  - Must contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and
+    underscores (_).
   - Must be a unique map resource name.
   - No spaces allowed. For example, `ExampleMap`.
 
@@ -911,8 +932,10 @@ different styles sourced from global location data providers.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: An optional description for the map resource.
+
 - `"PricingPlan"`: No longer used. If included, the only allowed value is
   `RequestBasedUsage`.
+
 - `"Tags"`: Applies one or more tags to the map resource. A tag is a key-value pair helps
   manage, identify, search, and filter your resources by labelling them.
 
@@ -924,10 +947,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Each resource tag must be unique with a maximum of one value.
   - Maximum key length: 128 Unicode characters in UTF-8
   - Maximum value length: 256 Unicode characters in UTF-8
-  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - =
-    . _ : / @.
+  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _
+    : / @.
   - Cannot use "aws:" as a prefix for a key.
-
 """
 function create_map end
 
@@ -985,8 +1007,8 @@ operation.
 - `data_source`: Specifies the geospatial data provider for the new place index.
 
   !!! note
-      This field is case-sensitive. Enter the valid values as shown. For example,
-      entering `HERE` returns an error.
+      This field is case-sensitive. Enter the valid values as shown. For example, entering
+      `HERE` returns an error.
 
   Valid values include:
 
@@ -998,13 +1020,14 @@ operation.
   - `Here` – For additional information about [HERE Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html)'
     coverage in your region of interest, see [HERE details on goecoding coverage](https://developer.here.com/documentation/geocoder/dev_guide/topics/coverage-geocoder.html).
 
-  !!! important
-      If you specify HERE Technologies (`Here`) as the data provider, you may not [store results](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html)
-      for locations in Japan. For more information, see the [Amazon Web Services Service Terms](http://aws.amazon.com/service-terms/)
-      for Amazon Location Service.
+    !!! important
+        If you specify HERE Technologies (`Here`) as the data provider, you may not [store results](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html)
+        for locations in Japan. For more information, see the [Amazon Web Services Service Terms](http://aws.amazon.com/service-terms/)
+        for Amazon Location Service.
 
   For additional information , see [Data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html)
   on the *Amazon Location Service Developer Guide*.
+
 - `index_name`: The name of the place index resource.
 
   Requirements:
@@ -1019,9 +1042,12 @@ operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DataSourceConfiguration"`: Specifies the data storage option requesting Places.
+
 - `"Description"`: The optional description for the place index resource.
+
 - `"PricingPlan"`: No longer used. If included, the only allowed value is
   `RequestBasedUsage`.
+
 - `"Tags"`: Applies one or more tags to the place index resource. A tag is a key-value pair
   that helps you manage, identify, search, and filter your resources.
 
@@ -1033,10 +1059,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Each tag key must be unique and must have exactly one associated value.
   - Maximum key length: 128 Unicode characters in UTF-8.
   - Maximum value length: 256 Unicode characters in UTF-8.
-  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - =
-    . _ : / @
+  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _
+    : / @
   - Cannot use "aws:" as a prefix for a key.
-
 """
 function create_place_index end
 
@@ -1103,8 +1128,8 @@ data provider.
 - `data_source`: Specifies the data provider of traffic and road network data.
 
   !!! note
-      This field is case-sensitive. Enter the valid values as shown. For example,
-      entering `HERE` returns an error.
+      This field is case-sensitive. Enter the valid values as shown. For example, entering
+      `HERE` returns an error.
 
   Valid values include:
 
@@ -1128,8 +1153,10 @@ data provider.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: The optional description for the route calculator resource.
+
 - `"PricingPlan"`: No longer used. If included, the only allowed value is
   `RequestBasedUsage`.
+
 - `"Tags"`: Applies one or more tags to the route calculator resource. A tag is a key-value
   pair helps manage, identify, search, and filter your resources by labelling them.
 
@@ -1143,10 +1170,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Each resource tag must be unique with a maximum of one value.
   - Maximum key length: 128 Unicode characters in UTF-8
   - Maximum value length: 256 Unicode characters in UTF-8
-  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - =
-    . _ : / @.
+  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _
+    : / @.
   - Cannot use "aws:" as a prefix for a key.
-
 """
 function create_route_calculator end
 
@@ -1208,8 +1234,9 @@ current and historical location of devices.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: An optional description for the tracker resource.
-- `"EventBridgeEnabled"`: Whether to enable position `UPDATE` events from this tracker to
-  be sent to EventBridge.
+
+- `"EventBridgeEnabled"`: Whether to enable position `UPDATE` events from this tracker to be
+  sent to EventBridge.
 
   !!! note
       You do not need enable this feature to get `ENTER` and `EXIT` events for geofences
@@ -1221,10 +1248,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If you wish to encrypt your data using your own KMS customer managed key, then the
-      Bounding Polygon Queries feature will be disabled by default. This is because by
-      using this feature, a representation of your device positions will not be encrypted
-      using the your KMS managed key. The exact device position, however; is still
-      encrypted using your managed key.
+      Bounding Polygon Queries feature will be disabled by default. This is because by using
+      this feature, a representation of your device positions will not be encrypted using
+      the your KMS managed key. The exact device position, however; is still encrypted using
+      your managed key.
 
       You can choose to opt-in to the Bounding Polygon Quseries feature. This is done by
       setting the `KmsKeyEnableGeospatialQueries` parameter to true when creating or
@@ -1232,6 +1259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"KmsKeyId"`: A key identifier for an [Amazon Web Services KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
   Enter a key ID, key ARN, alias name, or alias ARN.
+
 - `"PositionFiltering"`: Specifies the position filtering for the tracker resource.
 
   Valid values:
@@ -1239,24 +1267,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `TimeBased` - Location updates are evaluated against linked geofence collections, but
     not every location update is stored. If your update frequency is more often than 30
     seconds, only one update per 30 seconds is stored for each unique device ID.
-  - `DistanceBased` - If the device has moved less than 30 m (98.4 ft), location updates
-    are ignored. Location updates within this area are neither evaluated against linked
-    geofence collections, nor stored. This helps control costs by reducing the number of
-    geofence evaluations and historical device positions to paginate through. Distance-
-    based filtering can also reduce the effects of GPS noise when displaying device
-    trajectories on a map.
+  - `DistanceBased` - If the device has moved less than 30 m (98.4 ft), location updates are
+    ignored. Location updates within this area are neither evaluated against linked geofence
+    collections, nor stored. This helps control costs by reducing the number of geofence
+    evaluations and historical device positions to paginate through. Distance-based
+    filtering can also reduce the effects of GPS noise when displaying device trajectories
+    on a map.
   - `AccuracyBased` - If the device has moved less than the measured accuracy, location
     updates are ignored. For example, if two consecutive updates from a device have a
     horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has
     moved less than 15 m. Ignored location updates are neither evaluated against linked
     geofence collections, nor stored. This can reduce the effects of GPS noise when
-    displaying device trajectories on a map, and can help control your costs by reducing
-    the number of geofence evaluations.
+    displaying device trajectories on a map, and can help control your costs by reducing the
+    number of geofence evaluations.
 
   This field is optional. If not specified, the default value is `TimeBased`.
+
 - `"PricingPlan"`: No longer used. If included, the only allowed value is
   `RequestBasedUsage`.
+
 - `"PricingPlanDataSource"`: This parameter is no longer used.
+
 - `"Tags"`: Applies one or more tags to the tracker resource. A tag is a key-value pair
   helps manage, identify, search, and filter your resources by labelling them.
 
@@ -1268,10 +1299,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Each resource tag must be unique with a maximum of one value.
   - Maximum key length: 128 Unicode characters in UTF-8
   - Maximum value length: 256 Unicode characters in UTF-8
-  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - =
-    . _ : / @.
+  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _
+    : / @.
   - Cannot use "aws:" as a prefix for a key.
-
 """
 function create_tracker end
 
@@ -1368,7 +1398,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       This action is irreversible. Only use ForceDelete if you are certain the key is no
       longer in use.
-
 """
 function delete_key end
 
@@ -1779,8 +1808,8 @@ Removes the association between a tracker resource and a geofence collection.
 # Arguments
 
 - `consumer_arn`: The Amazon Resource Name (ARN) for the geofence collection to be
-  disassociated from the tracker resource. Used when you need to specify a resource
-  across all Amazon Web Services.
+  disassociated from the tracker resource. Used when you need to specify a resource across
+  all Amazon Web Services.
 
   - Format example:
     `arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer`
@@ -1819,8 +1848,8 @@ end
     forecast_geofence_events(collection_name, device_state)
     forecast_geofence_events(collection_name, device_state, params::Dict{String,<:Any})
 
-Evaluates device positions against geofence geometries from a given geofence collection.
-The event forecasts three states for which a device can be in relative to a geofence:
+Evaluates device positions against geofence geometries from a given geofence collection. The
+event forecasts three states for which a device can be in relative to a geofence:
 
 `ENTER`: If a device is outside of a geofence, but would breach the fence if the device is
 moving at its current speed within time horizon window.
@@ -1840,23 +1869,27 @@ moving at its current speed within time horizon window.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DistanceUnit"`: The distance unit used for the `NearestDistance` property returned in a
-  forecasted event. The measurement system must match for `DistanceUnit` and `SpeedUnit`;
-  if `Kilometers` is specified for `DistanceUnit`, then `SpeedUnit` must be
+  forecasted event. The measurement system must match for `DistanceUnit` and `SpeedUnit`; if
+  `Kilometers` is specified for `DistanceUnit`, then `SpeedUnit` must be
   `KilometersPerHour`.
 
   Default Value: `Kilometers`
+
 - `"MaxResults"`: An optional limit for the number of resources returned in a single call.
 
   Default value: `20`
+
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.
 
   Default value: `null`
-- `"SpeedUnit"`: The speed unit for the device captured by the device state. The
-  measurement system must match for `DistanceUnit` and `SpeedUnit`; if `Kilometers` is
-  specified for `DistanceUnit`, then `SpeedUnit` must be `KilometersPerHour`.
+
+- `"SpeedUnit"`: The speed unit for the device captured by the device state. The measurement
+  system must match for `DistanceUnit` and `SpeedUnit`; if `Kilometers` is specified for
+  `DistanceUnit`, then `SpeedUnit` must be `KilometersPerHour`.
 
   Default Value: `KilometersPerHour`.
+
 - `"TimeHorizonMinutes"`: Specifies the time horizon in minutes for the forecasted events.
 """
 function forecast_geofence_events end
@@ -1965,10 +1998,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 
   Default value: `100`
+
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.
 
   Default value: `null`
+
 - `"StartTimeInclusive"`: Specify the start time for the position history in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html)
   format: `YYYY-MM-DDThh:mm:ss.sssZ`. By default, the value will be 24 hours prior to the
   time that the request is made.
@@ -1976,7 +2011,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Requirement:
 
   - The time specified for `StartTimeInclusive` must be before `EndTimeExclusive`.
-
 """
 function get_device_position_history end
 
@@ -2063,8 +2097,8 @@ Retrieves glyphs used to display labels on a map.
   Valid font stacks for [Esri](https://docs.aws.amazon.com/location/latest/developerguide/esri.html)
   styles:
 
-  - VectorEsriDarkGrayCanvas – `Ubuntu Medium Italic` | `Ubuntu Medium` | `Ubuntu Italic`
-    | `Ubuntu Regular` | `Ubuntu Bold`
+  - VectorEsriDarkGrayCanvas – `Ubuntu Medium Italic` | `Ubuntu Medium` | `Ubuntu Italic` |
+    `Ubuntu Regular` | `Ubuntu Bold`
   - VectorEsriLightGrayCanvas – `Ubuntu Italic` | `Ubuntu Regular` | `Ubuntu Light` |
     `Ubuntu Bold`
   - VectorEsriTopographic – `Noto Sans Italic` | `Noto Sans Regular` | `Noto Sans Bold` |
@@ -2076,8 +2110,8 @@ Retrieves glyphs used to display labels on a map.
   styles:
 
   - VectorHereContrast – `Fira GO Regular` | `Fira GO Bold`
-  - VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –
-    `Fira GO Italic` | `Fira GO Map` | `Fira GO Map Bold` | `Noto Sans CJK JP Bold` |
+  - VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite – `Fira GO Italic`
+    | `Fira GO Map` | `Fira GO Map Bold` | `Noto Sans CJK JP Bold` |
     `Noto Sans CJK JP Light` | `Noto Sans CJK JP Regular`
 
   Valid font stacks for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html)
@@ -2092,9 +2126,8 @@ Retrieves glyphs used to display labels on a map.
   - VectorOpenDataStandardLight, VectorOpenDataStandardDark,
     VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark –
     `Amazon Ember Regular,Noto Sans Regular` | `Amazon Ember Bold,Noto Sans Bold` |
-    `Amazon Ember Medium,Noto Sans Medium` |
-    `Amazon Ember Regular Italic,Noto Sans Italic` |
-    `Amazon Ember Condensed RC Regular,Noto Sans Regular` |
+    `Amazon Ember Medium,Noto Sans Medium` | `Amazon Ember Regular Italic,Noto Sans Italic`
+    | `Amazon Ember Condensed RC Regular,Noto Sans Regular` |
     `Amazon Ember Condensed RC Bold,Noto Sans Bold` |
     `Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular` |
     `Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic Condensed Bold` |
@@ -2104,13 +2137,13 @@ Retrieves glyphs used to display labels on a map.
     | `Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium`
 
   !!! note
-      The fonts used by the Open Data map styles are combined fonts that use
-      `Amazon Ember` for most glyphs but `Noto Sans` for glyphs unsupported by
-      `Amazon Ember`.
+      The fonts used by the Open Data map styles are combined fonts that use `Amazon Ember`
+      for most glyphs but `Noto Sans` for glyphs unsupported by `Amazon Ember`.
 
 - `font_unicode_range`: A Unicode range of characters to download glyphs for. Each response
   will contain 256 characters. For example, 0–255 includes all characters from range
   `U+0000` to `00FF`. Must be aligned to multiples of 256.
+
 - `map_name`: The map resource associated with the glyph ﬁle.
 
 # Optional Parameters
@@ -2159,8 +2192,7 @@ displayed on a rendered map.
 
 # Arguments
 
-- `file_name`: The name of the sprite ﬁle. Use the following ﬁle names for the sprite
-  sheet:
+- `file_name`: The name of the sprite ﬁle. Use the following ﬁle names for the sprite sheet:
 
   - `sprites.png`
   - `sprites@2x.png` for high pixel density displays
@@ -2334,11 +2366,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
+
 - `"language"`: The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47)
   language tag, for example, `en` for English.
 
-  This setting affects the languages used in the results, but not the results themselves.
-  If no language is specified, or not supported for a particular result, the partner
+  This setting affects the languages used in the results, but not the results themselves. If
+  no language is specified, or not supported for a particular result, the partner
   automatically chooses a language for the result.
 
   For an example, we'll use the Greek language. You search for a location around Athens,
@@ -2392,9 +2425,11 @@ A batch request to retrieve all device positions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FilterGeometry"`: The geometry used to filter device positions.
+
 - `"MaxResults"`: An optional limit for the number of entries returned in a single call.
 
   Default value: `100`
+
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.
 
@@ -2440,6 +2475,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: An optional limit for the number of resources returned in a single call.
 
   Default value: `100`
+
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.
 
@@ -2485,6 +2521,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: An optional limit for the number of geofences returned in a single call.
 
   Default value: `100`
+
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.
 
@@ -2526,9 +2563,11 @@ Lists API key resources in your Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filter"`: Optionally filter the list to only `Active` or `Expired` API keys.
+
 - `"MaxResults"`: An optional limit for the number of resources returned in a single call.
 
   Default value: `100`
+
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.
 
@@ -2570,6 +2609,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: An optional limit for the number of resources returned in a single call.
 
   Default value: `100`
+
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.
 
@@ -2609,6 +2649,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 
   Default value: `100`
+
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.
 
@@ -2650,6 +2691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: An optional maximum number of results returned in a single call.
 
   Default Value: `100`
+
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.
 
@@ -2690,7 +2732,6 @@ Returns a list of tags that are applied to the specified Amazon Location resourc
   retrieve.
 
   - Format example: `arn:aws:geo:region:account-id:resourcetype/ExampleResource`
-
 """
 function list_tags_for_resource end
 
@@ -2737,6 +2778,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: An optional limit for the number of resources returned in a single call.
 
   Default value: `100`
+
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.
 
@@ -2782,6 +2824,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: An optional limit for the number of resources returned in a single call.
 
   Default value: `100`
+
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.
 
@@ -2820,7 +2863,9 @@ existing geofence if a geofence ID is included in the request.
 # Arguments
 
 - `collection_name`: The geofence collection to store the geofence in.
+
 - `geofence_id`: An identifier for the geofence. For example, `ExampleGeofence-1`.
+
 - `geometry`: Contains the details to specify the position of the geofence. Can be a
   polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections
   will return a validation error.
@@ -2834,9 +2879,9 @@ existing geofence if a geofence ID is included in the request.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"GeofenceProperties"`: Associates one of more properties with the geofence. A property
-  is a key-value pair stored with the geofence and added to any geofence event triggered
-  with that geofence.
+- `"GeofenceProperties"`: Associates one of more properties with the geofence. A property is
+  a key-value pair stored with the geofence and added to any geofence event triggered with
+  that geofence.
 
   Format: `"key" : "value"`
 """
@@ -2882,13 +2927,14 @@ Places or points of interest near a given position.
 # Arguments
 
 - `index_name`: The name of the place index resource you want to use for the search.
+
 - `position`: Specifies the longitude and latitude of the position to query.
 
   This parameter must contain a pair of numbers. The first number represents the X
   coordinate, or longitude; the second number represents the Y coordinate, or latitude.
 
-  For example, `[-123.1174, 49.2847]` represents a position with longitude `-123.1174`
-  and latitude `49.2847`.
+  For example, `[-123.1174, 49.2847]` represents a position with longitude `-123.1174` and
+  latitude `49.2847`.
 
 # Optional Parameters
 
@@ -2897,8 +2943,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Language"`: The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47)
   language tag, for example, `en` for English.
 
-  This setting affects the languages used in the results, but not the results themselves.
-  If no language is specified, or not supported for a particular result, the partner
+  This setting affects the languages used in the results, but not the results themselves. If
+  no language is specified, or not supported for a particular result, the partner
   automatically chooses a language for the result.
 
   For an example, we'll use the Greek language. You search for a location around Athens,
@@ -2910,10 +2956,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If the data provider does not have a value for Greek, the result will be in a language
   that the provider does support.
-- `"MaxResults"`: An optional parameter. The maximum number of results returned per
-  request.
+
+- `"MaxResults"`: An optional parameter. The maximum number of results returned per request.
 
   Default value: `50`
+
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
@@ -2982,8 +3029,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the X coordinate, or longitude; the second number represents the Y coordinate, or
   latitude.
 
-  For example, `[-123.1174, 49.2847]` represents the position with longitude `-123.1174`
-  and latitude `49.2847`.
+  For example, `[-123.1174, 49.2847]` represents the position with longitude `-123.1174` and
+  latitude `49.2847`.
 
   !!! note
       `BiasPosition` and `FilterBBox` are mutually exclusive. Specifying both options
@@ -2992,27 +3039,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FilterBBox"`: An optional parameter that limits the search results by returning only
   suggestions within a specified bounding box.
 
-  If provided, this parameter must contain a total of four consecutive numbers in two
-  pairs. The first pair of numbers represents the X and Y coordinates (longitude and
-  latitude, respectively) of the southwest corner of the bounding box; the second pair of
-  numbers represents the X and Y coordinates (longitude and latitude, respectively) of
-  the northeast corner of the bounding box.
+  If provided, this parameter must contain a total of four consecutive numbers in two pairs.
+  The first pair of numbers represents the X and Y coordinates (longitude and latitude,
+  respectively) of the southwest corner of the bounding box; the second pair of numbers
+  represents the X and Y coordinates (longitude and latitude, respectively) of the northeast
+  corner of the bounding box.
 
   For example, `[-12.7935, -37.4835, -12.0684, -36.9542]` represents a bounding box where
-  the southwest corner has longitude `-12.7935` and latitude `-37.4835`, and the
-  northeast corner has longitude `-12.0684` and latitude `-36.9542`.
+  the southwest corner has longitude `-12.7935` and latitude `-37.4835`, and the northeast
+  corner has longitude `-12.0684` and latitude `-36.9542`.
 
   !!! note
       `FilterBBox` and `BiasPosition` are mutually exclusive. Specifying both options
       results in an error.
 
 - `"FilterCategories"`: A list of one or more Amazon Location categories to filter the
-  returned places. If you include more than one category, the results will include
-  results that match *any* of the categories listed.
+  returned places. If you include more than one category, the results will include results
+  that match *any* of the categories listed.
 
   For more information about using categories, including a list of Amazon Location
   categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html),
   in the *Amazon Location Service Developer Guide*.
+
 - `"FilterCountries"`: An optional parameter that limits the search results by returning
   only suggestions within the provided list of countries.
 
@@ -3027,18 +3075,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the result.
 
   For an example, we'll use the Greek language. You search for `Athens, Gr` to get
-  suggestions with the `language` parameter set to `en`. The results found will most
-  likely be returned as `Athens, Greece`.
+  suggestions with the `language` parameter set to `en`. The results found will most likely
+  be returned as `Athens, Greece`.
 
   If you set the `language` parameter to `el`, for Greek, then the result found will more
   likely be returned as `Αθήνα, Ελλάδα`.
 
   If the data provider does not have a value for Greek, the result will be in a language
   that the provider does support.
-- `"MaxResults"`: An optional parameter. The maximum number of results returned per
-  request.
+
+- `"MaxResults"`: An optional parameter. The maximum number of results returned per request.
 
   The default: `5`
+
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
@@ -3105,8 +3154,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the X coordinate, or longitude; the second number represents the Y coordinate, or
   latitude.
 
-  For example, `[-123.1174, 49.2847]` represents the position with longitude `-123.1174`
-  and latitude `49.2847`.
+  For example, `[-123.1174, 49.2847]` represents the position with longitude `-123.1174` and
+  latitude `49.2847`.
 
   !!! note
       `BiasPosition` and `FilterBBox` are mutually exclusive. Specifying both options
@@ -3115,38 +3164,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FilterBBox"`: An optional parameter that limits the search results by returning only
   places that are within the provided bounding box.
 
-  If provided, this parameter must contain a total of four consecutive numbers in two
-  pairs. The first pair of numbers represents the X and Y coordinates (longitude and
-  latitude, respectively) of the southwest corner of the bounding box; the second pair of
-  numbers represents the X and Y coordinates (longitude and latitude, respectively) of
-  the northeast corner of the bounding box.
+  If provided, this parameter must contain a total of four consecutive numbers in two pairs.
+  The first pair of numbers represents the X and Y coordinates (longitude and latitude,
+  respectively) of the southwest corner of the bounding box; the second pair of numbers
+  represents the X and Y coordinates (longitude and latitude, respectively) of the northeast
+  corner of the bounding box.
 
   For example, `[-12.7935, -37.4835, -12.0684, -36.9542]` represents a bounding box where
-  the southwest corner has longitude `-12.7935` and latitude `-37.4835`, and the
-  northeast corner has longitude `-12.0684` and latitude `-36.9542`.
+  the southwest corner has longitude `-12.7935` and latitude `-37.4835`, and the northeast
+  corner has longitude `-12.0684` and latitude `-36.9542`.
 
   !!! note
       `FilterBBox` and `BiasPosition` are mutually exclusive. Specifying both options
       results in an error.
 
 - `"FilterCategories"`: A list of one or more Amazon Location categories to filter the
-  returned places. If you include more than one category, the results will include
-  results that match *any* of the categories listed.
+  returned places. If you include more than one category, the results will include results
+  that match *any* of the categories listed.
 
   For more information about using categories, including a list of Amazon Location
   categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html),
   in the *Amazon Location Service Developer Guide*.
+
 - `"FilterCountries"`: An optional parameter that limits the search results by returning
   only places that are in a specified list of countries.
 
-  - Valid values include [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) 3-
-    digit country codes. For example, Australia uses three upper-case characters: `AUS`.
+  - Valid values include [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) 3-digit
+    country codes. For example, Australia uses three upper-case characters: `AUS`.
 
 - `"Language"`: The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47)
   language tag, for example, `en` for English.
 
-  This setting affects the languages used in the results, but not the results themselves.
-  If no language is specified, or not supported for a particular result, the partner
+  This setting affects the languages used in the results, but not the results themselves. If
+  no language is specified, or not supported for a particular result, the partner
   automatically chooses a language for the result.
 
   For an example, we'll use the Greek language. You search for `Athens, Greece`, with the
@@ -3158,10 +3208,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If the data provider does not have a value for Greek, the result will be in a language
   that the provider does support.
-- `"MaxResults"`: An optional parameter. The maximum number of results returned per
-  request.
+
+- `"MaxResults"`: An optional parameter. The maximum number of results returned per request.
 
   The default: `50`
+
 - `"key"`: The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
   to authorize the request.
 """
@@ -3208,8 +3259,8 @@ certain tag values.
 You can use the [`tag_resource`](@ref) operation with an Amazon Location Service resource
 that already has tags. If you specify a new tag key for the resource, this tag is appended
 to the tags already associated with the resource. If you specify a tag key that's already
-associated with the resource, the new tag value that you specify replaces the previous
-value for that tag.
+associated with the resource, the new tag value that you specify replaces the previous value
+for that tag.
 
 You can associate up to 50 tags with a resource.
 
@@ -3231,10 +3282,9 @@ You can associate up to 50 tags with a resource.
   - Each tag key must be unique and must have exactly one associated value.
   - Maximum key length: 128 Unicode characters in UTF-8.
   - Maximum value length: 256 Unicode characters in UTF-8.
-  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - =
-    . _ : / @
+  - Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _
+    : / @
   - Cannot use "aws:" as a prefix for a key.
-
 """
 function tag_resource end
 
@@ -3368,19 +3418,22 @@ Updates the specified properties of a given API key resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: Updates the description for the API key resource.
+
 - `"ExpireTime"`: Updates the timestamp for when the API key resource will expire in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html)
   format: `YYYY-MM-DDThh:mm:ss.sssZ`.
+
 - `"ForceUpdate"`: The boolean flag to be included for updating `ExpireTime` or
   `Restrictions` details.
 
-  Must be set to `true` to update an API key resource that has been used in the past 7
-  days.
+  Must be set to `true` to update an API key resource that has been used in the past 7 days.
 
   `False` if force update is not preferred
 
   Default value: `False`
+
 - `"NoExpiry"`: Whether the API key should expire. Set to `true` to set the API key to have
   no expiration time.
+
 - `"Restrictions"`: Updates the API key restrictions for the API key resource.
 """
 function update_key end
@@ -3557,8 +3610,9 @@ Updates the specified properties of a given tracker resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: Updates the description for the tracker resource.
-- `"EventBridgeEnabled"`: Whether to enable position `UPDATE` events from this tracker to
-  be sent to EventBridge.
+
+- `"EventBridgeEnabled"`: Whether to enable position `UPDATE` events from this tracker to be
+  sent to EventBridge.
 
   !!! note
       You do not need enable this feature to get `ENTER` and `EXIT` events for geofences
@@ -3567,6 +3621,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyEnableGeospatialQueries"`: Enables `GeospatialQueries` for a tracker that uses a [Amazon Web Services KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
 
   This parameter is only used if you are using a KMS customer managed key.
+
 - `"PositionFiltering"`: Updates the position filtering for the tracker resource.
 
   Valid values:
@@ -3574,12 +3629,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `TimeBased` - Location updates are evaluated against linked geofence collections, but
     not every location update is stored. If your update frequency is more often than 30
     seconds, only one update per 30 seconds is stored for each unique device ID.
-  - `DistanceBased` - If the device has moved less than 30 m (98.4 ft), location updates
-    are ignored. Location updates within this distance are neither evaluated against
-    linked geofence collections, nor stored. This helps control costs by reducing the
-    number of geofence evaluations and historical device positions to paginate through.
-    Distance-based filtering can also reduce the effects of GPS noise when displaying
-    device trajectories on a map.
+  - `DistanceBased` - If the device has moved less than 30 m (98.4 ft), location updates are
+    ignored. Location updates within this distance are neither evaluated against linked
+    geofence collections, nor stored. This helps control costs by reducing the number of
+    geofence evaluations and historical device positions to paginate through. Distance-based
+    filtering can also reduce the effects of GPS noise when displaying device trajectories
+    on a map.
   - `AccuracyBased` - If the device has moved less than the measured accuracy, location
     updates are ignored. For example, if two consecutive updates from a device have a
     horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has
@@ -3590,6 +3645,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PricingPlan"`: No longer used. If included, the only allowed value is
   `RequestBasedUsage`.
+
 - `"PricingPlanDataSource"`: This parameter is no longer used.
 """
 function update_tracker end
@@ -3626,8 +3682,8 @@ proxy, and by comparing it to an inferred position estimated based on the device
 
 # Arguments
 
-- `device_state`: The device's state, including position, IP address, cell signals and Wi-
-  Fi access points.
+- `device_state`: The device's state, including position, IP address, cell signals and Wi-Fi
+  access points.
 - `tracker_name`: The name of the tracker resource to be associated with verification
   request.
 

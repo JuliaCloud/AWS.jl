@@ -197,8 +197,7 @@ This would be used when the administrator manages their member accounts centrall
 For organization accounts in the organization behavior graph, `CreateMembers` attempts to
 enable the accounts. The organization accounts do not receive invitations.
 
-The request provides the behavior graph ARN and the list of accounts to invite or to
-enable.
+The request provides the behavior graph ARN and the list of accounts to invite or to enable.
 
 The response separates the requested accounts into two lists:
 
@@ -212,10 +211,11 @@ The response separates the requested accounts into two lists:
 # Arguments
 
 - `accounts`: The list of Amazon Web Services accounts to invite or to enable. You can
-  invite or enable up to 50 accounts at a time. For each invited account, the account
-  list contains the account identifier and the Amazon Web Services account root user
-  email address. For organization accounts in the organization behavior graph, the email
-  address is not required.
+  invite or enable up to 50 accounts at a time. For each invited account, the account list
+  contains the account identifier and the Amazon Web Services account root user email
+  address. For organization accounts in the organization behavior graph, the email address
+  is not required.
+
 - `graph_arn`: The ARN of the behavior graph.
 
 # Optional Parameters
@@ -223,11 +223,12 @@ The response separates the requested accounts into two lists:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DisableEmailNotification"`: if set to `true`, then the invited accounts do not receive
-  email notifications. By default, this is set to `false`, and the invited accounts
-  receive email notifications.
+  email notifications. By default, this is set to `false`, and the invited accounts receive
+  email notifications.
 
   Organization accounts in the organization behavior graph do not receive email
   notifications.
+
 - `"Message"`: Customized message text to include in the invitation email message to the
   invited member accounts.
 """
@@ -320,8 +321,8 @@ behavior graph. To restore the account, the administrator account must send anot
 invitation.
 
 For organization accounts in the organization behavior graph, the Detective administrator
-account can always enable the organization account again. Organization accounts that are
-not enabled as member accounts are not included in the `ListMembers` results for the
+account can always enable the organization account again. Organization accounts that are not
+enabled as member accounts are not included in the `ListMembers` results for the
 organization behavior graph.
 
 An administrator account cannot use `DeleteMembers` to remove their own account from the
@@ -330,9 +331,8 @@ behavior graph. To disable a behavior graph, the administrator account uses the
 
 # Arguments
 
-- `account_ids`: The list of Amazon Web Services account identifiers for the member
-  accounts to remove from the behavior graph. You can remove up to 50 member accounts at
-  a time.
+- `account_ids`: The list of Amazon Web Services account identifiers for the member accounts
+  to remove from the behavior graph. You can remove up to 50 member accounts at a time.
 - `graph_arn`: The ARN of the behavior graph to remove members from.
 """
 function delete_members end
@@ -520,8 +520,8 @@ organization management account.
 If the organization does not have a delegated administrator account in Organizations, then
 you can choose any account in the organization. If you choose an account other than the
 organization management account, Detective calls Organizations to make that account the
-delegated administrator account for Detective. The organization management account cannot
-be the delegated administrator account.
+delegated administrator account for Detective. The organization management account cannot be
+the delegated administrator account.
 
 # Arguments
 
@@ -619,11 +619,12 @@ Returns the membership details for specified member accounts for a behavior grap
 # Arguments
 
 - `account_ids`: The list of Amazon Web Services account identifiers for the member account
-  for which to return member details. You can request details for up to 50 member
-  accounts at a time.
+  for which to return member details. You can request details for up to 50 member accounts
+  at a time.
 
   You cannot use `GetMembers` to retrieve information about member accounts that were
   removed from the behavior graph.
+
 - `graph_arn`: The ARN of the behavior graph for which to request the member details.
 """
 function get_members end
@@ -676,8 +677,8 @@ Lists data source packages in the behavior graph.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return.
-- `"NextToken"`: For requests to get the next page of results, the pagination token that
-  was returned with the previous set of results. The initial request does not include a
+- `"NextToken"`: For requests to get the next page of results, the pagination token that was
+  returned with the previous set of results. The initial request does not include a
   pagination token.
 """
 function list_datasource_packages end
@@ -714,8 +715,8 @@ end
     list_graphs()
     list_graphs(params::Dict{String,<:Any})
 
-Returns the list of behavior graphs that the calling account is an administrator account
-of. This operation can only be called by an administrator account.
+Returns the list of behavior graphs that the calling account is an administrator account of.
+This operation can only be called by an administrator account.
 
 Because an account can currently only be the administrator of one behavior graph within a
 Region, the results always contain a single behavior graph.
@@ -726,8 +727,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of graphs to return at a time. The total must be less
   than the overall limit on the number of results to return, which is currently 200.
-- `"NextToken"`: For requests to get the next page of results, the pagination token that
-  was returned with the previous set of results. The initial request does not include a
+- `"NextToken"`: For requests to get the next page of results, the pagination token that was
+  returned with the previous set of results. The initial request does not include a
   pagination token.
 """
 function list_graphs end
@@ -769,7 +770,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"IndicatorType"`: For the list of indicators of compromise that are generated by
   Detective investigations, see [Detective investigations](https://docs.aws.amazon.com/detective/latest/userguide/detective-investigations.html).
+
 - `"MaxResults"`: Lists the maximum number of indicators in a page.
+
 - `"NextToken"`: Lists if there are more results available. The value of nextToken is a
   unique pagination token for each page. Repeat the call using the returned token to
   retrieve the next page. Keep all other arguments unchanged.
@@ -833,13 +836,16 @@ investigations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FilterCriteria"`: Filters the investigation results based on a criteria.
+
 - `"MaxResults"`: Lists the maximum number of investigations in a page.
+
 - `"NextToken"`: Lists if there are more results available. The value of nextToken is a
   unique pagination token for each page. Repeat the call using the returned token to
   retrieve the next page. Keep all other arguments unchanged.
 
   Each pagination token expires after 24 hours. Using an expired pagination token will
   return a Validation Exception error.
+
 - `"SortCriteria"`: Sorts the investigation results based on a criteria.
 """
 function list_investigations end
@@ -880,8 +886,8 @@ This operation can only be called by an invited member account.
 Open invitations are invitations that the member account has not responded to.
 
 The results do not include behavior graphs for which the member account declined the
-invitation. The results also do not include behavior graphs that the member account
-resigned from or was removed from.
+invitation. The results also do not include behavior graphs that the member account resigned
+from or was removed from.
 
 # Optional Parameters
 
@@ -891,8 +897,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. The total must be less than the overall limit on the number of results to
   return, which is currently 200.
 - `"NextToken"`: For requests to retrieve the next page of results, the pagination token
-  that was returned with the previous page of results. The initial request does not
-  include a pagination token.
+  that was returned with the previous page of results. The initial request does not include
+  a pagination token.
 """
 function list_invitations end
 
@@ -939,8 +945,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   total must be less than the overall limit on the number of results to return, which is
   currently 200.
 - `"NextToken"`: For requests to retrieve the next page of member account results, the
-  pagination token that was returned with the previous page of results. The initial
-  request does not include a pagination token.
+  pagination token that was returned with the previous page of results. The initial request
+  does not include a pagination token.
 """
 function list_members end
 
@@ -982,8 +988,8 @@ be called by the organization management account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return.
-- `"NextToken"`: For requests to get the next page of results, the pagination token that
-  was returned with the previous set of results. The initial request does not include a
+- `"NextToken"`: For requests to get the next page of results, the pagination token that was
+  returned with the previous set of results. The initial request does not include a
   pagination token.
 """
 function list_organization_admin_accounts end
@@ -1173,14 +1179,14 @@ Sends a request to enable data ingest for a member account that has a status of
 For valid member accounts, the status is updated as follows.
 
 - If Detective enabled the member account, then the new status is `ENABLED`.
-- If Detective cannot enable the member account, the status remains
-  `ACCEPTED_BUT_DISABLED`.
+- If Detective cannot enable the member account, the status remains `ACCEPTED_BUT_DISABLED`.
 
 # Arguments
 
 - `account_id`: The account ID of the member account to try to enable.
 
   The account must be an invited member account with a status of `ACCEPTED_BUT_DISABLED`.
+
 - `graph_arn`: The ARN of the behavior graph.
 """
 function start_monitoring_member end
@@ -1227,9 +1233,9 @@ Applies tag values to a behavior graph.
 # Arguments
 
 - `resource_arn`: The ARN of the behavior graph to assign the tags to.
-- `tags`: The tags to assign to the behavior graph. You can add up to 50 tags. For each
-  tag, you provide the tag key and the tag value. Each tag key can contain up to 128
-  characters. Each tag value can contain up to 256 characters.
+- `tags`: The tags to assign to the behavior graph. You can add up to 50 tags. For each tag,
+  you provide the tag key and the tag value. Each tag key can contain up to 128 characters.
+  Each tag value can contain up to 256 characters.
 """
 function tag_resource end
 

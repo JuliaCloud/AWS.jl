@@ -63,16 +63,16 @@ agents per AWS account. For more information, see [Amazon Inspector Assessment T
 
 # Arguments
 
-- `assessment_target_name`: The user-defined name that identifies the assessment target
-  that you want to create. The name must be unique within the AWS account.
+- `assessment_target_name`: The user-defined name that identifies the assessment target that
+  you want to create. The name must be unique within the AWS account.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"resourceGroupArn"`: The ARN that specifies the resource group that is used to create
-  the assessment target. If resourceGroupArn is not specified, all EC2 instances in the
-  current AWS account and region are included in the assessment target.
+- `"resourceGroupArn"`: The ARN that specifies the resource group that is used to create the
+  assessment target. If resourceGroupArn is not specified, all EC2 instances in the current
+  AWS account and region are included in the assessment target.
 """
 function create_assessment_target end
 
@@ -110,8 +110,8 @@ end
     create_assessment_template(assessment_target_arn, assessment_template_name, duration_in_seconds, rules_package_arns)
     create_assessment_template(assessment_target_arn, assessment_template_name, duration_in_seconds, rules_package_arns, params::Dict{String,<:Any})
 
-Creates an assessment template for the assessment target that is specified by the ARN of
-the assessment target. If the [service-linked role](https://docs.aws.amazon.com/inspector/latest/userguide/inspector_slr.html)
+Creates an assessment template for the assessment target that is specified by the ARN of the
+assessment target. If the [service-linked role](https://docs.aws.amazon.com/inspector/latest/userguide/inspector_slr.html)
 isn’t already registered, this action also creates and registers a service-linked role to
 grant Amazon Inspector access to AWS Services needed to perform security assessments.
 
@@ -121,8 +121,8 @@ grant Amazon Inspector access to AWS Services needed to perform security assessm
   to create the assessment template.
 - `assessment_template_name`: The user-defined name that identifies the assessment template
   that you want to create. You can create several assessment templates for an assessment
-  target. The names of the assessment templates that correspond to a particular
-  assessment target must be unique.
+  target. The names of the assessment templates that correspond to a particular assessment
+  target must be unique.
 - `duration_in_seconds`: The duration of the assessment run in seconds.
 - `rules_package_arns`: The ARNs that specify the rules packages that you want to attach to
   the assessment template.
@@ -234,10 +234,10 @@ end
     create_resource_group(resource_group_tags)
     create_resource_group(resource_group_tags, params::Dict{String,<:Any})
 
-Creates a resource group using the specified set of tags (key and value pairs) that are
-used to select the EC2 instances to be included in an Amazon Inspector assessment target.
-The created resource group is then used to create an Amazon Inspector assessment target.
-For more information, see [`create_assessment_target`](@ref).
+Creates a resource group using the specified set of tags (key and value pairs) that are used
+to select the EC2 instances to be included in an Amazon Inspector assessment target. The
+created resource group is then used to create an Amazon Inspector assessment target. For
+more information, see [`create_assessment_target`](@ref).
 
 # Arguments
 
@@ -366,8 +366,8 @@ Deletes the assessment template that is specified by the ARN of the assessment t
 
 # Arguments
 
-- `assessment_template_arn`: The ARN that specifies the assessment template that you want
-  to delete.
+- `assessment_template_arn`: The ARN that specifies the assessment template that you want to
+  delete.
 """
 function delete_assessment_template end
 
@@ -816,9 +816,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items you
   want in the response. The default value is 100. The maximum value is 500.
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
-  parameter to null on your first call to the GetExclusionsPreviewRequest action.
-  Subsequent calls to the action fill nextToken in the request with the value of
-  nextToken from the previous response to continue listing data.
+  parameter to null on your first call to the GetExclusionsPreviewRequest action. Subsequent
+  calls to the action fill nextToken in the request with the value of nextToken from the
+  previous response to continue listing data.
 """
 function get_exclusions_preview end
 
@@ -918,14 +918,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filter"`: You can use this parameter to specify a subset of data to be included in the
   action's response.
 
-  For a record to match a filter, all specified filter attributes must match. When
-  multiple values are specified for a filter attribute, any of the values can match.
+  For a record to match a filter, all specified filter attributes must match. When multiple
+  values are specified for a filter attribute, any of the values can match.
+
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items that
   you want in the response. The default value is 10. The maximum value is 500.
+
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
-  parameter to null on your first call to the **ListAssessmentRunAgents** action.
-  Subsequent calls to the action fill **nextToken** in the request with the value of
-  **NextToken** from the previous response to continue listing data.
+  parameter to null on your first call to the **ListAssessmentRunAgents** action. Subsequent
+  calls to the action fill **nextToken** in the request with the value of **NextToken** from
+  the previous response to continue listing data.
 """
 function list_assessment_run_agents end
 
@@ -970,17 +972,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"assessmentTemplateArns"`: The ARNs that specify the assessment templates whose
   assessment runs you want to list.
+
 - `"filter"`: You can use this parameter to specify a subset of data to be included in the
   action's response.
 
-  For a record to match a filter, all specified filter attributes must match. When
-  multiple values are specified for a filter attribute, any of the values can match.
+  For a record to match a filter, all specified filter attributes must match. When multiple
+  values are specified for a filter attribute, any of the values can match.
+
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items that
   you want in the response. The default value is 10. The maximum value is 500.
+
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
   parameter to null on your first call to the **ListAssessmentRuns** action. Subsequent
-  calls to the action fill **nextToken** in the request with the value of **NextToken**
-  from the previous response to continue listing data.
+  calls to the action fill **nextToken** in the request with the value of **NextToken** from
+  the previous response to continue listing data.
 """
 function list_assessment_runs end
 
@@ -1002,8 +1007,8 @@ end
     list_assessment_targets()
     list_assessment_targets(params::Dict{String,<:Any})
 
-Lists the ARNs of the assessment targets within this AWS account. For more information
-about assessment targets, see [Amazon Inspector Assessment Targets](https://docs.aws.amazon.com/inspector/latest/userguide/inspector_applications.html).
+Lists the ARNs of the assessment targets within this AWS account. For more information about
+assessment targets, see [Amazon Inspector Assessment Targets](https://docs.aws.amazon.com/inspector/latest/userguide/inspector_applications.html).
 
 # Optional Parameters
 
@@ -1012,14 +1017,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filter"`: You can use this parameter to specify a subset of data to be included in the
   action's response.
 
-  For a record to match a filter, all specified filter attributes must match. When
-  multiple values are specified for a filter attribute, any of the values can match.
+  For a record to match a filter, all specified filter attributes must match. When multiple
+  values are specified for a filter attribute, any of the values can match.
+
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items you
   want in the response. The default value is 10. The maximum value is 500.
+
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
-  parameter to null on your first call to the **ListAssessmentTargets** action.
-  Subsequent calls to the action fill **nextToken** in the request with the value of
-  **NextToken** from the previous response to continue listing data.
+  parameter to null on your first call to the **ListAssessmentTargets** action. Subsequent
+  calls to the action fill **nextToken** in the request with the value of **NextToken** from
+  the previous response to continue listing data.
 """
 function list_assessment_targets end
 
@@ -1053,17 +1060,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"assessmentTargetArns"`: A list of ARNs that specifies the assessment targets whose
   assessment templates you want to list.
+
 - `"filter"`: You can use this parameter to specify a subset of data to be included in the
   action's response.
 
-  For a record to match a filter, all specified filter attributes must match. When
-  multiple values are specified for a filter attribute, any of the values can match.
+  For a record to match a filter, all specified filter attributes must match. When multiple
+  values are specified for a filter attribute, any of the values can match.
+
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items you
   want in the response. The default value is 10. The maximum value is 500.
+
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
-  parameter to null on your first call to the **ListAssessmentTemplates** action.
-  Subsequent calls to the action fill **nextToken** in the request with the value of
-  **NextToken** from the previous response to continue listing data.
+  parameter to null on your first call to the **ListAssessmentTemplates** action. Subsequent
+  calls to the action fill **nextToken** in the request with the value of **NextToken** from
+  the previous response to continue listing data.
 """
 function list_assessment_templates end
 
@@ -1098,9 +1108,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items you
   want in the response. The default value is 10. The maximum value is 500.
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
-  parameter to null on your first call to the **ListEventSubscriptions** action.
-  Subsequent calls to the action fill **nextToken** in the request with the value of
-  **NextToken** from the previous response to continue listing data.
+  parameter to null on your first call to the **ListEventSubscriptions** action. Subsequent
+  calls to the action fill **nextToken** in the request with the value of **NextToken** from
+  the previous response to continue listing data.
 - `"resourceArn"`: The ARN of the assessment template for which you want to list the
   existing event subscriptions.
 """
@@ -1131,8 +1141,8 @@ List exclusions that are generated by the assessment run.
 
 # Arguments
 
-- `assessment_run_arn`: The ARN of the assessment run that generated the exclusions that
-  you want to list.
+- `assessment_run_arn`: The ARN of the assessment run that generated the exclusions that you
+  want to list.
 
 # Optional Parameters
 
@@ -1141,9 +1151,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items you
   want in the response. The default value is 100. The maximum value is 500.
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
-  parameter to null on your first call to the ListExclusionsRequest action. Subsequent
-  calls to the action fill nextToken in the request with the value of nextToken from the
-  previous response to continue listing data.
+  parameter to null on your first call to the ListExclusionsRequest action. Subsequent calls
+  to the action fill nextToken in the request with the value of nextToken from the previous
+  response to continue listing data.
 """
 function list_exclusions end
 
@@ -1186,19 +1196,22 @@ the assessment runs.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"assessmentRunArns"`: The ARNs of the assessment runs that generate the findings that
-  you want to list.
+- `"assessmentRunArns"`: The ARNs of the assessment runs that generate the findings that you
+  want to list.
+
 - `"filter"`: You can use this parameter to specify a subset of data to be included in the
   action's response.
 
-  For a record to match a filter, all specified filter attributes must match. When
-  multiple values are specified for a filter attribute, any of the values can match.
+  For a record to match a filter, all specified filter attributes must match. When multiple
+  values are specified for a filter attribute, any of the values can match.
+
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items you
   want in the response. The default value is 10. The maximum value is 500.
+
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
-  parameter to null on your first call to the **ListFindings** action. Subsequent calls
-  to the action fill **nextToken** in the request with the value of **NextToken** from
-  the previous response to continue listing data.
+  parameter to null on your first call to the **ListFindings** action. Subsequent calls to
+  the action fill **nextToken** in the request with the value of **NextToken** from the
+  previous response to continue listing data.
 """
 function list_findings end
 
@@ -1227,9 +1240,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items you
   want in the response. The default value is 10. The maximum value is 500.
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
-  parameter to null on your first call to the **ListRulesPackages** action. Subsequent
-  calls to the action fill **nextToken** in the request with the value of **NextToken**
-  from the previous response to continue listing data.
+  parameter to null on your first call to the **ListRulesPackages** action. Subsequent calls
+  to the action fill **nextToken** in the request with the value of **NextToken** from the
+  previous response to continue listing data.
 """
 function list_rules_packages end
 
@@ -1290,8 +1303,8 @@ end
     preview_agents(preview_agents_arn)
     preview_agents(preview_agents_arn, params::Dict{String,<:Any})
 
-Previews the agents installed on the EC2 instances that are part of the specified
-assessment target.
+Previews the agents installed on the EC2 instances that are part of the specified assessment
+target.
 
 # Arguments
 
@@ -1304,9 +1317,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items you
   want in the response. The default value is 10. The maximum value is 500.
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
-  parameter to null on your first call to the **PreviewAgents** action. Subsequent calls
-  to the action fill **nextToken** in the request with the value of **NextToken** from
-  the previous response to continue listing data.
+  parameter to null on your first call to the **PreviewAgents** action. Subsequent calls to
+  the action fill **nextToken** in the request with the value of **NextToken** from the
+  previous response to continue listing data.
 """
 function preview_agents end
 
@@ -1342,8 +1355,8 @@ end
     register_cross_account_access_role(role_arn)
     register_cross_account_access_role(role_arn, params::Dict{String,<:Any})
 
-Registers the IAM role that grants Amazon Inspector access to AWS Services needed to
-perform security assessments.
+Registers the IAM role that grants Amazon Inspector access to AWS Services needed to perform
+security assessments.
 
 # Arguments
 
@@ -1538,8 +1551,8 @@ Stops the assessment run that is specified by the ARN of the assessment run.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"stopAction"`: An input option that can be set to either START_EVALUATION or
-  SKIP_EVALUATION. START_EVALUATION (the default value), stops the AWS agent from
-  collecting data and begins the results evaluation and the findings generation process.
+  SKIP_EVALUATION. START_EVALUATION (the default value), stops the AWS agent from collecting
+  data and begins the results evaluation and the findings generation process.
   SKIP_EVALUATION cancels the assessment run immediately, after which no findings are
   generated.
 """
@@ -1583,8 +1596,8 @@ a specified event to a specified SNS topic.
 # Arguments
 
 - `event`: The event for which you want to receive SNS notifications.
-- `resource_arn`: The ARN of the assessment template that is used during the event for
-  which you want to receive SNS notifications.
+- `resource_arn`: The ARN of the assessment template that is used during the event for which
+  you want to receive SNS notifications.
 - `topic_arn`: The ARN of the SNS topic to which the SNS notifications are sent.
 """
 function subscribe_to_event end
@@ -1629,14 +1642,14 @@ end
     unsubscribe_from_event(event, resource_arn, topic_arn)
     unsubscribe_from_event(event, resource_arn, topic_arn, params::Dict{String,<:Any})
 
-Disables the process of sending Amazon Simple Notification Service (SNS) notifications
-about a specified event to a specified SNS topic.
+Disables the process of sending Amazon Simple Notification Service (SNS) notifications about
+a specified event to a specified SNS topic.
 
 # Arguments
 
 - `event`: The event for which you want to stop receiving SNS notifications.
-- `resource_arn`: The ARN of the assessment template that is used during the event for
-  which you want to stop receiving SNS notifications.
+- `resource_arn`: The ARN of the assessment template that is used during the event for which
+  you want to stop receiving SNS notifications.
 - `topic_arn`: The ARN of the SNS topic to which SNS notifications are sent.
 """
 function unsubscribe_from_event end

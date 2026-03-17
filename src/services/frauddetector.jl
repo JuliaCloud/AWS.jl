@@ -160,15 +160,19 @@ Creates a batch import job.
 # Arguments
 
 - `event_type_name`: The name of the event type.
+
 - `iam_role_arn`: The ARN of the IAM role created for Amazon S3 bucket that holds your data
   file.
 
-  The IAM role must have read permissions to your input S3 bucket and write permissions
-  to your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
+  The IAM role must have read permissions to your input S3 bucket and write permissions to
+  your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
   in the *Amazon S3 User Guide*.
+
 - `input_path`: The URI that points to the Amazon S3 location of your data file.
+
 - `job_id`: The ID of the batch import job. The ID cannot be of a past job, unless the job
   exists in `CREATE_FAILED` state.
+
 - `output_path`: The URI that points to the Amazon S3 location for storing your results.
 
 # Optional Parameters
@@ -239,14 +243,19 @@ Creates a batch prediction job.
 # Arguments
 
 - `detector_name`: The name of the detector.
+
 - `event_type_name`: The name of the event type.
+
 - `iam_role_arn`: The ARN of the IAM role to use for this job request.
 
-  The IAM Role must have read permissions to your input S3 bucket and write permissions
-  to your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
+  The IAM Role must have read permissions to your input S3 bucket and write permissions to
+  your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
   in the *Amazon S3 User Guide*.
+
 - `input_path`: The Amazon S3 location of your training file.
+
 - `job_id`: The ID of the batch prediction job.
+
 - `output_path`: The Amazon S3 location of your output file.
 
 # Optional Parameters
@@ -329,23 +338,27 @@ Creates a detector version. The detector version starts in a `DRAFT` status.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of the detector version.
+
 - `"externalModelEndpoints"`: The Amazon Sagemaker model endpoints to include in the
   detector version.
+
 - `"modelVersions"`: The model versions to include in the detector version.
+
 - `"ruleExecutionMode"`: The rule execution mode for the rules included in the detector
   version.
 
-  You can define and edit the rule mode at the detector version level, when it is in
-  draft status.
+  You can define and edit the rule mode at the detector version level, when it is in draft
+  status.
 
-  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially,
-  first to last, stopping at the first matched rule. Amazon Fraud dectector then provides
-  the outcomes for that single rule.
+  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially, first
+  to last, stopping at the first matched rule. Amazon Fraud dectector then provides the
+  outcomes for that single rule.
 
-  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns
-  the outcomes for all matched rules.
+  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns the
+  outcomes for all matched rules.
 
   The default behavior is `FIRST_MATCHED`.
+
 - `"tags"`: A collection of key and value pairs.
 """
 function create_detector_version end
@@ -651,7 +664,9 @@ Creates a variable.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description.
+
 - `"tags"`: A collection of key and value pairs.
+
 - `"variableType"`: The variable type. For more information see [Variable types](https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types).
 
   Valid Values:
@@ -908,9 +923,9 @@ end
 
 Deletes the specified event.
 
-When you delete an event, Amazon Fraud Detector permanently deletes that event and the
-event data is no longer stored in Amazon Fraud Detector. If `deleteAuditHistory` is `True`,
-event data is available through search for up to 30 seconds after the delete operation is
+When you delete an event, Amazon Fraud Detector permanently deletes that event and the event
+data is no longer stored in Amazon Fraud Detector. If `deleteAuditHistory` is `True`, event
+data is available through search for up to 30 seconds after the delete operation is
 completed.
 
 # Arguments
@@ -922,8 +937,8 @@ completed.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"deleteAuditHistory"`: Specifies whether or not to delete any predictions associated
-  with the event. If set to `True`,
+- `"deleteAuditHistory"`: Specifies whether or not to delete any predictions associated with
+  the event. If set to `True`,
 """
 function delete_event end
 
@@ -966,8 +981,8 @@ Deletes an event type.
 
 You cannot delete an event type that is used in a detector or a model.
 
-When you delete an event type, Amazon Fraud Detector permanently deletes that event type
-and the data is no longer stored in Amazon Fraud Detector.
+When you delete an event type, Amazon Fraud Detector permanently deletes that event type and
+the data is no longer stored in Amazon Fraud Detector.
 
 # Arguments
 
@@ -1121,8 +1136,8 @@ end
 
 Deletes the list, provided it is not used in a rule.
 
-When you delete a list, Amazon Fraud Detector permanently deletes that list and the
-elements in the list.
+When you delete a list, Amazon Fraud Detector permanently deletes that list and the elements
+in the list.
 
 # Arguments
 
@@ -1653,8 +1668,8 @@ end
 Gets all entity types or a specific entity type if a name is specified. This is a paginated
 API. If you provide a null `maxResults`, this action retrieves a maximum of 10 records per
 page. If you provide a `maxResults`, the value must be between 5 and 10. To get the next
-page results, provide the pagination token from the `GetEntityTypesResponse` as part of
-your request. A null pagination token fetches the records from the beginning.
+page results, provide the pagination token from the `GetEntityTypesResponse` as part of your
+request. A null pagination token fetches the records from the beginning.
 
 # Optional Parameters
 
@@ -1684,8 +1699,8 @@ end
     get_event(event_id, event_type_name)
     get_event(event_id, event_type_name, params::Dict{String,<:Any})
 
-Retrieves details of events stored with Amazon Fraud Detector. This action does not
-retrieve prediction results.
+Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve
+prediction results.
 
 # Arguments
 
@@ -1735,17 +1750,22 @@ detector’s (`ACTIVE`) version is used.
 # Arguments
 
 - `detector_id`: The detector ID.
+
 - `entities`: The entity type (associated with the detector's event type) and specific
   entity ID representing who performed the event. If an entity id is not available, use
   "UNKNOWN."
+
 - `event_id`: The unique ID used to identify the event.
+
 - `event_timestamp`: Timestamp that defines when the event under evaluation occurred. The
   timestamp must be specified using ISO 8601 standard in UTC.
+
 - `event_type_name`: The event type associated with the detector specified for the
   prediction.
+
 - `event_variables`: Names of the event type's variables you defined in Amazon Fraud
-  Detector to represent data elements and their corresponding values for the event you
-  are sending for evaluation.
+  Detector to represent data elements and their corresponding values for the event you are
+  sending for evaluation.
 
   !!! important
       You must provide at least one eventVariable
@@ -1755,17 +1775,16 @@ detector’s (`ACTIVE`) version is used.
 
   **For Amazon Fraud Detector trained models:**
 
-  If a null value is provided explicitly for a variable or if a variable is missing,
-  model will replace the null value or the missing variable (no variable name in the
+  If a null value is provided explicitly for a variable or if a variable is missing, model
+  will replace the null value or the missing variable (no variable name in the
   eventVariables map) with calculated default mean/medians for numeric variables and with
   special values for categorical variables.
 
   **For imported SageMaker models:**
 
-  If a null value is provided explicitly for a variable, the model and rules will use
-  “null” as the value. If a variable is not provided (no variable name in the
-  eventVariables map), model and rules will use the default value that is provided for
-  the variable.
+  If a null value is provided explicitly for a variable, the model and rules will use “null”
+  as the value. If a variable is not provided (no variable name in the eventVariables map),
+  model and rules will use the default value that is provided for the variable.
 
 # Optional Parameters
 
@@ -1841,10 +1860,14 @@ ID, and detector version ID that was generated in the specified time period.
 # Arguments
 
 - `detector_id`: The detector ID.
+
 - `detector_version_id`: The detector version ID.
+
 - `event_id`: The event ID.
+
 - `event_type_name`: The event type associated with the detector specified for the
   prediction.
+
 - `prediction_timestamp`: The timestamp that defines when the prediction was generated. The
   timestamp must be specified using ISO 8601 standard in UTC.
 
@@ -1944,9 +1967,9 @@ end
     get_external_models(params::Dict{String,<:Any})
 
 Gets the details for one or more Amazon SageMaker models that have been imported into the
-service. This is a paginated API. If you provide a null `maxResults`, this actions
-retrieves a maximum of 10 records per page. If you provide a `maxResults`, the value must
-be between 5 and 10. To get the next page results, provide the pagination token from the
+service. This is a paginated API. If you provide a null `maxResults`, this actions retrieves
+a maximum of 10 records per page. If you provide a `maxResults`, the value must be between 5
+and 10. To get the next page results, provide the pagination token from the
 `GetExternalModelsResult` as part of your request. A null pagination token fetches the
 records from the beginning.
 
@@ -2007,8 +2030,8 @@ end
 Gets all labels or a specific label if name is provided. This is a paginated API. If you
 provide a null `maxResults`, this action retrieves a maximum of 50 records per page. If you
 provide a `maxResults`, the value must be between 10 and 50. To get the next page results,
-provide the pagination token from the `GetGetLabelsResponse` as part of your request. A
-null pagination token fetches the records from the beginning.
+provide the pagination token from the `GetGetLabelsResponse` as part of your request. A null
+pagination token fetches the records from the beginning.
 
 # Optional Parameters
 
@@ -2165,14 +2188,14 @@ end
     get_models(params::Dict{String,<:Any})
 
 Gets one or more models. Gets all models for the Amazon Web Services account if no model
-type and no model id provided. Gets all models for the Amazon Web Services account and
-model type, if the model type is specified but model id is not provided. Gets a specific
-model if (model type, model id) tuple is specified.
+type and no model id provided. Gets all models for the Amazon Web Services account and model
+type, if the model type is specified but model id is not provided. Gets a specific model if
+(model type, model id) tuple is specified.
 
-This is a paginated API. If you provide a null `maxResults`, this action retrieves a
-maximum of 10 records per page. If you provide a `maxResults`, the value must be between 1
-and 10. To get the next page results, provide the pagination token from the response as
-part of your request. A null pagination token fetches the records from the beginning.
+This is a paginated API. If you provide a null `maxResults`, this action retrieves a maximum
+of 10 records per page. If you provide a `maxResults`, the value must be between 1 and 10.
+To get the next page results, provide the pagination token from the response as part of your
+request. A null pagination token fetches the records from the beginning.
 
 # Optional Parameters
 
@@ -2203,11 +2226,11 @@ end
     get_outcomes()
     get_outcomes(params::Dict{String,<:Any})
 
-Gets one or more outcomes. This is a paginated API. If you provide a null `maxResults`,
-this actions retrieves a maximum of 100 records per page. If you provide a `maxResults`,
-the value must be between 50 and 100. To get the next page results, provide the pagination
-token from the `GetOutcomesResult` as part of your request. A null pagination token fetches
-the records from the beginning.
+Gets one or more outcomes. This is a paginated API. If you provide a null `maxResults`, this
+actions retrieves a maximum of 100 records per page. If you provide a `maxResults`, the
+value must be between 50 and 100. To get the next page results, provide the pagination token
+from the `GetOutcomesResult` as part of your request. A null pagination token fetches the
+records from the beginning.
 
 # Optional Parameters
 
@@ -2242,9 +2265,9 @@ Gets all rules for the detector and the `ruleId` if present (paginated). Gets a 
 rule if both the `ruleId` and the `ruleVersion` are specified.
 
 This is a paginated API. Providing null maxResults results in retrieving maximum of 100
-records per page. If you provide maxResults the value must be between 50 and 100. To get
-the next page result, a provide a pagination token from GetRulesResult as part of your
-request. Null pagination token fetches the records from the beginning.
+records per page. If you provide maxResults the value must be between 50 and 100. To get the
+next page result, a provide a pagination token from GetRulesResult as part of your request.
+Null pagination token fetches the records from the beginning.
 
 # Arguments
 
@@ -2345,8 +2368,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"eventType"`: The event type associated with the detector.
 - `"maxResults"`: The maximum number of predictions to return for the request.
 - `"nextToken"`: Identifies the next page of results to return. Use the token to make the
-  call again to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours.
+  call again to retrieve the next page. Keep all other arguments unchanged. Each pagination
+  token expires after 24 hours.
 - `"predictionTimeRange"`: The time period for when the predictions were generated.
 """
 function list_event_predictions end
@@ -2472,10 +2495,10 @@ end
     put_entity_type(name)
     put_entity_type(name, params::Dict{String,<:Any})
 
-Creates or updates an entity type. An entity represents who is performing the event. As
-part of a fraud prediction, you pass the entity ID to indicate the specific entity who
-performed the event. An entity type classifies the entity. Example classifications include
-customer, merchant, or account.
+Creates or updates an entity type. An entity represents who is performing the event. As part
+of a fraud prediction, you pass the entity ID to indicate the specific entity who performed
+the event. An entity type classifies the entity. Example classifications include customer,
+merchant, or account.
 
 # Arguments
 
@@ -2669,8 +2692,8 @@ Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
 
 - `kms_encryption_key_arn`: The KMS encryption key ARN.
 
-  The KMS key must be single-Region key. Amazon Fraud Detector does not support multi-
-  Region KMS key.
+  The KMS key must be single-Region key. Amazon Fraud Detector does not support multi-Region
+  KMS key.
 """
 function put_kmsencryption_key end
 
@@ -2800,8 +2823,8 @@ then later use to train a model.
   The timestamp must be specified using ISO 8601 standard in UTC.
 - `event_type_name`: The event type name of the event.
 - `event_variables`: Names of the event type's variables you defined in Amazon Fraud
-  Detector to represent data elements and their corresponding values for the event you
-  are sending for evaluation.
+  Detector to represent data elements and their corresponding values for the event you are
+  sending for evaluation.
 
 # Optional Parameters
 
@@ -2972,16 +2995,18 @@ update a `DRAFT` detector version.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The detector version description.
+
 - `"modelVersions"`: The model versions to include in the detector version.
+
 - `"ruleExecutionMode"`: The rule execution mode to add to the detector.
 
-  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially,
-  first to last, stopping at the first matched rule. Amazon Fraud dectector then provides
-  the outcomes for that single rule.
+  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially, first
+  to last, stopping at the first matched rule. Amazon Fraud dectector then provides the
+  outcomes for that single rule.
 
-  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns
-  the outcomes for all matched rules. You can define and edit the rule mode at the
-  detector version level, when it is in draft status.
+  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns the
+  outcomes for all matched rules. You can define and edit the rule mode at the detector
+  version level, when it is in draft status.
 
   The default behavior is `FIRST_MATCHED`.
 """
@@ -3096,14 +3121,16 @@ end
     update_detector_version_status(detector_id, detector_version_id, status)
     update_detector_version_status(detector_id, detector_version_id, status, params::Dict{String,<:Any})
 
-Updates the detector version’s status. You can perform the following promotions or
-demotions using `UpdateDetectorVersionStatus`: `DRAFT` to `ACTIVE`, `ACTIVE` to `INACTIVE`,
-and `INACTIVE` to `ACTIVE`.
+Updates the detector version’s status. You can perform the following promotions or demotions
+using `UpdateDetectorVersionStatus`: `DRAFT` to `ACTIVE`, `ACTIVE` to `INACTIVE`, and
+`INACTIVE` to `ACTIVE`.
 
 # Arguments
 
 - `detector_id`: The detector ID.
+
 - `detector_version_id`: The detector version ID.
+
 - `status`: The new status.
 
   The only supported values are `ACTIVE` and `INACTIVE`
@@ -3231,11 +3258,13 @@ Updates a list.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The new description.
+
 - `"elements"`: One or more list elements to add or replace. If you are providing the
   elements, make sure to specify the `updateMode` to use.
 
   If you are deleting all elements from the list, use `REPLACE` for the `updateMode` and
   provide an empty list (0 elements).
+
 - `"updateMode"`: The update mode (type).
 
   - Use `APPEND` if you are adding elements to the list.
@@ -3245,10 +3274,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"variableType"`: The variable type you want to assign to the list.
 
   !!! note
-      You cannot update a variable type of a list that already has a variable type
-      assigned to it. You can assign a variable type to a list only if the list does not
-      already have a variable type.
-
+      You cannot update a variable type of a list that already has a variable type assigned
+      to it. You can assign a variable type to a list only if the list does not already have
+      a variable type.
 """
 function update_list end
 
@@ -3400,8 +3428,9 @@ Updates the status of a model version.
 
 You can perform the following status updates:
 
-1. Change the `TRAINING_IN_PROGRESS` status to `TRAINING_CANCELLED`.2. Change the
-   `TRAINING_COMPLETE` status to `ACTIVE`.3. Change `ACTIVE` to `INACTIVE`.
+1. Change the `TRAINING_IN_PROGRESS` status to `TRAINING_CANCELLED`.
+2. Change the `TRAINING_COMPLETE` status to `ACTIVE`.
+3. Change `ACTIVE` to `INACTIVE`.
 
 # Arguments
 

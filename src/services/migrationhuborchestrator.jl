@@ -295,8 +295,8 @@ end
     delete_workflow(id)
     delete_workflow(id, params::Dict{String,<:Any})
 
-Delete a migration workflow. You must pause a running workflow in Migration Hub
-Orchestrator console to delete it.
+Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator
+console to delete it.
 
 # Arguments
 
@@ -961,8 +961,8 @@ List the migration workflows.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"adsApplicationConfigurationName"`: The name of the application configured in
-  Application Discovery Service.
+- `"adsApplicationConfigurationName"`: The name of the application configured in Application
+  Discovery Service.
 - `"maxResults"`: The maximum number of results that can be returned.
 - `"name"`: The name of the migration workflow.
 - `"nextToken"`: The pagination token.

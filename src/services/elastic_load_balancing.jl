@@ -221,10 +221,10 @@ Generates a stickiness policy with sticky session lifetimes that follow that of 
 application-generated cookie. This policy can be associated only with HTTP/HTTPS listeners.
 
 This policy is similar to the policy created by [`create_lbcookie_stickiness_policy`](@ref),
-except that the lifetime of the special Elastic Load Balancing cookie, `AWSELB`, follows
-the lifetime of the application-generated cookie specified in the policy configuration. The
-load balancer only inserts a new stickiness cookie when the application response includes a
-new application cookie.
+except that the lifetime of the special Elastic Load Balancing cookie, `AWSELB`, follows the
+lifetime of the application-generated cookie specified in the policy configuration. The load
+balancer only inserts a new stickiness cookie when the application response includes a new
+application cookie.
 
 If the application cookie is explicitly removed or expires, the session stops being sticky
 until a new application cookie is issued.
@@ -299,8 +299,8 @@ checks to see if this cookie is present in the request. If so, the load balancer
 request to the application server specified in the cookie. If not, the load balancer sends
 the request to a server that is chosen based on the existing load-balancing algorithm.
 
-A cookie is inserted into the response for binding subsequent requests from the same user
-to that server. The validity of the cookie is based on the cookie expiration time, which is
+A cookie is inserted into the response for binding subsequent requests from the same user to
+that server. The validity of the cookie is based on the cookie expiration time, which is
 specified in the policy configuration.
 
 For more information, see [Duration-Based Session Stickiness](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration)
@@ -365,11 +365,11 @@ end
 Creates a Classic Load Balancer.
 
 You can add listeners, security groups, subnets, and tags when you create your load
-balancer, or you can add them later using [`create_load_balancer_listeners`](@ref), [`apply_security_groups_to_load_balancer`](@ref),
-[`attach_load_balancer_to_subnets`](@ref), and [`add_tags`](@ref).
+balancer, or you can add them later using [`create_load_balancer_listeners`](@ref), [`apply_security_groups_to_load_balancer`](@ref), [`attach_load_balancer_to_subnets`](@ref),
+and [`add_tags`](@ref).
 
-To describe your current load balancers, see [`describe_load_balancers`](@ref). When you
-are finished with a load balancer, you can delete it using [`delete_load_balancer`](@ref).
+To describe your current load balancers, see [`describe_load_balancers`](@ref). When you are
+finished with a load balancer, you can delete it using [`delete_load_balancer`](@ref).
 
 You can create up to 20 load balancers per region per account. You can request an increase
 for the number of load balancers for your account. For more information, see [Limits for Your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-limits.html)
@@ -381,11 +381,12 @@ in the *Classic Load Balancers Guide*.
 
   For more information, see [Listeners for Your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html)
   in the *Classic Load Balancers Guide*.
+
 - `load_balancer_name`: The name of the load balancer.
 
   This name must be unique within your set of load balancers for the region, must have a
-  maximum of 32 characters, must contain only alphanumeric characters or hyphens, and
-  cannot begin or end with a hyphen.
+  maximum of 32 characters, must contain only alphanumeric characters or hyphens, and cannot
+  begin or end with a hyphen.
 
 # Optional Parameters
 
@@ -397,18 +398,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You must specify at least one Availability Zone.
 
   You can add more Availability Zones after you create the load balancer using [`enable_availability_zones_for_load_balancer`](@ref).
+
 - `"Scheme"`: The type of a load balancer. Valid only for load balancers in a VPC.
 
   By default, Elastic Load Balancing creates an Internet-facing load balancer with a DNS
-  name that resolves to public IP addresses. For more information about Internet-facing
-  and Internal load balancers, see [Load Balancer Scheme](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html#load-balancer-scheme)
+  name that resolves to public IP addresses. For more information about Internet-facing and
+  Internal load balancers, see [Load Balancer Scheme](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html#load-balancer-scheme)
   in the *Elastic Load Balancing User Guide*.
 
-  Specify `internal` to create a load balancer with a DNS name that resolves to private
-  IP addresses.
+  Specify `internal` to create a load balancer with a DNS name that resolves to private IP
+  addresses.
+
 - `"SecurityGroups"`: The IDs of the security groups to assign to the load balancer.
+
 - `"Subnets"`: The IDs of the subnets in your VPC to attach to the load balancer. Specify
   one subnet per Availability Zone specified in `AvailabilityZones`.
+
 - `"Tags"`: A list of tags to assign to the load balancer.
 
   For more information about tagging your load balancer, see [Tag Your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/add-remove-tags.html)
@@ -514,8 +519,7 @@ listener or the application server, depending on the policy type.
 - `load_balancer_name`: The name of the load balancer.
 - `policy_name`: The name of the load balancer policy to be created. This name must be
   unique within the set of policies for this load balancer.
-- `policy_type_name`: The name of the base policy type. To get the list of policy types,
-  use [`describe_load_balancer_policy_types`](@ref).
+- `policy_type_name`: The name of the base policy type. To get the list of policy types, use [`describe_load_balancer_policy_types`](@ref).
 
 # Optional Parameters
 
@@ -942,9 +946,9 @@ end
 
 Describes the specified load balancer policy types or all load balancer policy types.
 
-The description of each type indicates how it can be used. For example, some policies can
-be used only with layer 7 listeners, some policies can be used only with layer 4 listeners,
-and some policies can be used only with your EC2 instances.
+The description of each type indicates how it can be used. For example, some policies can be
+used only with layer 7 listeners, some policies can be used only with layer 4 listeners, and
+some policies can be used only with your EC2 instances.
 
 You can use [`create_load_balancer_policy`](@ref) to create a policy configuration for any
 of these policy types. Then, depending on the policy type, use either [`set_load_balancer_policies_of_listener`](@ref)
@@ -1181,8 +1185,8 @@ in the *Classic Load Balancers Guide*.
 
 # Arguments
 
-- `availability_zones`: The Availability Zones. These must be in the same region as the
-  load balancer.
+- `availability_zones`: The Availability Zones. These must be in the same region as the load
+  balancer.
 - `load_balancer_name`: The name of the load balancer.
 """
 function enable_availability_zones_for_load_balancer end
@@ -1229,10 +1233,10 @@ end
 
 Modifies the attributes of the specified load balancer.
 
-You can modify the load balancer attributes, such as `AccessLogs`, `ConnectionDraining`,
-and `CrossZoneLoadBalancing` by either enabling or disabling them. Or, you can modify the
-load balancer attribute `ConnectionSettings` by specifying an idle connection timeout value
-for your load balancer.
+You can modify the load balancer attributes, such as `AccessLogs`, `ConnectionDraining`, and
+`CrossZoneLoadBalancing` by either enabling or disabling them. Or, you can modify the load
+balancer attribute `ConnectionSettings` by specifying an idle connection timeout value for
+your load balancer.
 
 For more information, see the following in the *Classic Load Balancers Guide*:
 
@@ -1298,9 +1302,9 @@ Classic or the same VPC). If you have EC2-Classic instances and a load balancer 
 with ClassicLink enabled, you can link the EC2-Classic instances to that VPC and then
 register the linked EC2-Classic instances with the load balancer in the VPC.
 
-Note that `RegisterInstanceWithLoadBalancer` completes when the request has been
-registered. Instance registration takes a little time to complete. To check the state of
-the registered instances, use [`describe_load_balancers`](@ref) or [`describe_instance_health`](@ref).
+Note that `RegisterInstanceWithLoadBalancer` completes when the request has been registered.
+Instance registration takes a little time to complete. To check the state of the registered
+instances, use [`describe_load_balancers`](@ref) or [`describe_instance_health`](@ref).
 
 After the instance is registered, it starts receiving traffic and requests from the load
 balancer. Any instance that is not in one of the Availability Zones registered for the load
@@ -1402,9 +1406,8 @@ end
     set_load_balancer_listener_sslcertificate(load_balancer_name, load_balancer_port, sslcertificate_id)
     set_load_balancer_listener_sslcertificate(load_balancer_name, load_balancer_port, sslcertificate_id, params::Dict{String,<:Any})
 
-Sets the certificate that terminates the specified listener's SSL connections. The
-specified certificate replaces any prior certificate that was used on the same load
-balancer and port.
+Sets the certificate that terminates the specified listener's SSL connections. The specified
+certificate replaces any prior certificate that was used on the same load balancer and port.
 
 For more information about updating your SSL certificate, see [Replace the SSL Certificate for Your Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-update-ssl-cert.html)
 in the *Classic Load Balancers Guide*.
@@ -1464,10 +1467,10 @@ end
     set_load_balancer_policies_for_backend_server(instance_port, load_balancer_name, policy_names)
     set_load_balancer_policies_for_backend_server(instance_port, load_balancer_name, policy_names, params::Dict{String,<:Any})
 
-Replaces the set of policies associated with the specified port on which the EC2 instance
-is listening with a new set of policies. At this time, only the back-end server
-authentication policy type can be applied to the instance ports; this policy type is
-composed of multiple public key policies.
+Replaces the set of policies associated with the specified port on which the EC2 instance is
+listening with a new set of policies. At this time, only the back-end server authentication
+policy type can be applied to the instance ports; this policy type is composed of multiple
+public key policies.
 
 Each time you use `SetLoadBalancerPoliciesForBackendServer` to enable the policies, use the
 `PolicyNames` parameter to list the policies that you want to enable.
@@ -1535,13 +1538,12 @@ end
     set_load_balancer_policies_of_listener(load_balancer_name, load_balancer_port, policy_names)
     set_load_balancer_policies_of_listener(load_balancer_name, load_balancer_port, policy_names, params::Dict{String,<:Any})
 
-Replaces the current set of policies for the specified load balancer port with the
-specified set of policies.
+Replaces the current set of policies for the specified load balancer port with the specified
+set of policies.
 
 To enable back-end server authentication, use [`set_load_balancer_policies_for_backend_server`](@ref).
 
-For more information about setting policies, see [Update the SSL Negotiation Configuration](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/ssl-config-update.html),
-[Duration-Based Session Stickiness](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration),
+For more information about setting policies, see [Update the SSL Negotiation Configuration](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/ssl-config-update.html), [Duration-Based Session Stickiness](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration),
 and [Application-Controlled Session Stickiness](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-application)
 in the *Classic Load Balancers Guide*.
 

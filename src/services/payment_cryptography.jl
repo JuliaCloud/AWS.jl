@@ -8,8 +8,8 @@ using AWS.UUIDs
     create_alias(alias_name)
     create_alias(alias_name, params::Dict{String,<:Any})
 
-Creates an *alias*, or a friendly name, for an Amazon Web Services Payment Cryptography
-key. You can use an alias to identify a key in the console and when you call cryptographic
+Creates an *alias*, or a friendly name, for an Amazon Web Services Payment Cryptography key.
+You can use an alias to identify a key in the console and when you call cryptographic
 operations such as [EncryptData](https://docs.aws.amazon.com/payment-cryptography/latest/DataAPIReference/API_EncryptData.html)
 or [DecryptData](https://docs.aws.amazon.com/payment-cryptography/latest/DataAPIReference/API_DecryptData.html).
 
@@ -35,8 +35,8 @@ accounts.
 
 # Arguments
 
-- `alias_name`: A friendly name that you can use to refer to a key. An alias must begin
-  with `alias/` followed by a name, for example `alias/ExampleAlias`. It can contain only
+- `alias_name`: A friendly name that you can use to refer to a key. An alias must begin with
+  `alias/` followed by a name, for example `alias/ExampleAlias`. It can contain only
   alphanumeric characters, forward slashes (/), underscores (_), and dashes (-).
 
   !!! important
@@ -123,16 +123,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Enabled"`: Specifies whether to enable the key. If the key is enabled, it is activated
   for use within the service. If the key is not enabled, then it is created but not
   activated. The default value is enabled.
+
 - `"KeyCheckValueAlgorithm"`: The algorithm that Amazon Web Services Payment Cryptography
   uses to calculate the key check value (KCV). It is used to validate the key integrity.
 
   For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with
-  the key to be checked and retaining the 3 highest order bytes of the encrypted result.
-  For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16
-  bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+  the key to be checked and retaining the 3 highest order bytes of the encrypted result. For
+  AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of
+  zero and retaining the 3 highest order bytes of the encrypted result.
+
 - `"Tags"`: Assigns one or more tags to the Amazon Web Services Payment Cryptography key.
-  Use this parameter to tag a key when it is created. To tag an existing Amazon Web
-  Services Payment Cryptography key, use the [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
+  Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services
+  Payment Cryptography key, use the [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
   operation.
 
   Each tag consists of a tag key and a tag value. Both the tag key and the tag value are
@@ -144,9 +146,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       field may be displayed in plaintext in CloudTrail logs and other output.
 
   !!! note
-      Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or
-      deny permission to the key.
-
+      Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny
+      permission to the key.
 """
 function create_key end
 
@@ -245,13 +246,13 @@ Cryptography key.
 
 Key deletion is irreversible. After a key is deleted, you can't perform cryptographic
 operations using the key. For example, you can't decrypt data that was encrypted by a
-deleted Amazon Web Services Payment Cryptography key, and the data may become
-unrecoverable. Because key deletion is destructive, Amazon Web Services Payment
-Cryptography has a safety mechanism to prevent accidental deletion of a key. When you call
-this operation, Amazon Web Services Payment Cryptography disables the specified key but
-doesn't delete it until after a waiting period set using `DeleteKeyInDays`. The default
-waiting period is 7 days. During the waiting period, the `KeyState` is `DELETE_PENDING`.
-After the key is deleted, the `KeyState` is `DELETE_COMPLETE`.
+deleted Amazon Web Services Payment Cryptography key, and the data may become unrecoverable.
+Because key deletion is destructive, Amazon Web Services Payment Cryptography has a safety
+mechanism to prevent accidental deletion of a key. When you call this operation, Amazon Web
+Services Payment Cryptography disables the specified key but doesn't delete it until after a
+waiting period set using `DeleteKeyInDays`. The default waiting period is 7 days. During the
+waiting period, the `KeyState` is `DELETE_PENDING`. After the key is deleted, the `KeyState`
+is `DELETE_COMPLETE`.
 
 You should delete a key only when you are sure that you don't need to use it anymore and no
 other parties are utilizing this key. If you aren't sure, consider deactivating it instead
@@ -334,23 +335,22 @@ You can also use `ExportKey` functionality to generate and export an IPEK (Initi
 Encryption Key) from Amazon Web Services Payment Cryptography using either TR-31 or TR-34
 export key exchange. IPEK is generated from BDK (Base Derivation Key) and
 `ExportDukptInitialKey` attribute KSN (`KeySerialNumber`). The generated IPEK does not
-persist within Amazon Web Services Payment Cryptography and has to be re-generated each
-time during export.
+persist within Amazon Web Services Payment Cryptography and has to be re-generated each time
+during export.
 
-For key exchange using TR-31 or TR-34 key blocks, you can also export optional blocks
-within the key block header which contain additional attribute information about the key.
-The `KeyVersion` within `KeyBlockHeaders` indicates the version of the key within the key
-block. Furthermore, `KeyExportability` within `KeyBlockHeaders` can be used to further
-restrict exportability of the key after export from Amazon Web Services Payment
-Cryptography.
+For key exchange using TR-31 or TR-34 key blocks, you can also export optional blocks within
+the key block header which contain additional attribute information about the key. The
+`KeyVersion` within `KeyBlockHeaders` indicates the version of the key within the key block.
+Furthermore, `KeyExportability` within `KeyBlockHeaders` can be used to further restrict
+exportability of the key after export from Amazon Web Services Payment Cryptography.
 
-The `OptionalBlocks` contain the additional data related to the key. For information on
-data type that can be included within optional blocks, refer to [ASC X9.143-2022](https://webstore.ansi.org/standards/ascx9/ansix91432022).
+The `OptionalBlocks` contain the additional data related to the key. For information on data
+type that can be included within optional blocks, refer to [ASC X9.143-2022](https://webstore.ansi.org/standards/ascx9/ansix91432022).
 
 !!! note
-    Data included in key block headers is signed but transmitted in clear text. Sensitive
-    or confidential information should not be included in optional blocks. Refer to ASC
-    X9.143-2022 standard for information on allowed data type.
+    Data included in key block headers is signed but transmitted in clear text. Sensitive or
+    confidential information should not be included in optional blocks. Refer to ASC X9.143-
+    2022 standard for information on allowed data type.
 
 **To export initial keys (KEK) or IPEK using TR-34**
 
@@ -366,17 +366,17 @@ This operation also generates a key pair for the purpose of key export, signs th
 returns back the signing public key certificate (also known as KDH signing certificate) and
 root certificate chain. The KDH uses the private key to sign the the export payload and the
 signing public key certificate is provided to KRD to verify the signature. The KRD can
-import the root certificate into its Hardware Security Module (HSM), as required. The
-export token and the associated KDH signing certificate expires after 7 days.
+import the root certificate into its Hardware Security Module (HSM), as required. The export
+token and the associated KDH signing certificate expires after 7 days.
 
-Next the KRD generates a key pair for the the purpose of encrypting the KDH key and
-provides the public key cerificate (also known as KRD wrapping certificate) back to KDH.
-The KRD will also import the root cerificate chain into Amazon Web Services Payment
-Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
+Next the KRD generates a key pair for the the purpose of encrypting the KDH key and provides
+the public key cerificate (also known as KRD wrapping certificate) back to KDH. The KRD will
+also import the root cerificate chain into Amazon Web Services Payment Cryptography by
+calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
 for `RootCertificatePublicKey`. The KDH, Amazon Web Services Payment Cryptography, will use
-the KRD wrapping cerificate to encrypt (wrap) the key under export and signs it with
-signing private key to generate a TR-34 WrappedKeyBlock. For more information on TR-34 key
-export, see section [Exporting symmetric keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-export.html)
+the KRD wrapping cerificate to encrypt (wrap) the key under export and signs it with signing
+private key to generate a TR-34 WrappedKeyBlock. For more information on TR-34 key export,
+see section [Exporting symmetric keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-export.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
 Set the following parameters:
@@ -388,9 +388,9 @@ Set the following parameters:
 - `CertificateAuthorityPublicKeyIdentifier`: The `KeyARN` of the certificate chain that
   signed the KRD wrapping key certificate.
 - `ExportToken`: Obtained from KDH by calling [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html).
-- `WrappingKeyCertificate`: The public key certificate in PEM format (base64 encoded) of
-  the KRD wrapping key Amazon Web Services Payment Cryptography uses for encryption of the
-  TR-34 export payload. This certificate must be signed by the root certificate
+- `WrappingKeyCertificate`: The public key certificate in PEM format (base64 encoded) of the
+  KRD wrapping key Amazon Web Services Payment Cryptography uses for encryption of the TR-34
+  export payload. This certificate must be signed by the root certificate
   (CertificateAuthorityPublicKeyIdentifier) imported into Amazon Web Services Payment
   Cryptography.
 
@@ -402,8 +402,8 @@ or IPEK as a TR-34 WrappedKeyBlock.
 Using this operation, you can export initial key using asymmetric RSA wrap and unwrap key
 exchange method. To initiate export, generate an asymmetric key pair on the receiving HSM
 and obtain the public key certificate in PEM format (base64 encoded) for the purpose of
-wrapping and the root certifiate chain. Import the root certificate into Amazon Web
-Services Payment Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
+wrapping and the root certifiate chain. Import the root certificate into Amazon Web Services
+Payment Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
 for `RootCertificatePublicKey`.
 
 Next call `ExportKey` and set the following parameters:
@@ -423,8 +423,8 @@ WrappedKeyCryptogram.
 **To export working keys or IPEK using TR-31**
 
 Using this operation, you can export working keys or IPEK using TR-31 symmetric key
-exchange. In TR-31, you must use an initial key such as KEK to encrypt or wrap the key
-under export. To establish a KEK, you can use [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
+exchange. In TR-31, you must use an initial key such as KEK to encrypt or wrap the key under
+export. To establish a KEK, you can use [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
 or [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html).
 
 Set the following parameters:
@@ -595,9 +595,8 @@ end
 Gets the export token and the signing key certificate to initiate a TR-34 key export from
 Amazon Web Services Payment Cryptography.
 
-The signing key certificate signs the wrapped key under export within the TR-34 key
-payload. The export token and signing key certificate must be in place and operational
-before calling [ExportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html).
+The signing key certificate signs the wrapped key under export within the TR-34 key payload.
+The export token and signing key certificate must be in place and operational before calling [ExportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html).
 The export token expires in 7 days. You can use the same export token to export multiple
 keys from your service account.
 
@@ -611,12 +610,12 @@ accounts.
 
 # Arguments
 
-- `key_material_type`: The key block format type (for example, TR-34 or TR-31) to use
-  during key material export. Export token is only required for a TR-34 key export,
+- `key_material_type`: The key block format type (for example, TR-34 or TR-31) to use during
+  key material export. Export token is only required for a TR-34 key export,
   `TR34_KEY_BLOCK`. Export token is not required for TR-31 key export.
 - `signing_key_algorithm`: The signing key algorithm to generate a signing key certificate.
-  This certificate signs the wrapped key under export within the TR-34 key block.
-  `RSA_2048` is the only signing key algorithm allowed.
+  This certificate signs the wrapped key under export within the TR-34 key block. `RSA_2048`
+  is the only signing key algorithm allowed.
 """
 function get_parameters_for_export end
 
@@ -684,8 +683,9 @@ accounts.
   required for TR-34 WrappedKeyBlock (`TR34_KEY_BLOCK`) and RSA WrappedKeyCryptogram
   (`KEY_CRYPTOGRAM`).
 
-  Import token is not required for TR-31, root public key cerificate or trusted public
-  key certificate.
+  Import token is not required for TR-31, root public key cerificate or trusted public key
+  certificate.
+
 - `wrapping_key_algorithm`: The wrapping key algorithm to generate a wrapping key
   certificate. This certificate wraps the key under import.
 
@@ -742,9 +742,9 @@ Gets the public key certificate of the asymmetric key pair that exists within Am
 Services Payment Cryptography.
 
 Unlike the private key of an asymmetric key, which never leaves Amazon Web Services Payment
-Cryptography unencrypted, callers with `GetPublicKeyCertificate` permission can download
-the public key certificate of the asymmetric key. You can share the public key certificate
-to allow others to encrypt messages and verify signatures outside of Amazon Web Services
+Cryptography unencrypted, callers with `GetPublicKeyCertificate` permission can download the
+public key certificate of the asymmetric key. You can share the public key certificate to
+allow others to encrypt messages and verify signatures outside of Amazon Web Services
 Payment Cryptography
 
 **Cross-account use:** This operation can't be used across different Amazon Web Services
@@ -809,21 +809,21 @@ exchange both 3DES and AES-128 keys. The keys are imported in a WrappedKeyCrypto
 and you will need to specify the key attributes during import.
 
 You can also import a *root public key certificate*, used to sign other public key
-certificates, or a *trusted public key certificate* under an already established root
-public key certificate.
+certificates, or a *trusted public key certificate* under an already established root public
+key certificate.
 
 **To import a public root key certificate**
 
 You can also import a *root public key certificate*, used to sign other public key
-certificates, or a *trusted public key certificate* under an already established root
-public key certificate.
+certificates, or a *trusted public key certificate* under an already established root public
+key certificate.
 
 **To import a public root key certificate**
 
-Using this operation, you can import the public component (in PEM cerificate format) of
-your private root key. You can use the imported public root key certificate for digital
-signatures, for example signing wrapping key or signing key in TR-34, within your Amazon
-Web Services Payment Cryptography account.
+Using this operation, you can import the public component (in PEM cerificate format) of your
+private root key. You can use the imported public root key certificate for digital
+signatures, for example signing wrapping key or signing key in TR-34, within your Amazon Web
+Services Payment Cryptography account.
 
 Set the following parameters:
 
@@ -836,8 +836,8 @@ Set the following parameters:
 
 **To import a trusted public key certificate**
 
-The root public key certificate must be in place and operational before you import a
-trusted public key certificate. Set the following parameters:
+The root public key certificate must be in place and operational before you import a trusted
+public key certificate. Set the following parameters:
 
 - `KeyMaterial`: `TrustedCertificatePublicKey`
 - `CertificateAuthorityPublicKeyIdentifier`: `KeyArn` of the `RootCertificatePublicKey`.
@@ -851,8 +851,8 @@ trusted public key certificate. Set the following parameters:
 Using this operation, you can import initial key using TR-34 asymmetric key exchange. In TR-
 34 terminology, the sending party of the key is called Key Distribution Host (KDH) and the
 receiving party of the key is called Key Receiving Device (KRD). During the key import
-process, KDH is the user who initiates the key import and KRD is Amazon Web Services
-Payment Cryptography who receives the key.
+process, KDH is the user who initiates the key import and KRD is Amazon Web Services Payment
+Cryptography who receives the key.
 
 To initiate TR-34 key import, the KDH must obtain an import token by calling [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html).
 This operation generates an encryption keypair for the purpose of key import, signs the key
@@ -863,9 +863,9 @@ The import token and associated KRD wrapping certificate expires after 7 days.
 
 Next the KDH generates a key pair for the purpose of signing the encrypted KDH key and
 provides the public certificate of the signing key to Amazon Web Services Payment
-Cryptography. The KDH will also need to import the root certificate chain of the KDH
-signing certificate by calling `ImportKey` for `RootCertificatePublicKey`. For more
-information on TR-34 key import, see section [Importing symmetric keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-import.html)
+Cryptography. The KDH will also need to import the root certificate chain of the KDH signing
+certificate by calling `ImportKey` for `RootCertificatePublicKey`. For more information on
+TR-34 key import, see section [Importing symmetric keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-import.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
 Set the following parameters:
@@ -892,10 +892,10 @@ generates an encryption keypair for the purpose of key import, signs the key and
 back the wrapping key certificate in PEM format (base64 encoded) and its root certificate
 chain. The import token and associated KRD wrapping certificate expires after 7 days.
 
-You must trust and install the wrapping certificate and its certificate chain on the
-sending HSM and use it to wrap the key under export for WrappedKeyCryptogram generation.
-Next call `ImportKey` with `KeyMaterial` set to `KEY_CRYPTOGRAM` and provide the
-`ImportToken` and `KeyAttributes` for the key under import.
+You must trust and install the wrapping certificate and its certificate chain on the sending
+HSM and use it to wrap the key under export for WrappedKeyCryptogram generation. Next call
+`ImportKey` with `KeyMaterial` set to `KEY_CRYPTOGRAM` and provide the `ImportToken` and
+`KeyAttributes` for the key under import.
 
 **To import working keys using TR-31**
 
@@ -906,8 +906,8 @@ To initiate a TR-31 key import, set the following parameters:
 
 - `KeyMaterial`: Use `Tr31KeyBlock` parameters.
 - `WrappedKeyBlock`: The TR-31 wrapped key material. It contains the key under import,
-  encrypted using KEK. The TR-31 key block is typically generated by a HSM outside of
-  Amazon Web Services Payment Cryptography.
+  encrypted using KEK. The TR-31 key block is typically generated by a HSM outside of Amazon
+  Web Services Payment Cryptography.
 - `WrappingKeyIdentifier`: The `KeyArn` of the KEK that Amazon Web Services Payment
   Cryptography uses to decrypt or unwrap the key under import.
 
@@ -929,13 +929,15 @@ accounts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Enabled"`: Specifies whether import key is enabled.
+
 - `"KeyCheckValueAlgorithm"`: The algorithm that Amazon Web Services Payment Cryptography
   uses to calculate the key check value (KCV). It is used to validate the key integrity.
 
   For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with
-  the key to be checked and retaining the 3 highest order bytes of the encrypted result.
-  For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16
-  bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+  the key to be checked and retaining the 3 highest order bytes of the encrypted result. For
+  AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of
+  zero and retaining the 3 highest order bytes of the encrypted result.
+
 - `"Tags"`: Assigns one or more tags to the Amazon Web Services Payment Cryptography key.
   Use this parameter to tag a key when it is imported. To tag an existing Amazon Web
   Services Payment Cryptography key, use the [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
@@ -952,9 +954,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       field may be displayed in plaintext in CloudTrail logs and other output.
 
   !!! note
-      Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or
-      deny permission to the key.
-
+      Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny
+      permission to the key.
 """
 function import_key end
 
@@ -990,11 +991,11 @@ Lists the aliases for all keys in the caller's Amazon Web Services account and A
 Services Region. You can filter the list of aliases. For more information, see [Using aliases](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-managealias.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
-This is a paginated operation, which means that each response might contain only a subset
-of all the aliases. When the response contains only a subset of aliases, it includes a
-`NextToken` value. Use this value in a subsequent `ListAliases` request to get more
-aliases. When you receive a response with no NextToken (or an empty or null value), that
-means there are no more aliases to get.
+This is a paginated operation, which means that each response might contain only a subset of
+all the aliases. When the response contains only a subset of aliases, it includes a
+`NextToken` value. Use this value in a subsequent `ListAliases` request to get more aliases.
+When you receive a response with no NextToken (or an empty or null value), that means there
+are no more aliases to get.
 
 **Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
@@ -1011,14 +1012,15 @@ accounts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Use this parameter to specify the maximum number of items to return. When
-  this value is present, Amazon Web Services Payment Cryptography does not return more
-  than the specified number of items, but it might return fewer.
+  this value is present, Amazon Web Services Payment Cryptography does not return more than
+  the specified number of items, but it might return fewer.
 
-  This value is optional. If you include a value, it must be between 1 and 100,
-  inclusive. If you do not include a value, it defaults to 50.
+  This value is optional. If you include a value, it must be between 1 and 100, inclusive.
+  If you do not include a value, it defaults to 50.
+
 - `"NextToken"`: Use this parameter in a subsequent request after you receive a response
-  with truncated results. Set it to the value of `NextToken` from the truncated response
-  you just received.
+  with truncated results. Set it to the value of `NextToken` from the truncated response you
+  just received.
 """
 function list_aliases end
 
@@ -1043,11 +1045,11 @@ end
 Lists the keys in the caller's Amazon Web Services account and Amazon Web Services Region.
 You can filter the list of keys.
 
-This is a paginated operation, which means that each response might contain only a subset
-of all the keys. When the response contains only a subset of keys, it includes a
-`NextToken` value. Use this value in a subsequent `ListKeys` request to get more keys. When
-you receive a response with no NextToken (or an empty or null value), that means there are
-no more keys to get.
+This is a paginated operation, which means that each response might contain only a subset of
+all the keys. When the response contains only a subset of keys, it includes a `NextToken`
+value. Use this value in a subsequent `ListKeys` request to get more keys. When you receive
+a response with no NextToken (or an empty or null value), that means there are no more keys
+to get.
 
 **Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
@@ -1063,15 +1065,17 @@ accounts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"KeyState"`: The key state of the keys you want to list.
-- `"MaxResults"`: Use this parameter to specify the maximum number of items to return. When
-  this value is present, Amazon Web Services Payment Cryptography does not return more
-  than the specified number of items, but it might return fewer.
 
-  This value is optional. If you include a value, it must be between 1 and 100,
-  inclusive. If you do not include a value, it defaults to 50.
+- `"MaxResults"`: Use this parameter to specify the maximum number of items to return. When
+  this value is present, Amazon Web Services Payment Cryptography does not return more than
+  the specified number of items, but it might return fewer.
+
+  This value is optional. If you include a value, it must be between 1 and 100, inclusive.
+  If you do not include a value, it defaults to 50.
+
 - `"NextToken"`: Use this parameter in a subsequent request after you receive a response
-  with truncated results. Set it to the value of `NextToken` from the truncated response
-  you just received.
+  with truncated results. Set it to the value of `NextToken` from the truncated response you
+  just received.
 """
 function list_keys end
 
@@ -1095,11 +1099,11 @@ end
 
 Lists the tags for an Amazon Web Services resource.
 
-This is a paginated operation, which means that each response might contain only a subset
-of all the tags. When the response contains only a subset of tags, it includes a
-`NextToken` value. Use this value in a subsequent `ListTagsForResource` request to get more
-tags. When you receive a response with no NextToken (or an empty or null value), that means
-there are no more tags to get.
+This is a paginated operation, which means that each response might contain only a subset of
+all the tags. When the response contains only a subset of tags, it includes a `NextToken`
+value. Use this value in a subsequent `ListTagsForResource` request to get more tags. When
+you receive a response with no NextToken (or an empty or null value), that means there are
+no more tags to get.
 
 **Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
@@ -1118,14 +1122,15 @@ accounts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Use this parameter to specify the maximum number of items to return. When
-  this value is present, Amazon Web Services Payment Cryptography does not return more
-  than the specified number of items, but it might return fewer.
+  this value is present, Amazon Web Services Payment Cryptography does not return more than
+  the specified number of items, but it might return fewer.
 
-  This value is optional. If you include a value, it must be between 1 and 100,
-  inclusive. If you do not include a value, it defaults to 50.
+  This value is optional. If you include a value, it must be between 1 and 100, inclusive.
+  If you do not include a value, it defaults to 50.
+
 - `"NextToken"`: Use this parameter in a subsequent request after you receive a response
-  with truncated results. Set it to the value of `NextToken` from the truncated response
-  you just received.
+  with truncated results. Set it to the value of `NextToken` from the truncated response you
+  just received.
 """
 function list_tags_for_resource end
 
@@ -1310,8 +1315,8 @@ Adds or edits tags on an Amazon Web Services Payment Cryptography key.
 
 Each tag consists of a tag key and a tag value, both of which are case-sensitive strings.
 The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag
-value. To edit a tag, specify an existing tag key and a new tag value. You can also add
-tags to an Amazon Web Services Payment Cryptography key when you create it with [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html).
+value. To edit a tag, specify an existing tag key and a new tag value. You can also add tags
+to an Amazon Web Services Payment Cryptography key when you create it with [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html).
 
 **Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
@@ -1324,11 +1329,12 @@ accounts.
 # Arguments
 
 - `resource_arn`: The `KeyARN` of the key whose tags are being updated.
+
 - `tags`: One or more tags. Each tag consists of a tag key and a tag value. The tag value
-  can be an empty (null) string. You can't have more than one tag on an Amazon Web
-  Services Payment Cryptography key with the same tag key. If you specify an existing tag
-  key with a different tag value, Amazon Web Services Payment Cryptography replaces the
-  current tag value with the new one.
+  can be an empty (null) string. You can't have more than one tag on an Amazon Web Services
+  Payment Cryptography key with the same tag key. If you specify an existing tag key with a
+  different tag value, Amazon Web Services Payment Cryptography replaces the current tag
+  value with the new one.
 
   !!! important
       Don't include personal, confidential or sensitive information in this field. This
@@ -1340,7 +1346,6 @@ accounts.
   !!! important
       Don't include personal, confidential or sensitive information in this field. This
       field may be displayed in plaintext in CloudTrail logs and other output.
-
 """
 function tag_resource end
 
@@ -1394,11 +1399,12 @@ accounts.
 # Arguments
 
 - `resource_arn`: The `KeyARN` of the key whose tags are being removed.
+
 - `tag_keys`: One or more tag keys. Don't include the tag values.
 
   If the Amazon Web Services Payment Cryptography key doesn't have the specified tag key,
-  Amazon Web Services Payment Cryptography doesn't throw an exception or return a
-  response. To confirm that the operation succeeded, use the [ListTagsForResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html)
+  Amazon Web Services Payment Cryptography doesn't throw an exception or return a response.
+  To confirm that the operation succeeded, use the [ListTagsForResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html)
   operation.
 """
 function untag_resource end

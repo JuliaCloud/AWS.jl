@@ -13,8 +13,8 @@ acknowledge them.
 
 # Arguments
 
-- `acknowledge_action_requests`: The list of acknowledge action requests. You can specify
-  up to 10 requests per operation.
+- `acknowledge_action_requests`: The list of acknowledge action requests. You can specify up
+  to 10 requests per operation.
 """
 function batch_acknowledge_alarm end
 
@@ -55,8 +55,8 @@ end
     batch_delete_detector(detectors, params::Dict{String,<:Any})
 
 Deletes one or more detectors that were created. When a detector is deleted, its state will
-be cleared and the detector will be removed from the list of detectors. The deleted
-detector will no longer appear if referenced in the [ListDetectors](https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_ListDetectors.html)
+be cleared and the detector will be removed from the list of detectors. The deleted detector
+will no longer appear if referenced in the [ListDetectors](https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_ListDetectors.html)
 API call.
 
 # Arguments
@@ -409,8 +409,8 @@ Returns information about the specified detector (instance).
 
 # Arguments
 
-- `detector_model_name`: The name of the detector model whose detectors (instances) you
-  want information about.
+- `detector_model_name`: The name of the detector model whose detectors (instances) you want
+  information about.
 
 # Optional Parameters
 

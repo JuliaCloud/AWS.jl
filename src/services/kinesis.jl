@@ -73,14 +73,14 @@ maximum data read total of 2 MiB per second. Each shard can support writes up to
 records per second, up to a maximum data write total of 1 MiB per second. If the amount of
 data input increases or decreases, you can add or remove shards.
 
-The stream name identifies the stream. The name is scoped to the Amazon Web Services
-account used by the application. It is also scoped by Amazon Web Services Region. That is,
-two streams in two different accounts can have the same name, and two streams in the same
+The stream name identifies the stream. The name is scoped to the Amazon Web Services account
+used by the application. It is also scoped by Amazon Web Services Region. That is, two
+streams in two different accounts can have the same name, and two streams in the same
 account, but in two different Regions, can have the same name.
 
 `CreateStream` is an asynchronous operation. Upon receiving a `CreateStream` request,
-Kinesis Data Streams immediately returns and sets the stream status to `CREATING`. After
-the stream is created, Kinesis Data Streams sets the stream status to `ACTIVE`. You should
+Kinesis Data Streams immediately returns and sets the stream status to `CREATING`. After the
+stream is created, Kinesis Data Streams sets the stream status to `ACTIVE`. You should
 perform read and write operations only on an `ACTIVE` stream.
 
 You receive a `LimitExceededException` when making a `CreateStream` request when you try to
@@ -102,8 +102,8 @@ in `StreamStatus`.
 - `stream_name`: A name to identify the stream. The stream name is scoped to the Amazon Web
   Services account used by the application that creates the stream. It is also scoped by
   Amazon Web Services Region. That is, two streams in two different Amazon Web Services
-  accounts can have the same name. Two streams in the same Amazon Web Services account
-  but in two different Regions can also have the same name.
+  accounts can have the same name. Two streams in the same Amazon Web Services account but
+  in two different Regions can also have the same name.
 
 # Optional Parameters
 
@@ -264,9 +264,9 @@ If the stream is in the `ACTIVE` state, you can delete it. After a `DeleteStream
 the specified stream is in the `DELETING` state until Kinesis Data Streams completes the
 deletion.
 
-**Note:** Kinesis Data Streams might continue to accept data read and write operations,
-such as [`put_record`](@ref), [`put_records`](@ref), and [`get_records`](@ref), on a stream
-in the `DELETING` state until the stream deletion is complete.
+**Note:** Kinesis Data Streams might continue to accept data read and write operations, such
+as [`put_record`](@ref), [`put_records`](@ref), and [`get_records`](@ref), on a stream in
+the `DELETING` state until the stream deletion is complete.
 
 When you delete a stream, any shards in that stream are also deleted, and any tags are
 dissociated from the stream.
@@ -281,8 +281,8 @@ stream, which is returned in `StreamStatus`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"EnforceConsumerDeletion"`: If this parameter is unset (`null`) or if you set it to
-  `false`, and the stream has registered consumers, the call to `DeleteStream` fails with
-  a `ResourceInUseException`.
+  `false`, and the stream has registered consumers, the call to `DeleteStream` fails with a
+  `ResourceInUseException`.
 - `"StreamARN"`: The ARN of the stream.
 - `"StreamName"`: The name of the stream to delete.
 """
@@ -319,11 +319,13 @@ This operation has a limit of five transactions per second per stream.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConsumerARN"`: The ARN returned by Kinesis Data Streams when you registered the
-  consumer. If you don't know the ARN of the consumer that you want to deregister, you
-  can use the ListStreamConsumers operation to get a list of the descriptions of all the
+  consumer. If you don't know the ARN of the consumer that you want to deregister, you can
+  use the ListStreamConsumers operation to get a list of the descriptions of all the
   consumers that are currently registered with a given data stream. The description of a
   consumer contains its ARN.
+
 - `"ConsumerName"`: The name that you gave to the consumer.
+
 - `"StreamARN"`: The ARN of the Kinesis data stream that the consumer is registered with.
   For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
 """
@@ -409,14 +411,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ExclusiveStartShardId"`: The shard ID of the shard to start with.
 
-  Specify this parameter to indicate that you want to describe the stream starting with
-  the shard whose ID immediately follows `ExclusiveStartShardId`.
+  Specify this parameter to indicate that you want to describe the stream starting with the
+  shard whose ID immediately follows `ExclusiveStartShardId`.
 
   If you don't specify this parameter, the default behavior for `DescribeStream` is to
   describe the stream starting with the first shard in the stream.
+
 - `"Limit"`: The maximum number of shards to return in a single call. The default value is
   100. If you specify a value greater than 100, at most 100 results are returned.
+
 - `"StreamARN"`: The ARN of the stream.
+
 - `"StreamName"`: The name of the stream to describe.
 """
 function describe_stream end
@@ -438,18 +443,17 @@ end
     describe_stream_consumer(params::Dict{String,<:Any})
 
 To get the description of a registered consumer, provide the ARN of the consumer.
-Alternatively, you can provide the ARN of the data stream and the name you gave the
-consumer when you registered it. You may also provide all three parameters, as long as they
-don't conflict with each other. If you don't know the name or ARN of the consumer that you
-want to describe, you can use the [`list_stream_consumers`](@ref) operation to get a list
-of the descriptions of all the consumers that are currently registered with a given data
-stream.
+Alternatively, you can provide the ARN of the data stream and the name you gave the consumer
+when you registered it. You may also provide all three parameters, as long as they don't
+conflict with each other. If you don't know the name or ARN of the consumer that you want to
+describe, you can use the [`list_stream_consumers`](@ref) operation to get a list of the
+descriptions of all the consumers that are currently registered with a given data stream.
 
 This operation has a limit of 20 transactions per second per stream.
 
 !!! note
-    When making a cross-account call with `DescribeStreamConsumer`, make sure to provide
-    the ARN of the consumer.
+    When making a cross-account call with `DescribeStreamConsumer`, make sure to provide the
+    ARN of the consumer.
 
 # Optional Parameters
 
@@ -493,8 +497,8 @@ list.
     you invoke this API.
 
 The information returned includes the stream name, Amazon Resource Name (ARN), status,
-record retention period, approximate creation time, monitoring, encryption details, and
-open shard count.
+record retention period, approximate creation time, monitoring, encryption details, and open
+shard count.
 
 [`describe_stream_summary`](@ref) has a limit of 20 transactions per second per account.
 
@@ -539,8 +543,7 @@ Disables enhanced monitoring.
 
 - `shard_level_metrics`: List of shard-level metrics to disable.
 
-  The following are the valid shard-level metrics. The value "`ALL`" disables every
-  metric.
+  The following are the valid shard-level metrics. The value "`ALL`" disables every metric.
 
   - `IncomingBytes`
   - `IncomingRecords`
@@ -607,8 +610,7 @@ Enables enhanced Kinesis data stream monitoring for shard-level metrics.
 
 - `shard_level_metrics`: List of shard-level metrics to enable.
 
-  The following are the valid shard-level metrics. The value "`ALL`" enables every
-  metric.
+  The following are the valid shard-level metrics. The value "`ALL`" enables every metric.
 
   - `IncomingBytes`
   - `IncomingRecords`
@@ -671,8 +673,8 @@ Gets data records from a Kinesis data stream's shard.
     you invoke this API.
 
 Specify a shard iterator using the `ShardIterator` parameter. The shard iterator specifies
-the position in the shard from which you want to start reading data records sequentially.
-If there are no records available in the portion of the shard that the iterator points to, [`get_records`](@ref)
+the position in the shard from which you want to start reading data records sequentially. If
+there are no records available in the portion of the shard that the iterator points to, [`get_records`](@ref)
 returns an empty list. It might take multiple calls to get to a portion of the shard that
 contains records.
 
@@ -689,9 +691,9 @@ in `NextShardIterator`. You can terminate the loop when the shard is closed, or 
 shard iterator reaches the record with the sequence number or other attribute that marks it
 as the last record to process.
 
-Each data record can be up to 1 MiB in size, and each shard can read up to 2 MiB per
-second. You can ensure that your calls don't exceed the maximum supported size or
-throughput by using the `Limit` parameter to specify the maximum number of records that [`get_records`](@ref)
+Each data record can be up to 1 MiB in size, and each shard can read up to 2 MiB per second.
+You can ensure that your calls don't exceed the maximum supported size or throughput by
+using the `Limit` parameter to specify the maximum number of records that [`get_records`](@ref)
 can return. Consider your average record size when determining this limit. The maximum
 number of records that can be returned per call is 10,000.
 
@@ -702,32 +704,32 @@ frequently can lead to consumer applications falling behind. The maximum size of
 can return is 10 MiB. If a call returns this amount of data, subsequent calls made within
 the next 5 seconds throw `ProvisionedThroughputExceededException`. If there is insufficient
 provisioned throughput on the stream, subsequent calls made within the next 1 second throw
-`ProvisionedThroughputExceededException`. [`get_records`](@ref) doesn't return any data
-when it throws an exception. For this reason, we recommend that you wait 1 second between
-calls to [`get_records`](@ref). However, it's possible that the application will get
-exceptions for longer than 1 second.
+`ProvisionedThroughputExceededException`. [`get_records`](@ref) doesn't return any data when
+it throws an exception. For this reason, we recommend that you wait 1 second between calls
+to [`get_records`](@ref). However, it's possible that the application will get exceptions
+for longer than 1 second.
 
 To detect whether the application is falling behind in processing, you can use the
 `MillisBehindLatest` response attribute. You can also monitor the stream using CloudWatch
 metrics and other mechanisms (see [Monitoring](https://docs.aws.amazon.com/kinesis/latest/dev/monitoring.html)
 in the *Amazon Kinesis Data Streams Developer Guide*).
 
-Each Amazon Kinesis record includes a value, `ApproximateArrivalTimestamp`, that is set
-when a stream successfully receives and stores a record. This is commonly referred to as a
-server-side time stamp, whereas a client-side time stamp is set when a data producer
-creates or sends the record to a stream (a data producer is any data source putting data
-records into a stream, for example with [`put_records`](@ref)). The time stamp has
-millisecond precision. There are no guarantees about the time stamp accuracy, or that the
-time stamp is always increasing. For example, records in a shard or across a stream might
-have time stamps that are out of order.
+Each Amazon Kinesis record includes a value, `ApproximateArrivalTimestamp`, that is set when
+a stream successfully receives and stores a record. This is commonly referred to as a
+server-side time stamp, whereas a client-side time stamp is set when a data producer creates
+or sends the record to a stream (a data producer is any data source putting data records
+into a stream, for example with [`put_records`](@ref)). The time stamp has millisecond
+precision. There are no guarantees about the time stamp accuracy, or that the time stamp is
+always increasing. For example, records in a shard or across a stream might have time stamps
+that are out of order.
 
 This operation has a limit of five transactions per second per shard.
 
 # Arguments
 
 - `shard_iterator`: The position in the shard from which you want to start sequentially
-  reading data records. A shard iterator specifies this position using the sequence
-  number of a data record in the shard.
+  reading data records. A shard iterator specifies this position using the sequence number
+  of a data record in the shard.
 
 # Optional Parameters
 
@@ -832,20 +834,20 @@ after the sequence number by using the `AFTER_SEQUENCE_NUMBER` shard iterator ty
 sequence numbers returned by earlier calls to [`put_record`](@ref), [`put_records`](@ref), [`get_records`](@ref),
 or [`describe_stream`](@ref). In the request, you can specify the shard iterator type
 `AT_TIMESTAMP` to read records from an arbitrary point in time, `TRIM_HORIZON` to cause
-`ShardIterator` to point to the last untrimmed record in the shard in the system (the
-oldest data record in the shard), or `LATEST` so that you always read the most recent data
-in the shard.
+`ShardIterator` to point to the last untrimmed record in the shard in the system (the oldest
+data record in the shard), or `LATEST` so that you always read the most recent data in the
+shard.
 
 When you read repeatedly from a stream, use a [`get_shard_iterator`](@ref) request to get
 the first shard iterator for use in your first [`get_records`](@ref) request and for
 subsequent reads use the shard iterator returned by the [`get_records`](@ref) request in
-`NextShardIterator`. A new shard iterator is returned by every [`get_records`](@ref)
-request in `NextShardIterator`, which you use in the `ShardIterator` parameter of the next [`get_records`](@ref)
+`NextShardIterator`. A new shard iterator is returned by every [`get_records`](@ref) request
+in `NextShardIterator`, which you use in the `ShardIterator` parameter of the next [`get_records`](@ref)
 request.
 
 If a [`get_shard_iterator`](@ref) request is made too often, you receive a
-`ProvisionedThroughputExceededException`. For more information about throughput limits, see
-[`get_records`](@ref), and [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html)
+`ProvisionedThroughputExceededException`. For more information about throughput limits, see [`get_records`](@ref),
+and [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html)
 in the *Amazon Kinesis Data Streams Developer Guide*.
 
 If the shard is closed, [`get_shard_iterator`](@ref) returns a valid iterator for the last
@@ -858,6 +860,7 @@ open shard.
 # Arguments
 
 - `shard_id`: The shard ID of the Kinesis Data Streams shard to get the iterator for.
+
 - `shard_iterator_type`: Determines how the shard iterator is used to start reading data
   records from the shard.
 
@@ -878,11 +881,14 @@ open shard.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"StartingSequenceNumber"`: The sequence number of the data record in the shard from
-  which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and
+- `"StartingSequenceNumber"`: The sequence number of the data record in the shard from which
+  to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and
   AFTER_SEQUENCE_NUMBER.
+
 - `"StreamARN"`: The ARN of the stream.
+
 - `"StreamName"`: The name of the Amazon Kinesis data stream.
+
 - `"Timestamp"`: The time stamp of the data record from which to start reading. Used with
   shard iterator type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in
   milliseconds. For example, `2016-04-04T19:58:46.480-00:00` or `1459799926.480`. If a
@@ -993,8 +999,8 @@ end
     list_shards()
     list_shards(params::Dict{String,<:Any})
 
-Lists the shards in a stream and provides information about each shard. This operation has
-a limit of 1000 transactions per second per data stream.
+Lists the shards in a stream and provides information about each shard. This operation has a
+limit of 1000 transactions per second per data stream.
 
 !!! note
     When invoking this API, you must use either the `StreamARN` or the `StreamName`
@@ -1005,8 +1011,8 @@ This action does not list expired shards. For information about expired shards, 
 
 !!! important
     This API is a new operation that is used by the Amazon Kinesis Client Library (KCL). If
-    you have a fine-grained IAM policy that only allows specific operations, you must
-    update your policy to allow calls to this API. For more information, see [Controlling Access to Amazon Kinesis Data Streams Resources Using IAM](https://docs.aws.amazon.com/streams/latest/dev/controlling-access.html).
+    you have a fine-grained IAM policy that only allows specific operations, you must update
+    your policy to allow calls to this API. For more information, see [Controlling Access to Amazon Kinesis Data Streams Resources Using IAM](https://docs.aws.amazon.com/streams/latest/dev/controlling-access.html).
 
 # Optional Parameters
 
@@ -1015,31 +1021,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExclusiveStartShardId"`: Specify this parameter to indicate that you want to list the
   shards starting with the shard whose ID immediately follows `ExclusiveStartShardId`.
 
-  If you don't specify this parameter, the default behavior is for `ListShards` to list
-  the shards starting with the first one in the stream.
+  If you don't specify this parameter, the default behavior is for `ListShards` to list the
+  shards starting with the first one in the stream.
 
   You cannot specify this parameter if you specify `NextToken`.
+
 - `"MaxResults"`: The maximum number of shards to return in a single call to `ListShards`.
-  The maximum number of shards to return in a single call. The default value is 1000. If
-  you specify a value greater than 1000, at most 1000 results are returned.
+  The maximum number of shards to return in a single call. The default value is 1000. If you
+  specify a value greater than 1000, at most 1000 results are returned.
 
   When the number of shards to be listed is greater than the value of `MaxResults`, the
   response contains a `NextToken` value that you can use in a subsequent call to
   `ListShards` to list the next set of shards.
+
 - `"NextToken"`: When the number of shards in the data stream is greater than the default
   value for the `MaxResults` parameter, or if you explicitly specify a value for
   `MaxResults` that is less than the number of shards in the data stream, the response
-  includes a pagination token named `NextToken`. You can specify this `NextToken` value
-  in a subsequent call to `ListShards` to list the next set of shards.
+  includes a pagination token named `NextToken`. You can specify this `NextToken` value in a
+  subsequent call to `ListShards` to list the next set of shards.
 
-  Don't specify `StreamName` or `StreamCreationTimestamp` if you specify `NextToken`
-  because the latter unambiguously identifies the stream.
+  Don't specify `StreamName` or `StreamCreationTimestamp` if you specify `NextToken` because
+  the latter unambiguously identifies the stream.
 
   You can optionally specify a value for the `MaxResults` parameter when you specify
   `NextToken`. If you specify a `MaxResults` value that is less than the number of shards
-  that the operation returns if you don't specify `MaxResults`, the response will contain
-  a new `NextToken` value. You can use the new `NextToken` value in a subsequent call to
-  the [`list_shards`](@ref) operation.
+  that the operation returns if you don't specify `MaxResults`, the response will contain a
+  new `NextToken` value. You can use the new `NextToken` value in a subsequent call to the [`list_shards`](@ref)
+  operation.
 
   !!! important
       Tokens expire after 300 seconds. When you obtain a value for `NextToken` in the
@@ -1050,29 +1058,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ShardFilter"`: Enables you to filter out the response of the `ListShards` API. You can
   only specify one filter at a time.
 
-  If you use the `ShardFilter` parameter when invoking the ListShards API, the `Type` is
-  the required property and must be specified. If you specify the `AT_TRIM_HORIZON`,
-  `FROM_TRIM_HORIZON`, or `AT_LATEST` types, you do not need to specify either the
-  `ShardId` or the `Timestamp` optional properties.
+  If you use the `ShardFilter` parameter when invoking the ListShards API, the `Type` is the
+  required property and must be specified. If you specify the `AT_TRIM_HORIZON`,
+  `FROM_TRIM_HORIZON`, or `AT_LATEST` types, you do not need to specify either the `ShardId`
+  or the `Timestamp` optional properties.
 
-  If you specify the `AFTER_SHARD_ID` type, you must also provide the value for the
-  optional `ShardId` property. The `ShardId` property is identical in fuctionality to the
+  If you specify the `AFTER_SHARD_ID` type, you must also provide the value for the optional
+  `ShardId` property. The `ShardId` property is identical in fuctionality to the
   `ExclusiveStartShardId` parameter of the `ListShards` API. When `ShardId` property is
-  specified, the response includes the shards starting with the shard whose ID
-  immediately follows the `ShardId` that you provided.
+  specified, the response includes the shards starting with the shard whose ID immediately
+  follows the `ShardId` that you provided.
 
-  If you specify the `AT_TIMESTAMP` or `FROM_TIMESTAMP_ID` type, you must also provide
-  the value for the optional `Timestamp` property. If you specify the AT_TIMESTAMP type,
-  then all shards that were open at the provided timestamp are returned. If you specify
-  the FROM_TIMESTAMP type, then all shards starting from the provided timestamp to TIP
-  are returned.
+  If you specify the `AT_TIMESTAMP` or `FROM_TIMESTAMP_ID` type, you must also provide the
+  value for the optional `Timestamp` property. If you specify the AT_TIMESTAMP type, then
+  all shards that were open at the provided timestamp are returned. If you specify the
+  FROM_TIMESTAMP type, then all shards starting from the provided timestamp to TIP are
+  returned.
+
 - `"StreamARN"`: The ARN of the stream.
-- `"StreamCreationTimestamp"`: Specify this input parameter to distinguish data streams
-  that have the same name. For example, if you create a data stream and then delete it,
-  and you later create another data stream with the same name, you can use this input
-  parameter to specify which of the two streams you want to list the shards for.
+
+- `"StreamCreationTimestamp"`: Specify this input parameter to distinguish data streams that
+  have the same name. For example, if you create a data stream and then delete it, and you
+  later create another data stream with the same name, you can use this input parameter to
+  specify which of the two streams you want to list the shards for.
 
   You cannot specify this parameter if you specify the `NextToken` parameter.
+
 - `"StreamName"`: The name of the data stream whose shards you want to list.
 
   You cannot specify this parameter if you specify the `NextToken` parameter.
@@ -1102,16 +1113,17 @@ This operation has a limit of 5 transactions per second per stream.
 
 # Arguments
 
-- `stream_arn`: The ARN of the Kinesis data stream for which you want to list the
-  registered consumers. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
+- `stream_arn`: The ARN of the Kinesis data stream for which you want to list the registered
+  consumers. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of consumers that you want a single call of
-  `ListStreamConsumers` to return. The default value is 100. If you specify a value
-  greater than 100, at most 100 results are returned.
+  `ListStreamConsumers` to return. The default value is 100. If you specify a value greater
+  than 100, at most 100 results are returned.
+
 - `"NextToken"`: When the number of consumers that are registered with the data stream is
   greater than the default value for the `MaxResults` parameter, or if you explicitly
   specify a value for `MaxResults` that is less than the number of consumers that are
@@ -1119,26 +1131,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListStreamConsumers` to list the next set of registered consumers.
 
-  Don't specify `StreamName` or `StreamCreationTimestamp` if you specify `NextToken`
-  because the latter unambiguously identifies the stream.
+  Don't specify `StreamName` or `StreamCreationTimestamp` if you specify `NextToken` because
+  the latter unambiguously identifies the stream.
 
   You can optionally specify a value for the `MaxResults` parameter when you specify
-  `NextToken`. If you specify a `MaxResults` value that is less than the number of
-  consumers that the operation returns if you don't specify `MaxResults`, the response
-  will contain a new `NextToken` value. You can use the new `NextToken` value in a
-  subsequent call to the [`list_stream_consumers`](@ref) operation to list the next set
-  of consumers.
+  `NextToken`. If you specify a `MaxResults` value that is less than the number of consumers
+  that the operation returns if you don't specify `MaxResults`, the response will contain a
+  new `NextToken` value. You can use the new `NextToken` value in a subsequent call to the [`list_stream_consumers`](@ref)
+  operation to list the next set of consumers.
 
   !!! important
       Tokens expire after 300 seconds. When you obtain a value for `NextToken` in the
-      response to a call to `ListStreamConsumers`, you have 300 seconds to use that
-      value. If you specify an expired token in a call to `ListStreamConsumers`, you get
+      response to a call to `ListStreamConsumers`, you have 300 seconds to use that value.
+      If you specify an expired token in a call to `ListStreamConsumers`, you get
       `ExpiredNextTokenException`.
 
-- `"StreamCreationTimestamp"`: Specify this input parameter to distinguish data streams
-  that have the same name. For example, if you create a data stream and then delete it,
-  and you later create another data stream with the same name, you can use this input
-  parameter to specify which of the two streams you want to list the consumers for.
+- `"StreamCreationTimestamp"`: Specify this input parameter to distinguish data streams that
+  have the same name. For example, if you create a data stream and then delete it, and you
+  later create another data stream with the same name, you can use this input parameter to
+  specify which of the two streams you want to list the consumers for.
 
   You can't specify this parameter if you specify the NextToken parameter.
 """
@@ -1195,8 +1206,8 @@ this process until all the stream names have been collected in the list.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ExclusiveStartStreamName"`: The name of the stream to start the list with.
-- `"Limit"`: The maximum number of streams to list. The default value is 100. If you
-  specify a value greater than 100, at most 100 results are returned.
+- `"Limit"`: The maximum number of streams to list. The default value is 100. If you specify
+  a value greater than 100, at most 100 results are returned.
 - `"NextToken"`:
 """
 function list_streams end
@@ -1233,8 +1244,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter is set, `ListTagsForStream` gets all tags that occur after
   `ExclusiveStartTagKey`.
 - `"Limit"`: The number of tags to return. If this number is less than the total number of
-  tags associated with the stream, `HasMoreTags` is set to `true`. To list additional
-  tags, set `ExclusiveStartTagKey` to the last key in the response.
+  tags associated with the stream, `HasMoreTags` is set to `true`. To list additional tags,
+  set `ExclusiveStartTagKey` to the last key in the response.
 - `"StreamARN"`: The ARN of the stream.
 - `"StreamName"`: The name of the stream.
 """
@@ -1258,14 +1269,14 @@ end
     merge_shards(adjacent_shard_to_merge, shard_to_merge)
     merge_shards(adjacent_shard_to_merge, shard_to_merge, params::Dict{String,<:Any})
 
-Merges two adjacent shards in a Kinesis data stream and combines them into a single shard
-to reduce the stream's capacity to ingest and transport data. This API is only supported
-for the data streams with the provisioned capacity mode. Two shards are considered adjacent
-if the union of the hash key ranges for the two shards form a contiguous set with no gaps.
-For example, if you have two shards, one with a hash key range of 276...381 and the other
-with a hash key range of 382...454, then you could merge these two shards into a single
-shard that would have a hash key range of 276...454. After the merge, the single child
-shard receives data for all hash key values covered by the two parent shards.
+Merges two adjacent shards in a Kinesis data stream and combines them into a single shard to
+reduce the stream's capacity to ingest and transport data. This API is only supported for
+the data streams with the provisioned capacity mode. Two shards are considered adjacent if
+the union of the hash key ranges for the two shards form a contiguous set with no gaps. For
+example, if you have two shards, one with a hash key range of 276...381 and the other with a
+hash key range of 382...454, then you could merge these two shards into a single shard that
+would have a hash key range of 276...454. After the merge, the single child shard receives
+data for all hash key values covered by the two parent shards.
 
 !!! note
     When invoking this API, you must use either the `StreamARN` or the `StreamName`
@@ -1371,19 +1382,19 @@ The data blob can be any type of data; for example, a segment from a log file,
 geographic/location data, website clickstream data, and so on.
 
 The partition key is used by Kinesis Data Streams to distribute data across shards. Kinesis
-Data Streams segregates the data records that belong to a stream into multiple shards,
-using the partition key associated with each data record to determine the shard to which a
-given data record belongs.
+Data Streams segregates the data records that belong to a stream into multiple shards, using
+the partition key associated with each data record to determine the shard to which a given
+data record belongs.
 
 Partition keys are Unicode strings, with a maximum length limit of 256 characters for each
-key. An MD5 hash function is used to map partition keys to 128-bit integer values and to
-map associated data records to shards using the hash key ranges of the shards. You can
-override hashing the partition key to determine the shard by explicitly specifying a hash
-value using the `ExplicitHashKey` parameter. For more information, see [Adding Data to a Stream](https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-add-data-to-stream)
+key. An MD5 hash function is used to map partition keys to 128-bit integer values and to map
+associated data records to shards using the hash key ranges of the shards. You can override
+hashing the partition key to determine the shard by explicitly specifying a hash value using
+the `ExplicitHashKey` parameter. For more information, see [Adding Data to a Stream](https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-add-data-to-stream)
 in the *Amazon Kinesis Data Streams Developer Guide*.
 
-`PutRecord` returns the shard ID of where the data record was placed and the sequence
-number that was assigned to the data record.
+`PutRecord` returns the shard ID of where the data record was placed and the sequence number
+that was assigned to the data record.
 
 Sequence numbers increase over time and are specific to a shard within a stream, not across
 all shards within a stream. To guarantee strictly increasing ordering, write serially to a
@@ -1407,27 +1418,30 @@ to modify this retention period.
 - `data`: The data blob to put into the record, which is base64-encoded when the blob is
   serialized. When the data blob (the payload before base64-encoding) is added to the
   partition key size, the total size must not exceed the maximum record size (1 MiB).
+
 - `partition_key`: Determines which shard in the stream the data record is assigned to.
-  Partition keys are Unicode strings with a maximum length limit of 256 characters for
-  each key. Amazon Kinesis Data Streams uses the partition key as input to a hash
-  function that maps the partition key and associated data to a specific shard.
-  Specifically, an MD5 hash function is used to map partition keys to 128-bit integer
-  values and to map associated data records to shards. As a result of this hashing
-  mechanism, all data records with the same partition key map to the same shard within
-  the stream.
+  Partition keys are Unicode strings with a maximum length limit of 256 characters for each
+  key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that
+  maps the partition key and associated data to a specific shard. Specifically, an MD5 hash
+  function is used to map partition keys to 128-bit integer values and to map associated
+  data records to shards. As a result of this hashing mechanism, all data records with the
+  same partition key map to the same shard within the stream.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ExplicitHashKey"`: The hash value used to explicitly determine the shard the data
-  record is assigned to by overriding the partition key hash.
+- `"ExplicitHashKey"`: The hash value used to explicitly determine the shard the data record
+  is assigned to by overriding the partition key hash.
+
 - `"SequenceNumberForOrdering"`: Guarantees strictly increasing sequence numbers, for puts
   from the same client and to the same partition key. Usage: set the
   `SequenceNumberForOrdering` of record *n* to the sequence number of record *n-1* (as
-  returned in the result when putting record *n-1*). If this parameter is not set,
-  records are coarsely ordered based on arrival time.
+  returned in the result when putting record *n-1*). If this parameter is not set, records
+  are coarsely ordered based on arrival time.
+
 - `"StreamARN"`: The ARN of the stream.
+
 - `"StreamName"`: The name of the stream to put the data record into.
 """
 function put_record end
@@ -1495,8 +1509,8 @@ same shard within the stream. For more information, see [Adding Data to a Stream
 in the *Amazon Kinesis Data Streams Developer Guide*.
 
 Each record in the `Records` array may include an optional parameter, `ExplicitHashKey`,
-which overrides the partition key to shard mapping. This parameter allows a data producer
-to determine explicitly the shard where the record is stored. For more information, see [Adding Multiple Records with PutRecords](https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-putrecords)
+which overrides the partition key to shard mapping. This parameter allows a data producer to
+determine explicitly the shard where the record is stored. For more information, see [Adding Multiple Records with PutRecords](https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-putrecords)
 in the *Amazon Kinesis Data Streams Developer Guide*.
 
 The `PutRecords` response includes an array of response `Records`. Each record in the
@@ -1508,8 +1522,8 @@ The response `Records` array includes both successfully and unsuccessfully proce
 records. Kinesis Data Streams attempts to process all records in each `PutRecords` request.
 A single record failure does not stop the processing of subsequent records. As a result,
 PutRecords doesn't guarantee the ordering of records. If you need to read records in the
-same order they are written to the stream, use [`put_record`](@ref) instead of
-`PutRecords`, and write to the same shard.
+same order they are written to the stream, use [`put_record`](@ref) instead of `PutRecords`,
+and write to the same shard.
 
 A successfully processed record includes `ShardId` and `SequenceNumber` values. The
 `ShardId` parameter identifies the shard in the stream where the record is stored. The
@@ -1633,11 +1647,10 @@ end
 Registers a consumer with a Kinesis data stream. When you use this operation, the consumer
 you register can then call [`subscribe_to_shard`](@ref) to receive data from the stream
 using enhanced fan-out, at a rate of up to 2 MiB per second for every shard you subscribe
-to. This rate is unaffected by the total number of consumers that read from the same
-stream.
+to. This rate is unaffected by the total number of consumers that read from the same stream.
 
-You can register up to 20 consumers per stream. A given consumer can only be registered
-with one stream at a time.
+You can register up to 20 consumers per stream. A given consumer can only be registered with
+one stream at a time.
 
 For an example of how to use this operations, see [Enhanced Fan-Out Using the Kinesis Data Streams API](/streams/latest/dev/building-enhanced-consumers-api.html).
 
@@ -1786,9 +1799,8 @@ account, you receive a `LimitExceededException`.
 For the default shard limit for an Amazon Web Services account, see [Kinesis Data Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html)
 in the *Amazon Kinesis Data Streams Developer Guide*. To increase this limit, [contact Amazon Web Services Support](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html).
 
-If you try to operate on too many streams simultaneously using [`create_stream`](@ref), [`delete_stream`](@ref),
-[`merge_shards`](@ref), and/or [`split_shard`](@ref), you receive a
-`LimitExceededException`.
+If you try to operate on too many streams simultaneously using [`create_stream`](@ref), [`delete_stream`](@ref), [`merge_shards`](@ref),
+and/or [`split_shard`](@ref), you receive a `LimitExceededException`.
 
 `SplitShard` has a limit of five transactions per second per account.
 
@@ -1801,6 +1813,7 @@ If you try to operate on too many streams simultaneously using [`create_stream`]
   and all higher hash key values in hash key range are distributed to one of the child
   shards. All the lower hash key values in the range are distributed to the other child
   shard.
+
 - `shard_to_split`: The shard ID of the shard to split.
 
 # Optional Parameters
@@ -1865,8 +1878,8 @@ Streams returns immediately and sets the status of the stream to `UPDATING`. Aft
 update is complete, Kinesis Data Streams sets the status of the stream back to `ACTIVE`.
 Updating or applying encryption normally takes a few seconds to complete, but it can take
 minutes. You can continue to read and write data to your stream while its status is
-`UPDATING`. Once the status of the stream is `ACTIVE`, encryption begins for records
-written to the stream.
+`UPDATING`. Once the status of the stream is `ACTIVE`, encryption begins for records written
+to the stream.
 
 API Limits: You can successfully apply a new Amazon Web Services KMS key for server-side
 encryption 25 times in a rolling 24-hour period.
@@ -1878,11 +1891,12 @@ that encryption is applied by inspecting the API response from `PutRecord` or `P
 # Arguments
 
 - `encryption_type`: The encryption type to use. The only valid value is `KMS`.
+
 - `key_id`: The GUID for the customer-managed Amazon Web Services KMS key to use for
   encryption. This value can be a globally unique identifier, a fully specified Amazon
-  Resource Name (ARN) to either an alias or a key, or an alias name prefixed by
-  "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the
-  alias `aws/kinesis`.
+  Resource Name (ARN) to either an alias or a key, or an alias name prefixed by "alias/".You
+  can also use a master key owned by Kinesis Data Streams by specifying the alias
+  `aws/kinesis`.
 
   - Key ARN example:
     `arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012`
@@ -1961,11 +1975,12 @@ from `PutRecord` or `PutRecords`.
 # Arguments
 
 - `encryption_type`: The encryption type. The only valid value is `KMS`.
+
 - `key_id`: The GUID for the customer-managed Amazon Web Services KMS key to use for
   encryption. This value can be a globally unique identifier, a fully specified Amazon
-  Resource Name (ARN) to either an alias or a key, or an alias name prefixed by
-  "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the
-  alias `aws/kinesis`.
+  Resource Name (ARN) to either an alias or a key, or an alias name prefixed by "alias/".You
+  can also use a master key owned by Kinesis Data Streams by specifying the alias
+  `aws/kinesis`.
 
   - Key ARN example:
     `arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012`
@@ -2061,16 +2076,16 @@ rate limit, the shard limit for this API, or your overall shard limit, use the [
 # Arguments
 
 - `scaling_type`: The scaling type. Uniform scaling creates shards of equal size.
+
 - `target_shard_count`: The new number of shards. This value has the following default
   limits. By default, you cannot do the following:
 
   - Set this value to more than double your current shard count for a stream.
   - Set this value below half your current shard count for a stream.
-  - Set this value to more than 10000 shards in a stream (the default limit for shard
-    count per stream is 10000 per account per region), unless you request a limit
-    increase.
-  - Scale a stream with more than 10000 shards down unless you set this value to less
-    than 10000 shards.
+  - Set this value to more than 10000 shards in a stream (the default limit for shard count
+    per stream is 10000 per account per region), unless you request a limit increase.
+  - Scale a stream with more than 10000 shards down unless you set this value to less than
+    10000 shards.
 
 # Optional Parameters
 

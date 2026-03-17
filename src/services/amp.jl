@@ -8,9 +8,9 @@ using AWS.UUIDs
     create_alert_manager_definition(data, workspace_id)
     create_alert_manager_definition(data, workspace_id, params::Dict{String,<:Any})
 
-The [`create_alert_manager_definition`](@ref) operation creates the alert manager
-definition in a workspace. If a workspace already has an alert manager definition, don't
-use this operation to update it. Instead, use `PutAlertManagerDefinition`.
+The [`create_alert_manager_definition`](@ref) operation creates the alert manager definition
+in a workspace. If a workspace already has an alert manager definition, don't use this
+operation to update it. Instead, use `PutAlertManagerDefinition`.
 
 # Arguments
 
@@ -18,14 +18,15 @@ use this operation to update it. Instead, use `PutAlertManagerDefinition`.
   manager definition file.
 
   For details about the alert manager definition, see [AlertManagedDefinitionData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-AlertManagerDefinitionData.html).
+
 - `workspace_id`: The ID of the workspace to add the alert manager definition to.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
 """
 function create_alert_manager_definition end
 
@@ -66,8 +67,8 @@ end
     create_logging_configuration(log_group_arn, workspace_id)
     create_logging_configuration(log_group_arn, workspace_id, params::Dict{String,<:Any})
 
-The [`create_logging_configuration`](@ref) operation creates a logging configuration for
-the workspace. Use this operation to set the CloudWatch log group to which the logs will be
+The [`create_logging_configuration`](@ref) operation creates a logging configuration for the
+workspace. Use this operation to set the CloudWatch log group to which the logs will be
 published to.
 
 # Arguments
@@ -80,8 +81,8 @@ published to.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
 """
 function create_logging_configuration end
 
@@ -138,15 +139,17 @@ groups namespace, use `PutRuleGroupsNamespace`.
   Contains the base64-encoded version of the YAML rules file.
 
   For details about the rule groups namespace structure, see [RuleGroupsNamespaceData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-RuleGroupsNamespaceData.html).
+
 - `name`: The name for the new rule groups namespace.
+
 - `workspace_id`: The ID of the workspace to add the rule groups namespace.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
 - `"tags"`: The list of tag keys and values to associate with the rule groups namespace.
 """
 function create_rule_groups_namespace end
@@ -191,11 +194,11 @@ end
     create_scraper(destination, scrape_configuration, source)
     create_scraper(destination, scrape_configuration, source, params::Dict{String,<:Any})
 
-The [`create_scraper`](@ref) operation creates a scraper to collect metrics. A scraper
-pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends
-them to your Amazon Managed Service for Prometheus workspace. You can configure the scraper
-to control what metrics are collected, and what transformations are applied prior to
-sending them to your workspace.
+The [`create_scraper`](@ref) operation creates a scraper to collect metrics. A scraper pulls
+metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to
+your Amazon Managed Service for Prometheus workspace. You can configure the scraper to
+control what metrics are collected, and what transformations are applied prior to sending
+them to your workspace.
 
 If needed, an IAM role will be created for you that gives Amazon Managed Service for
 Prometheus access to the metrics in your cluster. For more information, see [Using roles for scraping metrics from EKS](https://docs.aws.amazon.com/prometheus/latest/userguide/using-service-linked-roles.html#using-service-linked-roles-prom-scraper)
@@ -224,8 +227,8 @@ configuration file.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"alias"`: (optional) a name to associate with the scraper. This is for your use, and
-  does not need to be unique.
+- `"alias"`: (optional) a name to associate with the scraper. This is for your use, and does
+  not need to be unique.
 - `"clientToken"`: (Optional) A unique, case-sensitive identifier that you can provide to
   ensure the idempotency of the request.
 - `"tags"`: (Optional) The list of tag keys and values to associate with the scraper.
@@ -291,17 +294,20 @@ account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"alias"`: An alias that you assign to this workspace to help you identify it. It does
-  not need to be unique.
+- `"alias"`: An alias that you assign to this workspace to help you identify it. It does not
+  need to be unique.
 
   Blank spaces at the beginning or end of the alias that you specify will be trimmed from
   the value used.
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
+
 - `"kmsKeyArn"`: (optional) The ARN for a customer managed KMS key to use for encrypting
   data within your workspace. For more information about using your own key in your
   workspace, see [Encryption at rest](https://docs.aws.amazon.com/prometheus/latest/userguide/encryption-at-rest-Amazon-Service-Prometheus.html)
   in the *Amazon Managed Service for Prometheus User Guide*.
+
 - `"tags"`: The list of tag keys and values to associate with the workspace.
 """
 function create_workspace end
@@ -344,8 +350,8 @@ Deletes the alert manager definition from a workspace.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
 """
 function delete_alert_manager_definition end
 
@@ -391,8 +397,8 @@ Deletes the logging configuration for a workspace.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
 """
 function delete_logging_configuration end
 
@@ -440,8 +446,8 @@ Deletes one rule groups namespace and its associated rule groups definition.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
 """
 function delete_rule_groups_namespace end
 
@@ -478,8 +484,8 @@ end
     delete_scraper(scraper_id)
     delete_scraper(scraper_id, params::Dict{String,<:Any})
 
-The [`delete_scraper`](@ref) operation deletes one scraper, and stops any metrics
-collection that the scraper performs.
+The [`delete_scraper`](@ref) operation deletes one scraper, and stops any metrics collection
+that the scraper performs.
 
 # Arguments
 
@@ -538,8 +544,8 @@ Deletes an existing workspace.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
 """
 function delete_workspace end
 
@@ -800,16 +806,17 @@ Returns a list of rule groups namespaces in a workspace.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return. The default is 100.
+
 - `"name"`: Use this parameter to filter the rule groups namespaces that are returned. Only
   the namespaces with names that begin with the value that you specify are returned.
-- `"nextToken"`: The token for the next set of items to return. You receive this token from
-  a previous call, and use it to get the next page of results. The other parameters must
-  be the same as the initial call.
 
-  For example, if your initial request has `maxResults` of 10, and there are 12 rule
-  groups namespaces to return, then your initial request will return 10 and a
-  `nextToken`. Using the next token in a subsequent call will return the remaining 2
-  namespaces.
+- `"nextToken"`: The token for the next set of items to return. You receive this token from
+  a previous call, and use it to get the next page of results. The other parameters must be
+  the same as the initial call.
+
+  For example, if your initial request has `maxResults` of 10, and there are 12 rule groups
+  namespaces to return, then your initial request will return 10 and a `nextToken`. Using
+  the next token in a subsequent call will return the remaining 2 namespaces.
 """
 function list_rule_groups_namespaces end
 
@@ -849,23 +856,25 @@ includes scrapers being created or deleted. You can optionally filter the return
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filters"`: (Optional) A list of key-value pairs to filter the list of scrapers
-  returned. Keys include `status`, `sourceArn`, `destinationArn`, and `alias`.
+- `"filters"`: (Optional) A list of key-value pairs to filter the list of scrapers returned.
+  Keys include `status`, `sourceArn`, `destinationArn`, and `alias`.
 
   Filters on the same key are `OR`'d together, and filters on different keys are `AND`'d
-  together. For example, `status=ACTIVE&amp;status=CREATING&amp;alias=Test`, will return
-  all scrapers that have the alias Test, and are either in status ACTIVE or CREATING.
+  together. For example, `status=ACTIVE&amp;status=CREATING&amp;alias=Test`, will return all
+  scrapers that have the alias Test, and are either in status ACTIVE or CREATING.
 
-  To find all active scrapers that are sending metrics to a specific Amazon Managed
-  Service for Prometheus workspace, you would use the ARN of the workspace in a query:
+  To find all active scrapers that are sending metrics to a specific Amazon Managed Service
+  for Prometheus workspace, you would use the ARN of the workspace in a query:
 
   `status=ACTIVE&amp;destinationArn=arn:aws:aps:us-east-1:123456789012:workspace/ws-example1-1234-abcd-56ef-123456789012`
 
   If this is included, it filters the results to only the scrapers that match the filter.
+
 - `"maxResults"`: Optional) The maximum number of scrapers to return in one [`list_scrapers`](@ref)
   operation. The range is 1-1000.
 
   If you omit this parameter, the default of 100 is used.
+
 - `"nextToken"`: (Optional) The token for the next set of items to return. (You received
   this token from a previous call.)
 """
@@ -937,17 +946,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"alias"`: If this is included, it filters the results to only the workspaces with names
   that start with the value that you specify here.
 
-  Amazon Managed Service for Prometheus will automatically strip any blank spaces from
-  the beginning and end of the alias that you specify.
+  Amazon Managed Service for Prometheus will automatically strip any blank spaces from the
+  beginning and end of the alias that you specify.
+
 - `"maxResults"`: The maximum number of workspaces to return per request. The default is
   100.
-- `"nextToken"`: The token for the next set of items to return. You receive this token from
-  a previous call, and use it to get the next page of results. The other parameters must
-  be the same as the initial call.
 
-  For example, if your initial request has `maxResults` of 10, and there are 12
-  workspaces to return, then your initial request will return 10 and a `nextToken`. Using
-  the next token in a subsequent call will return the remaining 2 workspaces.
+- `"nextToken"`: The token for the next set of items to return. You receive this token from
+  a previous call, and use it to get the next page of results. The other parameters must be
+  the same as the initial call.
+
+  For example, if your initial request has `maxResults` of 10, and there are 12 workspaces
+  to return, then your initial request will return 10 and a `nextToken`. Using the next
+  token in a subsequent call will return the remaining 2 workspaces.
 """
 function list_workspaces end
 
@@ -977,14 +988,15 @@ use `CreateAlertManagerDefinition`.
   manager definition file.
 
   For details about the alert manager definition, see [AlertManagedDefinitionData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-AlertManagerDefinitionData.html).
+
 - `workspace_id`: The ID of the workspace to update the alert manager definition in.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
 """
 function put_alert_manager_definition end
 
@@ -1041,15 +1053,17 @@ You can't use this operation to add tags to an existing rule groups namespace. I
   rule groups file.
 
   For details about the rule groups namespace structure, see [RuleGroupsNamespaceData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-RuleGroupsNamespaceData.html).
+
 - `name`: The name of the rule groups namespace that you are updating.
+
 - `workspace_id`: The ID of the workspace where you are updating the rule groups namespace.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
 """
 function put_rule_groups_namespace end
 
@@ -1102,6 +1116,7 @@ resource, the new tag value that you specify replaces the previous value for tha
 # Arguments
 
 - `resource_arn`: The ARN of the workspace or rule groups namespace to apply tags to.
+
 - `tags`: The list of tag keys and values to associate with the resource.
 
   Keys may not begin with `aws:`.
@@ -1190,8 +1205,8 @@ Updates the log group ARN or the workspace ID of the current logging configurati
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
 """
 function update_logging_configuration end
 
@@ -1246,10 +1261,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"alias"`: The new alias for the workspace. It does not need to be unique.
 
-  Amazon Managed Service for Prometheus will automatically strip any blank spaces from
-  the beginning and end of the alias that you specify.
-- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
-  the request. Case-sensitive.
+  Amazon Managed Service for Prometheus will automatically strip any blank spaces from the
+  beginning and end of the alias that you specify.
+
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
 """
 function update_workspace_alias end
 

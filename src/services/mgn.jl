@@ -203,8 +203,8 @@ end
     change_server_life_cycle_state(life_cycle, source_server_id, params::Dict{String,<:Any})
 
 Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server
-IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works
-if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
+IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if
+the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
 
 # Arguments
 
@@ -408,18 +408,18 @@ Creates a new ReplicationConfigurationTemplate.
 
 # Arguments
 
-- `associate_default_security_group`: Request to associate the default Application
-  Migration Service Security group with the Replication Settings template.
+- `associate_default_security_group`: Request to associate the default Application Migration
+  Service Security group with the Replication Settings template.
 - `bandwidth_throttling`: Request to configure bandwidth throttling during Replication
   Settings template creation.
 - `create_public_ip`: Request to create Public IP during Replication Settings template
   creation.
 - `data_plane_routing`: Request to configure data plane routing during Replication Settings
   template creation.
-- `default_large_staging_disk_type`: Request to configure the default large staging disk
-  EBS volume type during Replication Settings template creation.
-- `ebs_encryption`: Request to configure EBS encryption during Replication Settings
-  template creation.
+- `default_large_staging_disk_type`: Request to configure the default large staging disk EBS
+  volume type during Replication Settings template creation.
+- `ebs_encryption`: Request to configure EBS encryption during Replication Settings template
+  creation.
 - `replication_server_instance_type`: Request to configure the Replication Server instance
   type during Replication Settings template creation.
 - `replication_servers_security_groups_ids`: Request to configure the Replication Server
@@ -959,9 +959,9 @@ end
 
 Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs
 are returned. The response is sorted by creationDataTime - latest date first. Jobs are
-normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs
-are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs
-available only to *Support* and only used in response to relevant support tickets.
+normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are
+also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available
+only to *Support* and only used in response to relevant support tickets.
 
 # Optional Parameters
 
@@ -1259,12 +1259,12 @@ end
     disconnect_from_service(source_server_id, params::Dict{String,<:Any})
 
 Disconnects specific Source Servers from Application Migration Service. Data replication is
-stopped immediately. All AWS resources created by Application Migration Service for
-enabling the replication of these source servers will be terminated / deleted within 90
-minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the
-source server has not been prevented from communicating with the Application Migration
-Service service, then it will receive a command to uninstall itself (within approximately
-10 minutes). The following properties of the SourceServer will be changed immediately:
+stopped immediately. All AWS resources created by Application Migration Service for enabling
+the replication of these source servers will be terminated / deleted within 90 minutes.
+Launched Test or Cutover instances will NOT be terminated. If the agent on the source server
+has not been prevented from communicating with the Application Migration Service service,
+then it will receive a command to uninstall itself (within approximately 10 minutes). The
+following properties of the SourceServer will be changed immediately:
 dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes
 property for each of dataReplicationInfo.replicatedDisks will be set to zero;
 dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
@@ -1920,9 +1920,9 @@ end
     mark_as_archived(source_server_id)
     mark_as_archived(source_server_id, params::Dict{String,<:Any})
 
-Archives specific Source Servers by setting the SourceServer.isArchived property to true
-for specified SourceServers by ID. This command only works for SourceServers with a
-lifecycle. state which equals DISCONNECTED or CUTOVER.
+Archives specific Source Servers by setting the SourceServer.isArchived property to true for
+specified SourceServers by ID. This command only works for SourceServers with a lifecycle.
+state which equals DISCONNECTED or CUTOVER.
 
 # Arguments
 
@@ -2241,8 +2241,8 @@ Remove template post migration custom action.
 # Arguments
 
 - `action_id`: Template post migration custom action ID to remove.
-- `launch_configuration_template_id`: Launch configuration template ID of the post
-  migration custom action to remove.
+- `launch_configuration_template_id`: Launch configuration template ID of the post migration
+  custom action to remove.
 """
 function remove_template_action end
 
@@ -2337,10 +2337,9 @@ end
     retry_data_replication(source_server_id)
     retry_data_replication(source_server_id, params::Dict{String,<:Any})
 
-Causes the data replication initiation sequence to begin immediately upon next Handshake
-for specified SourceServer IDs, regardless of when the previous initiation started. This
-command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED
-state.
+Causes the data replication initiation sequence to begin immediately upon next Handshake for
+specified SourceServer IDs, regardless of when the previous initiation started. This command
+will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
 
 # Arguments
 
@@ -2581,9 +2580,9 @@ end
     start_test(source_server_ids)
     start_test(source_server_ids, params::Dict{String,<:Any})
 
-Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job
-whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state
-property to TESTING.
+Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose
+initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to
+TESTING.
 
 # Arguments
 
@@ -3011,8 +3010,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"mapAutoTaggingMpeID"`: Launch configuration map auto tagging MPE ID.
 - `"name"`: Update Launch configuration name request.
 - `"postLaunchActions"`:
-- `"targetInstanceTypeRightSizingMethod"`: Update Launch configuration Target instance
-  right sizing request.
+- `"targetInstanceTypeRightSizingMethod"`: Update Launch configuration Target instance right
+  sizing request.
 """
 function update_launch_configuration end
 
@@ -3209,8 +3208,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stagingAreaSubnetId"`: Update replication configuration template Staging Area subnet ID
   request.
 - `"stagingAreaTags"`: Update replication configuration template Staging Area Tags request.
-- `"useDedicatedReplicationServer"`: Update replication configuration template use
-  dedicated Replication Server request.
+- `"useDedicatedReplicationServer"`: Update replication configuration template use dedicated
+  Replication Server request.
 - `"useFipsEndpoint"`: Update replication configuration template use Fips Endpoint request.
 """
 function update_replication_configuration_template end

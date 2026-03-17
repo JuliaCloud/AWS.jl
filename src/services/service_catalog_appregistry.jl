@@ -8,9 +8,9 @@ using AWS.UUIDs
     associate_attribute_group(application, attribute_group)
     associate_attribute_group(application, attribute_group, params::Dict{String,<:Any})
 
-Associates an attribute group with an application to augment the application's metadata
-with the group's attributes. This feature enables applications to be described with user-
-defined details that are machine-readable, such as third-party integrations.
+Associates an attribute group with an application to augment the application's metadata with
+the group's attributes. This feature enables applications to be described with user-defined
+details that are machine-readable, such as third-party integrations.
 
 # Arguments
 
@@ -50,8 +50,8 @@ end
     associate_resource(application, resource, resource_type)
     associate_resource(application, resource, resource_type, params::Dict{String,<:Any})
 
-Associates a resource with an application. The resource can be specified by its ARN or
-name. The application can be specified by ARN, ID, or name.
+Associates a resource with an application. The resource can be specified by its ARN or name.
+The application can be specified by ARN, ID, or name.
 
 **Minimum permissions**
 
@@ -124,11 +124,12 @@ resource abstractions.
 
 # Arguments
 
-- `client_token`: A unique identifier that you provide to ensure idempotency. If you retry
-  a request that completed successfully using the same client token and the same
-  parameters, the retry succeeds without performing any further actions. If you retry a
-  successful request using the same client token, but one or more of the parameters are
-  different, the retry fails.
+- `client_token`: A unique identifier that you provide to ensure idempotency. If you retry a
+  request that completed successfully using the same client token and the same parameters,
+  the retry succeeds without performing any further actions. If you retry a successful
+  request using the same client token, but one or more of the parameters are different, the
+  retry fails.
+
 - `name`: The name of the application. The name must be unique in the region in which you
   are creating the application.
 
@@ -187,11 +188,13 @@ tools.
 
 - `attributes`: A JSON string in the form of nested key-value pairs that represent the
   attributes in the group and describes an application and its components.
-- `client_token`: A unique identifier that you provide to ensure idempotency. If you retry
-  a request that completed successfully using the same client token and the same
-  parameters, the retry succeeds without performing any further actions. If you retry a
-  successful request using the same client token, but one or more of the parameters are
-  different, the retry fails.
+
+- `client_token`: A unique identifier that you provide to ensure idempotency. If you retry a
+  request that completed successfully using the same client token and the same parameters,
+  the retry succeeds without performing any further actions. If you retry a successful
+  request using the same client token, but one or more of the parameters are different, the
+  retry fails.
+
 - `name`: The name of the attribute group.
 
 # Optional Parameters
@@ -369,7 +372,6 @@ specified either by ID or name.
 
 You must have the following permissions to remove a resource that's been associated with an
 application using the `APPLY_APPLICATION_TAG` option for [AssociateResource](https://docs.aws.amazon.com/servicecatalog/latest/dg/API_app-registry_AssociateResource.html).
-
 
 - `tag:GetResources`
 - `tag:UntagResources`
@@ -878,9 +880,8 @@ application. The caller must have permissions to read and update the resource.
 
 # Arguments
 
-- `resource`: An entity you can work with and specify with a name or ID. Examples include
-  an Amazon EC2 instance, an Amazon Web Services CloudFormation stack, or an Amazon S3
-  bucket.
+- `resource`: An entity you can work with and specify with a name or ID. Examples include an
+  Amazon EC2 instance, an Amazon Web Services CloudFormation stack, or an Amazon S3 bucket.
 - `resource_type`: The type of resource of which the application will be associated.
 """
 function sync_resource end
@@ -1012,8 +1013,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The new description of the application.
 - `"name"`: Deprecated: The new name of the application. The name must be unique in the
-  region in which you are updating the application. Please do not use this field as we
-  have stopped supporting name updates.
+  region in which you are updating the application. Please do not use this field as we have
+  stopped supporting name updates.
 """
 function update_application end
 
@@ -1059,8 +1060,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attributes in the group and describes an application and its components.
 - `"description"`: The description of the attribute group that the user provides.
 - `"name"`: Deprecated: The new name of the attribute group. The name must be unique in the
-  region in which you are updating the attribute group. Please do not use this field as
-  we have stopped supporting name updates.
+  region in which you are updating the attribute group. Please do not use this field as we
+  have stopped supporting name updates.
 """
 function update_attribute_group end
 

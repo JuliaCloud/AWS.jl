@@ -22,8 +22,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"HostArn"`: The Amazon Resource Name (ARN) of the host associated with the connection to
   be created.
-- `"ProviderType"`: The name of the external provider where your third-party code
-  repository is configured.
+- `"ProviderType"`: The name of the external provider where your third-party code repository
+  is configured.
 - `"Tags"`: The key-value pair to use when tagging the resource.
 """
 function create_connection end
@@ -59,9 +59,9 @@ end
     create_host(name, provider_endpoint, provider_type, params::Dict{String,<:Any})
 
 Creates a resource that represents the infrastructure where a third-party provider is
-installed. The host is used when you create connections to an installed third-party
-provider type, such as GitHub Enterprise Server. You create one host for all connections to
-that provider.
+installed. The host is used when you create connections to an installed third-party provider
+type, such as GitHub Enterprise Server. You create one host for all connections to that
+provider.
 
 !!! note
     A host created through the CLI or the SDK is in `PENDING` status by default. You can
@@ -72,9 +72,9 @@ that provider.
 - `name`: The name of the host to be created.
 - `provider_endpoint`: The endpoint of the infrastructure to be represented by the host
   after it is created.
-- `provider_type`: The name of the installed provider to be associated with your
-  connection. The host resource represents the infrastructure where your provider type is
-  installed. The valid provider type is GitHub Enterprise Server.
+- `provider_type`: The name of the installed provider to be associated with your connection.
+  The host resource represents the infrastructure where your provider type is installed. The
+  valid provider type is GitHub Enterprise Server.
 
 # Optional Parameters
 
@@ -82,8 +82,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: Tags for the host to be created.
 - `"VpcConfiguration"`: The VPC configuration to be provisioned for the host. A VPC must be
-  configured and the infrastructure to be represented by the host must already be
-  connected to the VPC.
+  configured and the infrastructure to be represented by the host must already be connected
+  to the VPC.
 """
 function create_host end
 
@@ -138,8 +138,8 @@ monitor and sync changes to files in a specified Git repository.
 
 - `connection_arn`: The Amazon Resource Name (ARN) of the connection to be associated with
   the repository link.
-- `owner_id`: The owner ID for the repository associated with a specific sync
-  configuration, such as the owner ID in GitHub.
+- `owner_id`: The owner ID for the repository associated with a specific sync configuration,
+  such as the owner ID in GitHub.
 - `repository_name`: The name of the repository to be associated with the repository link.
 
 # Optional Parameters
@@ -295,7 +295,6 @@ The connection to be deleted.
 
   !!! note
       The ARN is never reused if the connection is deleted.
-
 """
 function delete_connection end
 
@@ -625,8 +624,8 @@ resource.
 
 # Arguments
 
-- `resource_name`: The name of the Amazon Web Services resource for the sync status with
-  the Git repository.
+- `resource_name`: The name of the Amazon Web Services resource for the sync status with the
+  Git repository.
 - `sync_type`: The sync type for the sync status with the Git repository.
 """
 function get_resource_sync_status end
@@ -769,8 +768,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   host.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another call with the returned `nextToken` value.
-- `"NextToken"`: The token that was returned from the previous `ListConnections` call,
-  which can be used to return the next set of connections in the list.
+- `"NextToken"`: The token that was returned from the previous `ListConnections` call, which
+  can be used to return the next set of connections in the list.
 - `"ProviderTypeFilter"`: Filters the list of connections to those associated with a
   specified provider, such as Bitbucket.
 """
@@ -1007,8 +1006,8 @@ manage a resource.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to add
-  or update tags.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to add or
+  update tags.
 - `tags`: The tags you want to modify or add to the resource.
 """
 function tag_resource end
@@ -1102,8 +1101,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ProviderEndpoint"`: The URL or endpoint of the host to be updated.
 - `"VpcConfiguration"`: The VPC configuration of the host to be updated. A VPC must be
-  configured and the infrastructure to be represented by the host must already be
-  connected to the VPC.
+  configured and the infrastructure to be represented by the host must already be connected
+  to the VPC.
 """
 function update_host end
 

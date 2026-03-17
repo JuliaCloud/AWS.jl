@@ -25,11 +25,12 @@ Creates a budget and, if included, notifications and subscribers.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NotificationsWithSubscribers"`: A notification that you want to associate with a
-  budget. A budget can have up to five notifications, and each notification can have one
-  SNS subscriber and up to 10 email subscribers. If you include notifications and
-  subscribers in your `CreateBudget` call, Amazon Web Services creates the notifications
-  and subscribers for you.
+- `"NotificationsWithSubscribers"`: A notification that you want to associate with a budget.
+  A budget can have up to five notifications, and each notification can have one SNS
+  subscriber and up to 10 email subscribers. If you include notifications and subscribers in
+  your `CreateBudget` call, Amazon Web Services creates the notifications and subscribers
+  for you.
+
 - `"ResourceTags"`: An optional list of tags to associate with the specified budget. Each
   tag consists of a key and a value, and each key must be unique for the resource.
 """
@@ -171,8 +172,8 @@ notification.
 
 # Arguments
 
-- `account_id`: The `accountId` that is associated with the budget that you want to create
-  a notification for.
+- `account_id`: The `accountId` that is associated with the budget that you want to create a
+  notification for.
 - `budget_name`: The name of the budget that you want Amazon Web Services to notify you
   about. Budget names must be unique within an account.
 - `notification`: The notification that you want to create.
@@ -237,8 +238,8 @@ create the subscriber.
 
 # Arguments
 
-- `account_id`: The `accountId` that is associated with the budget that you want to create
-  a subscriber for.
+- `account_id`: The `accountId` that is associated with the budget that you want to create a
+  subscriber for.
 - `budget_name`: The name of the budget that you want to subscribe to. Budget names must be
   unique within an account.
 - `notification`: The notification that you want to create a subscriber for.
@@ -463,8 +464,8 @@ Deletes a subscriber.
 
 # Arguments
 
-- `account_id`: The `accountId` that is associated with the budget whose subscriber you
-  want to delete.
+- `account_id`: The `accountId` that is associated with the budget whose subscriber you want
+  to delete.
 - `budget_name`: The name of the budget whose subscriber you want to delete.
 - `notification`: The notification whose subscriber you want to delete.
 - `subscriber`: The subscriber that you want to delete.
@@ -790,8 +791,8 @@ Lists the budget names and notifications that are associated with an account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: An integer that represents how many budgets a paginated response
-  contains. The default is 50.
+- `"MaxResults"`: An integer that represents how many budgets a paginated response contains.
+  The default is 50.
 - `"NextToken"`:
 """
 function describe_budget_notifications_for_account end
@@ -896,8 +897,8 @@ Lists the budgets that are associated with an account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: An integer that represents how many budgets a paginated response
-  contains. The default is 100.
+- `"MaxResults"`: An integer that represents how many budgets a paginated response contains.
+  The default is 100.
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
 """
@@ -1426,8 +1427,8 @@ Updates a subscriber.
 
 # Arguments
 
-- `account_id`: The `accountId` that is associated with the budget whose subscriber you
-  want to update.
+- `account_id`: The `accountId` that is associated with the budget whose subscriber you want
+  to update.
 - `budget_name`: The name of the budget whose subscriber you want to update.
 - `new_subscriber`: The updated subscriber that is associated with a budget notification.
 - `notification`: The notification whose subscriber you want to update.

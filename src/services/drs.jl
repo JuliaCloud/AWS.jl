@@ -59,13 +59,13 @@ end
     create_extended_source_server(source_server_arn)
     create_extended_source_server(source_server_arn, params::Dict{String,<:Any})
 
-Create an extended source server in the target Account based on the source server in
-staging account.
+Create an extended source server in the target Account based on the source server in staging
+account.
 
 # Arguments
 
-- `source_server_arn`: This defines the ARN of the source server in staging Account based
-  on which you want to create an extended source server.
+- `source_server_arn`: This defines the ARN of the source server in staging Account based on
+  which you want to create an extended source server.
 
 # Optional Parameters
 
@@ -162,8 +162,8 @@ Creates a new ReplicationConfigurationTemplate.
 
 - `associate_default_security_group`: Whether to associate the default Elastic Disaster
   Recovery Security group with the Replication Configuration Template.
-- `bandwidth_throttling`: Configure bandwidth throttling for the outbound data transfer
-  rate of the Source Server in Mbps.
+- `bandwidth_throttling`: Configure bandwidth throttling for the outbound data transfer rate
+  of the Source Server in Mbps.
 - `create_public_ip`: Whether to create a Public IP for the Recovery Instance by default.
 - `data_plane_routing`: The data plane routing mechanism that will be used for replication.
 - `default_large_staging_disk_type`: The Staging Disk EBS volume type to be used during
@@ -172,8 +172,8 @@ Creates a new ReplicationConfigurationTemplate.
 - `pit_policy`: The Point in time (PIT) policy to manage snapshots taken during replication.
 - `replication_server_instance_type`: The instance type to be used for the replication
   server.
-- `replication_servers_security_groups_ids`: The security group IDs that will be used by
-  the replication server.
+- `replication_servers_security_groups_ids`: The security group IDs that will be used by the
+  replication server.
 - `staging_area_subnet_id`: The subnet to be used by the replication staging area.
 - `staging_area_tags`: A set of tags to be associated with all resources created in the
   replication staging area: EC2 replication server, EBS volumes, EBS snapshots, etc.
@@ -967,11 +967,10 @@ immediately. All AWS resources created by Elastic Disaster Recovery for enabling
 replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the
 agent on the Recovery Instance has not been prevented from communicating with the Elastic
 Disaster Recovery service, then it will receive a command to uninstall itself (within
-approximately 10 minutes). The following properties of the Recovery Instance will be
-changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED;
-The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set
-to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be
-nullified.
+approximately 10 minutes). The following properties of the Recovery Instance will be changed
+immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The
+totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to
+zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
 
 # Arguments
 
@@ -1014,12 +1013,12 @@ end
     disconnect_source_server(source_server_id, params::Dict{String,<:Any})
 
 Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is
-stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling
-the replication of the Source Server will be terminated / deleted within 90 minutes. You
-cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source
-Server has not been prevented from communicating with the Elastic Disaster Recovery
-service, then it will receive a command to uninstall itself (within approximately 10
-minutes). The following properties of the SourceServer will be changed immediately:
+stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the
+replication of the Source Server will be terminated / deleted within 90 minutes. You cannot
+disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server
+has not been prevented from communicating with the Elastic Disaster Recovery service, then
+it will receive a command to uninstall itself (within approximately 10 minutes). The
+following properties of the SourceServer will be changed immediately:
 dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes
 property for each of dataReplicationInfo.replicatedDisks will be set to zero;
 dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
@@ -1255,9 +1254,9 @@ end
     list_extensible_source_servers(staging_account_id)
     list_extensible_source_servers(staging_account_id, params::Dict{String,<:Any})
 
-Returns a list of source servers on a staging account that are extensible, which means
-that: a. The source server is not already extended into this Account. b. The source server
-on the Account we’re reading from is not an extension of another source server.
+Returns a list of source servers on a staging account that are extensible, which means that:
+a. The source server is not already extended into this Account. b. The source server on the
+Account we’re reading from is not an extension of another source server.
 
 # Arguments
 
@@ -1526,10 +1525,10 @@ end
     retry_data_replication(source_server_id)
     retry_data_replication(source_server_id, params::Dict{String,<:Any})
 
-WARNING: RetryDataReplication is deprecated. Causes the data replication initiation
-sequence to begin immediately upon next Handshake for the specified Source Server ID,
-regardless of when the previous initiation started. This command will work only if the
-Source Server is stalled or is in a DISCONNECTED or STOPPED state.
+WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence
+to begin immediately upon next Handshake for the specified Source Server ID, regardless of
+when the previous initiation started. This command will work only if the Source Server is
+stalled or is in a DISCONNECTED or STOPPED state.
 
 # Arguments
 
@@ -1571,8 +1570,8 @@ end
 
 Start replication to origin / target region - applies only to protected instances that
 originated in EC2. For recovery instances on target region - starts replication back to
-origin region. For failback instances on origin region - starts replication to target
-region to re-protect them.
+origin region. For failback instances on origin region - starts replication to target region
+to re-protect them.
 
 # Arguments
 
@@ -1621,8 +1620,8 @@ machine, thus completing the failback process.
 
 # Arguments
 
-- `recovery_instance_ids`: The IDs of the Recovery Instance whose failback launch we want
-  to request.
+- `recovery_instance_ids`: The IDs of the Recovery Instance whose failback launch we want to
+  request.
 
 # Optional Parameters
 
@@ -1668,8 +1667,8 @@ end
     start_recovery(source_servers)
     start_recovery(source_servers, params::Dict{String,<:Any})
 
-Launches Recovery Instances for the specified Source Servers. For each Source Server you
-may choose a point in time snapshot to launch from, or use an on demand snapshot.
+Launches Recovery Instances for the specified Source Servers. For each Source Server you may
+choose a point in time snapshot to launch from, or use an on demand snapshot.
 
 # Arguments
 
@@ -1755,8 +1754,8 @@ end
     start_source_network_recovery(source_networks)
     start_source_network_recovery(source_networks, params::Dict{String,<:Any})
 
-Deploy VPC for the specified Source Network and modify launch templates to use this
-network. The VPC will be deployed using a dedicated CloudFormation stack.
+Deploy VPC for the specified Source Network and modify launch templates to use this network.
+The VPC will be deployed using a dedicated CloudFormation stack.
 
 # Arguments
 
@@ -1890,8 +1889,8 @@ end
     stop_replication(source_server_id)
     stop_replication(source_server_id, params::Dict{String,<:Any})
 
-Stops replication for a Source Server. This action would make the Source Server
-unprotected, delete its existing snapshots and stop billing for it.
+Stops replication for a Source Server. This action would make the Source Server unprotected,
+delete its existing snapshots and stop billing for it.
 
 # Arguments
 

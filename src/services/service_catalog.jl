@@ -121,23 +121,24 @@ You can associate a maximum of 10 Principals with a portfolio using `PrincipalTy
 `IAM_PATTERN`.
 
 !!! note
-    When you associate a principal with portfolio, a potential privilege escalation path
-    may occur when that portfolio is then shared with other accounts. For a user in a
-    recipient account who is *not* an Service Catalog Admin, but still has the ability to
-    create Principals (Users/Groups/Roles), that user could create a role that matches a
-    principal name association for the portfolio. Although this user may not know which
-    principal names are associated through Service Catalog, they may be able to guess the
-    user. If this potential escalation path is a concern, then Service Catalog recommends
-    using `PrincipalType` as `IAM`. With this configuration, the `PrincipalARN` must
-    already exist in the recipient account before it can be associated.
+    When you associate a principal with portfolio, a potential privilege escalation path may
+    occur when that portfolio is then shared with other accounts. For a user in a recipient
+    account who is *not* an Service Catalog Admin, but still has the ability to create
+    Principals (Users/Groups/Roles), that user could create a role that matches a principal
+    name association for the portfolio. Although this user may not know which principal
+    names are associated through Service Catalog, they may be able to guess the user. If
+    this potential escalation path is a concern, then Service Catalog recommends using
+    `PrincipalType` as `IAM`. With this configuration, the `PrincipalARN` must already exist
+    in the recipient account before it can be associated.
 
 # Arguments
 
 - `portfolio_id`: The portfolio identifier.
+
 - `principal_arn`: The ARN of the principal (user, role, or group). If the `PrincipalType`
   is `IAM`, the supported value is a fully defined [IAM Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
-  If the `PrincipalType` is `IAM_PATTERN`, the supported value is an `IAM` ARN *without
-  an AccountID* in the following format:
+  If the `PrincipalType` is `IAM_PATTERN`, the supported value is an `IAM` ARN *without an
+  AccountID* in the following format:
 
   *arn:partition:iam:::resource-type/resource-id*
 
@@ -145,8 +146,8 @@ You can associate a maximum of 10 Principals with a portfolio using `PrincipalTy
 
   - A fully formed resource-id. For example, *arn:aws:iam:::role/resource-name* or
     *arn:aws:iam:::role/resource-path/resource-name*
-  - A wildcard ARN. The wildcard ARN accepts `IAM_PATTERN` values with a "*" or "?" in
-    the resource-id segment of the ARN. For example *arn:partition:service:::resource-
+  - A wildcard ARN. The wildcard ARN accepts `IAM_PATTERN` values with a "*" or "?" in the
+    resource-id segment of the ARN. For example *arn:partition:service:::resource-
     type/resource-path/resource-name*. The new symbols are exclusive to the **resource-
     path** and **resource-name** and cannot replace the **resource-type** or other ARN
     values.
@@ -162,22 +163,23 @@ You can associate a maximum of 10 Principals with a portfolio using `PrincipalTy
 
   - arn:aws:iam:::*/ResourceName
 
-  You can associate multiple `IAM_PATTERN`s even if the account has no principal with
-  that name.
+  You can associate multiple `IAM_PATTERN`s even if the account has no principal with that
+  name.
 
-  The "?" wildcard character matches zero or one of any character. This is similar to
-  ".?" in regular regex context. The "*" wildcard character matches any number of any
-  characters. This is similar to ".*" in regular regex context.
+  The "?" wildcard character matches zero or one of any character. This is similar to ".?"
+  in regular regex context. The "*" wildcard character matches any number of any characters.
+  This is similar to ".*" in regular regex context.
 
   In the IAM Principal ARN format (*arn:partition:iam:::resource-type/resource-
   path/resource-name*), valid resource-type values include **user/**, **group/**, or
   **role/**. The "?" and "*" characters are allowed only after the resource-type in the
   resource-id segment. You can use special characters anywhere within the resource-id.
 
-  The "*" character also matches the "/" character, allowing paths to be formed *within*
-  the resource-id. For example, *arn:aws:iam:::role/*****/ResourceName_?* matches both
+  The "*" character also matches the "/" character, allowing paths to be formed *within* the
+  resource-id. For example, *arn:aws:iam:::role/*****/ResourceName_?* matches both
   *arn:aws:iam:::role/pathA/pathB/ResourceName_1* and
   *arn:aws:iam:::role/pathA/ResourceName_1*.
+
 - `principal_type`: The principal type. The supported value is `IAM` if you use a fully
   defined Amazon Resource Name (ARN), or `IAM_PATTERN` if you use an ARN with no
   `accountID`, with or without wildcard characters.
@@ -190,7 +192,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function associate_principal_with_portfolio end
 
@@ -419,8 +420,8 @@ Associates multiple self-service actions with provisioning artifacts.
 
 # Arguments
 
-- `service_action_associations`: One or more associations, each consisting of the Action
-  ID, the Product ID, and the Provisioning Artifact ID.
+- `service_action_associations`: One or more associations, each consisting of the Action ID,
+  the Product ID, and the Provisioning Artifact ID.
 
 # Optional Parameters
 
@@ -430,7 +431,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function batch_associate_service_action_with_provisioning_artifact end
 
@@ -472,8 +472,8 @@ Disassociates a batch of self-service actions from the specified provisioning ar
 
 # Arguments
 
-- `service_action_associations`: One or more associations, each consisting of the Action
-  ID, the Product ID, and the Provisioning Artifact ID.
+- `service_action_associations`: One or more associations, each consisting of the Action ID,
+  the Product ID, and the Provisioning Artifact ID.
 
 # Optional Parameters
 
@@ -483,7 +483,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function batch_disassociate_service_action_from_provisioning_artifact end
 
@@ -523,8 +522,8 @@ end
 
 Copies the specified source product to the specified target product or a new product.
 
-You can copy a product to the same account or another account. You can copy a product to
-the same Region or another Region. If you copy a product to another account, you must first
+You can copy a product to the same account or another account. You can copy a product to the
+same Region or another Region. If you copy a product to another account, you must first
 share the product in a portfolio using [`create_portfolio_share`](@ref).
 
 This operation is performed asynchronously. To track the progress of the operation, use [`describe_copy_product_status`](@ref).
@@ -532,8 +531,8 @@ This operation is performed asynchronously. To track the progress of the operati
 # Arguments
 
 - `idempotency_token`: A unique identifier that you provide to ensure idempotency. If
-  multiple requests differ only by the idempotency token, the same response is returned
-  for each repeated request.
+  multiple requests differ only by the idempotency token, the same response is returned for
+  each repeated request.
 - `source_product_arn`: The Amazon Resource Name (ARN) of the source product.
 
 # Optional Parameters
@@ -547,11 +546,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CopyOptions"`: The copy options. If the value is `CopyTags`, the tags from the source
   product are copied to the target product.
+
 - `"SourceProvisioningArtifactIdentifiers"`: The identifiers of the provisioning artifacts
   (also known as versions) of the product to copy. By default, all provisioning artifacts
   are copied.
+
 - `"TargetProductId"`: The identifier of the target product. By default, a new product is
   created.
+
 - `"TargetProductName"`: A name for the target product. The default is the name of the
   source product.
 """
@@ -604,8 +606,9 @@ A delegated admin is authorized to invoke this command.
 # Arguments
 
 - `idempotency_token`: A unique identifier that you provide to ensure idempotency. If
-  multiple requests differ only by the idempotency token, the same response is returned
-  for each repeated request.
+  multiple requests differ only by the idempotency token, the same response is returned for
+  each repeated request.
+
 - `parameters`: The constraint parameters, in JSON format. The syntax depends on the
   constraint type as follows:
 
@@ -622,14 +625,14 @@ A delegated admin is authorized to invoke this command.
 
   `{"LocalRoleName": "SCBasicLaunchRole"}`
 
-  If you specify the `LocalRoleName` property, when an account uses the launch
-  constraint, the IAM role with that name in the account will be used. This allows launch-
-  role constraints to be account-agnostic so the administrator can create fewer resources
-  per shared account.
+  If you specify the `LocalRoleName` property, when an account uses the launch constraint,
+  the IAM role with that name in the account will be used. This allows launch-role
+  constraints to be account-agnostic so the administrator can create fewer resources per
+  shared account.
 
   !!! note
-      The given role name must exist in the account used to create the launch constraint
-      and the account of the user who launches a product with this launch constraint.
+      The given role name must exist in the account used to create the launch constraint and
+      the account of the user who launches a product with this launch constraint.
 
   You cannot have both a `LAUNCH` and a `STACKSET` constraint.
 
@@ -665,8 +668,11 @@ A delegated admin is authorized to invoke this command.
   ### TEMPLATE
 
   Specify the `Rules` property. For more information, see [Template Constraint Rules](http://docs.aws.amazon.com/servicecatalog/latest/adminguide/reference-template_constraint_rules.html).
+
 - `portfolio_id`: The portfolio identifier.
+
 - `product_id`: The product identifier.
+
 - `type`: The type of constraint.
 
   - `LAUNCH`
@@ -751,8 +757,8 @@ A delegated admin is authorized to invoke this command.
 
 - `display_name`: The name to use for display purposes.
 - `idempotency_token`: A unique identifier that you provide to ensure idempotency. If
-  multiple requests differ only by the idempotency token, the same response is returned
-  for each repeated request.
+  multiple requests differ only by the idempotency token, the same response is returned for
+  each repeated request.
 - `provider_name`: The name of the portfolio provider.
 
 # Optional Parameters
@@ -765,6 +771,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"Description"`: The description of the portfolio.
+
 - `"Tags"`: One or more tags.
 """
 function create_portfolio end
@@ -816,13 +823,12 @@ end
     create_portfolio_share(portfolio_id)
     create_portfolio_share(portfolio_id, params::Dict{String,<:Any})
 
-Shares the specified portfolio with the specified account or organization node. Shares to
-an organization node can only be created by the management account of an organization or by
-a delegated administrator. You can share portfolios to an organization, an organizational
+Shares the specified portfolio with the specified account or organization node. Shares to an
+organization node can only be created by the management account of an organization or by a
+delegated administrator. You can share portfolios to an organization, an organizational
 unit, or a specific account.
 
-Note that if a delegated admin is de-registered, they can no longer create portfolio
-shares.
+Note that if a delegated admin is de-registered, they can no longer create portfolio shares.
 
 `AWSOrganizationsAccess` must be enabled in order to create a portfolio share to an
 organization node.
@@ -834,15 +840,15 @@ action will have no effect and will not return an error. To update an existing s
 must use the `UpdatePortfolioShare` API instead.
 
 !!! note
-    When you associate a principal with portfolio, a potential privilege escalation path
-    may occur when that portfolio is then shared with other accounts. For a user in a
-    recipient account who is *not* an Service Catalog Admin, but still has the ability to
-    create Principals (Users/Groups/Roles), that user could create a role that matches a
-    principal name association for the portfolio. Although this user may not know which
-    principal names are associated through Service Catalog, they may be able to guess the
-    user. If this potential escalation path is a concern, then Service Catalog recommends
-    using `PrincipalType` as `IAM`. With this configuration, the `PrincipalARN` must
-    already exist in the recipient account before it can be associated.
+    When you associate a principal with portfolio, a potential privilege escalation path may
+    occur when that portfolio is then shared with other accounts. For a user in a recipient
+    account who is *not* an Service Catalog Admin, but still has the ability to create
+    Principals (Users/Groups/Roles), that user could create a role that matches a principal
+    name association for the portfolio. Although this user may not know which principal
+    names are associated through Service Catalog, they may be able to guess the user. If
+    this potential escalation path is a concern, then Service Catalog recommends using
+    `PrincipalType` as `IAM`. With this configuration, the `PrincipalARN` must already exist
+    in the recipient account before it can be associated.
 
 # Arguments
 
@@ -858,22 +864,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"AccountId"`: The Amazon Web Services account ID. For example, `123456789012`.
+
 - `"OrganizationNode"`: The organization node to whom you are going to share. When you pass
   `OrganizationNode`, it creates `PortfolioShare` for all of the Amazon Web Services
   accounts that are associated to the `OrganizationNode`. The output returns a
   `PortfolioShareToken`, which enables the administrator to monitor the status of the
   `PortfolioShare` creation process.
+
 - `"SharePrincipals"`: This parameter is only supported for portfolios with an
   **OrganizationalNode** Type of `ORGANIZATION` or `ORGANIZATIONAL_UNIT`.
 
   Enables or disables `Principal` sharing when creating the portfolio share. If you do
   **not** provide this flag, principal sharing is disabled.
 
-  When you enable Principal Name Sharing for a portfolio share, the share recipient
-  account end users with a principal that matches any of the associated IAM patterns can
-  provision products from the portfolio. Once shared, the share recipient can view
-  associations of `PrincipalType`: `IAM_PATTERN` on their portfolio. You can create the
-  principals in the recipient account before or after creating the share.
+  When you enable Principal Name Sharing for a portfolio share, the share recipient account
+  end users with a principal that matches any of the associated IAM patterns can provision
+  products from the portfolio. Once shared, the share recipient can view associations of
+  `PrincipalType`: `IAM_PATTERN` on their portfolio. You can create the principals in the
+  recipient account before or after creating the share.
+
 - `"ShareTagOptions"`: Enables or disables `TagOptions` sharing when creating the portfolio
   share. If this flag is not provided, TagOptions sharing is disabled.
 """
@@ -913,15 +922,15 @@ Creates a product.
 
 A delegated admin is authorized to invoke this command.
 
-The user or role that performs this operation must have the `cloudformation:GetTemplate`
-IAM policy permission. This policy permission is required when using the
-`ImportFromPhysicalId` template source in the information data section.
+The user or role that performs this operation must have the `cloudformation:GetTemplate` IAM
+policy permission. This policy permission is required when using the `ImportFromPhysicalId`
+template source in the information data section.
 
 # Arguments
 
 - `idempotency_token`: A unique identifier that you provide to ensure idempotency. If
-  multiple requests differ only by the idempotency token, the same response is returned
-  for each repeated request.
+  multiple requests differ only by the idempotency token, the same response is returned for
+  each repeated request.
 - `name`: The name of the product.
 - `owner`: The owner of the product.
 - `product_type`: The type of product.
@@ -936,21 +945,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"Description"`: The description of the product.
+
 - `"Distributor"`: The distributor of the product.
+
 - `"ProvisioningArtifactParameters"`: The configuration of the provisioning artifact.
+
 - `"SourceConnection"`: Specifies connection details for the created product and syncs the
   product to the connection source artifact. This automatically manages the product's
-  artifacts based on changes to the source. The `SourceConnection` parameter consists of
-  the following sub-fields.
+  artifacts based on changes to the source. The `SourceConnection` parameter consists of the
+  following sub-fields.
 
   - `Type`
   - `ConnectionParamters`
 
 - `"SupportDescription"`: The support information about the product.
+
 - `"SupportEmail"`: The contact email for product support.
+
 - `"SupportUrl"`: The contact URL for product support.
 
   `^https?:\\/\\//`/ is the pattern used to validate SupportUrl.
+
 - `"Tags"`: One or more tags.
 """
 function create_product end
@@ -1020,14 +1035,14 @@ To create or modify the provisioned product, use [`execute_provisioned_product_p
 # Arguments
 
 - `idempotency_token`: A unique identifier that you provide to ensure idempotency. If
-  multiple requests differ only by the idempotency token, the same response is returned
-  for each repeated request.
+  multiple requests differ only by the idempotency token, the same response is returned for
+  each repeated request.
 - `plan_name`: The name of the plan.
 - `plan_type`: The plan type.
 - `product_id`: The product identifier.
 - `provisioned_product_name`: A user-friendly name for the provisioned product. This value
-  must be unique for the Amazon Web Services account and cannot be updated after the
-  product is provisioned.
+  must be unique for the Amazon Web Services account and cannot be updated after the product
+  is provisioned.
 - `provisioning_artifact_id`: The identifier of the provisioning artifact.
 
 # Optional Parameters
@@ -1041,11 +1056,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NotificationArns"`: Passed to CloudFormation. The SNS topic ARNs to which to publish
   stack-related events.
+
 - `"PathId"`: The path identifier of the product. This value is optional if the product has
-  a default path, and required if the product has more than one path. To list the paths
-  for a product, use [`list_launch_paths`](@ref).
+  a default path, and required if the product has more than one path. To list the paths for
+  a product, use [`list_launch_paths`](@ref).
+
 - `"ProvisioningParameters"`: Parameters specified by the administrator that are required
   for provisioning the product.
+
 - `"Tags"`: One or more tags.
 
   If the plan is for an existing provisioned product, the product must have a
@@ -1117,15 +1135,15 @@ Creates a provisioning artifact (also known as a version) for the specified prod
 
 You cannot create a provisioning artifact for a product that was shared with you.
 
-The user or role that performs this operation must have the `cloudformation:GetTemplate`
-IAM policy permission. This policy permission is required when using the
-`ImportFromPhysicalId` template source in the information data section.
+The user or role that performs this operation must have the `cloudformation:GetTemplate` IAM
+policy permission. This policy permission is required when using the `ImportFromPhysicalId`
+template source in the information data section.
 
 # Arguments
 
 - `idempotency_token`: A unique identifier that you provide to ensure idempotency. If
-  multiple requests differ only by the idempotency token, the same response is returned
-  for each repeated request.
+  multiple requests differ only by the idempotency token, the same response is returned for
+  each repeated request.
 - `parameters`: The configuration for the provisioning artifact.
 - `product_id`: The product identifier.
 
@@ -1137,7 +1155,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function create_provisioning_artifact end
 
@@ -1196,8 +1213,8 @@ Creates a self-service action.
 
   ### Name
 
-  The name of the Amazon Web Services Systems Manager document (SSM document). For
-  example, `AWS-RestartEC2Instance`.
+  The name of the Amazon Web Services Systems Manager document (SSM document). For example,
+  `AWS-RestartEC2Instance`.
 
   If you are using a shared SSM document, you must provide the ARN instead of the name.
 
@@ -1208,8 +1225,8 @@ Creates a self-service action.
 
   ### AssumeRole
 
-  The Amazon Resource Name (ARN) of the role that performs the self-service actions on
-  your behalf. For example, `"AssumeRole": "arn:aws:iam::12345678910:role/ActionRole"`.
+  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your
+  behalf. For example, `"AssumeRole": "arn:aws:iam::12345678910:role/ActionRole"`.
 
   To reuse the provisioned product launch role, set to `"AssumeRole": "LAUNCH_ROLE"`.
 
@@ -1219,10 +1236,13 @@ Creates a self-service action.
 
   For example: `[{\\"Name\\":\\"InstanceId\\",\\"Type\\":\\"TARGET\\"}]` or
   `[{\\"Name\\":\\"InstanceId\\",\\"Type\\":\\"TEXT_VALUE\\"}]`.
+
 - `definition_type`: The service action definition type. For example, `SSM_AUTOMATION`.
+
 - `idempotency_token`: A unique identifier that you provide to ensure idempotency. If
-  multiple requests differ only by the idempotency token, the same response is returned
-  for each repeated request.
+  multiple requests differ only by the idempotency token, the same response is returned for
+  each repeated request.
+
 - `name`: The self-service action name.
 
 # Optional Parameters
@@ -1343,7 +1363,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function delete_constraint end
 
@@ -1390,7 +1409,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function delete_portfolio end
 
@@ -1439,6 +1457,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"AccountId"`: The Amazon Web Services account ID.
+
 - `"OrganizationNode"`: The organization node to whom you are going to stop sharing.
 """
 function delete_portfolio_share end
@@ -1491,7 +1510,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function delete_product end
 
@@ -1534,8 +1552,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `jp` - Japanese
   - `zh` - Chinese
 
-- `"IgnoreErrors"`: If set to true, Service Catalog stops managing the specified
-  provisioned product even if it cannot delete the underlying resources.
+- `"IgnoreErrors"`: If set to true, Service Catalog stops managing the specified provisioned
+  product even if it cannot delete the underlying resources.
 """
 function delete_provisioned_product_plan end
 
@@ -1585,7 +1603,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function delete_provisioning_artifact end
 
@@ -1728,7 +1745,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function describe_constraint end
 
@@ -1760,8 +1776,7 @@ Gets the status of the specified copy product operation.
 
 # Arguments
 
-- `copy_product_token`: The token for the copy product operation. This token is returned by
-  [`copy_product`](@ref).
+- `copy_product_token`: The token for the copy product operation. This token is returned by [`copy_product`](@ref).
 
 # Optional Parameters
 
@@ -1771,7 +1786,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function describe_copy_product_status end
 
@@ -1823,7 +1837,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function describe_portfolio end
 
@@ -1898,15 +1911,16 @@ end
 Returns a summary of each of the portfolio shares that were created for the specified
 portfolio.
 
-You can use this API to determine which accounts or organizational nodes this portfolio
-have been shared, whether the recipient entity has imported the share, and whether
-TagOptions are included with the share.
+You can use this API to determine which accounts or organizational nodes this portfolio have
+been shared, whether the recipient entity has imported the share, and whether TagOptions are
+included with the share.
 
 The `PortfolioId` and `Type` parameters are both required.
 
 # Arguments
 
 - `portfolio_id`: The unique identifier of the portfolio for which shares will be retrieved.
+
 - `type`: The type of portfolio share to summarize. This field acts as a filter on the type
   of portfolio share, which can be one of the following:
 
@@ -1980,6 +1994,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"Id"`: The product identifier.
+
 - `"Name"`: The product name.
 """
 function describe_product end
@@ -2015,7 +2030,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"Id"`: The product identifier.
+
 - `"Name"`: The product name.
+
 - `"SourcePortfolioId"`: The unique identifier of the shared portfolio that the specified
   product is associated with.
 
@@ -2061,7 +2078,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function describe_product_view end
 
@@ -2100,11 +2116,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `jp` - Japanese
   - `zh` - Chinese
 
-- `"Id"`: The provisioned product identifier. You must provide the name or ID, but not
-  both.
+- `"Id"`: The provisioned product identifier. You must provide the name or ID, but not both.
 
   If you do not provide a name or ID, or you provide both name and ID, an
   `InvalidParametersException` will occur.
+
 - `"Name"`: The name of the provisioned product. You must provide the name or ID, but not
   both.
 
@@ -2150,6 +2166,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -2181,8 +2198,8 @@ end
     describe_provisioning_artifact()
     describe_provisioning_artifact(params::Dict{String,<:Any})
 
-Gets information about the specified provisioning artifact (also known as a version) for
-the specified product.
+Gets information about the specified provisioning artifact (also known as a version) for the
+specified product.
 
 # Optional Parameters
 
@@ -2193,12 +2210,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `jp` - Japanese
   - `zh` - Chinese
 
-- `"IncludeProvisioningArtifactParameters"`: Indicates if the API call response does or
-  does not include additional details about the provisioning parameters.
+- `"IncludeProvisioningArtifactParameters"`: Indicates if the API call response does or does
+  not include additional details about the provisioning parameters.
+
 - `"ProductId"`: The product identifier.
+
 - `"ProductName"`: The product name.
+
 - `"ProvisioningArtifactId"`: The identifier of the provisioning artifact.
+
 - `"ProvisioningArtifactName"`: The provisioning artifact name.
+
 - `"Verbose"`: Indicates whether a verbose level of detail is enabled.
 """
 function describe_provisioning_artifact end
@@ -2247,15 +2269,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PathId"`: The path identifier of the product. This value is optional if the product has
-  a default path, and required if the product has more than one path. To list the paths
-  for a product, use [`list_launch_paths`](@ref). You must provide the name or ID, but
-  not both.
+  a default path, and required if the product has more than one path. To list the paths for
+  a product, use [`list_launch_paths`](@ref). You must provide the name or ID, but not both.
+
 - `"PathName"`: The name of the path. You must provide the name or ID, but not both.
+
 - `"ProductId"`: The product identifier. You must provide the product name or ID, but not
   both.
+
 - `"ProductName"`: The name of the product. You must provide the name or ID, but not both.
+
 - `"ProvisioningArtifactId"`: The identifier of the provisioning artifact. You must provide
   the name or ID, but not both.
+
 - `"ProvisioningArtifactName"`: The name of the provisioning artifact. You must provide the
   name or ID, but not both.
 """
@@ -2288,8 +2314,8 @@ end
 
 Gets information about the specified request operation.
 
-Use this operation after calling a request operation (for example, [`provision_product`](@ref),
-[`terminate_provisioned_product`](@ref), or [`update_provisioned_product`](@ref)).
+Use this operation after calling a request operation (for example, [`provision_product`](@ref), [`terminate_provisioned_product`](@ref),
+or [`update_provisioned_product`](@ref)).
 
 !!! note
     If a provisioned product was transferred to a new owner using [`update_provisioned_product_properties`](@ref),
@@ -2299,8 +2325,8 @@ Use this operation after calling a request operation (for example, [`provision_p
 
 # Arguments
 
-- `id`: The record identifier of the provisioned product. This identifier is returned by
-  the request operation.
+- `id`: The record identifier of the provisioned product. This identifier is returned by the
+  request operation.
 
 # Optional Parameters
 
@@ -2312,6 +2338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -2355,7 +2382,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function describe_service_action end
 
@@ -2399,7 +2425,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function describe_service_action_execution_parameters end
 
@@ -2479,10 +2504,10 @@ end
     disable_awsorganizations_access(params::Dict{String,<:Any})
 
 Disable portfolio sharing through the Organizations service. This command will not delete
-your current shares, but prevents you from creating new shares throughout your
-organization. Current shares are not kept in sync with your organization structure if the
-structure changes after calling this API. Only the management account in the organization
-can call this API.
+your current shares, but prevents you from creating new shares throughout your organization.
+Current shares are not kept in sync with your organization structure if the structure
+changes after calling this API. Only the management account in the organization can call
+this API.
 
 You cannot call this API if there are active delegated administrators in the organization.
 
@@ -2495,7 +2520,6 @@ Note that a delegated administrator is not authorized to invoke
     will not sync with the latest changes to the organization structure. Specifically,
     accounts that you removed from the organization after disabling Service Catalog access
     will retain access to the previously shared portfolio.
-
 """
 function disable_awsorganizations_access end
 
@@ -2571,9 +2595,9 @@ end
 
 Disassociates a previously associated principal ARN from a specified portfolio.
 
-The `PrincipalType` and `PrincipalARN` must match the `AssociatePrincipalWithPortfolio`
-call request details. For example, to disassociate an association created with a
-`PrincipalARN` of `PrincipalType` IAM you must use the `PrincipalType` IAM when calling
+The `PrincipalType` and `PrincipalARN` must match the `AssociatePrincipalWithPortfolio` call
+request details. For example, to disassociate an association created with a `PrincipalARN`
+of `PrincipalType` IAM you must use the `PrincipalType` IAM when calling
 `DisassociatePrincipalFromPortfolio`.
 
 For portfolios that have been shared with principal name sharing enabled: after
@@ -2586,15 +2610,15 @@ in the Amazon Web Services CLI Command Reference.
 !!! note
     If you disassociate a principal from a portfolio, with PrincipalType as `IAM`, the same
     principal will still have access to the portfolio if it matches one of the associated
-    principals of type `IAM_PATTERN`. To fully remove access for a principal, verify all
-    the associated Principals of type `IAM_PATTERN`, and then ensure you disassociate any
+    principals of type `IAM_PATTERN`. To fully remove access for a principal, verify all the
+    associated Principals of type `IAM_PATTERN`, and then ensure you disassociate any
     `IAM_PATTERN` principals that match the principal whose access you are removing.
 
 # Arguments
 
 - `portfolio_id`: The portfolio identifier.
-- `principal_arn`: The ARN of the principal (user, role, or group). This field allows an
-  ARN with no `accountID` with or without wildcard characters if `PrincipalType` is
+- `principal_arn`: The ARN of the principal (user, role, or group). This field allows an ARN
+  with no `accountID` with or without wildcard characters if `PrincipalType` is
   `IAM_PATTERN`.
 
 # Optional Parameters
@@ -2666,7 +2690,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function disassociate_product_from_portfolio end
 
@@ -2827,9 +2850,8 @@ Enable portfolio sharing feature through Organizations. This API will allow Serv
 to receive updates on your organization in order to sync your shares with the current
 structure. This API can only be called by the management account in the organization.
 
-When you call this API, Service Catalog calls `organizations:EnableAWSServiceAccess` on
-your behalf so that your shares stay in sync with any changes in your Organizations
-structure.
+When you call this API, Service Catalog calls `organizations:EnableAWSServiceAccess` on your
+behalf so that your shares stay in sync with any changes in your Organizations structure.
 
 Note that a delegated administrator is not authorized to invoke
 `EnableAWSOrganizationsAccess`.
@@ -2843,7 +2865,6 @@ Note that a delegated administrator is not authorized to invoke
     that has been removed from the organization might still be able to create or manage
     Amazon Web Services resources when it is no longer authorized to do so. Amazon Web
     Services is working to resolve this issue.
-
 """
 function enable_awsorganizations_access end
 
@@ -2877,8 +2898,8 @@ Provisions or modifies a product based on the resource changes for the specified
 # Arguments
 
 - `idempotency_token`: A unique identifier that you provide to ensure idempotency. If
-  multiple requests differ only by the idempotency token, the same response is returned
-  for each repeated request.
+  multiple requests differ only by the idempotency token, the same response is returned for
+  each repeated request.
 - `plan_id`: The plan identifier.
 
 # Optional Parameters
@@ -2889,7 +2910,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function execute_provisioned_product_plan end
 
@@ -3002,8 +3022,8 @@ end
     get_awsorganizations_access_status()
     get_awsorganizations_access_status(params::Dict{String,<:Any})
 
-Get the Access Status for Organizations portfolio share feature. This API can only be
-called by the management account in the organization or by a delegated admin.
+Get the Access Status for Organizations portfolio share feature. This API can only be called
+by the management account in the organization or by a delegated admin.
 """
 function get_awsorganizations_access_status end
 
@@ -3044,13 +3064,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `jp` - Japanese
   - `zh` - Chinese
 
-- `"OutputKeys"`: The list of keys that the API should return with their values. If none
-  are provided, the API will return all outputs of the provisioned product.
+- `"OutputKeys"`: The list of keys that the API should return with their values. If none are
+  provided, the API will return all outputs of the provisioned product.
+
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
+
 - `"ProvisionedProductId"`: The identifier of the provisioned product that you want the
   outputs from.
+
 - `"ProvisionedProductName"`: The name of the provisioned product that you want the outputs
   from.
 """
@@ -3101,8 +3125,8 @@ associated Service Catalog product provisioning artifact.
     Catalog applies the constraints after you call `UpdateProvisionedProduct` for the
     provisioned product.
 
-The user or role that performs this operation must have the `cloudformation:GetTemplate`
-and `cloudformation:DescribeStacks` IAM policy permissions.
+The user or role that performs this operation must have the `cloudformation:GetTemplate` and
+`cloudformation:DescribeStacks` IAM policy permissions.
 
 You can only import one provisioned product at a time. The product's CloudFormation stack
 must have the `IMPORT_COMPLETE` status before you import another.
@@ -3110,14 +3134,14 @@ must have the `IMPORT_COMPLETE` status before you import another.
 # Arguments
 
 - `idempotency_token`: A unique identifier that you provide to ensure idempotency. If
-  multiple requests differ only by the idempotency token, the same response is returned
-  for each repeated request.
+  multiple requests differ only by the idempotency token, the same response is returned for
+  each repeated request.
 - `physical_id`: The unique identifier of the resource to be imported. It only currently
   supports CloudFormation stack IDs.
 - `product_id`: The product identifier.
 - `provisioned_product_name`: The user-friendly name of the provisioned product. The value
-  must be unique for the Amazon Web Services account. The name cannot be updated after
-  the product is provisioned.
+  must be unique for the Amazon Web Services account. The name cannot be updated after the
+  product is provisioned.
 - `provisioning_artifact_id`: The identifier of the provisioning artifact.
 
 # Optional Parameters
@@ -3128,7 +3152,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function import_as_provisioned_product end
 
@@ -3201,17 +3224,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
+
 - `"PortfolioShareType"`: The type of shared portfolios to list. The default is to list
   imported portfolios.
 
-  - `AWS_ORGANIZATIONS` - List portfolios accepted and shared via organizational sharing
-    by the management account or delegated administrator of your organization.
+  - `AWS_ORGANIZATIONS` - List portfolios accepted and shared via organizational sharing by
+    the management account or delegated administrator of your organization.
   - `AWS_SERVICECATALOG` - Deprecated type.
   - `IMPORTED` - List imported portfolios that have been accepted and shared through
     account-to-account sharing.
-
 """
 function list_accepted_portfolio_shares end
 
@@ -3256,6 +3280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -3307,8 +3332,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
+
 - `"ProductId"`: The product identifier.
 """
 function list_constraints_for_portfolio end
@@ -3367,6 +3394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -3409,10 +3437,9 @@ If a delegated admin is de-registered, they can no longer perform this operation
 
 - `organization_node_type`: The organization node type that will be returned in the output.
 
-
   - `ORGANIZATION` - Organization that has access to the portfolio.
-  - `ORGANIZATIONAL_UNIT` - Organizational unit that has access to the portfolio within
-    your organization.
+  - `ORGANIZATIONAL_UNIT` - Organizational unit that has access to the portfolio within your
+    organization.
   - `ACCOUNT` - Account that has access to the portfolio within your organization.
 
 - `portfolio_id`: The portfolio identifier. For example, `port-2abcdext3y5fk`.
@@ -3427,6 +3454,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -3490,9 +3518,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `jp` - Japanese
   - `zh` - Chinese
 
-- `"OrganizationParentId"`: The ID of an organization node the portfolio is shared with.
-  All children of this node with an inherited portfolio share will be returned.
+- `"OrganizationParentId"`: The ID of an organization node the portfolio is shared with. All
+  children of this node with an inherited portfolio share will be returned.
+
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -3540,6 +3570,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -3579,6 +3610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -3631,6 +3663,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -3679,9 +3712,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"AccessLevelFilter"`: The access level to use to obtain results. The default is `User`.
+
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
+
 - `"ProvisionProductId"`: The product identifier.
 """
 function list_provisioned_product_plans end
@@ -3725,7 +3761,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function list_provisioning_artifacts end
 
@@ -3776,6 +3811,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -3825,9 +3861,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"AccessLevelFilter"`: The access level to use to obtain results. The default is `User`.
+
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
+
 - `"SearchFilter"`: The search filter to scope the results.
 """
 function list_record_history end
@@ -3861,13 +3900,14 @@ Lists the resources associated with the specified TagOption.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
+
 - `"ResourceType"`: The resource type.
 
   - `Portfolio`
   - `Product`
-
 """
 function list_resources_for_tag_option end
 
@@ -3913,6 +3953,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -3955,6 +3996,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -4018,6 +4060,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -4097,8 +4140,8 @@ Notifies the result of the provisioning engine execution.
   execution.
 - `record_id`: The identifier of the record.
 - `status`: The status of the provisioning engine execution.
-- `workflow_token`: The encrypted contents of the provisioning engine execution payload
-  that Service Catalog sends after the Terraform product provisioning workflow starts.
+- `workflow_token`: The encrypted contents of the provisioning engine execution payload that
+  Service Catalog sends after the Terraform product provisioning workflow starts.
 
 # Optional Parameters
 
@@ -4312,16 +4355,14 @@ that key. Don't include conflicted keys as tags, or this will cause the error "P
 validation failed: Missing required parameter in Tags[*N*]:*Value*".
 
 !!! note
-    When provisioning a product that's been added to a portfolio, you must grant your user,
-    group, or role access to the portfolio. For more information, see [Granting users access](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html)
-    in the *Service Catalog User Guide*.
+    When provisioning a product that's been added to a portfolio, you must grant your user, group, or role access to the portfolio. For more information, see [Granting users access](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html) in the *Service Catalog User Guide*.
 
 # Arguments
 
 - `provision_token`: An idempotency token that uniquely identifies the provisioning request.
 - `provisioned_product_name`: A user-friendly name for the provisioned product. This value
-  must be unique for the Amazon Web Services account and cannot be updated after the
-  product is provisioned.
+  must be unique for the Amazon Web Services account and cannot be updated after the product
+  is provisioned.
 
 # Optional Parameters
 
@@ -4334,21 +4375,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NotificationArns"`: Passed to CloudFormation. The SNS topic ARNs to which to publish
   stack-related events.
+
 - `"PathId"`: The path identifier of the product. This value is optional if the product has
-  a default path, and required if the product has more than one path. To list the paths
-  for a product, use [`list_launch_paths`](@ref). You must provide the name or ID, but
-  not both.
+  a default path, and required if the product has more than one path. To list the paths for
+  a product, use [`list_launch_paths`](@ref). You must provide the name or ID, but not both.
+
 - `"PathName"`: The name of the path. You must provide the name or ID, but not both.
+
 - `"ProductId"`: The product identifier. You must provide the name or ID, but not both.
+
 - `"ProductName"`: The name of the product. You must provide the name or ID, but not both.
+
 - `"ProvisioningArtifactId"`: The identifier of the provisioning artifact. You must provide
   the name or ID, but not both.
+
 - `"ProvisioningArtifactName"`: The name of the provisioning artifact. You must provide the
   name or ID, but not both.
+
 - `"ProvisioningParameters"`: Parameters specified by the administrator that are required
   for provisioning the product.
+
 - `"ProvisioningPreferences"`: An object that contains information about the provisioning
   preferences for a stack set.
+
 - `"Tags"`: One or more tags.
 """
 function provision_product end
@@ -4468,7 +4517,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"AccessLevelFilter"`: The access level to use to obtain results. The default is `User`.
+
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 """
@@ -4508,10 +4559,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: The search filters. If no search filters are specified, the output includes
   all products to which the caller has access.
+
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
+
 - `"SortBy"`: The sort field. If no value is specified, the results are not sorted.
+
 - `"SortOrder"`: The sort order. If no value is specified, the results are not sorted.
 """
 function search_products end
@@ -4547,12 +4602,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: The search filters. If no search filters are specified, the output includes
   all products to which the administrator has access.
+
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
+
 - `"PortfolioId"`: The portfolio identifier.
+
 - `"ProductSource"`: Access level of the source of the product.
+
 - `"SortBy"`: The sort field. If no value is specified, the results are not sorted.
+
 - `"SortOrder"`: The sort order. If no value is specified, the results are not sorted.
 """
 function search_products_as_admin end
@@ -4590,6 +4651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"AccessLevelFilter"`: The access level to use to obtain results. The default is `User`.
+
 - `"Filters"`: The search filters.
 
   When the key is `SearchQuery`, the searchable fields are `arn`, `createdTime`, `id`,
@@ -4599,11 +4661,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `provisioningArtifactName`.
 
   Example: `"SearchQuery":["status:AVAILABLE"]`
+
 - `"PageSize"`: The maximum number of items to return with this call.
+
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
+
 - `"SortBy"`: The sort field. If no value is specified, the results are not sorted. The
   valid values are `arn`, `id`, `name`, and `lastRecordId`.
+
 - `"SortOrder"`: The sort order. If no value is specified, the results are not sorted.
 """
 function search_provisioned_products end
@@ -4638,9 +4704,9 @@ You can check the status of this request using [`describe_record`](@ref).
 # Arguments
 
 - `terminate_token`: An idempotency token that uniquely identifies the termination request.
-  This token is only valid during the termination process. After the provisioned product
-  is terminated, subsequent requests to terminate the same provisioned product always
-  return **ResourceNotFound**.
+  This token is only valid during the termination process. After the provisioned product is
+  terminated, subsequent requests to terminate the same provisioned product always return
+  **ResourceNotFound**.
 
 # Optional Parameters
 
@@ -4651,12 +4717,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `jp` - Japanese
   - `zh` - Chinese
 
-- `"IgnoreErrors"`: If set to true, Service Catalog stops managing the specified
-  provisioned product even if it cannot delete the underlying resources.
+- `"IgnoreErrors"`: If set to true, Service Catalog stops managing the specified provisioned
+  product even if it cannot delete the underlying resources.
+
 - `"ProvisionedProductId"`: The identifier of the provisioned product. You cannot specify
   both `ProvisionedProductName` and `ProvisionedProductId`.
+
 - `"ProvisionedProductName"`: The name of the provisioned product. You cannot specify both
   `ProvisionedProductName` and `ProvisionedProductId`.
+
 - `"RetainPhysicalResources"`: When this boolean parameter is set to true, the
   `TerminateProvisionedProduct` API deletes the Service Catalog provisioned product.
   However, it does not remove the CloudFormation stack, stack set, or the underlying
@@ -4710,6 +4779,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"Description"`: The updated description of the constraint.
+
 - `"Parameters"`: The constraint parameters, in JSON format. The syntax depends on the
   constraint type as follows:
 
@@ -4726,14 +4796,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `{"LocalRoleName": "SCBasicLaunchRole"}`
 
-  If you specify the `LocalRoleName` property, when an account uses the launch
-  constraint, the IAM role with that name in the account will be used. This allows launch-
-  role constraints to be account-agnostic so the administrator can create fewer resources
-  per shared account.
+  If you specify the `LocalRoleName` property, when an account uses the launch constraint,
+  the IAM role with that name in the account will be used. This allows launch-role
+  constraints to be account-agnostic so the administrator can create fewer resources per
+  shared account.
 
   !!! note
-      The given role name must exist in the account used to create the launch constraint
-      and the account of the user who launches a product with this launch constraint.
+      The given role name must exist in the account used to create the launch constraint and
+      the account of the user who launches a product with this launch constraint.
 
   You cannot have both a `LAUNCH` and a `STACKSET` constraint.
 
@@ -4814,9 +4884,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"AddTags"`: The tags to add.
+
 - `"Description"`: The updated description of the portfolio.
+
 - `"DisplayName"`: The name to use for display purposes.
+
 - `"ProviderName"`: The updated name of the portfolio provider.
+
 - `"RemoveTags"`: The tags to remove.
 """
 function update_portfolio end
@@ -4862,15 +4936,15 @@ This API cannot be used for removing the portfolio share. You must use
 `DeletePortfolioShare` API for that action.
 
 !!! note
-    When you associate a principal with portfolio, a potential privilege escalation path
-    may occur when that portfolio is then shared with other accounts. For a user in a
-    recipient account who is *not* an Service Catalog Admin, but still has the ability to
-    create Principals (Users/Groups/Roles), that user could create a role that matches a
-    principal name association for the portfolio. Although this user may not know which
-    principal names are associated through Service Catalog, they may be able to guess the
-    user. If this potential escalation path is a concern, then Service Catalog recommends
-    using `PrincipalType` as `IAM`. With this configuration, the `PrincipalARN` must
-    already exist in the recipient account before it can be associated.
+    When you associate a principal with portfolio, a potential privilege escalation path may
+    occur when that portfolio is then shared with other accounts. For a user in a recipient
+    account who is *not* an Service Catalog Admin, but still has the ability to create
+    Principals (Users/Groups/Roles), that user could create a role that matches a principal
+    name association for the portfolio. Although this user may not know which principal
+    names are associated through Service Catalog, they may be able to guess the user. If
+    this potential escalation path is a concern, then Service Catalog recommends using
+    `PrincipalType` as `IAM`. With this configuration, the `PrincipalARN` must already exist
+    in the recipient account before it can be associated.
 
 # Arguments
 
@@ -4888,13 +4962,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AccountId"`: The Amazon Web Services account Id of the recipient account. This field is
   required when updating an external account to account type share.
+
 - `"OrganizationNode"`:
+
 - `"SharePrincipals"`: A flag to enables or disables `Principals` sharing in the portfolio.
   If this field is not provided, the current state of the `Principals` sharing on the
   portfolio share will not be modified.
+
 - `"ShareTagOptions"`: Enables or disables `TagOptions` sharing for the portfolio share. If
-  this field is not provided, the current state of TagOptions sharing on the portfolio
-  share will not be modified.
+  this field is not provided, the current state of TagOptions sharing on the portfolio share
+  will not be modified.
 """
 function update_portfolio_share end
 
@@ -4944,21 +5021,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"AddTags"`: The tags to add to the product.
+
 - `"Description"`: The updated description of the product.
+
 - `"Distributor"`: The updated distributor of the product.
+
 - `"Name"`: The updated product name.
+
 - `"Owner"`: The updated owner of the product.
+
 - `"RemoveTags"`: The tags to remove from the product.
+
 - `"SourceConnection"`: Specifies connection details for the updated product and syncs the
   product to the connection source artifact. This automatically manages the product's
-  artifacts based on changes to the source. The `SourceConnection` parameter consists of
-  the following sub-fields.
+  artifacts based on changes to the source. The `SourceConnection` parameter consists of the
+  following sub-fields.
 
   - `Type`
   - `ConnectionParamters`
 
 - `"SupportDescription"`: The updated support description for the product.
+
 - `"SupportEmail"`: The updated support email for the product.
+
 - `"SupportUrl"`: The updated support URL for the product.
 """
 function update_product end
@@ -5009,25 +5094,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `jp` - Japanese
   - `zh` - Chinese
 
-- `"PathId"`: The path identifier. This value is optional if the product has a default
-  path, and required if the product has more than one path. You must provide the name or
-  ID, but not both.
+- `"PathId"`: The path identifier. This value is optional if the product has a default path,
+  and required if the product has more than one path. You must provide the name or ID, but
+  not both.
+
 - `"PathName"`: The name of the path. You must provide the name or ID, but not both.
+
 - `"ProductId"`: The identifier of the product. You must provide the name or ID, but not
   both.
+
 - `"ProductName"`: The name of the product. You must provide the name or ID, but not both.
+
 - `"ProvisionedProductId"`: The identifier of the provisioned product. You must provide the
   name or ID, but not both.
+
 - `"ProvisionedProductName"`: The name of the provisioned product. You cannot specify both
   `ProvisionedProductName` and `ProvisionedProductId`.
+
 - `"ProvisioningArtifactId"`: The identifier of the provisioning artifact.
+
 - `"ProvisioningArtifactName"`: The name of the provisioning artifact. You must provide the
   name or ID, but not both.
+
 - `"ProvisioningParameters"`: The new parameters.
+
 - `"ProvisioningPreferences"`: An object that contains information about the provisioning
   preferences for a stack set.
-- `"Tags"`: One or more tags. Requires the product to have `RESOURCE_UPDATE` constraint
-  with `TagUpdatesOnProvisionedProduct` set to `ALLOWED` to allow tag updates.
+
+- `"Tags"`: One or more tags. Requires the product to have `RESOURCE_UPDATE` constraint with
+  `TagUpdatesOnProvisionedProduct` set to `ALLOWED` to allow tag updates.
 """
 function update_provisioned_product end
 
@@ -5067,33 +5162,34 @@ Requests updates to the properties of the specified provisioned product.
 
 - `idempotency_token`: The idempotency token that uniquely identifies the provisioning
   product update request.
+
 - `provisioned_product_id`: The identifier of the provisioned product.
+
 - `provisioned_product_properties`: A map that contains the provisioned product properties
   to be updated.
 
   The `LAUNCH_ROLE` key accepts role ARNs. This key allows an administrator to call
-  `UpdateProvisionedProductProperties` to update the launch role that is associated with
-  a provisioned product. This role is used when an end user calls a provisioning
-  operation such as `UpdateProvisionedProduct`, `TerminateProvisionedProduct`, or
-  `ExecuteProvisionedProductServiceAction`. Only a role ARN is valid. A user ARN is
-  invalid.
+  `UpdateProvisionedProductProperties` to update the launch role that is associated with a
+  provisioned product. This role is used when an end user calls a provisioning operation
+  such as `UpdateProvisionedProduct`, `TerminateProvisionedProduct`, or
+  `ExecuteProvisionedProductServiceAction`. Only a role ARN is valid. A user ARN is invalid.
 
-  The `OWNER` key accepts user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner
-  is the user that has permission to see, update, terminate, and execute service actions
-  in the provisioned product.
+  The `OWNER` key accepts user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is
+  the user that has permission to see, update, terminate, and execute service actions in the
+  provisioned product.
 
   The administrator can change the owner of a provisioned product to another IAM or STS
-  entity within the same account. Both end user owners and administrators can see
-  ownership history of the provisioned product using the `ListRecordHistory` API. The new
-  owner can describe all past records for the provisioned product using the
-  `DescribeRecord` API. The previous owner can no longer use `DescribeRecord`, but can
-  still see the product's history from when he was an owner using `ListRecordHistory`.
+  entity within the same account. Both end user owners and administrators can see ownership
+  history of the provisioned product using the `ListRecordHistory` API. The new owner can
+  describe all past records for the provisioned product using the `DescribeRecord` API. The
+  previous owner can no longer use `DescribeRecord`, but can still see the product's history
+  from when he was an owner using `ListRecordHistory`.
 
   If a provisioned product ownership is assigned to an end user, they can see and perform
   any action through the API or Service Catalog console such as update, terminate, and
-  execute service actions. If an end user provisions a product and the owner is updated
-  to someone else, they will no longer be able to see or perform any actions through API
-  or the Service Catalog console on that provisioned product.
+  execute service actions. If an end user provisions a product and the owner is updated to
+  someone else, they will no longer be able to see or perform any actions through API or the
+  Service Catalog console on that provisioned product.
 
 # Optional Parameters
 
@@ -5103,7 +5199,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `jp` - Japanese
   - `zh` - Chinese
-
 """
 function update_provisioned_product_properties end
 
@@ -5177,7 +5272,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Inactive provisioning artifacts are invisible to end users. End users cannot launch or
   update a provisioned product from an inactive provisioning artifact.
+
 - `"Description"`: The updated description of the provisioning artifact.
+
 - `"Guidance"`: Information set by the administrator to provide guidance to end users about
   which provisioning artifacts to use.
 
@@ -5185,8 +5282,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The administrator can set the guidance to `DEPRECATED` to inform users that the product
   version is deprecated. Users are able to make updates to a provisioned product of a
-  deprecated version but cannot launch new provisioned products using a deprecated
-  version.
+  deprecated version but cannot launch new provisioned products using a deprecated version.
+
 - `"Name"`: The updated name of the provisioning artifact.
 """
 function update_provisioning_artifact end
@@ -5247,7 +5344,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `zh` - Chinese
 
 - `"Definition"`: A map that defines the self-service action.
+
 - `"Description"`: The self-service action description.
+
 - `"Name"`: The self-service action name.
 """
 function update_service_action end

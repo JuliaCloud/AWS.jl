@@ -67,19 +67,19 @@ setup in the caller’s account as it can only be called with valid SAML asserti
 Formation does not scope down the permission of the assumed role. All permissions attached
 to the role via the SAML federation setup will be included in the role session.
 
-This decorated role is expected to access data in Amazon S3 by getting temporary access
-from Lake Formation which is authorized via the virtual API `GetDataAccess`. Therefore, all
-SAML roles that can be assumed via `AssumeDecoratedRoleWithSAML` must at a minimum include
+This decorated role is expected to access data in Amazon S3 by getting temporary access from
+Lake Formation which is authorized via the virtual API `GetDataAccess`. Therefore, all SAML
+roles that can be assumed via `AssumeDecoratedRoleWithSAML` must at a minimum include
 `lakeformation:GetDataAccess` in their role policies. A typical IAM policy attached to such
 a role would look as follows:
 
 # Arguments
 
-- `principal_arn`: The Amazon Resource Name (ARN) of the SAML provider in IAM that
-  describes the IdP.
-- `role_arn`: The role that represents an IAM principal whose scope down policy allows it
-  to call credential vending APIs such as `GetTemporaryTableCredentials`. The caller must
-  also have iam:PassRole permission on this role.
+- `principal_arn`: The Amazon Resource Name (ARN) of the SAML provider in IAM that describes
+  the IdP.
+- `role_arn`: The role that represents an IAM principal whose scope down policy allows it to
+  call credential vending APIs such as `GetTemporaryTableCredentials`. The caller must also
+  have iam:PassRole permission on this role.
 - `samlassertion`: A SAML assertion consisting of an assertion statement for the user who
   needs temporary credentials. This must match the SAML assertion that was issued to IAM.
   This must be Base64 encoded.
@@ -366,22 +366,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, view definitions, and other control information to manage your Lake
-  Formation environment.
+  definitions, view definitions, and other control information to manage your Lake Formation
+  environment.
+
 - `"ExternalFiltering"`: A list of the account IDs of Amazon Web Services accounts of third-
   party applications that are allowed to access data managed by Lake Formation.
+
 - `"InstanceArn"`: The ARN of the IAM Identity Center instance for which the operation will
-  be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
-  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+  be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon
+  Web Services Service Namespaces in the Amazon Web Services General Reference.
+
 - `"ShareRecipients"`: A list of Amazon Web Services account IDs and/or Amazon Web Services
   organization/organizational unit ARNs that are allowed to access data managed by Lake
   Formation.
 
-  If the `ShareRecipients` list includes valid values, a resource share is created with
-  the principals you want to have access to the resources.
+  If the `ShareRecipients` list includes valid values, a resource share is created with the
+  principals you want to have access to the resources.
 
-  If the `ShareRecipients` value is null or the list is empty, no resource share is
-  created.
+  If the `ShareRecipients` value is null or the list is empty, no resource share is created.
 """
 function create_lake_formation_identity_center_configuration end
 
@@ -556,8 +558,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, view definition, and other control information to manage your Lake
-  Formation environment.
+  definitions, view definition, and other control information to manage your Lake Formation
+  environment.
 """
 function delete_lake_formation_identity_center_configuration end
 
@@ -635,11 +637,11 @@ end
     delete_lftag(tag_key)
     delete_lftag(tag_key, params::Dict{String,<:Any})
 
-Deletes the specified LF-tag given a key name. If the input parameter tag key was not
-found, then the operation will throw an exception. When you delete an LF-tag, the
-`LFTagPolicy` attached to the LF-tag becomes invalid. If the deleted LF-tag was still
-assigned to any resource, the tag policy attach to the deleted LF-tag will no longer be
-applied to the resource.
+Deletes the specified LF-tag given a key name. If the input parameter tag key was not found,
+then the operation will throw an exception. When you delete an LF-tag, the `LFTagPolicy`
+attached to the LF-tag becomes invalid. If the deleted LF-tag was still assigned to any
+resource, the tag policy attach to the deleted LF-tag will no longer be applied to the
+resource.
 
 # Arguments
 
@@ -692,8 +694,8 @@ automatically call `DeleteObjectsOnCancel` before writes. For more information, 
 # Arguments
 
 - `database_name`: The database that contains the governed table.
-- `objects`: A list of VirtualObject structures, which indicates the Amazon S3 objects to
-  be deleted if the transaction cancels.
+- `objects`: A list of VirtualObject structures, which indicates the Amazon S3 objects to be
+  deleted if the transaction cancels.
 - `table_name`: The name of the governed table.
 - `transaction_id`: ID of the transaction that the writes occur in.
 
@@ -1086,9 +1088,9 @@ end
     get_effective_permissions_for_path(resource_arn)
     get_effective_permissions_for_path(resource_arn, params::Dict{String,<:Any})
 
-Returns the Lake Formation permissions for a specified table or database resource located
-at a path in Amazon S3. `GetEffectivePermissionsForPath` will not return databases and
-tables if the catalog is encrypted.
+Returns the Lake Formation permissions for a specified table or database resource located at
+a path in Amazon S3. `GetEffectivePermissionsForPath` will not return databases and tables
+if the catalog is encrypted.
 
 # Arguments
 
@@ -1317,9 +1319,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CatalogId"`: The catalog containing the governed table. Defaults to the caller’s
   account.
+
 - `"MaxResults"`: Specifies how many values to return in a page.
+
 - `"NextToken"`: A continuation token if this is not the first call to retrieve these
   objects.
+
 - `"PartitionPredicate"`: A predicate to filter the objects returned based on the partition
   keys defined in the governed table.
 
@@ -1331,6 +1336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueryAsOfTime"`: The time as of when to read the governed table contents. If not set,
   the most recent transaction commit time is used. Cannot be specified along with
   `TransactionId`.
+
 - `"TransactionId"`: The transaction ID at which to read the governed table contents. If
   this transaction has aborted, an error is returned. If not set, defaults to the most
   recent committed transaction. Cannot be specified along with `QueryAsOfTime`.
@@ -1376,8 +1382,8 @@ end
 
 This API is identical to `GetTemporaryTableCredentials` except that this is used when the
 target Data Catalog resource is of type Partition. Lake Formation restricts the permission
-of the vended credentials with the same scope down policy which restricts access to a
-single Amazon S3 prefix.
+of the vended credentials with the same scope down policy which restricts access to a single
+Amazon S3 prefix.
 
 # Arguments
 
@@ -1443,8 +1449,8 @@ restricts the access to a single prefix.
 
 # Arguments
 
-- `table_arn`: The ARN identifying a table in the Data Catalog for the temporary
-  credentials request.
+- `table_arn`: The ARN identifying a table in the Data Catalog for the temporary credentials
+  request.
 
 # Optional Parameters
 
@@ -1457,8 +1463,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Permissions"`: Filters the request based on the user having been granted a list of
   specified permissions on the requested resource(s).
 - `"QuerySessionContext"`: A structure used as a protocol between query engines and Lake
-  Formation or Glue. Contains both a Lake Formation generated authorization identifier
-  and information from the request's authorization context.
+  Formation or Glue. Contains both a Lake Formation generated authorization identifier and
+  information from the request's authorization context.
 - `"S3Path"`: The Amazon S3 path for the table.
 - `"SupportedPermissionTypes"`: A list of supported permission types for the table. Valid
   values are `COLUMN_PERMISSION` and `CELL_FILTER_PERMISSION`.
@@ -1497,15 +1503,15 @@ end
     get_work_unit_results(query_id, work_unit_id, work_unit_token)
     get_work_unit_results(query_id, work_unit_id, work_unit_token, params::Dict{String,<:Any})
 
-Returns the work units resulting from the query. Work units can be executed in any order
-and in parallel.
+Returns the work units resulting from the query. Work units can be executed in any order and
+in parallel.
 
 # Arguments
 
 - `query_id`: The ID of the plan query operation for which to get results.
 - `work_unit_id`: The work unit ID for which to get results. Value generated by enumerating
-  `WorkUnitIdMin` to `WorkUnitIdMax` (inclusive) from the `WorkUnitRange` in the output
-  of `GetWorkUnits`.
+  `WorkUnitIdMin` to `WorkUnitIdMax` (inclusive) from the `WorkUnitRange` in the output of
+  `GetWorkUnits`.
 - `work_unit_token`: A work token used to query the execution service. Token output from
   `GetWorkUnits`.
 """
@@ -1570,9 +1576,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 - `"PageSize"`: The size of each page to get in the Amazon Web Services service call. This
   does not affect the number of items returned in the command's output. Setting a smaller
-  page size results in more calls to the Amazon Web Services service, retrieving fewer
-  items in each call. This can help prevent the Amazon Web Services service calls from
-  timing out.
+  page size results in more calls to the Amazon Web Services service, retrieving fewer items
+  in each call. This can help prevent the Amazon Web Services service calls from timing out.
 """
 function get_work_units end
 
@@ -1613,15 +1618,16 @@ For information about permissions, see [Security and Access Control to Metadata 
 
 - `permissions`: The permissions granted to the principal on the resource. Lake Formation
   defines privileges to grant and revoke access to metadata in the Data Catalog and data
-  organized in underlying data storage such as Amazon S3. Lake Formation requires that
-  each principal be authorized to perform a specific task on Lake Formation resources.
+  organized in underlying data storage such as Amazon S3. Lake Formation requires that each
+  principal be authorized to perform a specific task on Lake Formation resources.
+
 - `principal`: The principal to be granted the permissions on the resource. Supported
   principals are IAM users or IAM roles, and they are defined by their principal type and
   their ARN.
 
-  Note that if you define a resource with a particular ARN, then later delete, and
-  recreate a resource with that same ARN, the resource maintains the permissions already
-  granted.
+  Note that if you define a resource with a particular ARN, then later delete, and recreate
+  a resource with that same ARN, the resource maintains the permissions already granted.
+
 - `resource`: The resource to which permissions are to be granted. Resources in Lake
   Formation are the Data Catalog, databases, and tables.
 
@@ -1767,13 +1773,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
+
 - `"MaxResults"`: The maximum number of results to return.
+
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
+
 - `"ResourceShareType"`: If resource share type is `ALL`, returns both in-account LF-tags
   and shared LF-tags that the requester has permission to view. If resource share type is
   `FOREIGN`, returns all share LF-tags that the requester can view. If no resource share
-  type is passed, lists LF-tags in the given catalog ID that the requester has permission
-  to view.
+  type is passed, lists LF-tags in the given catalog ID that the requester has permission to
+  view.
 """
 function list_lftags end
 
@@ -1814,15 +1823,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
+
 - `"IncludeRelated"`: Indicates that related permissions should be included in the results.
+
 - `"MaxResults"`: The maximum number of results to return.
+
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
+
 - `"Principal"`: Specifies a principal to filter the permissions returned.
+
 - `"Resource"`: A resource where you will get a list of the principal permissions.
 
-  This operation does not support getting privileges on a table with columns. Instead,
-  call this operation on the table, and the operation returns the table and the table w
-  columns.
+  This operation does not support getting privileges on a table with columns. Instead, call
+  this operation on the table, and the operation returns the table and the table w columns.
+
 - `"ResourceType"`: Specifies a resource type to filter the permissions returned.
 """
 function list_permissions end
@@ -1855,8 +1869,8 @@ Lists the resources registered to be managed by the Data Catalog.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"FilterConditionList"`: Any applicable row-level and/or column-level filtering
-  conditions for the resources.
+- `"FilterConditionList"`: Any applicable row-level and/or column-level filtering conditions
+  for the resources.
 - `"MaxResults"`: The maximum number of resource results.
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve these
   resources.
@@ -1984,8 +1998,8 @@ end
     put_data_lake_settings(data_lake_settings)
     put_data_lake_settings(data_lake_settings, params::Dict{String,<:Any})
 
-Sets the list of data lake administrators who have admin privileges on all resources
-managed by Lake Formation. For more information on admin privileges, see [Granting Lake Formation Permissions](https://docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html).
+Sets the list of data lake administrators who have admin privileges on all resources managed
+by Lake Formation. For more information on admin privileges, see [Granting Lake Formation Permissions](https://docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html).
 
 This API replaces the current list of data lake admins with the new list being passed. To
 add an admin, fetch the current list and add the new admin to that list and pass that list
@@ -2070,12 +2084,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HybridAccessEnabled"`: Specifies whether the data access of tables pointing to the
   location can be managed by both Lake Formation permissions as well as Amazon S3 bucket
   policies.
+
 - `"RoleArn"`: The identifier for the role that registers the resource.
+
 - `"UseServiceLinkedRole"`: Designates an Identity and Access Management (IAM) service-
   linked role by registering this role with the Data Catalog. A service-linked role is a
   unique type of IAM role that is linked directly to Lake Formation.
 
   For more information, see [Using Service-Linked Roles for Lake Formation](https://docs.aws.amazon.com/lake-formation/latest/dg/service-linked-roles.html).
+
 - `"WithFederation"`: Whether or not the resource is a federated resource.
 """
 function register_resource end
@@ -2284,10 +2301,10 @@ end
     search_tables_by_lftags(expression)
     search_tables_by_lftags(expression, params::Dict{String,<:Any})
 
-This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by
-admins who want to grant user permissions on certain LF-tags. Before making a grant, the
-admin can use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are
-valid to verify whether the returned resources can be shared.
+This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by admins
+who want to grant user permissions on certain LF-tags. Before making a grant, the admin can
+use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are valid to
+verify whether the returned resources can be shared.
 
 # Arguments
 
@@ -2474,24 +2491,27 @@ Updates the IAM Identity Center connection parameters.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ApplicationStatus"`: Allows to enable or disable the IAM Identity Center connection.
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, view definitions, and other control information to manage your Lake
-  Formation environment.
+  definitions, view definitions, and other control information to manage your Lake Formation
+  environment.
+
 - `"ExternalFiltering"`: A list of the account IDs of Amazon Web Services accounts of third-
   party applications that are allowed to access data managed by Lake Formation.
+
 - `"ShareRecipients"`: A list of Amazon Web Services account IDs or Amazon Web Services
-  organization/organizational unit ARNs that are allowed to access to access data managed
-  by Lake Formation.
+  organization/organizational unit ARNs that are allowed to access to access data managed by
+  Lake Formation.
 
   If the `ShareRecipients` list includes valid values, then the resource share is updated
   with the principals you want to have access to the resources.
 
-  If the `ShareRecipients` value is null, both the list of share recipients and the
-  resource share remain unchanged.
+  If the `ShareRecipients` value is null, both the list of share recipients and the resource
+  share remain unchanged.
 
-  If the `ShareRecipients` value is an empty list, then the existing share recipients
-  list will be cleared, and the resource share will be deleted.
+  If the `ShareRecipients` value is an empty list, then the existing share recipients list
+  will be cleared, and the resource share will be deleted.
 """
 function update_lake_formation_identity_center_configuration end
 

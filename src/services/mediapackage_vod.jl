@@ -450,8 +450,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: Upper bound on number of records to return.
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
-- `"packagingGroupId"`: Returns MediaPackage VOD PackagingConfigurations associated with
-  the specified PackagingGroup.
+- `"packagingGroupId"`: Returns MediaPackage VOD PackagingConfigurations associated with the
+  specified PackagingGroup.
 """
 function list_packaging_configurations end
 
@@ -517,8 +517,8 @@ Returns a list of the tags assigned to the specified resource.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from
-  the response to any request to the resource.
+- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the
+  response to any request to the resource.
 """
 function list_tags_for_resource end
 
@@ -555,8 +555,8 @@ Adds tags to the specified resource. You can specify one or more tags to add.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from
-  the response to any request to the resource.
+- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the
+  response to any request to the resource.
 - `tags`: A collection of tags associated with a resource
 """
 function tag_resource end
@@ -596,8 +596,8 @@ Removes tags from the specified resource. You can specify one or more tags to re
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from
-  the response to any request to the resource.
+- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the
+  response to any request to the resource.
 - `tag_keys`: A comma-separated list of the tag keys to remove from the resource.
 """
 function untag_resource end

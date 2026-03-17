@@ -102,8 +102,8 @@ end
     batch_delete_import_data(import_task_ids)
     batch_delete_import_data(import_task_ids, params::Dict{String,<:Any})
 
-Deletes one or more import tasks, each identified by their import ID. Each import task has
-a number of records that can identify servers or applications.
+Deletes one or more import tasks, each identified by their import ID. Each import task has a
+number of records that can identify servers or applications.
 
 Amazon Web Services Application Discovery Service has built-in matching logic that will
 identify when discovered servers match existing entries that you've previously discovered,
@@ -191,8 +191,8 @@ end
     create_tags(configuration_ids, tags)
     create_tags(configuration_ids, tags, params::Dict{String,<:Any})
 
-Creates one or more tags for configuration items. Tags are metadata that help you
-categorize IT assets. This API accepts a list of multiple configuration items.
+Creates one or more tags for configuration items. Tags are metadata that help you categorize
+IT assets. This API accepts a list of multiple configuration items.
 
 !!! important
     Do not store sensitive information (like personal data) in tags.
@@ -200,6 +200,7 @@ categorize IT assets. This API accepts a list of multiple configuration items.
 # Arguments
 
 - `configuration_ids`: A list of configuration items that you want to tag.
+
 - `tags`: Tags that you want to associate with one or more configuration items. Specify the
   tags that you want to create in a *key*-*value* format. For example:
 
@@ -282,8 +283,8 @@ end
     delete_tags(configuration_ids)
     delete_tags(configuration_ids, params::Dict{String,<:Any})
 
-Deletes the association between configuration items and one or more tags. This API accepts
-a list of multiple configuration items.
+Deletes the association between configuration items and one or more tags. This API accepts a
+list of multiple configuration items.
 
 # Arguments
 
@@ -339,18 +340,21 @@ any parameters.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"agentIds"`: The agent or the collector IDs for which you want information. If you
-  specify no IDs, the system returns information about all agents/collectors associated
-  with your user.
+  specify no IDs, the system returns information about all agents/collectors associated with
+  your user.
+
 - `"filters"`: You can filter the request using various logical operators and a *key*-
   *value* format. For example:
 
   `{"key": "collectionStatus", "value": "STARTED"}`
+
 - `"maxResults"`: The total number of agents/collectors to return in a single page of
   output. The maximum value is 100.
+
 - `"nextToken"`: Token to retrieve the next set of results. For example, if you previously
   specified 100 IDs for `DescribeAgentsRequest\$agentIds` but set
-  `DescribeAgentsRequest\$maxResults` to 10, you received a set of 10 results along with
-  a token. Use that token in this query to get the next set of 10.
+  `DescribeAgentsRequest\$maxResults` to 10, you received a set of 10 results along with a
+  token. Use that token in this query to get the next set of 10.
 """
 function describe_agents end
 
@@ -418,8 +422,8 @@ Retrieves attributes for a list of configuration item IDs.
     - connection
 
     Output fields are specific to the asset type specified. For example, the output for a
-    *server* configuration item includes a list of attributes about the server, such as
-    host name, operating system, number of network cards, etc.
+    *server* configuration item includes a list of attributes about the server, such as host
+    name, operating system, number of network cards, etc.
 
     For a complete list of outputs for each asset type, see [Using the DescribeConfigurations Action](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#DescribeConfigurations)
     in the *Amazon Web Services Application Discovery Service User Guide*.
@@ -536,8 +540,8 @@ end
     describe_export_tasks()
     describe_export_tasks(params::Dict{String,<:Any})
 
-Retrieve status of one or more export tasks. You can retrieve the status of up to 100
-export tasks.
+Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export
+tasks.
 
 # Optional Parameters
 
@@ -545,6 +549,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"exportIds"`: One or more unique identifiers used to query the status of an export
   request.
+
 - `"filters"`: One or more filters.
 
   - `AgentId` - ID of the agent whose collected data will be exported
@@ -552,6 +557,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of volume results returned by `DescribeExportTasks` in
   paginated output. When this parameter is used, `DescribeExportTasks` only returns
   `maxResults` results in a single page along with a `nextToken` response element.
+
 - `"nextToken"`: The `nextToken` value returned from a previous paginated
   `DescribeExportTasks` request where `maxResults` was used and the results exceeded the
   value of that parameter. Pagination continues from the end of the previous results that
@@ -581,16 +587,16 @@ end
     describe_import_tasks()
     describe_import_tasks(params::Dict{String,<:Any})
 
-Returns an array of import tasks for your account, including status information, times,
-IDs, the Amazon S3 Object URL for the import file, and more.
+Returns an array of import tasks for your account, including status information, times, IDs,
+the Amazon S3 Object URL for the import file, and more.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: An array of name-value pairs that you provide to filter the results for the
-  `DescribeImportTask` request to a specific subset of results. Currently, wildcard
-  values aren't supported for filters.
+  `DescribeImportTask` request to a specific subset of results. Currently, wildcard values
+  aren't supported for filters.
 - `"maxResults"`: The maximum number of results that you want this request to return, up to
   100.
 - `"nextToken"`: The token to request a specific page of results.
@@ -665,8 +671,8 @@ Disassociates one or more configuration items from an application.
 
 # Arguments
 
-- `application_configuration_id`: Configuration ID of an application from which each item
-  is disassociated.
+- `application_configuration_id`: Configuration ID of an application from which each item is
+  disassociated.
 - `configuration_ids`: Configuration ID of each item to be disassociated from an
   application.
 """
@@ -790,14 +796,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `{"key": "serverType", "value": "webServer"}`
 
-  For a complete list of filter options and guidance about using them with this action,
-  see [Using the ListConfigurations Action](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#ListConfigurations)
+  For a complete list of filter options and guidance about using them with this action, see [Using the ListConfigurations Action](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#ListConfigurations)
   in the *Amazon Web Services Application Discovery Service User Guide*.
+
 - `"maxResults"`: The total number of items to return. The maximum value is 100.
+
 - `"nextToken"`: Token to retrieve the next set of results. For example, if a previous call
   to ListConfigurations returned 100 items, but you set
-  `ListConfigurationsRequest\$maxResults` to 10, you received a set of 10 results along
-  with a token. Use that token in this query to get the next set of 10.
+  `ListConfigurationsRequest\$maxResults` to 10, you received a set of 10 results along with
+  a token. Use that token in this query to get the next set of 10.
+
 - `"orderBy"`: Certain filter criteria return output that can be sorted in ascending or
   descending order. For a list of output characteristics for each filter, see [Using the ListConfigurations Action](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#ListConfigurations)
   in the *Amazon Web Services Application Discovery Service User Guide*.
@@ -971,10 +979,10 @@ Instructs the specified agents to start collecting data.
 
 - `agent_ids`: The IDs of the agents from which to start collecting data. If you send a
   request to an agent ID that you do not have permission to contact, according to your
-  Amazon Web Services account, the service does not throw an exception. Instead, it
-  returns the error in the *Description* field. If you send a request to multiple agents
-  and you do not have permission to contact some of those agents, the system does not
-  throw an exception. Instead, the system shows `Failed` in the *Description* field.
+  Amazon Web Services account, the service does not throw an exception. Instead, it returns
+  the error in the *Description* field. If you send a request to multiple agents and you do
+  not have permission to contact some of those agents, the system does not throw an
+  exception. Instead, the system shows `Failed` in the *Description* field.
 """
 function start_data_collection_by_agent_ids end
 
@@ -1038,21 +1046,25 @@ recommendation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"endTime"`: The end timestamp for exported data from the single Application Discovery
-  Agent selected in the filters. If no value is specified, exported data includes the
-  most recent data collected by the agent.
+  Agent selected in the filters. If no value is specified, exported data includes the most
+  recent data collected by the agent.
+
 - `"exportDataFormat"`: The file format for the returned export data. Default value is
   `CSV`. **Note:** *The* `GRAPHML` *option has been deprecated.*
+
 - `"filters"`: If a filter is present, it selects the single `agentId` of the Application
-  Discovery Agent for which data is exported. The `agentId` can be found in the results
-  of the `DescribeAgents` API or CLI. If no filter is present, `startTime` and `endTime`
-  are ignored and exported data includes both Amazon Web Services Application Discovery
-  Service Agentless Collector collectors data and summary data from Application Discovery
-  Agent agents.
+  Discovery Agent for which data is exported. The `agentId` can be found in the results of
+  the `DescribeAgents` API or CLI. If no filter is present, `startTime` and `endTime` are
+  ignored and exported data includes both Amazon Web Services Application Discovery Service
+  Agentless Collector collectors data and summary data from Application Discovery Agent
+  agents.
+
 - `"preferences"`: Indicates the type of data that needs to be exported. Only one [ExportPreferences](https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_ExportPreferences.html)
   can be enabled at any time.
-- `"startTime"`: The start timestamp for exported data from the single Application
-  Discovery Agent selected in the filters. If no value is specified, data is exported
-  starting from the first data collected by the agent.
+
+- `"startTime"`: The start timestamp for exported data from the single Application Discovery
+  Agent selected in the filters. If no value is specified, data is exported starting from
+  the first data collected by the agent.
 """
 function start_export_task end
 
@@ -1085,12 +1097,12 @@ applications and track their migration status.
 To start an import request, do this:
 
 1. Download the specially formatted comma separated value (CSV) import template, which you
-   can find here: [https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv](https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv).2.
-   Fill out the template with your server and application data.3. Upload your import file
-   to an Amazon S3 bucket, and make a note of it's Object URL. Your import file must be in
-   the CSV format.4. Use the console or the `StartImportTask` command with the Amazon Web
-   Services CLI or one of the Amazon Web Services SDKs to import the records from your
-   file.
+   can find here: [https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv](https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv).
+2. Fill out the template with your server and application data.
+3. Upload your import file to an Amazon S3 bucket, and make a note of it's Object URL. Your
+   import file must be in the CSV format.
+4. Use the console or the `StartImportTask` command with the Amazon Web Services CLI or one
+   of the Amazon Web Services SDKs to import the records from your file.
 
 For more information, including step-by-step procedures, see [Migration Hub Import](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-import.html)
 in the *Amazon Web Services Application Discovery Service User Guide*.

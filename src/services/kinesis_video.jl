@@ -76,23 +76,24 @@ You must have permissions for the `KinesisVideo:CreateStream` action.
 
 - `stream_name`: A name for the stream that you are creating.
 
-  The stream name is an identifier for the stream, and must be unique for each account
-  and region.
+  The stream name is an identifier for the stream, and must be unique for each account and
+  region.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DataRetentionInHours"`: The number of hours that you want to retain the data in the
-  stream. Kinesis Video Streams retains the data in a data store that is associated with
-  the stream.
+  stream. Kinesis Video Streams retains the data in a data store that is associated with the
+  stream.
 
   The default value is 0, indicating that the stream does not persist data.
 
-  When the `DataRetentionInHours` value is 0, consumers can still consume the fragments
-  that remain in the service host buffer, which has a retention time limit of 5 minutes
-  and a retention memory limit of 200 MB. Fragments are removed from the buffer when
-  either limit is reached.
+  When the `DataRetentionInHours` value is 0, consumers can still consume the fragments that
+  remain in the service host buffer, which has a retention time limit of 5 minutes and a
+  retention memory limit of 200 MB. Fragments are removed from the buffer when either limit
+  is reached.
+
 - `"DeviceName"`: The name of the device that is writing to the stream.
 
   !!! note
@@ -105,6 +106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (`Amazon Web Services/kinesisvideo`) is used.
 
   For more information, see [DescribeKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters).
+
 - `"MediaType"`: The media type of the stream. Consumers of the stream can use this
   information when processing the stream. For more information about media types, see [Media Types](http://www.iana.org/assignments/media-types/media-types.xhtml).
   If you choose to specify the `MediaType`, see [Naming Requirements](https://tools.ietf.org/html/rfc6838#section-4.2)
@@ -113,6 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example valid values include "video/h264" and "video/h264,audio/aac".
 
   This parameter is optional; the default value is `null` (or empty in JSON).
+
 - `"Tags"`: A list of tags to associate with the specified stream. Each tag is a key-value
   pair (the value is optional).
 """
@@ -252,10 +255,10 @@ Deletes a Kinesis video stream and the data contained in the stream.
 This method marks the stream for deletion, and makes the data in the stream inaccessible
 immediately.
 
-To ensure that you have the latest version of the stream before deleting it, you can
-specify the stream version. Kinesis Video Streams assigns a version to each stream. When
-you update a stream, Kinesis Video Streams assigns a new version number. To get the latest
-stream version, use the `DescribeStream` API.
+To ensure that you have the latest version of the stream before deleting it, you can specify
+the stream version. Kinesis Video Streams assigns a version to each stream. When you update
+a stream, Kinesis Video Streams assigns a new version number. To get the latest stream
+version, use the `DescribeStream` API.
 
 This operation requires permission for the `KinesisVideo:DeleteStream` action.
 
@@ -269,8 +272,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CurrentVersion"`: Optional: The version of the stream that you want to delete.
 
-  Specify the version as a safeguard to ensure that your are deleting the correct stream.
-  To get the stream version, use the `DescribeStream` API.
+  Specify the version as a safeguard to ensure that your are deleting the correct stream. To
+  get the stream version, use the `DescribeStream` API.
 
   If not specified, only the `CreationTime` is checked before deleting the stream.
 """
@@ -355,8 +358,8 @@ Gets the `ImageGenerationConfiguration` for a given Kinesis video stream.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from which to
-  retrieve the image generation configuration. You must specify either the `StreamName`
-  or the `StreamARN`.
+  retrieve the image generation configuration. You must specify either the `StreamName` or
+  the `StreamARN`.
 - `"StreamName"`: The name of the stream from which to retrieve the image generation
   configuration. You must specify either the `StreamName` or the `StreamARN`.
 """
@@ -476,8 +479,8 @@ Gets the `NotificationConfiguration` for a given Kinesis video stream.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from where you
-  want to retrieve the notification configuration. You must specify either the
-  `StreamName` or the StreamARN.
+  want to retrieve the notification configuration. You must specify either the `StreamName`
+  or the StreamARN.
 - `"StreamName"`: The name of the stream from which to retrieve the notification
   configuration. You must specify either the `StreamName` or the `StreamARN`.
 """
@@ -547,8 +550,8 @@ end
     describe_stream()
     describe_stream(params::Dict{String,<:Any})
 
-Returns the most current information about the specified stream. You must specify either
-the `StreamName` or the `StreamARN`.
+Returns the most current information about the specified stream. You must specify either the
+`StreamName` or the `StreamARN`.
 
 # Optional Parameters
 
@@ -639,8 +642,8 @@ API uses the `SingleMasterChannelEndpointConfiguration` input parameter, which c
 the `Protocols` and `Role` properties.
 
 `Protocols` is used to determine the communication mechanism. For example, if you specify
-`WSS` as the protocol, this API produces a secure websocket endpoint. If you specify
-`HTTPS` as the protocol, this API generates an HTTPS endpoint.
+`WSS` as the protocol, this API produces a secure websocket endpoint. If you specify `HTTPS`
+as the protocol, this API generates an HTTPS endpoint.
 
 `Role` determines the messaging permissions. A `MASTER` role results in this API generating
 an endpoint that a client can use to communicate with any of the viewers on the channel. A
@@ -649,8 +652,8 @@ communicate only with a `MASTER`.
 
 # Arguments
 
-- `channel_arn`: The Amazon Resource Name (ARN) of the signalling channel for which you
-  want to get an endpoint.
+- `channel_arn`: The Amazon Resource Name (ARN) of the signalling channel for which you want
+  to get an endpoint.
 
 # Optional Parameters
 
@@ -708,8 +711,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of edge configurations to return in the response. The
   default is 5.
 - `"NextToken"`: If you specify this parameter, when the result of a [`list_edge_agent_configurations`](@ref)
-  operation is truncated, the call returns the `NextToken` in the response. To get
-  another batch of edge configurations, provide this token in your next request.
+  operation is truncated, the call returns the `NextToken` in the response. To get another
+  batch of edge configurations, provide this token in your next request.
 """
 function list_edge_agent_configurations end
 
@@ -758,8 +761,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of channels to return in the response. The default is
   500.
 - `"NextToken"`: If you specify this parameter, when the result of a [`list_signaling_channels`](@ref)
-  operation is truncated, the call returns the `NextToken` in the response. To get
-  another batch of channels, provide this token in your next request.
+  operation is truncated, the call returns the `NextToken` in the response. To get another
+  batch of channels, provide this token in your next request.
 """
 function list_signaling_channels end
 
@@ -798,10 +801,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of streams to return in the response. The default is
   10,000.
 - `"NextToken"`: If you specify this parameter, when the result of a [`list_streams`](@ref)
-  operation is truncated, the call returns the `NextToken` in the response. To get
-  another batch of streams, provide this token in your next request.
-- `"StreamNameCondition"`: Optional: Returns only streams that satisfy a specific
-  condition. Currently, you can specify only the prefix of a stream name as a condition.
+  operation is truncated, the call returns the `NextToken` in the response. To get another
+  batch of streams, provide this token in your next request.
+- `"StreamNameCondition"`: Optional: Returns only streams that satisfy a specific condition.
+  Currently, you can specify only the prefix of a stream name as a condition.
 """
 function list_streams end
 
@@ -831,16 +834,16 @@ Returns a list of tags associated with the specified signaling channel.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the signaling channel for which you
-  want to list tags.
+- `resource_arn`: The Amazon Resource Name (ARN) of the signaling channel for which you want
+  to list tags.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"NextToken"`: If you specify this parameter and the result of a `ListTagsForResource`
-  call is truncated, the response includes a token that you can use in the next request
-  to fetch the next batch of tags.
+  call is truncated, the response includes a token that you can use in the next request to
+  fetch the next batch of tags.
 """
 function list_tags_for_resource end
 
@@ -885,8 +888,8 @@ In the request, you must specify either the `StreamName` or the `StreamARN`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"NextToken"`: If you specify this parameter and the result of a `ListTagsForStream` call
-  is truncated, the response includes a token that you can use in the next request to
-  fetch the next batch of tags.
+  is truncated, the response includes a token that you can use in the next request to fetch
+  the next batch of tags.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream that you want to list tags
   for.
 - `"StreamName"`: The name of the stream that you want to list tags for.
@@ -923,11 +926,11 @@ edge configuration is acknowledged, and synced with the Edge Agent.
 
 If this API is invoked for the first time, a new edge configuration will be created for the
 stream, and the sync status will be set to `SYNCING`. You will have to wait for the sync
-status to reach a terminal state such as: `IN_SYNC`, or `SYNC_FAILED`, before using this
-API again. If you invoke this API during the syncing process, a `ResourceInUseException`
-will be thrown. The connectivity of the stream’s edge configuration and the Edge Agent will
-be retried for 15 minutes. After 15 minutes, the status will transition into the
-`SYNC_FAILED` state.
+status to reach a terminal state such as: `IN_SYNC`, or `SYNC_FAILED`, before using this API
+again. If you invoke this API during the syncing process, a `ResourceInUseException` will be
+thrown. The connectivity of the stream’s edge configuration and the Edge Agent will be
+retried for 15 minutes. After 15 minutes, the status will transition into the `SYNC_FAILED`
+state.
 
 To move an edge configuration from one device to another, use [`delete_edge_configuration`](@ref)
 to delete the current edge configuration. You can then invoke StartEdgeConfigurationUpdate
@@ -1051,8 +1054,8 @@ A Kinesis video stream can support up to 50 tags.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the resource that you want to add the
-  tag or tags to.
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the resource that you want to add the tag
+  or tags to.
 - `"StreamName"`: The name of the stream that you want to add the tag or tags to.
 """
 function tag_stream end
@@ -1083,9 +1086,8 @@ end
     untag_resource(resource_arn, tag_key_list)
     untag_resource(resource_arn, tag_key_list, params::Dict{String,<:Any})
 
-Removes one or more tags from a signaling channel. In the request, specify only a tag key
-or keys; don't specify the value. If you specify a tag key that does not exist, it's
-ignored.
+Removes one or more tags from a signaling channel. In the request, specify only a tag key or
+keys; don't specify the value. If you specify a tag key that does not exist, it's ignored.
 
 # Arguments
 
@@ -1190,23 +1192,25 @@ This operation requires permission for the `KinesisVideo:UpdateDataRetention` ac
 
 Changing the data retention period affects the data in the stream as follows:
 
-- If the data retention period is increased, existing data is retained for the new
-  retention period. For example, if the data retention period is increased from one hour to
-  seven hours, all existing data is retained for seven hours.
-- If the data retention period is decreased, existing data is retained for the new
-  retention period. For example, if the data retention period is decreased from seven hours
-  to one hour, all existing data is retained for one hour, and any data older than one hour
-  is deleted immediately.
+- If the data retention period is increased, existing data is retained for the new retention
+  period. For example, if the data retention period is increased from one hour to seven
+  hours, all existing data is retained for seven hours.
+- If the data retention period is decreased, existing data is retained for the new retention
+  period. For example, if the data retention period is decreased from seven hours to one
+  hour, all existing data is retained for one hour, and any data older than one hour is
+  deleted immediately.
 
 # Arguments
 
-- `current_version`: The version of the stream whose retention period you want to change.
-  To get the version, call either the `DescribeStream` or the `ListStreams` API.
+- `current_version`: The version of the stream whose retention period you want to change. To
+  get the version, call either the `DescribeStream` or the `ListStreams` API.
+
 - `data_retention_change_in_hours`: The number of hours to adjust the current retention by.
-  The value you specify is added to or subtracted from the current value, depending on
-  the `operation`.
+  The value you specify is added to or subtracted from the current value, depending on the
+  `operation`.
 
   The minimum value for data retention is 0 and the maximum value is 87600 (ten years).
+
 - `operation`: Indicates whether you want to increase or decrease the retention period.
 
 # Optional Parameters
@@ -1274,9 +1278,9 @@ Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ImageGenerationConfiguration"`: The structure that contains the information required
-  for the KVS images delivery. If the structure is null, the configuration will be
-  deleted from the stream.
+- `"ImageGenerationConfiguration"`: The structure that contains the information required for
+  the KVS images delivery. If the structure is null, the configuration will be deleted from
+  the stream.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from where you
   want to update the image generation configuration. You must specify either the
   `StreamName` or the `StreamARN`.
@@ -1317,14 +1321,14 @@ modes that you can specify :
 
 - If `StorageStatus` is enabled, the data will be stored in the `StreamARN` provided. In
   order for WebRTC Ingestion to work, the stream must have data retention enabled.
-- If `StorageStatus` is disabled, no data will be stored, and the `StreamARN` parameter
-  will not be needed.
+- If `StorageStatus` is disabled, no data will be stored, and the `StreamARN` parameter will
+  not be needed.
 
 !!! important
-    If `StorageStatus` is enabled, direct peer-to-peer (master-viewer) connections no
-    longer occur. Peers connect directly to the storage session. You must call the
-    `JoinStorageSession` API to trigger an SDP offer send and establish a connection
-    between a peer and the storage session.
+    If `StorageStatus` is enabled, direct peer-to-peer (master-viewer) connections no longer
+    occur. Peers connect directly to the storage session. You must call the
+    `JoinStorageSession` API to trigger an SDP offer send and establish a connection between
+    a peer and the storage session.
 
 # Arguments
 
@@ -1389,8 +1393,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   notifications. If the structure is null, the configuration will be deleted from the
   stream.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from where you
-  want to update the notification configuration. You must specify either the `StreamName`
-  or the `StreamARN`.
+  want to update the notification configuration. You must specify either the `StreamName` or
+  the `StreamARN`.
 - `"StreamName"`: The name of the stream from which to update the notification
   configuration. You must specify either the `StreamName` or the `StreamARN`.
 """
@@ -1489,8 +1493,8 @@ Updates stream metadata, such as the device name and media type.
 You must provide the stream name or the Amazon Resource Name (ARN) of the stream.
 
 To make sure that you have the latest version of the stream before updating it, you can
-specify the stream version. Kinesis Video Streams assigns a version to each stream. When
-you update a stream, Kinesis Video Streams assigns a new version number. To get the latest
+specify the stream version. Kinesis Video Streams assigns a version to each stream. When you
+update a stream, Kinesis Video Streams assigns a new version number. To get the latest
 stream version, use the `DescribeStream` API.
 
 `UpdateStream` is an asynchronous operation, and takes time to complete.
@@ -1509,17 +1513,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       In the current implementation, Kinesis Video Streams does not use this name.
 
 - `"MediaType"`: The stream's media type. Use `MediaType` to specify the type of content
-  that the stream contains to the consumers of the stream. For more information about
-  media types, see [Media Types](http://www.iana.org/assignments/media-types/media-types.xhtml).
+  that the stream contains to the consumers of the stream. For more information about media
+  types, see [Media Types](http://www.iana.org/assignments/media-types/media-types.xhtml).
   If you choose to specify the `MediaType`, see [Naming Requirements](https://tools.ietf.org/html/rfc6838#section-4.2).
 
-  To play video on the console, you must specify the correct video type. For example, if
-  the video in the stream is H.264, specify `video/h264` as the `MediaType`.
+  To play video on the console, you must specify the correct video type. For example, if the
+  video in the stream is H.264, specify `video/h264` as the `MediaType`.
+
 - `"StreamARN"`: The ARN of the stream whose metadata you want to update.
+
 - `"StreamName"`: The name of the stream whose metadata you want to update.
 
-  The stream name is an identifier for the stream, and must be unique for each account
-  and region.
+  The stream name is an identifier for the stream, and must be unique for each account and
+  region.
 """
 function update_stream end
 

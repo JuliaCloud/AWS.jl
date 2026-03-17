@@ -16,13 +16,16 @@ used to identify the profile that it belongs to.
 # Arguments
 
 - `domain_name`: The unique name of the domain.
-- `key_name`: A searchable identifier of a customer profile. The predefined keys you can
-  use include: _account, _profileId, _assetId, _caseId, _orderId, _fullName, _phone,
-  _email, _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId,
+
+- `key_name`: A searchable identifier of a customer profile. The predefined keys you can use
+  include: _account, _profileId, _assetId, _caseId, _orderId, _fullName, _phone, _email,
+  _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId,
   _salesforceAssetId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId,
   _serviceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId,
   _shopifyOrderId.
+
 - `profile_id`: The unique identifier of a customer profile.
+
 - `values`: A list of key values.
 """
 function add_profile_key end
@@ -74,9 +77,9 @@ end
     create_calculated_attribute_definition(attribute_details, calculated_attribute_name, domain_name, statistic)
     create_calculated_attribute_definition(attribute_details, calculated_attribute_name, domain_name, statistic, params::Dict{String,<:Any})
 
-Creates a new calculated attribute definition. After creation, new object data ingested
-into Customer Profiles will be included in the calculated attribute, which can be retrieved
-for a profile using the [GetCalculatedAttributeForProfile](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetCalculatedAttributeForProfile.html)
+Creates a new calculated attribute definition. After creation, new object data ingested into
+Customer Profiles will be included in the calculated attribute, which can be retrieved for a
+profile using the [GetCalculatedAttributeForProfile](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetCalculatedAttributeForProfile.html)
 API. Defining a calculated attribute makes it available for all profiles within a domain.
 Each calculated attribute can only reference one `ObjectType` and at most, two fields from
 that `ObjectType`.
@@ -150,8 +153,8 @@ Creates a domain, which is a container for all customer data, such as customer p
 attributes, object types, profile keys, and encryption keys. You can create multiple
 domains, and each domain can have multiple third-party integrations.
 
-Each Amazon Connect instance can be associated with only one domain. Multiple Amazon
-Connect instances can be associated with one domain.
+Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect
+instances can be associated with one domain.
 
 Use this API or [UpdateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html)
 to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html):
@@ -183,24 +186,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   errors associated with ingesting data from third party applications. You must set up a
   policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect
   Customer Profiles to send messages to the DeadLetterQueue.
-- `"DefaultEncryptionKey"`: The default encryption key, which is an AWS managed key, is
-  used when no specific type of encryption key is specified. It is used to encrypt all
-  data before it is placed in permanent or semi-permanent storage.
+
+- `"DefaultEncryptionKey"`: The default encryption key, which is an AWS managed key, is used
+  when no specific type of encryption key is specified. It is used to encrypt all data
+  before it is placed in permanent or semi-permanent storage.
+
 - `"Matching"`: The process of matching duplicate profiles. If `Matching` = `true`, Amazon
-  Connect Customer Profiles starts a weekly batch process called Identity Resolution Job.
-  If you do not specify a date and time for Identity Resolution Job to run, by default it
-  runs every Saturday at 12AM UTC to detect duplicate profiles in your domains.
+  Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If
+  you do not specify a date and time for Identity Resolution Job to run, by default it runs
+  every Saturday at 12AM UTC to detect duplicate profiles in your domains.
 
   After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html)
-  API to return and review the results. Or, if you have configured `ExportingConfig` in
-  the `MatchingRequest`, you can download the results from S3.
+  API to return and review the results. Or, if you have configured `ExportingConfig` in the
+  `MatchingRequest`, you can download the results from S3.
+
 - `"RuleBasedMatching"`: The process of matching duplicate profiles using the Rule-Based
   matching. If `RuleBasedMatching` = true, Amazon Connect Customer Profiles will start to
   match and merge your profiles according to your configuration in the
   `RuleBasedMatchingRequest`. You can use the `ListRuleBasedMatches` and
   `GetSimilarProfiles` API to return and review the results. Also, if you have configured
-  `ExportingConfig` in the `RuleBasedMatchingRequest`, you can download the results from
-  S3.
+  `ExportingConfig` in the `RuleBasedMatchingRequest`, you can download the results from S3.
+
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_domain end
@@ -304,8 +310,8 @@ sources are Salesforce, ServiceNow, and Marketo.
 - `domain_name`: The unique name of the domain.
 - `integration_config`: Configuration data for integration workflow.
 - `object_type_name`: The name of the profile object type.
-- `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Customer Profiles assumes
-  this role to create resources on your behalf as part of workflow execution.
+- `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Customer Profiles assumes this
+  role to create resources on your behalf as part of workflow execution.
 - `workflow_type`: The type of workflow. The only supported value is APPFLOW_INTEGRATION.
 
 # Optional Parameters
@@ -384,18 +390,17 @@ A standard profile represents the following attributes for a customer profile in
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccountNumber"`: An account number that you have given to the customer.
-- `"AdditionalInformation"`: Any additional information relevant to the customer’s
-  profile.
-- `"Address"`: A generic address associated with the customer that is not mailing,
-  shipping, or billing.
+- `"AdditionalInformation"`: Any additional information relevant to the customer’s profile.
+- `"Address"`: A generic address associated with the customer that is not mailing, shipping,
+  or billing.
 - `"Attributes"`: A key value pair of attributes of a customer profile.
 - `"BillingAddress"`: The customer’s billing address.
 - `"BirthDate"`: The customer’s birth date.
 - `"BusinessEmailAddress"`: The customer’s business email address.
 - `"BusinessName"`: The name of the customer’s business.
 - `"BusinessPhoneNumber"`: The customer’s business phone number.
-- `"EmailAddress"`: The customer’s email address, which has not been specified as a
-  personal or business address.
+- `"EmailAddress"`: The customer’s email address, which has not been specified as a personal
+  or business address.
 - `"FirstName"`: The customer’s first name.
 - `"Gender"`: The gender with which the customer identifies.
 - `"GenderString"`: An alternative to `Gender` which accepts any string as input.
@@ -440,10 +445,10 @@ end
     delete_calculated_attribute_definition(calculated_attribute_name, domain_name)
     delete_calculated_attribute_definition(calculated_attribute_name, domain_name, params::Dict{String,<:Any})
 
-Deletes an existing calculated attribute definition. Note that deleting a default
-calculated attribute is possible, however once deleted, you will be unable to undo that
-action and will need to recreate it on your own using the
-CreateCalculatedAttributeDefinition API if you want it back.
+Deletes an existing calculated attribute definition. Note that deleting a default calculated
+attribute is possible, however once deleted, you will be unable to undo that action and will
+need to recreate it on your own using the CreateCalculatedAttributeDefinition API if you
+want it back.
 
 # Arguments
 
@@ -760,10 +765,10 @@ end
     delete_profile_object_type(domain_name, object_type_name)
     delete_profile_object_type(domain_name, object_type_name, params::Dict{String,<:Any})
 
-Removes a ProfileObjectType from a specific domain as well as removes all the
-ProfileObjects of that type. It also disables integrations from this specific
-ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that
-were populated from this ProfileObjectType.
+Removes a ProfileObjectType from a specific domain as well as removes all the ProfileObjects
+of that type. It also disables integrations from this specific ProfileObjectType. In
+addition, it scrubs all of the fields of the standard profile that were populated from this
+ProfileObjectType.
 
 # Arguments
 
@@ -884,18 +889,18 @@ end
 
 Tests the auto-merging settings of your Identity Resolution Job without merging your data.
 It randomly selects a sample of matching groups from the existing matching results, and
-applies the automerging settings that you provided. You can then view the number of
-profiles in the sample, the number of matches, and the number of profiles identified to be
-merged. This enables you to evaluate the accuracy of the attributes in your matching list.
+applies the automerging settings that you provided. You can then view the number of profiles
+in the sample, the number of matches, and the number of profiles identified to be merged.
+This enables you to evaluate the accuracy of the attributes in your matching list.
 
 You can't view which profiles are matched and would be merged.
 
 !!! important
-    We strongly recommend you use this API to do a dry run of the automerging process
-    before running the Identity Resolution Job. Include **at least** two matching
-    attributes. If your matching list includes too few attributes (such as only `FirstName`
-    or only `LastName`), there may be a large number of matches. This increases the chances
-    of erroneous merges.
+    We strongly recommend you use this API to do a dry run of the automerging process before
+    running the Identity Resolution Job. Include **at least** two matching attributes. If
+    your matching list includes too few attributes (such as only `FirstName` or only
+    `LastName`), there may be a large number of matches. This increases the chances of
+    erroneous merges.
 
 # Arguments
 
@@ -1518,8 +1523,8 @@ Lists all of the integrations associated to a specific URI in the AWS account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"include-hidden"`: Boolean to indicate if hidden integration should be returned.
-  Defaults to `False`.
+- `"include-hidden"`: Boolean to indicate if hidden integration should be returned. Defaults
+  to `False`.
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListAccountIntegrations API call.
 """
@@ -1770,8 +1775,8 @@ Lists all of the integrations in your domain.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"include-hidden"`: Boolean to indicate if hidden integration should be returned.
-  Defaults to `False`.
+- `"include-hidden"`: Boolean to indicate if hidden integration should be returned. Defaults
+  to `False`.
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListIntegrations API call.
 """
@@ -2072,19 +2077,20 @@ end
 
 Runs an AWS Lambda job that does the following:
 
-1. All the profileKeys in the `ProfileToBeMerged` will be moved to the main profile.2. All
-   the objects in the `ProfileToBeMerged` will be moved to the main profile.3. All the
-   `ProfileToBeMerged` will be deleted at the end.4. All the profileKeys in the
-   `ProfileIdsToBeMerged` will be moved to the main profile.5. Standard fields are merged
-   as follows: <ol> <li>Fields are always "union"-ed if there are no conflicts in standard
-   fields or attributeKeys.6. When there are conflicting fields: <ol> <li>If no
-   `SourceProfileIds` entry is specified, the main Profile value is always taken.7. If a
-   `SourceProfileIds` entry is specified, the specified profileId is always taken, even if
-   it is a NULL value.
+1. All the profileKeys in the `ProfileToBeMerged` will be moved to the main profile.
+2. All the objects in the `ProfileToBeMerged` will be moved to the main profile.
+3. All the `ProfileToBeMerged` will be deleted at the end.
+4. All the profileKeys in the `ProfileIdsToBeMerged` will be moved to the main profile.
+5. Standard fields are merged as follows: <ol> <li>Fields are always "union"-ed if there are
+   no conflicts in standard fields or attributeKeys.
+6. When there are conflicting fields: <ol> <li>If no `SourceProfileIds` entry is specified,
+   the main Profile value is always taken.
+7. If a `SourceProfileIds` entry is specified, the specified profileId is always taken, even
+   if it is a NULL value.
 
- </li> </ol> </li> </ol>You can use MergeProfiles together with [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html),
- which returns potentially matching profiles, or use it with the results of another
- matching system. After profiles have been merged, they cannot be separated (unmerged).
+</li> </ol> </li> </ol>You can use MergeProfiles together with [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html),
+which returns potentially matching profiles, or use it with the results of another matching
+system. After profiles have been merged, they cannot be separated (unmerged).
 
 # Arguments
 
@@ -2166,14 +2172,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FlowDefinition"`: The configuration that controls how Customer Profiles retrieves data
   from the source.
+
 - `"ObjectTypeName"`: The name of the profile object type.
-- `"ObjectTypeNames"`: A map in which each key is an event type from an external
-  application such as Segment or Shopify, and each value is an `ObjectTypeName`
-  (template) used to ingest the event. It supports the following event types:
-  `SegmentIdentify`, `ShopifyCreateCustomers`, `ShopifyUpdateCustomers`,
-  `ShopifyCreateDraftOrders`, `ShopifyUpdateDraftOrders`, `ShopifyCreateOrders`, and
-  `ShopifyUpdatedOrders`.
+
+- `"ObjectTypeNames"`: A map in which each key is an event type from an external application
+  such as Segment or Shopify, and each value is an `ObjectTypeName` (template) used to
+  ingest the event. It supports the following event types: `SegmentIdentify`,
+  `ShopifyCreateCustomers`, `ShopifyUpdateCustomers`, `ShopifyCreateDraftOrders`,
+  `ShopifyUpdateDraftOrders`, `ShopifyCreateOrders`, and `ShopifyUpdatedOrders`.
+
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
+
 - `"Uri"`: The URI of the S3 bucket or any other type of data source.
 """
 function put_integration end
@@ -2213,8 +2222,8 @@ phone number populated in the standard ProfileObject. Any additional Contact Rec
 the same phone number will be mapped to the same inferred profile.
 
 When a ProfileObject is created and if a ProfileObjectType already exists for the
-ProfileObject, it will provide data to a standard profile depending on the
-ProfileObjectType definition.
+ProfileObject, it will provide data to a standard profile depending on the ProfileObjectType
+definition.
 
 PutProfileObject needs an ObjectType, which can be created using PutProfileObjectType.
 
@@ -2279,27 +2288,34 @@ To add or remove tags on an existing ObjectType, see [TagResource](https://docs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AllowProfileCreation"`: Indicates whether a profile should be created when data is
-  received if one doesn’t exist for an object of this type. The default is `FALSE`. If
-  the AllowProfileCreation flag is set to `FALSE`, then the service tries to fetch a
-  standard profile and associate this object with the profile. If it is set to `TRUE`,
-  and if no match is found, then the service creates a new standard profile.
+  received if one doesn’t exist for an object of this type. The default is `FALSE`. If the
+  AllowProfileCreation flag is set to `FALSE`, then the service tries to fetch a standard
+  profile and associate this object with the profile. If it is set to `TRUE`, and if no
+  match is found, then the service creates a new standard profile.
+
 - `"EncryptionKey"`: The customer-provided key to encrypt the profile object that will be
   created in this profile object type.
+
 - `"ExpirationDays"`: The number of days until the data in the object expires.
+
 - `"Fields"`: A map of the name and ObjectType field.
+
 - `"Keys"`: A list of unique keys that can be used to map data to the profile.
+
 - `"MaxProfileObjectCount"`: The amount of profile object max count assigned to the object
   type
-- `"SourceLastUpdatedTimestampFormat"`: The format of your `sourceLastUpdatedTimestamp`
-  that was previously set up.
+
+- `"SourceLastUpdatedTimestampFormat"`: The format of your `sourceLastUpdatedTimestamp` that
+  was previously set up.
+
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
+
 - `"TemplateId"`: A unique identifier for the object template. For some attributes in the
-  request, the service will use the default value from the object template when
-  TemplateId is present. If these attributes are present in the request, the service may
-  return a `BadRequestException`. These attributes include: AllowProfileCreation,
-  SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if
-  AllowProfileCreation is set to true when TemplateId is set, the service may return a
-  `BadRequestException`.
+  request, the service will use the default value from the object template when TemplateId
+  is present. If these attributes are present in the request, the service may return a
+  `BadRequestException`. These attributes include: AllowProfileCreation,
+  SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if AllowProfileCreation
+  is set to true when TemplateId is set, the service may return a `BadRequestException`.
 """
 function put_profile_object_type end
 
@@ -2350,39 +2366,44 @@ to 5 key-value(s) pairs using either `AND` or `OR` logic.
 # Arguments
 
 - `domain_name`: The unique name of the domain.
-- `key_name`: A searchable identifier of a customer profile. The predefined keys you can
-  use to search include: _account, _profileId, _assetId, _caseId, _orderId, _fullName,
-  _phone, _email, _ctrContactId, _marketoLeadId, _salesforceAccountId,
-  _salesforceContactId, _salesforceAssetId, _zendeskUserId, _zendeskExternalId,
-  _zendeskTicketId, _serviceNowSystemId, _serviceNowIncidentId, _segmentUserId,
-  _shopifyCustomerId, _shopifyOrderId.
+
+- `key_name`: A searchable identifier of a customer profile. The predefined keys you can use
+  to search include: _account, _profileId, _assetId, _caseId, _orderId, _fullName, _phone,
+  _email, _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId,
+  _salesforceAssetId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId,
+  _serviceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId,
+  _shopifyOrderId.
+
 - `values`: A list of key values.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AdditionalSearchKeys"`: A list of `AdditionalSearchKey` objects that are each
-  searchable identifiers of a profile. Each `AdditionalSearchKey` object contains a
-  `KeyName` and a list of `Values` associated with that specific key (i.e., a key-
-  value(s) pair). These additional search keys will be used in conjunction with the
-  `LogicalOperator` and the required `KeyName` and `Values` parameters to search for
-  profiles that satisfy the search criteria.
-- `"LogicalOperator"`: Relationship between all specified search keys that will be used to
-  search for profiles. This includes the required `KeyName` and `Values` parameters as
-  well as any key-value(s) pairs specified in the `AdditionalSearchKeys` list.
+- `"AdditionalSearchKeys"`: A list of `AdditionalSearchKey` objects that are each searchable
+  identifiers of a profile. Each `AdditionalSearchKey` object contains a `KeyName` and a
+  list of `Values` associated with that specific key (i.e., a key-value(s) pair). These
+  additional search keys will be used in conjunction with the `LogicalOperator` and the
+  required `KeyName` and `Values` parameters to search for profiles that satisfy the search
+  criteria.
 
-  This parameter influences which profiles will be returned in the response in the
-  following manner:
+- `"LogicalOperator"`: Relationship between all specified search keys that will be used to
+  search for profiles. This includes the required `KeyName` and `Values` parameters as well
+  as any key-value(s) pairs specified in the `AdditionalSearchKeys` list.
+
+  This parameter influences which profiles will be returned in the response in the following
+  manner:
 
   - `AND` - The response only includes profiles that match all of the search keys.
   - `OR` - The response includes profiles that match at least one of the search keys.
 
   The `OR` relationship is the default behavior if this parameter is not included in the
   request.
+
 - `"max-results"`: The maximum number of objects returned per page.
 
   The default is 20 if this parameter is not included in the request.
+
 - `"next-token"`: The pagination token from the previous SearchProfiles API call.
 """
 function search_profiles end
@@ -2423,11 +2444,11 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer
-Profiles resource. Tags can help you organize and categorize your resources. You can also
-use them to scope user permissions by granting a user permission to access or change only
-resources with certain tag values. In Connect Customer Profiles, domains, profile object
-types, and integrations can be tagged.
+Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer Profiles
+resource. Tags can help you organize and categorize your resources. You can also use them to
+scope user permissions by granting a user permission to access or change only resources with
+certain tag values. In Connect Customer Profiles, domains, profile object types, and
+integrations can be tagged.
 
 Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of
 characters.
@@ -2516,9 +2537,9 @@ end
     update_calculated_attribute_definition(calculated_attribute_name, domain_name)
     update_calculated_attribute_definition(calculated_attribute_name, domain_name, params::Dict{String,<:Any})
 
-Updates an existing calculated attribute definition. When updating the Conditions, note
-that increasing the date range of a calculated attribute will not trigger inclusion of
-historical data greater than the current date range.
+Updates an existing calculated attribute definition. When updating the Conditions, note that
+increasing the date range of a calculated attribute will not trigger inclusion of historical
+data greater than the current date range.
 
 # Arguments
 
@@ -2591,29 +2612,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeadLetterQueueUrl"`: The URL of the SQS dead letter queue, which is used for reporting
   errors associated with ingesting data from third party applications. If specified as an
   empty string, it will clear any existing value. You must set up a policy on the
-  DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer
-  Profiles to send messages to the DeadLetterQueue.
-- `"DefaultEncryptionKey"`: The default encryption key, which is an AWS managed key, is
-  used when no specific type of encryption key is specified. It is used to encrypt all
-  data before it is placed in permanent or semi-permanent storage. If specified as an
-  empty string, it will clear any existing value.
+  DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles
+  to send messages to the DeadLetterQueue.
+
+- `"DefaultEncryptionKey"`: The default encryption key, which is an AWS managed key, is used
+  when no specific type of encryption key is specified. It is used to encrypt all data
+  before it is placed in permanent or semi-permanent storage. If specified as an empty
+  string, it will clear any existing value.
+
 - `"DefaultExpirationDays"`: The default number of days until the data within the domain
   expires.
+
 - `"Matching"`: The process of matching duplicate profiles. If `Matching` = `true`, Amazon
-  Connect Customer Profiles starts a weekly batch process called Identity Resolution Job.
-  If you do not specify a date and time for Identity Resolution Job to run, by default it
-  runs every Saturday at 12AM UTC to detect duplicate profiles in your domains.
+  Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If
+  you do not specify a date and time for Identity Resolution Job to run, by default it runs
+  every Saturday at 12AM UTC to detect duplicate profiles in your domains.
 
   After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html)
-  API to return and review the results. Or, if you have configured `ExportingConfig` in
-  the `MatchingRequest`, you can download the results from S3.
+  API to return and review the results. Or, if you have configured `ExportingConfig` in the
+  `MatchingRequest`, you can download the results from S3.
+
 - `"RuleBasedMatching"`: The process of matching duplicate profiles using the rule-Based
   matching. If `RuleBasedMatching` = true, Amazon Connect Customer Profiles will start to
   match and merge your profiles according to your configuration in the
   `RuleBasedMatchingRequest`. You can use the `ListRuleBasedMatches` and
   `GetSimilarProfiles` API to return and review the results. Also, if you have configured
-  `ExportingConfig` in the `RuleBasedMatchingRequest`, you can download the results from
-  S3.
+  `ExportingConfig` in the `RuleBasedMatchingRequest`, you can download the results from S3.
+
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function update_domain end
@@ -2648,9 +2673,9 @@ end
 Updates the properties of a profile. The ProfileId is required for updating a customer
 profile.
 
-When calling the UpdateProfile API, specifying an empty string value means that any
-existing value will be removed. Not specifying a string value means that any value already
-there will be kept.
+When calling the UpdateProfile API, specifying an empty string value means that any existing
+value will be removed. Not specifying a string value means that any value already there will
+be kept.
 
 # Arguments
 
@@ -2662,18 +2687,17 @@ there will be kept.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccountNumber"`: An account number that you have given to the customer.
-- `"AdditionalInformation"`: Any additional information relevant to the customer’s
-  profile.
-- `"Address"`: A generic address associated with the customer that is not mailing,
-  shipping, or billing.
+- `"AdditionalInformation"`: Any additional information relevant to the customer’s profile.
+- `"Address"`: A generic address associated with the customer that is not mailing, shipping,
+  or billing.
 - `"Attributes"`: A key value pair of attributes of a customer profile.
 - `"BillingAddress"`: The customer’s billing address.
 - `"BirthDate"`: The customer’s birth date.
 - `"BusinessEmailAddress"`: The customer’s business email address.
 - `"BusinessName"`: The name of the customer’s business.
 - `"BusinessPhoneNumber"`: The customer’s business phone number.
-- `"EmailAddress"`: The customer’s email address, which has not been specified as a
-  personal or business address.
+- `"EmailAddress"`: The customer’s email address, which has not been specified as a personal
+  or business address.
 - `"FirstName"`: The customer’s first name.
 - `"Gender"`: The gender with which the customer identifies.
 - `"GenderString"`: An alternative to `Gender` which accepts any string as input.

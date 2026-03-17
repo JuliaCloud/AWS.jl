@@ -51,9 +51,9 @@ end
     cancel_change_set(catalog, change_set_id)
     cancel_change_set(catalog, change_set_id, params::Dict{String,<:Any})
 
-Used to cancel an open change request. Must be sent before the status of the request
-changes to `APPLYING`, the final stage of completing your change request. You can describe
-a change during the 60-day request history retention period for API calls.
+Used to cancel an open change request. Must be sent before the status of the request changes
+to `APPLYING`, the final stage of completing your change request. You can describe a change
+during the 60-day request history retention period for API calls.
 
 # Arguments
 
@@ -146,8 +146,8 @@ Provides information about a given change set.
 # Arguments
 
 - `catalog`: Required. The catalog related to the request. Fixed value: `AWSMarketplace`
-- `change_set_id`: Required. The unique identifier for the `StartChangeSet` request that
-  you want to describe the details for.
+- `change_set_id`: Required. The unique identifier for the `StartChangeSet` request that you
+  want to describe the details for.
 """
 function describe_change_set end
 
@@ -276,8 +276,8 @@ end
     list_change_sets(catalog, params::Dict{String,<:Any})
 
 Returns the list of change sets owned by the account being used to make the call. You can
-filter this list by providing any combination of `entityId`, `ChangeSetName`, and status.
-If you provide more than one filter, the API operation applies a logical AND between the
+filter this list by providing any combination of `entityId`, `ChangeSetName`, and status. If
+you provide more than one filter, the API operation applies a logical AND between the
 filters.
 
 You can describe a change during the 60-day request history retention period for API calls.
@@ -292,8 +292,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FilterList"`: An array of filter objects.
 - `"MaxResults"`: The maximum number of results returned by a single call. This value must
-  be provided in the next call to retrieve the next set of results. By default, this
-  value is 20.
+  be provided in the next call to retrieve the next set of results. By default, this value
+  is 20.
 - `"NextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 - `"Sort"`: An object that contains two attributes, `SortBy` and `SortOrder`.
@@ -341,9 +341,9 @@ Provides the list of entities of a given type.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"EntityTypeFilters"`: A Union object containing filter shapes for all `EntityType`s.
-  Each `EntityTypeFilter` shape will have filters applicable for that `EntityType` that
-  can be used to search or filter entities.
+- `"EntityTypeFilters"`: A Union object containing filter shapes for all `EntityType`s. Each
+  `EntityTypeFilter` shape will have filters applicable for that `EntityType` that can be
+  used to search or filter entities.
 - `"EntityTypeSort"`: A Union object containing `Sort` shapes for all `EntityType`s. Each
   `EntityTypeSort` shape will have `SortBy` and `SortOrder` applicable for fields on that
   `EntityType`. This can be used to sort the results of the filter query.
@@ -354,8 +354,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The value of the next token, if it exists. Null if there are no more
   results.
 - `"OwnershipType"`: Filters the returned set of entities based on their owner. The default
-  is `SELF`. To list entities shared with you through AWS Resource Access Manager (AWS
-  RAM), set to `SHARED`. Entities shared through the AWS Marketplace Catalog API [`put_resource_policy`](@ref)
+  is `SELF`. To list entities shared with you through AWS Resource Access Manager (AWS RAM),
+  set to `SHARED`. Entities shared through the AWS Marketplace Catalog API [`put_resource_policy`](@ref)
   operation can't be discovered through the `SHARED` parameter.
 - `"Sort"`: An object that contains two attributes, `SortBy` and `SortOrder`.
 """
@@ -491,9 +491,9 @@ end
 Allows you to request changes for your entities. Within a single `ChangeSet`, you can't
 start the same change type against the same entity multiple times. Additionally, when a
 `ChangeSet` is running, all the entities targeted by the different changes are locked until
-the change set has completed (either succeeded, cancelled, or failed). If you try to start
-a change set containing a change against an entity that is already locked, you will receive
-a `ResourceInUseException` error.
+the change set has completed (either succeeded, cancelled, or failed). If you try to start a
+change set containing a change against an entity that is already locked, you will receive a
+`ResourceInUseException` error.
 
 For example, you can't start the `ChangeSet` described in the [example](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_StartChangeSet.html#API_StartChangeSet_Examples)
 later in this topic because it contains two changes to run the same change type
@@ -519,8 +519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: A unique token to identify the request to ensure idempotency.
 - `"Intent"`: The intent related to the request. The default is `APPLY`. To test your
   request before applying changes to your entities, use `VALIDATE`. This feature is
-  currently available for adding versions to single-AMI products. For more information,
-  see [Add a new version](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#ami-add-version).
+  currently available for adding versions to single-AMI products. For more information, see [Add a new version](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#ami-add-version).
 """
 function start_change_set end
 

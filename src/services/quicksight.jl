@@ -152,10 +152,9 @@ always override customizations that apply to an Amazon Web Services account. To 
 which customizations apply, use the `DescribeAccountCustomization` API operation.
 
 Before you use the `CreateAccountCustomization` API operation to add a theme as the
-namespace default, make sure that you first share the theme with the namespace. If you
-don't share it with the namespace, the theme isn't visible to your users even if you make
-it the default theme. To check if the theme is shared, view the current permissions by
-using the
+namespace default, make sure that you first share the theme with the namespace. If you don't
+share it with the namespace, the theme isn't visible to your users even if you make it the
+default theme. To check if the theme is shared, view the current permissions by using the
 `[DescribeThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeThemePermissions.html)`
 API operation. To share the theme, grant permissions by using the
 `[UpdateThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateThemePermissions.html)`
@@ -163,15 +162,16 @@ API operation.
 
 # Arguments
 
-- `account_customization`: The Amazon QuickSight customizations you're adding in the
-  current Amazon Web Services Region. You can add these to an Amazon Web Services account
-  and a QuickSight namespace.
+- `account_customization`: The Amazon QuickSight customizations you're adding in the current
+  Amazon Web Services Region. You can add these to an Amazon Web Services account and a
+  QuickSight namespace.
 
-  For example, you can add a default theme by setting `AccountCustomization` to the
-  midnight theme:
+  For example, you can add a default theme by setting `AccountCustomization` to the midnight
+  theme:
   `"AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }`.
   Or, you can add a custom theme by specifying
   `"AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }`.
+
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to customize
   Amazon QuickSight for.
 
@@ -223,8 +223,8 @@ end
 
 Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q.
 
-The Amazon Web Services Region for the account is derived from what is configured in the
-CLI or SDK.
+The Amazon Web Services Region for the account is derived from what is configured in the CLI
+or SDK.
 
 Before you use this operation, make sure that you can connect to an existing Amazon Web
 Services account. If you don't have an Amazon Web Services account, see [Sign up for Amazon Web Services](https://docs.aws.amazon.com/quicksight/latest/user/setting-up-aws-sign-up.html)
@@ -251,6 +251,7 @@ in the *Amazon QuickSight User Guide*.
 - `account_name`: The name of your Amazon QuickSight account. This name is unique over all
   of Amazon Web Services, and it appears only when users sign in. You can't change
   `AccountName` value after the Amazon QuickSight account is created.
+
 - `authentication_method`: The method that you want to use to authenticate your Amazon
   QuickSight account.
 
@@ -259,8 +260,10 @@ in the *Amazon QuickSight User Guide*.
 
   If you choose `IAM_IDENTITY_CENTER`, provide an `AdminGroup` associated with your IAM
   Identity Center account.
+
 - `aws_account_id`: The Amazon Web Services account ID of the account that you're using to
   create your Amazon QuickSight account.
+
 - `notification_email`: The email address that you want Amazon QuickSight to send
   notifications to regarding your Amazon QuickSight account or Amazon QuickSight
   subscription.
@@ -272,43 +275,50 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ActiveDirectoryName"`: The name of your Active Directory. This field is required if
   `ACTIVE_DIRECTORY` is the selected authentication method of the new Amazon QuickSight
   account.
+
 - `"AdminGroup"`: The admin group associated with your Active Directory or IAM Identity
   Center account. Either this field or the `AdminProGroup` field is required if
-  `ACTIVE_DIRECTORY` or `IAM_IDENTITY_CENTER` is the selected authentication method of
-  the new Amazon QuickSight account.
+  `ACTIVE_DIRECTORY` or `IAM_IDENTITY_CENTER` is the selected authentication method of the
+  new Amazon QuickSight account.
 
   For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html)
-  in the Amazon QuickSight User Guide. For more information about using Active Directory
-  in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
+  in the Amazon QuickSight User Guide. For more information about using Active Directory in
+  Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
   in the Amazon QuickSight User Guide.
+
 - `"AdminProGroup"`: The admin pro group associated with your Active Directory or IAM
   Identity Center account. Either this field or the `AdminGroup` field is required if
-  `ACTIVE_DIRECTORY` or `IAM_IDENTITY_CENTER` is the selected authentication method of
-  the new Amazon QuickSight account.
+  `ACTIVE_DIRECTORY` or `IAM_IDENTITY_CENTER` is the selected authentication method of the
+  new Amazon QuickSight account.
 
   For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html)
-  in the Amazon QuickSight User Guide. For more information about using Active Directory
-  in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
+  in the Amazon QuickSight User Guide. For more information about using Active Directory in
+  Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
   in the Amazon QuickSight User Guide.
+
 - `"AuthorGroup"`: The author group associated with your Active Directory or IAM Identity
   Center account.
 
   For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html)
-  in the Amazon QuickSight User Guide. For more information about using Active Directory
-  in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
+  in the Amazon QuickSight User Guide. For more information about using Active Directory in
+  Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
   in the Amazon QuickSight User Guide.
+
 - `"AuthorProGroup"`: The author pro group associated with your Active Directory or IAM
   Identity Center account.
 
   For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html)
-  in the Amazon QuickSight User Guide. For more information about using Active Directory
-  in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
+  in the Amazon QuickSight User Guide. For more information about using Active Directory in
+  Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
   in the Amazon QuickSight User Guide.
-- `"ContactNumber"`: A 10-digit phone number for the author of the Amazon QuickSight
-  account to use for future communications. This field is required if `ENTERPPRISE_AND_Q`
-  is the selected edition of the new Amazon QuickSight account.
+
+- `"ContactNumber"`: A 10-digit phone number for the author of the Amazon QuickSight account
+  to use for future communications. This field is required if `ENTERPPRISE_AND_Q` is the
+  selected edition of the new Amazon QuickSight account.
+
 - `"DirectoryId"`: The ID of the Active Directory that is associated with your Amazon
   QuickSight account.
+
 - `"Edition"`: The edition of Amazon QuickSight that you want your account to have.
   Currently, you can choose from `ENTERPRISE` or `ENTERPRISE_AND_Q`.
 
@@ -320,30 +330,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `ContactNumber`
 
 - `"EmailAddress"`: The email address of the author of the Amazon QuickSight account to use
-  for future communications. This field is required if `ENTERPPRISE_AND_Q` is the
-  selected edition of the new Amazon QuickSight account.
+  for future communications. This field is required if `ENTERPPRISE_AND_Q` is the selected
+  edition of the new Amazon QuickSight account.
+
 - `"FirstName"`: The first name of the author of the Amazon QuickSight account to use for
   future communications. This field is required if `ENTERPPRISE_AND_Q` is the selected
   edition of the new Amazon QuickSight account.
+
 - `"IAMIdentityCenterInstanceArn"`: The Amazon Resource Name (ARN) for the IAM Identity
   Center instance.
+
 - `"LastName"`: The last name of the author of the Amazon QuickSight account to use for
   future communications. This field is required if `ENTERPPRISE_AND_Q` is the selected
   edition of the new Amazon QuickSight account.
+
 - `"ReaderGroup"`: The reader group associated with your Active Directory or IAM Identity
   Center account.
 
   For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html)
-  in the Amazon QuickSight User Guide. For more information about using Active Directory
-  in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
+  in the Amazon QuickSight User Guide. For more information about using Active Directory in
+  Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
   in the Amazon QuickSight User Guide.
+
 - `"ReaderProGroup"`: The reader pro group associated with your Active Directory or IAM
   Identity Center account.
 
   For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html)
-  in the Amazon QuickSight User Guide. For more information about using Active Directory
-  in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
+  in the Amazon QuickSight User Guide. For more information about using Active Directory in
+  Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html)
   in the Amazon QuickSight User Guide.
+
 - `"Realm"`: The realm of the Active Directory that is associated with your Amazon
   QuickSight account. This field is required if `ACTIVE_DIRECTORY` is the selected
   authentication method of the new Amazon QuickSight account.
@@ -421,28 +437,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   A definition is the data model of all features in a Dashboard, Template, or Analysis.
 
-  Either a `SourceEntity` or a `Definition` must be provided in order for the request to
-  be valid.
-- `"FolderArns"`: When you create the analysis, Amazon QuickSight adds the analysis to
-  these folders.
+  Either a `SourceEntity` or a `Definition` must be provided in order for the request to be
+  valid.
+
+- `"FolderArns"`: When you create the analysis, Amazon QuickSight adds the analysis to these
+  folders.
+
 - `"Parameters"`: The parameter names and override values that you want to use. An analysis
   can have any parameter type, and some parameters might accept multiple values.
+
 - `"Permissions"`: A structure that describes the principals and the resource-level
-  permissions on an analysis. You can use the `Permissions` structure to grant
-  permissions by providing a list of Identity and Access Management (IAM) action
-  information for each principal listed by Amazon Resource Name (ARN).
+  permissions on an analysis. You can use the `Permissions` structure to grant permissions
+  by providing a list of Identity and Access Management (IAM) action information for each
+  principal listed by Amazon Resource Name (ARN).
 
   To specify no permissions, omit `Permissions`.
+
 - `"SourceEntity"`: A source entity to use for the analysis that you're creating. This
   metadata structure contains details that describe a source template and one or more
   datasets.
 
-  Either a `SourceEntity` or a `Definition` must be provided in order for the request to
-  be valid.
+  Either a `SourceEntity` or a `Definition` must be provided in order for the request to be
+  valid.
+
 - `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the analysis.
+
 - `"ThemeArn"`: The ARN for the theme to apply to the analysis that you're creating. To see
   the theme in the Amazon QuickSight console, make sure that you have access to it.
+
 - `"ValidationStrategy"`: The option to relax the validation needed to create an analysis
   with definition objects. This skips the validation step for specific errors.
 """
@@ -504,13 +527,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DashboardPublishOptions"`: Options for publishing the dashboard when you create it:
 
-  - `AvailabilityStatus` for `AdHocFilteringOption` - This status can be either `ENABLED`
-    or `DISABLED`. When this is set to `DISABLED`, Amazon QuickSight disables the left
-    filter pane on the published dashboard, which can be used for ad hoc (one-time)
-    filtering. This option is `ENABLED` by default.
+  - `AvailabilityStatus` for `AdHocFilteringOption` - This status can be either `ENABLED` or
+    `DISABLED`. When this is set to `DISABLED`, Amazon QuickSight disables the left filter
+    pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This
+    option is `ENABLED` by default.
   - `AvailabilityStatus` for `ExportToCSVOption` - This status can be either `ENABLED` or
-    `DISABLED`. The visual option to export data to .CSV format isn't enabled when this
-    is set to `DISABLED`. This option is `ENABLED` by default.
+    `DISABLED`. The visual option to export data to .CSV format isn't enabled when this is
+    set to `DISABLED`. This option is `ENABLED` by default.
   - `VisibilityState` for `SheetControlsOption` - This visibility state can be either
     `COLLAPSED` or `EXPANDED`. This option is `COLLAPSED` by default.
 
@@ -518,46 +541,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   A definition is the data model of all features in a Dashboard, Template, or Analysis.
 
-  Either a `SourceEntity` or a `Definition` must be provided in order for the request to
-  be valid.
+  Either a `SourceEntity` or a `Definition` must be provided in order for the request to be
+  valid.
+
 - `"FolderArns"`: When you create the dashboard, Amazon QuickSight adds the dashboard to
   these folders.
+
 - `"LinkEntities"`: A list of analysis Amazon Resource Names (ARNs) to be linked to the
   dashboard.
+
 - `"LinkSharingConfiguration"`: A structure that contains the permissions of a shareable
   link to the dashboard.
-- `"Parameters"`: The parameters for the creation of the dashboard, which you want to use
-  to override the default settings. A dashboard can have any type of parameters, and some
+
+- `"Parameters"`: The parameters for the creation of the dashboard, which you want to use to
+  override the default settings. A dashboard can have any type of parameters, and some
   parameters might accept multiple values.
+
 - `"Permissions"`: A structure that contains the permissions of the dashboard. You can use
-  this structure for granting permissions by providing a list of IAM action information
-  for each principal ARN.
+  this structure for granting permissions by providing a list of IAM action information for
+  each principal ARN.
 
   To specify no permissions, omit the permissions list.
-- `"SourceEntity"`: The entity that you are using as a source when you create the
-  dashboard. In `SourceEntity`, you specify the type of object you're using as source.
-  You can only create a dashboard from a template, so you use a `SourceTemplate` entity.
-  If you need to create a dashboard from an analysis, first convert the analysis to a
-  template by using the
+
+- `"SourceEntity"`: The entity that you are using as a source when you create the dashboard.
+  In `SourceEntity`, you specify the type of object you're using as source. You can only
+  create a dashboard from a template, so you use a `SourceTemplate` entity. If you need to
+  create a dashboard from an analysis, first convert the analysis to a template by using the
   `[CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html)`
-  API operation. For `SourceTemplate`, specify the Amazon Resource Name (ARN) of the
-  source template. The `SourceTemplate`ARN can contain any Amazon Web Services account
-  and any Amazon QuickSight-supported Amazon Web Services Region.
+  API operation. For `SourceTemplate`, specify the Amazon Resource Name (ARN) of the source
+  template. The `SourceTemplate`ARN can contain any Amazon Web Services account and any
+  Amazon QuickSight-supported Amazon Web Services Region.
 
   Use the `DataSetReferences` entity within `SourceTemplate` to list the replacement
   datasets for the placeholders listed in the original. The schema in each dataset must
   match its placeholder.
 
-  Either a `SourceEntity` or a `Definition` must be provided in order for the request to
-  be valid.
+  Either a `SourceEntity` or a `Definition` must be provided in order for the request to be
+  valid.
+
 - `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the dashboard.
+
 - `"ThemeArn"`: The Amazon Resource Name (ARN) of the theme that is being used for this
-  dashboard. If you add a value for this field, it overrides the value that is used in
-  the source entity. The theme ARN must exist in the same Amazon Web Services account
-  where you create the dashboard.
+  dashboard. If you add a value for this field, it overrides the value that is used in the
+  source entity. The theme ARN must exist in the same Amazon Web Services account where you
+  create the dashboard.
+
 - `"ValidationStrategy"`: The option to relax the validation needed to create a dashboard
   with definition objects. This option skips the validation step for specific errors.
+
 - `"VersionDescription"`: A description for the first version of the dashboard being
   created.
 """
@@ -601,8 +633,8 @@ source.
 # Arguments
 
 - `aws_account_id`: The Amazon Web Services account ID.
-- `data_set_id`: An ID for the dataset that you want to create. This ID is unique per
-  Amazon Web Services Region for each Amazon Web Services account.
+- `data_set_id`: An ID for the dataset that you want to create. This ID is unique per Amazon
+  Web Services Region for each Amazon Web Services account.
 - `import_mode`: Indicates whether you want to import the data into SPICE.
 - `name`: The display name for the dataset.
 - `physical_table_map`: Declares the physical tables that are available in the underlying
@@ -694,9 +726,12 @@ Creates a data source.
 # Arguments
 
 - `aws_account_id`: The Amazon Web Services account ID.
+
 - `data_source_id`: An ID for the data source. This ID is unique per Amazon Web Services
   Region for each Amazon Web Services account.
+
 - `name`: A display name for the data source.
+
 - `type`: The type of the data source. To return a list of all data sources, use
   `ListDataSources`.
 
@@ -706,13 +741,12 @@ Creates a data source.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Credentials"`: The credentials Amazon QuickSight that uses to connect to your
-  underlying source. Currently, only credentials based on user name and password are
-  supported.
+- `"Credentials"`: The credentials Amazon QuickSight that uses to connect to your underlying
+  source. Currently, only credentials based on user name and password are supported.
 - `"DataSourceParameters"`: The parameters that Amazon QuickSight uses to connect to your
   underlying source.
-- `"FolderArns"`: When you create the data source, Amazon QuickSight adds the data source
-  to these folders.
+- `"FolderArns"`: When you create the data source, Amazon QuickSight adds the data source to
+  these folders.
 - `"Permissions"`: A list of resource permissions on the data source.
 - `"SslProperties"`: Secure Socket Layer (SSL) properties that apply when Amazon QuickSight
   connects to your underlying source.
@@ -781,16 +815,21 @@ Creates an empty shared folder.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FolderType"`: The type of folder. By default, `folderType` is `SHARED`.
+
 - `"Name"`: The name of the folder.
+
 - `"ParentFolderArn"`: The Amazon Resource Name (ARN) for the parent folder.
 
   `ParentFolderArn` can be null. An empty `parentFolderArn` creates a root-level folder.
+
 - `"Permissions"`: A structure that describes the principals and the resource-level
   permissions of a folder.
 
   To specify no permissions, omit `Permissions`.
+
 - `"SharingModel"`: An optional parameter that determines the sharing scope of the folder.
   The default value for this parameter is `ACCOUNT`.
+
 - `"Tags"`: Tags for the folder.
 """
 function create_folder end
@@ -987,18 +1026,19 @@ overwriting rules in other namespaces, use assignment names that are unique.
 
 # Arguments
 
-- `assignment_name`: The name of the assignment, also called a rule. The name must be
-  unique within the Amazon Web Services account.
+- `assignment_name`: The name of the assignment, also called a rule. The name must be unique
+  within the Amazon Web Services account.
+
 - `assignment_status`: The status of the assignment. Possible values are as follows:
 
-  - `ENABLED` - Anything specified in this assignment is used when creating the data
-    source.
+  - `ENABLED` - Anything specified in this assignment is used when creating the data source.
   - `DISABLED` - This assignment isn't used when creating the data source.
-  - `DRAFT` - This assignment is an unfinished draft and isn't used when creating the
-    data source.
+  - `DRAFT` - This assignment is an unfinished draft and isn't used when creating the data
+    source.
 
 - `aws_account_id`: The ID of the Amazon Web Services account where you want to assign an
   IAM policy to Amazon QuickSight users or groups.
+
 - `namespace`: The namespace that contains the assignment.
 
 # Optional Parameters
@@ -1060,15 +1100,15 @@ end
     create_ingestion(aws_account_id, data_set_id, ingestion_id)
     create_ingestion(aws_account_id, data_set_id, ingestion_id, params::Dict{String,<:Any})
 
-Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets
-in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh
+Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in
+an Enterprise edition account 32 times in a 24-hour period. You can manually refresh
 datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is
 measured starting 24 hours before the current date and time.
 
 Any ingestions operating on tagged datasets inherit the same tags automatically for use in
 access control. For an example, see [How do I create an IAM policy to control access to Amazon EC2 resources using tags?](http://aws.amazon.com/premiumsupport/knowledge-center/iam-ec2-resource-tags/)
-in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but
-not on the ingestion resource.
+in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not
+on the ingestion resource.
 
 # Arguments
 
@@ -1117,13 +1157,13 @@ end
 
 (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight.
 
-A namespace allows you to isolate the Amazon QuickSight users and groups that are
-registered for that namespace. Users that access the namespace can share assets only with
-other users or groups in the same namespace. They can't see users and groups in other
-namespaces. You can create a namespace after your Amazon Web Services account is subscribed
-to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account.
-By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase
-your limit, create a ticket with Amazon Web Services Support.
+A namespace allows you to isolate the Amazon QuickSight users and groups that are registered
+for that namespace. Users that access the namespace can share assets only with other users
+or groups in the same namespace. They can't see users and groups in other namespaces. You
+can create a namespace after your Amazon Web Services account is subscribed to Amazon
+QuickSight. The namespace must be unique within the Amazon Web Services account. By default,
+there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit,
+create a ticket with Amazon Web Services Support.
 
 # Arguments
 
@@ -1234,8 +1274,8 @@ Use `CreateRoleMembership` to add an existing Amazon QuickSight group to an exis
 # Arguments
 
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to create a
-  group in. The Amazon Web Services account ID that you provide must be the same Amazon
-  Web Services account that contains your Amazon QuickSight account.
+  group in. The Amazon Web Services account ID that you provide must be the same Amazon Web
+  Services account that contains your Amazon QuickSight account.
 - `member_name`: The name of the group that you want to add to the role.
 - `namespace`: The namespace that the role belongs to.
 - `role`: The role that you want to add a group to.
@@ -1290,11 +1330,10 @@ follow the same schema that was used to create the source analysis and template.
 
 # Arguments
 
-- `aws_account_id`: The ID for the Amazon Web Services account that the group is in. You
-  use the ID for the Amazon Web Services account that contains your Amazon QuickSight
-  account.
-- `template_id`: An ID for the template that you want to create. This template is unique
-  per Amazon Web Services Region; in each Amazon Web Services account.
+- `aws_account_id`: The ID for the Amazon Web Services account that the group is in. You use
+  the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+- `template_id`: An ID for the template that you want to create. This template is unique per
+  Amazon Web Services Region; in each Amazon Web Services account.
 
 # Optional Parameters
 
@@ -1304,32 +1343,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   A definition is the data model of all features in a Dashboard, Template, or Analysis.
 
-  Either a `SourceEntity` or a `Definition` must be provided in order for the request to
-  be valid.
+  Either a `SourceEntity` or a `Definition` must be provided in order for the request to be
+  valid.
+
 - `"Name"`: A display name for the template.
+
 - `"Permissions"`: A list of resource permissions to be set on the template.
+
 - `"SourceEntity"`: The entity that you are using as a source when you create the template.
-  In `SourceEntity`, you specify the type of object you're using as source:
-  `SourceTemplate` for a template or `SourceAnalysis` for an analysis. Both of these
-  require an Amazon Resource Name (ARN). For `SourceTemplate`, specify the ARN of the
-  source template. For `SourceAnalysis`, specify the ARN of the source analysis. The
-  `SourceTemplate` ARN can contain any Amazon Web Services account and any Amazon
-  QuickSight-supported Amazon Web Services Region.
+  In `SourceEntity`, you specify the type of object you're using as source: `SourceTemplate`
+  for a template or `SourceAnalysis` for an analysis. Both of these require an Amazon
+  Resource Name (ARN). For `SourceTemplate`, specify the ARN of the source template. For
+  `SourceAnalysis`, specify the ARN of the source analysis. The `SourceTemplate` ARN can
+  contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web
+  Services Region.
 
-  Use the `DataSetReferences` entity within `SourceTemplate` or `SourceAnalysis` to list
-  the replacement datasets for the placeholders listed in the original. The schema in
-  each dataset must match its placeholder.
+  Use the `DataSetReferences` entity within `SourceTemplate` or `SourceAnalysis` to list the
+  replacement datasets for the placeholders listed in the original. The schema in each
+  dataset must match its placeholder.
 
-  Either a `SourceEntity` or a `Definition` must be provided in order for the request to
-  be valid.
+  Either a `SourceEntity` or a `Definition` must be provided in order for the request to be
+  valid.
+
 - `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the resource.
+
 - `"ValidationStrategy"`: TThe option to relax the validation needed to create a template
   with definition objects. This skips the validation step for specific errors.
+
 - `"VersionDescription"`: A description of the current template version being created. This
   API operation creates the first version of the template. Every time `UpdateTemplate` is
-  called, a new version is created. Each version of the template maintains a description
-  of the version in the `VersionDescription` field.
+  called, a new version is created. Each version of the template maintains a description of
+  the version in the `VersionDescription` field.
 """
 function create_template end
 
@@ -1368,8 +1413,8 @@ Creates a template alias for a template.
 # Arguments
 
 - `alias_name`: The name that you want to give to the template alias that you're creating.
-  Don't start the alias name with the `\$` character. Alias names that start with `\$`
-  are reserved by Amazon QuickSight.
+  Don't start the alias name with the `\$` character. Alias names that start with `\$` are
+  reserved by Amazon QuickSight.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the template
   that you creating an alias for.
 - `template_id`: An ID for the template.
@@ -1422,8 +1467,8 @@ end
 
 Creates a theme.
 
-A *theme* is set of configuration options for color and layout. Themes apply to analyses
-and dashboards. For more information, see [Using Themes in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html)
+A *theme* is set of configuration options for color and layout. Themes apply to analyses and
+dashboards. For more information, see [Using Themes in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html)
 in the *Amazon QuickSight User Guide*.
 
 # Arguments
@@ -1435,8 +1480,8 @@ in the *Amazon QuickSight User Guide*.
   starting themes, use `ListThemes` or choose **Themes** from within an analysis.
 - `configuration`: The theme configuration, which contains the theme display properties.
 - `name`: A display name for the theme.
-- `theme_id`: An ID for the theme that you want to create. The theme ID is unique per
-  Amazon Web Services Region in each Amazon Web Services account.
+- `theme_id`: An ID for the theme that you want to create. The theme ID is unique per Amazon
+  Web Services Region in each Amazon Web Services account.
 
 # Optional Parameters
 
@@ -1506,9 +1551,9 @@ Creates a theme alias for a theme.
 
 # Arguments
 
-- `alias_name`: The name that you want to give to the theme alias that you are creating.
-  The alias name can't begin with a `\$`. Alias names that start with `\$` are reserved
-  by Amazon QuickSight.
+- `alias_name`: The name that you want to give to the theme alias that you are creating. The
+  alias name can't begin with a `\$`. Alias names that start with `\$` are reserved by
+  Amazon QuickSight.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the theme for
   the new theme alias.
 - `theme_id`: An ID for the theme alias.
@@ -1564,8 +1609,8 @@ Creates a new Q topic.
 - `aws_account_id`: The ID of the Amazon Web Services account that you want to create a
   topic in.
 - `topic`: The definition of a topic to create.
-- `topic_id`: The ID for the topic that you want to create. This ID is unique per Amazon
-  Web Services Region for each Amazon Web Services account.
+- `topic_id`: The ID for the topic that you want to create. This ID is unique per Amazon Web
+  Services Region for each Amazon Web Services account.
 
 # Optional Parameters
 
@@ -1616,8 +1661,8 @@ Creates a topic refresh schedule.
 
 # Arguments
 
-- `aws_account_id`: The ID of the Amazon Web Services account that contains the topic
-  you're creating a refresh schedule for.
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the topic you're
+  creating a refresh schedule for.
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset.
 - `refresh_schedule`: The definition of a refresh schedule.
 - `topic_id`: The ID of the topic that you want to modify. This ID is unique per Amazon Web
@@ -1686,8 +1731,8 @@ Creates a new VPC connection.
 - `role_arn`: The IAM role to associate with the VPC connection.
 - `security_group_ids`: A list of security group IDs for the VPC connection.
 - `subnet_ids`: A list of subnet IDs for the VPC connection.
-- `vpcconnection_id`: The ID of the VPC connection that you're creating. This ID is a
-  unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+- `vpcconnection_id`: The ID of the VPC connection that you're creating. This ID is a unique
+  identifier for each Amazon Web Services Region in an Amazon Web Services account.
 
 # Optional Parameters
 
@@ -1807,9 +1852,8 @@ end
 Use the [`delete_account_subscription`](@ref) operation to delete an Amazon QuickSight
 account. This operation will result in an error message if you have configured your account
 termination protection settings to `True`. To change this setting and delete your account,
-call the `UpdateAccountSettings` API and set the value of the
-`TerminationProtectionEnabled` parameter to `False`, then make another call to the
-`DeleteAccountSubscription` API.
+call the `UpdateAccountSettings` API and set the value of the `TerminationProtectionEnabled`
+parameter to `False`, then make another call to the `DeleteAccountSubscription` API.
 
 # Arguments
 
@@ -1848,8 +1892,8 @@ end
     delete_analysis(analysis_id, aws_account_id, params::Dict{String,<:Any})
 
 Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window
-during which you can restore the analysis. If you don't specify a recovery window value,
-the operation defaults to 30 days. Amazon QuickSight attaches a `DeletionTime` stamp to the
+during which you can restore the analysis. If you don't specify a recovery window value, the
+operation defaults to 30 days. Amazon QuickSight attaches a `DeletionTime` stamp to the
 response that specifies the end of the recovery window. At the end of the recovery window,
 Amazon QuickSight deletes the analysis permanently.
 
@@ -1858,9 +1902,9 @@ remove the `DeletionTime` stamp and cancel the deletion of the analysis. The ana
 remains visible in the API until it's deleted, so you can describe it but you can't make a
 template from it.
 
-An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight
-console. To access it in the console, restore it. Deleting an analysis doesn't delete the
-dashboards that you publish from it.
+An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console.
+To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards
+that you publish from it.
 
 # Arguments
 
@@ -1923,8 +1967,8 @@ Deletes a dashboard.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"version-number"`: The version number of the dashboard. If the version number property
-  is provided, only the specified version of the dashboard is deleted.
+- `"version-number"`: The version number of the dashboard. If the version number property is
+  provided, only the specified version of the dashboard is deleted.
 """
 function delete_dashboard end
 
@@ -2301,8 +2345,8 @@ end
     delete_identity_propagation_config(aws_account_id, service)
     delete_identity_propagation_config(aws_account_id, service, params::Dict{String,<:Any})
 
-Deletes all access scopes and authorized targets that are associated with a service from
-the Amazon QuickSight IAM Identity Center application.
+Deletes all access scopes and authorized targets that are associated with a service from the
+Amazon QuickSight IAM Identity Center application.
 
 This operation is only supported for Amazon QuickSight accounts that use IAM Identity
 Center.
@@ -2346,10 +2390,9 @@ end
     delete_namespace(aws_account_id, namespace)
     delete_namespace(aws_account_id, namespace, params::Dict{String,<:Any})
 
-Deletes a namespace and the users and groups that are associated with the namespace. This
-is an asynchronous process. Assets including dashboards, analyses, datasets and data
-sources are not deleted. To delete these assets, you use the API operations for the
-relevant asset.
+Deletes a namespace and the users and groups that are associated with the namespace. This is
+an asynchronous process. Assets including dashboards, analyses, datasets and data sources
+are not deleted. To delete these assets, you use the API operations for the relevant asset.
 
 # Arguments
 
@@ -2478,8 +2521,8 @@ Removes a group from a role.
 # Arguments
 
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to create a
-  group in. The Amazon Web Services account ID that you provide must be the same Amazon
-  Web Services account that contains your Amazon QuickSight account.
+  group in. The Amazon Web Services account ID that you provide must be the same Amazon Web
+  Services account that contains your Amazon QuickSight account.
 - `member_name`: The name of the group.
 - `namespace`: The namespace that contains the role.
 - `role`: The role that you want to remove permissions from.
@@ -2576,8 +2619,7 @@ alias, you delete the version of the template that the alias points to.
 
 - `alias_name`: The name for the template alias. To delete a specific alias, you delete the
   version that the alias points to. You can specify the alias name, or specify the latest
-  version of the template by providing the keyword `\$LATEST` in the `AliasName`
-  parameter.
+  version of the template by providing the keyword `\$LATEST` in the `AliasName` parameter.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the item to
   delete.
 - `template_id`: The ID for the template that the specified alias is for.
@@ -2629,8 +2671,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"version-number"`: The version of the theme that you want to delete.
 
-  **Note:** If you don't provide a version number, you're using this call to
-  `DeleteTheme` to delete all versions of the theme.
+  **Note:** If you don't provide a version number, you're using this call to `DeleteTheme`
+  to delete all versions of the theme.
 """
 function delete_theme end
 
@@ -2883,8 +2925,8 @@ Deletes a VPC connection.
 
 - `aws_account_id`: The Amazon Web Services account ID of the account where you want to
   delete a VPC connection.
-- `vpcconnection_id`: The ID of the VPC connection that you're creating. This ID is a
-  unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+- `vpcconnection_id`: The ID of the VPC connection that you're creating. This ID is a unique
+  identifier for each Amazon Web Services Region in an Amazon Web Services account.
 """
 function delete_vpcconnection end
 
@@ -2923,8 +2965,8 @@ Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon 
 console evaluates which customizations to apply by running this API operation with the
 `Resolved` flag included.
 
-To determine what customizations display when you run this command, it can help to
-visualize the relationship of the entities involved.
+To determine what customizations display when you run this command, it can help to visualize
+the relationship of the entities involved.
 
 - `Amazon Web Services account` - The Amazon Web Services account exists at the top of the
   hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon
@@ -2932,13 +2974,14 @@ visualize the relationship of the entities involved.
   Services Region to use as your home Region. That's where your free SPICE capacity is
   located. You can use Amazon QuickSight in any supported Amazon Web Services Region.
 - `Amazon Web Services Region` - In each Amazon Web Services Region where you sign in to
-  Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the
-  same service. If you have a user directory, it resides in us-east-1, which is the US East
-  (N. Virginia). Generally speaking, these users have access to Amazon QuickSight in any
-  Amazon Web Services Region, unless they are constrained to a namespace.
+  Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the same
+  service. If you have a user directory, it resides in us-east-1, which is the US East (N.
+  Virginia). Generally speaking, these users have access to Amazon QuickSight in any Amazon
+  Web Services Region, unless they are constrained to a namespace.
 
 To run the command in a different Amazon Web Services Region, you change your Region
-settings. If you're using the CLI, you can use one of the following options:   - Use [command line options](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-options.html).
+settings. If you're using the CLI, you can use one of the following options:
+  - Use [command line options](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-options.html).
   - Use [named profiles](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html).
   - Run `aws configure` to change your default Amazon Web Services Region. Use Enter to key
     the same settings for your keys. For more information, see [Configuring the CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html).
@@ -2964,13 +3007,14 @@ settings. If you're using the CLI, you can use one of the following options:   -
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"namespace"`: The Amazon QuickSight namespace that you want to describe Amazon
-  QuickSight customizations for.
+- `"namespace"`: The Amazon QuickSight namespace that you want to describe Amazon QuickSight
+  customizations for.
+
 - `"resolved"`: The `Resolved` flag works with the other parameters to determine which view
-  of Amazon QuickSight customizations is returned. You can add this flag to your command
-  to use the same view that Amazon QuickSight uses to identify which customizations to
-  apply to the console. Omit this flag, or set it to `no-resolved`, to reveal
-  customizations that are configured at different levels.
+  of Amazon QuickSight customizations is returned. You can add this flag to your command to
+  use the same view that Amazon QuickSight uses to identify which customizations to apply to
+  the console. Omit this flag, or set it to `no-resolved`, to reveal customizations that are
+  configured at different levels.
 """
 function describe_account_customization end
 
@@ -3087,8 +3131,8 @@ Provides a summary of the metadata for an analysis.
 
 # Arguments
 
-- `analysis_id`: The ID of the analysis that you're describing. The ID is part of the URL
-  of the analysis.
+- `analysis_id`: The ID of the analysis that you're describing. The ID is part of the URL of
+  the analysis.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the analysis.
   You must be using the Amazon Web Services account that the analysis is in.
 """
@@ -3127,14 +3171,14 @@ end
 Provides a detailed description of the definition of an analysis.
 
 !!! note
-    If you do not need to know details about the content of an Analysis, for instance if
-    you are trying to check the status of a recently created or updated Analysis, use the [`DescribeAnalysis`](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeAnalysis.html)
+    If you do not need to know details about the content of an Analysis, for instance if you
+    are trying to check the status of a recently created or updated Analysis, use the [`DescribeAnalysis`](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeAnalysis.html)
     instead.
 
 # Arguments
 
-- `analysis_id`: The ID of the analysis that you're describing. The ID is part of the URL
-  of the analysis.
+- `analysis_id`: The ID of the analysis that you're describing. The ID is part of the URL of
+  the analysis.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the analysis.
   You must be using the Amazon Web Services account that the analysis is in.
 """
@@ -3214,17 +3258,17 @@ end
 
 Describes an existing export job.
 
-Poll job descriptions after a job starts to know the status of the job. When a job
-succeeds, a URL is provided to download the exported assets' data from. Download URLs are
-valid for five minutes after they are generated. You can call the
-`DescribeAssetBundleExportJob` API for a new download URL as needed.
+Poll job descriptions after a job starts to know the status of the job. When a job succeeds,
+a URL is provided to download the exported assets' data from. Download URLs are valid for
+five minutes after they are generated. You can call the `DescribeAssetBundleExportJob` API
+for a new download URL as needed.
 
 Job descriptions are available for 14 days after the job starts.
 
 # Arguments
 
-- `asset_bundle_export_job_id`: The ID of the job that you want described. The job ID is
-  set when you start a new job with a `StartAssetBundleExportJob` API call.
+- `asset_bundle_export_job_id`: The ID of the job that you want described. The job ID is set
+  when you start a new job with a `StartAssetBundleExportJob` API call.
 - `aws_account_id`: The ID of the Amazon Web Services account the export job is executed in.
 """
 function describe_asset_bundle_export_job end
@@ -3354,8 +3398,8 @@ end
 Provides a detailed description of the definition of a dashboard.
 
 !!! note
-    If you do not need to know details about the content of a dashboard, for instance if
-    you are trying to check the status of a recently created or updated dashboard, use the [`DescribeDashboard`](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboard.html)
+    If you do not need to know details about the content of a dashboard, for instance if you
+    are trying to check the status of a recently created or updated dashboard, use the [`DescribeDashboard`](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboard.html)
     instead.
 
 # Arguments
@@ -4228,8 +4272,8 @@ Describes all custom permissions that are mapped to a role.
 # Arguments
 
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to create a
-  group in. The Amazon Web Services account ID that you provide must be the same Amazon
-  Web Services account that contains your Amazon QuickSight account.
+  group in. The Amazon Web Services account ID that you provide must be the same Amazon Web
+  Services account that contains your Amazon QuickSight account.
 - `namespace`: The namespace that contains the role.
 - `role`: The name of the role whose permissions you want described.
 """
@@ -4472,8 +4516,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"alias-name"`: The alias of the theme that you want to describe. If you name a specific
   alias, you describe the version that the alias points to. You can specify the latest
-  version of the theme by providing the keyword `\$LATEST` in the `AliasName` parameter.
-  The keyword `\$PUBLISHED` doesn't apply to themes.
+  version of the theme by providing the keyword `\$LATEST` in the `AliasName` parameter. The
+  keyword `\$PUBLISHED` doesn't apply to themes.
 - `"version-number"`: The version number for the version to describe. If a `VersionNumber`
   parameter value isn't provided, the latest version of the theme is described.
 """
@@ -4808,8 +4852,8 @@ Describes a VPC connection.
 
 - `aws_account_id`: The Amazon Web Services account ID of the account that contains the VPC
   connection that you want described.
-- `vpcconnection_id`: The ID of the VPC connection that you're creating. This ID is a
-  unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+- `vpcconnection_id`: The ID of the VPC connection that you're creating. This ID is a unique
+  identifier for each Amazon Web Services Region in an Amazon Web Services account.
 """
 function describe_vpcconnection end
 
@@ -4843,9 +4887,9 @@ end
     generate_embed_url_for_anonymous_user(authorized_resource_arns, aws_account_id, experience_configuration, namespace)
     generate_embed_url_for_anonymous_user(authorized_resource_arns, aws_account_id, experience_configuration, namespace, params::Dict{String,<:Any})
 
-Generates an embed URL that you can use to embed an Amazon QuickSight dashboard or visual
-in your website, without having to register any reader users. Before you use this action,
-make sure that you have configured the dashboards and permissions.
+Generates an embed URL that you can use to embed an Amazon QuickSight dashboard or visual in
+your website, without having to register any reader users. Before you use this action, make
+sure that you have configured the dashboards and permissions.
 
 The following rules apply to the generated URL:
 
@@ -4861,8 +4905,8 @@ The following rules apply to the generated URL:
 For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html)
 in the *Amazon QuickSight User Guide*.
 
-For more information about the high-level steps for embedding and for an interactive demo
-of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
+For more information about the high-level steps for embedding and for an interactive demo of
+the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
 
 # Arguments
 
@@ -4876,34 +4920,38 @@ of the ways you can customize embedding, visit the [Amazon QuickSight Developer 
   ARNs that the anonymous users need access to.
 
   Currently, you can pass up to 25 theme ARNs in each API call.
+
 - `aws_account_id`: The ID for the Amazon Web Services account that contains the dashboard
   that you're embedding.
+
 - `experience_configuration`: The configuration of the experience that you are embedding.
-- `namespace`: The Amazon QuickSight namespace that the anonymous user virtually belongs
-  to. If you are not using an Amazon QuickSight custom namespace, set this to `default`.
+
+- `namespace`: The Amazon QuickSight namespace that the anonymous user virtually belongs to.
+  If you are not using an Amazon QuickSight custom namespace, set this to `default`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AllowedDomains"`: The domains that you want to add to the allow list for access to the
-  generated URL that is then embedded. This optional parameter overrides the static
-  domains that are configured in the Manage QuickSight menu in the Amazon QuickSight
-  console. Instead, it allows only the domains that you include in this parameter. You
-  can list up to three domains or subdomains in each API call.
+  generated URL that is then embedded. This optional parameter overrides the static domains
+  that are configured in the Manage QuickSight menu in the Amazon QuickSight console.
+  Instead, it allows only the domains that you include in this parameter. You can list up to
+  three domains or subdomains in each API call.
 
-  To include all subdomains under a specific domain to the allow list, use `*`. For
-  example, `https://*.sapp.amazon.com` includes all subdomains under
-  `https://sapp.amazon.com`.
+  To include all subdomains under a specific domain to the allow list, use `*`. For example,
+  `https://*.sapp.amazon.com` includes all subdomains under `https://sapp.amazon.com`.
+
 - `"SessionLifetimeInMinutes"`: How many minutes the session is valid. The session lifetime
   must be in [15-600] minutes range.
+
 - `"SessionTags"`: The session tags used for row-level security. Before you use this
   parameter, make sure that you have configured the relevant datasets using the
-  `DataSet\$RowLevelPermissionTagConfiguration` parameter so that session tags can be
-  used to provide row-level security.
+  `DataSet\$RowLevelPermissionTagConfiguration` parameter so that session tags can be used
+  to provide row-level security.
 
-  These are not the tags used for the Amazon Web Services resource tagging feature. For
-  more information, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html)in
+  These are not the tags used for the Amazon Web Services resource tagging feature. For more
+  information, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html)in
   the *Amazon QuickSight User Guide*.
 """
 function generate_embed_url_for_anonymous_user end
@@ -4980,8 +5028,8 @@ default session duration is 10 hours.
 For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html)
 in the *Amazon QuickSight User Guide*.
 
-For more information about the high-level steps for embedding and for an interactive demo
-of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
+For more information about the high-level steps for embedding and for an interactive demo of
+the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
 
 # Arguments
 
@@ -4998,14 +5046,14 @@ of the ways you can customize embedding, visit the [Amazon QuickSight Developer 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AllowedDomains"`: The domains that you want to add to the allow list for access to the
-  generated URL that is then embedded. This optional parameter overrides the static
-  domains that are configured in the Manage QuickSight menu in the Amazon QuickSight
-  console. Instead, it allows only the domains that you include in this parameter. You
-  can list up to three domains or subdomains in each API call.
+  generated URL that is then embedded. This optional parameter overrides the static domains
+  that are configured in the Manage QuickSight menu in the Amazon QuickSight console.
+  Instead, it allows only the domains that you include in this parameter. You can list up to
+  three domains or subdomains in each API call.
 
-  To include all subdomains under a specific domain to the allow list, use `*`. For
-  example, `https://*.sapp.amazon.com` includes all subdomains under
-  `https://sapp.amazon.com`.
+  To include all subdomains under a specific domain to the allow list, use `*`. For example,
+  `https://*.sapp.amazon.com` includes all subdomains under `https://sapp.amazon.com`.
+
 - `"SessionLifetimeInMinutes"`: How many minutes the session is valid. The session lifetime
   must be in [15-600] minutes range.
 """
@@ -5068,22 +5116,21 @@ browser. The following rules apply to the generated URL:
 - They can be used one time only.
 - They are valid for 5 minutes after you run this command.
 - You are charged only when the URL is used or there is interaction with Amazon QuickSight.
-- The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum).
-  You can use the optional `SessionLifetimeInMinutes` parameter to customize session
-  duration.
+- The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You
+  can use the optional `SessionLifetimeInMinutes` parameter to customize session duration.
 
 For more information, see [Embedding Analytics Using GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-deprecated.html)
 in the *Amazon QuickSight User Guide*.
 
-For more information about the high-level steps for embedding and for an interactive demo
-of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
+For more information about the high-level steps for embedding and for an interactive demo of
+the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
 
 # Arguments
 
 - `aws_account_id`: The ID for the Amazon Web Services account that contains the dashboard
   that you're embedding.
-- `dashboard_id`: The ID for the dashboard, also added to the Identity and Access
-  Management (IAM) policy.
+- `dashboard_id`: The ID for the dashboard, also added to the Identity and Access Management
+  (IAM) policy.
 - `creds-type`: The authentication method that the user uses to sign in.
 
 # Optional Parameters
@@ -5091,26 +5138,32 @@ of the ways you can customize embedding, visit the [Amazon QuickSight Developer 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"additional-dashboard-ids"`: A list of one or more dashboard IDs that you want anonymous
-  users to have tempporary access to. Currently, the `IdentityType` parameter must be set
-  to `ANONYMOUS` because other identity types authenticate as Amazon QuickSight or IAM
-  users. For example, if you set
-  "`--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS`",
-  the session can access all three dashboards.
+  users to have tempporary access to. Currently, the `IdentityType` parameter must be set to
+  `ANONYMOUS` because other identity types authenticate as Amazon QuickSight or IAM users.
+  For example, if you set
+  "`--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS`", the
+  session can access all three dashboards.
+
 - `"namespace"`: The Amazon QuickSight namespace that contains the dashboard IDs in this
   request. If you're not using a custom namespace, set `Namespace = default`.
+
 - `"reset-disabled"`: Remove the reset button on the embedded dashboard. The default is
   FALSE, which enables the reset button.
+
 - `"session-lifetime"`: How many minutes the session is valid. The session lifetime must be
   15-600 minutes.
+
 - `"state-persistence-enabled"`: Adds persistence of state for the user session in an
-  embedded dashboard. Persistence applies to the sheet and the parameter settings. These
-  are control settings that the dashboard subscriber (Amazon QuickSight reader) chooses
-  while viewing the dashboard. If this is set to `TRUE`, the settings are the same when
-  the subscriber reopens the same dashboard URL. The state is stored in Amazon
-  QuickSight, not in a browser cookie. If this is set to FALSE, the state of the user
-  session is not persisted. The default is `FALSE`.
-- `"undo-redo-disabled"`: Remove the undo/redo button on the embedded dashboard. The
-  default is FALSE, which enables the undo/redo button.
+  embedded dashboard. Persistence applies to the sheet and the parameter settings. These are
+  control settings that the dashboard subscriber (Amazon QuickSight reader) chooses while
+  viewing the dashboard. If this is set to `TRUE`, the settings are the same when the
+  subscriber reopens the same dashboard URL. The state is stored in Amazon QuickSight, not
+  in a browser cookie. If this is set to FALSE, the state of the user session is not
+  persisted. The default is `FALSE`.
+
+- `"undo-redo-disabled"`: Remove the undo/redo button on the embedded dashboard. The default
+  is FALSE, which enables the undo/redo button.
+
 - `"user-arn"`: The Amazon QuickSight user's Amazon Resource Name (ARN), for use with
   `QUICKSIGHT` identity type. You can use this for any Amazon QuickSight users in your
   account (readers, authors, or admins) authenticated as one of the following:
@@ -5120,8 +5173,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - IAM users and IAM role-based sessions authenticated through Federated Single Sign-On
     using SAML, OpenID Connect, or IAM federation.
 
-  Omit this parameter for users in the third group – IAM users and IAM role-based
-  sessions.
+  Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
 """
 function get_dashboard_embed_url end
 
@@ -5193,20 +5245,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `/start/analyses`
   - `/start/dashboards`
   - `/start/favorites`
-  - `/dashboards/*DashboardId*` - where `DashboardId` is the actual ID key from the
-    Amazon QuickSight console URL of the dashboard
+  - `/dashboards/*DashboardId*` - where `DashboardId` is the actual ID key from the Amazon
+    QuickSight console URL of the dashboard
   - `/analyses/*AnalysisId*` - where `AnalysisId` is the actual ID key from the Amazon
     QuickSight console URL of the analysis
 
 - `"session-lifetime"`: How many minutes the session is valid. The session lifetime must be
   15-600 minutes.
+
 - `"user-arn"`: The Amazon QuickSight user's Amazon Resource Name (ARN), for use with
   `QUICKSIGHT` identity type. You can use this for any type of Amazon QuickSight users in
   your account (readers, authors, or admins). They need to be authenticated as one of the
   following:
 
-  1. Active Directory (AD) users or group members2. Invited nonfederated users3. IAM
-     users and IAM role-based sessions authenticated through Federated Single Sign-On
+  1. Active Directory (AD) users or group members
+  2. Invited nonfederated users
+  3. IAM users and IAM role-based sessions authenticated through Federated Single Sign-On
      using SAML, OpenID Connect, or IAM federation
 
   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
@@ -5285,9 +5339,9 @@ end
     list_asset_bundle_export_jobs(aws_account_id, params::Dict{String,<:Any})
 
 Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs
-created more than 14 days ago are deleted forever and are not returned. If you are using
-the same job ID for multiple jobs, `ListAssetBundleExportJobs` only returns the most recent
-job that uses the repeated job ID.
+created more than 14 days ago are deleted forever and are not returned. If you are using the
+same job ID for multiple jobs, `ListAssetBundleExportJobs` only returns the most recent job
+that uses the repeated job ID.
 
 # Arguments
 
@@ -5756,8 +5810,8 @@ Lists the IAM policy assignments in the current Amazon QuickSight account.
 
 # Arguments
 
-- `aws_account_id`: The ID of the Amazon Web Services account that contains these IAM
-  policy assignments.
+- `aws_account_id`: The ID of the Amazon Web Services account that contains these IAM policy
+  assignments.
 - `namespace`: The namespace for the assignments.
 
 # Optional Parameters
@@ -5801,9 +5855,8 @@ end
     list_iampolicy_assignments_for_user(aws_account_id, namespace, user_name)
     list_iampolicy_assignments_for_user(aws_account_id, namespace, user_name, params::Dict{String,<:Any})
 
-Lists all of the IAM policy assignments, including the Amazon Resource Names (ARNs), for
-the IAM policies assigned to the specified user and group, or groups that the user belongs
-to.
+Lists all of the IAM policy assignments, including the Amazon Resource Names (ARNs), for the
+IAM policies assigned to the specified user and group, or groups that the user belongs to.
 
 # Arguments
 
@@ -5962,12 +6015,13 @@ list deleted namespaces.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"max-results"`: The maximum number of results to return.
+
 - `"next-token"`: A unique pagination token that can be used in a subsequent request. You
   will receive a pagination token in the response body of a previous `ListNameSpaces` API
   call if there is more data that can be returned. To receive the data, make another
-  `ListNamespaces` API call with the returned token to retrieve the next page of data.
-  Each token is valid for 24 hours. If you try to make a `ListNamespaces` API call with
-  an expired token, you will receive a `HTTP 400 InvalidNextTokenException` error.
+  `ListNamespaces` API call with the returned token to retrieve the next page of data. Each
+  token is valid for 24 hours. If you try to make a `ListNamespaces` API call with an
+  expired token, you will receive a `HTTP 400 InvalidNextTokenException` error.
 """
 function list_namespaces end
 
@@ -6042,8 +6096,8 @@ Lists all groups that are associated with a role.
 # Arguments
 
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to create a
-  group in. The Amazon Web Services account ID that you provide must be the same Amazon
-  Web Services account that contains your Amazon QuickSight account.
+  group in. The Amazon Web Services account ID that you provide must be the same Amazon Web
+  Services account that contains your Amazon QuickSight account.
 - `namespace`: The namespace that includes the role.
 - `role`: The name of the role.
 
@@ -6373,14 +6427,15 @@ Lists all the themes in the current Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"max-results"`: The maximum number of results to be returned per request.
+
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
+
 - `"type"`: The type of themes that you want to list. Valid options include the following:
 
   - `ALL (default)`- Display all existing themes.
   - `CUSTOM` - Display only the themes created by people using Amazon QuickSight.
   - `QUICKSIGHT` - Display only the starting themes defined by Amazon QuickSight.
-
 """
 function list_themes end
 
@@ -6747,23 +6802,26 @@ see [Inviting users to access Amazon QuickSight](https://docs.aws.amazon.com/qui
 - `aws_account_id`: The ID for the Amazon Web Services account that the user is in.
   Currently, you use the ID for the Amazon Web Services account that contains your Amazon
   QuickSight account.
+
 - `email`: The email address of the user that you want to register.
+
 - `identity_type`: The identity type that your Amazon QuickSight account uses to manage the
   identity of users.
+
 - `namespace`: The namespace. Currently, you should set this to `default`.
+
 - `user_role`: The Amazon QuickSight role for the user. The user role can be one of the
   following:
 
   - `READER`: A user who has read-only access to dashboards.
   - `AUTHOR`: A user who can create data sources, datasets, analyses, and dashboards.
   - `ADMIN`: A user who is an author, who can also manage Amazon QuickSight settings.
-  - `READER_PRO`: Reader Pro adds Generative BI capabilities to the Reader role. Reader
-    Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q,
-    and can generate executive summaries from dashboards.
-  - `AUTHOR_PRO`: Author Pro adds Generative BI capabilities to the Author role. Author
-    Pros can author dashboards with natural language with Amazon Q, build stories with
-    Amazon Q, create Topics for Q&amp;A, and generate executive summaries from
-    dashboards.
+  - `READER_PRO`: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros
+    have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can
+    generate executive summaries from dashboards.
+  - `AUTHOR_PRO`: Author Pro adds Generative BI capabilities to the Author role. Author Pros
+    can author dashboards with natural language with Amazon Q, build stories with Amazon Q,
+    create Topics for Q&amp;A, and generate executive summaries from dashboards.
   - `ADMIN_PRO`: Admin Pros are Author Pros who can also manage Amazon QuickSight
     administrative settings. Admin Pro users are billed at Author Pro pricing.
   - `RESTRICTED_READER`: This role isn't currently available for use.
@@ -6773,13 +6831,14 @@ see [Inviting users to access Amazon QuickSight](https://docs.aws.amazon.com/qui
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CustomFederationProviderUrl"`: The URL of the custom OpenID Connect (OIDC) provider
-  that provides identity to let a user federate into Amazon QuickSight with an associated
+- `"CustomFederationProviderUrl"`: The URL of the custom OpenID Connect (OIDC) provider that
+  provides identity to let a user federate into Amazon QuickSight with an associated
   Identity and Access Management(IAM) role. This parameter should only be used when
   `ExternalLoginFederationProviderType` parameter is set to `CUSTOM_OIDC`.
+
 - `"CustomPermissionsName"`: (Enterprise edition only) The name of the custom permissions
-  profile that you want to assign to this user. Customized permissions allows you to
-  control a user's access by restricting access the following operations:
+  profile that you want to assign to this user. Customized permissions allows you to control
+  a user's access by restricting access the following operations:
 
   - Create and update data sources
   - Create and update datasets
@@ -6790,17 +6849,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `[UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html)`
   instead.
 
-  A set of custom permissions includes any combination of these restrictions. Currently,
-  you need to create the profile names for custom permission sets by using the Amazon
-  QuickSight console. Then, you use the `RegisterUser` API operation to assign the named
-  set of permissions to a Amazon QuickSight user.
+  A set of custom permissions includes any combination of these restrictions. Currently, you
+  need to create the profile names for custom permission sets by using the Amazon QuickSight
+  console. Then, you use the `RegisterUser` API operation to assign the named set of
+  permissions to a Amazon QuickSight user.
 
   Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they
-  override the permissions typically granted by assigning Amazon QuickSight users to one
-  of the default security cohorts in Amazon QuickSight (admin, author, reader, admin pro,
+  override the permissions typically granted by assigning Amazon QuickSight users to one of
+  the default security cohorts in Amazon QuickSight (admin, author, reader, admin pro,
   author pro, reader pro).
 
   This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+
 - `"ExternalLoginFederationProviderType"`: The type of supported external login provider
   that provides identity to let a user federate into Amazon QuickSight with an associated
   Identity and Access Management(IAM) role. The type of supported external login provider
@@ -6809,22 +6869,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `COGNITO`: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When
     choosing the `COGNITO` provider type, don’t use the "CustomFederationProviderUrl"
     parameter which is only needed when the external provider is custom.
-  - `CUSTOM_OIDC`: Custom OpenID Connect (OIDC) provider. When choosing `CUSTOM_OIDC`
-    type, use the `CustomFederationProviderUrl` parameter to provide the custom OIDC
-    provider URL.
+  - `CUSTOM_OIDC`: Custom OpenID Connect (OIDC) provider. When choosing `CUSTOM_OIDC` type,
+    use the `CustomFederationProviderUrl` parameter to provide the custom OIDC provider URL.
 
 - `"ExternalLoginId"`: The identity ID for a user in the external login provider.
+
 - `"IamArn"`: The ARN of the IAM user or role that you are registering with Amazon
   QuickSight.
+
 - `"SessionName"`: You need to use this parameter only when you register one or more users
-  using an assumed IAM role. You don't need to provide the session name for other
-  scenarios, for example when you are registering an IAM user or an Amazon QuickSight
-  user. You can register multiple users using the same IAM role if each user has a
-  different session name. For more information on assuming IAM roles, see [`assume-role`](https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role.html)
+  using an assumed IAM role. You don't need to provide the session name for other scenarios,
+  for example when you are registering an IAM user or an Amazon QuickSight user. You can
+  register multiple users using the same IAM role if each user has a different session name.
+  For more information on assuming IAM roles, see [`assume-role`](https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role.html)
   in the *CLI Reference.*
+
 - `"Tags"`: The tags to associate with the user.
-- `"UserName"`: The Amazon QuickSight user name that you want to create for the user you
-  are registering.
+
+- `"UserName"`: The Amazon QuickSight user name that you want to create for the user you are
+  registering.
 """
 function register_user end
 
@@ -6919,8 +6982,8 @@ end
 Searches for analyses that belong to the user specified in the filter.
 
 !!! note
-    This operation is eventually consistent. The results are best effort and may not
-    reflect very recent updates and changes.
+    This operation is eventually consistent. The results are best effort and may not reflect
+    very recent updates and changes.
 
 # Arguments
 
@@ -6971,8 +7034,8 @@ end
 Searches for dashboards that belong to a user.
 
 !!! note
-    This operation is eventually consistent. The results are best effort and may not
-    reflect very recent updates and changes.
+    This operation is eventually consistent. The results are best effort and may not reflect
+    very recent updates and changes.
 
 # Arguments
 
@@ -7071,8 +7134,8 @@ end
     search_data_sources(aws_account_id, filters)
     search_data_sources(aws_account_id, filters, params::Dict{String,<:Any})
 
-Use the [`search_data_sources`](@ref) operation to search for data sources that belong to
-an account.
+Use the [`search_data_sources`](@ref) operation to search for data sources that belong to an
+account.
 
 # Arguments
 
@@ -7225,20 +7288,23 @@ Starts an Asset Bundle export job.
 
 An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose
 to export any asset dependencies in the same job. Export jobs run asynchronously and can be
-polled with a `DescribeAssetBundleExportJob` API call. When a job is successfully
-completed, a download URL that contains the exported assets is returned. The URL is valid
-for 5 minutes and can be refreshed with a `DescribeAssetBundleExportJob` API call. Each
-Amazon QuickSight account can run up to 5 export jobs concurrently.
+polled with a `DescribeAssetBundleExportJob` API call. When a job is successfully completed,
+a download URL that contains the exported assets is returned. The URL is valid for 5 minutes
+and can be refreshed with a `DescribeAssetBundleExportJob` API call. Each Amazon QuickSight
+account can run up to 5 export jobs concurrently.
 
-The API caller must have the necessary permissions in their IAM role to access each
-resource before the resources can be exported.
+The API caller must have the necessary permissions in their IAM role to access each resource
+before the resources can be exported.
 
 # Arguments
 
 - `asset_bundle_export_job_id`: The ID of the job. This ID is unique while the job is
   running. After the job is completed, you can reuse this ID for another job.
+
 - `aws_account_id`: The ID of the Amazon Web Services account to export assets from.
+
 - `export_format`: The export data format.
+
 - `resource_arns`: An array of resource ARNs to export. The following resources are
   supported.
 
@@ -7257,28 +7323,32 @@ resource before the resources can be exported.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CloudFormationOverridePropertyConfiguration"`: An optional collection of structures
-  that generate CloudFormation parameters to override the existing resource property
-  values when the resource is exported to a new CloudFormation template.
+- `"CloudFormationOverridePropertyConfiguration"`: An optional collection of structures that
+  generate CloudFormation parameters to override the existing resource property values when
+  the resource is exported to a new CloudFormation template.
 
   Use this field if the `ExportFormat` field of a `StartAssetBundleExportJobRequest` API
   call is set to `CLOUDFORMATION_JSON`.
+
 - `"IncludeAllDependencies"`: A Boolean that determines whether all dependencies of each
   resource ARN are recursively exported with the job. For example, say you provided a
   Dashboard ARN to the `ResourceArns` parameter. If you set `IncludeAllDependencies` to
-  `TRUE`, any theme, dataset, and data source resource that is a dependency of the
-  dashboard is also exported.
+  `TRUE`, any theme, dataset, and data source resource that is a dependency of the dashboard
+  is also exported.
+
 - `"IncludePermissions"`: A Boolean that determines whether all permissions for each
   resource ARN are exported with the job. If you set `IncludePermissions` to `TRUE`, any
   permissions associated with each resource are exported.
+
 - `"IncludeTags"`: A Boolean that determines whether all tags for each resource ARN are
-  exported with the job. If you set `IncludeTags` to `TRUE`, any tags associated with
-  each resource are exported.
-- `"ValidationStrategy"`: An optional parameter that determines which validation strategy
-  to use for the export job. If `StrictModeForAllResources` is set to `TRUE`, strict
-  validation for every error is enforced. If it is set to `FALSE`, validation is skipped
-  for specific UI errors that are shown as warnings. The default value for
-  `StrictModeForAllResources` is `FALSE`.
+  exported with the job. If you set `IncludeTags` to `TRUE`, any tags associated with each
+  resource are exported.
+
+- `"ValidationStrategy"`: An optional parameter that determines which validation strategy to
+  use for the export job. If `StrictModeForAllResources` is set to `TRUE`, strict validation
+  for every error is enforced. If it is set to `FALSE`, validation is skipped for specific
+  UI errors that are shown as warnings. The default value for `StrictModeForAllResources` is
+  `FALSE`.
 """
 function start_asset_bundle_export_job end
 
@@ -7338,8 +7408,8 @@ Starts an Asset Bundle import job.
 An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon
 QuickSight account. You can also choose to import a naming prefix and specified
 configuration overrides. The assets that are contained in the bundle file that you provide
-are used to create or update a new or existing asset in your Amazon QuickSight account.
-Each Amazon QuickSight account can run up to 5 import jobs concurrently.
+are used to create or update a new or existing asset in your Amazon QuickSight account. Each
+Amazon QuickSight account can run up to 5 import jobs concurrently.
 
 The API caller must have the necessary `"create"`, `"describe"`, and `"update"` permissions
 in their IAM role to access each resource type that is contained in the bundle file before
@@ -7359,18 +7429,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FailureAction"`: The failure action for the import job.
 
-  If you choose `ROLLBACK`, failed import jobs will attempt to undo any asset changes
-  caused by the failed job.
+  If you choose `ROLLBACK`, failed import jobs will attempt to undo any asset changes caused
+  by the failed job.
 
   If you choose `DO_NOTHING`, failed import jobs will not attempt to roll back any asset
   changes caused by the failed job, possibly keeping the Amazon QuickSight account in an
   inconsistent state.
+
 - `"OverrideParameters"`: Optional overrides that are applied to the resource configuration
   before import.
+
 - `"OverridePermissions"`: Optional permission overrides that are applied to the resource
   configuration before import.
+
 - `"OverrideTags"`: Optional tag overrides that are applied to the resource configuration
   before import.
+
 - `"OverrideValidationStrategy"`: An optional validation strategy override for all analyses
   and dashboards that is applied to the resource configuration before import.
 """
@@ -7439,13 +7513,13 @@ the error that occurred.
 
 **StartDashboardSnapshotJob API throttling**
 
-Amazon QuickSight utilizes API throttling to create a more consistent user experience
-within a time span for customers when they call the `StartDashboardSnapshotJob`. By
-default, 12 jobs can run simlutaneously in one Amazon Web Services account and users can
-submit up 10 API requests per second before an account is throttled. If an overwhelming
-number of API requests are made by the same user in a short period of time, Amazon
-QuickSight throttles the API calls to maintin an optimal experience and reliability for all
-Amazon QuickSight users.
+Amazon QuickSight utilizes API throttling to create a more consistent user experience within
+a time span for customers when they call the `StartDashboardSnapshotJob`. By default, 12
+jobs can run simlutaneously in one Amazon Web Services account and users can submit up 10
+API requests per second before an account is throttled. If an overwhelming number of API
+requests are made by the same user in a short period of time, Amazon QuickSight throttles
+the API calls to maintin an optimal experience and reliability for all Amazon QuickSight
+users.
 
 **Common throttling scenarios**
 
@@ -7455,10 +7529,10 @@ occur.
 - **A large number of `SnapshotExport` API jobs are running simultaneously on an Amazon Web
   Services account.** When a new `StartDashboardSnapshotJob` is created and there are
   already 12 jobs with the `RUNNING` status, the new job request fails and returns a
-  `LimitExceededException` error. Wait for a current job to comlpete before you resubmit
-  the new job.
-- **A large number of API requests are submitted on an Amazon Web Services account.** When
-  a user makes more than 10 API calls to the Amazon QuickSight API in one second, a
+  `LimitExceededException` error. Wait for a current job to comlpete before you resubmit the
+  new job.
+- **A large number of API requests are submitted on an Amazon Web Services account.** When a
+  user makes more than 10 API calls to the Amazon QuickSight API in one second, a
   `ThrottlingException` is returned.
 
 If your use case requires a higher throttling limit, contact your account admin or [Amazon Web ServicesSupport](http://aws.amazon.com/contact-us/)
@@ -7471,10 +7545,10 @@ and parallelism of API calls as much as you can to avoid throttling. You can als
 timing test to calculate an estimate for the total processing time of your projected load
 that stays within the throttling limits of the Amazon QuickSight APIs. For example, if your
 projected traffic is 100 snapshot jobs before 12:00 PM per day, start 12 jobs in parallel
-and measure the amount of time it takes to proccess all 12 jobs. Once you obtain the
-result, multiply the duration by 9, for example `(12 minutes * 9 = 108 minutes)`. Use the
-new result to determine the latest time at which the jobs need to be started to meet your
-target deadline.
+and measure the amount of time it takes to proccess all 12 jobs. Once you obtain the result,
+multiply the duration by 9, for example `(12 minutes * 9 = 108 minutes)`. Use the new result
+to determine the latest time at which the jobs need to be started to meet your target
+deadline.
 
 The time that it takes to process a job can be impacted by the following factors:
 
@@ -7494,12 +7568,12 @@ The time that it takes to process a job can be impacted by the following factors
 - `snapshot_configuration`: A structure that describes the configuration of the dashboard
   snapshot.
 - `snapshot_job_id`: An ID for the dashboard snapshot job. This ID is unique to the
-  dashboard while the job is running. This ID can be used to poll the status of a job
-  with a `DescribeDashboardSnapshotJob` while the job runs. You can reuse this ID for
-  another job 24 hours after the current job is completed.
-- `user_configuration`: A structure that contains information about the anonymous users
-  that the generated snapshot is for. This API will not return information about
-  registered Amazon QuickSight.
+  dashboard while the job is running. This ID can be used to poll the status of a job with a
+  `DescribeDashboardSnapshotJob` while the job runs. You can reuse this ID for another job
+  24 hours after the current job is completed.
+- `user_configuration`: A structure that contains information about the anonymous users that
+  the generated snapshot is for. This API will not return information about registered
+  Amazon QuickSight.
 """
 function start_dashboard_snapshot_job end
 
@@ -7561,10 +7635,10 @@ Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight re
 Tags can help you organize and categorize your resources. You can also use them to scope
 user permissions, by granting a user permission to access or change only resources with
 certain tag values. You can use the [`tag_resource`](@ref) operation with a resource that
-already has tags. If you specify a new tag key for the resource, this tag is appended to
-the list of tags associated with the resource. If you specify a tag key that is already
-associated with the resource, the new tag value that you specify replaces the previous
-value for that tag.
+already has tags. If you specify a new tag key for the resource, this tag is appended to the
+list of tags associated with the resource. If you specify a tag key that is already
+associated with the resource, the new tag value that you specify replaces the previous value
+for that tag.
 
 You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on
 data set, data source, dashboard, template, topic, and user.
@@ -7572,16 +7646,16 @@ data set, data source, dashboard, template, topic, and user.
 Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web
 Services services, except for the following:
 
-- Tags are used to track costs for users in Amazon QuickSight. You can't tag other
-  resources that Amazon QuickSight costs are based on, such as storage capacoty (SPICE),
-  session usage, alert consumption, or reporting units.
+- Tags are used to track costs for users in Amazon QuickSight. You can't tag other resources
+  that Amazon QuickSight costs are based on, such as storage capacoty (SPICE), session
+  usage, alert consumption, or reporting units.
 - Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
-- `tags`: Contains a map of the key-value pairs for the resource tag or tags assigned to
-  the resource.
+- `tags`: Contains a map of the key-value pairs for the resource tag or tags assigned to the
+  resource.
 """
 function tag_resource end
 
@@ -7733,11 +7807,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationEmail"`: The email address that you want Amazon QuickSight to send
   notifications to regarding your Amazon Web Services account or Amazon QuickSight
   subscription.
-- `"TerminationProtectionEnabled"`: A boolean value that determines whether or not an
-  Amazon QuickSight account can be deleted. A `True` value doesn't allow the account to
-  be deleted and results in an error message if a user tries to make a
-  `DeleteAccountSubscription` request. A `False` value will allow the account to be
-  deleted.
+- `"TerminationProtectionEnabled"`: A boolean value that determines whether or not an Amazon
+  QuickSight account can be deleted. A `True` value doesn't allow the account to be deleted
+  and results in an error message if a user tries to make a `DeleteAccountSubscription`
+  request. A `False` value will allow the account to be deleted.
 """
 function update_account_settings end
 
@@ -7794,14 +7867,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Definition"`: The definition of an analysis.
 
   A definition is the data model of all features in a Dashboard, Template, or Analysis.
+
 - `"Parameters"`: The parameter names and override values that you want to use. An analysis
   can have any parameter type, and some parameters might accept multiple values.
+
 - `"SourceEntity"`: A source entity to use for the analysis that you're updating. This
   metadata structure contains details that describe a source template and one or more
   datasets.
+
 - `"ThemeArn"`: The Amazon Resource Name (ARN) for the theme to apply to the analysis that
   you're creating. To see the theme in the Amazon QuickSight console, make sure that you
   have access to it.
+
 - `"ValidationStrategy"`: The option to relax the validation needed to update an analysis
   with definition objects. This skips the validation step for specific errors.
 """
@@ -7843,11 +7920,11 @@ Updates the read and write permissions for an analysis.
 
 # Arguments
 
-- `analysis_id`: The ID of the analysis whose permissions you're updating. The ID is part
-  of the analysis URL.
+- `analysis_id`: The ID of the analysis whose permissions you're updating. The ID is part of
+  the analysis URL.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the analysis
-  whose permissions you're updating. You must be using the Amazon Web Services account
-  that the analysis is in.
+  whose permissions you're updating. You must be using the Amazon Web Services account that
+  the analysis is in.
 
 # Optional Parameters
 
@@ -7911,41 +7988,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DashboardPublishOptions"`: Options for publishing the dashboard when you create it:
 
-  - `AvailabilityStatus` for `AdHocFilteringOption` - This status can be either `ENABLED`
-    or `DISABLED`. When this is set to `DISABLED`, Amazon QuickSight disables the left
-    filter pane on the published dashboard, which can be used for ad hoc (one-time)
-    filtering. This option is `ENABLED` by default.
+  - `AvailabilityStatus` for `AdHocFilteringOption` - This status can be either `ENABLED` or
+    `DISABLED`. When this is set to `DISABLED`, Amazon QuickSight disables the left filter
+    pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This
+    option is `ENABLED` by default.
   - `AvailabilityStatus` for `ExportToCSVOption` - This status can be either `ENABLED` or
-    `DISABLED`. The visual option to export data to .CSV format isn't enabled when this
-    is set to `DISABLED`. This option is `ENABLED` by default.
+    `DISABLED`. The visual option to export data to .CSV format isn't enabled when this is
+    set to `DISABLED`. This option is `ENABLED` by default.
   - `VisibilityState` for `SheetControlsOption` - This visibility state can be either
     `COLLAPSED` or `EXPANDED`. This option is `COLLAPSED` by default.
 
 - `"Definition"`: The definition of a dashboard.
 
   A definition is the data model of all features in a Dashboard, Template, or Analysis.
+
 - `"Parameters"`: A structure that contains the parameters of the dashboard. These are
-  parameter overrides for a dashboard. A dashboard can have any type of parameters, and
-  some parameters might accept multiple values.
-- `"SourceEntity"`: The entity that you are using as a source when you update the
-  dashboard. In `SourceEntity`, you specify the type of object you're using as source.
-  You can only update a dashboard from a template, so you use a `SourceTemplate` entity.
-  If you need to update a dashboard from an analysis, first convert the analysis to a
-  template by using the
+  parameter overrides for a dashboard. A dashboard can have any type of parameters, and some
+  parameters might accept multiple values.
+
+- `"SourceEntity"`: The entity that you are using as a source when you update the dashboard.
+  In `SourceEntity`, you specify the type of object you're using as source. You can only
+  update a dashboard from a template, so you use a `SourceTemplate` entity. If you need to
+  update a dashboard from an analysis, first convert the analysis to a template by using the
   `[CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html)`
-  API operation. For `SourceTemplate`, specify the Amazon Resource Name (ARN) of the
-  source template. The `SourceTemplate` ARN can contain any Amazon Web Services account
-  and any Amazon QuickSight-supported Amazon Web Services Region.
+  API operation. For `SourceTemplate`, specify the Amazon Resource Name (ARN) of the source
+  template. The `SourceTemplate` ARN can contain any Amazon Web Services account and any
+  Amazon QuickSight-supported Amazon Web Services Region.
 
   Use the `DataSetReferences` entity within `SourceTemplate` to list the replacement
   datasets for the placeholders listed in the original. The schema in each dataset must
   match its placeholder.
+
 - `"ThemeArn"`: The Amazon Resource Name (ARN) of the theme that is being used for this
-  dashboard. If you add a value for this field, it overrides the value that was
-  originally associated with the entity. The theme ARN must exist in the same Amazon Web
-  Services account where you create the dashboard.
+  dashboard. If you add a value for this field, it overrides the value that was originally
+  associated with the entity. The theme ARN must exist in the same Amazon Web Services
+  account where you create the dashboard.
+
 - `"ValidationStrategy"`: The option to relax the validation needed to update a dashboard
   with definition objects. This skips the validation step for specific errors.
+
 - `"VersionDescription"`: A description for the first version of the dashboard being
   created.
 """
@@ -8423,8 +8504,8 @@ Updates permissions of a folder.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"GrantPermissions"`: The permissions that you want to grant on a resource. Namespace
-  ARNs are not supported `Principal` values for folder permissions.
+- `"GrantPermissions"`: The permissions that you want to grant on a resource. Namespace ARNs
+  are not supported `Principal` values for folder permissions.
 - `"RevokePermissions"`: The permissions that you want to revoke from a resource. Namespace
   ARNs are not supported `Principal` values for folder permissions.
 """
@@ -8515,8 +8596,8 @@ included in `Identities`.
 
 # Arguments
 
-- `assignment_name`: The name of the assignment, also called a rule. The name must be
-  unique within the Amazon Web Services account.
+- `assignment_name`: The name of the assignment, also called a rule. The name must be unique
+  within the Amazon Web Services account.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the IAM policy
   assignment.
 - `namespace`: The namespace of the assignment.
@@ -8527,14 +8608,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AssignmentStatus"`: The status of the assignment. Possible values are as follows:
 
-  - `ENABLED` - Anything specified in this assignment is used when creating the data
-    source.
+  - `ENABLED` - Anything specified in this assignment is used when creating the data source.
   - `DISABLED` - This assignment isn't used when creating the data source.
-  - `DRAFT` - This assignment is an unfinished draft and isn't used when creating the
-    data source.
+  - `DRAFT` - This assignment is an unfinished draft and isn't used when creating the data
+    source.
 
 - `"Identities"`: The Amazon QuickSight users, groups, or both that you want to assign the
   policy to.
+
 - `"PolicyArn"`: The ARN for the IAM policy to apply to the Amazon QuickSight users and
   groups specified in this assignment.
 """
@@ -8625,8 +8706,8 @@ end
     update_ip_restriction(aws_account_id)
     update_ip_restriction(aws_account_id, params::Dict{String,<:Any})
 
-Updates the content and status of IP rules. Traffic from a source is allowed when the
-source satisfies either the `IpRestrictionRule`, `VpcIdRestrictionRule`, or
+Updates the content and status of IP rules. Traffic from a source is allowed when the source
+satisfies either the `IpRestrictionRule`, `VpcIdRestrictionRule`, or
 `VpcEndpointIdRestrictionRule`. To use this operation, you must provide the entire map of
 rules. You can use the [`describe_ip_restriction`](@ref) operation to get the current rule
 map.
@@ -8645,8 +8726,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcEndpointIdRestrictionRuleMap"`: A map of allowed VPC endpoint IDs and their
   corresponding rule descriptions.
 - `"VpcIdRestrictionRuleMap"`: A map of VPC IDs and their corresponding rules. When you
-  configure this parameter, traffic from all VPC endpoints that are present in the
-  specified VPC is allowed.
+  configure this parameter, traffic from all VPC endpoints that are present in the specified
+  VPC is allowed.
 """
 function update_ip_restriction end
 
@@ -8725,8 +8806,8 @@ end
     update_public_sharing_settings(aws_account_id)
     update_public_sharing_settings(aws_account_id, params::Dict{String,<:Any})
 
-Use the [`update_public_sharing_settings`](@ref) operation to turn on or turn off the
-public sharing settings of an Amazon QuickSight dashboard.
+Use the [`update_public_sharing_settings`](@ref) operation to turn on or turn off the public
+sharing settings of an Amazon QuickSight dashboard.
 
 To use this operation, turn on session capacity pricing for your Amazon QuickSight account.
 
@@ -8827,8 +8908,8 @@ Updates the custom permissions that are associated with a role.
 # Arguments
 
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to create a
-  group in. The Amazon Web Services account ID that you provide must be the same Amazon
-  Web Services account that contains your Amazon QuickSight account.
+  group in. The Amazon Web Services account ID that you provide must be the same Amazon Web
+  Services account that contains your Amazon QuickSight account.
 - `custom_permissions_name`: The name of the custom permission that you want to update the
   role with.
 - `namespace`: The namespace that contains the role that you want to update.
@@ -8885,13 +8966,13 @@ Updates the SPICE capacity configuration for a Amazon QuickSight account.
 
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the SPICE
   configuration that you want to update.
-- `purchase_mode`: Determines how SPICE capacity can be purchased. The following options
-  are available.
+
+- `purchase_mode`: Determines how SPICE capacity can be purchased. The following options are
+  available.
 
   - `MANUAL`: SPICE capacity can only be purchased manually.
   - `AUTO_PURCHASE`: Extra SPICE capacity is automatically purchased on your behalf as
     needed. SPICE capacity can also be purchased manually with this option.
-
 """
 function update_spicecapacity_configuration end
 
@@ -8943,23 +9024,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Definition"`: The definition of a template.
 
   A definition is the data model of all features in a Dashboard, Template, or Analysis.
-- `"Name"`: The name for the template.
-- `"SourceEntity"`: The entity that you are using as a source when you update the template.
-  In `SourceEntity`, you specify the type of object you're using as source:
-  `SourceTemplate` for a template or `SourceAnalysis` for an analysis. Both of these
-  require an Amazon Resource Name (ARN). For `SourceTemplate`, specify the ARN of the
-  source template. For `SourceAnalysis`, specify the ARN of the source analysis. The
-  `SourceTemplate` ARN can contain any Amazon Web Services account and any Amazon
-  QuickSight-supported Amazon Web Services Region;.
 
-  Use the `DataSetReferences` entity within `SourceTemplate` or `SourceAnalysis` to list
-  the replacement datasets for the placeholders listed in the original. The schema in
-  each dataset must match its placeholder.
+- `"Name"`: The name for the template.
+
+- `"SourceEntity"`: The entity that you are using as a source when you update the template.
+  In `SourceEntity`, you specify the type of object you're using as source: `SourceTemplate`
+  for a template or `SourceAnalysis` for an analysis. Both of these require an Amazon
+  Resource Name (ARN). For `SourceTemplate`, specify the ARN of the source template. For
+  `SourceAnalysis`, specify the ARN of the source analysis. The `SourceTemplate` ARN can
+  contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web
+  Services Region;.
+
+  Use the `DataSetReferences` entity within `SourceTemplate` or `SourceAnalysis` to list the
+  replacement datasets for the placeholders listed in the original. The schema in each
+  dataset must match its placeholder.
+
 - `"ValidationStrategy"`: The option to relax the validation needed to update a template
   with definition objects. This skips the validation step for specific errors.
+
 - `"VersionDescription"`: A description of the current template version that is being
-  updated. Every time you call `UpdateTemplate`, you create a new version of the
-  template. Each version of the template maintains a description of the version in the
+  updated. Every time you call `UpdateTemplate`, you create a new version of the template.
+  Each version of the template maintains a description of the version in the
   `VersionDescription` field.
 """
 function update_template end
@@ -8999,9 +9084,9 @@ Updates the template alias of a template.
 # Arguments
 
 - `alias_name`: The alias of the template that you want to update. If you name a specific
-  alias, you update the version that the alias points to. You can specify the latest
-  version of the template by providing the keyword `\$LATEST` in the `AliasName`
-  parameter. The keyword `\$PUBLISHED` doesn't apply to templates.
+  alias, you update the version that the alias points to. You can specify the latest version
+  of the template by providing the keyword `\$LATEST` in the `AliasName` parameter. The
+  keyword `\$PUBLISHED` doesn't apply to templates.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the template
   alias that you're updating.
 - `template_id`: The ID for the template.
@@ -9114,9 +9199,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Configuration"`: The theme configuration, which contains the theme display properties.
 - `"Name"`: The name for the theme.
-- `"VersionDescription"`: A description of the theme version that you're updating Every
-  time that you call `UpdateTheme`, you create a new version of the theme. Each version
-  of the theme maintains a description of the version in `VersionDescription`.
+- `"VersionDescription"`: A description of the theme version that you're updating Every time
+  that you call `UpdateTheme`, you create a new version of the theme. Each version of the
+  theme maintains a description of the version in `VersionDescription`.
 """
 function update_theme end
 
@@ -9213,11 +9298,13 @@ revoke permissions on, for example `"quicksight:DescribeTheme"`.
 Theme permissions apply in groupings. Valid groupings include the following for the three
 levels of permissions, which are user, owner, or no permissions:
 
-- User   - `"quicksight:DescribeTheme"`
+- User
+  - `"quicksight:DescribeTheme"`
   - `"quicksight:DescribeThemeAlias"`
   - `"quicksight:ListThemeAliases"`
   - `"quicksight:ListThemeVersions"`
-- Owner   - `"quicksight:DescribeTheme"`
+- Owner
+  - `"quicksight:DescribeTheme"`
   - `"quicksight:DescribeThemeAlias"`
   - `"quicksight:ListThemeAliases"`
   - `"quicksight:ListThemeVersions"`
@@ -9427,55 +9514,60 @@ Updates an Amazon QuickSight user.
 - `aws_account_id`: The ID for the Amazon Web Services account that the user is in.
   Currently, you use the ID for the Amazon Web Services account that contains your Amazon
   QuickSight account.
+
 - `email`: The email address of the user that you want to update.
+
 - `namespace`: The namespace. Currently, you should set this to `default`.
+
 - `role`: The Amazon QuickSight role of the user. The role can be one of the following
   default security cohorts:
 
   - `READER`: A user who has read-only access to dashboards.
   - `AUTHOR`: A user who can create data sources, datasets, analyses, and dashboards.
   - `ADMIN`: A user who is an author, who can also manage Amazon QuickSight settings.
-  - `READER_PRO`: Reader Pro adds Generative BI capabilities to the Reader role. Reader
-    Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q,
-    and can generate executive summaries from dashboards.
-  - `AUTHOR_PRO`: Author Pro adds Generative BI capabilities to the Author role. Author
-    Pros can author dashboards with natural language with Amazon Q, build stories with
-    Amazon Q, create Topics for Q&amp;A, and generate executive summaries from
-    dashboards.
+  - `READER_PRO`: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros
+    have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can
+    generate executive summaries from dashboards.
+  - `AUTHOR_PRO`: Author Pro adds Generative BI capabilities to the Author role. Author Pros
+    can author dashboards with natural language with Amazon Q, build stories with Amazon Q,
+    create Topics for Q&amp;A, and generate executive summaries from dashboards.
   - `ADMIN_PRO`: Admin Pros are Author Pros who can also manage Amazon QuickSight
     administrative settings. Admin Pro users are billed at Author Pro pricing.
 
   The name of the Amazon QuickSight role is invisible to the user except for the console
   screens dealing with permissions.
+
 - `user_name`: The Amazon QuickSight user name that you want to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CustomFederationProviderUrl"`: The URL of the custom OpenID Connect (OIDC) provider
-  that provides identity to let a user federate into Amazon QuickSight with an associated
+- `"CustomFederationProviderUrl"`: The URL of the custom OpenID Connect (OIDC) provider that
+  provides identity to let a user federate into Amazon QuickSight with an associated
   Identity and Access Management(IAM) role. This parameter should only be used when
   `ExternalLoginFederationProviderType` parameter is set to `CUSTOM_OIDC`.
+
 - `"CustomPermissionsName"`: (Enterprise edition only) The name of the custom permissions
-  profile that you want to assign to this user. Customized permissions allows you to
-  control a user's access by restricting access the following operations:
+  profile that you want to assign to this user. Customized permissions allows you to control
+  a user's access by restricting access the following operations:
 
   - Create and update data sources
   - Create and update datasets
   - Create and update email reports
   - Subscribe to email reports
 
-  A set of custom permissions includes any combination of these restrictions. Currently,
-  you need to create the profile names for custom permission sets by using the Amazon
-  QuickSight console. Then, you use the `RegisterUser` API operation to assign the named
-  set of permissions to a Amazon QuickSight user.
+  A set of custom permissions includes any combination of these restrictions. Currently, you
+  need to create the profile names for custom permission sets by using the Amazon QuickSight
+  console. Then, you use the `RegisterUser` API operation to assign the named set of
+  permissions to a Amazon QuickSight user.
 
   Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they
-  override the permissions typically granted by assigning Amazon QuickSight users to one
-  of the default security cohorts in Amazon QuickSight (admin, author, reader).
+  override the permissions typically granted by assigning Amazon QuickSight users to one of
+  the default security cohorts in Amazon QuickSight (admin, author, reader).
 
   This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+
 - `"ExternalLoginFederationProviderType"`: The type of supported external login provider
   that provides identity to let a user federate into Amazon QuickSight with an associated
   Identity and Access Management(IAM) role. The type of supported external login provider
@@ -9484,15 +9576,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `COGNITO`: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When
     choosing the `COGNITO` provider type, don’t use the "CustomFederationProviderUrl"
     parameter which is only needed when the external provider is custom.
-  - `CUSTOM_OIDC`: Custom OpenID Connect (OIDC) provider. When choosing `CUSTOM_OIDC`
-    type, use the `CustomFederationProviderUrl` parameter to provide the custom OIDC
-    provider URL.
-  - `NONE`: This clears all the previously saved external login information for a user.
-    Use the
+  - `CUSTOM_OIDC`: Custom OpenID Connect (OIDC) provider. When choosing `CUSTOM_OIDC` type,
+    use the `CustomFederationProviderUrl` parameter to provide the custom OIDC provider URL.
+  - `NONE`: This clears all the previously saved external login information for a user. Use
+    the
     `[DescribeUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeUser.html)`
     API operation to check the external login information.
 
 - `"ExternalLoginId"`: The identity ID for a user in the external login provider.
+
 - `"UnapplyCustomPermissions"`: A flag that you use to indicate that you want to remove all
   custom permissions from this user. Using this parameter resets the user to the state it
   was in before a custom permissions profile was applied. This parameter defaults to NULL
@@ -9551,8 +9643,8 @@ Updates a VPC connection.
 - `role_arn`: An IAM role associated with the VPC connection.
 - `security_group_ids`: A list of security group IDs for the VPC connection.
 - `subnet_ids`: A list of subnet IDs for the VPC connection.
-- `vpcconnection_id`: The ID of the VPC connection that you're updating. This ID is a
-  unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+- `vpcconnection_id`: The ID of the VPC connection that you're updating. This ID is a unique
+  identifier for each Amazon Web Services Region in an Amazon Web Services account.
 
 # Optional Parameters
 

@@ -13,6 +13,7 @@ Sends messages to a channel.
 # Arguments
 
 - `channel_name`: The name of the channel where the messages are sent.
+
 - `messages`: The list of messages to be sent. Each message has the format: { "messageId":
   "string", "payload": "string"}.
 
@@ -23,12 +24,10 @@ Sends messages to a channel.
   - Must begin with an alphabetic character or single underscore (_).
   - Cannot contain hyphens (-).
   - In regular expression terms: "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)\$".
-  - Cannot be more than 255 characters.
-  - Are case insensitive. (Fields named foo and FOO in the same payload are considered
-    duplicates.)
+- Cannot be more than 255 characters.
+- Are case insensitive. (Fields named foo and FOO in the same payload are considered duplicates.)
 
-  For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01": 29},
-  {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads.
+For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01": 29}, {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads.
 """
 function batch_put_message end
 
@@ -120,9 +119,9 @@ unprocessed messages before publishing the data to a pipeline.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"channelStorage"`: Where channel data is stored. You can choose one of
-  `serviceManagedS3` or `customerManagedS3` storage. If not specified, the default is
-  `serviceManagedS3`. You can't change this storage option after the channel is created.
+- `"channelStorage"`: Where channel data is stored. You can choose one of `serviceManagedS3`
+  or `customerManagedS3` storage. If not specified, the default is `serviceManagedS3`. You
+  can't change this storage option after the channel is created.
 - `"retentionPeriod"`: How long, in days, message data is kept for the channel. When
   `customerManagedS3` storage is selected, this parameter is ignored.
 - `"tags"`: Metadata which can be used to manage the channel.
@@ -175,18 +174,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"contentDeliveryRules"`: When dataset contents are created, they are delivered to
   destinations specified here.
+
 - `"lateDataRules"`: A list of data rules that send notifications to CloudWatch, when data
   arrives late. To specify `lateDataRules`, the dataset must use a [DeltaTimer](https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html)
   filter.
+
 - `"retentionPeriod"`: Optional. How long, in days, versions of dataset contents are kept
   for the dataset. If not specified or set to `null`, versions of dataset contents are
   retained for at most 90 days. The number of versions of dataset contents retained is
   determined by the `versioningConfiguration` parameter. For more information, see [Keeping Multiple Versions of IoT Analytics datasets](https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
   in the *IoT Analytics User Guide*.
+
 - `"tags"`: Metadata which can be used to manage the dataset.
+
 - `"triggers"`: A list of triggers. A trigger causes dataset contents to be populated at a
   specified time interval or when another dataset's contents are created. The list of
   triggers can be empty or contain up to five `DataSetTrigger` objects.
+
 - `"versioningConfiguration"`: Optional. How many versions of dataset contents are kept. If
   not specified or set to null, only the latest version plus the latest succeeded version
   (if they are different) are kept for the time period specified by the `retentionPeriod`
@@ -243,8 +247,8 @@ Creates the content of a dataset by applying a `queryAction` (a SQL query) or a
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"versionId"`: The version ID of the dataset content. To specify `versionId` for a
-  dataset content, the dataset must use a [DeltaTimer](https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html)
+- `"versionId"`: The version ID of the dataset content. To specify `versionId` for a dataset
+  content, the dataset must use a [DeltaTimer](https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html)
   filter.
 """
 function create_dataset_content end
@@ -290,18 +294,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"datastorePartitions"`: Contains information about the partition dimensions in a data
   store.
+
 - `"datastoreStorage"`: Where data in a data store is stored.. You can choose
-  `serviceManagedS3` storage, `customerManagedS3` storage, or
-  `iotSiteWiseMultiLayerStorage` storage. The default is `serviceManagedS3`. You can't
-  change the choice of Amazon S3 storage after your data store is created.
+  `serviceManagedS3` storage, `customerManagedS3` storage, or `iotSiteWiseMultiLayerStorage`
+  storage. The default is `serviceManagedS3`. You can't change the choice of Amazon S3
+  storage after your data store is created.
+
 - `"fileFormatConfiguration"`: Contains the configuration information of file formats. IoT
   Analytics data stores support JSON and [Parquet](https://parquet.apache.org/).
 
   The default file format is JSON. You can specify only one format.
 
   You can't change the file format after you create the data store.
+
 - `"retentionPeriod"`: How long, in days, message data is kept for the data store. When
   `customerManagedS3` storage is selected, this parameter is ignored.
+
 - `"tags"`: Metadata which can be used to manage the data store.
 """
 function create_datastore end
@@ -344,16 +352,16 @@ the messages before storing them in a data store. You must specify both a `chann
 # Arguments
 
 - `pipeline_activities`: A list of `PipelineActivity` objects. Activities perform
-  transformations on your messages, such as removing, renaming or adding message
-  attributes; filtering messages based on attribute values; invoking your Lambda unctions
-  on messages for advanced processing; or performing mathematical transformations to
-  normalize device data.
+  transformations on your messages, such as removing, renaming or adding message attributes;
+  filtering messages based on attribute values; invoking your Lambda unctions on messages
+  for advanced processing; or performing mathematical transformations to normalize device
+  data.
 
   The list can be 2-25 `PipelineActivity` objects and must contain both a `channel` and a
-  `datastore` activity. Each entry in the list must contain only one activity. For
-  example:
+  `datastore` activity. Each entry in the list must contain only one activity. For example:
 
   `pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]`
+
 - `pipeline_name`: The name of the pipeline.
 
 # Optional Parameters
@@ -681,9 +689,9 @@ Retrieves information about a data store.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"includeStatistics"`: If true, additional statistical information about the data store
-  is included in the response. This feature can't be used with a data store whose S3
-  storage is customer-managed.
+- `"includeStatistics"`: If true, additional statistical information about the data store is
+  included in the response. This feature can't be used with a data store whose S3 storage is
+  customer-managed.
 """
 function describe_datastore end
 
@@ -784,8 +792,8 @@ Retrieves the contents of a dataset as presigned URIs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"versionId"`: The version of the dataset whose contents are retrieved. You can also use
-  the strings "\$LATEST" or "\$LATEST_SUCCEEDED" to retrieve the contents of the latest
-  or latest successfully completed dataset. If not specified, "\$LATEST_SUCCEEDED" is the
+  the strings "\$LATEST" or "\$LATEST_SUCCEEDED" to retrieve the contents of the latest or
+  latest successfully completed dataset. If not specified, "\$LATEST_SUCCEEDED" is the
   default.
 """
 function get_dataset_content end
@@ -828,6 +836,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 
   The default value is 100.
+
 - `"nextToken"`: The token for the next set of results.
 """
 function list_channels end
@@ -862,12 +871,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: The token for the next set of results.
-- `"scheduledBefore"`: A filter to limit results to those dataset contents whose creation
-  is scheduled before the given time. See the field `triggers.schedule` in the
+- `"scheduledBefore"`: A filter to limit results to those dataset contents whose creation is
+  scheduled before the given time. See the field `triggers.schedule` in the `CreateDataset`
+  request. (timestamp)
+- `"scheduledOnOrAfter"`: A filter to limit results to those dataset contents whose creation
+  is scheduled on or after the given time. See the field `triggers.schedule` in the
   `CreateDataset` request. (timestamp)
-- `"scheduledOnOrAfter"`: A filter to limit results to those dataset contents whose
-  creation is scheduled on or after the given time. See the field `triggers.schedule` in
-  the `CreateDataset` request. (timestamp)
 """
 function list_dataset_contents end
 
@@ -909,6 +918,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 
   The default value is 100.
+
 - `"nextToken"`: The token for the next set of results.
 """
 function list_datasets end
@@ -940,6 +950,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 
   The default value is 100.
+
 - `"nextToken"`: The token for the next set of results.
 """
 function list_datastores end
@@ -971,6 +982,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in this request.
 
   The default value is 100.
+
 - `"nextToken"`: The token for the next set of results.
 """
 function list_pipelines end
@@ -1037,8 +1049,8 @@ Sets or updates the IoT Analytics logging options.
 
 If you update the value of any `loggingOptions` field, it takes up to one minute for the
 change to take effect. Also, if you change the policy attached to the role you specified in
-the `roleArn` field (for example, to correct an invalid policy), it takes up to five
-minutes for that change to take effect.
+the `roleArn` field (for example, to correct an invalid policy), it takes up to five minutes
+for that change to take effect.
 
 # Arguments
 
@@ -1083,11 +1095,12 @@ Simulates the results of running a pipeline activity on a message payload.
 # Arguments
 
 - `payloads`: The sample message payloads on which the pipeline activity is run.
+
 - `pipeline_activity`: The pipeline activity that is run. This must not be a channel
-  activity or a data store activity because these activities are used in a pipeline only
-  to load the original message and to store the (possibly) transformed message. If a
-  Lambda activity is specified, only short-running Lambda functions (those with a timeout
-  of less than 30 seconds or less) can be used.
+  activity or a data store activity because these activities are used in a pipeline only to
+  load the original message and to store the (possibly) transformed message. If a Lambda
+  activity is specified, only short-running Lambda functions (those with a timeout of less
+  than 30 seconds or less) can be used.
 """
 function run_pipeline_activity end
 
@@ -1190,12 +1203,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"channelMessages"`: Specifies one or more sets of channel messages that you want to
   reprocess.
 
-  If you use the `channelMessages` object, you must not specify a value for `startTime`
-  and `endTime`.
+  If you use the `channelMessages` object, you must not specify a value for `startTime` and
+  `endTime`.
+
 - `"endTime"`: The end time (exclusive) of raw message data that is reprocessed.
 
-  If you specify a value for the `endTime` parameter, you must not use the
-  `channelMessages` object.
+  If you specify a value for the `endTime` parameter, you must not use the `channelMessages`
+  object.
+
 - `"startTime"`: The start time (inclusive) of raw message data that is reprocessed.
 
   If you specify a value for the `startTime` parameter, you must not use the
@@ -1333,12 +1348,11 @@ Used to update the settings of a channel.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"channelStorage"`: Where channel data is stored. You can choose one of
-  `serviceManagedS3` or `customerManagedS3` storage. If not specified, the default is
-  `serviceManagedS3`. You can't change this storage option after the channel is created.
+- `"channelStorage"`: Where channel data is stored. You can choose one of `serviceManagedS3`
+  or `customerManagedS3` storage. If not specified, the default is `serviceManagedS3`. You
+  can't change this storage option after the channel is created.
 - `"retentionPeriod"`: How long, in days, message data is kept for the channel. The
-  retention period can't be updated if the channel's Amazon S3 storage is customer-
-  managed.
+  retention period can't be updated if the channel's Amazon S3 storage is customer-managed.
 """
 function update_channel end
 
@@ -1382,12 +1396,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"contentDeliveryRules"`: When dataset contents are created, they are delivered to
   destinations specified here.
+
 - `"lateDataRules"`: A list of data rules that send notifications to CloudWatch, when data
   arrives late. To specify `lateDataRules`, the dataset must use a [DeltaTimer](https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html)
   filter.
+
 - `"retentionPeriod"`: How long, in days, dataset contents are kept for the dataset.
+
 - `"triggers"`: A list of `DatasetTrigger` objects. The list can be empty or can contain up
   to five `DatasetTrigger` objects.
+
 - `"versioningConfiguration"`: Optional. How many versions of dataset contents are kept. If
   not specified or set to null, only the latest version plus the latest succeeded version
   (if they are different) are kept for the time period specified by the `retentionPeriod`
@@ -1438,15 +1456,17 @@ Used to update the settings of a data store.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"datastoreStorage"`: Where data in a data store is stored.. You can choose
-  `serviceManagedS3` storage, `customerManagedS3` storage, or
-  `iotSiteWiseMultiLayerStorage` storage. The default is `serviceManagedS3`. You can't
-  change the choice of Amazon S3 storage after your data store is created.
+  `serviceManagedS3` storage, `customerManagedS3` storage, or `iotSiteWiseMultiLayerStorage`
+  storage. The default is `serviceManagedS3`. You can't change the choice of Amazon S3
+  storage after your data store is created.
+
 - `"fileFormatConfiguration"`: Contains the configuration information of file formats. IoT
   Analytics data stores support JSON and [Parquet](https://parquet.apache.org/).
 
   The default file format is JSON. You can specify only one format.
 
   You can't change the file format after you create the data store.
+
 - `"retentionPeriod"`: How long, in days, message data is kept for the data store. The
   retention period can't be updated if the data store's Amazon S3 storage is customer-
   managed.
@@ -1487,16 +1507,16 @@ array.
 # Arguments
 
 - `pipeline_activities`: A list of `PipelineActivity` objects. Activities perform
-  transformations on your messages, such as removing, renaming or adding message
-  attributes; filtering messages based on attribute values; invoking your Lambda
-  functions on messages for advanced processing; or performing mathematical
-  transformations to normalize device data.
+  transformations on your messages, such as removing, renaming or adding message attributes;
+  filtering messages based on attribute values; invoking your Lambda functions on messages
+  for advanced processing; or performing mathematical transformations to normalize device
+  data.
 
   The list can be 2-25 `PipelineActivity` objects and must contain both a `channel` and a
-  `datastore` activity. Each entry in the list must contain only one activity. For
-  example:
+  `datastore` activity. Each entry in the list must contain only one activity. For example:
 
   `pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]`
+
 - `pipeline_name`: The name of the pipeline to update.
 """
 function update_pipeline end

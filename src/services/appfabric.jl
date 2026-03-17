@@ -139,13 +139,16 @@ application.
 
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
+
 - `auth_type`: The authorization type for the app authorization.
+
 - `credential`: Contains credentials for the application, such as an API key or OAuth2
   client ID and secret.
 
   Specify credentials that match the authorization type for your request. For example, if
-  the authorization type for your request is OAuth2 (`oauth2`), then you should provide
-  only the OAuth2 credentials.
+  the authorization type for your request is OAuth2 (`oauth2`), then you should provide only
+  the OAuth2 credentials.
+
 - `tenant`: Contains information about an application tenant, such as the application
   display name and identifier.
 
@@ -159,11 +162,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
 function create_app_authorization end
@@ -237,14 +240,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"customerManagedKeyIdentifier"`: The Amazon Resource Name (ARN) of the Key Management
   Service (KMS) key to use to encrypt the application data. If this is not specified, an
   Amazon Web Services owned key is used for encryption.
+
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
 function create_app_bundle end
@@ -300,7 +304,9 @@ Creates a data ingestion for an application.
 
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
+
 - `ingestion_type`: The ingestion type.
+
 - `tenant_id`: The ID of the application tenant.
 
 # Optional Parameters
@@ -313,11 +319,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
 function create_ingestion end
@@ -397,11 +403,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
 function create_ingestion_destination end
@@ -457,8 +463,8 @@ end
     delete_app_authorization(app_authorization_identifier, app_bundle_identifier)
     delete_app_authorization(app_authorization_identifier, app_bundle_identifier, params::Dict{String,<:Any})
 
-Deletes an app authorization. You must delete the associated ingestion before you can
-delete an app authorization.
+Deletes an app authorization. You must delete the associated ingestion before you can delete
+an app authorization.
 
 # Arguments
 
@@ -506,8 +512,8 @@ delete an app bundle.
 
 # Arguments
 
-- `app_bundle_identifier`: The ID or Amazon Resource Name (ARN) of the app bundle that
-  needs to be deleted.
+- `app_bundle_identifier`: The ID or Amazon Resource Name (ARN) of the app bundle that needs
+  to be deleted.
 """
 function delete_app_bundle end
 
@@ -588,8 +594,8 @@ Deletes an ingestion destination.
 
 This deletes the association between an ingestion and it's destination. It doesn't delete
 previously ingested data or the storage destination, such as the Amazon S3 bucket where the
-data is delivered. If the ingestion destination is deleted while the associated ingestion
-is enabled, the ingestion will fail and is eventually disabled.
+data is delivered. If the ingestion destination is deleted while the associated ingestion is
+enabled, the ingestion will fail and is eventually disabled.
 
 # Arguments
 
@@ -821,13 +827,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
   `nextToken` to obtain further pages of results.
 
-  This is only an upper limit. The actual number of results returned per call might be
-  fewer than the specified maximum.
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return
-  an *HTTP 400 InvalidToken error*.
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  *HTTP 400 InvalidToken error*.
 """
 function list_app_authorizations end
 
@@ -869,13 +876,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
   `nextToken` to obtain further pages of results.
 
-  This is only an upper limit. The actual number of results returned per call might be
-  fewer than the specified maximum.
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return
-  an *HTTP 400 InvalidToken error*.
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  *HTTP 400 InvalidToken error*.
 """
 function list_app_bundles end
 
@@ -913,13 +921,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
   `nextToken` to obtain further pages of results.
 
-  This is only an upper limit. The actual number of results returned per call might be
-  fewer than the specified maximum.
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return
-  an *HTTP 400 InvalidToken error*.
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  *HTTP 400 InvalidToken error*.
 """
 function list_ingestion_destinations end
 
@@ -969,13 +978,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
   `nextToken` to obtain further pages of results.
 
-  This is only an upper limit. The actual number of results returned per call might be
-  fewer than the specified maximum.
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return
-  an *HTTP 400 InvalidToken error*.
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  *HTTP 400 InvalidToken error*.
 """
 function list_ingestions end
 
@@ -1266,8 +1276,8 @@ end
 Updates an app authorization within an app bundle, which allows AppFabric to connect to an
 application.
 
-If the app authorization was in a `connected` state, updating the app authorization will
-set it back to a `PendingConnect` state.
+If the app authorization was in a `connected` state, updating the app authorization will set
+it back to a `PendingConnect` state.
 
 # Arguments
 
@@ -1283,9 +1293,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"credential"`: Contains credentials for the application, such as an API key or OAuth2
   client ID and secret.
 
-  Specify credentials that match the authorization type of the app authorization to
-  update. For example, if the authorization type of the app authorization is OAuth2
-  (`oauth2`), then you should provide only the OAuth2 credentials.
+  Specify credentials that match the authorization type of the app authorization to update.
+  For example, if the authorization type of the app authorization is OAuth2 (`oauth2`), then
+  you should provide only the OAuth2 credentials.
+
 - `"tenant"`: Contains information about an application tenant, such as the application
   display name and identifier.
 """

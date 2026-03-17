@@ -12,8 +12,8 @@ Update one or more exclusion status for a list of recommendation resources
 
 # Arguments
 
-- `recommendation_resource_exclusions`: A list of recommendation resource ARNs and
-  exclusion status to update
+- `recommendation_resource_exclusions`: A list of recommendation resource ARNs and exclusion
+  status to update
 """
 function batch_update_recommendation_resource_exclusion end
 
@@ -166,8 +166,8 @@ end
     list_organization_recommendation_accounts(organization_recommendation_identifier)
     list_organization_recommendation_accounts(organization_recommendation_identifier, params::Dict{String,<:Any})
 
-Lists the accounts that own the resources for an organization aggregate recommendation.
-This API only supports prioritized recommendations.
+Lists the accounts that own the resources for an organization aggregate recommendation. This
+API only supports prioritized recommendations.
 
 # Arguments
 

@@ -21,8 +21,8 @@ better throughput.
 
     The BatchDeleteAttributes operation succeeds or fails in its entirety. There are no
     partial deletes. You can execute multiple BatchDeleteAttributes operations and other
-    operations in parallel. However, large numbers of concurrent BatchDeleteAttributes
-    calls can result in Service Unavailable (503) responses.
+    operations in parallel. However, large numbers of concurrent BatchDeleteAttributes calls
+    can result in Service Unavailable (503) responses.
 
     This operation is vulnerable to exceeding the maximum URL size when making a REST
     request using the HTTP GET method.
@@ -100,11 +100,10 @@ both the `Item.X.Attribute.Y.Name` and `Item.X.Attribute.Y.Value` are the same.
 
 Optionally, the requester can supply the `Replace` parameter for each individual value.
 Setting this value to `true` will cause the new attribute values to replace the existing
-attribute values. For example, if an item `I` has the attributes
-`{ 'a', '1' }, { 'b', '2'}` and `{ 'b', '3' }` and the requester does a BatchPutAttributes
-of `{'I', 'b', '4' }` with the Replace parameter set to true, the final attributes of the
-item will be `{ 'a', '1' }` and `{ 'b', '4' }`, replacing the previous values of the 'b'
-attribute with the new value.
+attribute values. For example, if an item `I` has the attributes `{ 'a', '1' }, { 'b', '2'}`
+and `{ 'b', '3' }` and the requester does a BatchPutAttributes of `{'I', 'b', '4' }` with
+the Replace parameter set to true, the final attributes of the item will be `{ 'a', '1' }`
+and `{ 'b', '4' }`, replacing the previous values of the 'b' attribute with the new value.
 
 !!! note
     You cannot specify an empty string as an item or as an attribute name. The [`batch_put_attributes`](@ref)
@@ -173,13 +172,13 @@ end
     create_domain(domain_name)
     create_domain(domain_name, params::Dict{String,<:Any})
 
-The [`create_domain`](@ref) operation creates a new domain. The domain name should be
-unique among the domains associated with the Access Key ID provided in the request. The [`create_domain`](@ref)
+The [`create_domain`](@ref) operation creates a new domain. The domain name should be unique
+among the domains associated with the Access Key ID provided in the request. The [`create_domain`](@ref)
 operation may take 10 or more seconds to complete.
 
 !!! note
-    CreateDomain is an idempotent operation; running it multiple times using the same
-    domain name will not result in an error response.
+    CreateDomain is an idempotent operation; running it multiple times using the same domain
+    name will not result in an error response.
 
 The client can create up to 100 domains per account.
 
@@ -224,11 +223,11 @@ Deletes one or more attributes associated with an item. If all attributes of the
 deleted, the item is deleted.
 
 !!! note
-    If `DeleteAttributes` is called without being passed any attributes or values
-    specified, all the attributes for the item are deleted.
+    If `DeleteAttributes` is called without being passed any attributes or values specified,
+    all the attributes for the item are deleted.
 
-`DeleteAttributes` is an idempotent operation; running it multiple times on the same item
-or attribute does not result in an error response.
+`DeleteAttributes` is an idempotent operation; running it multiple times on the same item or
+attribute does not result in an error response.
 
 Because Amazon SimpleDB makes multiple copies of item data and uses an eventual consistency
 update model, performing a [`get_attributes`](@ref) or [`select`](@ref) operation (read)
@@ -367,13 +366,12 @@ end
     get_attributes(domain_name, item_name)
     get_attributes(domain_name, item_name, params::Dict{String,<:Any})
 
-Returns all of the attributes associated with the specified item. Optionally, the
-attributes returned can be limited to one or more attributes by specifying an attribute
-name parameter.
+Returns all of the attributes associated with the specified item. Optionally, the attributes
+returned can be limited to one or more attributes by specifying an attribute name parameter.
 
-If the item does not exist on the replica that was accessed for this operation, an empty
-set is returned. The system does not return an error as it cannot guarantee the item does
-not exist on other replicas.
+If the item does not exist on the replica that was accessed for this operation, an empty set
+is returned. The system does not return an error as it cannot guarantee the item does not
+exist on other replicas.
 
 !!! note
     If GetAttributes is called without being passed any attribute names, all the attributes
@@ -431,18 +429,18 @@ end
     list_domains()
     list_domains(params::Dict{String,<:Any})
 
-The [`list_domains`](@ref) operation lists all domains associated with the Access Key ID.
-It returns domain names up to the limit set by [MaxNumberOfDomains](#MaxNumberOfDomains). A
-[NextToken](#NextToken) is returned if there are more than `MaxNumberOfDomains` domains.
-Calling `ListDomains` successive times with the `NextToken` provided by the operation
-returns up to `MaxNumberOfDomains` more domain names with each successive operation call.
+The [`list_domains`](@ref) operation lists all domains associated with the Access Key ID. It
+returns domain names up to the limit set by [MaxNumberOfDomains](#MaxNumberOfDomains). A [NextToken](#NextToken)
+is returned if there are more than `MaxNumberOfDomains` domains. Calling `ListDomains`
+successive times with the `NextToken` provided by the operation returns up to
+`MaxNumberOfDomains` more domain names with each successive operation call.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxNumberOfDomains"`: The maximum number of domain names you want returned. The range
-  is 1 to 100. The default setting is 100.
+- `"MaxNumberOfDomains"`: The maximum number of domain names you want returned. The range is
+  1 to 100. The default setting is 100.
 - `"NextToken"`: A string informing Amazon SimpleDB where to start the next list of domain
   names.
 """
@@ -465,10 +463,10 @@ end
     put_attributes(attribute, domain_name, item_name, params::Dict{String,<:Any})
 
 The PutAttributes operation creates or replaces attributes in an item. The client may
-specify new attributes using a combination of the `Attribute.X.Name` and
-`Attribute.X.Value` parameters. The client specifies the first attribute by the parameters
-`Attribute.0.Name` and `Attribute.0.Value`, the second attribute by the parameters
-`Attribute.1.Name` and `Attribute.1.Value`, and so on.
+specify new attributes using a combination of the `Attribute.X.Name` and `Attribute.X.Value`
+parameters. The client specifies the first attribute by the parameters `Attribute.0.Name`
+and `Attribute.0.Value`, the second attribute by the parameters `Attribute.1.Name` and
+`Attribute.1.Value`, and so on.
 
 Attributes are uniquely identified in an item by their name/value combination. For example,
 a single item can have the attributes `{ "first_name", "first_value" }` and
@@ -477,11 +475,11 @@ both the `Attribute.X.Name` and `Attribute.X.Value` are the same.
 
 Optionally, the requestor can supply the `Replace` parameter for each individual attribute.
 Setting this value to `true` causes the new attribute value to replace the existing
-attribute value(s). For example, if an item has the attributes `{ 'a', '1' }`,
-`{ 'b', '2'}` and `{ 'b', '3' }` and the requestor calls `PutAttributes` using the
-attributes `{ 'b', '4' }` with the `Replace` parameter set to true, the final attributes of
-the item are changed to `{ 'a', '1' }` and `{ 'b', '4' }`, which replaces the previous
-values of the 'b' attribute with the new value.
+attribute value(s). For example, if an item has the attributes `{ 'a', '1' }`, `{ 'b', '2'}`
+and `{ 'b', '3' }` and the requestor calls `PutAttributes` using the attributes
+`{ 'b', '4' }` with the `Replace` parameter set to true, the final attributes of the item
+are changed to `{ 'a', '1' }` and `{ 'b', '4' }`, which replaces the previous values of the
+'b' attribute with the new value.
 
 !!! note
     Using `PutAttributes` to replace attribute values that do not exist will not result in

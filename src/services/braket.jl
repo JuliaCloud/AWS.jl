@@ -88,19 +88,19 @@ Creates an Amazon Braket job.
 # Arguments
 
 - `algorithm_specification`: Definition of the Amazon Braket job to be created. Specifies
-  the container image the job uses and information about the Python scripts used for
-  entry and training.
+  the container image the job uses and information about the Python scripts used for entry
+  and training.
 - `client_token`: A unique token that guarantees that the call to this API is idempotent.
 - `device_config`: The quantum processing unit (QPU) or simulator used to create an Amazon
   Braket job.
-- `instance_config`: Configuration of the resource instances to use while running the
-  hybrid job on Amazon Braket.
+- `instance_config`: Configuration of the resource instances to use while running the hybrid
+  job on Amazon Braket.
 - `job_name`: The name of the Amazon Braket job.
 - `output_data_config`: The path to the S3 location where you want to store job artifacts
   and the encryption key used to store them.
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume
-  to perform tasks on behalf of a user. It can access user resources, run an Amazon
-  Braket job container on behalf of user, and output resources to the users' s3 buckets.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to
+  perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job
+  container on behalf of user, and output resources to the users' s3 buckets.
 
 # Optional Parameters
 
@@ -112,8 +112,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   influence the quality of the training job. The values are set with a string of JSON
   key:value pairs, where the key is the name of the hyperparameter and the value is the
   value of th hyperparameter.
-- `"inputDataConfig"`: A list of parameters that specify the name and type of input data
-  and where it is located.
+- `"inputDataConfig"`: A list of parameters that specify the name and type of input data and
+  where it is located.
 - `"stoppingCondition"`: The user-defined criteria that specifies when a job stops running.
 - `"tags"`: A tag object that consists of a key and an optional value, used to manage
   metadata for Amazon Braket resources.

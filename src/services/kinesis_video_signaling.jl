@@ -9,13 +9,12 @@ using AWS.UUIDs
     get_ice_server_config(channel_arn, params::Dict{String,<:Any})
 
 Gets the Interactive Connectivity Establishment (ICE) server configuration information,
-including URIs, username, and password which can be used to configure the WebRTC
-connection. The ICE component uses this configuration information to setup the WebRTC
-connection, including authenticating with the Traversal Using Relays around NAT (TURN)
-relay server.
+including URIs, username, and password which can be used to configure the WebRTC connection.
+The ICE component uses this configuration information to setup the WebRTC connection,
+including authenticating with the Traversal Using Relays around NAT (TURN) relay server.
 
-TURN is a protocol that is used to improve the connectivity of peer-to-peer applications.
-By providing a cloud-based relay service, TURN ensures that a connection can be established
+TURN is a protocol that is used to improve the connectivity of peer-to-peer applications. By
+providing a cloud-based relay service, TURN ensures that a connection can be established
 even when one or more peers are incapable of a direct peer-to-peer connection. For more
 information, see [A REST API For Access To TURN Services](https://tools.ietf.org/html/draft-uberti-rtcweb-turn-rest-00).
 
@@ -25,8 +24,8 @@ specify either a signaling channel ARN or the client ID in order to invoke this 
 
 # Arguments
 
-- `channel_arn`: The ARN of the signaling channel to be used for the peer-to-peer
-  connection between configured peers.
+- `channel_arn`: The ARN of the signaling channel to be used for the peer-to-peer connection
+  between configured peers.
 
 # Optional Parameters
 
@@ -72,10 +71,10 @@ end
     send_alexa_offer_to_master(channel_arn, message_payload, sender_client_id, params::Dict{String,<:Any})
 
 This API allows you to connect WebRTC-enabled devices with Alexa display devices. When
-invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer.
-The offer is delivered as soon as the master is connected to the specified signaling
-channel. This API returns the SDP answer from the connected master. If the master is not
-connected to the signaling channel, redelivery requests are made until the message expires.
+invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer. The
+offer is delivered as soon as the master is connected to the specified signaling channel.
+This API returns the SDP answer from the connected master. If the master is not connected to
+the signaling channel, redelivery requests are made until the message expires.
 
 # Arguments
 

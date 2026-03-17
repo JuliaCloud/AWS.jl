@@ -96,8 +96,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags to attach to the resource. Array of maps, each of the form
   `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented
-  there.
+  requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
 """
 function create_logging_configuration end
 
@@ -146,10 +145,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"loggingConfigurationIdentifiers"`: Array of logging-configuration identifiers attached
   to the room.
 - `"maximumMessageLength"`: Maximum number of characters in a single message. Messages are
-  expected to be UTF-8 encoded and this limit applies specifically to rune/code-point
-  count, not number of bytes. Default: 500.
-- `"maximumMessageRatePerSecond"`: Maximum number of messages per second that can be sent
-  to the room (by all clients). Default: 10.
+  expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count,
+  not number of bytes. Default: 500.
+- `"maximumMessageRatePerSecond"`: Maximum number of messages per second that can be sent to
+  the room (by all clients). Default: 10.
 - `"messageReviewHandler"`: Configuration information for optional review of messages.
 - `"name"`: Room name. The value does not need to be unique.
 - `"tags"`: Tags to attach to the resource. Array of maps, each of the form
@@ -228,8 +227,7 @@ WebSocket operation in the Amazon IVS Chat Messaging API.
 
 # Arguments
 
-- `id`: ID of the message to be deleted. This is the `Id` field in the received message
-  (see [Message (Subscribe)](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-message-subscribe.html)
+- `id`: ID of the message to be deleted. This is the `Id` field in the received message (see [Message (Subscribe)](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-message-subscribe.html)
   in the Chat Messaging API).
 - `room_identifier`: Identifier of the room where the message should be deleted. Currently
   this must be an ARN.
@@ -711,8 +709,8 @@ Updates a specified logging configuration.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"destinationConfiguration"`: A complex type that contains a destination configuration
-  for where chat content will be logged. There can be only one type of destination
+- `"destinationConfiguration"`: A complex type that contains a destination configuration for
+  where chat content will be logged. There can be only one type of destination
   (`cloudWatchLogs`, `firehose`, or `s3`) in a `destinationConfiguration`.
 - `"name"`: Logging-configuration name. The value does not need to be unique.
 """
@@ -765,11 +763,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maximumMessageLength"`: The maximum number of characters in a single message. Messages
   are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point
   count, not number of bytes. Default: 500.
-- `"maximumMessageRatePerSecond"`: Maximum number of messages per second that can be sent
-  to the room (by all clients). Default: 10.
+- `"maximumMessageRatePerSecond"`: Maximum number of messages per second that can be sent to
+  the room (by all clients). Default: 10.
 - `"messageReviewHandler"`: Configuration information for optional review of messages.
-  Specify an empty `uri` string to disassociate a message review handler from the
-  specified room.
+  Specify an empty `uri` string to disassociate a message review handler from the specified
+  room.
 - `"name"`: Room name. The value does not need to be unique.
 """
 function update_room end

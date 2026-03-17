@@ -32,8 +32,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessType"`: The type of access for the network connectivity for the Amazon S3 on
   Outposts endpoint. To use the Amazon Web Services VPC, choose `Private`. To use the
   endpoint with an on-premises network, choose `CustomerOwnedIp`. If you choose
-  `CustomerOwnedIp`, you must also provide the customer-owned IP address pool (CoIP
-  pool).
+  `CustomerOwnedIp`, you must also provide the customer-owned IP address pool (CoIP pool).
 
   !!! note
       `Private` is the default access type value.
@@ -195,8 +194,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of Outposts to return. The limit is 100.
 - `"nextToken"`: When you can get additional results from the `ListOutpostsWithS3` call, a
-  `NextToken` parameter is returned in the output. You can then pass in a subsequent
-  command to the `NextToken` parameter to continue listing additional Outposts.
+  `NextToken` parameter is returned in the output. You can then pass in a subsequent command
+  to the `NextToken` parameter to continue listing additional Outposts.
 """
 function list_outposts_with_s3 end
 

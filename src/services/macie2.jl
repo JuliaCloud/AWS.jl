@@ -101,8 +101,8 @@ Changes the status of automated sensitive data discovery for one or more account
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"accounts"`: An array of objects, one for each account to change the status of automated
-  sensitive data discovery for. Each object specifies the Amazon Web Services account ID
-  for an account and a new status for that account.
+  sensitive data discovery for. Each object specifies the Amazon Web Services account ID for
+  an account and a new status for that account.
 """
 function batch_update_automated_discovery_accounts end
 
@@ -139,9 +139,9 @@ Creates and defines the settings for an allow list.
 
 - `client_token`: A unique, case-sensitive token that you provide to ensure the idempotency
   of the request.
-- `criteria`: The criteria that specify the text or text pattern to ignore. The criteria
-  can be the location and name of an S3 object that lists specific text to ignore
-  (s3WordsList), or a regular expression (regex) that defines a text pattern to ignore.
+- `criteria`: The criteria that specify the text or text pattern to ignore. The criteria can
+  be the location and name of an S3 object that lists specific text to ignore (s3WordsList),
+  or a regular expression (regex) that defines a text pattern to ignore.
 - `name`: A custom name for the allow list. The name can contain as many as 128 characters.
 
 # Optional Parameters
@@ -150,6 +150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: A custom description of the allow list. The description can contain as
   many as 512 characters.
+
 - `"tags"`: A map of key-value pairs that specifies the tags to associate with the allow
   list.
 
@@ -207,15 +208,16 @@ Creates and defines the settings for a classification job.
 
 - `client_token`: A unique, case-sensitive token that you provide to ensure the idempotency
   of the request.
+
 - `job_type`: The schedule for running the job. Valid values are:
 
-  - ONE_TIME - Run the job only once. If you specify this value, don't specify a value
-    for the scheduleFrequency property.
-  - SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this
-    value, use the scheduleFrequency property to specify the recurrence pattern for the
-    job.
+  - ONE_TIME - Run the job only once. If you specify this value, don't specify a value for
+    the scheduleFrequency property.
+  - SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this value,
+    use the scheduleFrequency property to specify the recurrence pattern for the job.
 
 - `name`: A custom name for the job. The name can contain as many as 500 characters.
+
 - `s3_job_definition`: The S3 buckets that contain the objects to analyze, and the scope of
   that analysis.
 
@@ -225,25 +227,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"allowListIds"`: An array of unique identifiers, one for each allow list for the job to
   use when it analyzes data.
+
 - `"customDataIdentifierIds"`: An array of unique identifiers, one for each custom data
-  identifier for the job to use when it analyzes data. To use only managed data
-  identifiers, don't specify a value for this property and specify a value other than
-  NONE for the managedDataIdentifierSelector property.
+  identifier for the job to use when it analyzes data. To use only managed data identifiers,
+  don't specify a value for this property and specify a value other than NONE for the
+  managedDataIdentifierSelector property.
+
 - `"description"`: A custom description of the job. The description can contain as many as
   200 characters.
+
 - `"initialRun"`: For a recurring job, specifies whether to analyze all existing, eligible
   objects immediately after the job is created (true). To analyze only those objects that
-  are created or changed after you create the job and before the job's first scheduled
-  run, set this value to false.
+  are created or changed after you create the job and before the job's first scheduled run,
+  set this value to false.
 
   If you configure the job to run only once, don't specify a value for this property.
+
 - `"managedDataIdentifierIds"`: An array of unique identifiers, one for each managed data
   identifier for the job to include (use) or exclude (not use) when it analyzes data.
   Inclusion or exclusion depends on the managed data identifier selection type that you
   specify for the job (managedDataIdentifierSelector).
 
-  To retrieve a list of valid values for this property, use the
-  ListManagedDataIdentifiers operation.
+  To retrieve a list of valid values for this property, use the ListManagedDataIdentifiers
+  operation.
+
 - `"managedDataIdentifierSelector"`: The selection type to apply when determining which
   managed data identifiers the job uses to analyze data. Valid values are:
 
@@ -257,35 +264,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     least one value for the customDataIdentifierIds property and don't specify any values
     for the managedDataIdentifierIds property.
   - RECOMMENDED (default) - Use the recommended set of managed data identifiers. If you
-    specify this value, don't specify any values for the managedDataIdentifierIds
-    property.
+    specify this value, don't specify any values for the managedDataIdentifierIds property.
 
   If you don't specify a value for this property, the job uses the recommended set of
   managed data identifiers.
 
-  If the job is a recurring job and you specify ALL or EXCLUDE, each job run
-  automatically uses new managed data identifiers that are released. If you don't specify
-  a value for this property or you specify RECOMMENDED for a recurring job, each job run
-  automatically uses all the managed data identifiers that are in the recommended set
-  when the run starts.
+  If the job is a recurring job and you specify ALL or EXCLUDE, each job run automatically
+  uses new managed data identifiers that are released. If you don't specify a value for this
+  property or you specify RECOMMENDED for a recurring job, each job run automatically uses
+  all the managed data identifiers that are in the recommended set when the run starts.
 
   To learn about individual managed data identifiers or determine which ones are in the
   recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html)
   or [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html)
   in the *Amazon Macie User Guide*.
+
 - `"samplingPercentage"`: The sampling depth, as a percentage, for the job to apply when
-  processing objects. This value determines the percentage of eligible objects that the
-  job analyzes. If this value is less than 100, Amazon Macie selects the objects to
-  analyze at random, up to the specified percentage, and analyzes all the data in those
-  objects.
+  processing objects. This value determines the percentage of eligible objects that the job
+  analyzes. If this value is less than 100, Amazon Macie selects the objects to analyze at
+  random, up to the specified percentage, and analyzes all the data in those objects.
+
 - `"scheduleFrequency"`: The recurrence pattern for running the job. To run the job only
-  once, don't specify a value for this property and set the value for the jobType
-  property to ONE_TIME.
+  once, don't specify a value for this property and set the value for the jobType property
+  to ONE_TIME.
+
 - `"tags"`: A map of key-value pairs that specifies the tags to associate with the job.
 
-  A job can have a maximum of 50 tags. Each tag consists of a tag key and an associated
-  tag value. The maximum length of a tag key is 128 characters. The maximum length of a
-  tag value is 256 characters.
+  A job can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag
+  value. The maximum length of a tag key is 128 characters. The maximum length of a tag
+  value is 256 characters.
 """
 function create_classification_job end
 
@@ -349,9 +356,10 @@ Creates and defines the criteria and other settings for a custom data identifier
 - `name`: A custom name for the custom data identifier. The name can contain as many as 128
   characters.
 
-  We strongly recommend that you avoid including any sensitive data in the name of a
-  custom data identifier. Other users of your account might be able to see this name,
-  depending on the actions that they're allowed to perform in Amazon Macie.
+  We strongly recommend that you avoid including any sensitive data in the name of a custom
+  data identifier. Other users of your account might be able to see this name, depending on
+  the actions that they're allowed to perform in Amazon Macie.
+
 - `regex`: The regular expression (*regex*) that defines the pattern to match. The
   expression can contain as many as 512 characters.
 
@@ -359,46 +367,51 @@ Creates and defines the criteria and other settings for a custom data identifier
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
+- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+
 - `"description"`: A custom description of the custom data identifier. The description can
   contain as many as 512 characters.
 
-  We strongly recommend that you avoid including any sensitive data in the description of
-  a custom data identifier. Other users of your account might be able to see this
-  description, depending on the actions that they're allowed to perform in Amazon Macie.
+  We strongly recommend that you avoid including any sensitive data in the description of a
+  custom data identifier. Other users of your account might be able to see this description,
+  depending on the actions that they're allowed to perform in Amazon Macie.
+
 - `"ignoreWords"`: An array that lists specific character sequences (*ignore words*) to
   exclude from the results. If the text matched by the regular expression contains any
-  string in this array, Amazon Macie ignores it. The array can contain as many as 10
-  ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case
+  string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore
+  words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case
   sensitive.
+
 - `"keywords"`: An array that lists specific character sequences (*keywords*), one of which
-  must precede and be within proximity (maximumMatchDistance) of the regular expression
-  to match. The array can contain as many as 50 keywords. Each keyword can contain 3-90
-  UTF-8 characters. Keywords aren't case sensitive.
+  must precede and be within proximity (maximumMatchDistance) of the regular expression to
+  match. The array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8
+  characters. Keywords aren't case sensitive.
+
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between the end
-  of at least one complete character sequence specified by the keywords array and the end
-  of the text that matches the regex pattern. If a complete keyword precedes all the text
-  that matches the pattern and the keyword is within the specified distance, Amazon Macie
+  of at least one complete character sequence specified by the keywords array and the end of
+  the text that matches the regex pattern. If a complete keyword precedes all the text that
+  matches the pattern and the keyword is within the specified distance, Amazon Macie
   includes the result. The distance can be 1-300 characters. The default value is 50.
+
 - `"severityLevels"`: The severity to assign to findings that the custom data identifier
   produces, based on the number of occurrences of text that match the custom data
-  identifier's detection criteria. You can specify as many as three SeverityLevel objects
-  in this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than
-  one, the occurrences thresholds must be in ascending order by severity, moving from LOW
-  to HIGH. For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object
-  contains fewer occurrences than the lowest specified threshold, Amazon Macie doesn't
-  create a finding.
+  identifier's detection criteria. You can specify as many as three SeverityLevel objects in
+  this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one, the
+  occurrences thresholds must be in ascending order by severity, moving from LOW to HIGH.
+  For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains fewer
+  occurrences than the lowest specified threshold, Amazon Macie doesn't create a finding.
 
-  If you don't specify any values for this array, Macie creates findings for S3 objects
-  that contain at least one occurrence of text that matches the detection criteria, and
-  Macie assigns the MEDIUM severity to those findings.
+  If you don't specify any values for this array, Macie creates findings for S3 objects that
+  contain at least one occurrence of text that matches the detection criteria, and Macie
+  assigns the MEDIUM severity to those findings.
+
 - `"tags"`: A map of key-value pairs that specifies the tags to associate with the custom
   data identifier.
 
-  A custom data identifier can have a maximum of 50 tags. Each tag consists of a tag key
-  and an associated tag value. The maximum length of a tag key is 128 characters. The
-  maximum length of a tag value is 256 characters.
+  A custom data identifier can have a maximum of 50 tags. Each tag consists of a tag key and
+  an associated tag value. The maximum length of a tag key is 128 characters. The maximum
+  length of a tag value is 256 characters.
 """
 function create_custom_data_identifier end
 
@@ -450,29 +463,34 @@ Creates and defines the criteria and other settings for a findings filter.
 - `action`: The action to perform on findings that match the filter criteria
   (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the
   findings; and, NOOP, don't perform any action on the findings.
+
 - `finding_criteria`: The criteria to use to filter findings.
+
 - `name`: A custom name for the filter. The name must contain at least 3 characters and can
   contain as many as 64 characters.
 
-  We strongly recommend that you avoid including any sensitive data in the name of a
-  filter. Other users of your account might be able to see this name, depending on the
-  actions that they're allowed to perform in Amazon Macie.
+  We strongly recommend that you avoid including any sensitive data in the name of a filter.
+  Other users of your account might be able to see this name, depending on the actions that
+  they're allowed to perform in Amazon Macie.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
+- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+
 - `"description"`: A custom description of the filter. The description can contain as many
   as 512 characters.
 
-  We strongly recommend that you avoid including any sensitive data in the description of
-  a filter. Other users of your account might be able to see this description, depending
-  on the actions that they're allowed to perform in Amazon Macie.
+  We strongly recommend that you avoid including any sensitive data in the description of a
+  filter. Other users of your account might be able to see this description, depending on
+  the actions that they're allowed to perform in Amazon Macie.
+
 - `"position"`: The position of the filter in the list of saved filters on the Amazon Macie
-  console. This value also determines the order in which the filter is applied to
-  findings, relative to other filters that are also applied to the findings.
+  console. This value also determines the order in which the filter is applied to findings,
+  relative to other filters that are also applied to the findings.
+
 - `"tags"`: A map of key-value pairs that specifies the tags to associate with the filter.
 
   A findings filter can have a maximum of 50 tags. Each tag consists of a tag key and an
@@ -541,11 +559,11 @@ Sends an Amazon Macie membership invitation to one or more accounts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"disableEmailNotification"`: Specifies whether to send the invitation as an email
-  message. If this value is false, Amazon Macie sends the invitation (as an email
-  message) to the email address that you specified for the recipient's account when you
-  associated the account with your account. The default value is false.
-- `"message"`: Custom text to include in the email message that contains the invitation.
-  The text can contain as many as 80 alphanumeric characters.
+  message. If this value is false, Amazon Macie sends the invitation (as an email message)
+  to the email address that you specified for the recipient's account when you associated
+  the account with your account. The default value is false.
+- `"message"`: Custom text to include in the email message that contains the invitation. The
+  text can contain as many as 80 alphanumeric characters.
 """
 function create_invitations end
 
@@ -592,9 +610,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map of key-value pairs that specifies the tags to associate with the account
   in Amazon Macie.
 
-  An account can have a maximum of 50 tags. Each tag consists of a tag key and an
-  associated tag value. The maximum length of a tag key is 128 characters. The maximum
-  length of a tag value is 256 characters.
+  An account can have a maximum of 50 tags. Each tag consists of a tag key and an associated
+  tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag
+  value is 256 characters.
 """
 function create_member end
 
@@ -709,14 +727,14 @@ Deletes an allow list.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ignoreJobChecks"`: Specifies whether to force deletion of the allow list, even if
-  active classification jobs are configured to use the list.
+- `"ignoreJobChecks"`: Specifies whether to force deletion of the allow list, even if active
+  classification jobs are configured to use the list.
 
-  When you try to delete an allow list, Amazon Macie checks for classification jobs that
-  use the list and have a status other than COMPLETE or CANCELLED. By default, Macie
-  rejects your request if any jobs meet these criteria. To skip these checks and delete
-  the list, set this value to true. To delete the list only if no active jobs are
-  configured to use it, set this value to false.
+  When you try to delete an allow list, Amazon Macie checks for classification jobs that use
+  the list and have a status other than COMPLETE or CANCELLED. By default, Macie rejects
+  your request if any jobs meet these criteria. To skip these checks and delete the list,
+  set this value to true. To delete the list only if no active jobs are configured to use
+  it, set this value to false.
 """
 function delete_allow_list end
 
@@ -882,8 +900,8 @@ end
     describe_buckets()
     describe_buckets(params::Dict{String,<:Any})
 
-Retrieves (queries) statistical data and other information about one or more S3 buckets
-that Amazon Macie monitors and analyzes for an account.
+Retrieves (queries) statistical data and other information about one or more S3 buckets that
+Amazon Macie monitors and analyzes for an account.
 
 # Optional Parameters
 
@@ -1151,13 +1169,13 @@ Enables Amazon Macie and specifies the configuration settings for a Macie accoun
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
+- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
 - `"findingPublishingFrequency"`: Specifies how often to publish updates to policy findings
-  for the account. This includes publishing updates to Security Hub and Amazon
-  EventBridge (formerly Amazon CloudWatch Events).
-- `"status"`: Specifies the new status for the account. To enable Amazon Macie and start
-  all Macie activities for the account, set this value to ENABLED.
+  for the account. This includes publishing updates to Security Hub and Amazon EventBridge
+  (formerly Amazon CloudWatch Events).
+- `"status"`: Specifies the new status for the account. To enable Amazon Macie and start all
+  Macie activities for the account, set this value to ENABLED.
 """
 function enable_macie end
 
@@ -1194,15 +1212,15 @@ organization in Organizations.
 
 # Arguments
 
-- `admin_account_id`: The Amazon Web Services account ID for the account to designate as
-  the delegated Amazon Macie administrator account for the organization.
+- `admin_account_id`: The Amazon Web Services account ID for the account to designate as the
+  delegated Amazon Macie administrator account for the organization.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
+- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
 """
 function enable_organization_admin_account end
 
@@ -1302,8 +1320,8 @@ end
     get_automated_discovery_configuration()
     get_automated_discovery_configuration(params::Dict{String,<:Any})
 
-Retrieves the configuration settings and status of automated sensitive data discovery for
-an organization or standalone account.
+Retrieves the configuration settings and status of automated sensitive data discovery for an
+organization or standalone account.
 """
 function get_automated_discovery_configuration end
 
@@ -1475,8 +1493,7 @@ Retrieves (queries) aggregated statistical data about findings.
 
   - classificationDetails.jobId - The unique identifier for the classification job that
     produced the finding.
-  - resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies
-    to.
+  - resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies to.
   - severity.description - The severity level of the finding, such as High or Medium.
   - type - The type of finding, such as Policy:IAMUser/S3BucketPublic and
     SensitiveData:S3Object/Personal.
@@ -1769,8 +1786,8 @@ end
     get_reveal_configuration()
     get_reveal_configuration(params::Dict{String,<:Any})
 
-Retrieves the status and configuration settings for retrieving occurrences of sensitive
-data reported by findings.
+Retrieves the status and configuration settings for retrieving occurrences of sensitive data
+reported by findings.
 """
 function get_reveal_configuration end
 
@@ -1915,16 +1932,16 @@ Retrieves (queries) quotas and aggregated usage data for one or more accounts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filterBy"`: An array of objects, one for each condition to use to filter the query
-  results. If you specify more than one condition, Amazon Macie uses an AND operator to
-  join the conditions.
+  results. If you specify more than one condition, Amazon Macie uses an AND operator to join
+  the conditions.
 - `"maxResults"`: The maximum number of items to include in each page of the response.
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 - `"sortBy"`: The criteria to use to sort the query results.
 - `"timeRange"`: The inclusive time period to query usage data for. Valid values are:
   MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the
-  preceding 30 days. If you don't specify a value, Amazon Macie provides usage data for
-  the preceding 30 days.
+  preceding 30 days. If you don't specify a value, Amazon Macie provides usage data for the
+  preceding 30 days.
 """
 function get_usage_statistics end
 
@@ -1958,8 +1975,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"timeRange"`: The inclusive time period to retrieve the data for. Valid values are:
   MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the
-  preceding 30 days. If you don't specify a value for this parameter, Amazon Macie
-  provides aggregated usage data for the preceding 30 days.
+  preceding 30 days. If you don't specify a value for this parameter, Amazon Macie provides
+  aggregated usage data for the preceding 30 days.
 """
 function get_usage_totals end
 
@@ -2022,8 +2039,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accountIds"`: The Amazon Web Services account ID for each account, for as many as 50
   accounts. To retrieve the status for multiple accounts, append the accountIds parameter
-  and argument for each account, separated by an ampersand (&amp;). To retrieve the
-  status for all the accounts in an organization, omit this parameter.
+  and argument for each account, separated by an ampersand (&amp;). To retrieve the status
+  for all the accounts in an organization, omit this parameter.
 - `"maxResults"`: The maximum number of items to include in each page of a paginated
   response.
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
@@ -2317,8 +2334,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 - `"onlyAssociated"`: Specifies which accounts to include in the response, based on the
   status of an account's relationship with the administrator account. By default, the
-  response includes only current member accounts. To include all accounts, set this value
-  to false.
+  response includes only current member accounts. To include all accounts, set this value to
+  false.
 """
 function list_members end
 
@@ -2594,8 +2611,8 @@ Updates the configuration settings for publishing findings to Security Hub.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
+- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
 - `"securityHubConfiguration"`: The configuration settings that determine which findings to
   publish to Security Hub.
 """
@@ -2679,11 +2696,12 @@ resource.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+
 - `tags`: A map of key-value pairs that specifies the tags to associate with the resource.
 
-  A resource can have a maximum of 50 tags. Each tag consists of a tag key and an
-  associated tag value. The maximum length of a tag key is 128 characters. The maximum
-  length of a tag value is 256 characters.
+  A resource can have a maximum of 50 tags. Each tag consists of a tag key and an associated
+  tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag
+  value is 256 characters.
 """
 function tag_resource end
 
@@ -2731,17 +2749,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ignoreWords"`: An array that lists specific character sequences (*ignore words*) to
   exclude from the results. If the text matched by the regular expression contains any
-  string in this array, Amazon Macie ignores it. The array can contain as many as 10
-  ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case
+  string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore
+  words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case
   sensitive.
+
 - `"keywords"`: An array that lists specific character sequences (*keywords*), one of which
-  must precede and be within proximity (maximumMatchDistance) of the regular expression
-  to match. The array can contain as many as 50 keywords. Each keyword can contain 3-90
-  UTF-8 characters. Keywords aren't case sensitive.
+  must precede and be within proximity (maximumMatchDistance) of the regular expression to
+  match. The array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8
+  characters. Keywords aren't case sensitive.
+
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between the end
-  of at least one complete character sequence specified by the keywords array and the end
-  of the text that matches the regex pattern. If a complete keyword precedes all the text
-  that matches the pattern and the keyword is within the specified distance, Amazon Macie
+  of at least one complete character sequence specified by the keywords array and the end of
+  the text that matches the regex pattern. If a complete keyword precedes all the text that
+  matches the pattern and the keyword is within the specified distance, Amazon Macie
   includes the result. The distance can be 1-300 characters. The default value is 50.
 """
 function test_custom_data_identifier end
@@ -2829,14 +2849,16 @@ Updates the settings for an allow list.
 
 # Arguments
 
-- `criteria`: The criteria that specify the text or text pattern to ignore. The criteria
-  can be the location and name of an S3 object that lists specific text to ignore
-  (s3WordsList), or a regular expression that defines a text pattern to ignore (regex).
+- `criteria`: The criteria that specify the text or text pattern to ignore. The criteria can
+  be the location and name of an S3 object that lists specific text to ignore (s3WordsList),
+  or a regular expression that defines a text pattern to ignore (regex).
 
   You can change a list's underlying criteria, such as the name of the S3 object or the
-  regular expression to use. However, you can't change the type from s3WordsList to regex
-  or the other way around.
+  regular expression to use. However, you can't change the type from s3WordsList to regex or
+  the other way around.
+
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
+
 - `name`: A custom name for the allow list. The name can contain as many as 128 characters.
 
 # Optional Parameters
@@ -2890,12 +2912,12 @@ organization or standalone account.
 # Arguments
 
 - `status`: The new status of automated sensitive data discovery for the organization or
-  account. Valid values are: ENABLED, start or resume all automated sensitive data
-  discovery activities; and, DISABLED, stop performing all automated sensitive data
-  discovery activities.
+  account. Valid values are: ENABLED, start or resume all automated sensitive data discovery
+  activities; and, DISABLED, stop performing all automated sensitive data discovery
+  activities.
 
-  If you specify DISABLED for an administrator account, you also disable automated
-  sensitive data discovery for all member accounts in the organization.
+  If you specify DISABLED for an administrator account, you also disable automated sensitive
+  data discovery for all member accounts in the organization.
 
 # Optional Parameters
 
@@ -2906,8 +2928,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (default), enable it for all existing accounts and new member accounts; NEW, enable it
   only for new member accounts; and, NONE, don't enable it for any accounts.
 
-  If you specify NEW or NONE, automated sensitive data discovery continues to be enabled
-  for any existing accounts that it's currently enabled for. To enable or disable it for
+  If you specify NEW or NONE, automated sensitive data discovery continues to be enabled for
+  any existing accounts that it's currently enabled for. To enable or disable it for
   individual member accounts, specify NEW or NONE, and then enable or disable it for each
   account by using the BatchUpdateAutomatedDiscoveryAccounts operation.
 """
@@ -2946,31 +2968,30 @@ Changes the status of a classification job.
 # Arguments
 
 - `job_id`: The unique identifier for the classification job.
+
 - `job_status`: The new status for the job. Valid values are:
 
   - CANCELLED - Stops the job permanently and cancels it. This value is valid only if the
     job's current status is IDLE, PAUSED, RUNNING, or USER_PAUSED.
 
   If you specify this value and the job's current status is RUNNING, Amazon Macie
-  immediately begins to stop all processing tasks for the job. You can't resume or
-  restart a job after you cancel it.
+  immediately begins to stop all processing tasks for the job. You can't resume or restart a
+  job after you cancel it.
   - RUNNING - Resumes the job. This value is valid only if the job's current status is
     USER_PAUSED.
 
-  If you paused the job while it was actively running and you specify this value less
-  than 30 days after you paused the job, Macie immediately resumes processing from the
-  point where you paused the job. Otherwise, Macie resumes the job according to the
-  schedule and other settings for the job.
-  - USER_PAUSED - Pauses the job temporarily. This value is valid only if the job's
-    current status is IDLE, PAUSED, or RUNNING. If you specify this value and the job's
-    current status is RUNNING, Macie immediately begins to pause all processing tasks for
-    the job.
+  If you paused the job while it was actively running and you specify this value less than
+  30 days after you paused the job, Macie immediately resumes processing from the point
+where you paused the job. Otherwise, Macie resumes the job according to the schedule and
+other settings for the job.
+  - USER_PAUSED - Pauses the job temporarily. This value is valid only if the job's current
+    status is IDLE, PAUSED, or RUNNING. If you specify this value and the job's current
+    status is RUNNING, Macie immediately begins to pause all processing tasks for the job.
 
   If you pause a one-time job and you don't resume it within 30 days, the job expires and
   Macie cancels the job. If you pause a recurring job when its status is RUNNING and you
   don't resume it within 30 days, the job run expires and Macie cancels the run. To check
   the expiration date, refer to the UserPausedDetails.jobExpiresAt property.
-
 """
 function update_classification_job end
 
@@ -3060,24 +3081,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"action"`: The action to perform on findings that match the filter criteria
   (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the
   findings; and, NOOP, don't perform any action on the findings.
-- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
-  idempotency of the request.
+
+- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+
 - `"description"`: A custom description of the filter. The description can contain as many
   as 512 characters.
 
-  We strongly recommend that you avoid including any sensitive data in the description of
-  a filter. Other users of your account might be able to see this description, depending
-  on the actions that they're allowed to perform in Amazon Macie.
+  We strongly recommend that you avoid including any sensitive data in the description of a
+  filter. Other users of your account might be able to see this description, depending on
+  the actions that they're allowed to perform in Amazon Macie.
+
 - `"findingCriteria"`: The criteria to use to filter findings.
+
 - `"name"`: A custom name for the filter. The name must contain at least 3 characters and
   can contain as many as 64 characters.
 
-  We strongly recommend that you avoid including any sensitive data in the name of a
-  filter. Other users of your account might be able to see this name, depending on the
-  actions that they're allowed to perform in Amazon Macie.
+  We strongly recommend that you avoid including any sensitive data in the name of a filter.
+  Other users of your account might be able to see this name, depending on the actions that
+  they're allowed to perform in Amazon Macie.
+
 - `"position"`: The position of the filter in the list of saved filters on the Amazon Macie
-  console. This value also determines the order in which the filter is applied to
-  findings, relative to other filters that are also applied to the findings.
+  console. This value also determines the order in which the filter is applied to findings,
+  relative to other filters that are also applied to the findings.
 """
 function update_findings_filter end
 
@@ -3117,11 +3143,11 @@ account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"findingPublishingFrequency"`: Specifies how often to publish updates to policy findings
-  for the account. This includes publishing updates to Security Hub and Amazon
-  EventBridge (formerly Amazon CloudWatch Events).
+  for the account. This includes publishing updates to Security Hub and Amazon EventBridge
+  (formerly Amazon CloudWatch Events).
 - `"status"`: Specifies a new status for the account. Valid values are: ENABLED, resume all
-  Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for
-  the account.
+  Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the
+  account.
 """
 function update_macie_session end
 
@@ -3147,8 +3173,8 @@ Enables an Amazon Macie administrator to suspend or re-enable Macie for a member
 
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
 - `status`: Specifies the new status for the account. Valid values are: ENABLED, resume all
-  Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for
-  the account.
+  Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the
+  account.
 """
 function update_member_session end
 
@@ -3237,8 +3263,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"sensitivityScoreOverride"`: The new sensitivity score for the bucket. Valid values are:
   100, assign the maximum score and apply the *Sensitive* label to the bucket; and, null
-  (empty), assign a score that Amazon Macie calculates automatically after you submit the
-  request.
+(empty), assign a score that Amazon Macie calculates automatically after you submit the
+request.
 """
 function update_resource_profile end
 
@@ -3287,8 +3313,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"suppressDataIdentifiers"`: An array of objects, one for each custom data identifier or
   managed data identifier that detected the type of sensitive data to start excluding or
-  including in the bucket's score. To start including all sensitive data types in the
-  score, don't specify any values for this array.
+  including in the bucket's score. To start including all sensitive data types in the score,
+  don't specify any values for this array.
 """
 function update_resource_profile_detections end
 
@@ -3383,15 +3409,16 @@ Updates the settings for the sensitivity inspection template for an account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`: A custom description of the template. The description can contain as
-  many as 200 characters.
-- `"excludes"`: The managed data identifiers to explicitly exclude (not use) when
-  performing automated sensitive data discovery.
+- `"description"`: A custom description of the template. The description can contain as many
+  as 200 characters.
+
+- `"excludes"`: The managed data identifiers to explicitly exclude (not use) when performing
+  automated sensitive data discovery.
 
   To exclude an allow list or custom data identifier that's currently included by the
-  template, update the values for the SensitivityInspectionTemplateIncludes.allowListIds
-  and SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties,
-  respectively.
+  template, update the values for the SensitivityInspectionTemplateIncludes.allowListIds and
+  SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties, respectively.
+
 - `"includes"`: The allow lists, custom data identifiers, and managed data identifiers to
   explicitly include (use) when performing automated sensitive data discovery.
 """

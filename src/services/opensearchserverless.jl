@@ -157,8 +157,8 @@ end
     create_access_policy(name, policy, type, params::Dict{String,<:Any})
 
 Creates a data access policy for OpenSearch Serverless. Access policies limit access to
-collections and the resources within them, and allow a user to access that data
-irrespective of the access mechanism or network source. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
+collections and the resources within them, and allow a user to access that data irrespective
+of the access mechanism or network source. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
 
 # Arguments
 
@@ -271,9 +271,9 @@ end
     create_lifecycle_policy(name, policy, type)
     create_lifecycle_policy(name, policy, type, params::Dict{String,<:Any})
 
-Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle
-policies define the number of days or hours to retain the data on an OpenSearch Serverless
-index. For more information, see [Creating data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-create).
+Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies
+define the number of days or hours to retain the data on an OpenSearch Serverless index. For
+more information, see [Creating data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-create).
 
 # Arguments
 
@@ -392,9 +392,9 @@ end
     create_security_policy(name, policy, type, params::Dict{String,<:Any})
 
 Creates a security policy to be used by one or more OpenSearch Serverless collections.
-Security policies provide access to a collection and its OpenSearch Dashboards endpoint
-from public networks or specific VPC endpoints. They also allow you to secure a collection
-with a KMS encryption key. For more information, see [Network access for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html)
+Security policies provide access to a collection and its OpenSearch Dashboards endpoint from
+public networks or specific VPC endpoints. They also allow you to secure a collection with a
+KMS encryption key. For more information, see [Network access for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html)
 and [Encryption at rest for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html).
 
 # Arguments
@@ -473,9 +473,8 @@ Creates an OpenSearch Serverless-managed interface VPC endpoint. For more inform
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
-- `"securityGroupIds"`: The unique identifiers of the security groups that define the
-  ports, protocols, and sources for inbound traffic that you are authorizing into your
-  endpoint.
+- `"securityGroupIds"`: The unique identifiers of the security groups that define the ports,
+  protocols, and sources for inbound traffic that you are authorizing into your endpoint.
 """
 function create_vpc_endpoint end
 
@@ -581,8 +580,8 @@ Deletes an OpenSearch Serverless collection. For more information, see [Creating
 
 # Arguments
 
-- `id`: The unique identifier of the collection. For example, `1iu5usc406kd`. The ID is
-  part of the collection endpoint. You can also retrieve it using the [ListCollections](https://docs.aws.amazon.com/opensearch-service/latest/ServerlessAPIReference/API_ListCollections.html)
+- `id`: The unique identifier of the collection. For example, `1iu5usc406kd`. The ID is part
+  of the collection endpoint. You can also retrieve it using the [ListCollections](https://docs.aws.amazon.com/opensearch-service/latest/ServerlessAPIReference/API_ListCollections.html)
   API.
 
 # Optional Parameters
@@ -1029,8 +1028,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"collectionFilters"`: A list of filter names and values that you can use for requests.
 - `"maxResults"`: The maximum number of results to return. Default is 20. You can use
   `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`list_collections`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_collections`](@ref)
+- `"nextToken"`: If your initial [`list_collections`](@ref) operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent [`list_collections`](@ref)
   operations, which returns results in the next page.
 """
 function list_collections end
@@ -1097,8 +1096,8 @@ end
     list_security_configs(type)
     list_security_configs(type, params::Dict{String,<:Any})
 
-Returns information about configured OpenSearch Serverless security configurations. For
-more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
+Returns information about configured OpenSearch Serverless security configurations. For more
+information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
 
 # Arguments
 
@@ -1188,8 +1187,8 @@ Returns the tags for an OpenSearch Serverless resource. For more information, se
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. The resource must be
-  active (not in the `DELETING` state), and must be owned by the account ID included in
-  the request.
+  active (not in the `DELETING` state), and must be owned by the account ID included in the
+  request.
 """
 function list_tags_for_resource end
 
@@ -1264,8 +1263,8 @@ Associates tags with an OpenSearch Serverless resource. For more information, se
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. The resource must be
-  active (not in the `DELETING` state), and must be owned by the account ID included in
-  the request.
+  active (not in the `DELETING` state), and must be owned by the account ID included in the
+  request.
 - `tags`: A list of tags (key-value pairs) to add to the resource. All tag keys in the
   request must be unique.
 """
@@ -1310,8 +1309,8 @@ see [Tagging Amazon OpenSearch Serverless collections](https://docs.aws.amazon.c
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to remove tags from. The
-  resource must be active (not in the `DELETING` state), and must be owned by the account
-  ID included in the request.
+  resource must be active (not in the `DELETING` state), and must be owned by the account ID
+  included in the request.
 - `tag_keys`: The tag or set of tags to remove from the resource. All tag keys in the
   request must be unique.
 """
@@ -1563,8 +1562,7 @@ Updates a security configuration for OpenSearch Serverless. For more information
 # Arguments
 
 - `config_version`: The version of the security configuration to be updated. You can find
-  the most recent version of a security configuration using the `GetSecurityPolicy`
-  command.
+  the most recent version of a security configuration using the `GetSecurityPolicy` command.
 - `id`: The security configuration identifier. For SAML the ID will be
   `saml/&lt;accountId&gt;/&lt;idpProviderName&gt;`. For example,
   `saml/123456789123/OKTADev`.

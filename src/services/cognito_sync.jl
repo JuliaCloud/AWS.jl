@@ -328,8 +328,8 @@ temporary user credentials provided by Cognito Identity.
 # Arguments
 
 - `identity_pool_id`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-
-  08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return
-  a configuration.
+  08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a
+configuration.
 """
 function get_identity_pool_configuration end
 
@@ -367,8 +367,8 @@ its own data. Thus, the credentials used to make this API call need to have acce
 identity data.
 
 ListDatasets can be called with temporary user credentials provided by Cognito Identity or
-with developer credentials. You should use the Cognito Identity credentials to make this
-API call.
+with developer credentials. You should use the Cognito Identity credentials to make this API
+call.
 
 # Arguments
 
@@ -453,8 +453,8 @@ end
     list_records(dataset_name, identity_id, identity_pool_id, params::Dict{String,<:Any})
 
 Gets paginated records, optionally changed after a particular sync count for a dataset and
-identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus,
-the credentials used to make this API call need to have access to the identity data.
+identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus, the
+credentials used to make this API call need to have access to the identity data.
 
 ListRecords can be called with temporary user credentials provided by Cognito Identity or
 with developer credentials. You should use Cognito Identity credentials to make this API
@@ -524,7 +524,7 @@ cannot call this API with developer credentials.
 - `identity_id`: The unique ID for this identity.
 - `identity_pool_id`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-
   08002EXAMPLE) created by Amazon Cognito. Here, the ID of the pool that the identity
-  belongs to.
+belongs to.
 - `platform`: The SNS platform type (e.g. GCM, SDM, APNS, APNS_SANDBOX).
 - `token`: The push token.
 """
@@ -675,8 +675,7 @@ cannot call this API with developer credentials.
 - `device_id`: The unique ID generated for this device by Cognito.
 - `identity_id`: Unique ID for this identity.
 - `identity_pool_id`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-
-  08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity
-  belongs.
+  08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs.
 """
 function subscribe_to_dataset end
 
@@ -728,7 +727,7 @@ cannot call this API with developer credentials.
 - `identity_id`: Unique ID for this identity.
 - `identity_pool_id`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-
   08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which this identity
-  belongs.
+belongs.
 """
 function unsubscribe_from_dataset end
 
@@ -770,16 +769,16 @@ end
 
 Posts updates to records and adds and deletes records for a dataset and user.
 
-The sync count in the record patch is your last known sync count for that record. The
-server will reject an UpdateRecords request with a ResourceConflictException if you try to
-patch a record with a new value but a stale sync count.
+The sync count in the record patch is your last known sync count for that record. The server
+will reject an UpdateRecords request with a ResourceConflictException if you try to patch a
+record with a new value but a stale sync count.
 
-For example, if the sync count on the server is 5 for a key called highScore and you try
-and submit a new highScore with sync count of 4, the request will be rejected. To obtain
-the current sync count for a record, call ListRecords. On a successful update of the
-record, the response returns the new sync count for that record. You should present that
-sync count the next time you try to update that same record. When the record does not
-exist, specify the sync count as 0.
+For example, if the sync count on the server is 5 for a key called highScore and you try and
+submit a new highScore with sync count of 4, the request will be rejected. To obtain the
+current sync count for a record, call ListRecords. On a successful update of the record, the
+response returns the new sync count for that record. You should present that sync count the
+next time you try to update that same record. When the record does not exist, specify the
+sync count as 0.
 
 This API can be called with temporary user credentials provided by Cognito Identity or with
 developer credentials.

@@ -104,18 +104,19 @@ pipeline.
 # Arguments
 
 - `name`: The name for the pipeline. You can use the same name for multiple pipelines
-  associated with your AWS account, because AWS Data Pipeline assigns each pipeline a
-  unique pipeline identifier.
+  associated with your AWS account, because AWS Data Pipeline assigns each pipeline a unique
+  pipeline identifier.
+
 - `unique_id`: A unique identifier. This identifier is not the same as the pipeline
-  identifier assigned by AWS Data Pipeline. You are responsible for defining the format
-  and ensuring the uniqueness of this identifier. You use this parameter to ensure
-  idempotency during repeated calls to `CreatePipeline`. For example, if the first call
-  to `CreatePipeline` does not succeed, you can pass in the same unique identifier and
-  pipeline name combination on a subsequent call to `CreatePipeline`. `CreatePipeline`
-  ensures that if a pipeline already exists with the same name and unique identifier, a
-  new pipeline is not created. Instead, you'll receive the pipeline identifier from the
-  previous attempt. The uniqueness of the name and unique identifier combination is
-  scoped to the AWS account or IAM user credentials.
+  identifier assigned by AWS Data Pipeline. You are responsible for defining the format and
+  ensuring the uniqueness of this identifier. You use this parameter to ensure idempotency
+  during repeated calls to `CreatePipeline`. For example, if the first call to
+  `CreatePipeline` does not succeed, you can pass in the same unique identifier and pipeline
+  name combination on a subsequent call to `CreatePipeline`. `CreatePipeline` ensures that
+  if a pipeline already exists with the same name and unique identifier, a new pipeline is
+  not created. Instead, you'll receive the pipeline identifier from the previous attempt.
+  The uniqueness of the name and unique identifier combination is scoped to the AWS account
+  or IAM user credentials.
 
 # Optional Parameters
 
@@ -208,9 +209,9 @@ end
     delete_pipeline(pipeline_id)
     delete_pipeline(pipeline_id, params::Dict{String,<:Any})
 
-Deletes a pipeline, its pipeline definition, and its run history. AWS Data Pipeline
-attempts to cancel instances associated with the pipeline that are currently being
-processed by task runners.
+Deletes a pipeline, its pipeline definition, and its run history. AWS Data Pipeline attempts
+to cancel instances associated with the pipeline that are currently being processed by task
+runners.
 
 Deleting a pipeline cannot be undone. You cannot query or restore a deleted pipeline. To
 temporarily pause a pipeline instead of deleting it, call [`set_status`](@ref) with the
@@ -268,8 +269,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   evaluated when the object descriptions are returned.
 - `"marker"`: The starting point for the results to be returned. For the first call, this
   value should be empty. As long as there are more results, continue to call
-  `DescribeObjects` with the marker value from the previous call to retrieve the next set
-  of results.
+  `DescribeObjects` with the marker value from the previous call to retrieve the next set of
+  results.
 """
 function describe_objects end
 
@@ -416,8 +417,8 @@ retrieve the pipeline definition that you provided using [`put_pipeline_definiti
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"version"`: The version of the pipeline definition to retrieve. Set this parameter to
-  `latest` (default) to use the last definition saved to the pipeline or `active` to use
-  the last definition that was activated.
+  `latest` (default) to use the last definition saved to the pipeline or `active` to use the
+  last definition that was activated.
 """
 function get_pipeline_definition end
 
@@ -458,9 +459,8 @@ Lists the pipeline identifiers for all active pipelines that you have permission
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"marker"`: The starting point for the results to be returned. For the first call, this
-  value should be empty. As long as there are more results, continue to call
-  `ListPipelines` with the marker value from the previous call to retrieve the next set
-  of results.
+  value should be empty. As long as there are more results, continue to call `ListPipelines`
+  with the marker value from the previous call to retrieve the next set of results.
 """
 function list_pipelines end
 
@@ -484,36 +484,37 @@ end
 
 Task runners call `PollForTask` to receive a task to perform from AWS Data Pipeline. The
 task runner specifies which tasks it can perform by setting a value for the `workerGroup`
-parameter. The task returned can come from any of the pipelines that match the
-`workerGroup` value passed in by the task runner and that was launched using the IAM user
-credentials specified by the task runner.
+parameter. The task returned can come from any of the pipelines that match the `workerGroup`
+value passed in by the task runner and that was launched using the IAM user credentials
+specified by the task runner.
 
 If tasks are ready in the work queue, `PollForTask` returns a response immediately. If no
 tasks are available in the queue, `PollForTask` uses long-polling and holds on to a poll
 connection for up to a 90 seconds, during which time the first newly scheduled task is
-handed to the task runner. To accomodate this, set the socket timeout in your task runner
-to 90 seconds. The task runner should not call `PollForTask` again on the same
-`workerGroup` until it receives a response, and this can take up to 90 seconds.
+handed to the task runner. To accomodate this, set the socket timeout in your task runner to
+90 seconds. The task runner should not call `PollForTask` again on the same `workerGroup`
+until it receives a response, and this can take up to 90 seconds.
 
 # Arguments
 
 - `worker_group`: The type of task the task runner is configured to accept and process. The
-  worker group is set as a field on objects in the pipeline when they are created. You
-  can only specify a single value for `workerGroup` in the call to `PollForTask`. There
-  are no wildcard values permitted in `workerGroup`; the string must be an exact, case-
-  sensitive, match.
+  worker group is set as a field on objects in the pipeline when they are created. You can
+  only specify a single value for `workerGroup` in the call to `PollForTask`. There are no
+  wildcard values permitted in `workerGroup`; the string must be an exact, case-sensitive,
+  match.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"hostname"`: The public DNS name of the calling task runner.
+
 - `"instanceIdentity"`: Identity information for the EC2 instance that is hosting the task
   runner. You can get this value from the instance using
   `http://169.254.169.254/latest/meta-data/instance-id`. For more information, see [Instance Metadata](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AESDG-chapter-instancedata.html)
-  in the *Amazon Elastic Compute Cloud User Guide.* Passing in this value proves that
-  your task runner is running on an EC2 instance, and ensures the proper AWS Data
-  Pipeline service charges are applied to your pipeline.
+  in the *Amazon Elastic Compute Cloud User Guide.* Passing in this value proves that your
+  task runner is running on an EC2 instance, and ensures the proper AWS Data Pipeline
+  service charges are applied to your pipeline.
 """
 function poll_for_task end
 
@@ -549,15 +550,16 @@ Adds tasks, schedules, and preconditions to the specified pipeline. You can use
 `PutPipelineDefinition` to populate a new pipeline.
 
 `PutPipelineDefinition` also validates the configuration as it adds it to the pipeline.
-Changes to the pipeline are saved unless one of the following three validation errors
-exists in the pipeline.
+Changes to the pipeline are saved unless one of the following three validation errors exists
+in the pipeline.
 
-1. An object is missing a name or identifier field.2. A string or reference field is
-   empty.3. The number of objects in the pipeline exceeds the maximum allowed objects.4.
-   The pipeline is in a FINISHED state.
+1. An object is missing a name or identifier field.
+2. A string or reference field is empty.
+3. The number of objects in the pipeline exceeds the maximum allowed objects.
+4. The pipeline is in a FINISHED state.
 
-Pipeline object definitions are passed to the `PutPipelineDefinition` action and returned
-by the [`get_pipeline_definition`](@ref) action.
+Pipeline object definitions are passed to the `PutPipelineDefinition` action and returned by
+the [`get_pipeline_definition`](@ref) action.
 
 # Arguments
 
@@ -627,13 +629,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"limit"`: The maximum number of object names that `QueryObjects` will return in a single
   call. The default value is 100.
 - `"marker"`: The starting point for the results to be returned. For the first call, this
-  value should be empty. As long as there are more results, continue to call
-  `QueryObjects` with the marker value from the previous call to retrieve the next set of
-  results.
+  value should be empty. As long as there are more results, continue to call `QueryObjects`
+  with the marker value from the previous call to retrieve the next set of results.
 - `"query"`: The query that defines the objects to be returned. The `Query` object can
-  contain a maximum of ten selectors. The conditions in the query are limited to top-
-  level String fields in the object. These filters can be applied to components,
-  instances, and attempts.
+  contain a maximum of ten selectors. The conditions in the query are limited to top-level
+  String fields in the object. These filters can be applied to components, instances, and
+  attempts.
 """
 function query_objects end
 
@@ -784,10 +785,10 @@ has failed and restart a new instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"hostname"`: The public DNS name of the task runner.
-- `"workerGroup"`: The type of task the task runner is configured to accept and process.
-  The worker group is set as a field on objects in the pipeline when they are created.
-  You can only specify a single value for `workerGroup`. There are no wildcard values
-  permitted in `workerGroup`; the string must be an exact, case-sensitive, match.
+- `"workerGroup"`: The type of task the task runner is configured to accept and process. The
+  worker group is set as a field on objects in the pipeline when they are created. You can
+  only specify a single value for `workerGroup`. There are no wildcard values permitted in
+  `workerGroup`; the string must be an exact, case-sensitive, match.
 """
 function report_task_runner_heartbeat end
 
@@ -821,11 +822,11 @@ end
     set_status(object_ids, pipeline_id, status)
     set_status(object_ids, pipeline_id, status, params::Dict{String,<:Any})
 
-Requests that the status of the specified physical or logical pipeline objects be updated
-in the specified pipeline. This update might not occur immediately, but is eventually
+Requests that the status of the specified physical or logical pipeline objects be updated in
+the specified pipeline. This update might not occur immediately, but is eventually
 consistent. The status that can be set depends on the type of object (for example, DataNode
-or Activity). You cannot perform this operation on `FINISHED` pipelines and attempting to
-do so returns `InvalidRequestException`.
+or Activity). You cannot perform this operation on `FINISHED` pipelines and attempting to do
+so returns `InvalidRequestException`.
 
 # Arguments
 
@@ -887,24 +888,22 @@ tasks that are canceled by the web service during a call to [`report_task_progre
 
 - `task_id`: The ID of the task assigned to the task runner. This value is provided in the
   response for [`poll_for_task`](@ref).
-- `task_status`: If `FINISHED`, the task successfully completed. If `FAILED`, the task
-  ended unsuccessfully. Preconditions use false.
+- `task_status`: If `FINISHED`, the task successfully completed. If `FAILED`, the task ended
+  unsuccessfully. Preconditions use false.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"errorId"`: If an error occurred during the task, this value specifies the error code.
-  This value is set on the physical attempt object. It is used to display error
-  information to the user. It should not start with string "Service_" which is reserved
-  by the system.
+  This value is set on the physical attempt object. It is used to display error information
+  to the user. It should not start with string "Service_" which is reserved by the system.
 - `"errorMessage"`: If an error occurred during the task, this value specifies a text
-  description of the error. This value is set on the physical attempt object. It is used
-  to display error information to the user. The web service does not parse this value.
+  description of the error. This value is set on the physical attempt object. It is used to
+  display error information to the user. The web service does not parse this value.
 - `"errorStackTrace"`: If an error occurred during the task, this value specifies the stack
-  trace associated with the error. This value is set on the physical attempt object. It
-  is used to display error information to the user. The web service does not parse this
-  value.
+  trace associated with the error. This value is set on the physical attempt object. It is
+  used to display error information to the user. The web service does not parse this value.
 """
 function set_task_status end
 

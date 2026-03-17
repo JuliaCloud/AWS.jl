@@ -160,15 +160,15 @@ end
 
 Creates a network package.
 
-A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
-function packages you want to deploy and the Amazon Web Services infrastructure you want to
-deploy them on. For more information, see [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html)
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function
+packages you want to deploy and the Amazon Web Services infrastructure you want to deploy
+them on. For more information, see [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html)
 in the *Amazon Web Services Telco Network Builder User Guide*.
 
 A network package consists of a network service descriptor (NSD) file (required) and any
 additional files (optional), such as scripts specific to your needs. For example, if you
-have multiple function packages in your network package, you can use the NSD to define
-which network functions should run in certain VPCs, subnets, or EKS clusters.
+have multiple function packages in your network package, you can use the NSD to define which
+network functions should run in certain VPCs, subnets, or EKS clusters.
 
 This request creates an empty network package container with an ID. Once you create a
 network package, you can upload the network package content using [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html).
@@ -215,8 +215,8 @@ network function (an ETSI standard telecommunication application) and function p
 descriptor that uses the TOSCA standard to describe how the network functions should run on
 your network.
 
-To delete a function package, the package must be in a disabled state. To disable a
-function package, see [UpdateSolFunctionPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolFunctionPackage.html).
+To delete a function package, the package must be in a disabled state. To disable a function
+package, see [UpdateSolFunctionPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolFunctionPackage.html).
 
 # Arguments
 
@@ -299,9 +299,9 @@ end
 
 Deletes network package.
 
-A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
-function packages you want to deploy and the Amazon Web Services infrastructure you want to
-deploy them on.
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function
+packages you want to deploy and the Amazon Web Services infrastructure you want to deploy
+them on.
 
 To delete a network package, the package must be in a disable state. To disable a network
 package, see [UpdateSolNetworkPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolNetworkPackage.html).
@@ -615,9 +615,9 @@ end
 
 Gets the details of a network package.
 
-A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
-function packages you want to deploy and the Amazon Web Services infrastructure you want to
-deploy them on.
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function
+packages you want to deploy and the Amazon Web Services infrastructure you want to deploy
+them on.
 
 # Arguments
 
@@ -656,9 +656,9 @@ end
 
 Gets the contents of a network package.
 
-A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
-function packages you want to deploy and the Amazon Web Services infrastructure you want to
-deploy them on.
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function
+packages you want to deploy and the Amazon Web Services infrastructure you want to deploy
+them on.
 
 # Arguments
 
@@ -763,15 +763,17 @@ more information, see [CreateSolNetworkInstance](https://docs.aws.amazon.com/tnb
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"additionalParamsForNs"`: Provides values for the configurable properties.
+
 - `"dry_run"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
+
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are only
-  applied to the network operation that is created. These tags are not applied to the
-  network instance. Use tags to search and filter your resources or track your Amazon Web
-  Services costs.
+  consists of a key and an optional value. When you use this API, the tags are only applied
+  to the network operation that is created. These tags are not applied to the network
+  instance. Use tags to search and filter your resources or track your Amazon Web Services
+  costs.
 """
 function instantiate_sol_network_instance end
 
@@ -935,8 +937,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"max_results"`: The maximum number of results to include in the response.
 - `"nextpage_opaque_marker"`: The token for the next page of results.
-- `"nsInstanceId"`: Network instance id filter, to retrieve network operations associated
-  to a network instance.
+- `"nsInstanceId"`: Network instance id filter, to retrieve network operations associated to
+  a network instance.
 """
 function list_sol_network_operations end
 
@@ -967,9 +969,9 @@ end
 
 Lists network packages.
 
-A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
-function packages you want to deploy and the Amazon Web Services infrastructure you want to
-deploy them on.
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function
+packages you want to deploy and the Amazon Web Services infrastructure you want to deploy
+them on.
 
 # Optional Parameters
 
@@ -1095,9 +1097,9 @@ end
 
 Uploads the contents of a network package.
 
-A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
-function packages you want to deploy and the Amazon Web Services infrastructure you want to
-deploy them on.
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function
+packages you want to deploy and the Amazon Web Services infrastructure you want to deploy
+them on.
 
 # Arguments
 
@@ -1204,10 +1206,10 @@ You must terminate a network instance before you can delete it.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are only
-  applied to the network operation that is created. These tags are not applied to the
-  network instance. Use tags to search and filter your resources or track your Amazon Web
-  Services costs.
+  consists of a key and an optional value. When you use this API, the tags are only applied
+  to the network operation that is created. These tags are not applied to the network
+  instance. Use tags to search and filter your resources or track your Amazon Web Services
+  costs.
 """
 function terminate_sol_network_instance end
 
@@ -1344,12 +1346,13 @@ Choose the *updateType* parameter to target the necessary update of the network 
 # Arguments
 
 - `ns_instance_id`: ID of the network instance.
+
 - `update_type`: The type of update.
 
   - Use the `MODIFY_VNF_INFORMATION` update type, to update a specific network function
     configuration, in the network instance.
-  - Use the `UPDATE_NS` update type, to update the network instance to a new network
-    service descriptor.
+  - Use the `UPDATE_NS` update type, to update the network instance to a new network service
+    descriptor.
 
 # Optional Parameters
 
@@ -1359,13 +1362,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configurable properties of the network function to be modified.
 
   Include this property only if the update type is `MODIFY_VNF_INFORMATION`.
+
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are only
-  applied to the network operation that is created. These tags are not applied to the
-  network instance. Use tags to search and filter your resources or track your Amazon Web
-  Services costs.
-- `"updateNs"`: Identifies the network service descriptor and the configurable properties
-  of the descriptor, to be used for the update.
+  consists of a key and an optional value. When you use this API, the tags are only applied
+  to the network operation that is created. These tags are not applied to the network
+  instance. Use tags to search and filter your resources or track your Amazon Web Services
+  costs.
+
+- `"updateNs"`: Identifies the network service descriptor and the configurable properties of
+  the descriptor, to be used for the update.
 
   Include this property only if the update type is `UPDATE_NS`.
 """
@@ -1406,9 +1411,9 @@ end
 
 Updates the operational state of a network package.
 
-A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
-function packages you want to deploy and the Amazon Web Services infrastructure you want to
-deploy them on.
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function
+packages you want to deploy and the Amazon Web Services infrastructure you want to deploy
+them on.
 
 A network service descriptor is a .yaml file in a network package that uses the TOSCA
 standard to describe the network functions you want to deploy and the Amazon Web Services
@@ -1514,9 +1519,9 @@ end
 Validates network package content. This can be used as a dry run before uploading network
 package content with [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html).
 
-A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
-function packages you want to deploy and the Amazon Web Services infrastructure you want to
-deploy them on.
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function
+packages you want to deploy and the Amazon Web Services infrastructure you want to deploy
+them on.
 
 # Arguments
 

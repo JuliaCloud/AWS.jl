@@ -21,43 +21,47 @@ associates your gateway with your account. For more information, see [`update_ga
 
 - `activation_key`: Your gateway activation key. You can obtain the activation key by
   sending an HTTP GET request with redirects enabled to the gateway IP address (port 80).
-  The redirect URL returned in the response provides you the activation key for your
-  gateway in the query string parameter `activationKey`. It may also include other
-  activation-related parameters, however, these are merely defaults -- the arguments you
-  pass to the `ActivateGateway` API call determine the actual configuration of your
-  gateway.
+  The redirect URL returned in the response provides you the activation key for your gateway
+  in the query string parameter `activationKey`. It may also include other activation-
+  related parameters, however, these are merely defaults -- the arguments you pass to the
+  `ActivateGateway` API call determine the actual configuration of your gateway.
 
   For more information, see [Getting activation key](https://docs.aws.amazon.com/storagegateway/latest/userguide/get-activation-key.html)
   in the *Storage Gateway User Guide*.
+
 - `gateway_name`: The name you configured for your gateway.
+
 - `gateway_region`: A value that indicates the Amazon Web Services Region where you want to
-  store your data. The gateway Amazon Web Services Region specified must be the same
-  Amazon Web Services Region as the Amazon Web Services Region in your `Host` header in
-  the request. For more information about available Amazon Web Services Regions and
-  endpoints for Storage Gateway, see [Storage Gateway endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/sg.html)
+  store your data. The gateway Amazon Web Services Region specified must be the same Amazon
+  Web Services Region as the Amazon Web Services Region in your `Host` header in the
+  request. For more information about available Amazon Web Services Regions and endpoints
+  for Storage Gateway, see [Storage Gateway endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/sg.html)
   in the *Amazon Web Services General Reference*.
 
   Valid Values: See [Storage Gateway endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/sg.html)
   in the *Amazon Web Services General Reference*.
+
 - `gateway_timezone`: A value that indicates the time zone you want to set for the gateway.
   The time zone is of the format "GMT", "GMT-hr:mm", or "GMT+hr:mm". For example, GMT
-  indicates Greenwich Mean Time without any offset. GMT-4:00 indicates the time is 4
-  hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is
-  used, for example, for scheduling snapshots and your gateway's maintenance schedule.
+  indicates Greenwich Mean Time without any offset. GMT-4:00 indicates the time is 4 hours
+  behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used,
+  for example, for scheduling snapshots and your gateway's maintenance schedule.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"GatewayType"`: A value that defines the type of gateway to activate. The type specified
-  is critical to all later functions of the gateway and cannot be changed after
-  activation. The default value is `CACHED`.
+  is critical to all later functions of the gateway and cannot be changed after activation.
+  The default value is `CACHED`.
 
   Valid Values: `STORED` | `CACHED` | `VTL` | `FILE_S3` | `FILE_FSX_SMB`
-- `"MediumChangerType"`: The value that indicates the type of medium changer to use for
-  tape gateway. This field is optional.
+
+- `"MediumChangerType"`: The value that indicates the type of medium changer to use for tape
+  gateway. This field is optional.
 
   Valid Values: `STK-L700` | `AWS-Gateway-VTL` | `IBM-03584L32-0402`
+
 - `"Tags"`: A list of up to 50 tags that you can assign to the gateway. Each tag is a key-
   value pair.
 
@@ -134,8 +138,8 @@ cache, and one or more disk IDs that you want to configure as cache.
 # Arguments
 
 - `disk_ids`: An array of strings that identify disks that are to be configured as working
-  storage. Each string has a minimum length of 1 and maximum length of 300. You can get
-  the disk IDs from the [`list_local_disks`](@ref) API.
+  storage. Each string has a minimum length of 1 and maximum length of 300. You can get the
+  disk IDs from the [`list_local_disks`](@ref) API.
 - `gateway_arn`:
 """
 function add_cache end
@@ -190,15 +194,15 @@ that are recovered to a new gateway maintain their tags.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to add tags to.
+
 - `tags`: The key-value pair that represents the tag you want to add to the resource. The
   value can be an empty string.
 
   !!! note
-      Valid characters for key and value are letters, spaces, and numbers representable
-      in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
-      length of a tag's key is 128 characters, and the maximum length for a tag's value
-      is 256.
-
+      Valid characters for key and value are letters, spaces, and numbers representable in
+      UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+      length of a tag's key is 128 characters, and the maximum length for a tag's value is
+      256.
 """
 function add_tags_to_resource end
 
@@ -246,8 +250,8 @@ upload buffer, and one or more disk IDs that you want to configure as upload buf
 # Arguments
 
 - `disk_ids`: An array of strings that identify disks that are to be configured as working
-  storage. Each string has a minimum length of 1 and maximum length of 300. You can get
-  the disk IDs from the [`list_local_disks`](@ref) API.
+  storage. Each string has a minimum length of 1 and maximum length of 300. You can get the
+  disk IDs from the [`list_local_disks`](@ref) API.
 - `gateway_arn`:
 """
 function add_upload_buffer end
@@ -301,8 +305,8 @@ working storage, and one or more disk IDs that you want to configure as working 
 # Arguments
 
 - `disk_ids`: An array of strings that identify disks that are to be configured as working
-  storage. Each string has a minimum length of 1 and maximum length of 300. You can get
-  the disk IDs from the [`list_local_disks`](@ref) API.
+  storage. Each string has a minimum length of 1 and maximum length of 300. You can get the
+  disk IDs from the [`list_local_disks`](@ref) API.
 - `gateway_arn`:
 """
 function add_working_storage end
@@ -349,22 +353,22 @@ Glacier Deep Archive) that corresponds to the pool.
 
 # Arguments
 
-- `pool_id`: The ID of the pool that you want to add your tape to for archiving. The tape
-  in this pool is archived in the S3 storage class that is associated with the pool. When
-  you use your backup application to eject the tape, the tape is archived directly into
-  the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
-- `tape_arn`: The unique Amazon Resource Name (ARN) of the virtual tape that you want to
-  add to the tape pool.
+- `pool_id`: The ID of the pool that you want to add your tape to for archiving. The tape in
+  this pool is archived in the S3 storage class that is associated with the pool. When you
+  use your backup application to eject the tape, the tape is archived directly into the
+  storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
+- `tape_arn`: The unique Amazon Resource Name (ARN) of the virtual tape that you want to add
+  to the tape pool.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"BypassGovernanceRetention"`: Set permissions to bypass governance retention. If the
-  lock type of the archived tape is `Governance`, the tape's archived age is not older
-  than `RetentionLockInDays`, and the user does not already have
-  `BypassGovernanceRetention`, setting this to TRUE enables the user to bypass the
-  retention lock. This parameter is set to true by default for calls from the console.
+- `"BypassGovernanceRetention"`: Set permissions to bypass governance retention. If the lock
+  type of the archived tape is `Governance`, the tape's archived age is not older than
+  `RetentionLockInDays`, and the user does not already have `BypassGovernanceRetention`,
+  setting this to TRUE enables the user to bypass the retention lock. This parameter is set
+  to true by default for calls from the console.
 
   Valid values: `TRUE` | `FALSE`
 """
@@ -403,14 +407,14 @@ end
     associate_file_system(client_token, gateway_arn, location_arn, password, user_name)
     associate_file_system(client_token, gateway_arn, location_arn, password, user_name, params::Dict{String,<:Any})
 
-Associate an Amazon FSx file system with the FSx File Gateway. After the association
-process is complete, the file shares on the Amazon FSx file system are available for access
-through the gateway. This operation only supports the FSx File Gateway type.
+Associate an Amazon FSx file system with the FSx File Gateway. After the association process
+is complete, the file shares on the Amazon FSx file system are available for access through
+the gateway. This operation only supports the FSx File Gateway type.
 
 # Arguments
 
-- `client_token`: A unique string value that you supply that is used by the FSx File
-  Gateway to ensure idempotent file system association creation.
+- `client_token`: A unique string value that you supply that is used by the FSx File Gateway
+  to ensure idempotent file system association creation.
 - `gateway_arn`:
 - `location_arn`: The Amazon Resource Name (ARN) of the Amazon FSx file system to associate
   with the FSx File Gateway.
@@ -425,7 +429,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for the audit
   logs.
+
 - `"CacheAttributes"`:
+
 - `"EndpointNetworkConfiguration"`: Specifies the network configuration information for the
   gateway associated with the Amazon FSx file system.
 
@@ -502,11 +508,13 @@ volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instanc
 
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway that you want to attach the
   volume to.
+
 - `network_interface_id`: The network interface of the gateway on which to expose the iSCSI
   target. Only IPv4 addresses are accepted. Use [`describe_gateway_information`](@ref) to
   get a list of the network interfaces available on a gateway.
 
   Valid Values: A valid IP address.
+
 - `volume_arn`: The Amazon Resource Name (ARN) of the volume to attach to the specified
   gateway.
 
@@ -517,14 +525,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DiskId"`: The unique device ID or other distinguishing data that identifies the local
   disk used to create the volume. This value is only required when you are attaching a
   stored volume.
+
 - `"TargetName"`: The name of the iSCSI target used by an initiator to connect to a volume
   and used as a suffix for the target ARN. For example, specifying `TargetName` as
   *myvolume* results in the target ARN of
   `arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume`.
   The target name must be unique across all volumes on a gateway.
 
-  If you don't specify a value, Storage Gateway uses the value that was previously used
-  for this volume as the new target name.
+  If you don't specify a value, Storage Gateway uses the value that was previously used for
+  this volume as the new target name.
 """
 function attach_volume end
 
@@ -621,9 +630,9 @@ end
     cancel_retrieval(gateway_arn, tape_arn)
     cancel_retrieval(gateway_arn, tape_arn, params::Dict{String,<:Any})
 
-Cancels retrieval of a virtual tape from the virtual tape shelf (VTS) to a gateway after
-the retrieval process is initiated. The virtual tape is returned to the VTS. This operation
-is only supported in the tape gateway type.
+Cancels retrieval of a virtual tape from the virtual tape shelf (VTS) to a gateway after the
+retrieval process is initiated. The virtual tape is returned to the VTS. This operation is
+only supported in the tape gateway type.
 
 # Arguments
 
@@ -681,29 +690,33 @@ the gateway creates the volume and returns information about it. This informatio
 the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators
 can use to connect to the volume target.
 
-Optionally, you can provide the ARN for an existing volume as the `SourceVolumeARN` for
-this cached volume, which creates an exact copy of the existing volume’s latest recovery
-point. The `VolumeSizeInBytes` value must be equal to or larger than the size of the copied
-volume, in bytes.
+Optionally, you can provide the ARN for an existing volume as the `SourceVolumeARN` for this
+cached volume, which creates an exact copy of the existing volume’s latest recovery point.
+The `VolumeSizeInBytes` value must be equal to or larger than the size of the copied volume,
+in bytes.
 
 # Arguments
 
 - `client_token`: A unique identifier that you use to retry a request. If you retry a
   request, use the same `ClientToken` you specified in the initial request.
+
 - `gateway_arn`:
+
 - `network_interface_id`: The network interface of the gateway on which to expose the iSCSI
   target. Only IPv4 addresses are accepted. Use [`describe_gateway_information`](@ref) to
   get a list of the network interfaces available on a gateway.
 
   Valid Values: A valid IP address.
+
 - `target_name`: The name of the iSCSI target used by an initiator to connect to a volume
   and used as a suffix for the target ARN. For example, specifying `TargetName` as
   *myvolume* results in the target ARN of
   `arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume`.
   The target name must be unique across all volumes on a gateway.
 
-  If you don't specify a value, Storage Gateway uses the value that was previously used
-  for this volume as the new target name.
+  If you don't specify a value, Storage Gateway uses the value that was previously used for
+  this volume as the new target name.
+
 - `volume_size_in_bytes`: The size of the volume in bytes.
 
 # Optional Parameters
@@ -714,27 +727,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key, or `false` to use a key managed by Amazon S3. Optional.
 
   Valid Values: `true` | `false`
+
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when `KMSEncrypted` is `true`. Optional.
+
 - `"SnapshotId"`: The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the
-  new cached volume. Specify this field if you want to create the iSCSI storage volume
-  from a snapshot; otherwise, do not include this field. To list snapshots for your
-  account use [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html)
+  new cached volume. Specify this field if you want to create the iSCSI storage volume from
+  a snapshot; otherwise, do not include this field. To list snapshots for your account use [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html)
   in the *Amazon Elastic Compute Cloud API Reference*.
+
 - `"SourceVolumeARN"`: The ARN for an existing volume. Specifying this ARN makes the new
   volume into an exact copy of the specified existing volume's latest recovery point. The
-  `VolumeSizeInBytes` value for this new volume must be equal to or larger than the size
-  of the existing volume, in bytes.
+  `VolumeSizeInBytes` value for this new volume must be equal to or larger than the size of
+  the existing volume, in bytes.
+
 - `"Tags"`: A list of up to 50 tags that you can assign to a cached volume. Each tag is a
   key-value pair.
 
   !!! note
       Valid characters for key and value are letters, spaces, and numbers that you can
-      represent in UTF-8 format, and the following special characters: + - = . _ : / @.
-      The maximum length of a tag's key is 128 characters, and the maximum length for a
-      tag's value is 256 characters.
-
+      represent in UTF-8 format, and the following special characters: + - = . _ : / @. The
+      maximum length of a tag's key is 128 characters, and the maximum length for a tag's
+      value is 256 characters.
 """
 function create_cachedi_scsivolume end
 
@@ -795,15 +810,15 @@ end
 
 Creates a Network File System (NFS) file share on an existing S3 File Gateway. In Storage
 Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage.
-Storage Gateway exposes file shares using an NFS interface. This operation is only
-supported for S3 File Gateways.
+Storage Gateway exposes file shares using an NFS interface. This operation is only supported
+for S3 File Gateways.
 
 !!! important
     S3 File gateway requires Security Token Service (Amazon Web Services STS) to be
     activated to enable you to create a file share. Make sure Amazon Web Services STS is
-    activated in the Amazon Web Services Region you are creating your S3 File Gateway in.
-    If Amazon Web Services STS is not activated in the Amazon Web Services Region, activate
-    it. For information about how to activate Amazon Web Services STS, see [Activating and deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html)
+    activated in the Amazon Web Services Region you are creating your S3 File Gateway in. If
+    Amazon Web Services STS is not activated in the Amazon Web Services Region, activate it.
+    For information about how to activate Amazon Web Services STS, see [Activating and deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html)
     in the *Identity and Access Management User Guide*.
 
     S3 File Gateways do not support creating hard or symbolic links on a file share.
@@ -812,15 +827,17 @@ supported for S3 File Gateways.
 
 - `client_token`: A unique string value that you supply that is used by S3 File Gateway to
   ensure idempotent file share creation.
+
 - `gateway_arn`: The Amazon Resource Name (ARN) of the S3 File Gateway on which you want to
   create a file share.
+
 - `location_arn`: A custom ARN for the backend storage used for storing data for file
-  shares. It includes a resource ARN with an optional prefix concatenation. The prefix
-  must end with a forward slash (/).
+  shares. It includes a resource ARN with an optional prefix concatenation. The prefix must
+  end with a forward slash (/).
 
   !!! note
-      You can specify LocationARN as a bucket ARN, access point ARN or access point
-      alias, as shown in the following examples.
+      You can specify LocationARN as a bucket ARN, access point ARN or access point alias,
+      as shown in the following examples.
 
       Bucket ARN:
 
@@ -847,22 +864,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for audit
   logs.
+
 - `"BucketRegion"`: Specifies the Region of the S3 bucket where the NFS file share stores
   files.
 
   !!! note
-      This parameter is required for NFS file shares that connect to Amazon S3 through a
-      VPC endpoint, a VPC access point, or an access point alias that points to a VPC
-      access point.
+      This parameter is required for NFS file shares that connect to Amazon S3 through a VPC
+      endpoint, a VPC access point, or an access point alias that points to a VPC access
+      point.
 
 - `"CacheAttributes"`: Specifies refresh cache information for the file share.
+
 - `"ClientList"`: The list of clients that are allowed to access the S3 File Gateway. The
   list must contain either valid IP addresses or valid CIDR blocks.
+
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
   bucket by the S3 File Gateway. The default value is `S3_STANDARD`. Optional.
 
   Valid Values: `S3_STANDARD` | `S3_INTELLIGENT_TIERING` | `S3_STANDARD_IA` |
   `S3_ONEZONE_IA`
+
 - `"FileShareName"`: The name of the file share. Optional.
 
   !!! note
@@ -870,43 +891,48 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       access point or access point alias is used.
 
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
-  objects based on file extensions. Set this value to `true` to enable MIME type
-  guessing, otherwise set to `false`. The default value is `true`.
+  objects based on file extensions. Set this value to `true` to enable MIME type guessing,
+  otherwise set to `false`. The default value is `true`.
 
   Valid Values: `true` | `false`
+
 - `"KMSEncrypted"`: Set to `true` to use Amazon S3 server-side encryption with your own KMS
   key, or `false` to use a key managed by Amazon S3. Optional.
 
   Valid Values: `true` | `false`
+
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when `KMSEncrypted` is `true`. Optional.
+
 - `"NFSFileShareDefaults"`: File share default values. Optional.
-- `"NotificationPolicy"`: The notification policy of the file share.
-  `SettlingTimeInSeconds` controls the number of seconds to wait after the last point in
-  time a client wrote to a file before generating an `ObjectUploaded` notification.
-  Because clients can make many small writes to files, it's best to set this parameter
-  for as long as possible to avoid generating multiple notifications for the same file in
-  a small time period.
+
+- `"NotificationPolicy"`: The notification policy of the file share. `SettlingTimeInSeconds`
+  controls the number of seconds to wait after the last point in time a client wrote to a
+  file before generating an `ObjectUploaded` notification. Because clients can make many
+  small writes to files, it's best to set this parameter for as long as possible to avoid
+  generating multiple notifications for the same file in a small time period.
 
   !!! note
-      `SettlingTimeInSeconds` has no effect on the timing of the object uploading to
-      Amazon S3, only the timing of the notification.
+      `SettlingTimeInSeconds` has no effect on the timing of the object uploading to Amazon
+      S3, only the timing of the notification.
 
-  The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to
-  60.
+  The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to 60.
 
   `{\\"Upload\\": {\\"SettlingTimeInSeconds\\": 60}}`
 
   The following example sets `NotificationPolicy` off.
 
   `{}`
+
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a S3 File Gateway puts objects into. The default value is `private`.
-- `"ReadOnly"`: A value that sets the write status of a file share. Set this value to
-  `true` to set the write status to read-only, otherwise set to `false`.
+
+- `"ReadOnly"`: A value that sets the write status of a file share. Set this value to `true`
+  to set the write status to read-only, otherwise set to `false`.
 
   Valid Values: `true` | `false`
+
 - `"RequesterPays"`: A value that sets who pays the cost of the request and the cost
   associated with data download from the S3 bucket. If this value is set to `true`, the
   requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket
@@ -918,6 +944,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       configuration.
 
   Valid Values: `true` | `false`
+
 - `"Squash"`: A value that maps a user to anonymous user.
 
   Valid values are the following:
@@ -930,19 +957,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a key-value pair.
 
   !!! note
-      Valid characters for key and value are letters, spaces, and numbers representable
-      in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
-      length of a tag's key is 128 characters, and the maximum length for a tag's value
-      is 256.
+      Valid characters for key and value are letters, spaces, and numbers representable in
+      UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+      length of a tag's key is 128 characters, and the maximum length for a tag's value is
+      256.
 
 - `"VPCEndpointDNSName"`: Specifies the DNS name for the VPC endpoint that the NFS file
   share uses to connect to Amazon S3.
 
   !!! note
-      This parameter is required for NFS file shares that connect to Amazon S3 through a
-      VPC endpoint, a VPC access point, or an access point alias that points to a VPC
-      access point.
-
+      This parameter is required for NFS file shares that connect to Amazon S3 through a VPC
+      endpoint, a VPC access point, or an access point alias that points to a VPC access
+      point.
 """
 function create_nfsfile_share end
 
@@ -999,15 +1025,15 @@ end
 
 Creates a Server Message Block (SMB) file share on an existing S3 File Gateway. In Storage
 Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage.
-Storage Gateway exposes file shares using an SMB interface. This operation is only
-supported for S3 File Gateways.
+Storage Gateway exposes file shares using an SMB interface. This operation is only supported
+for S3 File Gateways.
 
 !!! important
     S3 File Gateways require Security Token Service (Amazon Web Services STS) to be
     activated to enable you to create a file share. Make sure that Amazon Web Services STS
-    is activated in the Amazon Web Services Region you are creating your S3 File Gateway
-    in. If Amazon Web Services STS is not activated in this Amazon Web Services Region,
-    activate it. For information about how to activate Amazon Web Services STS, see [Activating and deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html)
+    is activated in the Amazon Web Services Region you are creating your S3 File Gateway in.
+    If Amazon Web Services STS is not activated in this Amazon Web Services Region, activate
+    it. For information about how to activate Amazon Web Services STS, see [Activating and deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html)
     in the *Identity and Access Management User Guide*.
 
     File gateways don't support creating hard or symbolic links on a file share.
@@ -1016,14 +1042,16 @@ supported for S3 File Gateways.
 
 - `client_token`: A unique string value that you supply that is used by S3 File Gateway to
   ensure idempotent file share creation.
+
 - `gateway_arn`: The ARN of the S3 File Gateway on which you want to create a file share.
+
 - `location_arn`: A custom ARN for the backend storage used for storing data for file
-  shares. It includes a resource ARN with an optional prefix concatenation. The prefix
-  must end with a forward slash (/).
+  shares. It includes a resource ARN with an optional prefix concatenation. The prefix must
+  end with a forward slash (/).
 
   !!! note
-      You can specify LocationARN as a bucket ARN, access point ARN or access point
-      alias, as shown in the following examples.
+      You can specify LocationARN as a bucket ARN, access point ARN or access point alias,
+      as shown in the following examples.
 
       Bucket ARN:
 
@@ -1050,9 +1078,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AccessBasedEnumeration"`: The files and folders on this share will only be visible to
   users with read access.
+
 - `"AdminUserList"`: A list of users or groups in the Active Directory that will be granted
-  administrator privileges on the file share. These users can do all file operations as
-  the super-user. Acceptable formats include: `DOMAIN\\User1`, `user1`, `@group1`, and
+  administrator privileges on the file share. These users can do all file operations as the
+  super-user. Acceptable formats include: `DOMAIN\\User1`, `user1`, `@group1`, and
   `@DOMAIN\\group1`.
 
   !!! important
@@ -1061,27 +1090,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for audit
   logs.
-- `"Authentication"`: The authentication method that users use to access the file share.
-  The default is `ActiveDirectory`.
+
+- `"Authentication"`: The authentication method that users use to access the file share. The
+  default is `ActiveDirectory`.
 
   Valid Values: `ActiveDirectory` | `GuestAccess`
+
 - `"BucketRegion"`: Specifies the Region of the S3 bucket where the SMB file share stores
   files.
 
   !!! note
-      This parameter is required for SMB file shares that connect to Amazon S3 through a
-      VPC endpoint, a VPC access point, or an access point alias that points to a VPC
-      access point.
+      This parameter is required for SMB file shares that connect to Amazon S3 through a VPC
+      endpoint, a VPC access point, or an access point alias that points to a VPC access
+      point.
 
 - `"CacheAttributes"`: Specifies refresh cache information for the file share.
+
 - `"CaseSensitivity"`: The case of an object name in an Amazon S3 bucket. For
   `ClientSpecified`, the client determines the case sensitivity. For `CaseSensitive`, the
   gateway determines the case sensitivity. The default value is `ClientSpecified`.
+
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
   bucket by the S3 File Gateway. The default value is `S3_STANDARD`. Optional.
 
   Valid Values: `S3_STANDARD` | `S3_INTELLIGENT_TIERING` | `S3_STANDARD_IA` |
   `S3_ONEZONE_IA`
+
 - `"FileShareName"`: The name of the file share. Optional.
 
   !!! note
@@ -1089,42 +1123,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       access point or access point alias is used.
 
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
-  objects based on file extensions. Set this value to `true` to enable MIME type
-  guessing, otherwise set to `false`. The default value is `true`.
+  objects based on file extensions. Set this value to `true` to enable MIME type guessing,
+  otherwise set to `false`. The default value is `true`.
 
   Valid Values: `true` | `false`
+
 - `"InvalidUserList"`: A list of users or groups in the Active Directory that are not
   allowed to access the file share. A group must be prefixed with the @ character.
   Acceptable formats include: `DOMAIN\\User1`, `user1`, `@group1`, and `@DOMAIN\\group1`.
   Can only be set if Authentication is set to `ActiveDirectory`.
+
 - `"KMSEncrypted"`: Set to `true` to use Amazon S3 server-side encryption with your own KMS
   key, or `false` to use a key managed by Amazon S3. Optional.
 
   Valid Values: `true` | `false`
+
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when `KMSEncrypted` is `true`. Optional.
-- `"NotificationPolicy"`: The notification policy of the file share.
-  `SettlingTimeInSeconds` controls the number of seconds to wait after the last point in
-  time a client wrote to a file before generating an `ObjectUploaded` notification.
-  Because clients can make many small writes to files, it's best to set this parameter
-  for as long as possible to avoid generating multiple notifications for the same file in
-  a small time period.
+
+- `"NotificationPolicy"`: The notification policy of the file share. `SettlingTimeInSeconds`
+  controls the number of seconds to wait after the last point in time a client wrote to a
+  file before generating an `ObjectUploaded` notification. Because clients can make many
+  small writes to files, it's best to set this parameter for as long as possible to avoid
+  generating multiple notifications for the same file in a small time period.
 
   !!! note
-      `SettlingTimeInSeconds` has no effect on the timing of the object uploading to
-      Amazon S3, only the timing of the notification.
+      `SettlingTimeInSeconds` has no effect on the timing of the object uploading to Amazon
+      S3, only the timing of the notification.
 
-  The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to
-  60.
+  The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to 60.
 
   `{\\"Upload\\": {\\"SettlingTimeInSeconds\\": 60}}`
 
   The following example sets `NotificationPolicy` off.
 
   `{}`
+
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a S3 File Gateway puts objects into. The default value is `private`.
+
 - `"OplocksEnabled"`: Specifies whether opportunistic locking is enabled for the SMB file
   share.
 
@@ -1133,10 +1171,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       workloads that involve access to files with the same name in different case.
 
   Valid Values: `true` | `false`
-- `"ReadOnly"`: A value that sets the write status of a file share. Set this value to
-  `true` to set the write status to read-only, otherwise set to `false`.
+
+- `"ReadOnly"`: A value that sets the write status of a file share. Set this value to `true`
+  to set the write status to read-only, otherwise set to `false`.
 
   Valid Values: `true` | `false`
+
 - `"RequesterPays"`: A value that sets who pays the cost of the request and the cost
   associated with data download from the S3 bucket. If this value is set to `true`, the
   requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket
@@ -1148,30 +1188,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       configuration.
 
   Valid Values: `true` | `false`
-- `"SMBACLEnabled"`: Set this value to `true` to enable access control list (ACL) on the
-  SMB file share. Set it to `false` to map file and directory permissions to the POSIX
+
+- `"SMBACLEnabled"`: Set this value to `true` to enable access control list (ACL) on the SMB
+  file share. Set it to `false` to map file and directory permissions to the POSIX
   permissions.
 
   For more information, see [Using Microsoft Windows ACLs to control access to an SMB file share](https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html)
   in the *Storage Gateway User Guide*.
 
   Valid Values: `true` | `false`
+
 - `"Tags"`: A list of up to 50 tags that can be assigned to the NFS file share. Each tag is
   a key-value pair.
 
   !!! note
-      Valid characters for key and value are letters, spaces, and numbers representable
-      in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
-      length of a tag's key is 128 characters, and the maximum length for a tag's value
-      is 256.
+      Valid characters for key and value are letters, spaces, and numbers representable in
+      UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+      length of a tag's key is 128 characters, and the maximum length for a tag's value is
+      256.
 
 - `"VPCEndpointDNSName"`: Specifies the DNS name for the VPC endpoint that the SMB file
   share uses to connect to Amazon S3.
 
   !!! note
-      This parameter is required for SMB file shares that connect to Amazon S3 through a
-      VPC endpoint, a VPC access point, or an access point alias that points to a VPC
-      access point.
+      This parameter is required for SMB file shares that connect to Amazon S3 through a VPC
+      endpoint, a VPC access point, or an access point alias that points to a VPC access
+      point.
 
 - `"ValidUserList"`: A list of users or groups in the Active Directory that are allowed to
   access the file <a href=""/> share. A group must be prefixed with the @ character.
@@ -1234,10 +1276,10 @@ end
 Initiates a snapshot of a volume.
 
 Storage Gateway provides the ability to back up point-in-time snapshots of your data to
-Amazon Simple Storage (Amazon S3) for durable off-site recovery, and also import the data
-to an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute Cloud (EC2). You
-can take snapshots of your gateway volume on a scheduled or ad hoc basis. This API enables
-you to take an ad hoc snapshot. For more information, see [Editing a snapshot schedule](https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#SchedulingSnapshot).
+Amazon Simple Storage (Amazon S3) for durable off-site recovery, and also import the data to
+an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute Cloud (EC2). You can
+take snapshots of your gateway volume on a scheduled or ad hoc basis. This API enables you
+to take an ad hoc snapshot. For more information, see [Editing a snapshot schedule](https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#SchedulingSnapshot).
 
 In the `CreateSnapshot` request, you identify the volume by providing its Amazon Resource
 Name (ARN). You must also provide description for the snapshot. When Storage Gateway takes
@@ -1247,21 +1289,20 @@ snapshot ID to check the snapshot progress or later use it when you want to crea
 from a snapshot. This operation is only supported in stored and cached volume gateway type.
 
 !!! note
-    To list or delete a snapshot, you must use the Amazon EC2 API. For more information,
-    see [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSnapshots.html)
+    To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSnapshots.html)
     or [DeleteSnapshot](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeleteSnapshot.html)
     in the *Amazon Elastic Compute Cloud API Reference*.
 
 !!! important
-    Volume and snapshot IDs are changing to a longer length ID format. For more
-    information, see the important note on the [Welcome](https://docs.aws.amazon.com/storagegateway/latest/APIReference/Welcome.html)
+    Volume and snapshot IDs are changing to a longer length ID format. For more information,
+    see the important note on the [Welcome](https://docs.aws.amazon.com/storagegateway/latest/APIReference/Welcome.html)
     page.
 
 # Arguments
 
-- `snapshot_description`: Textual description of the snapshot that appears in the Amazon
-  EC2 console, Elastic Block Store snapshots panel in the **Description** field, and in
-  the Storage Gateway snapshot **Details** pane, **Description** field.
+- `snapshot_description`: Textual description of the snapshot that appears in the Amazon EC2
+  console, Elastic Block Store snapshots panel in the **Description** field, and in the
+  Storage Gateway snapshot **Details** pane, **Description** field.
 - `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the [`list_volumes`](@ref)
   operation to return a list of gateway volumes.
 
@@ -1273,11 +1314,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value pair.
 
   !!! note
-      Valid characters for key and value are letters, spaces, and numbers representable
-      in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
-      length of a tag's key is 128 characters, and the maximum length for a tag's value
-      is 256.
-
+      Valid characters for key and value are letters, spaces, and numbers representable in
+      UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+      length of a tag's key is 128 characters, and the maximum length for a tag's value is
+      256.
 """
 function create_snapshot end
 
@@ -1323,28 +1363,27 @@ end
 Initiates a snapshot of a gateway from a volume recovery point. This operation is only
 supported in the cached volume gateway type.
 
-A volume recovery point is a point in time at which all data of the volume is consistent
-and from which you can create a snapshot. To get a list of volume recovery point for cached
+A volume recovery point is a point in time at which all data of the volume is consistent and
+from which you can create a snapshot. To get a list of volume recovery point for cached
 volume gateway, use [`list_volume_recovery_points`](@ref).
 
-In the `CreateSnapshotFromVolumeRecoveryPoint` request, you identify the volume by
-providing its Amazon Resource Name (ARN). You must also provide a description for the
-snapshot. When the gateway takes a snapshot of the specified volume, the snapshot and its
-description appear in the Storage Gateway console. In response, the gateway returns you a
-snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it
-when you want to create a volume from a snapshot.
+In the `CreateSnapshotFromVolumeRecoveryPoint` request, you identify the volume by providing
+its Amazon Resource Name (ARN). You must also provide a description for the snapshot. When
+the gateway takes a snapshot of the specified volume, the snapshot and its description
+appear in the Storage Gateway console. In response, the gateway returns you a snapshot ID.
+You can use this snapshot ID to check the snapshot progress or later use it when you want to
+create a volume from a snapshot.
 
 !!! note
-    To list or delete a snapshot, you must use the Amazon EC2 API. For more information,
-    see [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSnapshots.html)
+    To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSnapshots.html)
     or [DeleteSnapshot](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeleteSnapshot.html)
     in the *Amazon Elastic Compute Cloud API Reference*.
 
 # Arguments
 
-- `snapshot_description`: Textual description of the snapshot that appears in the Amazon
-  EC2 console, Elastic Block Store snapshots panel in the **Description** field, and in
-  the Storage Gateway snapshot **Details** pane, **Description** field.
+- `snapshot_description`: Textual description of the snapshot that appears in the Amazon EC2
+  console, Elastic Block Store snapshots panel in the **Description** field, and in the
+  Storage Gateway snapshot **Details** pane, **Description** field.
 - `volume_arn`: The Amazon Resource Name (ARN) of the iSCSI volume target. Use the [`describe_storedi_scsivolumes`](@ref)
   operation to return to retrieve the TargetARN for specified VolumeARN.
 
@@ -1356,11 +1395,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value pair.
 
   !!! note
-      Valid characters for key and value are letters, spaces, and numbers representable
-      in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
-      length of a tag's key is 128 characters, and the maximum length for a tag's value
-      is 256.
-
+      Valid characters for key and value are letters, spaces, and numbers representable in
+      UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+      length of a tag's key is 128 characters, and the maximum length for a tag's value is
+      256.
 """
 function create_snapshot_from_volume_recovery_point end
 
@@ -1418,27 +1456,31 @@ ARN that initiators can use to connect to the volume target.
 
 # Arguments
 
-- `disk_id`: The unique identifier for the gateway local disk that is configured as a
-  stored volume. Use [ListLocalDisks](https://docs.aws.amazon.com/storagegateway/latest/userguide/API_ListLocalDisks.html)
+- `disk_id`: The unique identifier for the gateway local disk that is configured as a stored
+  volume. Use [ListLocalDisks](https://docs.aws.amazon.com/storagegateway/latest/userguide/API_ListLocalDisks.html)
   to list disk IDs for a gateway.
+
 - `gateway_arn`:
+
 - `network_interface_id`: The network interface of the gateway on which to expose the iSCSI
   target. Only IPv4 addresses are accepted. Use [`describe_gateway_information`](@ref) to
   get a list of the network interfaces available on a gateway.
 
   Valid Values: A valid IP address.
+
 - `preserve_existing_data`: Set to `true` if you want to preserve the data on the local
   disk. Otherwise, set to `false` to create an empty volume.
 
   Valid Values: `true` | `false`
+
 - `target_name`: The name of the iSCSI target used by an initiator to connect to a volume
   and used as a suffix for the target ARN. For example, specifying `TargetName` as
   *myvolume* results in the target ARN of
   `arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume`.
   The target name must be unique across all volumes on a gateway.
 
-  If you don't specify a value, Storage Gateway uses the value that was previously used
-  for this volume as the new target name.
+  If you don't specify a value, Storage Gateway uses the value that was previously used for
+  this volume as the new target name.
 
 # Optional Parameters
 
@@ -1448,23 +1490,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key, or `false` to use a key managed by Amazon S3. Optional.
 
   Valid Values: `true` | `false`
+
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when `KMSEncrypted` is `true`. Optional.
+
 - `"SnapshotId"`: The snapshot ID (e.g., "snap-1122aabb") of the snapshot to restore as the
-  new stored volume. Specify this field if you want to create the iSCSI storage volume
-  from a snapshot; otherwise, do not include this field. To list snapshots for your
-  account use [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html)
+  new stored volume. Specify this field if you want to create the iSCSI storage volume from
+  a snapshot; otherwise, do not include this field. To list snapshots for your account use [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html)
   in the *Amazon Elastic Compute Cloud API Reference*.
+
 - `"Tags"`: A list of up to 50 tags that can be assigned to a stored volume. Each tag is a
   key-value pair.
 
   !!! note
-      Valid characters for key and value are letters, spaces, and numbers representable
-      in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
-      length of a tag's key is 128 characters, and the maximum length for a tag's value
-      is 256.
-
+      Valid characters for key and value are letters, spaces, and numbers representable in
+      UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+      length of a tag's key is 128 characters, and the maximum length for a tag's value is
+      256.
 """
 function create_storedi_scsivolume end
 
@@ -1539,20 +1582,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"RetentionLockTimeInDays"`: Tape retention lock time is set in days. Tape retention lock
   can be enabled for up to 100 years (36,500 days).
-- `"RetentionLockType"`: Tape retention lock can be configured in two modes. When
-  configured in governance mode, Amazon Web Services accounts with specific IAM
-  permissions are authorized to remove the tape retention lock from archived virtual
-  tapes. When configured in compliance mode, the tape retention lock cannot be removed by
-  any user, including the root Amazon Web Services account.
+
+- `"RetentionLockType"`: Tape retention lock can be configured in two modes. When configured
+  in governance mode, Amazon Web Services accounts with specific IAM permissions are
+  authorized to remove the tape retention lock from archived virtual tapes. When configured
+  in compliance mode, the tape retention lock cannot be removed by any user, including the
+  root Amazon Web Services account.
+
 - `"Tags"`: A list of up to 50 tags that can be assigned to tape pool. Each tag is a key-
   value pair.
 
   !!! note
-      Valid characters for key and value are letters, spaces, and numbers representable
-      in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
-      length of a tag's key is 128 characters, and the maximum length for a tag's value
-      is 256.
-
+      Valid characters for key and value are letters, spaces, and numbers representable in
+      UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+      length of a tag's key is 128 characters, and the maximum length for a tag's value is
+      256.
 """
 function create_tape_pool end
 
@@ -1597,14 +1641,15 @@ on a tape. This applies to barcodes used on deleted tapes. This operation is onl
 in the tape gateway type.
 
 !!! note
-    Cache storage must be allocated to the gateway before you can create a virtual tape.
-    Use the [`add_cache`](@ref) operation to add cache storage to a gateway.
+    Cache storage must be allocated to the gateway before you can create a virtual tape. Use
+    the [`add_cache`](@ref) operation to add cache storage to a gateway.
 
 # Arguments
 
 - `gateway_arn`: The unique Amazon Resource Name (ARN) that represents the gateway to
   associate the virtual tape with. Use the [`list_gateways`](@ref) operation to return a
   list of gateways for your account and Amazon Web Services Region.
+
 - `tape_barcode`: The barcode that you want to assign to the tape.
 
   !!! note
@@ -1624,21 +1669,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key, or `false` to use a key managed by Amazon S3. Optional.
 
   Valid Values: `true` | `false`
+
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when `KMSEncrypted` is `true`. Optional.
+
 - `"PoolId"`: The ID of the pool that you want to add your tape to for archiving. The tape
   in this pool is archived in the S3 storage class that is associated with the pool. When
-  you use your backup application to eject the tape, the tape is archived directly into
-  the storage class (S3 Glacier or S3 Deep Archive) that corresponds to the pool.
+  you use your backup application to eject the tape, the tape is archived directly into the
+  storage class (S3 Glacier or S3 Deep Archive) that corresponds to the pool.
+
 - `"Tags"`: A list of up to 50 tags that can be assigned to a virtual tape that has a
   barcode. Each tag is a key-value pair.
 
   !!! note
-      Valid characters for key and value are letters, spaces, and numbers representable
-      in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
-      length of a tag's key is 128 characters, and the maximum length for a tag's value
-      is 256.
+      Valid characters for key and value are letters, spaces, and numbers representable in
+      UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+      length of a tag's key is 128 characters, and the maximum length for a tag's value is
+      256.
 
 - `"Worm"`: Set to `TRUE` if the tape you are creating is to be configured as a write-once-
   read-many (WORM) tape.
@@ -1710,13 +1758,15 @@ tapes. This operation is only supported in the tape gateway type.
 - `gateway_arn`: The unique Amazon Resource Name (ARN) that represents the gateway to
   associate the virtual tapes with. Use the [`list_gateways`](@ref) operation to return a
   list of gateways for your account and Amazon Web Services Region.
+
 - `num_tapes_to_create`: The number of virtual tapes that you want to create.
-- `tape_barcode_prefix`: A prefix that you append to the barcode of the virtual tape you
-  are creating. This prefix makes the barcode unique.
+
+- `tape_barcode_prefix`: A prefix that you append to the barcode of the virtual tape you are
+  creating. This prefix makes the barcode unique.
 
   !!! note
-      The prefix must be 1-4 characters in length and must be one of the uppercase
-      letters from A to Z.
+      The prefix must be 1-4 characters in length and must be one of the uppercase letters
+      from A to Z.
 
 - `tape_size_in_bytes`: The size, in bytes, of the virtual tapes that you want to create.
 
@@ -1731,21 +1781,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key, or `false` to use a key managed by Amazon S3. Optional.
 
   Valid Values: `true` | `false`
+
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when `KMSEncrypted` is `true`. Optional.
+
 - `"PoolId"`: The ID of the pool that you want to add your tape to for archiving. The tape
   in this pool is archived in the S3 storage class that is associated with the pool. When
-  you use your backup application to eject the tape, the tape is archived directly into
-  the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
+  you use your backup application to eject the tape, the tape is archived directly into the
+  storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
+
 - `"Tags"`: A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a
   key-value pair.
 
   !!! note
-      Valid characters for key and value are letters, spaces, and numbers representable
-      in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
-      length of a tag's key is 128 characters, and the maximum length for a tag's value
-      is 256.
+      Valid characters for key and value are letters, spaces, and numbers representable in
+      UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+      length of a tag's key is 128 characters, and the maximum length for a tag's value is
+      256.
 
 - `"Worm"`: Set to `TRUE` if the tape you are creating is to be configured as a write-once-
   read-many (WORM) tape.
@@ -1808,8 +1861,8 @@ end
     delete_automatic_tape_creation_policy(gateway_arn, params::Dict{String,<:Any})
 
 Deletes the automatic tape creation policy of a gateway. If you delete this policy, new
-virtual tapes must be created manually. Use the Amazon Resource Name (ARN) of the gateway
-in your request to remove the policy.
+virtual tapes must be created manually. Use the Amazon Resource Name (ARN) of the gateway in
+your request to remove the policy.
 
 # Arguments
 
@@ -1848,10 +1901,10 @@ end
     delete_bandwidth_rate_limit(bandwidth_type, gateway_arn, params::Dict{String,<:Any})
 
 Deletes the bandwidth rate limits of a gateway. You can delete either the upload and
-download bandwidth rate limit, or you can delete both. If you delete only one of the
-limits, the other limit remains unchanged. To specify which gateway to work with, use the
-Amazon Resource Name (ARN) of the gateway in your request. This operation is supported only
-for the stored volume, cached volume, and tape gateway types.
+download bandwidth rate limit, or you can delete both. If you delete only one of the limits,
+the other limit remains unchanged. To specify which gateway to work with, use the Amazon
+Resource Name (ARN) of the gateway in your request. This operation is supported only for the
+stored volume, cached volume, and tape gateway types.
 
 # Arguments
 
@@ -1859,6 +1912,7 @@ for the stored volume, cached volume, and tape gateway types.
   rate limit to delete.
 
   Valid Values: `UPLOAD` | `DOWNLOAD` | `ALL`
+
 - `gateway_arn`:
 """
 function delete_bandwidth_rate_limit end
@@ -1900,9 +1954,8 @@ end
     delete_chap_credentials(initiator_name, target_arn)
     delete_chap_credentials(initiator_name, target_arn, params::Dict{String,<:Any})
 
-Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified
-iSCSI target and initiator pair. This operation is supported in volume and tape gateway
-types.
+Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI
+target and initiator pair. This operation is supported in volume and tape gateway types.
 
 # Arguments
 
@@ -1961,9 +2014,9 @@ Gateways.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ForceDelete"`: If this value is set to `true`, the operation deletes a file share
-  immediately and aborts all data uploads to Amazon Web Services. Otherwise, the file
-  share is not deleted until all data is uploaded to Amazon Web Services. This process
-  aborts the data upload process, and the file share enters the `FORCE_DELETING` status.
+  immediately and aborts all data uploads to Amazon Web Services. Otherwise, the file share
+  is not deleted until all data is uploaded to Amazon Web Services. This process aborts the
+  data upload process, and the file share enters the `FORCE_DELETING` status.
 
   Valid Values: `true` | `false`
 """
@@ -1997,9 +2050,9 @@ end
     delete_gateway(gateway_arn)
     delete_gateway(gateway_arn, params::Dict{String,<:Any})
 
-Deletes a gateway. To specify which gateway to delete, use the Amazon Resource Name (ARN)
-of the gateway in your request. The operation deletes the gateway; however, it does not
-delete the gateway virtual machine (VM) from your host computer.
+Deletes a gateway. To specify which gateway to delete, use the Amazon Resource Name (ARN) of
+the gateway in your request. The operation deletes the gateway; however, it does not delete
+the gateway virtual machine (VM) from your host computer.
 
 After you delete a gateway, you cannot reactivate it. Completed snapshots of the gateway
 volumes are not deleted upon deleting the gateway, however, pending snapshots will not
@@ -2007,10 +2060,10 @@ complete. After you delete a gateway, your next step is to remove it from your e
 
 !!! important
     You no longer pay software charges after the gateway is deleted; however, your existing
-    Amazon EBS snapshots persist and you will continue to be billed for these snapshots.
-    You can choose to remove all remaining Amazon EBS snapshots by canceling your Amazon
-    EC2 subscription.  If you prefer not to cancel your Amazon EC2 subscription, you can
-    delete your snapshots using the Amazon EC2 console. For more information, see the [Storage Gateway detail page](http://aws.amazon.com/storagegateway).
+    Amazon EBS snapshots persist and you will continue to be billed for these snapshots. You
+    can choose to remove all remaining Amazon EBS snapshots by canceling your Amazon EC2
+    subscription. If you prefer not to cancel your Amazon EC2 subscription, you can delete
+    your snapshots using the Amazon EC2 console. For more information, see the [Storage Gateway detail page](http://aws.amazon.com/storagegateway).
 
 # Arguments
 
@@ -2100,8 +2153,8 @@ type.
 # Arguments
 
 - `gateway_arn`: The unique Amazon Resource Name (ARN) of the gateway that the virtual tape
-  to delete is associated with. Use the [`list_gateways`](@ref) operation to return a
-  list of gateways for your account and Amazon Web Services Region.
+  to delete is associated with. Use the [`list_gateways`](@ref) operation to return a list
+  of gateways for your account and Amazon Web Services Region.
 - `tape_arn`: The Amazon Resource Name (ARN) of the virtual tape to delete.
 
 # Optional Parameters
@@ -2109,9 +2162,9 @@ type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BypassGovernanceRetention"`: Set to `TRUE` to delete an archived tape that belongs to a
-  custom pool with tape retention lock. Only archived tapes with tape retention lock set
-  to `governance` can be deleted. Archived tapes with tape retention lock set to
-  `compliance` can't be deleted.
+  custom pool with tape retention lock. Only archived tapes with tape retention lock set to
+  `governance` can be deleted. Archived tapes with tape retention lock set to `compliance`
+  can't be deleted.
 """
 function delete_tape end
 
@@ -2150,8 +2203,8 @@ end
     delete_tape_archive(tape_arn)
     delete_tape_archive(tape_arn, params::Dict{String,<:Any})
 
-Deletes the specified virtual tape from the virtual tape shelf (VTS). This operation is
-only supported in the tape gateway type.
+Deletes the specified virtual tape from the virtual tape shelf (VTS). This operation is only
+supported in the tape gateway type.
 
 # Arguments
 
@@ -2163,9 +2216,9 @@ only supported in the tape gateway type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BypassGovernanceRetention"`: Set to `TRUE` to delete an archived tape that belongs to a
-  custom pool with tape retention lock. Only archived tapes with tape retention lock set
-  to `governance` can be deleted. Archived tapes with tape retention lock set to
-  `compliance` can't be deleted.
+  custom pool with tape retention lock. Only archived tapes with tape retention lock set to
+  `governance` can be deleted. Archived tapes with tape retention lock set to `compliance`
+  can't be deleted.
 """
 function delete_tape_archive end
 
@@ -2196,8 +2249,8 @@ end
     delete_tape_pool(pool_arn, params::Dict{String,<:Any})
 
 Delete a custom tape pool. A custom tape pool can only be deleted if there are no tapes in
-the pool and if there are no automatic tape creation policies that reference the custom
-tape pool.
+the pool and if there are no automatic tape creation policies that reference the custom tape
+pool.
 
 # Arguments
 
@@ -2238,9 +2291,9 @@ configured as the storage volume is not deleted. You can reuse the local disk to
 another storage volume.
 
 Before you delete a volume, make sure there are no iSCSI connections to the volume you are
-deleting. You should also make sure there is no snapshot in progress. You can use the
-Amazon Elastic Compute Cloud (Amazon EC2) API to query snapshots on the volume you are
-deleting and check the snapshot status. For more information, go to [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html)
+deleting. You should also make sure there is no snapshot in progress. You can use the Amazon
+Elastic Compute Cloud (Amazon EC2) API to query snapshots on the volume you are deleting and
+check the snapshot status. For more information, go to [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html)
 in the *Amazon Elastic Compute Cloud API Reference*.
 
 In the request, you must provide the Amazon Resource Name (ARN) of the storage volume you
@@ -2505,8 +2558,8 @@ end
     describe_chap_credentials(target_arn, params::Dict{String,<:Any})
 
 Returns an array of Challenge-Handshake Authentication Protocol (CHAP) credentials
-information for a specified iSCSI target, one for each target-initiator pair. This
-operation is supported in the volume and tape gateway types.
+information for a specified iSCSI target, one for each target-initiator pair. This operation
+is supported in the volume and tape gateway types.
 
 # Arguments
 
@@ -2795,8 +2848,8 @@ end
     describe_snapshot_schedule(volume_arn, params::Dict{String,<:Any})
 
 Describes the snapshot schedule for the specified gateway volume. The snapshot schedule
-information includes intervals at which snapshots are automatically initiated on the
-volume. This operation is only supported in the cached volume and stored volume types.
+information includes intervals at which snapshots are automatically initiated on the volume.
+This operation is only supported in the cached volume and stored volume types.
 
 # Arguments
 
@@ -2835,10 +2888,10 @@ end
     describe_storedi_scsivolumes(volume_arns)
     describe_storedi_scsivolumes(volume_arns, params::Dict{String,<:Any})
 
-Returns the description of the gateway volumes specified in the request. The list of
-gateway volumes in the request must be from one gateway. In the response, Storage Gateway
-returns volume information sorted by volume ARNs. This operation is only supported in
-stored volume gateway type.
+Returns the description of the gateway volumes specified in the request. The list of gateway
+volumes in the request must be from one gateway. In the response, Storage Gateway returns
+volume information sorted by volume ARNs. This operation is only supported in stored volume
+gateway type.
 
 # Arguments
 
@@ -2892,8 +2945,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified number.
 - `"Marker"`: An opaque string that indicates the position at which to begin describing
   virtual tapes.
-- `"TapeARNs"`: Specifies one or more unique Amazon Resource Names (ARNs) that represent
-  the virtual tapes you want to describe.
+- `"TapeARNs"`: Specifies one or more unique Amazon Resource Names (ARNs) that represent the
+  virtual tapes you want to describe.
 """
 function describe_tape_archives end
 
@@ -2922,9 +2975,9 @@ Returns a list of virtual tape recovery points that are available for the specif
 gateway.
 
 A recovery point is a point-in-time view of a virtual tape at which all the data on the
-virtual tape is consistent. If your gateway crashes, virtual tapes that have recovery
-points can be recovered to a new gateway. This operation is only supported in the tape
-gateway type.
+virtual tape is consistent. If your gateway crashes, virtual tapes that have recovery points
+can be recovered to a new gateway. This operation is only supported in the tape gateway
+type.
 
 # Arguments
 
@@ -2934,8 +2987,8 @@ gateway type.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: Specifies that the number of virtual tape recovery points that are described
-  be limited to the specified number.
+- `"Limit"`: Specifies that the number of virtual tape recovery points that are described be
+  limited to the specified number.
 - `"Marker"`: An opaque string that indicates the position at which to begin describing the
   virtual tape recovery points.
 """
@@ -2973,14 +3026,14 @@ end
 
 Returns a description of virtual tapes that correspond to the specified Amazon Resource
 Names (ARNs). If `TapeARN` is not specified, returns a description of the virtual tapes
-associated with the specified gateway. This operation is only supported for the tape
-gateway type.
+associated with the specified gateway. This operation is only supported for the tape gateway
+type.
 
 The operation supports pagination. By default, the operation returns a maximum of up to 100
-tapes. You can optionally specify the `Limit` field in the body to limit the number of
-tapes in the response. If the number of tapes returned in the response is truncated, the
-response includes a `Marker` field. You can use this `Marker` value in your subsequent
-request to retrieve the next set of tapes.
+tapes. You can optionally specify the `Limit` field in the body to limit the number of tapes
+in the response. If the number of tapes returned in the response is truncated, the response
+includes a `Marker` field. You can use this `Marker` value in your subsequent request to
+retrieve the next set of tapes.
 
 # Arguments
 
@@ -3000,10 +3053,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicates which page of results to retrieve.
 
   If not specified, the first page of results is retrieved.
-- `"TapeARNs"`: Specifies one or more unique Amazon Resource Names (ARNs) that represent
-  the virtual tapes you want to describe. If this parameter is not specified, Tape
-  gateway returns a description of all virtual tapes associated with the specified
-  gateway.
+
+- `"TapeARNs"`: Specifies one or more unique Amazon Resource Names (ARNs) that represent the
+  virtual tapes you want to describe. If this parameter is not specified, Tape gateway
+  returns a description of all virtual tapes associated with the specified gateway.
 """
 function describe_tapes end
 
@@ -3092,15 +3145,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Limit"`: Specifies that the number of VTL devices described be limited to the specified
   number.
+
 - `"Marker"`: An opaque string that indicates the position at which to begin describing the
   VTL devices.
+
 - `"VTLDeviceARNs"`: An array of strings, where each string represents the Amazon Resource
   Name (ARN) of a VTL device.
 
   !!! note
-      All of the specified VTL devices must be from the same gateway. If no VTL devices
-      are specified, the result will contain all devices on the specified gateway.
-
+      All of the specified VTL devices must be from the same gateway. If no VTL devices are
+      specified, the result will contain all devices on the specified gateway.
 """
 function describe_vtldevices end
 
@@ -3132,9 +3186,9 @@ end
     describe_working_storage(gateway_arn)
     describe_working_storage(gateway_arn, params::Dict{String,<:Any})
 
-Returns information about the working storage of a gateway. This operation is only
-supported in the stored volumes gateway type. This operation is deprecated in cached
-volumes API version (20120630). Use DescribeUploadBuffer instead.
+Returns information about the working storage of a gateway. This operation is only supported
+in the stored volumes gateway type. This operation is deprecated in cached volumes API
+version (20120630). Use DescribeUploadBuffer instead.
 
 !!! note
     Working storage is also referred to as upload buffer. You can also use the
@@ -3182,8 +3236,8 @@ end
 Disconnects a volume from an iSCSI connection and then detaches the volume from the
 specified gateway. Detaching and attaching a volume enables you to recover your data from
 one gateway to a different gateway without creating a snapshot. It also makes it easier to
-move your volumes from an on-premises gateway to a gateway hosted on an Amazon EC2
-instance. This operation is only supported in the volume gateway type.
+move your volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instance.
+This operation is only supported in the volume gateway type.
 
 # Arguments
 
@@ -3194,8 +3248,8 @@ instance. This operation is only supported in the volume gateway type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ForceDetach"`: Set to `true` to forcibly remove the iSCSI connection of the target
-  volume and detach the volume. The default is `false`. If this value is set to `false`,
-  you must manually disconnect the iSCSI connection from the target volume.
+  volume and detach the volume. The default is `false`. If this value is set to `false`, you
+  must manually disconnect the iSCSI connection from the target volume.
 
   Valid Values: `true` | `false`
 """
@@ -3272,9 +3326,9 @@ end
     disassociate_file_system(file_system_association_arn)
     disassociate_file_system(file_system_association_arn, params::Dict{String,<:Any})
 
-Disassociates an Amazon FSx file system from the specified gateway. After the
-disassociation process finishes, the gateway can no longer access the Amazon FSx file
-system. This operation is only supported in the FSx File Gateway type.
+Disassociates an Amazon FSx file system from the specified gateway. After the disassociation
+process finishes, the gateway can no longer access the Amazon FSx file system. This
+operation is only supported in the FSx File Gateway type.
 
 # Arguments
 
@@ -3286,9 +3340,9 @@ system. This operation is only supported in the FSx File Gateway type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ForceDelete"`: If this value is set to true, the operation disassociates an Amazon FSx
-  file system immediately. It ends all data uploads to the file system, and the file
-  system association enters the `FORCE_DELETING` status. If this value is set to false,
-  the Amazon FSx file system does not disassociate until all data is uploaded.
+  file system immediately. It ends all data uploads to the file system, and the file system
+  association enters the `FORCE_DELETING` status. If this value is set to false, the Amazon
+  FSx file system does not disassociate until all data is uploaded.
 """
 function disassociate_file_system end
 
@@ -3326,8 +3380,8 @@ end
     join_domain(domain_name, gateway_arn, password, user_name)
     join_domain(domain_name, gateway_arn, password, user_name, params::Dict{String,<:Any})
 
-Adds a file gateway to an Active Directory domain. This operation is only supported for
-file gateways that support the SMB file protocol.
+Adds a file gateway to an Active Directory domain. This operation is only supported for file
+gateways that support the SMB file protocol.
 
 !!! note
     Joining a domain creates an Active Directory computer account in the default
@@ -3348,19 +3402,19 @@ file gateways that support the SMB file protocol.
   Active Directory domain.
 - `user_name`: Sets the user name of user who has permission to add the gateway to the
   Active Directory domain. The domain user account should be enabled to join computers to
-  the domain. For example, you can use the domain administrator account or an account
-  with delegated permissions to join computers to the domain.
+  the domain. For example, you can use the domain administrator account or an account with
+  delegated permissions to join computers to the domain.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"DomainControllers"`: List of IPv4 addresses, NetBIOS names, or host names of your
-  domain server. If you need to specify the port number include it after the colon (“:”).
-  For example, `mydc.mydomain.com:389`.
-- `"OrganizationalUnit"`: The organizational unit (OU) is a container in an Active
-  Directory that can hold users, groups, computers, and other OUs and this parameter
-  specifies the OU that the gateway will join within the AD domain.
+- `"DomainControllers"`: List of IPv4 addresses, NetBIOS names, or host names of your domain
+  server. If you need to specify the port number include it after the colon (“:”). For
+  example, `mydc.mydomain.com:389`.
+- `"OrganizationalUnit"`: The organizational unit (OU) is a container in an Active Directory
+  that can hold users, groups, computers, and other OUs and this parameter specifies the OU
+  that the gateway will join within the AD domain.
 - `"TimeoutInSeconds"`: Specifies the time in seconds, in which the [`join_domain`](@ref)
   operation must complete. The default is 20 seconds.
 """
@@ -3456,8 +3510,8 @@ end
     list_file_shares(params::Dict{String,<:Any})
 
 Gets a list of the file shares for a specific S3 File Gateway, or the list of file shares
-that belong to the calling Amazon Web Services account. This operation is only supported
-for S3 File Gateways.
+that belong to the calling Amazon Web Services account. This operation is only supported for
+S3 File Gateways.
 
 # Optional Parameters
 
@@ -3502,8 +3556,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of file system associations to return in the response. If
   present, `Limit` must be an integer with a value greater than zero. Optional.
 - `"Marker"`: Opaque pagination token returned from a previous [`list_file_system_associations`](@ref)
-  operation. If present, `Marker` specifies where to continue the list from after a
-  previous call to `ListFileSystemAssociations`. Optional.
+  operation. If present, `Marker` specifies where to continue the list from after a previous
+  call to `ListFileSystemAssociations`. Optional.
 """
 function list_file_system_associations end
 
@@ -3537,15 +3591,15 @@ pagination that allows you to optionally reduce the number of gateways returned 
 response.
 
 If you have more gateways than are returned in a response (that is, the response returns
-only a truncated list of your gateways), the response contains a marker that you can
-specify in your next request to fetch the next page of gateways.
+only a truncated list of your gateways), the response contains a marker that you can specify
+in your next request to fetch the next page of gateways.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: Specifies that the list of gateways returned be limited to the specified
-  number of items.
+- `"Limit"`: Specifies that the list of gateways returned be limited to the specified number
+  of items.
 - `"Marker"`: An opaque string that indicates the position at which to begin the returned
   list of gateways.
 """
@@ -3572,8 +3626,8 @@ end
 Returns a list of the gateway's local disks. To specify which gateway to describe, you use
 the Amazon Resource Name (ARN) of the gateway in the body of the request.
 
-The request returns a list of all disks, specifying which are configured as working
-storage, cache storage, or stored volume or not configured at all. The response includes a
+The request returns a list of all disks, specifying which are configured as working storage,
+cache storage, or stored volume or not configured at all. The response includes a
 `DiskStatus` field. This field can have a value of present (the disk is available to use),
 missing (the disk is no longer connected to the gateway), or mismatch (the disk node is
 occupied by a disk that has incorrect metadata or the disk content is corrupted).
@@ -3666,9 +3720,9 @@ custom tape pool Amazon Resource Names (ARNs). If you don't specify a custom tap
 the operation lists all custom tape pools.
 
 This operation supports pagination. You can optionally specify the `Limit` parameter in the
-body to limit the number of tape pools in the response. If the number of tape pools
-returned in the response is truncated, the response includes a `Marker` element that you
-can use in your subsequent request to retrieve the next set of tape pools.
+body to limit the number of tape pools in the response. If the number of tape pools returned
+in the response is truncated, the response includes a `Marker` element that you can use in
+your subsequent request to retrieve the next set of tape pools.
 
 # Optional Parameters
 
@@ -3706,11 +3760,11 @@ You specify the tapes to list by specifying one or more tape Amazon Resource Nam
 If you don't specify a tape ARN, the operation lists all virtual tapes in both your VTL and
 VTS.
 
-This operation supports pagination. By default, the operation returns a maximum of up to
-100 tapes. You can optionally specify the `Limit` parameter in the body to limit the number
-of tapes in the response. If the number of tapes returned in the response is truncated, the
-response includes a `Marker` element that you can use in your subsequent request to
-retrieve the next set of tapes. This operation is only supported in the tape gateway type.
+This operation supports pagination. By default, the operation returns a maximum of up to 100
+tapes. You can optionally specify the `Limit` parameter in the body to limit the number of
+tapes in the response. If the number of tapes returned in the response is truncated, the
+response includes a `Marker` element that you can use in your subsequent request to retrieve
+the next set of tapes. This operation is only supported in the tape gateway type.
 
 # Optional Parameters
 
@@ -3786,9 +3840,9 @@ Lists the recovery points for a specified gateway. This operation is only suppor
 cached volume gateway type.
 
 Each cache volume has one recovery point. A volume recovery point is a point in time at
-which all data of the volume is consistent and from which you can create a snapshot or
-clone a new cached volume from a source volume. To create a snapshot from a volume recovery
-point use the [`create_snapshot_from_volume_recovery_point`](@ref) operation.
+which all data of the volume is consistent and from which you can create a snapshot or clone
+a new cached volume from a source volume. To create a snapshot from a volume recovery point
+use the [`create_snapshot_from_volume_recovery_point`](@ref) operation.
 
 # Arguments
 
@@ -3832,10 +3886,10 @@ or the [`describe_cachedi_scsivolumes`](@ref) API.
 
 The operation supports pagination. By default, the operation returns a maximum of up to 100
 volumes. You can optionally specify the `Limit` field in the body to limit the number of
-volumes in the response. If the number of volumes returned in the response is truncated,
-the response includes a Marker field. You can use this Marker value in your subsequent
-request to retrieve the next set of volumes. This operation is only supported in the cached
-volume and stored volume gateway types.
+volumes in the response. If the number of volumes returned in the response is truncated, the
+response includes a Marker field. You can use this Marker value in your subsequent request
+to retrieve the next set of volumes. This operation is only supported in the cached volume
+and stored volume gateway types.
 
 # Optional Parameters
 
@@ -3917,12 +3971,12 @@ end
     refresh_cache(file_share_arn)
     refresh_cache(file_share_arn, params::Dict{String,<:Any})
 
-Refreshes the cached inventory of objects for the specified file share. This operation
-finds objects in the Amazon S3 bucket that were added, removed, or replaced since the
-gateway last listed the bucket's contents and cached the results. This operation does not
-import files into the S3 File Gateway cache storage. It only updates the cached inventory
-to reflect changes in the inventory of the objects in the S3 bucket. This operation is only
-supported in the S3 File Gateway types.
+Refreshes the cached inventory of objects for the specified file share. This operation finds
+objects in the Amazon S3 bucket that were added, removed, or replaced since the gateway last
+listed the bucket's contents and cached the results. This operation does not import files
+into the S3 File Gateway cache storage. It only updates the cached inventory to reflect
+changes in the inventory of the objects in the S3 bucket. This operation is only supported
+in the S3 File Gateway types.
 
 You can subscribe to be notified through an Amazon CloudWatch event when your [`refresh_cache`](@ref)
 operation completes. For more information, see [Getting notified about file operations](https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification)
@@ -3932,13 +3986,13 @@ Gateways.
 When this API is called, it only initiates the refresh operation. When the API call
 completes and returns a success code, it doesn't necessarily mean that the file refresh has
 completed. You should use the refresh-complete notification to determine that the operation
-has completed before you check for new files on the gateway file share. You can subscribe
-to be notified through a CloudWatch event when your [`refresh_cache`](@ref) operation
+has completed before you check for new files on the gateway file share. You can subscribe to
+be notified through a CloudWatch event when your [`refresh_cache`](@ref) operation
 completes.
 
 Throttle limit: This API is asynchronous, so the gateway will accept no more than two
-refreshes at any time. We recommend using the refresh-complete CloudWatch event
-notification before issuing additional requests. For more information, see [Getting notified about file operations](https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification)
+refreshes at any time. We recommend using the refresh-complete CloudWatch event notification
+before issuing additional requests. For more information, see [Getting notified about file operations](https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification)
 in the *Amazon S3 File Gateway User Guide*.
 
 !!! important
@@ -3948,8 +4002,8 @@ in the *Amazon S3 File Gateway User Guide*.
       requests were sent to the server.
 
 !!! note
-    The S3 bucket name does not need to be included when entering the list of folders in
-    the FolderList parameter.
+    The S3 bucket name does not need to be included when entering the list of folders in the
+    FolderList parameter.
 
 For more information, see [Getting notified about file operations](https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification)
 in the *Amazon S3 File Gateway User Guide*.
@@ -3966,12 +4020,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default is [`"/"`]. The default refreshes objects and folders at the root of the Amazon S3 bucket. If `Recursive` is set to `true`, the entire S3 bucket that the file share has access to is refreshed.
 
 Do not include `/` when specifying folder names. For example, you would specify `samplefolder` rather than `samplefolder/`.
-- `"Recursive"`: A value that specifies whether to recursively refresh folders in the
-  cache. The refresh includes folders that were in the cache the last time the gateway
-  listed the folder's contents. If this value set to `true`, each folder that is listed
-  in `FolderList` is recursively updated. Otherwise, subfolders listed in `FolderList`
-  are not refreshed. Only objects that are in folders listed directly under `FolderList`
-  are found and used for the update. The default is `true`.
+
+- `"Recursive"`: A value that specifies whether to recursively refresh folders in the cache.
+  The refresh includes folders that were in the cache the last time the gateway listed the
+  folder's contents. If this value set to `true`, each folder that is listed in `FolderList`
+  is recursively updated. Otherwise, subfolders listed in `FolderList` are not refreshed.
+  Only objects that are in folders listed directly under `FolderList` are found and used for
+  the update. The default is `true`.
 
   Valid Values: `true` | `false`
 """
@@ -4005,13 +4060,13 @@ end
     remove_tags_from_resource(resource_arn, tag_keys)
     remove_tags_from_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes one or more tags from the specified resource. This operation is supported in
-storage gateways of all types.
+Removes one or more tags from the specified resource. This operation is supported in storage
+gateways of all types.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to remove the
-  tags from.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to remove the tags
+  from.
 - `tag_keys`: The keys of the tags you want to remove from the specified resource. A tag is
   composed of a key-value pair.
 """
@@ -4105,8 +4160,8 @@ is retrieved, it is associated with a gateway, even though it is also listed in 
 that is, archive. This operation is only supported in the tape gateway type.
 
 Once a tape is successfully retrieved to a gateway, it cannot be retrieved again to another
-gateway. You must archive the tape again before you can retrieve it to another gateway.
-This operation is only supported in the tape gateway type.
+gateway. You must archive the tape again before you can retrieve it to another gateway. This
+operation is only supported in the tape gateway type.
 
 # Arguments
 
@@ -4116,6 +4171,7 @@ This operation is only supported in the tape gateway type.
 
   You retrieve archived virtual tapes to only one gateway and the gateway must be a tape
   gateway.
+
 - `tape_arn`: The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from
   the virtual tape shelf (VTS).
 """
@@ -4159,8 +4215,8 @@ end
 Retrieves the recovery point for the specified virtual tape. This operation is only
 supported in the tape gateway type.
 
-A recovery point is a point in time view of a virtual tape at which all the data on the
-tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be
+A recovery point is a point in time view of a virtual tape at which all the data on the tape
+is consistent. If your gateway crashes, virtual tapes that have recovery points can be
 recovered to a new gateway.
 
 !!! note
@@ -4268,8 +4324,8 @@ supported for S3 File Gateways
 
 # Arguments
 
-- `gateway_arn`: The Amazon Resource Name (ARN) of the S3 File Gateway the SMB file share
-  is associated with.
+- `gateway_arn`: The Amazon Resource Name (ARN) of the S3 File Gateway the SMB file share is
+  associated with.
 - `password`: The password that you want to set for your SMB server.
 """
 function set_smbguest_password end
@@ -4322,10 +4378,10 @@ machine (VM) and not the host VM.
     If you want to shut down the VM, it is recommended that you first shut down the gateway
     component in the VM to avoid unpredictable conditions.
 
-After the gateway is shutdown, you cannot call any other API except [`start_gateway`](@ref),
-[`describe_gateway_information`](@ref), and [`list_gateways`](@ref). For more information,
-see [`activate_gateway`](@ref). Your applications cannot read from or write to the
-gateway's storage volumes, and there are no snapshots taken.
+After the gateway is shutdown, you cannot call any other API except [`start_gateway`](@ref), [`describe_gateway_information`](@ref),
+and [`list_gateways`](@ref). For more information, see [`activate_gateway`](@ref). Your
+applications cannot read from or write to the gateway's storage volumes, and there are no
+snapshots taken.
 
 !!! note
     When you make a shutdown request, you will get a `200 OK` success response immediately.
@@ -4418,12 +4474,12 @@ gateway starts, you can then make other API calls, your applications can read fr
 to the gateway's storage volumes and you will be able to take snapshot backups.
 
 !!! note
-    When you make a request, you will get a 200 OK success response immediately. However,
-    it might take some time for the gateway to be ready. You should call [`describe_gateway_information`](@ref)
+    When you make a request, you will get a 200 OK success response immediately. However, it
+    might take some time for the gateway to be ready. You should call [`describe_gateway_information`](@ref)
     and check the status before making any additional API calls. For more information, see [`activate_gateway`](@ref).
 
-To specify which gateway to start, use the Amazon Resource Name (ARN) of the gateway in
-your request.
+To specify which gateway to start, use the Amazon Resource Name (ARN) of the gateway in your
+request.
 
 # Arguments
 
@@ -4587,8 +4643,8 @@ limits.
 # Arguments
 
 - `bandwidth_rate_limit_intervals`: An array containing bandwidth rate limit schedule
-  intervals for a gateway. When no bandwidth rate limit intervals have been scheduled,
-  the array is empty.
+  intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the
+  array is empty.
 - `gateway_arn`:
 """
 function update_bandwidth_rate_limit_schedule end
@@ -4637,9 +4693,8 @@ end
     update_chap_credentials(initiator_name, secret_to_authenticate_initiator, target_arn, params::Dict{String,<:Any})
 
 Updates the Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified
-iSCSI target. By default, a gateway does not have CHAP enabled; however, for added
-security, you might use it. This operation is supported in the volume and tape gateway
-types.
+iSCSI target. By default, a gateway does not have CHAP enabled; however, for added security,
+you might use it. This operation is supported in the volume and tape gateway types.
 
 !!! important
     When you update CHAP credentials, all existing connections on the target are closed and
@@ -4648,6 +4703,7 @@ types.
 # Arguments
 
 - `initiator_name`: The iSCSI initiator that connects to the target.
+
 - `secret_to_authenticate_initiator`: The secret key that the initiator (for example, the
   Windows client) must provide to participate in mutual CHAP with the target.
 
@@ -4661,14 +4717,13 @@ types.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"SecretToAuthenticateTarget"`: The secret key that the target must provide to
-  participate in mutual CHAP with the initiator (e.g. Windows client).
+- `"SecretToAuthenticateTarget"`: The secret key that the target must provide to participate
+  in mutual CHAP with the initiator (e.g. Windows client).
 
   Byte constraints: Minimum bytes of 12. Maximum bytes of 16.
 
   !!! note
       The secret key must be between 12 and 16 bytes when encoded in UTF-8.
-
 """
 function update_chap_credentials end
 
@@ -4781,8 +4836,8 @@ gateway in your request.
 
 !!! note
     For gateways activated after September 2, 2015, the gateway's ARN contains the gateway
-    ID rather than the gateway name. However, changing the name of the gateway has no
-    effect on the gateway's ARN.
+    ID rather than the gateway name. However, changing the name of the gateway has no effect
+    on the gateway's ARN.
 
 # Arguments
 
@@ -4796,10 +4851,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group that you want to use to monitor and log events in the gateway.
 
   For more information, see [What is Amazon CloudWatch Logs?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html)
+
 - `"GatewayCapacity"`: Specifies the size of the gateway's metadata cache. This setting
   impacts gateway performance and hardware recommendations. For more information, see [Performance guidance for gateways with multiple file shares](https://docs.aws.amazon.com/filegateway/latest/files3/performance-multiple-file-shares.html)
   in the *Amazon S3 File Gateway User Guide*.
+
 - `"GatewayName"`:
+
 - `"GatewayTimezone"`: A value that indicates the time zone of the gateway.
 """
 function update_gateway_information end
@@ -4838,8 +4896,8 @@ Updates the gateway virtual machine (VM) software. The request immediately trigg
 software update.
 
 !!! note
-    When you make this request, you get a `200 OK` success response immediately. However,
-    it might take some time for the update to complete. You can call [`describe_gateway_information`](@ref)
+    When you make this request, you get a `200 OK` success response immediately. However, it
+    might take some time for the update to complete. You can call [`describe_gateway_information`](@ref)
     to verify the gateway is in the `STATE_RUNNING` state.
 
 !!! important
@@ -4912,15 +4970,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DayOfMonth"`: The day of the month component of the maintenance start time represented
   as an ordinal number from 1 to 28, where 1 represents the first day of the month. It is
   not possible to set the maintenance schedule to start on days 29 through 31.
+
 - `"DayOfWeek"`: The day of the week component of the maintenance start time week
-  represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6
-  represents Saturday.
-- `"HourOfDay"`: The hour component of the maintenance start time represented as *hh*,
-  where *hh* is the hour (00 to 23). The hour of the day is in the time zone of the
-  gateway.
+  represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 represents
+  Saturday.
+
+- `"HourOfDay"`: The hour component of the maintenance start time represented as *hh*, where
+  *hh* is the hour (00 to 23). The hour of the day is in the time zone of the gateway.
+
 - `"MinuteOfHour"`: The minute component of the maintenance start time represented as *mm*,
   where *mm* is the minute (00 to 59). The minute of the hour is in the time zone of the
   gateway.
+
 - `"SoftwareUpdatePreferences"`: A set of variables indicating the software update
   preferences for the gateway.
 
@@ -4986,14 +5047,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for audit
   logs.
+
 - `"CacheAttributes"`: Specifies refresh cache information for the file share.
+
 - `"ClientList"`: The list of clients that are allowed to access the S3 File Gateway. The
   list must contain either valid IP addresses or valid CIDR blocks.
+
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
   bucket by the S3 File Gateway. The default value is `S3_STANDARD`. Optional.
 
   Valid Values: `S3_STANDARD` | `S3_INTELLIGENT_TIERING` | `S3_STANDARD_IA` |
   `S3_ONEZONE_IA`
+
 - `"FileShareName"`: The name of the file share. Optional.
 
   !!! note
@@ -5001,43 +5066,48 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       access point or access point alias is used.
 
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
-  objects based on file extensions. Set this value to `true` to enable MIME type
-  guessing, otherwise set to `false`. The default value is `true`.
+  objects based on file extensions. Set this value to `true` to enable MIME type guessing,
+  otherwise set to `false`. The default value is `true`.
 
   Valid Values: `true` | `false`
+
 - `"KMSEncrypted"`: Set to `true` to use Amazon S3 server-side encryption with your own KMS
   key, or `false` to use a key managed by Amazon S3. Optional.
 
   Valid Values: `true` | `false`
+
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when `KMSEncrypted` is `true`. Optional.
+
 - `"NFSFileShareDefaults"`: The default values for the file share. Optional.
-- `"NotificationPolicy"`: The notification policy of the file share.
-  `SettlingTimeInSeconds` controls the number of seconds to wait after the last point in
-  time a client wrote to a file before generating an `ObjectUploaded` notification.
-  Because clients can make many small writes to files, it's best to set this parameter
-  for as long as possible to avoid generating multiple notifications for the same file in
-  a small time period.
+
+- `"NotificationPolicy"`: The notification policy of the file share. `SettlingTimeInSeconds`
+  controls the number of seconds to wait after the last point in time a client wrote to a
+  file before generating an `ObjectUploaded` notification. Because clients can make many
+  small writes to files, it's best to set this parameter for as long as possible to avoid
+  generating multiple notifications for the same file in a small time period.
 
   !!! note
-      `SettlingTimeInSeconds` has no effect on the timing of the object uploading to
-      Amazon S3, only the timing of the notification.
+      `SettlingTimeInSeconds` has no effect on the timing of the object uploading to Amazon
+      S3, only the timing of the notification.
 
-  The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to
-  60.
+  The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to 60.
 
   `{\\"Upload\\": {\\"SettlingTimeInSeconds\\": 60}}`
 
   The following example sets `NotificationPolicy` off.
 
   `{}`
+
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a S3 File Gateway puts objects into. The default value is `private`.
-- `"ReadOnly"`: A value that sets the write status of a file share. Set this value to
-  `true` to set the write status to read-only, otherwise set to `false`.
+
+- `"ReadOnly"`: A value that sets the write status of a file share. Set this value to `true`
+  to set the write status to read-only, otherwise set to `false`.
 
   Valid Values: `true` | `false`
+
 - `"RequesterPays"`: A value that sets who pays the cost of the request and the cost
   associated with data download from the S3 bucket. If this value is set to `true`, the
   requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket
@@ -5049,6 +5119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       configuration.
 
   Valid Values: `true` | `false`
+
 - `"Squash"`: The user mapped to anonymous user.
 
   Valid values are the following:
@@ -5056,7 +5127,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `RootSquash`: Only root is mapped to anonymous user.
   - `NoSquash`: No one is mapped to anonymous user.
   - `AllSquash`: Everyone is mapped to anonymous user.
-
 """
 function update_nfsfile_share end
 
@@ -5117,21 +5187,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AccessBasedEnumeration"`: The files and folders on this share will only be visible to
   users with read access.
+
 - `"AdminUserList"`: A list of users or groups in the Active Directory that have
   administrator rights to the file share. A group must be prefixed with the @ character.
   Acceptable formats include: `DOMAIN\\User1`, `user1`, `@group1`, and `@DOMAIN\\group1`.
   Can only be set if Authentication is set to `ActiveDirectory`.
+
 - `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for audit
   logs.
+
 - `"CacheAttributes"`: Specifies refresh cache information for the file share.
+
 - `"CaseSensitivity"`: The case of an object name in an Amazon S3 bucket. For
   `ClientSpecified`, the client determines the case sensitivity. For `CaseSensitive`, the
   gateway determines the case sensitivity. The default value is `ClientSpecified`.
+
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
   bucket by the S3 File Gateway. The default value is `S3_STANDARD`. Optional.
 
   Valid Values: `S3_STANDARD` | `S3_INTELLIGENT_TIERING` | `S3_STANDARD_IA` |
   `S3_ONEZONE_IA`
+
 - `"FileShareName"`: The name of the file share. Optional.
 
   !!! note
@@ -5139,42 +5215,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       access point or access point alias is used.
 
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
-  objects based on file extensions. Set this value to `true` to enable MIME type
-  guessing, otherwise set to `false`. The default value is `true`.
+  objects based on file extensions. Set this value to `true` to enable MIME type guessing,
+  otherwise set to `false`. The default value is `true`.
 
   Valid Values: `true` | `false`
+
 - `"InvalidUserList"`: A list of users or groups in the Active Directory that are not
   allowed to access the file share. A group must be prefixed with the @ character.
   Acceptable formats include: `DOMAIN\\User1`, `user1`, `@group1`, and `@DOMAIN\\group1`.
   Can only be set if Authentication is set to `ActiveDirectory`.
+
 - `"KMSEncrypted"`: Set to `true` to use Amazon S3 server-side encryption with your own KMS
   key, or `false` to use a key managed by Amazon S3. Optional.
 
   Valid Values: `true` | `false`
+
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when `KMSEncrypted` is `true`. Optional.
-- `"NotificationPolicy"`: The notification policy of the file share.
-  `SettlingTimeInSeconds` controls the number of seconds to wait after the last point in
-  time a client wrote to a file before generating an `ObjectUploaded` notification.
-  Because clients can make many small writes to files, it's best to set this parameter
-  for as long as possible to avoid generating multiple notifications for the same file in
-  a small time period.
+
+- `"NotificationPolicy"`: The notification policy of the file share. `SettlingTimeInSeconds`
+  controls the number of seconds to wait after the last point in time a client wrote to a
+  file before generating an `ObjectUploaded` notification. Because clients can make many
+  small writes to files, it's best to set this parameter for as long as possible to avoid
+  generating multiple notifications for the same file in a small time period.
 
   !!! note
-      `SettlingTimeInSeconds` has no effect on the timing of the object uploading to
-      Amazon S3, only the timing of the notification.
+      `SettlingTimeInSeconds` has no effect on the timing of the object uploading to Amazon
+      S3, only the timing of the notification.
 
-  The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to
-  60.
+  The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to 60.
 
   `{\\"Upload\\": {\\"SettlingTimeInSeconds\\": 60}}`
 
   The following example sets `NotificationPolicy` off.
 
   `{}`
+
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a S3 File Gateway puts objects into. The default value is `private`.
+
 - `"OplocksEnabled"`: Specifies whether opportunistic locking is enabled for the SMB file
   share.
 
@@ -5183,10 +5263,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       workloads that involve access to files with the same name in different case.
 
   Valid Values: `true` | `false`
-- `"ReadOnly"`: A value that sets the write status of a file share. Set this value to
-  `true` to set write status to read-only, otherwise set to `false`.
+
+- `"ReadOnly"`: A value that sets the write status of a file share. Set this value to `true`
+  to set write status to read-only, otherwise set to `false`.
 
   Valid Values: `true` | `false`
+
 - `"RequesterPays"`: A value that sets who pays the cost of the request and the cost
   associated with data download from the S3 bucket. If this value is set to `true`, the
   requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket
@@ -5198,18 +5280,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       configuration.
 
   Valid Values: `true` | `false`
-- `"SMBACLEnabled"`: Set this value to `true` to enable access control list (ACL) on the
-  SMB file share. Set it to `false` to map file and directory permissions to the POSIX
+
+- `"SMBACLEnabled"`: Set this value to `true` to enable access control list (ACL) on the SMB
+  file share. Set it to `false` to map file and directory permissions to the POSIX
   permissions.
 
   For more information, see [Using Microsoft Windows ACLs to control access to an SMB file share](https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html)
   in the *Storage Gateway User Guide*.
 
   Valid Values: `true` | `false`
+
 - `"ValidUserList"`: A list of users or groups in the Active Directory that are allowed to
-  access the file share. A group must be prefixed with the @ character. Acceptable
-  formats include: `DOMAIN\\User1`, `user1`, `@group1`, and `@DOMAIN\\group1`. Can only
-  be set if Authentication is set to `ActiveDirectory`.
+  access the file share. A group must be prefixed with the @ character. Acceptable formats
+  include: `DOMAIN\\User1`, `user1`, `@group1`, and `@DOMAIN\\group1`. Can only be set if
+  Authentication is set to `ActiveDirectory`.
 """
 function update_smbfile_share end
 
@@ -5353,6 +5437,7 @@ supported for Amazon S3 file gateways.
 # Arguments
 
 - `gateway_arn`:
+
 - `smbsecurity_strategy`: Specifies the type of security strategy.
 
   `ClientSpecified`: If you choose this option, requests are established based on what is
@@ -5360,20 +5445,20 @@ supported for Amazon S3 file gateways.
   compatibility across different clients in your environment. Supported only for S3 File
   Gateway.
 
-  `MandatorySigning`: If you choose this option, File Gateway only allows connections
-  from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB
-  clients on Microsoft Windows Vista, Windows Server 2008 or newer.
+  `MandatorySigning`: If you choose this option, File Gateway only allows connections from
+  SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on
+  Microsoft Windows Vista, Windows Server 2008 or newer.
 
   `MandatoryEncryption`: If you choose this option, File Gateway only allows connections
   from SMBv3 clients that have encryption enabled. This option is recommended for
-  environments that handle sensitive data. This option works with SMB clients on
-  Microsoft Windows 8, Windows Server 2012 or newer.
+  environments that handle sensitive data. This option works with SMB clients on Microsoft
+  Windows 8, Windows Server 2012 or newer.
 
   `MandatoryEncryptionNoAes128`: If you choose this option, File Gateway only allows
   connections from SMBv3 clients that use 256-bit AES encryption algorithms. 128-bit
   algorithms are not allowed. This option is recommended for environments that handle
-  sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012,
-  or later.
+  sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or
+  later.
 """
 function update_smbsecurity_strategy end
 
@@ -5424,16 +5509,15 @@ time of the volume. You can use this API to change the snapshot schedule configu
 volume.
 
 In the request you must identify the gateway volume whose snapshot schedule you want to
-update, and the schedule information, including when you want the snapshot to begin on a
-day and the frequency (in hours) of snapshots.
+update, and the schedule information, including when you want the snapshot to begin on a day
+and the frequency (in hours) of snapshots.
 
 # Arguments
 
 - `recurrence_in_hours`: Frequency of snapshots. Specify the number of hours between
   snapshots.
-- `start_at`: The hour of the day at which the snapshot schedule begins represented as
-  *hh*, where *hh* is the hour (0 to 23). The hour of the day is in the time zone of the
-  gateway.
+- `start_at`: The hour of the day at which the snapshot schedule begins represented as *hh*,
+  where *hh* is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
 - `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the [`list_volumes`](@ref)
   operation to return a list of gateway volumes.
 
@@ -5443,15 +5527,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: Optional description of the snapshot that overwrites the existing
   description.
+
 - `"Tags"`: A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-
   value pair.
 
   !!! note
-      Valid characters for key and value are letters, spaces, and numbers representable
-      in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
-      length of a tag's key is 128 characters, and the maximum length for a tag's value
-      is 256.
-
+      Valid characters for key and value are letters, spaces, and numbers representable in
+      UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+      length of a tag's key is 128 characters, and the maximum length for a tag's value is
+      256.
 """
 function update_snapshot_schedule end
 
@@ -5512,6 +5596,7 @@ supported in the tape gateway type.
 - `device_type`: The type of medium changer you want to select.
 
   Valid Values: `STK-L700` | `AWS-Gateway-VTL` | `IBM-03584L32-0402`
+
 - `vtldevice_arn`: The Amazon Resource Name (ARN) of the medium changer you want to select.
 """
 function update_vtldevice_type end

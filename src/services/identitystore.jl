@@ -63,8 +63,8 @@ specified: `GroupId`, `IdentityStoreId`, and `MemberId`.
 - `group_id`: The identifier for a group in the identity store.
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `member_id`: An object that contains the identifier of a group member. Setting the
-  `UserID` field to the specific identifier for a user indicates that the user is a
-  member of the group.
+  `UserID` field to the specific identifier for a user indicates that the user is a member
+  of the group.
 """
 function create_group_membership end
 
@@ -123,25 +123,37 @@ Creates a user within the specified identity store.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Addresses"`: A list of `Address` objects containing addresses associated with the user.
+
 - `"DisplayName"`: A string containing the name of the user. This value is typically
   formatted for display when the user is referenced. For example, "John Doe."
+
 - `"Emails"`: A list of `Email` objects containing email addresses associated with the user.
+
 - `"Locale"`: A string containing the geographical region or location of the user.
+
 - `"Name"`: An object containing the name of the user.
+
 - `"NickName"`: A string containing an alternate name for the user.
-- `"PhoneNumbers"`: A list of `PhoneNumber` objects containing phone numbers associated
-  with the user.
+
+- `"PhoneNumbers"`: A list of `PhoneNumber` objects containing phone numbers associated with
+  the user.
+
 - `"PreferredLanguage"`: A string containing the preferred language of the user. For
   example, "American English" or "en-us."
+
 - `"ProfileUrl"`: A string containing a URL that might be associated with the user.
+
 - `"Timezone"`: A string containing the time zone of the user.
+
 - `"Title"`: A string containing the title of the user. Possible values are left
   unspecified. The value can vary based on your specific use case.
+
 - `"UserName"`: A unique string used to identify the user. The length limit is 128
-  characters. This value can consist of letters, accented characters, symbols, numbers,
-  and punctuation. This value is specified at the time the user is created and stored as
-  an attribute of the user object in the identity store. `Administrator` and
+  characters. This value can consist of letters, accented characters, symbols, numbers, and
+  punctuation. This value is specified at the time the user is created and stored as an
+  attribute of the user object in the identity store. `Administrator` and
   `AWSAdministrators` are reserved names and can't be used for users or groups.
+
 - `"UserType"`: A string indicating the type of user. Possible values are left unspecified.
   The value can vary based on your specific use case.
 """
@@ -327,8 +339,8 @@ Retrieves the group metadata and attributes from `GroupId` in an identity store.
 - `group_id`: The identifier for a group in the identity store.
 - `identity_store_id`: The globally unique identifier for the identity store, such as
   `d-1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
-  generated string that contains numbers and lower case letters. This value is generated
-  at the time that a new identity store is created.
+  generated string that contains numbers and lower case letters. This value is generated at
+  the time that a new identity store is created.
 """
 function describe_group end
 
@@ -433,8 +445,8 @@ Retrieves the user metadata and attributes from the `UserId` in an identity stor
 
 - `identity_store_id`: The globally unique identifier for the identity store, such as
   `d-1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
-  generated string that contains numbers and lower case letters. This value is generated
-  at the time that a new identity store is created.
+  generated string that contains numbers and lower case letters. This value is generated at
+  the time that a new identity store is created.
 - `user_id`: The identifier for a user in the identity store.
 """
 function describe_user end
@@ -484,9 +496,9 @@ Retrieves `GroupId` in an identity store.
 # Arguments
 
 - `alternate_identifier`: A unique identifier for a user or group that is not the primary
-  identifier. This value can be an identifier from an external identity provider (IdP)
-  that is associated with the user, the group, or a unique attribute. For the unique
-  attribute, the only valid path is `displayName`.
+  identifier. This value can be an identifier from an external identity provider (IdP) that
+  is associated with the user, the group, or a unique attribute. For the unique attribute,
+  the only valid path is `displayName`.
 - `identity_store_id`: The globally unique identifier for the identity store.
 """
 function get_group_id end
@@ -544,8 +556,8 @@ Retrieves the `MembershipId` in an identity store.
 - `group_id`: The identifier for a group in the identity store.
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `member_id`: An object that contains the identifier of a group member. Setting the
-  `UserID` field to the specific identifier for a user indicates that the user is a
-  member of the group.
+  `UserID` field to the specific identifier for a user indicates that the user is a member
+  of the group.
 """
 function get_group_membership_id end
 
@@ -603,9 +615,9 @@ Retrieves the `UserId` in an identity store.
 # Arguments
 
 - `alternate_identifier`: A unique identifier for a user or group that is not the primary
-  identifier. This value can be an identifier from an external identity provider (IdP)
-  that is associated with the user, the group, or a unique attribute. For the unique
-  attribute, the only valid paths are `userName` and `emails.value`.
+  identifier. This value can be an identifier from an external identity provider (IdP) that
+  is associated with the user, the group, or a unique attribute. For the unique attribute,
+  the only valid paths are `userName` and `emails.value`.
 - `identity_store_id`: The globally unique identifier for the identity store.
 """
 function get_user_id end
@@ -651,8 +663,8 @@ end
     is_member_in_groups(group_ids, identity_store_id, member_id)
     is_member_in_groups(group_ids, identity_store_id, member_id, params::Dict{String,<:Any})
 
-Checks the user's membership in all requested groups and returns if the member exists in
-all queried groups.
+Checks the user's membership in all requested groups and returns if the member exists in all
+queried groups.
 
 !!! note
     If you have administrator access to a member account, you can use this API from the
@@ -730,11 +742,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of results to be returned per request. This parameter
   is used in all `List` requests to specify how many results to return in one page.
+
 - `"NextToken"`: The pagination token used for the `ListUsers`, `ListGroups` and
   `ListGroupMemberships` API operations. This value is generated by the identity store
-  service. It is returned in the API response if the total results are more than the size
-  of one page. This token is also returned when it is used in the API request to search
-  for the next page.
+  service. It is returned in the API response if the total results are more than the size of
+  one page. This token is also returned when it is used in the API request to search for the
+  next page.
 """
 function list_group_memberships end
 
@@ -787,21 +800,22 @@ For the specified member in the specified identity store, returns the list of al
 
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `member_id`: An object that contains the identifier of a group member. Setting the
-  `UserID` field to the specific identifier for a user indicates that the user is a
-  member of the group.
+  `UserID` field to the specific identifier for a user indicates that the user is a member
+  of the group.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to be returned per request. This parameter
-  is used in the `ListUsers` and `ListGroups` requests to specify how many results to
-  return in one page. The length limit is 50 characters.
+  is used in the `ListUsers` and `ListGroups` requests to specify how many results to return
+  in one page. The length limit is 50 characters.
+
 - `"NextToken"`: The pagination token used for the `ListUsers`, `ListGroups`, and
   `ListGroupMemberships` API operations. This value is generated by the identity store
-  service. It is returned in the API response if the total results are more than the size
-  of one page. This token is also returned when it is used in the API request to search
-  for the next page.
+  service. It is returned in the API response if the total results are more than the size of
+  one page. This token is also returned when it is used in the API request to search for the
+  next page.
 """
 function list_group_memberships_for_member end
 
@@ -855,22 +869,22 @@ the `GetGroupId` API action.
 
 - `identity_store_id`: The globally unique identifier for the identity store, such as
   `d-1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
-  generated string that contains numbers and lower case letters. This value is generated
-  at the time that a new identity store is created.
+  generated string that contains numbers and lower case letters. This value is generated at
+  the time that a new identity store is created.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: A list of `Filter` objects, which is used in the `ListUsers` and
-  `ListGroups` requests.
+- `"Filters"`: A list of `Filter` objects, which is used in the `ListUsers` and `ListGroups`
+  requests.
 - `"MaxResults"`: The maximum number of results to be returned per request. This parameter
-  is used in the `ListUsers` and `ListGroups` requests to specify how many results to
-  return in one page. The length limit is 50 characters.
+  is used in the `ListUsers` and `ListGroups` requests to specify how many results to return
+  in one page. The length limit is 50 characters.
 - `"NextToken"`: The pagination token used for the `ListUsers` and `ListGroups` API
-  operations. This value is generated by the identity store service. It is returned in
-  the API response if the total results are more than the size of one page. This token is
-  also returned when it is used in the API request to search for the next page.
+  operations. This value is generated by the identity store service. It is returned in the
+  API response if the total results are more than the size of one page. This token is also
+  returned when it is used in the API request to search for the next page.
 """
 function list_groups end
 
@@ -917,22 +931,22 @@ Filtering for a `User` by the `UserName` attribute is deprecated. Instead, use t
 
 - `identity_store_id`: The globally unique identifier for the identity store, such as
   `d-1234567890`. In this example, `d-` is a fixed prefix, and `1234567890` is a randomly
-  generated string that contains numbers and lower case letters. This value is generated
-  at the time that a new identity store is created.
+  generated string that contains numbers and lower case letters. This value is generated at
+  the time that a new identity store is created.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: A list of `Filter` objects, which is used in the `ListUsers` and
-  `ListGroups` requests.
+- `"Filters"`: A list of `Filter` objects, which is used in the `ListUsers` and `ListGroups`
+  requests.
 - `"MaxResults"`: The maximum number of results to be returned per request. This parameter
-  is used in the `ListUsers` and `ListGroups` requests to specify how many results to
-  return in one page. The length limit is 50 characters.
+  is used in the `ListUsers` and `ListGroups` requests to specify how many results to return
+  in one page. The length limit is 50 characters.
 - `"NextToken"`: The pagination token used for the `ListUsers` and `ListGroups` API
-  operations. This value is generated by the identity store service. It is returned in
-  the API response if the total results are more than the size of one page. This token is
-  also returned when it is used in the API request to search for the next page.
+  operations. This value is generated by the identity store service. It is returned in the
+  API response if the total results are more than the size of one page. This token is also
+  returned when it is used in the API request to search for the next page.
 """
 function list_users end
 
@@ -1028,8 +1042,8 @@ attributes.
 # Arguments
 
 - `identity_store_id`: The globally unique identifier for the identity store.
-- `operations`: A list of `AttributeOperation` objects to apply to the requested user.
-  These operations might add, replace, or remove an attribute.
+- `operations`: A list of `AttributeOperation` objects to apply to the requested user. These
+  operations might add, replace, or remove an attribute.
 - `user_id`: The identifier for a user in the identity store.
 """
 function update_user end

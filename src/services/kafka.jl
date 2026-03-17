@@ -8,17 +8,12 @@ using AWS.UUIDs
     batch_associate_scram_secret(cluster_arn, secret_arn_list)
     batch_associate_scram_secret(cluster_arn, secret_arn_list, params::Dict{String,<:Any})
 
-
 Associates one or more Scram Secrets with an Amazon MSK cluster.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) of the cluster to be updated.
-
-- `secret_arn_list`:
-  List of AWS Secrets Manager secret ARNs.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster to be updated.
+- `secret_arn_list`: List of AWS Secrets Manager secret ARNs.
 """
 function batch_associate_scram_secret end
 
@@ -55,17 +50,12 @@ end
     batch_disassociate_scram_secret(cluster_arn, secret_arn_list)
     batch_disassociate_scram_secret(cluster_arn, secret_arn_list, params::Dict{String,<:Any})
 
-
 Disassociates one or more Scram Secrets from an Amazon MSK cluster.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) of the cluster to be updated.
-
-- `secret_arn_list`:
-  List of AWS Secrets Manager secret ARNs.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster to be updated.
+- `secret_arn_list`: List of AWS Secrets Manager secret ARNs.
 """
 function batch_disassociate_scram_secret end
 
@@ -102,50 +92,30 @@ end
     create_cluster(broker_node_group_info, cluster_name, kafka_version, number_of_broker_nodes)
     create_cluster(broker_node_group_info, cluster_name, kafka_version, number_of_broker_nodes, params::Dict{String,<:Any})
 
-
 Creates a new MSK cluster.
 
 # Arguments
 
-- `broker_node_group_info`:
-  Information about the broker nodes in the cluster.
-
-- `cluster_name`:
-  The name of the cluster.
-
-- `kafka_version`:
-  The version of Apache Kafka.
-
-- `number_of_broker_nodes`:
-  The number of broker nodes in the cluster.
+- `broker_node_group_info`: Information about the broker nodes in the cluster.
+- `cluster_name`: The name of the cluster.
+- `kafka_version`: The version of Apache Kafka.
+- `number_of_broker_nodes`: The number of broker nodes in the cluster.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientAuthentication"`:
-  Includes all client authentication related information.
-
-- `"configurationInfo"`:
-  Represents the configuration that you want MSK to use for the brokers in a cluster.
-
-- `"encryptionInfo"`:
-  Includes all encryption-related information.
-
-- `"enhancedMonitoring"`:
-  Specifies the level of monitoring for the MSK cluster. The possible values are DEFAULT,
-  PER_BROKER, PER_TOPIC_PER_BROKER, and PER_TOPIC_PER_PARTITION.
-
+- `"clientAuthentication"`: Includes all client authentication related information.
+- `"configurationInfo"`: Represents the configuration that you want MSK to use for the
+  brokers in a cluster.
+- `"encryptionInfo"`: Includes all encryption-related information.
+- `"enhancedMonitoring"`: Specifies the level of monitoring for the MSK cluster. The
+  possible values are DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and
+  PER_TOPIC_PER_PARTITION.
 - `"loggingInfo"`:
-- `"openMonitoring"`:
-  The settings for open monitoring.
-
-- `"storageMode"`:
-  This controls storage mode for supported storage tiers.
-
-- `"tags"`:
-  Create tags when creating the cluster.
-
+- `"openMonitoring"`: The settings for open monitoring.
+- `"storageMode"`: This controls storage mode for supported storage tiers.
+- `"tags"`: Create tags when creating the cluster.
 """
 function create_cluster end
 
@@ -202,27 +172,19 @@ end
     create_cluster_v2(cluster_name)
     create_cluster_v2(cluster_name, params::Dict{String,<:Any})
 
-
 Creates a new MSK cluster.
 
 # Arguments
 
-- `cluster_name`:
-  The name of the cluster.
+- `cluster_name`: The name of the cluster.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"provisioned"`:
-  Information about the provisioned cluster.
-
-- `"serverless"`:
-  Information about the serverless cluster.
-
-- `"tags"`:
-  A map of tags that you want the cluster to have.
-
+- `"provisioned"`: Information about the provisioned cluster.
+- `"serverless"`: Information about the serverless cluster.
+- `"tags"`: A map of tags that you want the cluster to have.
 """
 function create_cluster_v2 end
 
@@ -256,30 +218,23 @@ end
     create_configuration(name, server_properties)
     create_configuration(name, server_properties, params::Dict{String,<:Any})
 
-
 Creates a new MSK configuration.
 
 # Arguments
 
-- `name`:
-  The name of the configuration.
-
-- `server_properties`:
-  Contents of the <filename>server.properties</filename> file. When using the API, you
-  must ensure that the contents of the file are base64 encoded.
-                 When using the AWS Management Console, the SDK, or the AWS CLI, the
-                 contents of <filename>server.properties</filename> can be in plaintext.
+- `name`: The name of the configuration.
+- `server_properties`: Contents of the <filename>server.properties</filename> file. When
+  using the API, you must ensure that the contents of the file are base64 encoded. When
+  using the AWS Management Console, the SDK, or the AWS CLI, the contents of
+  <filename>server.properties</filename> can be in plaintext.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`:
-  The description of the configuration.
-
-- `"kafkaVersions"`:
-  The versions of Apache Kafka with which you can use this MSK configuration.
-
+- `"description"`: The description of the configuration.
+- `"kafkaVersions"`: The versions of Apache Kafka with which you can use this MSK
+  configuration.
 """
 function create_configuration end
 
@@ -394,33 +349,21 @@ end
     create_vpc_connection(authentication, client_subnets, security_groups, target_cluster_arn, vpc_id)
     create_vpc_connection(authentication, client_subnets, security_groups, target_cluster_arn, vpc_id, params::Dict{String,<:Any})
 
-
 Creates a new MSK VPC connection.
 
 # Arguments
 
-- `authentication`:
-  The authentication type of VPC connection.
-
-- `client_subnets`:
-  The list of client subnets.
-
-- `security_groups`:
-  The list of security groups.
-
-- `target_cluster_arn`:
-  The cluster Amazon Resource Name (ARN) for the VPC connection.
-
-- `vpc_id`:
-  The VPC ID of VPC connection.
+- `authentication`: The authentication type of VPC connection.
+- `client_subnets`: The list of client subnets.
+- `security_groups`: The list of security groups.
+- `target_cluster_arn`: The cluster Amazon Resource Name (ARN) for the VPC connection.
+- `vpc_id`: The VPC ID of VPC connection.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`:
-  A map of tags for the VPC connection.
-
+- `"tags"`: A map of tags for the VPC connection.
 """
 function create_vpc_connection end
 
@@ -481,21 +424,17 @@ end
     delete_cluster(cluster_arn)
     delete_cluster(cluster_arn, params::Dict{String,<:Any})
 
-
 Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"currentVersion"`:
-  The current version of the MSK cluster.
-
+- `"currentVersion"`: The current version of the MSK cluster.
 """
 function delete_cluster end
 
@@ -526,14 +465,11 @@ end
     delete_cluster_policy(cluster_arn)
     delete_cluster_policy(cluster_arn, params::Dict{String,<:Any})
 
-
 Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) of the cluster.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster.
 """
 function delete_cluster_policy end
 
@@ -566,14 +502,11 @@ end
     delete_configuration(arn)
     delete_configuration(arn, params::Dict{String,<:Any})
 
-
 Deletes an MSK Configuration.
 
 # Arguments
 
-- `arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration.
-
+- `arn`: The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration.
 """
 function delete_configuration end
 
@@ -645,14 +578,11 @@ end
     delete_vpc_connection(arn)
     delete_vpc_connection(arn, params::Dict{String,<:Any})
 
-
 Deletes a MSK VPC connection.
 
 # Arguments
 
-- `arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies an MSK VPC connection.
-
+- `arn`: The Amazon Resource Name (ARN) that uniquely identifies an MSK VPC connection.
 """
 function delete_vpc_connection end
 
@@ -681,15 +611,12 @@ end
     describe_cluster(cluster_arn)
     describe_cluster(cluster_arn, params::Dict{String,<:Any})
 
-
 Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in
 the request.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
 """
 function describe_cluster end
 
@@ -720,14 +647,12 @@ end
     describe_cluster_operation(cluster_operation_arn)
     describe_cluster_operation(cluster_operation_arn, params::Dict{String,<:Any})
 
-
 Returns a description of the cluster operation specified by the ARN.
 
 # Arguments
 
-- `cluster_operation_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the MSK cluster operation.
-
+- `cluster_operation_arn`: The Amazon Resource Name (ARN) that uniquely identifies the MSK
+  cluster operation.
 """
 function describe_cluster_operation end
 
@@ -759,7 +684,6 @@ end
 """
     describe_cluster_operation_v2(cluster_operation_arn)
     describe_cluster_operation_v2(cluster_operation_arn, params::Dict{String,<:Any})
-
 
 Returns a description of the cluster operation specified by the ARN.
 
@@ -798,15 +722,12 @@ end
     describe_cluster_v2(cluster_arn)
     describe_cluster_v2(cluster_arn, params::Dict{String,<:Any})
 
-
 Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in
 the request.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
 """
 function describe_cluster_v2 end
 
@@ -837,15 +758,12 @@ end
     describe_configuration(arn)
     describe_configuration(arn, params::Dict{String,<:Any})
 
-
 Returns a description of this MSK configuration.
 
 # Arguments
 
-- `arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of
-  its revisions.
-
+- `arn`: The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and
+  all of its revisions.
 """
 function describe_configuration end
 
@@ -874,18 +792,13 @@ end
     describe_configuration_revision(arn, revision)
     describe_configuration_revision(arn, revision, params::Dict{String,<:Any})
 
-
 Returns a description of this revision of the configuration.
 
 # Arguments
 
-- `arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of
-  its revisions.
-
-- `revision`:
-  A string that uniquely identifies a revision of an MSK configuration.
-
+- `arn`: The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and
+  all of its revisions.
+- `revision`: A string that uniquely identifies a revision of an MSK configuration.
 """
 function describe_configuration_revision end
 
@@ -956,14 +869,11 @@ end
     describe_vpc_connection(arn)
     describe_vpc_connection(arn, params::Dict{String,<:Any})
 
-
 Returns a description of this MSK VPC connection.
 
 # Arguments
 
-- `arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies a MSK VPC connection.
-
+- `arn`: The Amazon Resource Name (ARN) that uniquely identifies a MSK VPC connection.
 """
 function describe_vpc_connection end
 
@@ -992,14 +902,11 @@ end
     get_bootstrap_brokers(cluster_arn)
     get_bootstrap_brokers(cluster_arn, params::Dict{String,<:Any})
 
-
 A list of brokers that a client application can use to bootstrap.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
 """
 function get_bootstrap_brokers end
 
@@ -1032,14 +939,11 @@ end
     get_cluster_policy(cluster_arn)
     get_cluster_policy(cluster_arn, params::Dict{String,<:Any})
 
-
 Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) of the cluster.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster.
 """
 function get_cluster_policy end
 
@@ -1070,16 +974,13 @@ end
     get_compatible_kafka_versions()
     get_compatible_kafka_versions(params::Dict{String,<:Any})
 
-
 Gets the Apache Kafka versions to which you can update the MSK cluster.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clusterArn"`:
-  The Amazon Resource Name (ARN) of the cluster check.
-
+- `"clusterArn"`: The Amazon Resource Name (ARN) of the cluster check.
 """
 function get_compatible_kafka_versions end
 
@@ -1108,27 +1009,21 @@ end
     list_client_vpc_connections(cluster_arn)
     list_client_vpc_connections(cluster_arn, params::Dict{String,<:Any})
 
-
 Returns a list of all the VPC connections in this Region.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) of the cluster.
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:
-  The maximum number of results to return in the response. If there are more results, the
-  response includes a NextToken parameter.
-
-- `"nextToken"`:
-  The paginated results marker. When the result of the operation is truncated, the call
-  returns NextToken in the response.
-              To get the next batch, provide this token in your next request.
-
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
+- `"nextToken"`: The paginated results marker. When the result of the operation is
+  truncated, the call returns NextToken in the response. To get the next batch, provide this
+  token in your next request.
 """
 function list_client_vpc_connections end
 
@@ -1161,27 +1056,21 @@ end
     list_cluster_operations(cluster_arn)
     list_cluster_operations(cluster_arn, params::Dict{String,<:Any})
 
-
 Returns a list of all the operations that have been performed on the specified MSK cluster.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:
-  The maximum number of results to return in the response. If there are more results, the
-  response includes a NextToken parameter.
-
-- `"nextToken"`:
-  The paginated results marker. When the result of the operation is truncated, the call
-  returns NextToken in the response.
-              To get the next batch, provide this token in your next request.
-
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
+- `"nextToken"`: The paginated results marker. When the result of the operation is
+  truncated, the call returns NextToken in the response. To get the next batch, provide this
+  token in your next request.
 """
 function list_cluster_operations end
 
@@ -1213,7 +1102,6 @@ end
 """
     list_cluster_operations_v2(cluster_arn)
     list_cluster_operations_v2(cluster_arn, params::Dict{String,<:Any})
-
 
 Returns a list of all the operations that have been performed on the specified MSK cluster.
 
@@ -1259,26 +1147,19 @@ end
     list_clusters()
     list_clusters(params::Dict{String,<:Any})
 
-
 Returns a list of all the MSK clusters in the current Region.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clusterNameFilter"`:
-  Specify a prefix of the name of the clusters that you want to list. The service lists
-  all the clusters whose names start with this prefix.
-
-- `"maxResults"`:
-  The maximum number of results to return in the response. If there are more results, the
-  response includes a NextToken parameter.
-
-- `"nextToken"`:
-  The paginated results marker. When the result of the operation is truncated, the call
-  returns NextToken in the response.
-              To get the next batch, provide this token in your next request.
-
+- `"clusterNameFilter"`: Specify a prefix of the name of the clusters that you want to list.
+  The service lists all the clusters whose names start with this prefix.
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
+- `"nextToken"`: The paginated results marker. When the result of the operation is
+  truncated, the call returns NextToken in the response. To get the next batch, provide this
+  token in your next request.
 """
 function list_clusters end
 
@@ -1304,29 +1185,20 @@ end
     list_clusters_v2()
     list_clusters_v2(params::Dict{String,<:Any})
 
-
 Returns a list of all the MSK clusters in the current Region.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clusterNameFilter"`:
-  Specify a prefix of the names of the clusters that you want to list. The service lists
-  all the clusters whose names start with this prefix.
-
-- `"clusterTypeFilter"`:
-  Specify either PROVISIONED or SERVERLESS.
-
-- `"maxResults"`:
-  The maximum number of results to return in the response. If there are more results, the
-  response includes a NextToken parameter.
-
-- `"nextToken"`:
-  The paginated results marker. When the result of the operation is truncated, the call
-  returns NextToken in the response.
-              To get the next batch, provide this token in your next request.
-
+- `"clusterNameFilter"`: Specify a prefix of the names of the clusters that you want to
+  list. The service lists all the clusters whose names start with this prefix.
+- `"clusterTypeFilter"`: Specify either PROVISIONED or SERVERLESS.
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
+- `"nextToken"`: The paginated results marker. When the result of the operation is
+  truncated, the call returns NextToken in the response. To get the next batch, provide this
+  token in your next request.
 """
 function list_clusters_v2 end
 
@@ -1352,28 +1224,22 @@ end
     list_configuration_revisions(arn)
     list_configuration_revisions(arn, params::Dict{String,<:Any})
 
-
 Returns a list of all the MSK configurations in this Region.
 
 # Arguments
 
-- `arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of
-  its revisions.
+- `arn`: The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and
+  all of its revisions.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:
-  The maximum number of results to return in the response. If there are more results, the
-  response includes a NextToken parameter.
-
-- `"nextToken"`:
-  The paginated results marker. When the result of the operation is truncated, the call
-  returns NextToken in the response.
-              To get the next batch, provide this token in your next request.
-
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
+- `"nextToken"`: The paginated results marker. When the result of the operation is
+  truncated, the call returns NextToken in the response. To get the next batch, provide this
+  token in your next request.
 """
 function list_configuration_revisions end
 
@@ -1404,22 +1270,17 @@ end
     list_configurations()
     list_configurations(params::Dict{String,<:Any})
 
-
 Returns a list of all the MSK configurations in this Region.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:
-  The maximum number of results to return in the response. If there are more results, the
-  response includes a NextToken parameter.
-
-- `"nextToken"`:
-  The paginated results marker. When the result of the operation is truncated, the call
-  returns NextToken in the response.
-              To get the next batch, provide this token in your next request.
-
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
+- `"nextToken"`: The paginated results marker. When the result of the operation is
+  truncated, the call returns NextToken in the response. To get the next batch, provide this
+  token in your next request.
 """
 function list_configurations end
 
@@ -1445,20 +1306,17 @@ end
     list_kafka_versions()
     list_kafka_versions(params::Dict{String,<:Any})
 
-
 Returns a list of Apache Kafka versions.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:
-  The maximum number of results to return in the response. If there are more results, the
-  response includes a NextToken parameter.
-- `"nextToken"`:
-  The paginated results marker. When the result of the operation is truncated, the call
-  returns NextToken in the response. To get the next batch, provide this token in your
-  next request.
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
+- `"nextToken"`: The paginated results marker. When the result of the operation is
+  truncated, the call returns NextToken in the response. To get the next batch, provide this
+  token in your next request.
 """
 function list_kafka_versions end
 
@@ -1484,27 +1342,21 @@ end
     list_nodes(cluster_arn)
     list_nodes(cluster_arn, params::Dict{String,<:Any})
 
-
 Returns a list of the broker nodes in the cluster.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:
-  The maximum number of results to return in the response. If there are more results, the
-  response includes a NextToken parameter.
-
-- `"nextToken"`:
-  The paginated results marker. When the result of the operation is truncated, the call
-  returns NextToken in the response.
-              To get the next batch, provide this token in your next request.
-
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
+- `"nextToken"`: The paginated results marker. When the result of the operation is
+  truncated, the call returns NextToken in the response. To get the next batch, provide this
+  token in your next request.
 """
 function list_nodes end
 
@@ -1541,11 +1393,10 @@ Lists the replicators.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to return in the response. If there are
-  more results, the response includes a NextToken parameter.
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
 - `"nextToken"`: If the response of ListReplicators is truncated, it returns a NextToken in
-  the response. This NextToken should be sent in the subsequent request to
-  ListReplicators.
+  the response. This NextToken should be sent in the subsequent request to ListReplicators.
 - `"replicatorNameFilter"`: Returns replicators starting with given name.
 """
 function list_replicators end
@@ -1575,24 +1426,18 @@ end
     list_scram_secrets(cluster_arn)
     list_scram_secrets(cluster_arn, params::Dict{String,<:Any})
 
-
 Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
 
 # Arguments
 
-- `cluster_arn`:
-  The arn of the cluster.
+- `cluster_arn`: The arn of the cluster.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:
-  The maxResults of the query.
-
-- `"nextToken"`:
-  The nextToken of the query.
-
+- `"maxResults"`: The maxResults of the query.
+- `"nextToken"`: The nextToken of the query.
 """
 function list_scram_secrets end
 
@@ -1623,15 +1468,12 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-
 Returns a list of the tags associated with the specified resource.
 
 # Arguments
 
-- `resource_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated
-  with the tags.
-
+- `resource_arn`: The Amazon Resource Name (ARN) that uniquely identifies the resource
+  that's associated with the tags.
 """
 function list_tags_for_resource end
 
@@ -1664,22 +1506,17 @@ end
     list_vpc_connections()
     list_vpc_connections(params::Dict{String,<:Any})
 
-
 Returns a list of all the VPC connections in this Region.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:
-  The maximum number of results to return in the response. If there are more results, the
-  response includes a NextToken parameter.
-
-- `"nextToken"`:
-  The paginated results marker. When the result of the operation is truncated, the call
-  returns NextToken in the response.
-              To get the next batch, provide this token in your next request.
-
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
+- `"nextToken"`: The paginated results marker. When the result of the operation is
+  truncated, the call returns NextToken in the response. To get the next batch, provide this
+  token in your next request.
 """
 function list_vpc_connections end
 
@@ -1705,25 +1542,19 @@ end
     put_cluster_policy(cluster_arn, policy)
     put_cluster_policy(cluster_arn, policy, params::Dict{String,<:Any})
 
-
 Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name
 (ARN) in the request.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) of the cluster.
-
-- `policy`:
-  The policy.
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster.
+- `policy`: The policy.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"currentVersion"`:
-  The policy version.
-
+- `"currentVersion"`: The policy version.
 """
 function put_cluster_policy end
 
@@ -1762,13 +1593,9 @@ Reboots brokers.
 
 # Arguments
 
-- `broker_ids`:
-  The list of broker IDs to be rebooted. The reboot-broker operation supports rebooting
-  one broker at a time.
-
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) of the cluster to be updated.
-
+- `broker_ids`: The list of broker IDs to be rebooted. The reboot-broker operation supports
+  rebooting one broker at a time.
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster to be updated.
 """
 function reboot_broker end
 
@@ -1805,17 +1632,12 @@ end
     reject_client_vpc_connection(cluster_arn, vpc_connection_arn)
     reject_client_vpc_connection(cluster_arn, vpc_connection_arn, params::Dict{String,<:Any})
 
-
 Returns empty response.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) of the cluster.
-
-- `vpc_connection_arn`:
-  The VPC connection ARN.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster.
+- `vpc_connection_arn`: The VPC connection ARN.
 """
 function reject_client_vpc_connection end
 
@@ -1854,18 +1676,13 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-
 Adds tags to the specified MSK resource.
 
 # Arguments
 
-- `resource_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated
-  with the tags.
-
-- `tags`:
-  The key-value pair for the resource tag.
-
+- `resource_arn`: The Amazon Resource Name (ARN) that uniquely identifies the resource
+  that's associated with the tags.
+- `tags`: The key-value pair for the resource tag.
 """
 function tag_resource end
 
@@ -1898,34 +1715,24 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-
 Removes the tags associated with the keys that are provided in the query.
 
 # Arguments
 
-- `resource_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated
-  with the tags.
+- `resource_arn`: The Amazon Resource Name (ARN) that uniquely identifies the resource
+  that's associated with the tags.
 
-- `tag_keys`:
-  Tag keys must be unique for a given cluster. In addition, the following restrictions
-  apply:
+- `tag_keys`: Tag keys must be unique for a given cluster. In addition, the following
+  restrictions apply:
 
-  - Each tag key must be unique. If you add a tag with a key that's already in
-                    use, your new tag overwrites the existing key-value pair.
-
-  - You can't start a tag key with aws: because this prefix is reserved for use
-                    by  AWS.  AWS creates tags that begin with this prefix on your
-                    behalf, but
-                    you can't edit or delete them.
-
+  - Each tag key must be unique. If you add a tag with a key that's already in use, your new
+    tag overwrites the existing key-value pair.
+  - You can't start a tag key with aws: because this prefix is reserved for use by AWS. AWS
+    creates tags that begin with this prefix on your behalf, but you can't edit or delete
+    them.
   - Tag keys must be between 1 and 128 Unicode characters in length.
-
-  - Tag keys must consist of the following characters: Unicode letters, digits,
-                    white space, and the following special characters: _ . / = + -
-                       @.
-
-
+  - Tag keys must consist of the following characters: Unicode letters, digits, white space,
+    and the following special characters: _ . / = + - @.
 """
 function untag_resource end
 
@@ -1960,22 +1767,15 @@ end
     update_broker_count(cluster_arn, current_version, target_number_of_broker_nodes)
     update_broker_count(cluster_arn, current_version, target_number_of_broker_nodes, params::Dict{String,<:Any})
 
-
 Updates the number of broker nodes in the cluster.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-
-- `current_version`:
-  The version of cluster to update from. A successful operation will then generate a new
-  version.
-
-- `target_number_of_broker_nodes`:
-  The number of broker nodes that you want the cluster to have after this operation
-  completes successfully.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `current_version`: The version of cluster to update from. A successful operation will then
+  generate a new version.
+- `target_number_of_broker_nodes`: The number of broker nodes that you want the cluster to
+  have after this operation completes successfully.
 """
 function update_broker_count end
 
@@ -2026,21 +1826,15 @@ end
     update_broker_storage(cluster_arn, current_version, target_broker_ebsvolume_info)
     update_broker_storage(cluster_arn, current_version, target_broker_ebsvolume_info, params::Dict{String,<:Any})
 
-
 Updates the EBS storage associated with MSK brokers.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-
-- `current_version`:
-  The version of cluster to update from. A successful operation will then generate a new
-  version.
-
-- `target_broker_ebsvolume_info`:
-  Describes the target volume size and the ID of the broker to apply the update to.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `current_version`: The version of cluster to update from. A successful operation will then
+  generate a new version.
+- `target_broker_ebsvolume_info`: Describes the target volume size and the ID of the broker
+  to apply the update to.
 """
 function update_broker_storage end
 
@@ -2091,21 +1885,15 @@ end
     update_broker_type(cluster_arn, current_version, target_instance_type)
     update_broker_type(cluster_arn, current_version, target_instance_type, params::Dict{String,<:Any})
 
-
 Updates EC2 instance type.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-
-- `current_version`:
-  The cluster version that you want to change. After this operation completes
-  successfully, the cluster will have a new version.
-
-- `target_instance_type`:
-  The Amazon MSK broker type that you want all of the brokers in this cluster to be.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `current_version`: The cluster version that you want to change. After this operation
+  completes successfully, the cluster will have a new version.
+- `target_instance_type`: The Amazon MSK broker type that you want all of the brokers in
+  this cluster to be.
 """
 function update_broker_type end
 
@@ -2155,20 +1943,14 @@ end
     update_cluster_configuration(cluster_arn, configuration_info, current_version)
     update_cluster_configuration(cluster_arn, configuration_info, current_version, params::Dict{String,<:Any})
 
-
 Updates the cluster with the configuration that is specified in the request body.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-
-- `configuration_info`:
-  Represents the configuration that you want MSK to use for the brokers in a cluster.
-
-- `current_version`:
-  The version of the cluster that needs to be updated.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `configuration_info`: Represents the configuration that you want MSK to use for the
+  brokers in a cluster.
+- `current_version`: The version of the cluster that needs to be updated.
 """
 function update_cluster_configuration end
 
@@ -2218,27 +2000,20 @@ end
     update_cluster_kafka_version(cluster_arn, current_version, target_kafka_version)
     update_cluster_kafka_version(cluster_arn, current_version, target_kafka_version, params::Dict{String,<:Any})
 
-
 Updates the Apache Kafka version for the cluster.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) of the cluster to be updated.
-
-- `current_version`:
-  Current cluster version.
-
-- `target_kafka_version`:
-  Target Kafka version.
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster to be updated.
+- `current_version`: Current cluster version.
+- `target_kafka_version`: Target Kafka version.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"configurationInfo"`:
-  The custom configuration that should be applied on the new version of cluster.
-
+- `"configurationInfo"`: The custom configuration that should be applied on the new version
+  of cluster.
 """
 function update_cluster_kafka_version end
 
@@ -2288,27 +2063,21 @@ end
     update_configuration(arn, server_properties)
     update_configuration(arn, server_properties, params::Dict{String,<:Any})
 
-
 Updates an MSK configuration.
 
 # Arguments
 
-- `arn`:
-  The Amazon Resource Name (ARN) of the configuration.
-
-- `server_properties`:
-  Contents of the <filename>server.properties</filename> file. When using the API, you
-  must ensure that the contents of the file are base64 encoded.
-                 When using the AWS Management Console, the SDK, or the AWS CLI, the
-                 contents of <filename>server.properties</filename> can be in plaintext.
+- `arn`: The Amazon Resource Name (ARN) of the configuration.
+- `server_properties`: Contents of the <filename>server.properties</filename> file. When
+  using the API, you must ensure that the contents of the file are base64 encoded. When
+  using the AWS Management Console, the SDK, or the AWS CLI, the contents of
+  <filename>server.properties</filename> can be in plaintext.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`:
-  The description of the configuration revision.
-
+- `"description"`: The description of the configuration revision.
 """
 function update_configuration end
 
@@ -2347,22 +2116,15 @@ end
     update_connectivity(cluster_arn, connectivity_info, current_version)
     update_connectivity(cluster_arn, connectivity_info, current_version, params::Dict{String,<:Any})
 
-
 Updates the cluster's connectivity configuration.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) of the configuration.
-
-- `connectivity_info`:
-  Information about the broker access configuration.
-
-- `current_version`:
-  The version of the MSK cluster to update. Cluster versions aren't simple numbers. You
-  can describe an MSK cluster to find its version. When this update operation is
-  successful, it generates a new cluster version.
-
+- `cluster_arn`: The Amazon Resource Name (ARN) of the configuration.
+- `connectivity_info`: Information about the broker access configuration.
+- `current_version`: The version of the MSK cluster to update. Cluster versions aren't
+  simple numbers. You can describe an MSK cluster to find its version. When this update
+  operation is successful, it generates a new cluster version.
 """
 function update_connectivity end
 
@@ -2412,33 +2174,25 @@ end
     update_monitoring(cluster_arn, current_version)
     update_monitoring(cluster_arn, current_version, params::Dict{String,<:Any})
 
-
-Updates the monitoring settings for the cluster. You can use this operation to specify
-which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also
-specify settings for open monitoring with Prometheus.
+Updates the monitoring settings for the cluster. You can use this operation to specify which
+Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify
+settings for open monitoring with Prometheus.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-
-- `current_version`:
-  The version of the MSK cluster to update. Cluster versions aren't simple numbers. You
-  can describe an MSK cluster to find its version. When this update operation is
-  successful, it generates a new cluster version.
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `current_version`: The version of the MSK cluster to update. Cluster versions aren't
+  simple numbers. You can describe an MSK cluster to find its version. When this update
+  operation is successful, it generates a new cluster version.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"enhancedMonitoring"`:
-  Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon CloudWatch
-  for this cluster.
-
+- `"enhancedMonitoring"`: Specifies which Apache Kafka metrics Amazon MSK gathers and sends
+  to Amazon CloudWatch for this cluster.
 - `"loggingInfo"`:
-- `"openMonitoring"`:
-  The settings for open monitoring.
-
+- `"openMonitoring"`: The settings for open monitoring.
 """
 function update_monitoring end
 
@@ -2544,30 +2298,22 @@ end
     update_security(cluster_arn, current_version)
     update_security(cluster_arn, current_version, params::Dict{String,<:Any})
 
-
 Updates the security settings for the cluster. You can use this operation to specify
 encryption and authentication on existing clusters.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-
-- `current_version`:
-  The version of the MSK cluster to update. Cluster versions aren't simple numbers. You
-  can describe an MSK cluster to find its version. When this update operation is
-  successful, it generates a new cluster version.
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `current_version`: The version of the MSK cluster to update. Cluster versions aren't
+  simple numbers. You can describe an MSK cluster to find its version. When this update
+  operation is successful, it generates a new cluster version.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientAuthentication"`:
-  Includes all client authentication related information.
-
-- `"encryptionInfo"`:
-  Includes all encryption-related information.
-
+- `"clientAuthentication"`: Includes all client authentication related information.
+- `"encryptionInfo"`: Includes all encryption-related information.
 """
 function update_security end
 
@@ -2608,26 +2354,17 @@ Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
 
 # Arguments
 
-- `cluster_arn`:
-  The Amazon Resource Name (ARN) of the cluster to be updated.
-
-- `current_version`:
-  The version of cluster to update from. A successful operation will then generate a new
-  version.
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster to be updated.
+- `current_version`: The version of cluster to update from. A successful operation will then
+  generate a new version.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"provisionedThroughput"`:
-  EBS volume provisioned throughput information.
-
-- `"storageMode"`:
-  Controls storage mode for supported storage tiers.
-
-- `"volumeSizeGB"`:
-  size of the EBS volume to update.
-
+- `"provisionedThroughput"`: EBS volume provisioned throughput information.
+- `"storageMode"`: Controls storage mode for supported storage tiers.
+- `"volumeSizeGB"`: size of the EBS volume to update.
 """
 function update_storage end
 

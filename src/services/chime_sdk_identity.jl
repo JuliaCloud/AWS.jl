@@ -8,9 +8,9 @@ using AWS.UUIDs
     create_app_instance(client_request_token, name)
     create_app_instance(client_request_token, name, params::Dict{String,<:Any})
 
-Creates an Amazon Chime SDK messaging `AppInstance` under an AWS account. Only SDK
-messaging customers use this API. `CreateAppInstance` supports idempotency behavior as
-described in the AWS API Standard.
+Creates an Amazon Chime SDK messaging `AppInstance` under an AWS account. Only SDK messaging
+customers use this API. `CreateAppInstance` supports idempotency behavior as described in
+the AWS API Standard.
 
 identity
 
@@ -1041,23 +1041,27 @@ end
     register_app_instance_user_endpoint(client_request_token, endpoint_attributes, resource_arn, type, app_instance_user_arn, params::Dict{String,<:Any})
 
 Registers an endpoint under an Amazon Chime `AppInstanceUser`. The endpoint receives
-messages for a user. For push notifications, the endpoint is a mobile device used to
-receive mobile push notifications for a user.
+messages for a user. For push notifications, the endpoint is a mobile device used to receive
+mobile push notifications for a user.
 
 # Arguments
 
 - `client_request_token`: The unique ID assigned to the request. Use different tokens to
   register other endpoints.
+
 - `endpoint_attributes`: The attributes of an `Endpoint`.
+
 - `resource_arn`: The ARN of the resource to which the endpoint belongs.
+
 - `type`: The type of the `AppInstanceUserEndpoint`. Supported types:
 
   - `APNS`: The mobile notification service for an Apple device.
-  - `APNS_SANDBOX`: The sandbox environment of the mobile notification service for an
-    Apple device.
+  - `APNS_SANDBOX`: The sandbox environment of the mobile notification service for an Apple
+    device.
   - `GCM`: The mobile notification service for an Android device.
 
   Populate the `ResourceArn` value of each type as `PinpointAppArn`.
+
 - `app_instance_user_arn`: The ARN of the `AppInstanceUser`.
 
 # Optional Parameters
@@ -1065,8 +1069,8 @@ receive mobile push notifications for a user.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AllowMessages"`: Boolean that controls whether the AppInstanceUserEndpoint is opted in
-  to receive messages. `ALL` indicates the endpoint receives all messages. `NONE`
-  indicates the endpoint receives no messages.
+  to receive messages. `ALL` indicates the endpoint receives all messages. `NONE` indicates
+  the endpoint receives no messages.
 - `"Name"`: The name of the `AppInstanceUserEndpoint`.
 """
 function register_app_instance_user_endpoint end
@@ -1372,8 +1376,8 @@ Updates the details of an `AppInstanceUserEndpoint`. You can update the name and
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AllowMessages"`: Boolean that controls whether the `AppInstanceUserEndpoint` is opted
-  in to receive messages. `ALL` indicates the endpoint will receive all messages. `NONE`
+- `"AllowMessages"`: Boolean that controls whether the `AppInstanceUserEndpoint` is opted in
+  to receive messages. `ALL` indicates the endpoint will receive all messages. `NONE`
   indicates the endpoint will receive no messages.
 - `"Name"`: The name of the `AppInstanceUserEndpoint`.
 """

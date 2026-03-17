@@ -27,11 +27,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
 """
 function accept_resource_share_invitation end
 
@@ -75,8 +74,8 @@ end
 
 Adds the specified list of principals and list of resources to a resource share. Principals
 that already have access to this resource share immediately receive access to the added
-resources. Newly added principals immediately receive access to the resources shared in
-this resource share.
+resources. Newly added principals immediately receive access to the resources shared in this
+resource share.
 
 # Arguments
 
@@ -93,11 +92,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"principals"`: Specifies a list of principals to whom you want to the resource share.
   This can be `null` if you want to add only resources.
 
@@ -116,13 +115,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - An ARN of an IAM user, for example: `iam::123456789012user/username`
 
   !!! note
-      Not all resource types can be shared with IAM roles and users. For more
-      information, see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types)
+      Not all resource types can be shared with IAM roles and users. For more information,
+      see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types)
       in the *Resource Access Manager User Guide*.
 
 - `"resourceArns"`: Specifies a list of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the resources that you want to share. This can be `null` if you want to add only
   principals.
+
 - `"sources"`: Specifies from which source accounts the service principal has access to the
   resources in this resource share.
 """
@@ -172,8 +172,9 @@ type currently in the resource share.
 - `permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the RAM permission to associate with the resource share. To find the ARN for a
   permission, use either the [`list_permissions`](@ref) operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:)
-  page in the RAM console and then choose the name of the permission. The ARN is
-  displayed on the detail page.
+  page in the RAM console and then choose the name of the permission. The ARN is displayed
+  on the detail page.
+
 - `resource_share_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the resource share to which you want to add or replace permissions.
 
@@ -187,16 +188,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"permissionVersion"`: Specifies the version of the RAM permission to associate with the
   resource share. You can specify *only* the version that is currently set as the default
-  version for the permission. If you also set the `replace` pararameter to `true`, then
-  this operation updates an outdated version of the permission to the current default
-  version.
+  version for the permission. If you also set the `replace` pararameter to `true`, then this
+  operation updates an outdated version of the permission to the current default version.
 
   !!! note
       You don't need to specify this parameter because the default behavior is to use the
@@ -205,15 +205,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"replace"`: Specifies whether the specified permission should replace the existing
   permission associated with the resource share. Use `true` to replace the current
-  permissions. Use `false` to add the permission to a resource share that currently
-  doesn't have a permission. The default value is `false`.
+  permissions. Use `false` to add the permission to a resource share that currently doesn't
+  have a permission. The default value is `false`.
 
   !!! note
-      A resource share can have only one permission per resource type. If a resource
-      share already has a permission for the specified resource type and you don't set
-      `replace` to `true` then the operation returns an error. This helps prevent
-      accidental overwriting of a permission.
-
+      A resource share can have only one permission per resource type. If a resource share
+      already has a permission for the specified resource type and you don't set `replace`
+      to `true` then the operation returns an error. This helps prevent accidental
+      overwriting of a permission.
 """
 function associate_resource_share_permission end
 
@@ -266,30 +265,32 @@ operation.
 
 - `name`: Specifies the name of the customer managed permission. The name must be unique
   within the Amazon Web Services Region.
+
 - `policy_template`: A string in JSON format string that contains the following elements of
   a resource-based policy:
 
   - **Effect**: must be set to `ALLOW`.
-  - **Action**: specifies the actions that are allowed by this customer managed
-    permission. The list must contain only actions that are supported by the specified
-    resource type. For a list of all actions supported by each resource type, see [Actions, resources, and condition keys for Amazon Web Services services](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html)
+  - **Action**: specifies the actions that are allowed by this customer managed permission.
+    The list must contain only actions that are supported by the specified resource type.
+    For a list of all actions supported by each resource type, see [Actions, resources, and condition keys for Amazon Web Services services](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html)
     in the *Identity and Access Management User Guide*.
   - **Condition**: (optional) specifies conditional parameters that must evaluate to true
-    when a user attempts an action for that action to be allowed. For more information
-    about the Condition element, see [IAM policies: Condition element](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html)
+    when a user attempts an action for that action to be allowed. For more information about
+    the Condition element, see [IAM policies: Condition element](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html)
     in the *Identity and Access Management User Guide*.
 
-  This template can't include either the `Resource` or `Principal` elements. Those are
-  both filled in by RAM when it instantiates the resource-based policy on each resource
-  shared using this managed permission. The `Resource` comes from the ARN of the specific
-  resource that you are sharing. The `Principal` comes from the list of identities added
-  to the resource share.
+  This template can't include either the `Resource` or `Principal` elements. Those are both
+  filled in by RAM when it instantiates the resource-based policy on each resource shared
+  using this managed permission. The `Resource` comes from the ARN of the specific resource
+  that you are sharing. The `Principal` comes from the list of identities added to the
+  resource share.
+
 - `resource_type`: Specifies the name of the resource type that this customer managed
   permission applies to.
 
-  The format is `*&lt;service-code&gt;*:*&lt;resource-type&gt;*` and is not case
-  sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string
-  `ec2:subnet`. To see the list of valid values for this parameter, query the [`list_resource_types`](@ref)
+  The format is `*&lt;service-code&gt;*:*&lt;resource-type&gt;*` and is not case sensitive.
+  For example, to specify an Amazon EC2 Subnet, you can use the string `ec2:subnet`. To see
+  the list of valid values for this parameter, query the [`list_resource_types`](@ref)
   operation.
 
 # Optional Parameters
@@ -302,11 +303,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"tags"`: Specifies a list of one or more tag key and value pairs to attach to the
   permission.
 """
@@ -364,31 +365,32 @@ shares automatically use the default permission. Existing resource shares contin
 their original permission versions, but you can use [`replace_permission_associations`](@ref)
 to update them.
 
-If the specified customer managed permission already has the maximum of 5 versions, then
-you must delete one of the existing versions before you can create a new one.
+If the specified customer managed permission already has the maximum of 5 versions, then you
+must delete one of the existing versions before you can create a new one.
 
 # Arguments
 
 - `permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the customer managed permission you're creating a new version for.
+
 - `policy_template`: A string in JSON format string that contains the following elements of
   a resource-based policy:
 
   - **Effect**: must be set to `ALLOW`.
-  - **Action**: specifies the actions that are allowed by this customer managed
-    permission. The list must contain only actions that are supported by the specified
-    resource type. For a list of all actions supported by each resource type, see [Actions, resources, and condition keys for Amazon Web Services services](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html)
+  - **Action**: specifies the actions that are allowed by this customer managed permission.
+    The list must contain only actions that are supported by the specified resource type.
+    For a list of all actions supported by each resource type, see [Actions, resources, and condition keys for Amazon Web Services services](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html)
     in the *Identity and Access Management User Guide*.
   - **Condition**: (optional) specifies conditional parameters that must evaluate to true
-    when a user attempts an action for that action to be allowed. For more information
-    about the Condition element, see [IAM policies: Condition element](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html)
+    when a user attempts an action for that action to be allowed. For more information about
+    the Condition element, see [IAM policies: Condition element](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html)
     in the *Identity and Access Management User Guide*.
 
-  This template can't include either the `Resource` or `Principal` elements. Those are
-  both filled in by RAM when it instantiates the resource-based policy on each resource
-  shared using this managed permission. The `Resource` comes from the ARN of the specific
-  resource that you are sharing. The `Principal` comes from the list of identities added
-  to the resource share.
+  This template can't include either the `Resource` or `Principal` elements. Those are both
+  filled in by RAM when it instantiates the resource-based policy on each resource shared
+  using this managed permission. The `Resource` comes from the ARN of the specific resource
+  that you are sharing. The `Principal` comes from the list of identities added to the
+  resource share.
 
 # Optional Parameters
 
@@ -400,11 +402,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
 """
 function create_permission_version end
 
@@ -468,25 +469,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"allowExternalPrincipals"`: Specifies whether principals outside your organization in
   Organizations can be associated with a resource share. A value of `true` lets you share
-  with individual Amazon Web Services accounts that are *not* in your organization. A
-  value of `false` only has meaning if your account is a member of an Amazon Web Services
+  with individual Amazon Web Services accounts that are *not* in your organization. A value
+  of `false` only has meaning if your account is a member of an Amazon Web Services
   Organization. The default value is `true`.
+
 - `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request. This lets you safely retry the request without
   accidentally performing the same operation a second time. Passing the same value to a
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"permissionArns"`: Specifies the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-  of the RAM permission to associate with the resource share. If you do not specify an
-  ARN for the permission, RAM automatically attaches the default version of the
-  permission for each resource type. You can associate only one permission with each
-  resource type included in the resource share.
+  of the RAM permission to associate with the resource share. If you do not specify an ARN
+  for the permission, RAM automatically attaches the default version of the permission for
+  each resource type. You can associate only one permission with each resource type included
+  in the resource share.
+
 - `"principals"`: Specifies a list of one or more principals to associate with the resource
   share.
 
@@ -502,14 +505,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - An ARN of an IAM user, for example: `iam::123456789012user/username`
 
   !!! note
-      Not all resource types can be shared with IAM roles and users. For more
-      information, see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types)
+      Not all resource types can be shared with IAM roles and users. For more information,
+      see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types)
       in the *Resource Access Manager User Guide*.
 
 - `"resourceArns"`: Specifies a list of one or more ARNs of the resources to associate with
   the resource share.
+
 - `"sources"`: Specifies from which source accounts the service principal has access to the
   resources in this resource share.
+
 - `"tags"`: Specifies one or more tags to attach to the resource share itself. It doesn't
   attach the tags to the resources associated with the resource share.
 """
@@ -541,10 +546,10 @@ end
     delete_permission(permission_arn)
     delete_permission(permission_arn, params::Dict{String,<:Any})
 
-Deletes the specified customer managed permission in the Amazon Web Services Region in
-which you call this operation. You can delete a customer managed permission only if it
-isn't attached to any resource share. The operation deletes all versions associated with
-the customer managed permission.
+Deletes the specified customer managed permission in the Amazon Web Services Region in which
+you call this operation. You can delete a customer managed permission only if it isn't
+attached to any resource share. The operation deletes all versions associated with the
+customer managed permission.
 
 # Arguments
 
@@ -561,11 +566,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
 """
 function delete_permission end
 
@@ -611,6 +615,7 @@ least one version before you can create another.
 
 - `permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the permission with the version you want to delete.
+
 - `permission_version`: Specifies the version number to delete.
 
   You can't delete the default version for a customer managed permission.
@@ -618,9 +623,9 @@ least one version before you can create another.
   You can't delete a version if it's the only version of the permission. You must either
   first create another version, or delete the permission completely.
 
-  You can't delete a version if it is attached to any resource shares. If the version is
-  the default, you must first use [`set_default_permission_version`](@ref) to set a
-  different version as the default for the customer managed permission, and then use [`associate_resource_share_permission`](@ref)
+  You can't delete a version if it is attached to any resource shares. If the version is the
+  default, you must first use [`set_default_permission_version`](@ref) to set a different
+  version as the default for the customer managed permission, and then use [`associate_resource_share_permission`](@ref)
   to update your resource shares to use the new default version.
 
 # Optional Parameters
@@ -633,11 +638,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
 """
 function delete_permission_version end
 
@@ -704,11 +708,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
 """
 function delete_resource_share end
 
@@ -764,11 +767,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"principals"`: Specifies a list of one or more principals that no longer are to have
   access to the resources in this resource share.
 
@@ -784,14 +787,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - An ARN of an IAM user, for example: `iam::123456789012user/username`
 
   !!! note
-      Not all resource types can be shared with IAM roles and users. For more
-      information, see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types)
+      Not all resource types can be shared with IAM roles and users. For more information,
+      see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types)
       in the *Resource Access Manager User Guide*.
 
 - `"resourceArns"`: Specifies a list of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   for one or more resources that you want to remove from the resource share. After the
-  operation runs, these resources are no longer shared with principals associated with
-  the resource share.
+  operation runs, these resources are no longer shared with principals associated with the
+  resource share.
+
 - `"sources"`: Specifies from which source accounts the service principal no longer has
   access to the resources in this resource share.
 """
@@ -839,8 +843,8 @@ share.
 # Arguments
 
 - `permission_arn`: The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-  of the managed permission to disassociate from the resource share. Changes to
-  permissions take effect immediately.
+  of the managed permission to disassociate from the resource share. Changes to permissions
+  take effect immediately.
 - `resource_share_arn`: The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the resource share that you want to remove the managed permission from.
 
@@ -854,11 +858,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
 """
 function disassociate_resource_share_permission end
 
@@ -903,14 +906,14 @@ end
     enable_sharing_with_aws_organization()
     enable_sharing_with_aws_organization(params::Dict{String,<:Any})
 
-Enables resource sharing within your organization in Organizations. This operation creates
-a service-linked role called `AWSServiceRoleForResourceAccessManager` that has the IAM
-managed policy named AWSResourceAccessManagerServiceRolePolicy attached. This role permits
-RAM to retrieve information about the organization and its structure. This lets you share
-resources with all of the accounts in the calling account's organization by specifying the
+Enables resource sharing within your organization in Organizations. This operation creates a
+service-linked role called `AWSServiceRoleForResourceAccessManager` that has the IAM managed
+policy named AWSResourceAccessManagerServiceRolePolicy attached. This role permits RAM to
+retrieve information about the organization and its structure. This lets you share resources
+with all of the accounts in the calling account's organization by specifying the
 organization ID, or all of the accounts in an organizational unit (OU) by specifying the OU
-ID. Until you enable sharing within the organization, you can specify only individual
-Amazon Web Services accounts, or for supported resource types, IAM roles and users.
+ID. Until you enable sharing within the organization, you can specify only individual Amazon
+Web Services accounts, or for supported resource types, IAM roles and users.
 
 You must call this operation from an IAM role or user in the organization's management
 account.
@@ -949,10 +952,10 @@ Retrieves the contents of a managed permission in JSON format.
 # Arguments
 
 - `permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-  of the permission whose contents you want to retrieve. To find the ARN for a
-  permission, use either the [`list_permissions`](@ref) operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:)
-  page in the RAM console and then choose the name of the permission. The ARN is
-  displayed on the detail page.
+  of the permission whose contents you want to retrieve. To find the ARN for a permission,
+  use either the [`list_permissions`](@ref) operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:)
+  page in the RAM console and then choose the name of the permission. The ARN is displayed
+  on the detail page.
 
 # Optional Parameters
 
@@ -1010,14 +1013,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
 - `"principal"`: Specifies the principal.
 """
 function get_resource_policies end
@@ -1054,13 +1059,13 @@ end
     get_resource_share_associations(association_type)
     get_resource_share_associations(association_type, params::Dict{String,<:Any})
 
-Retrieves the lists of resources and principals that associated for resource shares that
-you own.
+Retrieves the lists of resources and principals that associated for resource shares that you
+own.
 
 # Arguments
 
-- `association_type`: Specifies whether you want to retrieve the associations that involve
-  a specified resource or principal.
+- `association_type`: Specifies whether you want to retrieve the associations that involve a
+  specified resource or principal.
 
   - `PRINCIPAL` – list the principals whose associations you want to see.
   - `RESOURCE` – list the resources whose associations you want to see.
@@ -1071,28 +1076,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"associationStatus"`: Specifies that you want to retrieve only associations that have
   this status.
+
 - `"maxResults"`: Specifies the total number of results that you want included on each page
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
 - `"principal"`: Specifies the ID of the principal whose resource shares you want to
   retrieve. This can be an Amazon Web Services account ID, an organization ID, an
   organizational unit ID, or the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of an individual IAM role or user.
 
   You cannot specify this parameter if the association type is `RESOURCE`.
+
 - `"resourceArn"`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of a resource whose resource shares you want to retrieve.
 
   You cannot specify this parameter if the association type is `PRINCIPAL`.
+
 - `"resourceShareArns"`: Specifies a list of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the resource share whose associations you want to retrieve.
 """
@@ -1142,16 +1152,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
 - `"resourceShareArns"`: Specifies that you want details about invitations only for the
   resource shares described by this list of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+
 - `"resourceShareInvitationArns"`: Specifies the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the resource share invitations you want information about.
 """
@@ -1202,24 +1215,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"name"`: Specifies the name of an individual resource share that you want to retrieve
   details about.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
 - `"permissionArn"`: Specifies that you want to retrieve details of only those resource
   shares that use the managed permission with this [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
-- `"permissionVersion"`: Specifies that you want to retrieve details for only those
-  resource shares that use the specified version of the managed permission.
+
+- `"permissionVersion"`: Specifies that you want to retrieve details for only those resource
+  shares that use the specified version of the managed permission.
+
 - `"resourceShareArns"`: Specifies the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of individual resource shares that you want information about.
+
 - `"resourceShareStatus"`: Specifies that you want to retrieve details of only those
   resource shares that have this status.
+
 - `"tagFilters"`: Specifies that you want to retrieve details of only those resource shares
   that match the specified tag keys and values.
 """
@@ -1257,15 +1277,15 @@ end
     list_pending_invitation_resources(resource_share_invitation_arn)
     list_pending_invitation_resources(resource_share_invitation_arn, params::Dict{String,<:Any})
 
-Lists the resources in a resource share that is shared with you but for which the
-invitation is still `PENDING`. That means that you haven't accepted or rejected the
-invitation and the invitation hasn't expired.
+Lists the resources in a resource share that is shared with you but for which the invitation
+is still `PENDING`. That means that you haven't accepted or rejected the invitation and the
+invitation hasn't expired.
 
 # Arguments
 
 - `resource_share_invitation_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-  of the invitation. You can use [`get_resource_share_invitations`](@ref) to find the ARN
-  of the invitation.
+  of the invitation. You can use [`get_resource_share_invitations`](@ref) to find the ARN of
+  the invitation.
 
 # Optional Parameters
 
@@ -1275,14 +1295,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
 - `"resourceRegionScope"`: Specifies that you want the results to include only resources
   that have the specified scope.
 
@@ -1333,8 +1355,8 @@ end
     list_permission_associations(params::Dict{String,<:Any})
 
 Lists information about the managed permission and its associations to any resource shares
-that use this managed permission. This lets you see which resource shares use which
-versions of the specified managed permission.
+that use this managed permission. This lets you see which resource shares use which versions
+of the specified managed permission.
 
 # Optional Parameters
 
@@ -1342,31 +1364,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"associationStatus"`: Specifies that you want to list only those associations with
   resource shares that match this status.
+
 - `"defaultVersion"`: When `true`, specifies that you want to list only those associations
   with resource shares that use the default version of the specified managed permission.
 
   When `false` (the default value), lists associations with resource shares that use any
   version of the specified managed permission.
+
 - `"featureSet"`: Specifies that you want to list only those associations with resource
   shares that have a `featureSet` with this value.
+
 - `"maxResults"`: Specifies the total number of results that you want included on each page
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
 - `"permissionArn"`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the managed permission.
+
 - `"permissionVersion"`: Specifies that you want to list only those associations with
   resource shares that use this version of the managed permission. If you don't provide a
-  value for this parameter, then the operation returns information about associations
-  with resource shares that use any version of the managed permission.
+  value for this parameter, then the operation returns information about associations with
+  resource shares that use any version of the managed permission.
+
 - `"resourceType"`: Specifies that you want to list only those associations with resource
   shares that include at least one resource of this resource type.
 """
@@ -1402,9 +1431,9 @@ Lists the available versions of the specified RAM permission.
 # Arguments
 
 - `permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-  of the RAM permission whose versions you want to list. You can use the
-  `permissionVersion` parameter on the [`associate_resource_share_permission`](@ref)
-  operation to specify a non-default version to attach.
+  of the RAM permission whose versions you want to list. You can use the `permissionVersion`
+  parameter on the [`associate_resource_share_permission`](@ref) operation to specify a non-
+  default version to attach.
 
 # Optional Parameters
 
@@ -1414,14 +1443,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_permission_versions end
 
@@ -1468,14 +1498,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
 - `"permissionType"`: Specifies that you want to list only permissions of this type:
 
   - `AWS` – returns only Amazon Web Services managed permissions.
@@ -1484,12 +1516,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     permissions.
 
   If you don't specify this parameter, the default is `All`.
-- `"resourceType"`: Specifies that you want to list only those permissions that apply to
-  the specified resource type. This parameter is not case sensitive.
+
+- `"resourceType"`: Specifies that you want to list only those permissions that apply to the
+  specified resource type. This parameter is not case sensitive.
 
   For example, to list only permissions that apply to Amazon EC2 subnets, specify
-  `ec2:subnet`. You can use the [`list_resource_types`](@ref) operation to get the
-  specific string required.
+  `ec2:subnet`. You can use the [`list_resource_types`](@ref) operation to get the specific
+  string required.
 """
 function list_permissions end
 
@@ -1534,14 +1567,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
 - `"principals"`: Specifies that you want to list information for only the listed
   principals.
 
@@ -1557,14 +1592,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - An ARN of an IAM user, for example: `iam::123456789012user/username`
 
   !!! note
-      Not all resource types can be shared with IAM roles and users. For more
-      information, see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types)
+      Not all resource types can be shared with IAM roles and users. For more information,
+      see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types)
       in the *Resource Access Manager User Guide*.
 
 - `"resourceArn"`: Specifies that you want to list principal information for the resource
   share with the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+
 - `"resourceShareArns"`: Specifies that you want to list information for only principals
   associated with the resource shares specified by a list the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+
 - `"resourceType"`: Specifies that you want to list information for only principals
   associated with resource shares that include the specified resource type.
 
@@ -1602,8 +1639,8 @@ end
     list_replace_permission_associations_work()
     list_replace_permission_associations_work(params::Dict{String,<:Any})
 
-Retrieves the current status of the asynchronous tasks performed by RAM when you perform
-the [`replace_permission_associations_work`](@ref) operation.
+Retrieves the current status of the asynchronous tasks performed by RAM when you perform the [`replace_permission_associations_work`](@ref)
+operation.
 
 # Optional Parameters
 
@@ -1613,16 +1650,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
 - `"status"`: Specifies that you want to see only the details about requests with a status
   that matches this value.
+
 - `"workIds"`: A list of IDs. These values come from the `id`field of the
   `replacePermissionAssociationsWork`structure returned by the [`replace_permission_associations`](@ref)
   operation.
@@ -1671,14 +1711,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_resource_share_permissions end
 
@@ -1726,14 +1767,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
 - `"resourceRegionScope"`: Specifies that you want the results to include only resources
   that have the specified scope.
 
@@ -1767,8 +1810,8 @@ end
     list_resources(resource_owner)
     list_resources(resource_owner, params::Dict{String,<:Any})
 
-Lists the resources that you added to a resource share or the resources that are shared
-with you.
+Lists the resources that you added to a resource share or the resources that are shared with
+you.
 
 # Arguments
 
@@ -1786,18 +1829,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
   `NextToken` response element is returned with a value (not null). Include the specified
-  value as the `next_token` request parameter in the next call to the operation to get
-  the next part of the results. Note that the service might return fewer results than the
+  value as the `next_token` request parameter in the next call to the operation to get the
+  next part of the results. Note that the service might return fewer results than the
   maximum even when there are more results available. You should check `NextToken` after
   every operation to ensure that you receive all of the results.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
 - `"principal"`: Specifies that you want to list only the resource shares that are
   associated with the specified principal.
+
 - `"resourceArns"`: Specifies that you want to list only the resource shares that include
   resources with the specified [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+
 - `"resourceRegionScope"`: Specifies that you want the results to include only resources
   that have the specified scope.
 
@@ -1806,8 +1853,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `REGIONAL` – the results include only regional resources or resource types.
 
   The default value is `ALL`.
+
 - `"resourceShareArns"`: Specifies that you want to list only resources in the resource
   shares identified by the specified [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+
 - `"resourceType"`: Specifies that you want to list only the resource shares that include
   resources of the specified resource type.
 
@@ -1851,9 +1900,9 @@ permissions as the original resource-based policy. However, this type of managed
 is visible to only the resource share owner, and the associated resource share can't be
 modified by using RAM.
 
-This operation creates a separate, fully manageable customer managed permission that has
-the same IAM permissions as the original resource-based policy. You can associate this
-customer managed permission to any resource shares.
+This operation creates a separate, fully manageable customer managed permission that has the
+same IAM permissions as the original resource-based policy. You can associate this customer
+managed permission to any resource shares.
 
 Before you use [`promote_resource_share_created_from_policy`](@ref), you should first run
 this operation to ensure that you have an appropriate customer managed permission that can
@@ -1862,11 +1911,11 @@ be associated with the promoted resource share.
 !!! note
     - The original `CREATED_FROM_POLICY` policy isn't deleted, and resource shares using
       that original policy aren't automatically updated.
-    - You can't modify a `CREATED_FROM_POLICY` resource share so you can't associate the
-      new customer managed permission by using `ReplacePermsissionAssociations`. However,
-      if you use [`promote_resource_share_created_from_policy`](@ref), that operation
-      automatically associates the fully manageable customer managed permission to the
-      newly promoted `STANDARD` resource share.
+    - You can't modify a `CREATED_FROM_POLICY` resource share so you can't associate the new
+      customer managed permission by using `ReplacePermsissionAssociations`. However, if you
+      use [`promote_resource_share_created_from_policy`](@ref), that operation automatically
+      associates the fully manageable customer managed permission to the newly promoted
+      `STANDARD` resource share.
     - After you promote a resource share, if the original `CREATED_FROM_POLICY` managed
       permission has no other associations to A resource share, then RAM automatically
       deletes it.
@@ -1888,11 +1937,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
 """
 function promote_permission_created_from_policy end
 
@@ -1940,15 +1988,15 @@ is visible to only the resource share owner, and the associated resource share c
 modified by using RAM.
 
 This operation promotes the resource share to a `STANDARD` resource share that is fully
-manageable in RAM. When you promote a resource share, you can then manage the resource
-share in RAM and it becomes visible to all of the principals you shared it with.
+manageable in RAM. When you promote a resource share, you can then manage the resource share
+in RAM and it becomes visible to all of the principals you shared it with.
 
 !!! important
     Before you perform this operation, you should first run [`promote_permission_created_from_policy`](@ref)to
     ensure that you have an appropriate customer managed permission that can be associated
     with this resource share after its is promoted. If this operation can't find a managed
-    permission that exactly matches the existing `CREATED_FROM_POLICY` permission, then
-    this operation fails.
+    permission that exactly matches the existing `CREATED_FROM_POLICY` permission, then this
+    operation fails.
 
 # Arguments
 
@@ -2008,11 +2056,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
 """
 function reject_resource_share_invitation end
 
@@ -2054,11 +2101,11 @@ end
     replace_permission_associations(from_permission_arn, to_permission_arn)
     replace_permission_associations(from_permission_arn, to_permission_arn, params::Dict{String,<:Any})
 
-Updates all resource shares that use a managed permission to a different managed
-permission. This operation always applies the default version of the target managed
-permission. You can optionally specify that the update applies to only resource shares that
-currently use a specified version. This enables you to update to the latest version,
-without changing the which managed permission is used.
+Updates all resource shares that use a managed permission to a different managed permission.
+This operation always applies the default version of the target managed permission. You can
+optionally specify that the update applies to only resource shares that currently use a
+specified version. This enables you to update to the latest version, without changing the
+which managed permission is used.
 
 You can use this operation to update all of your resource shares to use the current default
 version of the permission by specifying the same value for the `fromPermissionArn` and
@@ -2075,6 +2122,7 @@ that use a specified version of the managed permission to the new managed permis
 
 - `from_permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the managed permission that you want to replace.
+
 - `to_permission_arn`: Specifies the ARN of the managed permission that you want to
   associate with resource shares in place of the one specified by `fromPerssionArn` and
   `fromPermissionVersion`.
@@ -2092,11 +2140,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"fromPermissionVersion"`: Specifies that you want to updated the permissions for only
   those resource shares that use the specified version of the managed permission.
 """
@@ -2146,16 +2194,16 @@ end
 
 Designates the specified version number as the default version for the specified customer
 managed permission. New resource shares automatically use this new default permission.
-Existing resource shares continue to use their original permission version, but you can use
-[`replace_permission_associations`](@ref) to update them.
+Existing resource shares continue to use their original permission version, but you can use [`replace_permission_associations`](@ref)
+to update them.
 
 # Arguments
 
 - `permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the customer managed permission whose default version you want to change.
 - `permission_version`: Specifies the version number that you want to designate as the
-  default for customer managed permission. To see a list of all available version
-  numbers, use [`list_permission_versions`](@ref).
+  default for customer managed permission. To see a list of all available version numbers,
+  use [`list_permission_versions`](@ref).
 
 # Optional Parameters
 
@@ -2167,11 +2215,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
 """
 function set_default_permission_version end
 
@@ -2225,8 +2272,8 @@ The tags on a managed permission are the same for all versions of the managed pe
 
 # Arguments
 
-- `tags`: A list of one or more tag key and value pairs. The tag key must be present and
-  not be an empty string. The tag value must be present but can be an empty string.
+- `tags`: A list of one or more tag key and value pairs. The tag key must be present and not
+  be an empty string. The tag value must be present but can be an empty string.
 
 # Optional Parameters
 
@@ -2329,17 +2376,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"allowExternalPrincipals"`: Specifies whether principals outside your organization in
   Organizations can be associated with a resource share.
+
 - `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request. This lets you safely retry the request without
   accidentally performing the same operation a second time. Passing the same value to a
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"name"`: If specified, the new name that you want to attach to the resource share.
 """
 function update_resource_share end

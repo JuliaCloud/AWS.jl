@@ -77,10 +77,10 @@ can associate only one dataset in a single call.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"TargetAccountId"`: The identifier of the target account. Use to associate a dataset to
-  a different account than the one containing the Amazon Connect instance. If not
-  specified, by default this value is the Amazon Web Services account that has the Amazon
-  Connect instance.
+- `"TargetAccountId"`: The identifier of the target account. Use to associate a dataset to a
+  different account than the one containing the Amazon Connect instance. If not specified,
+  by default this value is the Amazon Web Services account that has the Amazon Connect
+  instance.
 """
 function associate_analytics_data_set end
 
@@ -330,6 +330,7 @@ bucket, exists when being used for association.
 
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
+
 - `resource_type`: A valid resource type. To [enable streaming for real-time analysis of contacts](https://docs.aws.amazon.com/connect/latest/adminguide/enable-contact-analysis-segment-streams.html),
   use the following types:
 
@@ -341,8 +342,8 @@ bucket, exists when being used for association.
       will apply only to VOICE channel contacts. Use
       `REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS` for voice contacts moving forward.
 
-      If you have previously associated a stream with
-      `REAL_TIME_CONTACT_ANALYSIS_SEGMENTS`, no action is needed to update the stream to
+      If you have previously associated a stream with `REAL_TIME_CONTACT_ANALYSIS_SEGMENTS`,
+      no action is needed to update the stream to
       `REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS`.
 
 - `storage_config`: A valid storage type.
@@ -440,8 +441,8 @@ end
 
 This API is in preview release for Amazon Connect and is subject to change.
 
-Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot.
-This API only supports the association of Amazon Lex V1 bots.
+Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot. This
+API only supports the association of Amazon Lex V1 bots.
 
 # Arguments
 
@@ -486,8 +487,8 @@ Associates a flow with a phone number claimed to your Amazon Connect instance.
 
 !!! important
     If the number is claimed to a traffic distribution group, and you are calling this API
-    using an instance in the Amazon Web Services Region where the traffic distribution
-    group was created, you can use either a full phone number ARN or UUID value for the
+    using an instance in the Amazon Web Services Region where the traffic distribution group
+    was created, you can use either a full phone number ARN or UUID value for the
     `PhoneNumberId` URI request parameter. However, if the number is claimed to a traffic
     distribution group and you are calling this API using an instance in the alternate
     Amazon Web Services Region associated with the traffic distribution group, you must
@@ -745,8 +746,8 @@ end
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN of the instance).
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN of the instance).
 - `user_id`: The identifier of the user account.
 - `user_proficiencies`: The proficiencies to associate with the user.
 """
@@ -806,10 +807,10 @@ account. You can associate multiple datasets in a single call.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"TargetAccountId"`: The identifier of the target account. Use to associate a dataset to
-  a different account than the one containing the Amazon Connect instance. If not
-  specified, by default this value is the Amazon Web Services account that has the Amazon
-  Connect instance.
+- `"TargetAccountId"`: The identifier of the target account. Use to associate a dataset to a
+  different account than the one containing the Amazon Connect instance. If not specified,
+  by default this value is the Amazon Web Services account that has the Amazon Connect
+  instance.
 """
 function batch_associate_analytics_data_set end
 
@@ -908,14 +909,14 @@ AssociatedResourceArn.
 # Arguments
 
 - `file_ids`: The unique identifiers of the attached file resource.
+
 - `instance_id`: The unique identifier of the Connect instance.
-- `associated_resource_arn`: The resource to which the attached file is (being) uploaded
-  to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html)
+
+- `associated_resource_arn`: The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html)
   are the only current supported resource.
 
   !!! note
       This value must be a valid ARN.
-
 """
 function batch_get_attached_file_metadata end
 
@@ -1013,11 +1014,9 @@ end
     batch_put_contact(contact_data_request_list, instance_id)
     batch_put_contact(contact_data_request_list, instance_id, params::Dict{String,<:Any})
 
-
-
 !!! note
-    Only the Amazon Connect outbound campaigns service principal is allowed to assume a
-    role in your account and call this API.
+    Only the Amazon Connect outbound campaigns service principal is allowed to assume a role
+    in your account and call this API.
 
 Allows you to create a batch of contacts in Amazon Connect. The outbound campaigns
 capability ingests dial requests via the [PutDialRequestBatch](https://docs.aws.amazon.com/connect-outbound/latest/APIReference/API_PutDialRequestBatch.html)
@@ -1103,9 +1102,9 @@ exception. Otherwise, it is possible you will be blocked from claiming and relea
 more numbers until up to 180 days past the oldest number released has expired.
 
 By default you can claim and release up to 200% of your maximum number of active phone
-numbers. If you claim and release phone numbers using the UI or API during a rolling 180
-day cycle that exceeds 200% of your phone number service level quota, you will be blocked
-from claiming any more numbers until 180 days past the oldest number released has expired.
+numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day
+cycle that exceeds 200% of your phone number service level quota, you will be blocked from
+claiming any more numbers until 180 days past the oldest number released has expired.
 
 For example, if you already have 99 claimed numbers and a service level quota of 99 phone
 numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will
@@ -1126,13 +1125,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 
   Pattern: `^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\$`
+
 - `"InstanceId"`: The identifier of the Amazon Connect instance that phone numbers are
   claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance. You must enter `InstanceId` or
   `TargetArn`.
+
 - `"PhoneNumberDescription"`: The description of the phone number.
+
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+
 - `"TargetArn"`: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
   distribution groups that phone number inbound traffic is routed through. You must enter
   `InstanceId` or `TargetArn`.
@@ -1181,14 +1184,14 @@ provided in the StartAttachedFileUpload API.
 # Arguments
 
 - `file_id`: The unique identifier of the attached file resource.
+
 - `instance_id`: The unique identifier of the Amazon Connect instance.
-- `associated_resource_arn`: The resource to which the attached file is (being) uploaded
-  to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html)
+
+- `associated_resource_arn`: The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html)
   are the only current supported resource.
 
   !!! note
       This value must be a valid ARN.
-
 """
 function complete_attached_file_upload end
 
@@ -1298,8 +1301,11 @@ You can also create and update flows using the [Amazon Connect Flow language](ht
 - `content`: The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
 
   Length Constraints: Minimum length of 1. Maximum length of 256000.
+
 - `instance_id`: The identifier of the Amazon Connect instance.
+
 - `name`: The name of the flow.
+
 - `type`: The type of the flow. For descriptions of the available types, see [Choose a flow type](https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types)
   in the *Amazon Connect Administrator Guide*.
 
@@ -1419,8 +1425,8 @@ end
     create_evaluation_form(instance_id, items, title)
     create_evaluation_form(instance_id, items, title, params::Dict{String,<:Any})
 
-Creates an evaluation form in the specified Amazon Connect instance. The form can be used
-to define questions related to agent performance, and create sections to organize such
+Creates an evaluation form in the specified Amazon Connect instance. The form can be used to
+define questions related to agent performance, and create sections to organize such
 questions. Question and section identifiers cannot be duplicated within the same evaluation
 form.
 
@@ -1562,8 +1568,8 @@ in the *Amazon Connect Administrator Guide*.
 
 Amazon Connect enforces a limit on the total number of instances that you can create or
 delete in 30 days. If you exceed this limit, you will get an error message indicating there
-has been an excessive number of attempts at creating or deleting instances. You must wait
-30 days before you can restart creating and deleting instances in your account.
+has been an excessive number of attempts at creating or deleting instances. You must wait 30
+days before you can restart creating and deleting instances in your account.
 
 # Arguments
 
@@ -1638,6 +1644,7 @@ Creates an Amazon Web Services resource association with an Amazon Connect insta
 
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
+
 - `integration_arn`: The Amazon Resource Name (ARN) of the integration.
 
   !!! note
@@ -1712,8 +1719,10 @@ Adds a new participant into an on-going chat contact. For more information, see 
 
 - `contact_id`: The identifier of the contact in this instance of Amazon Connect. Only
   contacts in the CHAT channel are supported.
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
+
 - `participant_details`: Information identifying the participant.
 
   !!! important
@@ -1790,17 +1799,19 @@ in the *Amazon Connect Administrator Guide*.
 
 - `initial_contact_id`: This is the contactId of the current contact that the
   `CreatePersistentContactAssociation` API is being called from.
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
+
 - `rehydration_type`: The contactId chosen for rehydration depends on the type chosen.
 
   - `ENTIRE_PAST_SESSION`: Rehydrates a chat from the most recently terminated past chat
     contact of the specified past ended chat session. To use this type, provide the
     `initialContactId` of the past ended chat session in the `sourceContactId` field. In
-    this type, Amazon Connect determines what the most recent chat contact on the past
-    ended chat session and uses it to start a persistent chat.
-  - `FROM_SEGMENT`: Rehydrates a chat from the specified past chat contact provided in
-    the `sourceContactId` field.
+    this type, Amazon Connect determines what the most recent chat contact on the past ended
+    chat session and uses it to start a persistent chat.
+  - `FROM_SEGMENT`: Rehydrates a chat from the specified past chat contact provided in the
+    `sourceContactId` field.
 
   The actual contactId used for rehydration is provided in the response of this API.
 
@@ -1808,27 +1819,30 @@ in the *Amazon Connect Administrator Guide*.
   starts a chat session. Agent a1 accepts the chat and a conversation starts between the
   customer and Agent a1. This first contact creates a contact ID **C1**. Agent a1 then
   transfers the chat to Agent a2. This creates another contact ID **C2**. At this point
-  Agent a2 ends the chat. The customer is forwarded to the disconnect flow for a post
-  chat survey that creates another contact ID **C3**. After the chat survey, the chat
-  session ends. Later, the customer returns and wants to resume their past chat session.
-  At this point, the customer can have following use cases:
+  Agent a2 ends the chat. The customer is forwarded to the disconnect flow for a post chat
+  survey that creates another contact ID **C3**. After the chat survey, the chat session
+  ends. Later, the customer returns and wants to resume their past chat session. At this
+  point, the customer can have following use cases:
 
   - **Use Case 1**: The customer wants to continue the past chat session but they want to
-    hide the post chat survey. For this they will use the following configuration:   -
-    **Configuration**     - SourceContactId = "C2"
+    hide the post chat survey. For this they will use the following configuration:
+    - **Configuration**
+      - SourceContactId = "C2"
       - RehydrationType = "FROM_SEGMENT"
-    - **Expected behavior**     - This starts a persistent chat session from the
-      specified past ended contact (C2). Transcripts of past chat sessions C2 and C1 are
-      accessible in the current persistent chat session. Note that chat segment C3 is
-      dropped from the persistent chat session.
+    - **Expected behavior**
+      - This starts a persistent chat session from the specified past ended contact (C2).
+        Transcripts of past chat sessions C2 and C1 are accessible in the current persistent
+        chat session. Note that chat segment C3 is dropped from the persistent chat session.
   - **Use Case 2**: The customer wants to continue the past chat session and see the
-    transcript of the entire past engagement, including the post chat survey. For this
-    they will use the following configuration:   - **Configuration**     -
-    SourceContactId = "C1"
+    transcript of the entire past engagement, including the post chat survey. For this they
+    will use the following configuration:
+    - **Configuration**
+      - SourceContactId = "C1"
       - RehydrationType = "ENTIRE_PAST_SESSION"
-    - **Expected behavior**     - This starts a persistent chat session from the most
-      recently ended chat contact (C3). Transcripts of past chat sessions C3, C2 and C1
-      are accessible in the current persistent chat session.
+    - **Expected behavior**
+      - This starts a persistent chat session from the most recently ended chat contact
+        (C3). Transcripts of past chat sessions C3, C2 and C1 are accessible in the current
+        persistent chat session.
 
 - `source_contact_id`: The contactId from which a persistent chat session must be started.
 
@@ -1896,8 +1910,8 @@ to an agent or pools of agents within a queue. For more information, see [Create
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN) of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN) of the instance.
 - `name`: The name of the predefined attribute.
 - `values`: The values of the predefined attribute.
 """
@@ -1999,14 +2013,14 @@ This API is in preview release for Amazon Connect and is subject to change.
 Creates a new queue for the specified Amazon Connect instance.
 
 !!! important
-    - If the phone number is claimed to a traffic distribution group that was created in
-      the same Region as the Amazon Connect instance where you are calling this API, then
-      you can use a full phone number ARN or a UUID for `OutboundCallerIdNumberId`.
-      However, if the phone number is claimed to a traffic distribution group that is in
-      one Region, and you are calling this API from an instance in another Amazon Web
-      Services Region that is associated with the traffic distribution group, you must
-      provide a full phone number ARN. If a UUID is provided in this scenario, you will
-      receive a `ResourceNotFoundException`.
+    - If the phone number is claimed to a traffic distribution group that was created in the
+      same Region as the Amazon Connect instance where you are calling this API, then you
+      can use a full phone number ARN or a UUID for `OutboundCallerIdNumberId`. However, if
+      the phone number is claimed to a traffic distribution group that is in one Region, and
+      you are calling this API from an instance in another Amazon Web Services Region that
+      is associated with the traffic distribution group, you must provide a full phone
+      number ARN. If a UUID is provided in this scenario, you will receive a
+      `ResourceNotFoundException`.
     - Only use the phone number ARN format that doesn't contain `instance` in the path, for
       example, `arn:aws:connect:us-east-1:1234567890:phone-number/uuid`. This is the same
       ARN format that is returned when you call the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html)
@@ -2153,13 +2167,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AgentAvailabilityTimer"`: Whether agents with this routing profile will have their
   routing order calculated based on *longest idle time* or *time since their last inbound
   contact*.
+
 - `"QueueConfigs"`: The inbound queues associated with the routing profile. If no queue is
   added, the agent can make only outbound calls.
 
-  The limit of 10 array members applies to the maximum number of
-  `RoutingProfileQueueConfig` objects that can be passed during a CreateRoutingProfile
-  API request. It is different from the quota of 50 queues per routing profile per
-  instance that is listed in [Amazon Connect service quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html).
+  The limit of 10 array members applies to the maximum number of `RoutingProfileQueueConfig`
+  objects that can be passed during a CreateRoutingProfile API request. It is different from
+  the quota of 50 queues per routing profile per instance that is listed in [Amazon Connect service quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html).
+
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 """
@@ -2402,8 +2417,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   template.
 - `"Description"`: The description of the task template.
 - `"Status"`: Marks a template as `ACTIVE` or `INACTIVE` for a task to refer to it. Tasks
-  can only be created from `ACTIVE` templates. If a template is marked as `INACTIVE`,
-  then a task that refers to this template cannot be created.
+  can only be created from `ACTIVE` templates. If a template is marked as `INACTIVE`, then a
+  task that refers to this template cannot be created.
 """
 function create_task_template end
 
@@ -2455,16 +2470,16 @@ replicated.
 !!! note
     The `SignInConfig` distribution is available only on a default
     `TrafficDistributionGroup` (see the `IsDefault` parameter in the [TrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html)
-    data type). If you call `UpdateTrafficDistribution` with a modified `SignInConfig` and
-    a non-default `TrafficDistributionGroup`, an `InvalidRequestException` is returned.
+    data type). If you call `UpdateTrafficDistribution` with a modified `SignInConfig` and a
+    non-default `TrafficDistributionGroup`, an `InvalidRequestException` is returned.
 
 For more information about creating traffic distribution groups, see [Set up traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/setup-traffic-distribution-groups.html)
 in the *Amazon Connect Administrator Guide*.
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance that has been replicated.
-  You can find the `instanceId` in the ARN of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance that has been replicated. You
+  can find the `instanceId` in the ARN of the instance.
 - `name`: The name for the traffic distribution group.
 
 # Optional Parameters
@@ -2594,14 +2609,18 @@ in the *Amazon Connect Administrator Guide*.
 
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
+
 - `phone_config`: The phone settings for the user.
+
 - `routing_profile_id`: The identifier of the routing profile for the user.
+
 - `security_profile_ids`: The identifier of the security profile for the user.
+
 - `username`: The user name for the account. For instances not using SAML for identity
   management, the user name can include up to 20 characters. If you are using SAML for
   identity management, the user name can include up to 64 characters from [a-zA-Z0-9_-.\\@]+.
 
-Username can include @ only if used in an email format. For example: 
+Username can include @ only if used in an email format. For example:
 
 - Correct: testuser
 - Correct: testuser@example.com
@@ -2611,20 +2630,24 @@ Username can include @ only if used in an email format. For example:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"DirectoryUserId"`: The identifier of the user account in the directory used for
-  identity management. If Amazon Connect cannot access the directory, you can specify
-  this identifier to authenticate users. If you include the identifier, we assume that
-  Amazon Connect cannot access the directory. Otherwise, the identity information is used
-  to authenticate users from your directory.
+- `"DirectoryUserId"`: The identifier of the user account in the directory used for identity
+  management. If Amazon Connect cannot access the directory, you can specify this identifier
+  to authenticate users. If you include the identifier, we assume that Amazon Connect cannot
+  access the directory. Otherwise, the identity information is used to authenticate users
+  from your directory.
 
-  This parameter is required if you are using an existing directory for identity
-  management in Amazon Connect when Amazon Connect cannot access your directory to
-  authenticate users. If you are using SAML for identity management and include this
-  parameter, an error is returned.
+  This parameter is required if you are using an existing directory for identity management
+  in Amazon Connect when Amazon Connect cannot access your directory to authenticate users.
+  If you are using SAML for identity management and include this parameter, an error is
+  returned.
+
 - `"HierarchyGroupId"`: The identifier of the hierarchy group for the user.
+
 - `"IdentityInfo"`: The information about the identity of the user.
+
 - `"Password"`: The password for the user account. A password is required if you are using
   Amazon Connect for identity management. Otherwise, it is an error to include a password.
+
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 """
@@ -2751,9 +2774,12 @@ provided.
   runtime input data.
 
   The total uncompressed content has a maximum file size of 400kB.
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
   in the ARN of the instance.
+
 - `name`: The name of the view.
+
 - `status`: Indicates the view status as either `SAVED` or `PUBLISHED`. The `PUBLISHED`
   status will initiate validation on the content.
 
@@ -2765,8 +2791,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creation. For example, the view is idempotent ClientToken is provided.
 - `"Description"`: The description of the view.
 - `"Tags"`: The tags associated with the view resource (not specific to view version).These
-  tags can be used to organize, track, or control access for this resource. For example,
-  { "tags": {"key1":"value1", "key2":"value2"} }.
+  tags can be used to organize, track, or control access for this resource. For example, {
+  "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_view end
 
@@ -2813,9 +2839,9 @@ Publishes a new version of the view identifier.
 
 Versions are immutable and monotonically increasing.
 
-It returns the highest version if there is no change in content compared to that version.
-An error is displayed if the supplied ViewContentSha256 is different from the
-ViewContentSha256 of the `\$LATEST` alias.
+It returns the highest version if there is no change in content compared to that version. An
+error is displayed if the supplied ViewContentSha256 is different from the ViewContentSha256
+of the `\$LATEST` alias.
 
 # Arguments
 
@@ -2871,8 +2897,8 @@ sessions for that language.
 
 - `content`: The content of the custom vocabulary in plain-text format with a table of
   values. Each row in the table represents a word or a phrase, described with `Phrase`,
-  `IPA`, `SoundsLike`, and `DisplayAs` fields. Separate the fields with TAB characters.
-  The size limit is 50KB. For more information, see [Create a custom vocabulary using a table](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html#create-vocabulary-table).
+  `IPA`, `SoundsLike`, and `DisplayAs` fields. Separate the fields with TAB characters. The
+  size limit is 50KB. For more information, see [Create a custom vocabulary using a table](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html#create-vocabulary-table).
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 - `language_code`: The language code of the vocabulary entries. For a list of languages and
@@ -2886,8 +2912,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-  If a create request is received more than once with same client token, subsequent
-  requests return the previous response without creating a vocabulary again.
+  If a create request is received more than once with same client token, subsequent requests
+  return the previous response without creating a vocabulary again.
+
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 """
@@ -3008,14 +3035,14 @@ Deletes an attached file along with the underlying S3 Object.
 # Arguments
 
 - `file_id`: The unique identifier of the attached file resource.
+
 - `instance_id`: The unique identifier of the Connect instance.
-- `associated_resource_arn`: The resource to which the attached file is (being) uploaded
-  to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html)
+
+- `associated_resource_arn`: The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html)
   are the only current supported resource.
 
   !!! note
       This value must be a valid ARN.
-
 """
 function delete_attached_file end
 
@@ -3279,8 +3306,8 @@ in the *Amazon Connect Administrator Guide*.
 
 Amazon Connect enforces a limit on the total number of instances that you can create or
 delete in 30 days. If you exceed this limit, you will get an error message indicating there
-has been an excessive number of attempts at creating or deleting instances. You must wait
-30 days before you can restart creating and deleting instances in your account.
+has been an excessive number of attempts at creating or deleting instances. You must wait 30
+days before you can restart creating and deleting instances in your account.
 
 # Arguments
 
@@ -3361,8 +3388,8 @@ Deletes a predefined attribute from the specified Amazon Connect instance.
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN) of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN) of the instance.
 - `name`: The name of the predefined attribute.
 """
 function delete_predefined_attribute end
@@ -3482,8 +3509,8 @@ Deletes a quick connect.
 
 !!! important
     After calling [DeleteUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteUser.html),
-    it's important to call `DeleteQuickConnect` to delete any records related to the
-    deleted users. This will help you:
+    it's important to call `DeleteQuickConnect` to delete any records related to the deleted
+    users. This will help you:
 
     - Avoid dangling resources that impact your service quotas.
     - Remove deleted users so they don't appear to agents as transfer options.
@@ -4344,12 +4371,12 @@ end
 
 This API is in preview release for Amazon Connect and is subject to change.
 
-Returns the current state of the specified instance identifier. It tracks the instance
-while it is being created and returns an error status, if applicable.
+Returns the current state of the specified instance identifier. It tracks the instance while
+it is being created and returns an error status, if applicable.
 
-If an instance is not created successfully, the instance status reason field returns
-details relevant to the reason. The instance in a failed state is returned only for 24
-hours after the CreateInstance API was invoked.
+If an instance is not created successfully, the instance status reason field returns details
+relevant to the reason. The instance in a failed state is returned only for 24 hours after
+the CreateInstance API was invoked.
 
 # Arguments
 
@@ -4484,12 +4511,12 @@ traffic distribution group.
 
 !!! important
     If the number is claimed to a traffic distribution group, and you are calling in the
-    Amazon Web Services Region where the traffic distribution group was created, you can
-    use either a phone number ARN or UUID value for the `PhoneNumberId` URI request
-    parameter. However, if the number is claimed to a traffic distribution group and you
-    are calling this API in the alternate Amazon Web Services Region associated with the
-    traffic distribution group, you must provide a full phone number ARN. If a UUID is
-    provided in this scenario, you will receive a `ResourceNotFoundException`.
+    Amazon Web Services Region where the traffic distribution group was created, you can use
+    either a phone number ARN or UUID value for the `PhoneNumberId` URI request parameter.
+    However, if the number is claimed to a traffic distribution group and you are calling
+    this API in the alternate Amazon Web Services Region associated with the traffic
+    distribution group, you must provide a full phone number ARN. If a UUID is provided in
+    this scenario, you will receive a `ResourceNotFoundException`.
 
 # Arguments
 
@@ -4532,8 +4559,8 @@ to an agent or pools of agents within a queue. For more information, see [Create
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN) of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN) of the instance.
 - `name`: The name of the predefined attribute.
 """
 function describe_predefined_attribute end
@@ -5079,10 +5106,10 @@ Removes the dataset ID associated with a given Amazon Connect instance.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"TargetAccountId"`: The identifier of the target account. Use to associate a dataset to
-  a different account than the one containing the Amazon Connect instance. If not
-  specified, by default this value is the Amazon Web Services account that has the Amazon
-  Connect instance.
+- `"TargetAccountId"`: The identifier of the target account. Use to associate a dataset to a
+  different account than the one containing the Amazon Connect instance. If not specified,
+  by default this value is the Amazon Web Services account that has the Amazon Connect
+  instance.
 """
 function disassociate_analytics_data_set end
 
@@ -5401,8 +5428,8 @@ Removes the flow association from a phone number claimed to your Amazon Connect 
 
 !!! important
     If the number is claimed to a traffic distribution group, and you are calling this API
-    using an instance in the Amazon Web Services Region where the traffic distribution
-    group was created, you can use either a full phone number ARN or UUID value for the
+    using an instance in the Amazon Web Services Region where the traffic distribution group
+    was created, you can use either a full phone number ARN or UUID value for the
     `PhoneNumberId` URI request parameter. However, if the number is claimed to a traffic
     distribution group and you are calling this API using an instance in the alternate
     Amazon Web Services Region associated with the traffic distribution group, you must
@@ -5651,8 +5678,8 @@ Disassociates a set of proficiencies from a user.
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN) of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN) of the instance.
 - `user_id`: The identifier of the user account.
 - `user_proficiencies`: The proficiencies to disassociate from the user.
 """
@@ -5698,8 +5725,8 @@ end
     dismiss_user_contact(contact_id, instance_id, user_id, params::Dict{String,<:Any})
 
 Dismisses contacts from an agent’s CCP and returns the agent to an available state, which
-allows the agent to receive a new routed contact. Contacts can only be dismissed if they
-are in a `MISSED`, `ERROR`, `ENDED`, or `REJECTED` state in the [Agent Event Stream](https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html).
+allows the agent to receive a new routed contact. Contacts can only be dismissed if they are
+in a `MISSED`, `ERROR`, `ENDED`, or `REJECTED` state in the [Agent Event Stream](https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html).
 
 # Arguments
 
@@ -5751,9 +5778,10 @@ attached file is `APPROVED`.
 # Arguments
 
 - `file_id`: The unique identifier of the attached file resource.
+
 - `instance_id`: The unique identifier of the Connect instance.
-- `associated_resource_arn`: The resource to which the attached file is (being) uploaded
-  to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html)
+
+- `associated_resource_arn`: The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html)
   are the only current supported resource.
 
   !!! note
@@ -5855,8 +5883,8 @@ in the *Amazon Connect Administrator Guide*.
 
 # Arguments
 
-- `current_metrics`: The metrics to retrieve. Specify the name and unit for each metric.
-  The following metrics are available. For a description of all the metrics, see [Real-time Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html)
+- `current_metrics`: The metrics to retrieve. Specify the name and unit for each metric. The
+  following metrics are available. For a description of all the metrics, see [Real-time Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html)
   in the *Amazon Connect Administrator Guide*.
 
   ### AGENTS_AFTER_CONTACT_WORK
@@ -5933,10 +5961,9 @@ in the *Amazon Connect Administrator Guide*.
   The actual OLDEST_CONTACT_AGE is 24 seconds.
 
   When the filter `RoutingStepExpression` is used, this metric is still calculated from
-  enqueue time. For example, if a contact that has been queued under
-  `&lt;Expression 1&gt;` for 10 seconds has expired and `&lt;Expression 2&gt;` becomes
-  active, then `OLDEST_CONTACT_AGE` for this queue will be counted starting from 10, not
-  0.
+  enqueue time. For example, if a contact that has been queued under `&lt;Expression 1&gt;`
+  for 10 seconds has expired and `&lt;Expression 2&gt;` becomes active, then
+  `OLDEST_CONTACT_AGE` for this queue will be counted starting from 10, not 0.
 
   Name in real-time metrics report: [Oldest](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#oldest-real-time)
 
@@ -5951,6 +5978,7 @@ in the *Amazon Connect Administrator Guide*.
   Unit: COUNT
 
   Name in real-time metrics report: [Availability](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#availability-real-time)
+
 - `filters`: The filters to apply to returned metrics. You can filter up to the following
   limits:
 
@@ -5960,15 +5988,15 @@ in the *Amazon Connect Administrator Guide*.
   - RoutingStepExpressions: 50
 
   Metric data is retrieved only for the resources associated with the queues or routing
-  profiles, and by any channels included in the filter. (You cannot filter by both queue
-  AND routing profile.) You can include both resource IDs and resource ARNs in the same
-  request.
+  profiles, and by any channels included in the filter. (You cannot filter by both queue AND
+  routing profile.) You can include both resource IDs and resource ARNs in the same request.
 
-  When using the `RoutingStepExpression` filter, you need to pass exactly one `QueueId`.
-  The filter is also case sensitive so when using the `RoutingStepExpression` filter,
-  grouping by `ROUTING_STEP_EXPRESSION` is required.
+  When using the `RoutingStepExpression` filter, you need to pass exactly one `QueueId`. The
+  filter is also case sensitive so when using the `RoutingStepExpression` filter, grouping
+  by `ROUTING_STEP_EXPRESSION` is required.
 
   Currently tagging is only supported on the resources that are passed in the filter.
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 
@@ -5977,11 +6005,10 @@ in the *Amazon Connect Administrator Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Groupings"`: The grouping applied to the metrics returned. For example, when grouped by
-  `QUEUE`, the metrics returned apply to each queue rather than aggregated for all
-  queues.
+  `QUEUE`, the metrics returned apply to each queue rather than aggregated for all queues.
 
-  - If you group by `CHANNEL`, you should include a Channels filter. VOICE, CHAT, and
-    TASK channels are supported.
+  - If you group by `CHANNEL`, you should include a Channels filter. VOICE, CHAT, and TASK
+    channels are supported.
   - If you group by `ROUTING_PROFILE`, you must include either a queue or routing profile
     filter. In addition, a routing profile filter is required for metrics
     `CONTACTS_SCHEDULED`, `CONTACTS_IN_QUEUE`, and `OLDEST_CONTACT_AGE`.
@@ -5990,20 +6017,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     required.
 
 - `"MaxResults"`: The maximum number of results to return per page.
+
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 
   The token expires after 5 minutes from the time it is created. Subsequent requests that
   use the token must use the same request parameters as the request that generated the
   token.
+
 - `"SortCriteria"`: The way to sort the resulting response based on metrics. You can enter
-  one sort criteria. By default resources are sorted based on `AGENTS_ONLINE`,
-  `DESCENDING`. The metric collection is sorted based on the input metrics.
+  one sort criteria. By default resources are sorted based on `AGENTS_ONLINE`, `DESCENDING`.
+  The metric collection is sorted based on the input metrics.
 
   Note the following:
 
   - Sorting on `SLOTS_ACTIVE` and `SLOTS_AVAILABLE` is not supported.
-
 """
 function get_current_metric_data end
 
@@ -6063,6 +6091,7 @@ Gets the real-time active user data from the specified Amazon Connect instance.
   hierarchy groups.
 
   Currently tagging is only supported on the resources that are passed in the filter.
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 
@@ -6107,11 +6136,12 @@ end
     get_federation_token(instance_id)
     get_federation_token(instance_id, params::Dict{String,<:Any})
 
-Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is
-for the Amazon Connect user which corresponds to the IAM credentials that were used to
-invoke this action.
+Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is for
+the Amazon Connect user which corresponds to the IAM credentials that were used to invoke
+this action.
 
-For more information about how SAML sign-in works in Amazon Connect, see [Configure SAML with IAM for Amazon Connect in the *Amazon Connect Administrator Guide*.](https://docs.aws.amazon.com/connect/latest/adminguide/configure-saml.html )
+For more information about how SAML sign-in works in Amazon Connect, see [Configure SAML with IAM for Amazon Connect in the *Amazon Connect Administrator Guide*.](https://docs.aws.amazon.com/connect/latest/adminguide/configure-saml.html
+)
 
 !!! note
     This API doesn't support root users. If you try to invoke GetFederationToken with root
@@ -6204,28 +6234,29 @@ in the *Amazon Connect Administrator Guide*.
 
 !!! note
     We recommend using the [GetMetricDataV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html)
-    API. It provides more flexibility, features, and the ability to query longer time
-    ranges than `GetMetricData`. Use it to retrieve historical agent and contact metrics
-    for the last 3 months, at varying intervals. You can also use it to build custom
-    dashboards to measure historical queue and agent performance. For example, you can
-    track the number of incoming contacts for the last 7 days, with data split by day, to
-    see how contact volume changed per day of the week.
+    API. It provides more flexibility, features, and the ability to query longer time ranges
+    than `GetMetricData`. Use it to retrieve historical agent and contact metrics for the
+    last 3 months, at varying intervals. You can also use it to build custom dashboards to
+    measure historical queue and agent performance. For example, you can track the number of
+    incoming contacts for the last 7 days, with data split by day, to see how contact volume
+    changed per day of the week.
 
 # Arguments
 
 - `end_time`: The timestamp, in UNIX Epoch time format, at which to end the reporting
-  interval for the retrieval of historical metrics data. The time must be specified using
-  an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start
-  time timestamp.
+  interval for the retrieval of historical metrics data. The time must be specified using an
+  interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time
+  timestamp.
 
   The time range between the start and end time must be less than 24 hours.
+
 - `filters`: The queues, up to 100, or channels, to use to filter the metrics returned.
   Metric data is retrieved only for the resources associated with the queues or channels
-  included in the filter. You can include both queue IDs and queue ARNs in the same
-  request. VOICE, CHAT, and TASK channels are supported.
+  included in the filter. You can include both queue IDs and queue ARNs in the same request.
+  VOICE, CHAT, and TASK channels are supported.
 
-  RoutingStepExpression is not a valid filter for GetMetricData and we recommend
-  switching to GetMetricDataV2 for more up-to-date features.
+  RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching
+  to GetMetricDataV2 for more up-to-date features.
 
   !!! note
       To filter by `Queues`, enter the queue ID/ARN, not the name of the queue.
@@ -6391,30 +6422,34 @@ in the *Amazon Connect Administrator Guide*.
 
   Statistic: AVG
 
-  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive),
-  in seconds. For `Comparison`, you must enter `LT` (for "Less than").
+  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive), in
+  seconds. For `Comparison`, you must enter `LT` (for "Less than").
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
-- `start_time`: The timestamp, in UNIX Epoch time format, at which to start the reporting
-  interval for the retrieval of historical metrics data. The time must be specified using
-  a multiple of 5 minutes, such as 10:05, 10:10, 10:15.
 
-  The start time cannot be earlier than 24 hours before the time of the request.
-  Historical metrics are available only for 24 hours.
+- `start_time`: The timestamp, in UNIX Epoch time format, at which to start the reporting
+  interval for the retrieval of historical metrics data. The time must be specified using a
+  multiple of 5 minutes, such as 10:05, 10:10, 10:15.
+
+  The start time cannot be earlier than 24 hours before the time of the request. Historical
+  metrics are available only for 24 hours.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Groupings"`: The grouping applied to the metrics returned. For example, when results
-  are grouped by queue, the metrics returned are grouped by queue. The values returned
-  apply to the metrics for each queue rather than aggregated for all queues.
+- `"Groupings"`: The grouping applied to the metrics returned. For example, when results are
+  grouped by queue, the metrics returned are grouped by queue. The values returned apply to
+  the metrics for each queue rather than aggregated for all queues.
 
   If no grouping is specified, a summary of metrics for all queues is returned.
 
-  RoutingStepExpression is not a valid filter for GetMetricData and we recommend
-  switching to GetMetricDataV2 for more up-to-date features.
+  RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching
+  to GetMetricDataV2 for more up-to-date features.
+
 - `"MaxResults"`: The maximum number of results to return per page.
+
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -6492,6 +6527,7 @@ in the *Amazon Connect Administrator Guide*.
 - `end_time`: The timestamp, in UNIX Epoch time format, at which to end the reporting
   interval for the retrieval of historical metrics data. The time must be later than the
   start time timestamp. It cannot be later than the current timestamp.
+
 - `filters`: The filters to apply to returned metrics. You can filter on the following
   resources:
 
@@ -6523,8 +6559,8 @@ in the *Amazon Connect Administrator Guide*.
     `contact/segmentAttributes/connect:Subtype` | `DISCONNECT_REASON` | `FEATURE` |
     `FLOW_TYPE` | `FLOWS_NEXT_RESOURCE_ID` | `FLOWS_NEXT_RESOURCE_QUEUE_ID` |
     `FLOWS_OUTCOME_TYPE` | `FLOWS_RESOURCE_ID` | `INITIATION_METHOD` |
-    `RESOURCE_PUBLISHED_TIMESTAMP` | `ROUTING_PROFILE` | `ROUTING_STEP_EXPRESSION` |
-    `QUEUE` | `Q_CONNECT_ENABLED` |
+    `RESOURCE_PUBLISHED_TIMESTAMP` | `ROUTING_PROFILE` | `ROUTING_STEP_EXPRESSION` | `QUEUE`
+    | `Q_CONNECT_ENABLED` |
   - **Filter values**: A maximum of 100 filter values are supported in a single request.
     VOICE, CHAT, and TASK are valid `filterValue` for the CHANNEL filter key. They do not
     count towards limitation of 100 filter values. For example, a GetMetricDataV2 request
@@ -6532,8 +6568,7 @@ in the *Amazon Connect Administrator Guide*.
     values, along with 3 channel filters.
 
   `contact_lens_conversational_analytics` is a valid filterValue for the `FEATURE` filter
-  key. It is available only to contacts analyzed by Contact Lens conversational
-  analytics.
+  key. It is available only to contacts analyzed by Contact Lens conversational analytics.
 
   `connect:Chat`, `connect:SMS`, `connect:Telephony`, and `connect:WebRTC` are valid
   `filterValue` examples (not exhaustive) for the
@@ -6544,18 +6579,18 @@ in the *Amazon Connect Administrator Guide*.
   order and JSON array order should be kept as is.
 
   `Q_CONNECT_ENABLED`. TRUE and FALSE are the only valid filterValues for the
-  `Q_CONNECT_ENABLED` filter key.   - TRUE includes all contacts that had Amazon Q in
-  Connect enabled as part of the flow.
-    - FALSE includes all contacts that did not have Amazon Q in Connect enabled as part
-      of the flow
-   This filter is available only for contact record-driven metrics.
+  `Q_CONNECT_ENABLED` filter key.
+    - TRUE includes all contacts that had Amazon Q in Connect enabled as part of the flow.
+    - FALSE includes all contacts that did not have Amazon Q in Connect enabled as part of
+      the flow
+  This filter is available only for contact record-driven metrics.
 
   [Campaign](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-outbound-campaigns_Campaign.html)
   ARNs are valid `filterValues` for the `CAMPAIGN` filter key.
 
 - `metrics`: The metrics to retrieve. Specify the name, groupings, and filters for each
-  metric. The following historical metrics are available. For a description of each
-  metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html)
+  metric. The following historical metrics are available. For a description of each metric,
+  see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html)
   in the *Amazon Connect Administrator Guide*.
 
   ### ABANDONMENT_RATE
@@ -6655,8 +6690,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Seconds
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [Average active time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-active-time-historical)
 
@@ -6692,8 +6727,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Seconds
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [Average agent pause time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-pause-time-historical)
 
@@ -6949,8 +6984,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Valid groupings and filters: Campaign, Agent
 
-  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive),
-  in seconds. For `Comparison`, you must enter `GT` (for *Greater than*).
+  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive), in
+  seconds. For `Comparison`, you must enter `GT` (for *Greater than*).
 
   UI name: [Campaign contacts abandoned after X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-contacts-abandoned-historical)
 
@@ -6962,8 +6997,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Valid groupings and filters: Campaign, Agent
 
-  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive),
-  in seconds. For `Comparison`, you must enter `GT` (for *Greater than*).
+  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive), in
+  seconds. For `Comparison`, you must enter `GT` (for *Greater than*).
 
   UI name: [Campaign contacts abandoned after X rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-contacts-abandoned-rate-historical)
 
@@ -7029,8 +7064,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Count
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [Contacts hold agent disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-agent-disconnect-historical)
 
@@ -7038,8 +7073,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Count
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [Contacts hold customer disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical)
 
@@ -7047,8 +7082,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Count
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [Contacts put on hold](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical)
 
@@ -7056,8 +7091,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Count
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [Contacts transferred out external](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-external-historical)
 
@@ -7065,8 +7100,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Percent
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [Contacts transferred out internal](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-internal-historical)
 
@@ -7094,8 +7129,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect
 
-  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive),
-  in seconds. For `Comparison`, you must enter `LT` (for "Less than").
+  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive), in
+  seconds. For `Comparison`, you must enter `LT` (for "Less than").
 
   UI name: [Contacts removed from queue in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-removed-historical)
 
@@ -7166,8 +7201,8 @@ in the *Amazon Connect Administrator Guide*.
 
   ### DELIVERY_ATTEMPT_DISPOSITION_RATE
 
-  This metric is available only for contacts analyzed by outbound campaigns analytics,
-  and with the answering machine detection enabled.
+  This metric is available only for contacts analyzed by outbound campaigns analytics, and
+  with the answering machine detection enabled.
 
   Unit: Percent
 
@@ -7197,15 +7232,15 @@ in the *Amazon Connect Administrator Guide*.
   Unit: Count
 
   Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow
-  type, Flows module resource ID, Flows resource ID, Initiation method, Resource
-  published timestamp
+  type, Flows module resource ID, Flows resource ID, Initiation method, Resource published
+  timestamp
 
   UI name: [Flows started](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-started-historical)
 
   ### HUMAN_ANSWERED_CALLS
 
-  This metric is available only for contacts analyzed by outbound campaigns analytics,
-  and with the answering machine detection enabled.
+  This metric is available only for contacts analyzed by outbound campaigns analytics, and
+  with the answering machine detection enabled.
 
   Unit: Count
 
@@ -7361,8 +7396,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect
 
-  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive),
-  in seconds. For `Comparison`, you must enter `LT` (for "Less than").
+  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive), in
+  seconds. For `Comparison`, you must enter `LT` (for "Less than").
 
   UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#service-level-historical)
 
@@ -7379,8 +7414,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Seconds
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#acw-historical)
 
@@ -7419,8 +7454,8 @@ in the *Amazon Connect Administrator Guide*.
   Valid groupings and filters: Queue, Channel, Routing Profile,
   contact/segmentAttributes/connect:Subtype, Q in Connect
 
-  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive),
-  in seconds. For `Comparison`, you must enter `LT` (for "Less than").
+  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive), in
+  seconds. For `Comparison`, you must enter `LT` (for "Less than").
 
   UI name: [Contacts abandoned in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-abandoned-x-historical)
 
@@ -7431,8 +7466,8 @@ in the *Amazon Connect Administrator Guide*.
   Valid groupings and filters: Queue, Channel, Routing Profile,
   contact/segmentAttributes/connect:Subtype, Q in Connect
 
-  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive),
-  in seconds. For `Comparison`, you must enter `LT` (for "Less than").
+  Threshold: For `ThresholdValue`, enter any whole number from 1 to 604800 (inclusive), in
+  seconds. For `Comparison`, you must enter `LT` (for "Less than").
 
   UI name: [Contacts answered in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-answered-x-historical)
 
@@ -7440,8 +7475,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Seconds
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [Contact flow time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contact-flow-time-historical)
 
@@ -7476,8 +7511,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Seconds
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [Contact handle time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contact-handle-time-historical)
 
@@ -7485,8 +7520,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Count
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [Customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#customer-hold-time-historical)
 
@@ -7502,8 +7537,8 @@ in the *Amazon Connect Administrator Guide*.
 
   Unit: Seconds
 
-  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q
-  in Connect
+  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
+  Connect
 
   UI name: [Agent interaction and hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-interaction-hold-time-historical)
 
@@ -7539,8 +7574,10 @@ in the *Amazon Connect Administrator Guide*.
   contact/segmentAttributes/connect:Subtype, Q in Connect
 
   UI name: [Callback attempts](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#callback-attempts-historical)
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. This includes the
   `instanceId` an Amazon Connect instance.
+
 - `start_time`: The timestamp, in UNIX Epoch time format, at which to start the reporting
   interval for the retrieval of historical metrics data. The time must be before the end
   time timestamp. The start and end time depends on the `IntervalPeriod` selected. By
@@ -7552,20 +7589,20 @@ in the *Amazon Connect Administrator Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Groupings"`: The grouping applied to the metrics that are returned. For example, when
-  results are grouped by queue, the metrics returned are grouped by queue. The values
-  that are returned apply to the metrics for each queue. They are not aggregated for all
-  queues.
+  results are grouped by queue, the metrics returned are grouped by queue. The values that
+  are returned apply to the metrics for each queue. They are not aggregated for all queues.
 
   If no grouping is specified, a summary of all metrics is returned.
 
-  Valid grouping keys: `AGENT` | `AGENT_HIERARCHY_LEVEL_ONE` |
-  `AGENT_HIERARCHY_LEVEL_TWO` | `AGENT_HIERARCHY_LEVEL_THREE` |
-  `AGENT_HIERARCHY_LEVEL_FOUR` | `AGENT_HIERARCHY_LEVEL_FIVE` |
-  `ANSWERING_MACHINE_DETECTION_STATUS` | `CAMPAIGN` | `CASE_TEMPLATE_ARN` | `CASE_STATUS`
-  | `CHANNEL` | `contact/segmentAttributes/connect:Subtype` | `DISCONNECT_REASON` |
-  `FLOWS_RESOURCE_ID` | `FLOWS_MODULE_RESOURCE_ID` | `FLOW_TYPE` | `FLOWS_OUTCOME_TYPE` |
-  `INITIATION_METHOD` | `Q_CONNECT_ENABLED` | `QUEUE` | `RESOURCE_PUBLISHED_TIMESTAMP` |
-  `ROUTING_PROFILE` | `ROUTING_STEP_EXPRESSION`
+  Valid grouping keys: `AGENT` | `AGENT_HIERARCHY_LEVEL_ONE` | `AGENT_HIERARCHY_LEVEL_TWO` |
+  `AGENT_HIERARCHY_LEVEL_THREE` | `AGENT_HIERARCHY_LEVEL_FOUR` |
+  `AGENT_HIERARCHY_LEVEL_FIVE` | `ANSWERING_MACHINE_DETECTION_STATUS` | `CAMPAIGN` |
+  `CASE_TEMPLATE_ARN` | `CASE_STATUS` | `CHANNEL` |
+  `contact/segmentAttributes/connect:Subtype` | `DISCONNECT_REASON` | `FLOWS_RESOURCE_ID` |
+  `FLOWS_MODULE_RESOURCE_ID` | `FLOW_TYPE` | `FLOWS_OUTCOME_TYPE` | `INITIATION_METHOD` |
+  `Q_CONNECT_ENABLED` | `QUEUE` | `RESOURCE_PUBLISHED_TIMESTAMP` | `ROUTING_PROFILE` |
+  `ROUTING_STEP_EXPRESSION`
+
 - `"Interval"`: The interval period and timezone to apply to returned metrics.
 
   - `IntervalPeriod`: An aggregated grouping applied to request metrics. Valid
@@ -7573,23 +7610,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `TOTAL`.
 
   For example, if `IntervalPeriod` is selected `THIRTY_MIN`, `StartTime` and `EndTime`
-  differs by 1 day, then Amazon Connect returns 48 results in the response. Each result
-  is aggregated by the THIRTY_MIN period. By default Amazon Connect aggregates results
-  based on the `TOTAL` interval period.
+  differs by 1 day, then Amazon Connect returns 48 results in the response. Each result is
+  aggregated by the THIRTY_MIN period. By default Amazon Connect aggregates results based on
+  the `TOTAL` interval period.
 
   The following list describes restrictions on `StartTime` and `EndTime` based on which
-  `IntervalPeriod` is requested.   - `FIFTEEN_MIN`: The difference between `StartTime`
-  and `EndTime` must be less than 3 days.
+  `IntervalPeriod` is requested.
+    - `FIFTEEN_MIN`: The difference between `StartTime` and `EndTime` must be less than 3
+      days.
     - `THIRTY_MIN`: The difference between `StartTime` and `EndTime` must be less than 3
       days.
     - `HOUR`: The difference between `StartTime` and `EndTime` must be less than 3 days.
     - `DAY`: The difference between `StartTime` and `EndTime` must be less than 35 days.
     - `WEEK`: The difference between `StartTime` and `EndTime` must be less than 35 days.
-    - `TOTAL`: The difference between `StartTime` and `EndTime` must be less than 35
-      days.
+    - `TOTAL`: The difference between `StartTime` and `EndTime` must be less than 35 days.
   - `TimeZone`: The timezone applied to requested metrics.
 
 - `"MaxResults"`: The maximum number of results to return per page.
+
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -7782,10 +7820,9 @@ where the Amazon Connect instance was created.
     Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html)
     API to verify the status of a previous [`import_phone_number`](@ref) operation.
 
-If you plan to claim or import numbers and then release numbers frequently, contact us for
-a service quota exception. Otherwise, it is possible you will be blocked from claiming and
-releasing any more numbers until up to 180 days past the oldest number released has
-expired.
+If you plan to claim or import numbers and then release numbers frequently, contact us for a
+service quota exception. Otherwise, it is possible you will be blocked from claiming and
+releasing any more numbers until up to 180 days past the oldest number released has expired.
 
 By default you can claim or import and then release up to 200% of your maximum number of
 active phone numbers. If you claim or import and then release phone numbers using the UI or
@@ -7793,18 +7830,18 @@ API during a rolling 180 day cycle that exceeds 200% of your phone number servic
 quota, you will be blocked from claiming or importing any more numbers until 180 days past
 the oldest number released has expired.
 
-For example, if you already have 99 claimed or imported numbers and a service level quota
-of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release
-99, you will have exceeded the 200% limit. At that point you are blocked from claiming any
-more numbers until you open an Amazon Web Services Support ticket.
+For example, if you already have 99 claimed or imported numbers and a service level quota of
+99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99,
+you will have exceeded the 200% limit. At that point you are blocked from claiming any more
+numbers until you open an Amazon Web Services Support ticket.
 
 # Arguments
 
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 - `source_phone_number_arn`: The claimed phone number ARN being imported from the external
-  service, such as Amazon Pinpoint. If it is from Amazon Pinpoint, it looks like the ARN
-  of the phone number to import from Amazon Pinpoint.
+  service, such as Amazon Pinpoint. If it is from Amazon Pinpoint, it looks like the ARN of
+  the phone number to import from Amazon Pinpoint.
 
 # Optional Parameters
 
@@ -8011,8 +8048,8 @@ end
 This API is in preview release for Amazon Connect and is subject to change. To request
 access to this API, contact Amazon Web Services Support.
 
-Provides summary information about the authentication profiles in a specified Amazon
-Connect instance.
+Provides summary information about the authentication profiles in a specified Amazon Connect
+instance.
 
 # Arguments
 
@@ -8060,9 +8097,9 @@ end
 
 This API is in preview release for Amazon Connect and is subject to change.
 
-For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex
-bots currently associated with the instance. Use this API to returns both Amazon Lex V1 and
-V2 bots.
+For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots
+currently associated with the instance. Use this API to returns both Amazon Lex V1 and V2
+bots.
 
 # Arguments
 
@@ -8129,9 +8166,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 
   !!! important
-      This is not expected to be set because the value returned in the previous response
-      is always null.
-
+      This is not expected to be set because the value returned in the previous response is
+      always null.
 """
 function list_contact_evaluations end
 
@@ -8287,9 +8323,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 
   !!! important
-      This is not expected to be set, because the value returned in the previous response
-      is always null.
-
+      This is not expected to be set, because the value returned in the previous response is
+      always null.
 """
 function list_contact_references end
 
@@ -8341,8 +8376,8 @@ Lists the default vocabularies for the specified Amazon Connect instance.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"LanguageCode"`: The language code of the vocabulary entries. For a list of languages
-  and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
+- `"LanguageCode"`: The language code of the vocabulary entries. For a list of languages and
+  their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
 - `"MaxResults"`: The maximum number of results to return per page.
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -8519,8 +8554,7 @@ end
     list_hours_of_operations(instance_id)
     list_hours_of_operations(instance_id, params::Dict{String,<:Any})
 
-Provides information about the hours of operation for the specified Amazon Connect
-instance.
+Provides information about the hours of operation for the specified Amazon Connect instance.
 
 For more information about hours of operation, see [Set the Hours of Operation for a Queue](https://docs.aws.amazon.com/connect/latest/adminguide/set-hours-operation.html)
 in the *Amazon Connect Administrator Guide*.
@@ -8673,9 +8707,9 @@ end
 
 This API is in preview release for Amazon Connect and is subject to change.
 
-Return a list of instances which are in active state, creation-in-progress state, and
-failed state. Instances that aren't successfully created (they are in a failed state) are
-returned only for 24 hours after the CreateInstance API was invoked.
+Return a list of instances which are in active state, creation-in-progress state, and failed
+state. Instances that aren't successfully created (they are in a failed state) are returned
+only for 24 hours after the CreateInstance API was invoked.
 
 # Optional Parameters
 
@@ -8756,8 +8790,8 @@ end
 
 This API is in preview release for Amazon Connect and is subject to change.
 
-Returns a paginated list of all Lambda functions that display in the dropdown options in
-the relevant flow blocks.
+Returns a paginated list of all Lambda functions that display in the dropdown options in the
+relevant flow blocks.
 
 # Arguments
 
@@ -8879,9 +8913,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return per page. The default MaxResult
   size is 100.
+
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+
 - `"phoneNumberCountryCodes"`: The ISO country code.
+
 - `"phoneNumberTypes"`: The type of phone number.
 
   !!! note
@@ -8889,7 +8926,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       to return phone number types. While ListPhoneNumbers returns number types `UIFN`,
       `SHARED`, `THIRD_PARTY_TF`, and `THIRD_PARTY_DID`, it incorrectly lists them as
       `TOLL_FREE` or `DID`.
-
 """
 function list_phone_numbers end
 
@@ -8942,18 +8978,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon Resource Name (ARN) of the instance. If both `TargetArn` and `InstanceId`
   are not provided, this API lists numbers claimed to all the Amazon Connect instances
   belonging to your account in the same AWS Region as the request.
+
 - `"MaxResults"`: The maximum number of results to return per page.
+
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+
 - `"PhoneNumberCountryCodes"`: The ISO country code.
-- `"PhoneNumberPrefix"`: The prefix of the phone number. If provided, it must contain `+`
-  as part of the country code.
+
+- `"PhoneNumberPrefix"`: The prefix of the phone number. If provided, it must contain `+` as
+  part of the country code.
+
 - `"PhoneNumberTypes"`: The type of phone number.
+
 - `"TargetArn"`: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
   distribution groups that phone number inbound traffic is routed through. If both
-  `TargetArn` and `InstanceId` input are not provided, this API lists numbers claimed to
-  all the Amazon Connect instances belonging to your account in the same Amazon Web
-  Services Region as the request.
+  `TargetArn` and `InstanceId` input are not provided, this API lists numbers claimed to all
+  the Amazon Connect instances belonging to your account in the same Amazon Web Services
+  Region as the request.
 """
 function list_phone_numbers_v2 end
 
@@ -8985,8 +9027,8 @@ to an agent or pools of agents within a queue. For more information, see [Create
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN) of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN) of the instance.
 
 # Optional Parameters
 
@@ -9124,9 +9166,9 @@ end
 
 Provides information about the queues for the specified Amazon Connect instance.
 
-If you do not specify a `QueueTypes` parameter, both standard and agent queues are
-returned. This might cause an unexpected truncation of results if you have more than 1000
-agents and you limit the number of results of the API call in code.
+If you do not specify a `QueueTypes` parameter, both standard and agent queues are returned.
+This might cause an unexpected truncation of results if you have more than 1000 agents and
+you limit the number of results of the API call in code.
 
 For more information about queues, see [Queues: Standard and Agent](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-queues-standard-and-agent.html)
 in the *Amazon Connect Administrator Guide*.
@@ -9643,8 +9685,8 @@ in the *Amazon Connect Administrator Guide*.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. All Amazon Connect
-  resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the
-  ARN for an instance, for example, see [Find your Amazon Connect instance ID/ARN](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html).
+  resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the ARN
+  for an instance, for example, see [Find your Amazon Connect instance ID/ARN](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html).
 """
 function list_tags_for_resource end
 
@@ -9694,6 +9736,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       It is not expected that you set this.
 
 - `"name"`: The name of the task template.
+
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 
@@ -9702,8 +9745,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       response is always null.
 
 - `"status"`: Marks a template as `ACTIVE` or `INACTIVE` for a task to refer to it. Tasks
-  can only be created from `ACTIVE` templates. If a template is marked as `INACTIVE`,
-  then a task that refers to this template cannot be created.
+  can only be created from `ACTIVE` templates. If a template is marked as `INACTIVE`, then a
+  task that refers to this template cannot be created.
 """
 function list_task_templates end
 
@@ -9926,8 +9969,8 @@ Lists proficiencies associated with a user.
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN) of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN) of the instance.
 - `user_id`: The identifier of the user account.
 
 # Optional Parameters
@@ -10294,21 +10337,21 @@ distribution group. You can call this API only in the Amazon Web Services Region
 number was claimed.
 
 !!! important
-    To release phone numbers from a traffic distribution group, use the
-    `ReleasePhoneNumber` API, not the Amazon Connect admin website.
+    To release phone numbers from a traffic distribution group, use the `ReleasePhoneNumber`
+    API, not the Amazon Connect admin website.
 
-    After releasing a phone number, the phone number enters into a cooldown period for up
-    to 180 days. It cannot be searched for or claimed again until the period has ended. If
-    you accidentally release a phone number, contact Amazon Web Services Support.
+    After releasing a phone number, the phone number enters into a cooldown period for up to
+    180 days. It cannot be searched for or claimed again until the period has ended. If you
+accidentally release a phone number, contact Amazon Web Services Support.
 
 If you plan to claim and release numbers frequently, contact us for a service quota
 exception. Otherwise, it is possible you will be blocked from claiming and releasing any
 more numbers until up to 180 days past the oldest number released has expired.
 
 By default you can claim and release up to 200% of your maximum number of active phone
-numbers. If you claim and release phone numbers using the UI or API during a rolling 180
-day cycle that exceeds 200% of your phone number service level quota, you will be blocked
-from claiming any more numbers until 180 days past the oldest number released has expired.
+numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day
+cycle that exceeds 200% of your phone number service level quota, you will be blocked from
+claiming any more numbers until 180 days past the oldest number released has expired.
 
 For example, if you already have 99 claimed numbers and a service level quota of 99 phone
 numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will
@@ -10361,9 +10404,8 @@ end
     replicate_instance(instance_id, replica_alias, replica_region)
     replicate_instance(instance_id, replica_alias, replica_region, params::Dict{String,<:Any})
 
-Replicates an Amazon Connect instance in the specified Amazon Web Services Region and
-copies configuration information for Amazon Connect resources across Amazon Web Services
-Regions.
+Replicates an Amazon Connect instance in the specified Amazon Web Services Region and copies
+configuration information for Amazon Connect resources across Amazon Web Services Regions.
 
 For more information about replicating an Amazon Connect instance, see [Create a replica of your existing Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/create-replica-connect-instance.html)
 in the *Amazon Connect Administrator Guide*.
@@ -10499,8 +10541,8 @@ Voice and screen recordings are supported.
 # Arguments
 
 - `contact_id`: The identifier of the contact.
-- `initial_contact_id`: The identifier of the contact. This is the identifier of the
-  contact associated with the first interaction with the contact center.
+- `initial_contact_id`: The identifier of the contact. This is the identifier of the contact
+  associated with the first interaction with the contact center.
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 """
@@ -10607,8 +10649,8 @@ end
     search_available_phone_numbers(phone_number_country_code, phone_number_type, params::Dict{String,<:Any})
 
 Searches for available phone numbers that you can claim to your Amazon Connect instance or
-traffic distribution group. If the provided `TargetArn` is a traffic distribution group,
-you can call this API in both Amazon Web Services Regions associated with the traffic
+traffic distribution group. If the provided `TargetArn` is a traffic distribution group, you
+can call this API in both Amazon Web Services Regions associated with the traffic
 distribution group.
 
 # Arguments
@@ -10627,8 +10669,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return per page.
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"PhoneNumberPrefix"`: The prefix of the phone number. If provided, it must contain `+`
-  as part of the country code.
+- `"PhoneNumberPrefix"`: The prefix of the phone number. If provided, it must contain `+` as
+  part of the country code.
 - `"TargetArn"`: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic
   distribution groups that phone number inbound traffic is routed through. You must enter
   `InstanceId` or `TargetArn`.
@@ -10684,22 +10726,24 @@ Searches the flow modules in an Amazon Connect instance, with optional filtering
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN) of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN) of the instance.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return per page.
+
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+
 - `"SearchCriteria"`: The search criteria to be used to return contact flow modules.
 
   !!! note
       The `name` and `description` fields support "contains" queries with a minimum of 2
-      characters and a maximum of 25 characters. Any queries with character lengths
-      outside of this range will result in invalid results.
+      characters and a maximum of 25 characters. Any queries with character lengths outside
+      of this range will result in invalid results.
 
 - `"SearchFilter"`: Filters to be applied to search results.
 """
@@ -10741,22 +10785,24 @@ Searches the contact flows in an Amazon Connect instance, with optional filterin
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN) of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN) of the instance.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return per page.
+
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+
 - `"SearchCriteria"`: The search criteria to be used to return flows.
 
   !!! note
       The `name` and `description` fields support "contains" queries with a minimum of 2
-      characters and a maximum of 25 characters. Any queries with character lengths
-      outside of this range will result in invalid results.
+      characters and a maximum of 25 characters. Any queries with character lengths outside
+      of this range will result in invalid results.
 
 - `"SearchFilter"`: Filters to be applied to search results.
 """
@@ -10908,8 +10954,8 @@ pools of agents within a queue. For more information, see [Create predefined att
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN) of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN) of the instance.
 
 # Optional Parameters
 
@@ -11015,14 +11061,16 @@ Searches queues in an Amazon Connect instance, with optional filtering.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return per page.
+
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+
 - `"SearchCriteria"`: The search criteria to be used to return queues.
 
   !!! note
       The `name` and `description` fields support "contains" queries with a minimum of 2
-      characters and a maximum of 25 characters. Any queries with character lengths
-      outside of this range will throw invalid results.
+      characters and a maximum of 25 characters. Any queries with character lengths outside
+      of this range will throw invalid results.
 
 - `"SearchFilter"`: Filters to be applied to search results.
 """
@@ -11121,8 +11169,10 @@ Searches tags used in an Amazon Connect instance using optional search criteria.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return per page.
+
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+
 - `"ResourceTypes"`: The list of resource types to be used to search tags from. If not
   provided or if any empty list is provided, this API will search from all supported
   resource types.
@@ -11186,14 +11236,16 @@ Searches routing profiles in an Amazon Connect instance, with optional filtering
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return per page.
+
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+
 - `"SearchCriteria"`: The search criteria to be used to return routing profiles.
 
   !!! note
       The `name` and `description` fields support "contains" queries with a minimum of 2
-      characters and a maximum of 25 characters. Any queries with character lengths
-      outside of this range will throw invalid results.
+      characters and a maximum of 25 characters. Any queries with character lengths outside
+      of this range will throw invalid results.
 
 - `"SearchFilter"`: Filters to be applied to search results.
 """
@@ -11247,14 +11299,16 @@ interface name of the security profile permissions, see [List of security profil
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return per page.
+
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+
 - `"SearchCriteria"`: The search criteria to be used to return security profiles.
 
   !!! note
-      The `name` field support "contains" queries with a minimum of 2 characters and
-      maximum of 25 characters. Any queries with character lengths outside of this range
-      will throw invalid results.
+      The `name` field support "contains" queries with a minimum of 2 characters and maximum
+      of 25 characters. Any queries with character lengths outside of this range will throw
+      invalid results.
 
   !!! note
       The currently supported value for `FieldName`: `name`
@@ -11417,8 +11471,8 @@ Searches for vocabularies within a specific Amazon Connect instance using `State
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"LanguageCode"`: The language code of the vocabulary entries. For a list of languages
-  and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
+- `"LanguageCode"`: The language code of the vocabulary entries. For a list of languages and
+  their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
 - `"MaxResults"`: The maximum number of results to return per page.
 - `"NameStartsWith"`: The starting pattern of the name of the vocabulary.
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
@@ -11470,13 +11524,12 @@ integration.
 # Arguments
 
 - `destination_id`: Chat system identifier, used in part to uniquely identify chat. This is
-  associated with the Amazon Connect instance and flow to be used to start chats. For
-  SMS, this is the phone number destination of inbound SMS messages represented by an
-  Amazon Pinpoint phone number ARN.
+  associated with the Amazon Connect instance and flow to be used to start chats. For SMS,
+  this is the phone number destination of inbound SMS messages represented by an Amazon
+  Pinpoint phone number ARN.
 - `event`: Chat integration event payload
 - `source_id`: External identifier of chat customer participant, used in part to uniquely
-  identify a chat. For SMS, this is the E164 phone number of the chat customer
-  participant.
+  identify a chat. For SMS, this is the E164 phone number of the chat customer participant.
 
 # Optional Parameters
 
@@ -11484,6 +11537,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NewSessionDetails"`: Contact properties to apply when starting a new chat. If the
   integration event is handled with an existing chat, this is ignored.
+
 - `"Subtype"`: Classification of a channel. This is used in part to uniquely identify chat.
 
   Valid value: `["connect:sms"]`
@@ -11542,11 +11596,14 @@ Provides a pre-signed Amazon S3 URL in response for uploading your content.
 # Arguments
 
 - `file_name`: A case-sensitive name of the attached file being uploaded.
+
 - `file_size_in_bytes`: The size of the attached file in bytes.
+
 - `file_use_case_type`: The use case for the file.
+
 - `instance_id`: The unique identifier of the Amazon Connect instance.
-- `associated_resource_arn`: The resource to which the attached file is (being) uploaded
-  to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html)
+
+- `associated_resource_arn`: The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html)
   are the only current supported resource.
 
   !!! note
@@ -11624,13 +11681,12 @@ end
     start_chat_contact(contact_flow_id, instance_id, participant_details)
     start_chat_contact(contact_flow_id, instance_id, participant_details, params::Dict{String,<:Any})
 
-Initiates a flow to start a new chat for the customer. Response of this API provides a
-token required to obtain credentials from the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html)
+Initiates a flow to start a new chat for the customer. Response of this API provides a token
+required to obtain credentials from the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html)
 API in the Amazon Connect Participant Service.
 
-When a new chat contact is successfully created, clients must subscribe to the
-participant’s connection for the created chat within 5 minutes. This is achieved by
-invoking [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html)
+When a new chat contact is successfully created, clients must subscribe to the participant’s
+connection for the created chat within 5 minutes. This is achieved by invoking [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html)
 with WEBSOCKET and CONNECTION_CREDENTIALS.
 
 A 429 error occurs in the following situations:
@@ -11653,14 +11709,16 @@ Administrator Guide*:
 
 - `contact_flow_id`: The identifier of the flow for initiating the chat. To see the
   ContactFlowId in the Amazon Connect admin website, on the navigation menu go to
-  **Routing**, **Contact Flows**. Choose the flow. On the flow page, under the name of
-  the flow, choose **Show additional flow information**. The ContactFlowId is the last
-  part of the ARN, shown here in bold:
+  **Routing**, **Contact Flows**. Choose the flow. On the flow page, under the name of the
+  flow, choose **Show additional flow information**. The ContactFlowId is the last part of
+  the ARN, shown here in bold:
 
   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-
   xxxxxxxxxxxx/contact-flow/**846ec553-a005-41c0-8341-xxxxxxxxxxxx**
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
+
 - `participant_details`: Information identifying the participant.
 
 # Optional Parameters
@@ -11673,18 +11731,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute
   keys can include only alphanumeric, dash, and underscore characters.
+
 - `"ChatDurationInMinutes"`: The total duration of the newly started chat session. If not
-  specified, the chat session duration defaults to 25 hour. The minimum configurable time
-  is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
+  specified, the chat session duration defaults to 25 hour. The minimum configurable time is
+  60 minutes. The maximum configurable time is 10,080 minutes (7 days).
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+
 - `"InitialMessage"`: The initial message to be sent to the newly created chat. If you have
   a Lex bot in your flow, the initial message is not delivered to the Lex bot.
+
 - `"PersistentChat"`: Enable persistent chats. For more information about enabling
   persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
-- `"RelatedContactId"`: The unique identifier for an Amazon Connect contact. This
-  identifier is related to the chat starting.
+
+- `"RelatedContactId"`: The unique identifier for an Amazon Connect contact. This identifier
+  is related to the chat starting.
 
   !!! note
       You cannot provide data for both RelatedContactId and PersistentChat.
@@ -11708,8 +11771,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `application/vnd.amazonaws.connect.message.interactive`, and
   `application/vnd.amazonaws.connect.message.interactive.response`.
 
-  Content types must always contain `text/plain`. You can then put any other supported
-  type in the list. For example, all the following lists are valid because they contain
+  Content types must always contain `text/plain`. You can then put any other supported type
+  in the list. For example, all the following lists are valid because they contain
   `text/plain`: `[text/plain, text/markdown, application/json]`,
   `[text/markdown, text/plain]`,
   `[text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]`.
@@ -11718,7 +11781,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       The type `application/vnd.amazonaws.connect.message.interactive` is required to use
       the [Show view](https://docs.aws.amazon.com/connect/latest/adminguide/show-view-block.html)
       flow block.
-
 """
 function start_chat_contact end
 
@@ -11774,9 +11836,9 @@ end
     start_contact_evaluation(contact_id, evaluation_form_id, instance_id, params::Dict{String,<:Any})
 
 Starts an empty evaluation in the specified Amazon Connect instance, using the given
-evaluation form for the particular contact. The evaluation form version used for the
-contact evaluation corresponds to the currently activated version. If no version is
-activated for the evaluation form, the contact evaluation cannot be started.
+evaluation form for the particular contact. The evaluation form version used for the contact
+evaluation corresponds to the currently activated version. If no version is activated for
+the evaluation form, the contact evaluation cannot be started.
 
 !!! note
     Evaluations created through the public API do not contain answer values suggested from
@@ -11852,8 +11914,8 @@ Starts recording the contact:
 
 - If the API is called *before* the agent joins the call, recording starts when the agent
   joins the call.
-- If the API is called *after* the agent joins the call, recording starts at the time of
-  the API call.
+- If the API is called *after* the agent joins the call, recording starts at the time of the
+  API call.
 
 StartContactRecording is a one-time action. For example, if you use StopContactRecording to
 stop recording an ongoing call, you can't use StartContactRecording to restart it. For
@@ -11869,8 +11931,8 @@ Only voice recordings are supported at this time.
 # Arguments
 
 - `contact_id`: The identifier of the contact.
-- `initial_contact_id`: The identifier of the contact. This is the identifier of the
-  contact associated with the first interaction with the contact center.
+- `initial_contact_id`: The identifier of the contact. This is the identifier of the contact
+  associated with the first interaction with the contact center.
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 - `voice_recording_configuration`: The person being recorded.
@@ -12025,21 +12087,22 @@ There is a 60-second dialing timeout for this operation. If the call is not conn
     in the *Amazon Connect Administrator Guide*.
 
 !!! note
-    Campaign calls are not allowed by default. Before you can make a call with
-    `TrafficType` = `CAMPAIGN`, you must submit a service quota increase request to the
-    quota [Amazon Connect campaigns](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#outbound-communications-quotas).
+    Campaign calls are not allowed by default. Before you can make a call with `TrafficType`
+    = `CAMPAIGN`, you must submit a service quota increase request to the quota [Amazon Connect campaigns](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#outbound-communications-quotas).
 
 # Arguments
 
 - `contact_flow_id`: The identifier of the flow for the outbound call. To see the
   ContactFlowId in the Amazon Connect admin website, on the navigation menu go to
-  **Routing**, **Contact Flows**. Choose the flow. On the flow page, under the name of
-  the flow, choose **Show additional flow information**. The ContactFlowId is the last
-  part of the ARN, shown here in bold:
+  **Routing**, **Contact Flows**. Choose the flow. On the flow page, under the name of the
+  flow, choose **Show additional flow information**. The ContactFlowId is the last part of
+  the ARN, shown here in bold:
 
   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-
   xxxxxxxxxxxx/contact-flow/**846ec553-a005-41c0-8341-xxxxxxxxxxxx**
+
 - `destination_phone_number`: The phone number of the customer, in E.164 format.
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 
@@ -12049,40 +12112,50 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AnswerMachineDetectionConfig"`: Configuration of the answering machine detection for
   this outbound call.
+
 - `"Attributes"`: A custom key-value pair using an attribute map. The attributes are
   standard Amazon Connect attributes, and can be accessed in flows just like any other
   contact attributes.
 
   There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute
   keys can include only alphanumeric, dash, and underscore characters.
+
 - `"CampaignId"`: The campaign identifier of the outbound communication.
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-  The token is valid for 7 days after creation. If a contact is already started, the
-  contact ID is returned.
+  The token is valid for 7 days after creation. If a contact is already started, the contact
+  ID is returned.
+
 - `"Description"`: A description of the voice contact that is shown to an agent in the
   Contact Control Panel (CCP).
+
 - `"Name"`: The name of a voice contact that is shown to an agent in the Contact Control
   Panel (CCP).
+
 - `"QueueId"`: The queue for the call. If you specify a queue, the phone displayed for
-  caller ID is the phone number specified in the queue. If you do not specify a queue,
-  the queue defined in the flow is used. If you do not specify a queue, you must specify
-  a source phone number.
+  caller ID is the phone number specified in the queue. If you do not specify a queue, the
+  queue defined in the flow is used. If you do not specify a queue, you must specify a
+  source phone number.
+
 - `"References"`: A formatted URL that is shown to an agent in the Contact Control Panel
   (CCP). Contacts can have the following reference types at the time of creation: `URL` |
   `NUMBER` | `STRING` | `DATE` | `EMAIL`. `ATTACHMENT` is not a supported reference type
   during voice contact creation.
+
 - `"RelatedContactId"`: The `contactId` that is related to this contact. Linking voice,
-  task, or chat by using `RelatedContactID` copies over contact attributes from the
-  related contact to the new contact. All updates to user-defined attributes in the new
-  contact are limited to the individual contact ID. There are no limits to the number of
-  contacts that can be linked by using `RelatedContactId`.
+  task, or chat by using `RelatedContactID` copies over contact attributes from the related
+  contact to the new contact. All updates to user-defined attributes in the new contact are
+  limited to the individual contact ID. There are no limits to the number of contacts that
+  can be linked by using `RelatedContactId`.
+
 - `"SourcePhoneNumber"`: The phone number associated with the Amazon Connect instance, in
   E.164 format. If you do not specify a source phone number, you must specify a queue.
+
 - `"TrafficType"`: Denotes the class of traffic. Calls with different traffic types are
-  handled differently by Amazon Connect. The default value is `GENERAL`. Use `CAMPAIGN`
-  if `EnableAnswerMachineDetection` is set to `true`. For all other cases, use `GENERAL`.
+  handled differently by Amazon Connect. The default value is `GENERAL`. Use `CAMPAIGN` if
+  `EnableAnswerMachineDetection` is set to `true`. For all other cases, use `GENERAL`.
 """
 function start_outbound_voice_contact end
 
@@ -12137,20 +12210,18 @@ end
     start_task_contact(instance_id, name)
     start_task_contact(instance_id, name, params::Dict{String,<:Any})
 
-Initiates a flow to start a new task contact. For more information about task contacts, see
-[Concepts: Tasks in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html)
+Initiates a flow to start a new task contact. For more information about task contacts, see [Concepts: Tasks in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html)
 in the *Amazon Connect Administrator Guide*.
 
 When using `PreviousContactId` and `RelatedContactId` input parameters, note the following:
 
-
-- `PreviousContactId`   - Any updates to user-defined task contact attributes on any
-  contact linked through the same `PreviousContactId` will affect every contact in the
-  chain.
+- `PreviousContactId`
+  - Any updates to user-defined task contact attributes on any contact linked through the
+    same `PreviousContactId` will affect every contact in the chain.
   - There can be a maximum of 12 linked task contacts in a chain. That is, 12 task contacts
     can be created that share the same `PreviousContactId`.
-- `RelatedContactId`   - Copies contact attributes from the related task contact to the new
-  contact.
+- `RelatedContactId`
+  - Copies contact attributes from the related task contact to the new contact.
   - Any update on attributes in a new task contact does not update attributes on previous
     contact.
   - There’s no limit on the number of task contacts that can be created that use the same
@@ -12159,13 +12230,13 @@ When using `PreviousContactId` and `RelatedContactId` input parameters, note the
 In addition, when calling StartTaskContact include only one of these parameters:
 `ContactFlowID`, `QuickConnectID`, or `TaskTemplateID`. Only one parameter is required as
 long as the task template has a flow configured to run it. If more than one parameter is
-specified, or only the `TaskTemplateID` is specified but it does not have a flow
-configured, the request returns an error because Amazon Connect cannot identify the unique
-flow to run when the task is created.
+specified, or only the `TaskTemplateID` is specified but it does not have a flow configured,
+the request returns an error because Amazon Connect cannot identify the unique flow to run
+when the task is created.
 
 A `ServiceQuotaExceededException` occurs when the number of open tasks exceeds the active
-tasks quota or there are already 12 tasks referencing the same `PreviousContactId`. For
-more information about service quotas for task contacts, see [Amazon Connect service quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html)
+tasks quota or there are already 12 tasks referencing the same `PreviousContactId`. For more
+information about service quotas for task contacts, see [Amazon Connect service quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html)
 in the *Amazon Connect Administrator Guide*.
 
 # Arguments
@@ -12184,39 +12255,48 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute
   keys can include only alphanumeric, dash, and underscore characters.
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+
 - `"ContactFlowId"`: The identifier of the flow for initiating the tasks. To see the
   ContactFlowId in the Amazon Connect admin website, on the navigation menu go to
-  **Routing**, **Contact Flows**. Choose the flow. On the flow page, under the name of
-  the flow, choose **Show additional flow information**. The ContactFlowId is the last
-  part of the ARN, shown here in bold:
+  **Routing**, **Contact Flows**. Choose the flow. On the flow page, under the name of the
+  flow, choose **Show additional flow information**. The ContactFlowId is the last part of
+  the ARN, shown here in bold:
 
   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-
   xxxxxxxxxxxx/contact-flow/**846ec553-a005-41c0-8341-xxxxxxxxxxxx**
+
 - `"Description"`: A description of the task that is shown to an agent in the Contact
   Control Panel (CCP).
+
 - `"PreviousContactId"`: The identifier of the previous chat, voice, or task contact. Any
   updates to user-defined attributes to task contacts linked using the same
-  `PreviousContactID` will affect every contact in the chain. There can be a maximum of
-  12 linked task contacts in a chain.
+  `PreviousContactID` will affect every contact in the chain. There can be a maximum of 12
+  linked task contacts in a chain.
+
 - `"QuickConnectId"`: The identifier for the quick connect. Tasks that are created by using
   `QuickConnectId` will use the flow that is defined on agent or queue quick connect. For
   more information about quick connects, see [Create quick connects](https://docs.aws.amazon.com/connect/latest/adminguide/quick-connects.html).
+
 - `"References"`: A formatted URL that is shown to an agent in the Contact Control Panel
   (CCP). Tasks can have the following reference types at the time of creation: `URL` |
   `NUMBER` | `STRING` | `DATE` | `EMAIL`. `ATTACHMENT` is not a supported reference type
   during task creation.
+
 - `"RelatedContactId"`: The contactId that is [related](https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html#linked-tasks)
   to this contact. Linking tasks together by using `RelatedContactID` copies over contact
   attributes from the related task contact to the new task contact. All updates to user-
   defined attributes in the new task contact are limited to the individual contact ID,
   unlike what happens when tasks are linked by using `PreviousContactID`. There are no
   limits to the number of contacts that can be linked by using `RelatedContactId`.
+
 - `"ScheduledTime"`: The timestamp, in Unix Epoch seconds format, at which to start running
-  the inbound flow. The scheduled time cannot be in the past. It must be within up to 6
-  days in future.
+  the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days
+  in future.
+
 - `"TaskTemplateId"`: A unique identifier for the task template. For more information about
   task templates, see [Create task templates](https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html)
   in the *Amazon Connect Administrator Guide*.
@@ -12279,8 +12359,10 @@ Amazon Connect instance (specified as InstanceId).
 
   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-
   xxxxxxxxxxxx/contact-flow/**846ec553-a005-41c0-8341-xxxxxxxxxxxx**
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
+
 - `participant_details`:
 
 # Optional Parameters
@@ -12289,26 +12371,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AllowedCapabilities"`: Information about the video sharing capabilities of the
   participants (customer, agent).
+
 - `"Attributes"`: A custom key-value pair using an attribute map. The attributes are
   standard Amazon Connect attributes, and can be accessed in flows just like any other
   contact attributes.
 
   There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute
   keys can include only alphanumeric, -, and _ characters.
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 
-  The token is valid for 7 days after creation. If a contact is already started, the
-  contact ID is returned.
+  The token is valid for 7 days after creation. If a contact is already started, the contact
+  ID is returned.
+
 - `"Description"`: A description of the task that is shown to an agent in the Contact
   Control Panel (CCP).
+
 - `"References"`: A formatted URL that is shown to an agent in the Contact Control Panel
   (CCP). Tasks can have the following reference types at the time of creation: `URL` |
   `NUMBER` | `STRING` | `DATE` | `EMAIL`. `ATTACHMENT` is not a supported reference type
   during task creation.
-- `"RelatedContactId"`: The unique identifier for an Amazon Connect contact. This
-  identifier is related to the contact starting.
+
+- `"RelatedContactId"`: The unique identifier for an Amazon Connect contact. This identifier
+  is related to the contact starting.
 """
 function start_web_rtccontact end
 
@@ -12429,16 +12516,16 @@ end
 Stops recording a call when a contact is being recorded. StopContactRecording is a one-time
 action. If you use StopContactRecording to stop recording an ongoing call, you can't use
 StartContactRecording to restart it. For scenarios where the recording has started and you
-want to suspend it for sensitive information (for example, to collect a credit card
-number), and then restart it, use SuspendContactRecording and ResumeContactRecording.
+want to suspend it for sensitive information (for example, to collect a credit card number),
+and then restart it, use SuspendContactRecording and ResumeContactRecording.
 
 Only voice recordings are supported at this time.
 
 # Arguments
 
 - `contact_id`: The identifier of the contact.
-- `initial_contact_id`: The identifier of the contact. This is the identifier of the
-  contact associated with the first interaction with the contact center.
+- `initial_contact_id`: The identifier of the contact. This is the identifier of the contact
+  associated with the first interaction with the contact center.
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 """
@@ -12493,14 +12580,14 @@ end
     stop_contact_streaming(contact_id, instance_id, streaming_id)
     stop_contact_streaming(contact_id, instance_id, streaming_id, params::Dict{String,<:Any})
 
-Ends message streaming on a specified contact. To restart message streaming on that
-contact, call the [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html)
+Ends message streaming on a specified contact. To restart message streaming on that contact,
+call the [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html)
 API.
 
 # Arguments
 
-- `contact_id`: The identifier of the contact. This is the identifier of the contact that
-  is associated with the first interaction with the contact center.
+- `contact_id`: The identifier of the contact. This is the identifier of the contact that is
+  associated with the first interaction with the contact center.
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 - `streaming_id`: The identifier of the streaming configuration enabled.
@@ -12620,8 +12707,8 @@ Voice and screen recordings are supported.
 # Arguments
 
 - `contact_id`: The identifier of the contact.
-- `initial_contact_id`: The identifier of the contact. This is the identifier of the
-  contact associated with the first interaction with the contact center.
+- `initial_contact_id`: The identifier of the contact. This is the identifier of the contact
+  associated with the first interaction with the contact center.
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 """
@@ -12682,14 +12769,15 @@ used, see [Set up granular billing for a detailed view of your Amazon Connect us
 # Arguments
 
 - `contact_id`: The identifier of the contact in this instance of Amazon Connect.
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
+
 - `tags`: The tags to be assigned to the contact resource. For example, { "Tags":
   {"key1":"value1", "key2":"value2"} }.
 
   !!! note
       Authorization is not supported by this tag.
-
 """
 function tag_contact end
 
@@ -12791,8 +12879,8 @@ Note the following requirements:
 
 - Transfer is supported for only `TASK` contacts.
 - Do not use both `QueueId` and `UserId` in the same call.
-- The following flow types are supported: Inbound flow, Transfer to agent flow, and
-  Transfer to queue flow.
+- The following flow types are supported: Inbound flow, Transfer to agent flow, and Transfer
+  to queue flow.
 - The `TransferContact` API can be called only on active contacts.
 - A contact cannot be transferred more than 11 times.
 
@@ -12863,8 +12951,8 @@ end
     untag_contact(contact_id, instance_id, tag_keys)
     untag_contact(contact_id, instance_id, tag_keys, params::Dict{String,<:Any})
 
-Removes the specified tags from the contact resource. For more information about this API
-is used, see [Set up granular billing for a detailed view of your Amazon Connect usage](https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html).
+Removes the specified tags from the contact resource. For more information about this API is
+used, see [Set up granular billing for a detailed view of your Amazon Connect usage](https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html).
 
 # Arguments
 
@@ -13018,16 +13106,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AllowedIps"`: A list of IP address range strings that are allowed to access the
   instance. For more information on how to configure IP addresses, see[Configure session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts)
   in the *Amazon Connect Administrator Guide*.
+
 - `"BlockedIps"`: A list of IP address range strings that are blocked from accessing the
-  instance. For more information on how to configure IP addresses, For more information
-  on how to configure IP addresses, see [Configure IP-based access control](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac)
+  instance. For more information on how to configure IP addresses, For more information on
+  how to configure IP addresses, see [Configure IP-based access control](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac)
   in the *Amazon Connect Administrator Guide*.
+
 - `"Description"`: The description for the authentication profile.
+
 - `"Name"`: The name for the authentication profile.
+
 - `"PeriodicSessionDuration"`: The short lived session duration configuration for users
-  logged in to Amazon Connect, in minutes. This value determines the maximum possible
-  time before an agent is authenticated. For more information, For more information on
-  how to configure IP addresses, see [Configure session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts)
+  logged in to Amazon Connect, in minutes. This value determines the maximum possible time
+  before an agent is authenticated. For more information, For more information on how to
+  configure IP addresses, see [Configure session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts)
   in the *Amazon Connect Administrator Guide*.
 """
 function update_authentication_profile end
@@ -13139,21 +13231,22 @@ in the *Amazon Connect Administrator Guide*.
 - `attributes`: The Amazon Connect attributes. These attributes can be accessed in flows
   just like any other contact attributes.
 
-  You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute
-  keys can include only alphanumeric, dash, and underscore characters.
+  You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys
+  can include only alphanumeric, dash, and underscore characters.
 
   When the attributes for a contact exceed 32 KB, the contact is routed down the Error
   branch of the flow. As a mitigation, consider the following options:
 
   - Remove unnecessary attributes by setting their values to empty.
-  - If the attributes are only used in one flow and don't need to be referred to outside
-    of that flow (for example, by a Lambda or another flow), then use flow attributes.
-    This way you aren't needlessly persisting the 32 KB of information from one flow to
-    another. For more information, see [Flow block: Set contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/set-contact-attributes.html)
+  - If the attributes are only used in one flow and don't need to be referred to outside of
+    that flow (for example, by a Lambda or another flow), then use flow attributes. This way
+    you aren't needlessly persisting the 32 KB of information from one flow to another. For
+    more information, see [Flow block: Set contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/set-contact-attributes.html)
     in the *Amazon Connect Administrator Guide*.
 
-- `initial_contact_id`: The identifier of the contact. This is the identifier of the
-  contact associated with the first interaction with the contact center.
+- `initial_contact_id`: The identifier of the contact. This is the identifier of the contact
+  associated with the first interaction with the contact center.
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 """
@@ -13269,9 +13362,11 @@ example, `arn:aws:.../contact-flow/{id}:\$SAVED`. Once a contact flow is publish
 # Arguments
 
 - `contact_flow_id`: The identifier of the flow.
+
 - `content`: The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
 
   Length Constraints: Minimum length of 1. Maximum length of 256000.
+
 - `instance_id`: The identifier of the Amazon Connect instance.
 """
 function update_contact_flow_content end
@@ -13508,9 +13603,9 @@ position in the queue. For example, you can move a contact to the back of the qu
 setting a lower routing priority relative to other contacts in queue; or you can move a
 contact to the front of the queue by increasing the routing age which will make the contact
 look artificially older and therefore higher up in the first-in-first-out routing order.
-Note that adjusting the routing age of a contact affects only its position in queue, and
-not its actual queue wait time as reported through metrics. These properties can also be
-updated by using [the Set routing priority / age flow block](https://docs.aws.amazon.com/connect/latest/adminguide/change-routing-priority.html).
+Note that adjusting the routing age of a contact affects only its position in queue, and not
+its actual queue wait time as reported through metrics. These properties can also be updated
+by using [the Set routing priority / age flow block](https://docs.aws.amazon.com/connect/latest/adminguide/change-routing-priority.html).
 
 !!! note
     Either **QueuePriority** or **QueueTimeAdjustmentInSeconds** should be provided within
@@ -13527,12 +13622,12 @@ updated by using [the Set routing priority / age flow block](https://docs.aws.am
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"QueuePriority"`: Priority of the contact in the queue. The default priority for new
-  contacts is 5. You can raise the priority of a contact compared to other contacts in
-  the queue by assigning them a higher priority, such as 1 or 2.
+  contacts is 5. You can raise the priority of a contact compared to other contacts in the
+  queue by assigning them a higher priority, such as 1 or 2.
 - `"QueueTimeAdjustmentSeconds"`: The number of seconds to add or subtract from the
-  contact's routing age. Contacts are routed to agents on a first-come, first-serve
-  basis. This means that changing their amount of time in queue compared to others also
-  changes their position in queue.
+  contact's routing age. Contacts are routed to agents on a first-come, first-serve basis.
+  This means that changing their amount of time in queue compared to others also changes
+  their position in queue.
 - `"RoutingCriteria"`: Updates the routing criteria on the contact. These properties can be
   used to change how a&#x2028; contact is routed within the queue.
 """
@@ -13576,8 +13671,8 @@ Updates the scheduled time of a task contact that is already scheduled.
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 - `scheduled_time`: The timestamp, in Unix Epoch seconds format, at which to start running
-  the inbound flow. The scheduled time cannot be in the past. It must be within up to 6
-  days in future.
+  the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days
+  in future.
 """
 function update_contact_schedule end
 
@@ -13631,8 +13726,8 @@ Updates details about a specific evaluation form version in the specified Amazon
 instance. Question and section identifiers cannot be duplicated within the same evaluation
 form.
 
-This operation does not support partial updates. Instead it does a full update of
-evaluation form content.
+This operation does not support partial updates. Instead it does a full update of evaluation
+form content.
 
 # Arguments
 
@@ -13772,11 +13867,12 @@ Updates the value for the specified attribute type.
 - `attribute_type`: The type of attribute.
 
   !!! note
-      Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this
-      feature, contact Amazon Web Services Support for allowlisting.
+      Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature,
+      contact Amazon Web Services Support for allowlisting.
 
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
+
 - `value`: The value for the attribute. Maximum character limit is 100.
 """
 function update_instance_attribute end
@@ -13873,9 +13969,8 @@ end
     update_participant_role_config(channel_configuration, contact_id, instance_id)
     update_participant_role_config(channel_configuration, contact_id, instance_id, params::Dict{String,<:Any})
 
-Updates timeouts for when human chat participants are to be considered idle, and when
-agents are automatically disconnected from a chat due to idleness. You can set four timers:
-
+Updates timeouts for when human chat participants are to be considered idle, and when agents
+are automatically disconnected from a chat due to idleness. You can set four timers:
 
 - Customer idle timeout
 - Customer auto-disconnect timeout
@@ -14060,8 +14155,8 @@ to an agent or pools of agents within a queue. For more information, see [Create
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN) of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN) of the instance.
 - `name`: The name of the predefined attribute.
 
 # Optional Parameters
@@ -14309,14 +14404,14 @@ Updates the outbound caller ID name, number, and outbound whisper flow for a spe
 queue.
 
 !!! important
-    - If the phone number is claimed to a traffic distribution group that was created in
-      the same Region as the Amazon Connect instance where you are calling this API, then
-      you can use a full phone number ARN or a UUID for `OutboundCallerIdNumberId`.
-      However, if the phone number is claimed to a traffic distribution group that is in
-      one Region, and you are calling this API from an instance in another Amazon Web
-      Services Region that is associated with the traffic distribution group, you must
-      provide a full phone number ARN. If a UUID is provided in this scenario, you will
-      receive a `ResourceNotFoundException`.
+    - If the phone number is claimed to a traffic distribution group that was created in the
+      same Region as the Amazon Connect instance where you are calling this API, then you
+      can use a full phone number ARN or a UUID for `OutboundCallerIdNumberId`. However, if
+      the phone number is claimed to a traffic distribution group that is in one Region, and
+      you are calling this API from an instance in another Amazon Web Services Region that
+      is associated with the traffic distribution group, you must provide a full phone
+      number ARN. If a UUID is provided in this scenario, you will receive a
+      `ResourceNotFoundException`.
     - Only use the phone number ARN format that doesn't contain `instance` in the path, for
       example, `arn:aws:connect:us-east-1:1234567890:phone-number/uuid`. This is the same
       ARN format that is returned when you call the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html)
@@ -14524,8 +14619,8 @@ Whether agents with this routing profile will have their routing order calculate
 # Arguments
 
 - `agent_availability_timer`: Whether agents with this routing profile will have their
-  routing order calculated based on *time since their last inbound contact* or *longest
-  idle time*.
+  routing order calculated based on *time since their last inbound contact* or *longest idle
+  time*.
 - `instance_id`: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
   in the Amazon Resource Name (ARN) of the instance.
 - `routing_profile_id`: The identifier of the routing profile.
@@ -14573,8 +14668,8 @@ end
     update_routing_profile_concurrency(instance_id, media_concurrencies, routing_profile_id)
     update_routing_profile_concurrency(instance_id, media_concurrencies, routing_profile_id, params::Dict{String,<:Any})
 
-Updates the channels that agents can handle in the Contact Control Panel (CCP) for a
-routing profile.
+Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing
+profile.
 
 # Arguments
 
@@ -14936,8 +15031,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Fields"`: Fields that are part of the template.
 - `"Name"`: The name of the task template.
 - `"Status"`: Marks a template as `ACTIVE` or `INACTIVE` for a task to refer to it. Tasks
-  can only be created from `ACTIVE` templates. If a template is marked as `INACTIVE`,
-  then a task that refers to this template cannot be created.
+  can only be created from `ACTIVE` templates. If a template is marked as `INACTIVE`, then a
+  task that refers to this template cannot be created.
 """
 function update_task_template end
 
@@ -14976,8 +15071,8 @@ Updates the traffic distribution for a given traffic distribution group.
 !!! note
     The `SignInConfig` distribution is available only on a default
     `TrafficDistributionGroup` (see the `IsDefault` parameter in the [TrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html)
-    data type). If you call `UpdateTrafficDistribution` with a modified `SignInConfig` and
-    a non-default `TrafficDistributionGroup`, an `InvalidRequestException` is returned.
+    data type). If you call `UpdateTrafficDistribution` with a modified `SignInConfig` and a
+    non-default `TrafficDistributionGroup`, an `InvalidRequestException` is returned.
 
 For more information about updating a traffic distribution group, see [Update telephony traffic distribution across Amazon Web Services Regions](https://docs.aws.amazon.com/connect/latest/adminguide/update-telephony-traffic-distribution.html)
 in the *Amazon Connect Administrator Guide*.
@@ -15164,8 +15259,8 @@ Updates the identity information for the specified user.
     We strongly recommend limiting who has the ability to invoke `UpdateUserIdentityInfo`.
     Someone with that ability can change the login credentials of other users by changing
     their email address. This poses a security risk to your organization. They can change
-    the email address of a user to the attacker's email address, and then reset the
-    password through email. For more information, see [Best Practices for Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-best-practices.html)
+    the email address of a user to the attacker's email address, and then reset the password
+    through email. For more information, see [Best Practices for Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-best-practices.html)
     in the *Amazon Connect Administrator Guide*.
 
 # Arguments
@@ -15260,8 +15355,8 @@ Updates the properties associated with the proficiencies of a user.
 
 # Arguments
 
-- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
-  ID in the Amazon Resource Name (ARN) of the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance ID
+  in the Amazon Resource Name (ARN) of the instance.
 - `user_id`: The identifier of the user account.
 - `user_proficiencies`: The proficiencies to be updated for the user. Proficiencies must
   first be associated to the user. You can do this using AssociateUserProficiencies API.
@@ -15408,9 +15503,8 @@ Updates the view content of the given view identifier in the specified Amazon Co
 instance.
 
 It performs content validation if `Status` is set to `SAVED` and performs full content
-validation if `Status` is `PUBLISHED`. Note that the `\$SAVED` alias' content will always
-be updated, but the `\$LATEST` alias' content will only be updated if `Status` is
-`PUBLISHED`.
+validation if `Status` is `PUBLISHED`. Note that the `\$SAVED` alias' content will always be
+updated, but the `\$LATEST` alias' content will only be updated if `Status` is `PUBLISHED`.
 
 # Arguments
 
@@ -15419,10 +15513,13 @@ be updated, but the `\$LATEST` alias' content will only be updated if `Status` i
   operation.
 
   The total uncompressed content has a maximum file size of 400kB.
+
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
   in the ARN of the instance.
+
 - `status`: Indicates the view status as either `SAVED` or `PUBLISHED`. The `PUBLISHED`
   status will initiate validation on the content.
+
 - `view_id`: The identifier of the view. Both `ViewArn` and `ViewId` can be used.
 """
 function update_view_content end

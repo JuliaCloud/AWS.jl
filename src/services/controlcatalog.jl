@@ -8,10 +8,10 @@ using AWS.UUIDs
     get_control(control_arn)
     get_control(control_arn, params::Dict{String,<:Any})
 
-Returns details about a specific control, most notably a list of Amazon Web Services
-Regions where this control is supported. Input a value for the *ControlArn* parameter, in
-ARN form. `GetControl` accepts *controltower* or *controlcatalog* control ARNs as input.
-Returns a *controlcatalog* ARN format.
+Returns details about a specific control, most notably a list of Amazon Web Services Regions
+where this control is supported. Input a value for the *ControlArn* parameter, in ARN form.
+`GetControl` accepts *controltower* or *controlcatalog* control ARNs as input. Returns a
+*controlcatalog* ARN format.
 
 In the API response, controls that have the value `GLOBAL` in the `Scope` field do not show
 the `DeployableRegions` field, because it does not apply. Controls that have the value
@@ -31,8 +31,8 @@ in the example.
 
   `arn:{PARTITION}:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID}`
 
-  Here is a more general pattern that covers Amazon Web Services Control Tower and
-  Control Catalog ARNs:
+  Here is a more general pattern that covers Amazon Web Services Control Tower and Control
+  Catalog ARNs:
 
   `^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\\\-]+\$`
 """
@@ -82,7 +82,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This filter allows you to specify one objective ARN at a time. Passing multiple ARNs in
   the `CommonControlFilter` isn’t currently supported.
+
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
+
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
 function list_common_controls end
@@ -110,8 +112,8 @@ end
     list_controls(params::Dict{String,<:Any})
 
 Returns a paginated list of all available controls in the Amazon Web Services Control
-Catalog library. Allows you to discover available controls. The list of controls is given
-as structures of type *controlSummary*. The ARN is returned in the global *controlcatalog*
+Catalog library. Allows you to discover available controls. The list of controls is given as
+structures of type *controlSummary*. The ARN is returned in the global *controlcatalog*
 format, as shown in the examples.
 
 # Optional Parameters
@@ -185,9 +187,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ObjectiveFilter"`: An optional filter that narrows the results to a specific domain.
 
-  This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in
-  the `ObjectiveFilter` isn’t currently supported.
+  This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in the
+  `ObjectiveFilter` isn’t currently supported.
+
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
+
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
 function list_objectives end

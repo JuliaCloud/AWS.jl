@@ -18,9 +18,9 @@ Creates a cell in an account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"cells"`: A list of cell Amazon Resource Names (ARNs) contained within this cell, for
-  use in nested cells. For example, Availability Zones within specific Amazon Web
-  Services Regions.
+- `"cells"`: A list of cell Amazon Resource Names (ARNs) contained within this cell, for use
+  in nested cells. For example, Availability Zones within specific Amazon Web Services
+  Regions.
 - `"tags"`:
 """
 function create_cell end
@@ -218,16 +218,18 @@ failover readiness.
 # Arguments
 
 - `resource_set_name`: The name of the resource set to create.
+
 - `resource_set_type`: The resource type of the resources in the resource set. Enter one of
   the following values for resource type:
 
   AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup,
-  AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table,
-  AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer,
-  AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster,
-  AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic,
-  AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway,
+  AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume,
+  AWS::ElasticLoadBalancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer,
+  AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck,
+  AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC,
+  AWS::EC2::VPNConnection, AWS::EC2::VPNGateway,
   AWS::Route53RecoveryReadiness::DNSTargetResource
+
 - `resources`: A list of resource objects in the resource set.
 
 # Optional Parameters
@@ -470,8 +472,8 @@ end
     get_architecture_recommendations(recovery_group_name)
     get_architecture_recommendations(recovery_group_name, params::Dict{String,<:Any})
 
-Gets recommendations about architecture designs for improving resiliency for an
-application, based on a recovery group.
+Gets recommendations about architecture designs for improving resiliency for an application,
+based on a recovery group.
 
 # Arguments
 
@@ -549,8 +551,8 @@ end
     get_cell_readiness_summary(cell_name)
     get_cell_readiness_summary(cell_name, params::Dict{String,<:Any})
 
-Gets readiness for a cell. Aggregates the readiness of all the resources that are
-associated with the cell into a single value.
+Gets readiness for a cell. Aggregates the readiness of all the resources that are associated
+with the cell into a single value.
 
 # Arguments
 
@@ -638,9 +640,9 @@ the recovery group, use GetRecoveryGroupReadinessSummary.
 # Arguments
 
 - `readiness_check_name`: Name of a readiness check.
-- `resource_identifier`: The resource identifier, which is the Amazon Resource Name (ARN)
-  or the identifier generated for the resource by Application Recovery Controller (for
-  example, for a DNS target resource).
+- `resource_identifier`: The resource identifier, which is the Amazon Resource Name (ARN) or
+  the identifier generated for the resource by Application Recovery Controller (for example,
+  for a DNS target resource).
 
 # Optional Parameters
 
@@ -1290,16 +1292,18 @@ Updates a resource set.
 # Arguments
 
 - `resource_set_name`: Name of a resource set.
+
 - `resource_set_type`: The resource type of the resources in the resource set. Enter one of
   the following values for resource type:
 
   AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup,
-  AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table,
-  AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer,
-  AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster,
-  AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic,
-  AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway,
+  AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume,
+  AWS::ElasticLoadBalancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer,
+  AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck,
+  AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC,
+  AWS::EC2::VPNConnection, AWS::EC2::VPNGateway,
   AWS::Route53RecoveryReadiness::DNSTargetResource
+
 - `resources`: A list of resource objects.
 """
 function update_resource_set end

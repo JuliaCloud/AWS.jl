@@ -64,9 +64,9 @@ end
     create_control_panel(cluster_arn, control_panel_name)
     create_control_panel(cluster_arn, control_panel_name, params::Dict{String,<:Any})
 
-Creates a new control panel. A control panel represents a group of routing controls that
-can be changed together in a single transaction. You can use a control panel to centrally
-view the operational status of applications across your organization, and trigger multi-app
+Creates a new control panel. A control panel represents a group of routing controls that can
+be changed together in a single transaction. You can use a control panel to centrally view
+the operational status of applications across your organization, and trigger multi-app
 failovers in a single transaction, for example, to fail over an Availability Zone or Amazon
 Web Services Region.
 
@@ -151,8 +151,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: A unique, case-sensitive string of up to 64 ASCII characters. To make an
   idempotent API request with an action, specify a client token in the request.
-- `"ControlPanelArn"`: The Amazon Resource Name (ARN) of the control panel that includes
-  the routing control.
+- `"ControlPanelArn"`: The Amazon Resource Name (ARN) of the control panel that includes the
+  routing control.
 """
 function create_routing_control end
 
@@ -208,9 +208,9 @@ prevent unexpected outcomes.
 There are two types of safety rules: assertion rules and gating rules.
 
 Assertion rule: An assertion rule enforces that, when you change a routing control state,
-that a certain criteria is met. For example, the criteria might be that at least one
-routing control state is On after the transaction so that traffic continues to flow to at
-least one cell for the application. This ensures that you avoid a fail-open scenario.
+that a certain criteria is met. For example, the criteria might be that at least one routing
+control state is On after the transaction so that traffic continues to flow to at least one
+cell for the application. This ensures that you avoid a fail-open scenario.
 
 Gating rule: A gating rule lets you configure a gating routing control as an overall
 "on/off" switch for a group of routing controls. Or, you can configure more complex gating
@@ -705,8 +705,8 @@ end
 
 Returns an array of routing controls for a control panel. A routing control is an Amazon
 Route 53 Application Recovery Controller construct that has one of two states: ON and OFF.
-You can map the routing control state to the state of an Amazon Route 53 health check,
-which can be used to control routing.
+You can map the routing control state to the state of an Amazon Route 53 health check, which
+can be used to control routing.
 
 # Arguments
 

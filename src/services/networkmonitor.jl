@@ -9,12 +9,12 @@ using AWS.UUIDs
     create_monitor(monitor_name, params::Dict{String,<:Any})
 
 Creates a monitor between a source subnet and destination IP address. Within a monitor
-you'll create one or more probes that monitor network traffic between your source Amazon
-Web Services VPC subnets and your destination IP addresses. Each probe then aggregates and
-sends metrics to Amazon CloudWatch.
+you'll create one or more probes that monitor network traffic between your source Amazon Web
+Services VPC subnets and your destination IP addresses. Each probe then aggregates and sends
+metrics to Amazon CloudWatch.
 
-You can also create a monitor with probes using this command. For each probe, you define
-the following:
+You can also create a monitor with probes using this command. For each probe, you define the
+following:
 
 - `source`—The subnet IDs where the probes will be created.
 - `destination`— The target destination IP address for the probe.
@@ -26,16 +26,16 @@ the following:
 
 # Arguments
 
-- `monitor_name`: The name identifying the monitor. It can contain only letters,
-  underscores (_), or dashes (-), and can be up to 200 characters.
+- `monitor_name`: The name identifying the monitor. It can contain only letters, underscores
+  (_), or dashes (-), and can be up to 200 characters.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"aggregationPeriod"`: The time, in seconds, that metrics are aggregated and sent to
-  Amazon CloudWatch. Valid values are either `30` or `60`. `60` is the default if no
-  period is chosen.
+  Amazon CloudWatch. Valid values are either `30` or `60`. `60` is the default if no period
+  is chosen.
 - `"clientToken"`: Unique, case-sensitive identifier to ensure the idempotency of the
   request. Only returned if a client token was provided in the request.
 - `"probes"`: Displays a list of all of the probes created for a monitor.
@@ -81,8 +81,8 @@ end
 
 Create a probe within a monitor. Once you create a probe, and it begins monitoring your
 network traffic, you'll incur billing charges for that probe. This action requires the
-`monitorName` parameter. Run `ListMonitors` to get a list of monitor names. Note the name
-of the `monitorName` you want to create the probe for.
+`monitorName` parameter. Run `ListMonitors` to get a list of monitor names. Note the name of
+the `monitorName` you want to create the probe for.
 
 # Arguments
 
@@ -174,12 +174,12 @@ end
     delete_probe(monitor_name, probe_id)
     delete_probe(monitor_name, probe_id, params::Dict{String,<:Any})
 
-Deletes the specified probe. Once a probe is deleted you'll no longer incur any billing
-fees for that probe.
+Deletes the specified probe. Once a probe is deleted you'll no longer incur any billing fees
+for that probe.
 
 This action requires both the `monitorName` and `probeId` parameters. Run `ListMonitors` to
-get a list of monitor names. Run `GetMonitor` to get a list of probes and probe IDs. You
-can only delete a single probe at a time using this action.
+get a list of monitor names. Run `GetMonitor` to get a list of probes and probe IDs. You can
+only delete a single probe at a time using this action.
 
 # Arguments
 
@@ -256,16 +256,16 @@ end
     get_probe(monitor_name, probe_id)
     get_probe(monitor_name, probe_id, params::Dict{String,<:Any})
 
-Returns the details about a probe. This action requires both the `monitorName` and
-`probeId` parameters. Run `ListMonitors` to get a list of monitor names. Run `GetMonitor`
-to get a list of probes and probe IDs.
+Returns the details about a probe. This action requires both the `monitorName` and `probeId`
+parameters. Run `ListMonitors` to get a list of monitor names. Run `GetMonitor` to get a
+list of probes and probe IDs.
 
 # Arguments
 
 - `monitor_name`: The name of the monitor associated with the probe. Run `ListMonitors` to
   get a list of monitor names.
-- `probe_id`: The ID of the probe to get information about. Run `GetMonitor` action to get
-  a list of probes and probe IDs for the monitor.
+- `probe_id`: The ID of the probe to get information about. Run `GetMonitor` action to get a
+  list of probes and probe IDs for the monitor.
 """
 function get_probe end
 
@@ -307,7 +307,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 
   If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
 - `"nextToken"`: The token for the next page of results.
+
 - `"state"`: The list of all monitors and their states.
 """
 function list_monitors end
@@ -446,8 +448,8 @@ end
     update_monitor(aggregation_period, monitor_name, params::Dict{String,<:Any})
 
 Updates the `aggregationPeriod` for a monitor. Monitors support an `aggregationPeriod` of
-either `30` or `60` seconds. This action requires the `monitorName` and `probeId`
-parameter. Run `ListMonitors` to get a list of monitor names.
+either `30` or `60` seconds. This action requires the `monitorName` and `probeId` parameter.
+Run `ListMonitors` to get a list of monitor names.
 
 # Arguments
 

@@ -13,8 +13,8 @@ with the migration task performed by a migration tool. This API has the followin
 
 - Migration tools can call the [`associate_created_artifact`](@ref) operation to indicate
   which AWS artifact is associated with a migration task.
-- The created artifact name must be provided in ARN (Amazon Resource Name) format which
-  will contain information about type and region; for example:
+- The created artifact name must be provided in ARN (Amazon Resource Name) format which will
+  contain information about type and region; for example:
   `arn:aws:ec2:us-east-1:488216288981:image/ami-6d0ba87b`.
 - Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance, or DMS
   endpoint, etc.
@@ -23,8 +23,8 @@ with the migration task performed by a migration tool. This API has the followin
 
 - `created_artifact`: An ARN of the AWS resource related to the migration (e.g., AMI, EC2
   instance, RDS instance, etc.)
-- `migration_task_name`: Unique identifier that references the migration task. *Do not
-  store personal data in this field.*
+- `migration_task_name`: Unique identifier that references the migration task. *Do not store
+  personal data in this field.*
 - `progress_update_stream`: The name of the ProgressUpdateStream.
 
 # Optional Parameters
@@ -149,9 +149,9 @@ end
     create_progress_update_stream(progress_update_stream_name)
     create_progress_update_stream(progress_update_stream_name, params::Dict{String,<:Any})
 
-Creates a progress update stream which is an AWS resource used for access control as well
-as a namespace for migration task names that is implicitly linked to your AWS account. It
-must uniquely identify the migration tool as it is used for all updates made by the tool;
+Creates a progress update stream which is an AWS resource used for access control as well as
+a namespace for migration task names that is implicitly linked to your AWS account. It must
+uniquely identify the migration tool as it is used for all updates made by the tool;
 however, it does not need to be unique for each AWS account because it is scoped to the AWS
 account.
 
@@ -362,8 +362,8 @@ migration tool that was previously associated. This API has the following traits
 
 - A migration user can call the [`disassociate_created_artifacts`](@ref) operation to
   disassociate a created AWS Artifact from a migration task.
-- The created artifact name must be provided in ARN (Amazon Resource Name) format which
-  will contain information about type and region; for example:
+- The created artifact name must be provided in ARN (Amazon Resource Name) format which will
+  contain information about type and region; for example:
   `arn:aws:ec2:us-east-1:488216288981:image/ami-6d0ba87b`.
 - Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance, or RDS
   instance, etc.
@@ -506,8 +506,8 @@ tool must first register the migration task with Migration Hub.
 
 # Arguments
 
-- `migration_task_name`: Unique identifier that references the migration task. *Do not
-  store personal data in this field.*
+- `migration_task_name`: Unique identifier that references the migration task. *Do not store
+  personal data in this field.*
 - `progress_update_stream`: The name of the ProgressUpdateStream. &gt;
 
 # Optional Parameters
@@ -600,8 +600,8 @@ end
     list_created_artifacts(migration_task_name, progress_update_stream)
     list_created_artifacts(migration_task_name, progress_update_stream, params::Dict{String,<:Any})
 
-Lists the created artifacts attached to a given migration task in an update stream. This
-API has the following traits:
+Lists the created artifacts attached to a given migration task in an update stream. This API
+has the following traits:
 
 - Gets the list of the created artifacts while migration is taking place.
 - Shows the artifacts created by the migration tool that was associated by the
@@ -610,8 +610,8 @@ API has the following traits:
 
 # Arguments
 
-- `migration_task_name`: Unique identifier that references the migration task. *Do not
-  store personal data in this field.*
+- `migration_task_name`: Unique identifier that references the migration task. *Do not store
+  personal data in this field.*
 - `progress_update_stream`: The name of the ProgressUpdateStream.
 
 # Optional Parameters
@@ -867,11 +867,11 @@ migration task. This API has the following traits:
 
 # Arguments
 
-- `migration_task_name`: Unique identifier that references the migration task. *Do not
-  store personal data in this field.*
+- `migration_task_name`: Unique identifier that references the migration task. *Do not store
+  personal data in this field.*
 - `next_update_seconds`: Number of seconds after the UpdateDateTime within which the
-  Migration Hub can expect an update. If Migration Hub does not receive an update within
-  the specified interval, then the migration task will be considered stale.
+  Migration Hub can expect an update. If Migration Hub does not receive an update within the
+  specified interval, then the migration task will be considered stale.
 - `progress_update_stream`: The name of the ProgressUpdateStream.
 - `task`: Information about the task's progress and status.
 - `update_date_time`: The timestamp when the task was gathered.
@@ -959,25 +959,26 @@ the Application Discovery Service repository. This association occurs asynchrono
 
 # Arguments
 
-- `migration_task_name`: Unique identifier that references the migration task. *Do not
-  store personal data in this field.*
+- `migration_task_name`: Unique identifier that references the migration task. *Do not store
+  personal data in this field.*
+
 - `progress_update_stream`: The name of the ProgressUpdateStream.
+
 - `resource_attribute_list`: Information about the resource that is being migrated. This
   data will be used to map the task to a resource in the Application Discovery Service
   repository.
 
   !!! note
-      Takes the object array of `ResourceAttribute` where the `Type` field is reserved
-      for the following values:
+      Takes the object array of `ResourceAttribute` where the `Type` field is reserved for
+      the following values:
       `IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SERIAL_NUMBER`
       where the identifying value can be a string up to 256 characters.
 
   !!! important
       - If any "VM" related value is set for a `ResourceAttribute` object, it is required
         that `VM_MANAGER_ID`, as a minimum, is always set. If `VM_MANAGER_ID` is not set,
-        then all "VM" fields will be discarded and "VM" fields will not be used for
-        matching the migration task to a server in Application Discovery Service
-        repository. See the [Example](https://docs.aws.amazon.com/migrationhub/latest/ug/API_PutResourceAttributes.html#API_PutResourceAttributes_Examples)
+        then all "VM" fields will be discarded and "VM" fields will not be used for matching
+        the migration task to a server in Application Discovery Service repository. See the [Example](https://docs.aws.amazon.com/migrationhub/latest/ug/API_PutResourceAttributes.html#API_PutResourceAttributes_Examples)
         section below for a use case of specifying "VM" related values.
       - If a server you are trying to match has multiple IP or MAC addresses, you should
         provide as many as you know in separate type/value pairs passed to the

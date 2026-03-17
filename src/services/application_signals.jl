@@ -135,22 +135,26 @@ permissions:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: An optional description for this SLO.
+
 - `"Goal"`: This structure contains the attributes that determine the goal of the SLO.
+
 - `"RequestBasedSliConfig"`: If this SLO is a request-based SLO, this structure defines the
   information about what performance metric this SLO will monitor.
 
   You can't specify both `RequestBasedSliConfig` and `SliConfig` in the same operation.
+
 - `"SliConfig"`: If this SLO is a period-based SLO, this structure defines the information
   about what performance metric this SLO will monitor.
 
   You can't specify both `RequestBasedSliConfig` and `SliConfig` in the same operation.
-- `"Tags"`: A list of key-value pairs to associate with the SLO. You can associate as many
-  as 50 tags with an SLO. To be able to associate tags with the SLO when you create the
-  SLO, you must have the `cloudwatch:TagResource` permission.
 
-  Tags can help you organize and categorize your resources. You can also use them to
-  scope user permissions by granting a user permission to access or change only resources
-  with certain tag values.
+- `"Tags"`: A list of key-value pairs to associate with the SLO. You can associate as many
+  as 50 tags with an SLO. To be able to associate tags with the SLO when you create the SLO,
+  you must have the `cloudwatch:TagResource` permission.
+
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
 """
 function create_service_level_objective end
 
@@ -222,9 +226,9 @@ Returns information about a service discovered by Application Signals.
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
   Your requested start time will be rounded to the nearest hour.
-- `key_attributes`: Use this field to specify which service you want to retrieve
-  information for. You must specify at least the `Type`, `Name`, and `Environment`
-  attributes.
+
+- `key_attributes`: Use this field to specify which service you want to retrieve information
+  for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
 
   This is a string-to-string map. It can include the following fields.
 
@@ -233,14 +237,12 @@ Returns information about a service discovered by Application Signals.
     value of the `Type` field is `Resource` or `AWS::Resource`.
   - `Name` specifies the name of the object. This is used only if the value of the `Type`
     field is `Service`, `RemoteService`, or `AWS::Service`.
-  - `Identifier` identifies the resource objects of this resource. This is used only if
-    the value of the `Type` field is `Resource` or `AWS::Resource`.
-  - `Environment` specifies the location where this object is hosted, or what it belongs
-    to.
+  - `Identifier` identifies the resource objects of this resource. This is used only if the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Environment` specifies the location where this object is hosted, or what it belongs to.
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
-  raw HTTP Query API, it is formatted as be epoch time in seconds. For example:
-  `1698778057`
+  raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
   Your requested start time will be rounded to the nearest hour.
 """
@@ -294,8 +296,8 @@ Returns information about one SLO created in the account.
 
 # Arguments
 
-- `id`: The ARN or name of the SLO that you want to retrieve information about. You can
-  find the ARNs of SLOs by using the [ListServiceLevelObjectives](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListServiceLevelObjectives.html)
+- `id`: The ARN or name of the SLO that you want to retrieve information about. You can find
+  the ARNs of SLOs by using the [ListServiceLevelObjectives](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListServiceLevelObjectives.html)
   operation.
 """
 function get_service_level_objective end
@@ -329,9 +331,9 @@ services.
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
   Your requested end time will be rounded to the nearest hour.
-- `key_attributes`: Use this field to specify which service you want to retrieve
-  information for. You must specify at least the `Type`, `Name`, and `Environment`
-  attributes.
+
+- `key_attributes`: Use this field to specify which service you want to retrieve information
+  for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
 
   This is a string-to-string map. It can include the following fields.
 
@@ -340,14 +342,12 @@ services.
     value of the `Type` field is `Resource` or `AWS::Resource`.
   - `Name` specifies the name of the object. This is used only if the value of the `Type`
     field is `Service`, `RemoteService`, or `AWS::Service`.
-  - `Identifier` identifies the resource objects of this resource. This is used only if
-    the value of the `Type` field is `Resource` or `AWS::Resource`.
-  - `Environment` specifies the location where this object is hosted, or what it belongs
-    to.
+  - `Identifier` identifies the resource objects of this resource. This is used only if the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Environment` specifies the location where this object is hosted, or what it belongs to.
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
-  raw HTTP Query API, it is formatted as be epoch time in seconds. For example:
-  `1698778057`
+  raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
   Your requested start time will be rounded to the nearest hour.
 
@@ -355,8 +355,8 @@ services.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of results to return in one operation. If you omit
-  this parameter, the default of 50 is used.
+- `"MaxResults"`: The maximum number of results to return in one operation. If you omit this
+  parameter, the default of 50 is used.
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of service dependencies.
 """
@@ -416,9 +416,9 @@ are instrumented with CloudWatch RUM app monitors.
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
   Your requested start time will be rounded to the nearest hour.
-- `key_attributes`: Use this field to specify which service you want to retrieve
-  information for. You must specify at least the `Type`, `Name`, and `Environment`
-  attributes.
+
+- `key_attributes`: Use this field to specify which service you want to retrieve information
+  for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
 
   This is a string-to-string map. It can include the following fields.
 
@@ -427,14 +427,12 @@ are instrumented with CloudWatch RUM app monitors.
     value of the `Type` field is `Resource` or `AWS::Resource`.
   - `Name` specifies the name of the object. This is used only if the value of the `Type`
     field is `Service`, `RemoteService`, or `AWS::Service`.
-  - `Identifier` identifies the resource objects of this resource. This is used only if
-    the value of the `Type` field is `Resource` or `AWS::Resource`.
-  - `Environment` specifies the location where this object is hosted, or what it belongs
-    to.
+  - `Identifier` identifies the resource objects of this resource. This is used only if the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Environment` specifies the location where this object is hosted, or what it belongs to.
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
-  raw HTTP Query API, it is formatted as be epoch time in seconds. For example:
-  `1698778057`
+  raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
   Your requested start time will be rounded to the nearest hour.
 
@@ -442,8 +440,8 @@ are instrumented with CloudWatch RUM app monitors.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of results to return in one operation. If you omit
-  this parameter, the default of 50 is used.
+- `"MaxResults"`: The maximum number of results to return in one operation. If you omit this
+  parameter, the default of 50 is used.
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of service dependents.
 """
@@ -509,15 +507,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     value of the `Type` field is `Resource` or `AWS::Resource`.
   - `Name` specifies the name of the object. This is used only if the value of the `Type`
     field is `Service`, `RemoteService`, or `AWS::Service`.
-  - `Identifier` identifies the resource objects of this resource. This is used only if
-    the value of the `Type` field is `Resource` or `AWS::Resource`.
-  - `Environment` specifies the location where this object is hosted, or what it belongs
-    to.
+  - `Identifier` identifies the resource objects of this resource. This is used only if the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Environment` specifies the location where this object is hosted, or what it belongs to.
 
-- `"MaxResults"`: The maximum number of results to return in one operation. If you omit
-  this parameter, the default of 50 is used.
+- `"MaxResults"`: The maximum number of results to return in one operation. If you omit this
+  parameter, the default of 50 is used.
+
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of service level objectives.
+
 - `"OperationName"`: The name of the operation that this SLO is associated with.
 """
 function list_service_level_objectives end
@@ -549,9 +548,9 @@ Signals. Only the operations that were invoked during the specified time range a
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
   Your requested end time will be rounded to the nearest hour.
-- `key_attributes`: Use this field to specify which service you want to retrieve
-  information for. You must specify at least the `Type`, `Name`, and `Environment`
-  attributes.
+
+- `key_attributes`: Use this field to specify which service you want to retrieve information
+  for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
 
   This is a string-to-string map. It can include the following fields.
 
@@ -560,14 +559,12 @@ Signals. Only the operations that were invoked during the specified time range a
     value of the `Type` field is `Resource` or `AWS::Resource`.
   - `Name` specifies the name of the object. This is used only if the value of the `Type`
     field is `Service`, `RemoteService`, or `AWS::Service`.
-  - `Identifier` identifies the resource objects of this resource. This is used only if
-    the value of the `Type` field is `Resource` or `AWS::Resource`.
-  - `Environment` specifies the location where this object is hosted, or what it belongs
-    to.
+  - `Identifier` identifies the resource objects of this resource. This is used only if the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Environment` specifies the location where this object is hosted, or what it belongs to.
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
-  raw HTTP Query API, it is formatted as be epoch time in seconds. For example:
-  `1698778057`
+  raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
   Your requested start time will be rounded to the nearest hour.
 
@@ -575,8 +572,8 @@ Signals. Only the operations that were invoked during the specified time range a
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of results to return in one operation. If you omit
-  this parameter, the default of 50 is used.
+- `"MaxResults"`: The maximum number of results to return in one operation. If you omit this
+  parameter, the default of 50 is used.
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of service operations.
 """
@@ -636,9 +633,9 @@ Services are discovered through Application Signals instrumentation.
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
   Your requested start time will be rounded to the nearest hour.
+
 - `start_time`: The start of the time period to retrieve information about. When used in a
-  raw HTTP Query API, it is formatted as be epoch time in seconds. For example:
-  `1698778057`
+  raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
   Your requested start time will be rounded to the nearest hour.
 
@@ -646,8 +643,8 @@ Services are discovered through Application Signals instrumentation.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of results to return in one operation. If you omit
-  this parameter, the default of 50 is used.
+- `"MaxResults"`: The maximum number of results to return in one operation. If you omit this
+  parameter, the default of 50 is used.
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of services.
 """
@@ -695,8 +692,8 @@ level objectives.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the CloudWatch resource that you want
-  to view tags for.
+- `resource_arn`: The Amazon Resource Name (ARN) of the CloudWatch resource that you want to
+  view tags for.
 
   The ARN format of an Application Signals SLO is
   `arn:aws:cloudwatch:*Region*:*account-id*:slo:*slo-name*`
@@ -738,8 +735,8 @@ end
     start_discovery()
     start_discovery(params::Dict{String,<:Any})
 
-Enables this Amazon Web Services account to be able to use CloudWatch Application Signals
-by creating the *AWSServiceRoleForCloudWatchApplicationSignals* service-linked role. This
+Enables this Amazon Web Services account to be able to use CloudWatch Application Signals by
+creating the *AWSServiceRoleForCloudWatchApplicationSignals* service-linked role. This
 service- linked role has the following permissions:
 
 - `xray:GetServiceGraph`
@@ -789,21 +786,22 @@ strings of characters.
 
 You can use the `TagResource` action with an alarm that already has tags. If you specify a
 new tag key for the alarm, this tag is appended to the list of tags associated with the
-alarm. If you specify a tag key that is already associated with the alarm, the new tag
-value that you specify replaces the previous value for that tag.
+alarm. If you specify a tag key that is already associated with the alarm, the new tag value
+that you specify replaces the previous value for that tag.
 
 You can associate as many as 50 tags with a CloudWatch resource.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the CloudWatch resource that you want
-  to set tags for.
+- `resource_arn`: The Amazon Resource Name (ARN) of the CloudWatch resource that you want to
+  set tags for.
 
   The ARN format of an Application Signals SLO is
   `arn:aws:cloudwatch:*Region*:*account-id*:slo:*slo-name*`
 
   For more information about ARN format, see [Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
   in the *Amazon Web Services General Reference*.
+
 - `tags`: The list of key-value pairs to associate with the alarm.
 """
 function tag_resource end
@@ -847,14 +845,15 @@ Removes one or more tags from the specified resource.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the CloudWatch resource that you want
-  to delete tags from.
+- `resource_arn`: The Amazon Resource Name (ARN) of the CloudWatch resource that you want to
+  delete tags from.
 
   The ARN format of an Application Signals SLO is
   `arn:aws:cloudwatch:*Region*:*account-id*:slo:*slo-name*`
 
   For more information about ARN format, see [Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
   in the *Amazon Web Services General Reference*.
+
 - `tag_keys`: The list of tag keys to remove from the resource.
 """
 function untag_resource end
@@ -912,12 +911,15 @@ based SLO to a period-based SLO.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: An optional description for the SLO.
+
 - `"Goal"`: A structure that contains the attributes that determine the goal of the SLO.
   This includes the time period for evaluation and the attainment threshold.
+
 - `"RequestBasedSliConfig"`: If this SLO is a request-based SLO, this structure defines the
   information about what performance metric this SLO will monitor.
 
   You can't specify both `SliConfig` and `RequestBasedSliConfig` in the same operation.
+
 - `"SliConfig"`: If this SLO is a period-based SLO, this structure defines the information
   about what performance metric this SLO will monitor.
 """

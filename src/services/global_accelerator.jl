@@ -16,8 +16,8 @@ be specified in your subnet. The number of ports required is: subnet size times 
 of ports per destination EC2 instances. For example, a subnet defined as /24 requires a
 listener port range of at least 255 ports.
 
-Note: You must have enough remaining listener ports available to map to the subnet ports,
-or the call will fail with a LimitExceededException.
+Note: You must have enough remaining listener ports available to map to the subnet ports, or
+the call will fail with a LimitExceededException.
 
 By default, all destinations in a subnet in a custom routing accelerator cannot receive
 traffic. To enable all destinations to receive traffic, or to specify individual port
@@ -77,8 +77,8 @@ end
     add_endpoints(endpoint_configurations, endpoint_group_arn, params::Dict{String,<:Any})
 
 Add endpoints to an endpoint group. The `AddEndpoints` API operation is the recommended
-option for adding endpoints. The alternative options are to add endpoints when you create
-an endpoint group (with the [CreateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_CreateEndpointGroup.html)
+option for adding endpoints. The alternative options are to add endpoints when you create an
+endpoint group (with the [CreateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_CreateEndpointGroup.html)
 API) or when you update an endpoint group (with the [UpdateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_UpdateEndpointGroup.html)
 API).
 
@@ -188,10 +188,10 @@ end
     allow_custom_routing_traffic(endpoint_group_arn, endpoint_id, params::Dict{String,<:Any})
 
 Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet
-endpoint that can receive traffic for a custom routing accelerator. You can allow traffic
-to all destinations in the subnet endpoint, or allow traffic to a specified list of
-destination IP addresses and ports in the subnet. Note that you cannot specify IP addresses
-or ports outside of the range that you configured for the endpoint group.
+endpoint that can receive traffic for a custom routing accelerator. You can allow traffic to
+all destinations in the subnet endpoint, or allow traffic to a specified list of destination
+IP addresses and ports in the subnet. Note that you cannot specify IP addresses or ports
+outside of the range that you configured for the endpoint group.
 
 After you make changes, you can verify that the updates are complete by checking the status
 of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
@@ -207,26 +207,27 @@ of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AllowAllTrafficToEndpoint"`: Indicates whether all destination IP addresses and ports
-  for a specified VPC subnet endpoint can receive traffic from a custom routing
-  accelerator. The value is TRUE or FALSE.
+  for a specified VPC subnet endpoint can receive traffic from a custom routing accelerator.
+  The value is TRUE or FALSE.
 
-  When set to TRUE, *all* destinations in the custom routing VPC subnet can receive
-  traffic. Note that you cannot specify destination IP addresses and ports when the value
-  is set to TRUE.
+  When set to TRUE, *all* destinations in the custom routing VPC subnet can receive traffic.
+  Note that you cannot specify destination IP addresses and ports when the value is set to
+  TRUE.
 
   When set to FALSE (or not specified), you *must* specify a list of destination IP
-  addresses that are allowed to receive traffic. A list of ports is optional. If you
-  don't specify a list of ports, the ports that can accept traffic is the same as the
-  ports configured for the endpoint group.
+  addresses that are allowed to receive traffic. A list of ports is optional. If you don't
+  specify a list of ports, the ports that can accept traffic is the same as the ports
+  configured for the endpoint group.
 
   The default value is FALSE.
-- `"DestinationAddresses"`: A list of specific Amazon EC2 instance IP addresses
-  (destination addresses) in a subnet that you want to allow to receive traffic. The IP
-  addresses must be a subset of the IP addresses that you specified for the endpoint
-  group.
+
+- `"DestinationAddresses"`: A list of specific Amazon EC2 instance IP addresses (destination
+  addresses) in a subnet that you want to allow to receive traffic. The IP addresses must be
+  a subset of the IP addresses that you specified for the endpoint group.
 
   `DestinationAddresses` is required if `AllowAllTrafficToEndpoint` is `FALSE` or is not
   specified.
+
 - `"DestinationPorts"`: A list of specific Amazon EC2 instance ports (destination ports)
   that you want to allow to receive traffic.
 """
@@ -286,8 +287,8 @@ endpoints, such as Network Load Balancers.
 - `idempotency_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency—that is, the uniqueness—of an accelerator.
 - `name`: The name of the accelerator. The name can have a maximum of 64 characters, must
-  contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin
-  or end with a hyphen or period.
+  contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or
+  end with a hyphen or period.
 
 # Optional Parameters
 
@@ -298,28 +299,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If the value is set to true, an accelerator cannot be deleted. If set to false, the
   accelerator can be deleted.
+
 - `"IpAddressType"`: The IP address type that an accelerator supports. For a standard
   accelerator, the value can be IPV4 or DUAL_STACK.
+
 - `"IpAddresses"`: Optionally, if you've added your own IP address pool to Global
   Accelerator (BYOIP), you can choose an IPv4 address from your own pool to use for the
   accelerator's static IPv4 address when you create an accelerator.
 
-  After you bring an address range to Amazon Web Services, it appears in your account as
-  an address pool. When you create an accelerator, you can assign one IPv4 address from
-  your range to it. Global Accelerator assigns you a second static IPv4 address from an
-  Amazon IP address range. If you bring two IPv4 address ranges to Amazon Web Services,
-  you can assign one IPv4 address from each range to your accelerator. This restriction
-  is because Global Accelerator assigns each address range to a different network zone,
-  for high availability.
+  After you bring an address range to Amazon Web Services, it appears in your account as an
+  address pool. When you create an accelerator, you can assign one IPv4 address from your
+  range to it. Global Accelerator assigns you a second static IPv4 address from an Amazon IP
+  address range. If you bring two IPv4 address ranges to Amazon Web Services, you can assign
+  one IPv4 address from each range to your accelerator. This restriction is because Global
+  Accelerator assigns each address range to a different network zone, for high availability.
 
-  You can specify one or two addresses, separated by a space. Do not include the /32
-  suffix.
+  You can specify one or two addresses, separated by a space. Do not include the /32 suffix.
 
-  Note that you can't update IP addresses for an existing accelerator. To change them,
-  you must create a new accelerator with the new addresses.
+  Note that you can't update IP addresses for an existing accelerator. To change them, you
+  must create a new accelerator with the new addresses.
 
   For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
   in the *Global Accelerator Developer Guide*.
+
 - `"Tags"`: Create tags for an accelerator.
 
   For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html)
@@ -372,12 +374,12 @@ for an accelerator. For account numbers that are listed as principals, to work w
 resource listed in the attachment, you must sign in to an account specified as a principal.
 Then, you can work with resources that are listed, with any of your accelerators. If an
 accelerator ARN is listed in the cross-account attachment as a principal, anyone with
-permission to make updates to the accelerator can work with resources that are listed in
-the attachment.
+permission to make updates to the accelerator can work with resources that are listed in the
+attachment.
 
-Specify each principal and resource separately. To specify two CIDR address pools, list
-them individually under `Resources`, and so on. For a command line operation, for example,
-you might use a statement like the following:
+Specify each principal and resource separately. To specify two CIDR address pools, list them
+individually under `Resources`, and so on. For a command line operation, for example, you
+might use a statement like the following:
 
 `"Resources": [{"Cidr": "169.254.60.0/24"},{"Cidr": "169.254.59.0/24"}]`
 
@@ -394,13 +396,14 @@ in the *Global Accelerator Developer Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Principals"`: The principals to include in the cross-account attachment. A principal
-  can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an
+- `"Principals"`: The principals to include in the cross-account attachment. A principal can
+  be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an
   accelerator.
+
 - `"Resources"`: The Amazon Resource Names (ARNs) for the resources to include in the cross-
-  account attachment. A resource can be any supported Amazon Web Services resource type
-  for Global Accelerator or a CIDR range for a bring your own IP address (BYOIP) address
-  pool.
+  account attachment. A resource can be any supported Amazon Web Services resource type for
+  Global Accelerator or a CIDR range for a bring your own IP address (BYOIP) address pool.
+
 - `"Tags"`: Add tags for a cross-account attachment.
 
   For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html)
@@ -463,8 +466,8 @@ operation.
 - `idempotency_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency—that is, the uniqueness—of the request.
 - `name`: The name of a custom routing accelerator. The name can have a maximum of 64
-  characters, must contain only alphanumeric characters or hyphens (-), and must not
-  begin or end with a hyphen.
+  characters, must contain only alphanumeric characters or hyphens (-), and must not begin
+  or end with a hyphen.
 
 # Optional Parameters
 
@@ -475,28 +478,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If the value is set to true, an accelerator cannot be deleted. If set to false, the
   accelerator can be deleted.
+
 - `"IpAddressType"`: The IP address type that an accelerator supports. For a custom routing
   accelerator, the value must be IPV4.
+
 - `"IpAddresses"`: Optionally, if you've added your own IP address pool to Global
   Accelerator (BYOIP), you can choose an IPv4 address from your own pool to use for the
   accelerator's static IPv4 address when you create an accelerator.
 
-  After you bring an address range to Amazon Web Services, it appears in your account as
-  an address pool. When you create an accelerator, you can assign one IPv4 address from
-  your range to it. Global Accelerator assigns you a second static IPv4 address from an
-  Amazon IP address range. If you bring two IPv4 address ranges to Amazon Web Services,
-  you can assign one IPv4 address from each range to your accelerator. This restriction
-  is because Global Accelerator assigns each address range to a different network zone,
-  for high availability.
+  After you bring an address range to Amazon Web Services, it appears in your account as an
+  address pool. When you create an accelerator, you can assign one IPv4 address from your
+  range to it. Global Accelerator assigns you a second static IPv4 address from an Amazon IP
+  address range. If you bring two IPv4 address ranges to Amazon Web Services, you can assign
+  one IPv4 address from each range to your accelerator. This restriction is because Global
+  Accelerator assigns each address range to a different network zone, for high availability.
 
-  You can specify one or two addresses, separated by a space. Do not include the /32
-  suffix.
+  You can specify one or two addresses, separated by a space. Do not include the /32 suffix.
 
-  Note that you can't update IP addresses for an existing accelerator. To change them,
-  you must create a new accelerator with the new addresses.
+  Note that you can't update IP addresses for an existing accelerator. To change them, you
+  must create a new accelerator with the new addresses.
 
   For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
   in the *Global Accelerator Developer Guide*.
+
 - `"Tags"`: Create tags for an accelerator.
 
   For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html)
@@ -614,10 +618,11 @@ specify.
 
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator for a custom routing
   listener.
+
 - `idempotency_token`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency—that is, the uniqueness—of the request.
-- `port_ranges`: The port range to support for connections from clients to your
-  accelerator.
+
+- `port_ranges`: The port range to support for connections from clients to your accelerator.
 
   Separately, you set port ranges for endpoints. For more information, see [About endpoints for custom routing accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html).
 """
@@ -674,8 +679,8 @@ Create an endpoint group for the specified listener. An endpoint group is a coll
 endpoints in one Amazon Web Services Region. A resource must be valid and active when you
 add it as an endpoint.
 
-For more information about endpoint types and requirements for endpoints that you can add
-to Global Accelerator, see [Endpoints for standard accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints.html)
+For more information about endpoint types and requirements for endpoints that you can add to
+Global Accelerator, see [Endpoints for standard accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints.html)
 in the *Global Accelerator Developer Guide*.
 
 # Arguments
@@ -691,32 +696,39 @@ in the *Global Accelerator Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"EndpointConfigurations"`: The list of endpoint objects.
+
 - `"HealthCheckIntervalSeconds"`: The time—10 seconds or 30 seconds—between each health
   check for an endpoint. The default value is 30.
+
 - `"HealthCheckPath"`: If the protocol is HTTP/S, then this specifies the path that is the
   destination for health check targets. The default value is slash (/).
+
 - `"HealthCheckPort"`: The port that Global Accelerator uses to check the health of
-  endpoints that are part of this endpoint group. The default port is the listener port
-  that this endpoint group is associated with. If listener port is a list of ports,
-  Global Accelerator uses the first port in the list.
+  endpoints that are part of this endpoint group. The default port is the listener port that
+  this endpoint group is associated with. If listener port is a list of ports, Global
+  Accelerator uses the first port in the list.
+
 - `"HealthCheckProtocol"`: The protocol that Global Accelerator uses to check the health of
   endpoints that are part of this endpoint group. The default value is TCP.
+
 - `"PortOverrides"`: Override specific listener ports used to route traffic to endpoints
-  that are part of this endpoint group. For example, you can create a port override in
-  which the listener receives user traffic on ports 80 and 443, but your accelerator
-  routes that traffic to ports 1080 and 1443, respectively, on the endpoints.
+  that are part of this endpoint group. For example, you can create a port override in which
+  the listener receives user traffic on ports 80 and 443, but your accelerator routes that
+  traffic to ports 1080 and 1443, respectively, on the endpoints.
 
   For more information, see [Overriding listener ports](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html)
   in the *Global Accelerator Developer Guide*.
-- `"ThresholdCount"`: The number of consecutive health checks required to set the state of
-  a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The
-  default value is 3.
+
+- `"ThresholdCount"`: The number of consecutive health checks required to set the state of a
+  healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default
+  value is 3.
+
 - `"TrafficDialPercentage"`: The percentage of traffic to send to an Amazon Web Services
   Region. Additional traffic is distributed to other endpoint groups for this listener.
 
   Use this action to increase (dial up) or decrease (dial down) traffic to a specific
-  Region. The percentage is applied to the traffic that would otherwise have been routed
-  to the Region based on optimal routing.
+  Region. The percentage is applied to the traffic that would otherwise have been routed to
+  the Region based on optimal routing.
 
   The default value is 100.
 """
@@ -769,9 +781,9 @@ end
     create_listener(accelerator_arn, idempotency_token, port_ranges, protocol)
     create_listener(accelerator_arn, idempotency_token, port_ranges, protocol, params::Dict{String,<:Any})
 
-Create a listener to process inbound connections from clients to an accelerator.
-Connections arrive to assigned static IP addresses on a port, port range, or list of port
-ranges that you specify.
+Create a listener to process inbound connections from clients to an accelerator. Connections
+arrive to assigned static IP addresses on a port, port range, or list of port ranges that
+you specify.
 
 # Arguments
 
@@ -788,21 +800,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientAffinity"`: Client affinity lets you direct all requests from a user to the same
   endpoint, if you have stateful applications, regardless of the port and protocol of the
-  client request. Client affinity gives you control over whether to always route each
-  client to the same specific endpoint.
+  client request. Client affinity gives you control over whether to always route each client
+  to the same specific endpoint.
 
-  Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal
-  endpoint for a connection. If client affinity is `NONE`, Global Accelerator uses the
-  "five-tuple" (5-tuple) properties—source IP address, source port, destination IP
-  address, destination port, and protocol—to select the hash value, and then chooses the
-  best endpoint. However, with this setting, if someone uses different ports to connect
-  to Global Accelerator, their connections might not be always routed to the same
-  endpoint because the hash value changes.
+  Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint
+  for a connection. If client affinity is `NONE`, Global Accelerator uses the "five-tuple"
+  (5-tuple) properties—source IP address, source port, destination IP address, destination
+  port, and protocol—to select the hash value, and then chooses the best endpoint. However,
+  with this setting, if someone uses different ports to connect to Global Accelerator, their
+  connections might not be always routed to the same endpoint because the hash value
+  changes.
 
-  If you want a given client to always be routed to the same endpoint, set client
-  affinity to `SOURCE_IP` instead. When you use the `SOURCE_IP` setting, Global
-  Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and
-  destination IP address—to select the hash value.
+  If you want a given client to always be routed to the same endpoint, set client affinity
+  to `SOURCE_IP` instead. When you use the `SOURCE_IP` setting, Global Accelerator uses the
+  "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to
+  select the hash value.
 
   The default value is `NONE`.
 """
@@ -873,8 +885,8 @@ the accelerator to set `Enabled` to false.
     *delete* an accelerator, you lose the static IP addresses that are assigned to the
     accelerator, so you can no longer route traffic by using them. As a best practice,
     ensure that you have permissions in place to avoid inadvertently deleting accelerators.
-    You can use IAM policies with Global Accelerator to limit the users who have
-    permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html)
+    You can use IAM policies with Global Accelerator to limit the users who have permissions
+    to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html)
     in the *Global Accelerator Developer Guide*.
 
 # Arguments
@@ -913,9 +925,9 @@ end
     delete_cross_account_attachment(attachment_arn)
     delete_cross_account_attachment(attachment_arn, params::Dict{String,<:Any})
 
-Delete a cross-account attachment. When you delete an attachment, Global Accelerator
-revokes the permission to use the resources in the attachment from all principals in the
-list of principals. Global Accelerator revokes the permission for specific resources.
+Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes
+the permission to use the resources in the attachment from all principals in the list of
+principals. Global Accelerator revokes the permission for specific resources.
 
 For more information, see [Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html)
 in the *Global Accelerator Developer Guide*.
@@ -970,8 +982,8 @@ accelerator, update the accelerator to set `Enabled` to false.
     *delete* an accelerator, you lose the static IP addresses that are assigned to the
     accelerator, so you can no longer route traffic by using them. As a best practice,
     ensure that you have permissions in place to avoid inadvertently deleting accelerators.
-    You can use IAM policies with Global Accelerator to limit the users who have
-    permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html)
+    You can use IAM policies with Global Accelerator to limit the users who have permissions
+    to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html)
     in the *Global Accelerator Developer Guide*.
 
 # Arguments
@@ -1184,24 +1196,26 @@ of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"DenyAllTrafficToEndpoint"`: Indicates whether all destination IP addresses and ports
-  for a specified VPC subnet endpoint *cannot* receive traffic from a custom routing
+- `"DenyAllTrafficToEndpoint"`: Indicates whether all destination IP addresses and ports for
+  a specified VPC subnet endpoint *cannot* receive traffic from a custom routing
   accelerator. The value is TRUE or FALSE.
 
-  When set to TRUE, *no* destinations in the custom routing VPC subnet can receive
-  traffic. Note that you cannot specify destination IP addresses and ports when the value
-  is set to TRUE.
+  When set to TRUE, *no* destinations in the custom routing VPC subnet can receive traffic.
+  Note that you cannot specify destination IP addresses and ports when the value is set to
+  TRUE.
 
   When set to FALSE (or not specified), you *must* specify a list of destination IP
-  addresses that cannot receive traffic. A list of ports is optional. If you don't
-  specify a list of ports, the ports that can accept traffic is the same as the ports
-  configured for the endpoint group.
+  addresses that cannot receive traffic. A list of ports is optional. If you don't specify a
+  list of ports, the ports that can accept traffic is the same as the ports configured for
+  the endpoint group.
 
   The default value is FALSE.
-- `"DestinationAddresses"`: A list of specific Amazon EC2 instance IP addresses
-  (destination addresses) in a subnet that you want to prevent from receiving traffic.
-  The IP addresses must be a subset of the IP addresses allowed for the VPC subnet
-  associated with the endpoint group.
+
+- `"DestinationAddresses"`: A list of specific Amazon EC2 instance IP addresses (destination
+  addresses) in a subnet that you want to prevent from receiving traffic. The IP addresses
+  must be a subset of the IP addresses allowed for the VPC subnet associated with the
+  endpoint group.
+
 - `"DestinationPorts"`: A list of specific Amazon EC2 instance ports (destination ports) in
   a subnet endpoint that you want to prevent from receiving traffic.
 """
@@ -1247,12 +1261,12 @@ end
     deprovision_byoip_cidr(cidr, params::Dict{String,<:Any})
 
 Releases the specified address range that you provisioned to use with your Amazon Web
-Services resources through bring your own IP addresses (BYOIP) and deletes the
-corresponding address pool.
+Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding
+address pool.
 
 Before you can release an address range, you must stop advertising it by using [WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html)
-and you must not have any accelerators that are using static IP addresses allocated from
-its address range.
+and you must not have any accelerators that are using static IP addresses allocated from its
+address range.
 
 For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
 in the *Global Accelerator Developer Guide*.
@@ -1644,8 +1658,8 @@ List the accelerators for an Amazon Web Services account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The number of Global Accelerator objects that you want to return with
-  this call. The default value is 10.
+- `"MaxResults"`: The number of Global Accelerator objects that you want to return with this
+  call. The default value is 10.
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
@@ -1922,8 +1936,8 @@ List the listeners for a custom routing accelerator.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The number of listener objects that you want to return with this call.
-  The default value is 10.
+- `"MaxResults"`: The number of listener objects that you want to return with this call. The
+  default value is 10.
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
@@ -1966,8 +1980,8 @@ creates a new static port mapping for the accelerator. The port mappings don't c
 Global Accelerator generates them, so you can retrieve and cache the full mapping on your
 servers.
 
-If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the
-port mappings. If you add a subnet to your accelerator, Global Accelerator creates new port
+If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the port
+mappings. If you add a subnet to your accelerator, Global Accelerator creates new port
 mappings (the existing ones don't change). If you add or remove EC2 instances in your
 subnet, the port mappings don't change, because the mappings are created when you add the
 subnet to Global Accelerator.
@@ -2024,15 +2038,14 @@ end
     list_custom_routing_port_mappings_by_destination(destination_address, endpoint_id, params::Dict{String,<:Any})
 
 List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint.
-The response is the mappings for one destination IP address. This is useful when your
-subnet endpoint has mappings that span multiple custom routing accelerators in your
-account, or for scenarios where you only want to list the port mappings for a specific
-destination instance.
+The response is the mappings for one destination IP address. This is useful when your subnet
+endpoint has mappings that span multiple custom routing accelerators in your account, or for
+scenarios where you only want to list the port mappings for a specific destination instance.
 
 # Arguments
 
-- `destination_address`: The endpoint IP address in a virtual private cloud (VPC) subnet
-  for which you want to receive back port mappings.
+- `destination_address`: The endpoint IP address in a virtual private cloud (VPC) subnet for
+  which you want to receive back port mappings.
 - `endpoint_id`: The ID for the virtual private cloud (VPC) subnet.
 
 # Optional Parameters
@@ -2136,15 +2149,15 @@ List the listeners for an accelerator.
 
 # Arguments
 
-- `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator for which you want
-  to list listener objects.
+- `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator for which you want to
+  list listener objects.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The number of listener objects that you want to return with this call.
-  The default value is 10.
+- `"MaxResults"`: The number of listener objects that you want to return with this call. The
+  default value is 10.
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
@@ -2185,8 +2198,8 @@ in the *Global Accelerator Developer Guide*.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the accelerator to list tags for. An
-  ARN uniquely identifies an accelerator.
+- `resource_arn`: The Amazon Resource Name (ARN) of the accelerator to list tags for. An ARN
+  uniquely identifies an accelerator.
 """
 function list_tags_for_resource end
 
@@ -2230,11 +2243,12 @@ in the *Global Accelerator Developer Guide*.
 # Arguments
 
 - `cidr`: The public IPv4 address range, in CIDR notation. The most specific IP prefix that
-  you can specify is /24. The address range cannot overlap with another address range
-  that you've brought to this Amazon Web Services Region or another Region.
+  you can specify is /24. The address range cannot overlap with another address range that
+  you've brought to this Amazon Web Services Region or another Region.
 
   For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
   in the Global Accelerator Developer Guide.
+
 - `cidr_authorization_context`: A signed document that proves that you are authorized to
   bring the specified IP address range to Amazon using BYOIP.
 """
@@ -2333,8 +2347,7 @@ Remove endpoints from an endpoint group.
 
 The `RemoveEndpoints` API operation is the recommended option for removing endpoints. The
 alternative is to remove endpoints by updating an endpoint group by using the [UpdateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_UpdateEndpointGroup.html)
-API operation. There are two advantages to using `AddEndpoints` to remove endpoints
-instead:
+API operation. There are two advantages to using `AddEndpoints` to remove endpoints instead:
 
 - It's more convenient, because you only need to specify the endpoints that you want to
   remove. With the `UpdateEndpointGroup` API operation, you must specify all of the
@@ -2493,16 +2506,16 @@ end
 Update an accelerator to make changes, such as the following:
 
 - Change the name of the accelerator.
-- Disable the accelerator so that it no longer accepts or routes traffic, or so that you
-  can delete it.
+- Disable the accelerator so that it no longer accepts or routes traffic, or so that you can
+  delete it.
 - Enable the accelerator, if it is disabled.
 - Change the IP address type to dual-stack if it is IPv4, or change the IP address type to
   IPv4 if it's dual-stack.
 
 Be aware that static IP addresses remain assigned to your accelerator for as long as it
 exists, even if you disable the accelerator and it no longer accepts or routes traffic.
-However, when you delete the accelerator, you lose the static IP addresses that are
-assigned to it, so you can no longer route traffic by using them.
+However, when you delete the accelerator, you lose the static IP addresses that are assigned
+to it, so you can no longer route traffic by using them.
 
 !!! important
     Global Accelerator is a global service that supports endpoints in multiple Amazon Web
@@ -2523,12 +2536,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If the value is set to true, the accelerator cannot be deleted. If set to false, the
   accelerator can be deleted.
+
 - `"IpAddressType"`: The IP address type that an accelerator supports. For a standard
   accelerator, the value can be IPV4 or DUAL_STACK.
+
 - `"IpAddresses"`: The IP addresses for an accelerator.
+
 - `"Name"`: The name of the accelerator. The name can have a maximum of 64 characters, must
-  contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin
-  or end with a hyphen or period.
+  contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or
+  end with a hyphen or period.
 """
 function update_accelerator end
 
@@ -2578,9 +2594,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Flow Logs](https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html)
   in the *Global Accelerator Developer Guide*.
+
 - `"FlowLogsS3Bucket"`: The name of the Amazon S3 bucket for the flow logs. Attribute is
   required if `FlowLogsEnabled` is `true`. The bucket must exist and have a bucket policy
   that grants Global Accelerator permission to write to the bucket.
+
 - `"FlowLogsS3Prefix"`: Update the prefix for the location in the Amazon S3 bucket for the
   flow logs. Attribute is required if `FlowLogsEnabled` is `true`.
 
@@ -2638,28 +2656,32 @@ in the *Global Accelerator Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AddPrincipals"`: The principals to add to the cross-account attachment. A principal is
-  an account or the Amazon Resource Name (ARN) of an accelerator that the attachment
-  gives permission to work with resources from another account. The resources are also
+  an account or the Amazon Resource Name (ARN) of an accelerator that the attachment gives
+  permission to work with resources from another account. The resources are also listed in
+  the attachment.
+
+  To add more than one principal, separate the account numbers or accelerator ARNs, or both,
+  with commas.
+
+- `"AddResources"`: The resources to add to the cross-account attachment. A resource listed
+  in a cross-account attachment can be used with an accelerator by the principals that are
   listed in the attachment.
 
-  To add more than one principal, separate the account numbers or accelerator ARNs, or
-  both, with commas.
-- `"AddResources"`: The resources to add to the cross-account attachment. A resource listed
-  in a cross-account attachment can be used with an accelerator by the principals that
-  are listed in the attachment.
-
   To add more than one resource, separate the resource ARNs with commas.
+
 - `"Name"`: The name of the cross-account attachment.
+
 - `"RemovePrincipals"`: The principals to remove from the cross-account attachment. A
   principal is an account or the Amazon Resource Name (ARN) of an accelerator that the
-  attachment gives permission to work with resources from another account. The resources
-  are also listed in the attachment.
+  attachment gives permission to work with resources from another account. The resources are
+  also listed in the attachment.
 
   To remove more than one principal, separate the account numbers or accelerator ARNs, or
   both, with commas.
-- `"RemoveResources"`: The resources to remove from the cross-account attachment. A
-  resource listed in a cross-account attachment can be used with an accelerator by the
-  principals that are listed in the attachment.
+
+- `"RemoveResources"`: The resources to remove from the cross-account attachment. A resource
+  listed in a cross-account attachment can be used with an accelerator by the principals
+  that are listed in the attachment.
 
   To remove more than one resource, separate the resource ARNs with commas.
 """
@@ -2710,12 +2732,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If the value is set to true, the accelerator cannot be deleted. If set to false, the
   accelerator can be deleted.
+
 - `"IpAddressType"`: The IP address type that an accelerator supports. For a custom routing
   accelerator, the value must be IPV4.
+
 - `"IpAddresses"`: The IP addresses for an accelerator.
+
 - `"Name"`: The name of the accelerator. The name can have a maximum of 64 characters, must
-  contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin
-  or end with a hyphen or period.
+  contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or
+  end with a hyphen or period.
 """
 function update_custom_routing_accelerator end
 
@@ -2765,15 +2790,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Flow logs](https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html)
   in the *Global Accelerator Developer Guide*.
+
 - `"FlowLogsS3Bucket"`: The name of the Amazon S3 bucket for the flow logs. Attribute is
   required if `FlowLogsEnabled` is `true`. The bucket must exist and have a bucket policy
   that grants Global Accelerator permission to write to the bucket.
+
 - `"FlowLogsS3Prefix"`: Update the prefix for the location in the Amazon S3 bucket for the
   flow logs. Attribute is required if `FlowLogsEnabled` is `true`.
 
-  If you don’t specify a prefix, the flow logs are stored in the root of the bucket. If
-  you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure
-  will include a double slash (//), like the following:
+  If you don’t specify a prefix, the flow logs are stored in the root of the bucket. If you
+  specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will
+  include a double slash (//), like the following:
 
   DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
 """
@@ -2814,9 +2841,10 @@ Update a listener for a custom routing accelerator.
 # Arguments
 
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to update.
+
 - `port_ranges`: The updated port range to support for connections from clients to your
-  accelerator. If you remove ports that are currently being used by a subnet endpoint,
-  the call fails.
+  accelerator. If you remove ports that are currently being used by a subnet endpoint, the
+  call fails.
 
   Separately, you set port ranges for endpoints. For more information, see [About endpoints for custom routing accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html).
 """
@@ -2870,32 +2898,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EndpointConfigurations"`: The list of endpoint objects. A resource must be valid and
   active when you add it as an endpoint.
+
 - `"HealthCheckIntervalSeconds"`: The time—10 seconds or 30 seconds—between each health
   check for an endpoint. The default value is 30.
+
 - `"HealthCheckPath"`: If the protocol is HTTP/S, then this specifies the path that is the
   destination for health check targets. The default value is slash (/).
+
 - `"HealthCheckPort"`: The port that Global Accelerator uses to check the health of
-  endpoints that are part of this endpoint group. The default port is the listener port
-  that this endpoint group is associated with. If the listener port is a list of ports,
-  Global Accelerator uses the first port in the list.
+  endpoints that are part of this endpoint group. The default port is the listener port that
+  this endpoint group is associated with. If the listener port is a list of ports, Global
+  Accelerator uses the first port in the list.
+
 - `"HealthCheckProtocol"`: The protocol that Global Accelerator uses to check the health of
   endpoints that are part of this endpoint group. The default value is TCP.
+
 - `"PortOverrides"`: Override specific listener ports used to route traffic to endpoints
-  that are part of this endpoint group. For example, you can create a port override in
-  which the listener receives user traffic on ports 80 and 443, but your accelerator
-  routes that traffic to ports 1080 and 1443, respectively, on the endpoints.
+  that are part of this endpoint group. For example, you can create a port override in which
+  the listener receives user traffic on ports 80 and 443, but your accelerator routes that
+  traffic to ports 1080 and 1443, respectively, on the endpoints.
 
   For more information, see [Overriding listener ports](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html)
   in the *Global Accelerator Developer Guide*.
-- `"ThresholdCount"`: The number of consecutive health checks required to set the state of
-  a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The
-  default value is 3.
+
+- `"ThresholdCount"`: The number of consecutive health checks required to set the state of a
+  healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default
+  value is 3.
+
 - `"TrafficDialPercentage"`: The percentage of traffic to send to an Amazon Web Services
   Region. Additional traffic is distributed to other endpoint groups for this listener.
 
   Use this action to increase (dial up) or decrease (dial down) traffic to a specific
-  Region. The percentage is applied to the traffic that would otherwise have been routed
-  to the Region based on optimal routing.
+  Region. The percentage is applied to the traffic that would otherwise have been routed to
+  the Region based on optimal routing.
 
   The default value is 100.
 """
@@ -2945,25 +2980,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientAffinity"`: Client affinity lets you direct all requests from a user to the same
   endpoint, if you have stateful applications, regardless of the port and protocol of the
-  client request. Client affinity gives you control over whether to always route each
-  client to the same specific endpoint.
+  client request. Client affinity gives you control over whether to always route each client
+  to the same specific endpoint.
 
-  Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal
-  endpoint for a connection. If client affinity is `NONE`, Global Accelerator uses the
-  "five-tuple" (5-tuple) properties—source IP address, source port, destination IP
-  address, destination port, and protocol—to select the hash value, and then chooses the
-  best endpoint. However, with this setting, if someone uses different ports to connect
-  to Global Accelerator, their connections might not be always routed to the same
-  endpoint because the hash value changes.
+  Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint
+  for a connection. If client affinity is `NONE`, Global Accelerator uses the "five-tuple"
+  (5-tuple) properties—source IP address, source port, destination IP address, destination
+  port, and protocol—to select the hash value, and then chooses the best endpoint. However,
+  with this setting, if someone uses different ports to connect to Global Accelerator, their
+  connections might not be always routed to the same endpoint because the hash value
+  changes.
 
-  If you want a given client to always be routed to the same endpoint, set client
-  affinity to `SOURCE_IP` instead. When you use the `SOURCE_IP` setting, Global
-  Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and
-  destination IP address—to select the hash value.
+  If you want a given client to always be routed to the same endpoint, set client affinity
+  to `SOURCE_IP` instead. When you use the `SOURCE_IP` setting, Global Accelerator uses the
+  "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to
+  select the hash value.
 
   The default value is `NONE`.
+
 - `"PortRanges"`: The updated list of port ranges for the connections from clients to the
   accelerator.
+
 - `"Protocol"`: The updated protocol for the connections from clients to the accelerator.
 """
 function update_listener end

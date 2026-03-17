@@ -70,8 +70,7 @@ watchlist that fraudsters can be a part of.
 
 - `name`: The name of the domain.
 - `server_side_encryption_configuration`: The configuration, containing the KMS key
-  identifier, to be used by Voice ID for the server-side encryption of your data. Refer
-  to [Amazon Connect Voice ID encryption at rest](https://docs.aws.amazon.com/connect/latest/adminguide/encryption-at-rest.html#encryption-at-rest-voiceid)
+  identifier, to be used by Voice ID for the server-side encryption of your data. Refer to [Amazon Connect Voice ID encryption at rest](https://docs.aws.amazon.com/connect/latest/adminguide/encryption-at-rest.html#encryption-at-rest-voiceid)
   for more details on how the KMS key is used.
 
 # Optional Parameters
@@ -724,8 +723,8 @@ Lists all the domains in the Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
-  page size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
+  size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -762,8 +761,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"JobStatus"`: Provides the status of your fraudster registration job.
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
-  page size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
+  size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -812,8 +811,8 @@ Lists all fraudsters in a specified watchlist or domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
-  page size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
+  size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -865,8 +864,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"JobStatus"`: Provides the status of your speaker enrollment Job.
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
-  page size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
+  size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -915,8 +914,8 @@ Lists all speakers in a specified domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
-  page size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
+  size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -956,8 +955,8 @@ Lists all tags associated with a specified Voice ID resource.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the Voice ID resource for which you
-  want to list the tags.
+- `resource_arn`: The Amazon Resource Name (ARN) of the Voice ID resource for which you want
+  to list the tags.
 """
 function list_tags_for_resource end
 
@@ -1002,8 +1001,8 @@ Lists all watchlists in a specified domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
-  page size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
+  size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -1092,11 +1091,11 @@ Starts a new batch fraudster registration job using provided details.
 # Arguments
 
 - `data_access_role_arn`: The IAM role Amazon Resource Name (ARN) that grants Voice ID
-  permissions to access customer's buckets to read the input manifest file and write the
-  Job output file. Refer to the [Create and edit a fraudster watchlist](https://docs.aws.amazon.com/connect/latest/adminguide/voiceid-fraudster-watchlist.html)
+  permissions to access customer's buckets to read the input manifest file and write the Job
+  output file. Refer to the [Create and edit a fraudster watchlist](https://docs.aws.amazon.com/connect/latest/adminguide/voiceid-fraudster-watchlist.html)
   documentation for the permissions needed in this role.
-- `domain_id`: The identifier of the domain that contains the fraudster registration job
-  and in which the fraudsters are registered.
+- `domain_id`: The identifier of the domain that contains the fraudster registration job and
+  in which the fraudsters are registered.
 - `input_data_config`: The input data config containing an S3 URI for the input manifest
   file that contains the list of fraudster registration requests.
 - `output_data_config`: The output data config containing the S3 location where Voice ID
@@ -1174,8 +1173,8 @@ Starts a new batch speaker enrollment job using specified details.
 # Arguments
 
 - `data_access_role_arn`: The IAM role Amazon Resource Name (ARN) that grants Voice ID
-  permissions to access customer's buckets to read the input manifest file and write the
-  job output file. Refer to [Batch enrollment using audio data from prior calls](https://docs.aws.amazon.com/connect/latest/adminguide/voiceid-batch-enrollment.html)
+  permissions to access customer's buckets to read the input manifest file and write the job
+  output file. Refer to [Batch enrollment using audio data from prior calls](https://docs.aws.amazon.com/connect/latest/adminguide/voiceid-batch-enrollment.html)
   for the permissions needed in this role.
 - `domain_id`: The identifier of the domain that contains the speaker enrollment job and in
   which the speakers are enrolled.
@@ -1192,8 +1191,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"EnrollmentConfig"`: The enrollment config that contains details such as the action to
-  take when a speaker is already enrolled in Voice ID or when a speaker is identified as
-  a fraudster.
+  take when a speaker is already enrolled in Voice ID or when a speaker is identified as a
+  fraudster.
 - `"JobName"`: A name for your speaker enrollment job.
 """
 function start_speaker_enrollment_job end
@@ -1297,8 +1296,8 @@ Removes specified tags from a specified Amazon Connect Voice ID resource.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the Voice ID resource you want to
-  remove tags from.
+- `resource_arn`: The Amazon Resource Name (ARN) of the Voice ID resource you want to remove
+  tags from.
 - `tag_keys`: The list of tag keys you want to remove from the specified resource.
 """
 function untag_resource end
@@ -1345,13 +1344,15 @@ the domain.
 # Arguments
 
 - `domain_id`: The identifier of the domain to be updated.
+
 - `name`: The name of the domain.
+
 - `server_side_encryption_configuration`: The configuration, containing the KMS key
-  identifier, to be used by Voice ID for the server-side encryption of your data.
-  Changing the domain's associated KMS key immediately triggers an asynchronous process
-  to remove dependency on the old KMS key, such that the domain's data can only be
-  accessed using the new KMS key. The domain's `ServerSideEncryptionUpdateDetails`
-  contains the details for this process.
+  identifier, to be used by Voice ID for the server-side encryption of your data. Changing
+  the domain's associated KMS key immediately triggers an asynchronous process to remove
+  dependency on the old KMS key, such that the domain's data can only be accessed using the
+  new KMS key. The domain's `ServerSideEncryptionUpdateDetails` contains the details for
+  this process.
 
 # Optional Parameters
 

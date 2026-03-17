@@ -462,12 +462,13 @@ Creates an assessment report for the specified assessment.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of the assessment report.
+
 - `"queryStatement"`: A SQL statement that represents an evidence finder query.
 
-  Provide this parameter when you want to generate an assessment report from the results
-  of an evidence finder search query. When you use this parameter, Audit Manager
-  generates a one-time report using only the evidence from the query output. This report
-  does not include any assessment evidence that was manually [added to a report using the console](https://docs.aws.amazon.com/audit-manager/latest/userguide/generate-assessment-report.html#generate-assessment-report-include-evidence),
+  Provide this parameter when you want to generate an assessment report from the results of
+  an evidence finder search query. When you use this parameter, Audit Manager generates a
+  one-time report using only the evidence from the query output. This report does not
+  include any assessment evidence that was manually [added to a report using the console](https://docs.aws.amazon.com/audit-manager/latest/userguide/generate-assessment-report.html#generate-assessment-report-include-evidence),
   or [associated with a report using the API](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_BatchAssociateAssessmentReportEvidence.html).
 
   To use this parameter, the [enablementStatus](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_EvidenceFinderEnablement.html#auditmanager-Type-EvidenceFinderEnablement-enablementStatus)
@@ -688,8 +689,8 @@ Deletes an assessment report in Audit Manager.
 When you run the [`delete_assessment_report`](@ref) operation, Audit Manager attempts to
 delete the following data:
 
-1. The specified assessment report that’s stored in your S3 bucket2. The associated
-   metadata that’s stored in Audit Manager
+1. The specified assessment report that’s stored in your S3 bucket
+2. The associated metadata that’s stored in Audit Manager
 
 If Audit Manager can’t access the assessment report in your S3 bucket, the report isn’t
 deleted. In this event, the [`delete_assessment_report`](@ref) operation doesn’t fail.
@@ -745,9 +746,9 @@ Deletes a custom control in Audit Manager.
 
 !!! important
     When you invoke this operation, the custom control is deleted from any frameworks or
-    assessments that it’s currently part of. As a result, Audit Manager will stop
-    collecting evidence for that custom control in all of your assessments. This includes
-    assessments that you previously created before you deleted the custom control.
+    assessments that it’s currently part of. As a result, Audit Manager will stop collecting
+    evidence for that custom control in all of your assessments. This includes assessments
+    that you previously created before you deleted the custom control.
 
 # Arguments
 
@@ -792,7 +793,6 @@ Deregisters an account in Audit Manager.
 
     For more information about data retention, see [Data Protection](https://docs.aws.amazon.com/audit-manager/latest/userguide/data-protection.html)
     in the *Audit Manager User Guide*.
-
 """
 function deregister_account end
 
@@ -838,13 +838,12 @@ moving forward.
     evidence finder first. Disabling evidence finder automatically deletes the event data
     store that was created in their account when they enabled evidence finder. If this task
     isn’t completed, the event data store remains in their account. In this case, we
-    recommend that the original delegated administrator goes to CloudTrail Lake and
-    manually [deletes the event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-eds-disable-termination.html).
+    recommend that the original delegated administrator goes to CloudTrail Lake and manually [deletes the event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-eds-disable-termination.html).
 
     This cleanup task is necessary to ensure that you don't end up with multiple event data
     stores. Audit Manager ignores an unused event data store after you remove or change a
-    delegated administrator account. However, the unused event data store continues to
-    incur storage costs from CloudTrail Lake if you don't delete it.
+    delegated administrator account. However, the unused event data store continues to incur
+    storage costs from CloudTrail Lake if you don't delete it.
 
 When you deregister a delegated administrator account for Audit Manager, the data for that
 account isn’t deleted. If you want to delete resource data for a delegated administrator
@@ -871,8 +870,8 @@ To delete your Audit Manager resource data, see the following instructions:
   in the *Audit Manager User Guide*)
 
 At this time, Audit Manager doesn't provide an option to delete evidence for a specific
-delegated administrator. Instead, when your management account deregisters Audit Manager,
-we perform a cleanup for the current delegated administrator account at the time of
+delegated administrator. Instead, when your management account deregisters Audit Manager, we
+perform a cleanup for the current delegated administrator account at the time of
 deregistration.
 
 # Optional Parameters
@@ -1592,15 +1591,14 @@ end
 Gets a list of the Amazon Web Services from which Audit Manager can collect evidence.
 
 Audit Manager defines which Amazon Web Services are in scope for an assessment. Audit
-Manager infers this scope by examining the assessment’s controls and their data sources,
-and then mapping this information to one or more of the corresponding Amazon Web Services
-that are in this list.
+Manager infers this scope by examining the assessment’s controls and their data sources, and
+then mapping this information to one or more of the corresponding Amazon Web Services that
+are in this list.
 
 !!! note
-    For information about why it's no longer possible to specify services in scope
-    manually, see [I can't edit the services in scope for my assessment](https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-collection-issues.html#unable-to-edit-services)
+    For information about why it's no longer possible to specify services in scope manually,
+    see [I can't edit the services in scope for my assessment](https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-collection-issues.html#unable-to-edit-services)
     in the *Troubleshooting* section of the Audit Manager user guide.
-
 """
 function get_services_in_scope end
 
@@ -1657,18 +1655,19 @@ end
     list_assessment_control_insights_by_control_domain(assessment_id, control_domain_id)
     list_assessment_control_insights_by_control_domain(assessment_id, control_domain_id, params::Dict{String,<:Any})
 
-Lists the latest analytics data for controls within a specific control domain and a
-specific active assessment.
+Lists the latest analytics data for controls within a specific control domain and a specific
+active assessment.
 
 !!! note
     Control insights are listed only if the control belongs to the control domain and
-    assessment that was specified. Moreover, the control must have collected evidence on
-    the `lastUpdated` date of `controlInsightsByAssessment`. If neither of these conditions
-    are met, no data is listed for that control.
+    assessment that was specified. Moreover, the control must have collected evidence on the
+    `lastUpdated` date of `controlInsightsByAssessment`. If neither of these conditions are
+    met, no data is listed for that control.
 
 # Arguments
 
 - `assessment_id`: The unique identifier for the active assessment.
+
 - `control_domain_id`: The unique identifier for the control domain.
 
   Audit Manager supports the control domains that are provided by Amazon Web Services
@@ -2003,8 +2002,8 @@ active assessments.
 !!! note
     Control insights are listed only if the control belongs to the control domain that was
     specified and the control collected evidence on the `lastUpdated` date of
-    `controlInsightsMetadata`. If neither of these conditions are met, no data is listed
-    for that control.
+    `controlInsightsMetadata`. If neither of these conditions are met, no data is listed for
+    that control.
 
 # Arguments
 
@@ -2073,21 +2072,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the Amazon Web Services Control Catalog.
 
   To use this parameter, specify the ARN of the Control Catalog resource. You can specify
-  either a control domain, a control objective, or a common control. For information
-  about how to find the ARNs for these resources, see [`ListDomains`](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html),
-  [`ListObjectives`](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListObjectives.html),
+  either a control domain, a control objective, or a common control. For information about
+  how to find the ARNs for these resources, see [`ListDomains`](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html), [`ListObjectives`](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListObjectives.html),
   and [`ListCommonControls`](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListCommonControls.html).
 
   !!! note
       You can only filter by one Control Catalog resource at a time. Specifying multiple
-      resource ARNs isn’t currently supported. If you want to filter by more than one
-      ARN, we recommend that you run the [`list_controls`](@ref) operation separately for
-      each ARN.
+      resource ARNs isn’t currently supported. If you want to filter by more than one ARN,
+      we recommend that you run the [`list_controls`](@ref) operation separately for each
+      ARN.
 
   Alternatively, specify `UNCATEGORIZED` to list controls that aren't mapped to a Control
-  Catalog resource. For example, this operation might return a list of custom controls
-  that don't belong to any control domain or control objective.
+  Catalog resource. For example, this operation might return a list of custom controls that
+  don't belong to any control domain or control objective.
+
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
+
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
 function list_controls end
@@ -2317,12 +2317,12 @@ end
 Creates a share request for a custom framework in Audit Manager.
 
 The share request specifies a recipient and notifies them that a custom framework is
-available. Recipients have 120 days to accept or decline the request. If no action is
-taken, the share request expires.
+available. Recipients have 120 days to accept or decline the request. If no action is taken,
+the share request expires.
 
-When you create a share request, Audit Manager stores a snapshot of your custom framework
-in the US East (N. Virginia) Amazon Web Services Region. Audit Manager also stores a backup
-of the same snapshot in the US West (Oregon) Amazon Web Services Region.
+When you create a share request, Audit Manager stores a snapshot of your custom framework in
+the US East (N. Virginia) Amazon Web Services Region. Audit Manager also stores a backup of
+the same snapshot in the US West (Oregon) Amazon Web Services Region.
 
 Audit Manager deletes the snapshot and the backup snapshot when one of the following events
 occurs:
@@ -2333,20 +2333,20 @@ occurs:
 - The share request expires before the recipient responds to the request.
 
 When a sender [resends a share request](https://docs.aws.amazon.com/audit-manager/latest/userguide/framework-sharing.html#framework-sharing-resend),
-the snapshot is replaced with an updated version that corresponds with the latest version
-of the custom framework.
+the snapshot is replaced with an updated version that corresponds with the latest version of
+the custom framework.
 
 When a recipient accepts a share request, the snapshot is replicated into their Amazon Web
 Services account under the Amazon Web Services Region that was specified in the share
 request.
 
 !!! important
-    When you invoke the `StartAssessmentFrameworkShare` API, you are about to share a
-    custom framework with another Amazon Web Services account. You may not share a custom
-    framework that is derived from a standard framework if the standard framework is
-    designated as not eligible for sharing by Amazon Web Services, unless you have obtained
-    permission to do so from the owner of the standard framework. To learn more about which
-    standard frameworks are eligible for sharing, see [Framework sharing eligibility](https://docs.aws.amazon.com/audit-manager/latest/userguide/share-custom-framework-concepts-and-terminology.html#eligibility)
+    When you invoke the `StartAssessmentFrameworkShare` API, you are about to share a custom
+    framework with another Amazon Web Services account. You may not share a custom framework
+    that is derived from a standard framework if the standard framework is designated as not
+    eligible for sharing by Amazon Web Services, unless you have obtained permission to do
+    so from the owner of the standard framework. To learn more about which standard
+    frameworks are eligible for sharing, see [Framework sharing eligibility](https://docs.aws.amazon.com/audit-manager/latest/userguide/share-custom-framework-concepts-and-terminology.html#eligibility)
     in the *Audit Manager User Guide*.
 
 # Arguments
@@ -2858,12 +2858,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"defaultAssessmentReportsDestination"`: The default S3 destination bucket for storing
   assessment reports.
+
 - `"defaultExportDestination"`: The default S3 destination bucket for storing evidence
   finder exports.
+
 - `"defaultProcessOwners"`: A list of the default audit owners.
+
 - `"deregistrationPolicy"`: The deregistration policy for your Audit Manager data. You can
   use this attribute to determine how your data is handled when you deregister Audit
   Manager.
+
 - `"evidenceFinderEnabled"`: Specifies whether the evidence finder feature is enabled.
   Change this attribute to enable or disable evidence finder.
 
@@ -2875,8 +2879,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Audit Manager.
 
 - `"kmsKey"`: The KMS key details.
-- `"snsTopic"`: The Amazon Simple Notification Service (Amazon SNS) topic that Audit
-  Manager sends notifications to.
+
+- `"snsTopic"`: The Amazon Simple Notification Service (Amazon SNS) topic that Audit Manager
+  sends notifications to.
 """
 function update_settings end
 

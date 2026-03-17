@@ -71,8 +71,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"duration"`: Duration (in minutes), after which the token expires. Default: 720 (12
   hours).
 - `"userId"`: Name that can be specified to help identify the token. This can be any UTF-8
-  encoded text. *This field is exposed to all stage participants and should not be used
-  for personally identifying, confidential, or sensitive information.*
+  encoded text. *This field is exposed to all stage participants and should not be used for
+  personally identifying, confidential, or sensitive information.*
 """
 function create_participant_token end
 
@@ -114,8 +114,8 @@ Creates a new stage (and optionally participant tokens).
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"autoParticipantRecordingConfiguration"`: Configuration object for individual
-  participant recording, to attach to the new stage.
+- `"autoParticipantRecordingConfiguration"`: Configuration object for individual participant
+  recording, to attach to the new stage.
 - `"name"`: Optional name that can be specified for the stage being created.
 - `"participantTokenConfigurations"`: Array of participant token configuration objects to
   attach to the new stage.
@@ -149,9 +149,9 @@ end
     create_storage_configuration(s3, params::Dict{String,<:Any})
 
 Creates a new storage configuration, used to enable recording to Amazon S3. When a
-StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided
-bucket. This will ensure that IVS has sufficient permissions to write content to the
-provided bucket.
+StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket.
+This will ensure that IVS has sufficient permissions to write content to the provided
+bucket.
 
 # Arguments
 
@@ -345,8 +345,8 @@ end
     disconnect_participant(participant_id, stage_arn)
     disconnect_participant(participant_id, stage_arn, params::Dict{String,<:Any})
 
-Disconnects a specified participant and revokes the participant permanently from a
-specified stage.
+Disconnects a specified participant and revokes the participant permanently from a specified
+stage.
 
 # Arguments
 
@@ -724,8 +724,8 @@ end
     list_compositions()
     list_compositions(params::Dict{String,<:Any})
 
-Gets summary information about all Compositions in your account, in the AWS region where
-the API request is processed.
+Gets summary information about all Compositions in your account, in the AWS region where the
+API request is processed.
 
 # Optional Parameters
 
@@ -886,9 +886,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   state. Only one of `filterByUserId`, `filterByPublished`, `filterByState`, or
   `filterByRecordingState` can be provided per request.
 - `"filterByUserId"`: Filters the response list to match the specified user ID. Only one of
-  `filterByUserId`, `filterByPublished`, `filterByState`, or `filterByRecordingState` can
-  be provided per request. A `userId` is a customer-assigned name to help identify the
-  token; this can be used to link a participant to a user in the customer’s own systems.
+  `filterByUserId`, `filterByPublished`, `filterByState`, or `filterByRecordingState` can be
+  provided per request. A `userId` is a customer-assigned name to help identify the token;
+  this can be used to link a participant to a user in the customer’s own systems.
 - `"maxResults"`: Maximum number of results to return. Default: 50.
 - `"nextToken"`: The first participant to retrieve. This is used for pagination; see the
   `nextToken` response field.
@@ -1048,8 +1048,8 @@ end
     list_storage_configurations()
     list_storage_configurations(params::Dict{String,<:Any})
 
-Gets summary information about all storage configurations in your account, in the AWS
-region where the API request is processed.
+Gets summary information about all storage configurations in your account, in the AWS region
+where the API request is processed.
 
 # Optional Parameters
 
@@ -1126,8 +1126,8 @@ end
 
 Starts a Composition from a stage based on the configuration provided in the request.
 
-A Composition is an ephemeral resource that exists after this endpoint returns
-successfully. Composition stops and the resource is deleted:
+A Composition is an ephemeral resource that exists after this endpoint returns successfully.
+Composition stops and the resource is deleted:
 
 - When [`stop_composition`](@ref) is called.
 - After a 1-minute timeout, when all participants are disconnected from the stage.
@@ -1328,9 +1328,9 @@ Updates a stage’s configuration.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"autoParticipantRecordingConfiguration"`: Configuration object for individual
-  participant recording, to attach to the stage. Note that this cannot be updated while
-  recording is active.
+- `"autoParticipantRecordingConfiguration"`: Configuration object for individual participant
+  recording, to attach to the stage. Note that this cannot be updated while recording is
+  active.
 - `"name"`: Name of the stage to be updated.
 """
 function update_stage end

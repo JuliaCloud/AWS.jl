@@ -141,10 +141,9 @@ end
     create_campaign(collection_scheme, name, signal_catalog_arn, target_arn, params::Dict{String,<:Any})
 
 Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise
-Edge Agent software running in vehicles uses campaigns to decide how to collect and
-transfer data to the cloud. You create campaigns in the cloud. After you or your team
-approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to
-vehicles.
+Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer
+data to the cloud. You create campaigns in the cloud. After you or your team approve
+campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles.
 
 For more information, see [Collect and transfer data with campaigns](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/campaigns.html)
 in the *Amazon Web Services IoT FleetWise Developer Guide*.
@@ -162,63 +161,74 @@ in the *Amazon Web Services IoT FleetWise Developer Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"compression"`: (Optional) Whether to compress signals before transmitting data to
-  Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use
-  `OFF`. If it's not specified, `SNAPPY` is used.
+- `"compression"`: (Optional) Whether to compress signals before transmitting data to Amazon
+  Web Services IoT FleetWise. If you don't want to compress the signals, use `OFF`. If it's
+  not specified, `SNAPPY` is used.
 
   Default: `SNAPPY`
+
 - `"dataDestinationConfigs"`: The destination where the campaign sends data. You can choose
   to send data to be stored in Amazon S3 or Amazon Timestream.
 
   Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use
-  vehicle data, such as data lakes, centralized data storage, data processing pipelines,
-  and analytics. Amazon Web Services IoT FleetWise supports at-least-once file delivery
-  to S3. Your vehicle data is stored on multiple Amazon Web Services IoT FleetWise
-  servers for redundancy and high availability.
+  vehicle data, such as data lakes, centralized data storage, data processing pipelines, and
+  analytics. Amazon Web Services IoT FleetWise supports at-least-once file delivery to S3.
+  Your vehicle data is stored on multiple Amazon Web Services IoT FleetWise servers for
+  redundancy and high availability.
 
   You can use Amazon Timestream to access and analyze time series data, and Timestream to
   query vehicle data so that you can identify trends and patterns.
+
 - `"dataExtraDimensions"`: (Optional) A list of vehicle attributes to associate with a
   campaign.
 
-  Enrich the data with specified vehicle attributes. For example, add `make` and `model`
-  to the campaign, and Amazon Web Services IoT FleetWise will associate the data with
-  those attributes as dimensions in Amazon Timestream. You can then query the data
-  against `make` and `model`.
+  Enrich the data with specified vehicle attributes. For example, add `make` and `model` to
+  the campaign, and Amazon Web Services IoT FleetWise will associate the data with those
+  attributes as dimensions in Amazon Timestream. You can then query the data against `make`
+  and `model`.
 
   Default: An empty array
+
 - `"description"`: An optional description of the campaign to help identify its purpose.
+
 - `"diagnosticsMode"`: (Optional) Option for a vehicle to send diagnostic trouble codes to
   Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use
   `SEND_ACTIVE_DTCS`. If it's not specified, `OFF` is used.
 
   Default: `OFF`
+
 - `"expiryTime"`: (Optional) The time the campaign expires, in seconds since epoch (January
   1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign expires.
 
   Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
+
 - `"postTriggerCollectionDuration"`: (Optional) How long (in milliseconds) to collect raw
   data after a triggering event initiates the collection. If it's not specified, `0` is
   used.
 
   Default: `0`
+
 - `"priority"`: (Optional) A number indicating the priority of one campaign over another
-  campaign for a certain vehicle or fleet. A campaign with the lowest value is deployed
-  to vehicles before any other campaigns. If it's not specified, `0` is used.
+  campaign for a certain vehicle or fleet. A campaign with the lowest value is deployed to
+  vehicles before any other campaigns. If it's not specified, `0` is used.
 
   Default: `0`
+
 - `"signalsToCollect"`: (Optional) A list of information about signals to collect.
+
 - `"spoolingMode"`: (Optional) Whether to store collected data after a vehicle lost a
-  connection with the cloud. After a connection is re-established, the data is
-  automatically forwarded to Amazon Web Services IoT FleetWise. If you want to store
-  collected data when a vehicle loses connection with the cloud, use `TO_DISK`. If it's
-  not specified, `OFF` is used.
+  connection with the cloud. After a connection is re-established, the data is automatically
+  forwarded to Amazon Web Services IoT FleetWise. If you want to store collected data when a
+  vehicle loses connection with the cloud, use `TO_DISK`. If it's not specified, `OFF` is
+  used.
 
   Default: `OFF`
+
 - `"startTime"`: (Optional) The time, in milliseconds, to deliver a campaign after it was
   approved. If it's not specified, `0` is used.
 
   Default: `0`
+
 - `"tags"`: Metadata that can be used to manage the campaign.
 """
 function create_campaign end
@@ -274,8 +284,8 @@ end
     create_decoder_manifest(model_manifest_arn, name)
     create_decoder_manifest(model_manifest_arn, name, params::Dict{String,<:Any})
 
-Creates the decoder manifest associated with a model manifest. To create a decoder
-manifest, the following must be true:
+Creates the decoder manifest associated with a model manifest. To create a decoder manifest,
+the following must be true:
 
 - Every signal decoder has a unique name.
 - Each signal decoder is associated with a network interface.
@@ -517,15 +527,16 @@ in the *Amazon Web Services IoT FleetWise Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"associationBehavior"`: An option to create a new Amazon Web Services IoT thing when
-  creating a vehicle, or to validate an existing Amazon Web Services IoT thing as a
-  vehicle.
+  creating a vehicle, or to validate an existing Amazon Web Services IoT thing as a vehicle.
 
   Default: <code/>
+
 - `"attributes"`: Static information about a vehicle in a key-value pair. For example:
   `"engineType"` : `"1.3 L R2"`
 
   A campaign must include the keys (attribute names) in `dataExtraDimensions` for them to
   display in Amazon Timestream.
+
 - `"tags"`: Metadata that can be used to manage the vehicle.
 """
 function create_vehicle end
@@ -614,8 +625,8 @@ Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicl
 associated with it.
 
 !!! note
-    If the decoder manifest is successfully deleted, Amazon Web Services IoT FleetWise
-    sends back an HTTP 200 response with an empty body.
+    If the decoder manifest is successfully deleted, Amazon Web Services IoT FleetWise sends
+    back an HTTP 200 response with an empty body.
 
 # Arguments
 
@@ -647,8 +658,8 @@ end
     delete_fleet(fleet_id)
     delete_fleet(fleet_id, params::Dict{String,<:Any})
 
-Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the
-fleet. For more information, see [Delete a fleet (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html)
+Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet.
+For more information, see [Delete a fleet (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html)
 in the *Amazon Web Services IoT FleetWise Developer Guide*.
 
 !!! note
@@ -1026,15 +1037,14 @@ end
     get_register_account_status()
     get_register_account_status(params::Dict{String,<:Any})
 
-Retrieves information about the status of registering your Amazon Web Services account,
-IAM, and Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer
-your vehicle data to the Amazon Web Services Cloud.
+Retrieves information about the status of registering your Amazon Web Services account, IAM,
+and Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your
+vehicle data to the Amazon Web Services Cloud.
 
 For more information, including step-by-step procedures, see [Setting up Amazon Web Services IoT FleetWise](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html).
 
 !!! note
     This API operation doesn't require input parameters.
-
 """
 function get_register_account_status end
 
@@ -1138,12 +1148,13 @@ Retrieves information about the status of a vehicle with any associated campaign
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
 """
 function get_vehicle_status end
 
@@ -1275,12 +1286,14 @@ Lists information about created campaigns.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
+
 - `"status"`: Optional parameter to filter the results by the status of each created
   campaign in your account. The status can be one of: `CREATING`, `WAITING_FOR_APPROVAL`,
   `RUNNING`, or `SUSPENDED`.
@@ -1320,12 +1333,13 @@ Lists the network interfaces specified in a decoder manifest.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
 """
 function list_decoder_manifest_network_interfaces end
 
@@ -1370,12 +1384,13 @@ A list of information about signal decoders specified in a decoder manifest.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
 """
 function list_decoder_manifest_signals end
 
@@ -1416,14 +1431,16 @@ Lists decoder manifests.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"modelManifestArn"`: The Amazon Resource Name (ARN) of a vehicle model (model manifest)
   associated with the decoder manifest.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
 """
 function list_decoder_manifests end
 
@@ -1459,12 +1476,13 @@ Retrieves information for each created fleet in an Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
 """
 function list_fleets end
 
@@ -1501,12 +1519,13 @@ Retrieves a list of IDs for all fleets that the vehicle is associated with.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
 """
 function list_fleets_for_vehicle end
 
@@ -1555,12 +1574,13 @@ Lists information about nodes specified in a vehicle model (model manifest).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
 """
 function list_model_manifest_nodes end
 
@@ -1599,12 +1619,14 @@ Retrieves a list of vehicle models (model manifests).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
+
 - `"signalCatalogArn"`: The ARN of a signal catalog. If you specify a signal catalog, only
   the vehicle models associated with it are returned.
 """
@@ -1643,12 +1665,14 @@ Lists of information about the signals (nodes) specified in a signal catalog.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
+
 - `"signalNodeType"`: The type of node in the signal catalog.
 """
 function list_signal_catalog_nodes end
@@ -1690,12 +1714,13 @@ You can use to list information about each signal (node) specified in a signal c
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
 """
 function list_signal_catalogs end
 
@@ -1767,20 +1792,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"attributeNames"`: The fully qualified names of the attributes. For example, the fully
   qualified name of an attribute might be `Vehicle.Body.Engine.Type`.
+
 - `"attributeValues"`: Static information about a vehicle attribute value in string format.
   For example:
 
   `"1.3 L R2"`
+
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"modelManifestArn"`: The Amazon Resource Name (ARN) of a vehicle model (model manifest).
   You can use this optional parameter to list only the vehicles created from a certain
   vehicle model.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
 """
 function list_vehicles end
 
@@ -1817,12 +1846,13 @@ Retrieves a list of summaries of all vehicles associated with a fleet.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
-  results, reissue the search request and include the returned token. When all results
-  have been returned, the response does not contain a pagination token value.
+  results, reissue the search request and include the returned token. When all results have
+  been returned, the response does not contain a pagination token value.
 """
 function list_vehicles_in_fleet end
 
@@ -1943,22 +1973,20 @@ end
     register_account()
     register_account(params::Dict{String,<:Any})
 
-
-
 !!! important
     This API operation contains deprecated parameters. Register your account again without
     the Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove
     the Timestream metadata stored. You should then pass the data destination into the [CreateCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_CreateCampaign.html)
     API operation.
 
-    You must delete any existing campaigns that include an empty data destination before
-    you register your account again. For more information, see the [DeleteCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_DeleteCampaign.html)
+    You must delete any existing campaigns that include an empty data destination before you
+    register your account again. For more information, see the [DeleteCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_DeleteCampaign.html)
     API operation.
 
-    If you want to delete the Timestream inline policy from the service-linked role, such
-    as to mitigate an overly permissive policy, you must first delete any existing
-    campaigns. Then delete the service-linked role and register your account again to
-    enable CloudWatch metrics. For more information, see [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html)
+    If you want to delete the Timestream inline policy from the service-linked role, such as
+    to mitigate an overly permissive policy, you must first delete any existing campaigns.
+    Then delete the service-linked role and register your account again to enable CloudWatch
+    metrics. For more information, see [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html)
     in the *Identity and Access Management API Reference*.
 
 Registers your Amazon Web Services account, IAM, and Amazon Timestream resources so Amazon
@@ -2095,8 +2123,8 @@ Updates a campaign.
 - `action`: Specifies how to update a campaign. The action can be one of the following:
 
   - `APPROVE` - To approve delivering a data collection scheme to vehicles.
-  - `SUSPEND` - To suspend collecting signal data. The campaign is deleted from vehicles
-    and all vehicles in the suspended campaign will stop sending data.
+  - `SUSPEND` - To suspend collecting signal data. The campaign is deleted from vehicles and
+    all vehicles in the suspended campaign will stop sending data.
   - `RESUME` - To reactivate the `SUSPEND` campaign. The campaign is redeployed to all
     vehicles and the vehicles will resume sending data.
   - `UPDATE` - To update a campaign.
@@ -2110,6 +2138,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dataExtraDimensions"`: A list of vehicle attributes to associate with a signal.
 
   Default: An empty array
+
 - `"description"`: The description of the campaign.
 """
 function update_campaign end
@@ -2163,11 +2192,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   manifest.
 - `"networkInterfacesToUpdate"`: A list of information about the network interfaces to
   update in the decoder manifest.
-- `"signalDecodersToAdd"`: A list of information about decoding additional signals to add
-  to the decoder manifest.
+- `"signalDecodersToAdd"`: A list of information about decoding additional signals to add to
+  the decoder manifest.
 - `"signalDecodersToRemove"`: A list of signal decoders to remove from the decoder manifest.
-- `"signalDecodersToUpdate"`: A list of updated information about decoding signals to
-  update in the decoder manifest.
+- `"signalDecodersToUpdate"`: A list of updated information about decoding signals to update
+  in the decoder manifest.
 - `"status"`: The state of the decoder manifest. If the status is `ACTIVE`, the decoder
   manifest can't be edited. If the status is `DRAFT`, you can edit the decoder manifest.
 """
@@ -2343,10 +2372,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified attributes. Or use `Merge` to combine all attributes.
 
   This is required if attributes are present in the input.
+
 - `"attributes"`: Static information about a vehicle in a key-value pair. For example:
 
   `"engineType"` : `"1.3 L R2"`
+
 - `"decoderManifestArn"`: The ARN of the decoder manifest associated with this vehicle.
+
 - `"modelManifestArn"`: The ARN of a vehicle model (model manifest) associated with the
   vehicle.
 """

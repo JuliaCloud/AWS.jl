@@ -24,15 +24,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AssociationType"`: The type of association. The following are suggested uses for each
   type. Amazon SageMaker places no restrictions on their use.
 
-  - ContributedTo - The source contributed to the destination or had a part in enabling
-    the destination. For example, the training data contributed to the training job.
+  - ContributedTo - The source contributed to the destination or had a part in enabling the
+    destination. For example, the training data contributed to the training job.
   - AssociatedWith - The source is connected to the destination. For example, an approval
     workflow is associated with a model deployment.
   - DerivedFrom - The destination is a modification of the source. For example, a digest
     output of a channel input for a processing job is derived from the original inputs.
-  - Produced - The source generated the destination. For example, a training job produced
-    a model artifact.
-
+  - Produced - The source generated the destination. For example, a training job produced a
+    model artifact.
 """
 function add_association end
 
@@ -86,24 +85,23 @@ more information about tags, see For more information, see [Amazon Web Services 
     but not to training jobs that the hyperparameter tuning job launched before you called
     this API. To make sure that the tags associated with a hyperparameter tuning job are
     also added to all training jobs that the hyperparameter tuning job launches, add the
-    tags when you first create the tuning job by specifying them in the `Tags` parameter of
-    [CreateHyperParameterTuningJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateHyperParameterTuningJob.html)
+    tags when you first create the tuning job by specifying them in the `Tags` parameter of [CreateHyperParameterTuningJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateHyperParameterTuningJob.html)
 
 !!! note
     Tags that you add to a SageMaker Domain or User Profile by calling this API are also
     added to any Apps that the Domain or User Profile launches after you call this API, but
-    not to Apps that the Domain or User Profile launched before you called this API. To
-    make sure that the tags associated with a Domain or User Profile are also added to all
-    Apps that the Domain or User Profile launches, add the tags when you first create the
-    Domain or User Profile by specifying them in the `Tags` parameter of [CreateDomain](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateDomain.html)
+    not to Apps that the Domain or User Profile launched before you called this API. To make
+    sure that the tags associated with a Domain or User Profile are also added to all Apps
+    that the Domain or User Profile launches, add the tags when you first create the Domain
+    or User Profile by specifying them in the `Tags` parameter of [CreateDomain](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateDomain.html)
     or [CreateUserProfile](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateUserProfile.html).
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
 - `tags`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 """
 function add_tags end
 
@@ -140,8 +138,8 @@ end
     associate_trial_component(trial_component_name, trial_name)
     associate_trial_component(trial_component_name, trial_name, params::Dict{String,<:Any})
 
-Associates a trial component with a trial. A trial component can be associated with
-multiple trials. To disassociate a trial component from a trial, call the [DisassociateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DisassociateTrialComponent.html)
+Associates a trial component with a trial. A trial component can be associated with multiple
+trials. To disassociate a trial component from a trial, call the [DisassociateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DisassociateTrialComponent.html)
 API.
 
 # Arguments
@@ -298,12 +296,13 @@ end
     create_algorithm(algorithm_name, training_specification)
     create_algorithm(algorithm_name, training_specification, params::Dict{String,<:Any})
 
-Create a machine learning algorithm that you can use in SageMaker and list in the Amazon
-Web Services Marketplace.
+Create a machine learning algorithm that you can use in SageMaker and list in the Amazon Web
+Services Marketplace.
 
 # Arguments
 
 - `algorithm_name`: The name of the algorithm.
+
 - `training_specification`: Specifies details about training jobs run by this algorithm,
   including the following:
 
@@ -322,20 +321,22 @@ Web Services Marketplace.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AlgorithmDescription"`: A description of the algorithm.
+
 - `"CertifyForMarketplace"`: Whether to certify the algorithm so that it can be listed in
   Amazon Web Services Marketplace.
+
 - `"InferenceSpecification"`: Specifies details about inference jobs that the algorithm
   runs, including the following:
 
-  - The Amazon ECR paths of containers that contain the inference code and model
-    artifacts.
+  - The Amazon ECR paths of containers that contain the inference code and model artifacts.
   - The instance types that the algorithm supports for transform jobs and real-time
     endpoints used for inference.
   - The input and output content formats that the algorithm supports for inference.
 
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+
 - `"ValidationSpecification"`: Specifies configurations for one or more training jobs and
   that SageMaker runs to test the algorithm's training code and, optionally, one or more
   batch transform jobs that SageMaker runs to test the algorithm's inference code.
@@ -383,10 +384,9 @@ end
     create_app(app_name, app_type, domain_id)
     create_app(app_name, app_type, domain_id, params::Dict{String,<:Any})
 
-Creates a running app for the specified UserProfile. This operation is automatically
-invoked by Amazon SageMaker upon access to the associated Domain, and when new kernel
-configurations are selected by the user. A user may have multiple Apps active
-simultaneously.
+Creates a running app for the specified UserProfile. This operation is automatically invoked
+by Amazon SageMaker upon access to the associated Domain, and when new kernel configurations
+are selected by the user. A user may have multiple Apps active simultaneously.
 
 # Arguments
 
@@ -403,15 +403,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       The value of `InstanceType` passed as part of the `ResourceSpec` in the `CreateApp`
-      call overrides the value passed as part of the `ResourceSpec` configured for the
-      user profile or the domain. If `InstanceType` is not specified in any of those
-      three `ResourceSpec` values for a `KernelGateway` app, the `CreateApp` call fails
-      with a request validation error.
+      call overrides the value passed as part of the `ResourceSpec` configured for the user
+      profile or the domain. If `InstanceType` is not specified in any of those three
+      `ResourceSpec` values for a `KernelGateway` app, the `CreateApp` call fails with a
+      request validation error.
 
 - `"SpaceName"`: The name of the space. If this value is not set, then `UserProfileName`
   must be set.
+
 - `"Tags"`: Each tag consists of a key and an optional value. Tag keys must be unique per
   resource.
+
 - `"UserProfileName"`: The user profile name. If this value is not set, then `SpaceName`
   must be set.
 """
@@ -473,11 +475,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   image kernel in the AppImageConfig API. This kernel is shown to users before the image
   starts. After the image runs, all kernels are visible in Code Editor.
 - `"JupyterLabAppImageConfig"`: The `JupyterLabAppImageConfig`. You can only specify one
-  image kernel in the `AppImageConfig` API. This kernel is shown to users before the
-  image starts. After the image runs, all kernels are visible in JupyterLab.
-- `"KernelGatewayImageConfig"`: The KernelGatewayImageConfig. You can only specify one
-  image kernel in the AppImageConfig API. This kernel will be shown to users before the
-  image starts. Once the image runs, all kernels are visible in JupyterLab.
+  image kernel in the `AppImageConfig` API. This kernel is shown to users before the image
+  starts. After the image runs, all kernels are visible in JupyterLab.
+- `"KernelGatewayImageConfig"`: The KernelGatewayImageConfig. You can only specify one image
+  kernel in the AppImageConfig API. This kernel will be shown to users before the image
+  starts. Once the image runs, all kernels are visible in JupyterLab.
 - `"Tags"`: A list of tags to apply to the AppImageConfig.
 """
 function create_app_image_config end
@@ -580,9 +582,8 @@ preprocessing, model training, tuning, and evaluation. AutoML jobs are designed 
 and accelerate the model building process by automating various tasks and exploring
 different combinations of machine learning algorithms, data preprocessing techniques, and
 hyperparameter values. The output of an AutoML job comprises one or more trained models
-ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a
-candidate model leaderboard, allowing you to select the best-performing model for
-deployment.
+ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a candidate
+model leaderboard, allowing you to select the best-performing model for deployment.
 
 For more information about AutoML jobs, see [https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html)
 in the SageMaker developer guide.
@@ -593,8 +594,8 @@ in the SageMaker developer guide.
     which offer backward compatibility.
 
     `CreateAutoMLJobV2` can manage tabular problem types identical to those of its previous
-    version `CreateAutoMLJob`, as well as time-series forecasting, non-tabular problem
-    types such as image or text classification, and text generation (LLMs fine-tuning).
+    version `CreateAutoMLJob`, as well as time-series forecasting, non-tabular problem types
+    such as image or text classification, and text generation (LLMs fine-tuning).
 
     Find guidelines about how to migrate a `CreateAutoMLJob` to `CreateAutoMLJobV2` in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2).
 
@@ -606,8 +607,7 @@ You can find the best-performing model after you run an AutoML job by calling [D
 - `auto_mljob_name`: Identifies an Autopilot job. The name must be unique to your account
   and is case insensitive.
 - `input_data_config`: An array of channel objects that describes the input data and its
-  location. Each channel is a named input source. Similar to `InputDataConfig` supported
-  by [HyperParameterTrainingJobDefinition](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTrainingJobDefinition.html).
+  location. Each channel is a named input source. Similar to `InputDataConfig` supported by [HyperParameterTrainingJobDefinition](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTrainingJobDefinition.html).
   Format(s) supported: CSV, Parquet. A minimum of 500 rows is required for the training
   dataset. There is not a minimum number of rows required for the validation dataset.
 - `output_data_config`: Provides information about encryption and the Amazon S3 output path
@@ -630,8 +630,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProblemType"`: Defines the type of supervised learning problem available for the
   candidates. For more information, see [SageMaker Autopilot problem types](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-datasets-problem-types.html#autopilot-problem-types).
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web ServicesResources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web ServicesResources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
   Tag keys must be unique per resource.
 """
 function create_auto_mljob end
@@ -697,9 +697,8 @@ preprocessing, model training, tuning, and evaluation. AutoML jobs are designed 
 and accelerate the model building process by automating various tasks and exploring
 different combinations of machine learning algorithms, data preprocessing techniques, and
 hyperparameter values. The output of an AutoML job comprises one or more trained models
-ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a
-candidate model leaderboard, allowing you to select the best-performing model for
-deployment.
+ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a candidate
+model leaderboard, allowing you to select the best-performing model for deployment.
 
 For more information about AutoML jobs, see [https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html)
 in the SageMaker developer guide.
@@ -716,8 +715,8 @@ and fine-tuning of large language models (LLMs) for text generation.
     which offer backward compatibility.
 
     `CreateAutoMLJobV2` can manage tabular problem types identical to those of its previous
-    version `CreateAutoMLJob`, as well as time-series forecasting, non-tabular problem
-    types such as image or text classification, and text generation (LLMs fine-tuning).
+    version `CreateAutoMLJob`, as well as time-series forecasting, non-tabular problem types
+    such as image or text classification, and text generation (LLMs fine-tuning).
 
     Find guidelines about how to migrate a `CreateAutoMLJob` to `CreateAutoMLJobV2` in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2).
 
@@ -729,8 +728,8 @@ You can find the best-performing model after you run an AutoML job V2 by calling
 
 - `auto_mljob_input_data_config`: An array of channel objects describing the input data and
   their location. Each channel is a named input source. Similar to the [InputDataConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html#sagemaker-CreateAutoMLJob-request-InputDataConfig)
-  attribute in the `CreateAutoMLJob` input parameters. The supported formats depend on
-  the problem type:
+  attribute in the `CreateAutoMLJob` input parameters. The supported formats depend on the
+  problem type:
 
   - For tabular problem types: `S3Prefix`, `ManifestFile`.
   - For image classification: `S3Prefix`, `ManifestFile`, `AugmentedManifestFile`.
@@ -740,10 +739,13 @@ You can find the best-performing model after you run an AutoML job V2 by calling
 
 - `auto_mljob_name`: Identifies an Autopilot job. The name must be unique to your account
   and is case insensitive.
+
 - `auto_mlproblem_type_config`: Defines the configuration settings of one of the supported
   problem types.
+
 - `output_data_config`: Provides information about encryption and the Amazon S3 output path
   needed to store artifacts from an AutoML job.
+
 - `role_arn`: The ARN of the role that is used to access the data.
 
 # Optional Parameters
@@ -751,21 +753,22 @@ You can find the best-performing model after you run an AutoML job V2 by calling
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AutoMLComputeConfig"`: Specifies the compute configuration for the AutoML job V2.
+
 - `"AutoMLJobObjective"`: Specifies a metric to minimize or maximize as the objective of a
-  job. If not specified, the default objective metric depends on the problem type. For
-  the list of default values per problem type, see [AutoMLJobObjective](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobObjective.html).
+  job. If not specified, the default objective metric depends on the problem type. For the
+  list of default values per problem type, see [AutoMLJobObjective](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobObjective.html).
 
   !!! note
-      - For tabular problem types: You must either provide both the `AutoMLJobObjective`
-        and indicate the type of supervised learning problem in `AutoMLProblemTypeConfig`
+      - For tabular problem types: You must either provide both the `AutoMLJobObjective` and
+        indicate the type of supervised learning problem in `AutoMLProblemTypeConfig`
         (`TabularJobConfig.ProblemType`), or none at all.
-      - For text generation problem types (LLMs fine-tuning): Fine-tuning language models
-        in Autopilot does not require setting the `AutoMLJobObjective` field. Autopilot
-        fine-tunes LLMs without requiring multiple candidates to be trained and
-        evaluated. Instead, using your dataset, Autopilot directly fine-tunes your target
-        model to enhance a default objective metric, the cross-entropy loss. After fine-
-        tuning a language model, you can evaluate the quality of its generated text using
-        different metrics. For a list of the available metrics, see [Metrics for fine-tuning LLMs in Autopilot](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-llms-finetuning-metrics.html).
+      - For text generation problem types (LLMs fine-tuning): Fine-tuning language models in
+        Autopilot does not require setting the `AutoMLJobObjective` field. Autopilot fine-
+        tunes LLMs without requiring multiple candidates to be trained and evaluated.
+        Instead, using your dataset, Autopilot directly fine-tunes your target model to
+        enhance a default objective metric, the cross-entropy loss. After fine-tuning a
+        language model, you can evaluate the quality of its generated text using different
+        metrics. For a list of the available metrics, see [Metrics for fine-tuning LLMs in Autopilot](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-llms-finetuning-metrics.html).
 
 - `"DataSplitConfig"`: This structure specifies how to split the data into train and
   validation datasets.
@@ -779,11 +782,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ModelDeployConfig"`: Specifies how to generate the endpoint name for an automatic one-
   click Autopilot model deployment.
+
 - `"SecurityConfig"`: The security configuration for traffic encryption or Amazon VPC
   settings.
+
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, such as by purpose, owner, or environment. For
-  more information, see [Tagging Amazon Web ServicesResources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, such as by purpose, owner, or environment. For more
+  information, see [Tagging Amazon Web ServicesResources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
   Tag keys must be unique per resource.
 """
 function create_auto_mljob_v2 end
@@ -844,8 +849,8 @@ end
     create_cluster(cluster_name, instance_groups, params::Dict{String,<:Any})
 
 Creates a SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for
-creating and managing persistent clusters for developing large machine learning models,
-such as large language models (LLMs) and diffusion models. To learn more, see [Amazon SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html)
+creating and managing persistent clusters for developing large machine learning models, such
+as large language models (LLMs) and diffusion models. To learn more, see [Amazon SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html)
 in the *Amazon SageMaker Developer Guide*.
 
 # Arguments
@@ -858,9 +863,9 @@ in the *Amazon SageMaker Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Tags"`: Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web
-  Services resource. You can add tags to your cluster in the same way you add them in
-  other Amazon Web Services services that support tagging. To learn more about tagging
-  Amazon Web Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
+  Services resource. You can add tags to your cluster in the same way you add them in other
+  Amazon Web Services services that support tagging. To learn more about tagging Amazon Web
+  Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
 - `"VpcConfig"`:
 """
 function create_cluster end
@@ -924,8 +929,8 @@ or in any other Git repository.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 """
 function create_code_repository end
 
@@ -995,10 +1000,12 @@ To get information about multiple model compilation jobs, use [ListCompilationJo
 
 - `compilation_job_name`: A name for the model compilation job. The name must be unique
   within the Amazon Web Services Region and within your Amazon Web Services account.
-- `output_config`: Provides information about the output location for the compiled model
-  and the target device the model runs on.
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker
-  to perform tasks on your behalf.
+
+- `output_config`: Provides information about the output location for the compiled model and
+  the target device the model runs on.
+
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to
+  perform tasks on your behalf.
 
   During model compilation, Amazon SageMaker needs your permission to:
 
@@ -1007,12 +1014,13 @@ To get information about multiple model compilation jobs, use [ListCompilationJo
   - Write logs to Amazon CloudWatch Logs
   - Publish metrics to Amazon CloudWatch
 
-  You grant permissions for all of these tasks to an IAM role. To pass this role to
-  Amazon SageMaker, the caller of this API must have the `iam:PassRole` permission. For
-  more information, see [Amazon SageMaker Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+  You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon
+  SageMaker, the caller of this API must have the `iam:PassRole` permission. For more
+  information, see [Amazon SageMaker Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+
 - `stopping_condition`: Specifies a limit to how long a model compilation job can run. When
-  the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API
-  to cap model training costs.
+  the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to
+  cap model training costs.
 
 # Optional Parameters
 
@@ -1023,11 +1031,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   trained.
 - `"ModelPackageVersionArn"`: The Amazon Resource Name (ARN) of a versioned model package.
   Provide either a `ModelPackageVersionArn` or an `InputConfig` object in the request
-  syntax. The presence of both objects in the `CreateCompilationJob` request will return
-  an exception.
+  syntax. The presence of both objects in the `CreateCompilationJob` request will return an
+  exception.
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 - `"VpcConfig"`: A [VpcConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html)
   object that specifies the VPC that you want your compilation job to connect to. Control
   access to your models by configuring the VPC. For more information, see [Protect Compilation Jobs by Using an Amazon Virtual Private Cloud](https://docs.aws.amazon.com/sagemaker/latest/dg/neo-vpc.html).
@@ -1086,8 +1094,8 @@ end
     create_context(context_name, context_type, source, params::Dict{String,<:Any})
 
 Creates a *context*. A context is a lineage tracking entity that represents a logical
-grouping of other tracking or experiment entities. Some examples are an endpoint and a
-model package. For more information, see [Amazon SageMaker ML Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html).
+grouping of other tracking or experiment entities. Some examples are an endpoint and a model
+package. For more information, see [Amazon SageMaker ML Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html).
 
 # Arguments
 
@@ -1154,20 +1162,20 @@ model monitor, see [Amazon SageMaker Model Monitor](https://docs.aws.amazon.com/
 # Arguments
 
 - `data_quality_app_specification`: Specifies the container that runs the monitoring job.
-- `data_quality_job_input`: A list of inputs for the monitoring job. Currently endpoints
-  are supported as monitoring inputs.
+- `data_quality_job_input`: A list of inputs for the monitoring job. Currently endpoints are
+  supported as monitoring inputs.
 - `data_quality_job_output_config`:
 - `job_definition_name`: The name for the monitoring job definition.
 - `job_resources`:
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
-  assume to perform tasks on your behalf.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume
+  to perform tasks on your behalf.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"DataQualityBaselineConfig"`: Configures the constraints and baselines for the
-  monitoring job.
+- `"DataQualityBaselineConfig"`: Configures the constraints and baselines for the monitoring
+  job.
 - `"NetworkConfig"`: Specifies networking configuration for the monitoring job.
 - `"StoppingCondition"`:
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL)
@@ -1246,14 +1254,17 @@ Creates a device fleet.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A description of the fleet.
+
 - `"EnableIotRoleAlias"`: Whether to create an Amazon Web Services IoT Role Alias during
   device fleet creation. The name of the role alias generated will match this pattern:
   "SageMakerEdge-{DeviceFleetName}".
 
-  For example, if your device fleet is called "demo-fleet", the name of the role alias
-  will be "SageMakerEdge-demo-fleet".
+  For example, if your device fleet is called "demo-fleet", the name of the role alias will
+  be "SageMakerEdge-demo-fleet".
+
 - `"RoleArn"`: The Amazon Resource Name (ARN) that has access to Amazon Web Services
   Internet of Things (IoT).
+
 - `"Tags"`: Creates tags for the specified fleet.
 """
 function create_device_fleet end
@@ -1298,20 +1309,19 @@ end
     create_domain(auth_mode, default_user_settings, domain_name, subnet_ids, vpc_id, params::Dict{String,<:Any})
 
 Creates a `Domain`. A domain consists of an associated Amazon Elastic File System volume, a
-list of authorized users, and a variety of security, application, policy, and Amazon
-Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files
-and other artifacts with each other.
+list of authorized users, and a variety of security, application, policy, and Amazon Virtual
+Private Cloud (VPC) configurations. Users within a domain can share notebook files and other
+artifacts with each other.
 
 **EFS storage**
 
 When a domain is created, an EFS volume is created for use by all of the users within the
-domain. Each user receives a private home directory within the EFS volume for notebooks,
-Git repositories, and data files.
+domain. Each user receives a private home directory within the EFS volume for notebooks, Git
+repositories, and data files.
 
 SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to
 encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by
-default. For more control, you can specify a customer managed key. For more information,
-see [Protect Data at Rest Using Encryption](https://docs.aws.amazon.com/sagemaker/latest/dg/encryption-at-rest.html).
+default. For more control, you can specify a customer managed key. For more information, see [Protect Data at Rest Using Encryption](https://docs.aws.amazon.com/sagemaker/latest/dg/encryption-at-rest.html).
 
 **VPC configuration**
 
@@ -1331,22 +1341,26 @@ SageMaker API and runtime or a NAT gateway and your security groups allow outbou
 connections.
 
 !!! important
-    NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound
-    rules in order to launch a Amazon SageMaker Studio app successfully.
+    NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules
+    in order to launch a Amazon SageMaker Studio app successfully.
 
 For more information, see [Connect Amazon SageMaker Studio Notebooks to Resources in a VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-notebooks-and-internet-access.html).
 
 # Arguments
 
 - `auth_mode`: The mode of authentication that members use to access the domain.
+
 - `default_user_settings`: The default settings to use to create a user profile when
   `UserSettings` isn't specified in the call to the `CreateUserProfile` API.
 
   `SecurityGroups` is aggregated when specified in both calls. For all other settings in
   `UserSettings`, the values specified in `CreateUserProfile` take precedence over those
   specified in `CreateDomain`.
+
 - `domain_name`: A name for the domain.
+
 - `subnet_ids`: The VPC subnets that the domain uses for communication.
+
 - `vpc_id`: The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for
   communication.
 
@@ -1354,8 +1368,8 @@ For more information, see [Connect Amazon SageMaker Studio Notebooks to Resource
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AppNetworkAccessType"`: Specifies the VPC used for non-EFS traffic. The default value
-  is `PublicInternetOnly`.
+- `"AppNetworkAccessType"`: Specifies the VPC used for non-EFS traffic. The default value is
+  `PublicInternetOnly`.
 
   - `PublicInternetOnly` - Non-EFS traffic is through a VPC managed by Amazon SageMaker,
     which allows direct internet access
@@ -1366,18 +1380,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `CreateDomain.AppNetworkAccessType` is `VPCOnly` and
   `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn` is provided. If
   setting up the domain for use with RStudio, this value must be set to `Service`.
+
 - `"DefaultSpaceSettings"`: The default settings used to create a space.
+
 - `"DomainSettings"`: A collection of `Domain` settings.
+
 - `"HomeEfsFileSystemKmsKeyId"`: Use `KmsKeyId`.
+
 - `"KmsKeyId"`: SageMaker uses Amazon Web Services KMS to encrypt EFS and EBS volumes
   attached to the domain with an Amazon Web Services managed key by default. For more
   control, specify a customer managed key.
-- `"Tags"`: Tags to associated with the Domain. Each tag consists of a key and an optional
-  value. Tag keys must be unique per resource. Tags are searchable using the `Search`
-  API.
 
-  Tags that you specify for the Domain are also added to all Apps that the Domain
-  launches.
+- `"Tags"`: Tags to associated with the Domain. Each tag consists of a key and an optional
+  value. Tag keys must be unique per resource. Tags are searchable using the `Search` API.
+
+  Tags that you specify for the Domain are also added to all Apps that the Domain launches.
 """
 function create_domain end
 
@@ -1449,8 +1466,8 @@ different deployment configuration and devices.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Stages"`: List of stages of the edge deployment plan. The number of stages is limited
-  to 10 per deployment.
+- `"Stages"`: List of stages of the edge deployment plan. The number of stages is limited to
+  10 per deployment.
 - `"Tags"`: List of tags with which to tag the edge deployment plan.
 """
 function create_edge_deployment_plan end
@@ -1557,21 +1574,21 @@ specify.
 
 # Arguments
 
-- `compilation_job_name`: The name of the SageMaker Neo compilation job that will be used
-  to locate model artifacts for packaging.
+- `compilation_job_name`: The name of the SageMaker Neo compilation job that will be used to
+  locate model artifacts for packaging.
 - `edge_packaging_job_name`: The name of the edge packaging job.
 - `model_name`: The name of the model.
 - `model_version`: The version of the model.
 - `output_config`: Provides information about the output location for the packaged model.
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker
-  to download and upload the model, and to contact SageMaker Neo.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to
+  download and upload the model, and to contact SageMaker Neo.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ResourceKey"`: The Amazon Web Services KMS key to use when encrypting the EBS volume
-  the edge packaging job runs on.
+- `"ResourceKey"`: The Amazon Web Services KMS key to use when encrypting the EBS volume the
+  edge packaging job runs on.
 - `"Tags"`: Creates tags for the packaging job.
 """
 function create_edge_packaging_job end
@@ -1666,8 +1683,8 @@ compute instances), and deploys the model(s) on them.
     to minimize the potential impact of a DynamoDB eventually consistent read.
 
 When SageMaker receives the request, it sets the endpoint status to `Creating`. After it
-creates the endpoint, it sets the status to `InService`. SageMaker can then process
-incoming requests for inferences. To check the status of an endpoint, use the [DescribeEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeEndpoint.html)
+creates the endpoint, it sets the status to `InService`. SageMaker can then process incoming
+requests for inferences. To check the status of an endpoint, use the [DescribeEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeEndpoint.html)
 API.
 
 If any of the models hosted at this endpoint get model data from an Amazon S3 location,
@@ -1679,8 +1696,8 @@ in the *Amazon Web Services Identity and Access Management User Guide*.
 
 !!! note
     To add the IAM role policies for using this API operation, go to the [IAM console](https://console.aws.amazon.com/iam/),
-    and choose Roles in the left navigation pane. Search the IAM role that you want to
-    grant access to use the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html)
+    and choose Roles in the left navigation pane. Search the IAM role that you want to grant
+    access to use the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html)
     and [CreateEndpointConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpointConfig.html)
     API operations, add the following policies to the role.
 
@@ -1714,8 +1731,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DeploymentConfig"`:
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 """
 function create_endpoint end
 
@@ -1791,8 +1808,7 @@ distributes two-thirds of the traffic to Model A, and one-third to model B.
 
 # Arguments
 
-- `endpoint_config_name`: The name of the endpoint configuration. You specify this name in
-  a [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html)
+- `endpoint_config_name`: The name of the endpoint configuration. You specify this name in a [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html)
   request.
 - `production_variants`: An array of `ProductionVariant` objects, one for each model that
   you want to host at this endpoint.
@@ -1802,57 +1818,62 @@ distributes two-thirds of the traffic to Model A, and one-third to model B.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AsyncInferenceConfig"`: Specifies configuration for how an endpoint performs
-  asynchronous inference. This is a required field in order for your Endpoint to be
-  invoked using [InvokeEndpointAsync](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpointAsync.html).
+  asynchronous inference. This is a required field in order for your Endpoint to be invoked
+  using [InvokeEndpointAsync](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpointAsync.html).
+
 - `"DataCaptureConfig"`:
-- `"EnableNetworkIsolation"`: Sets whether all model containers deployed to the endpoint
-  are isolated. If they are, no inbound or outbound network calls can be made to or from
-  the model containers.
+
+- `"EnableNetworkIsolation"`: Sets whether all model containers deployed to the endpoint are
+  isolated. If they are, no inbound or outbound network calls can be made to or from the
+  model containers.
+
 - `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker
   can assume to perform actions on your behalf. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 
   !!! note
-      To be able to pass this role to Amazon SageMaker, the caller of this action must
-      have the `iam:PassRole` permission.
+      To be able to pass this role to Amazon SageMaker, the caller of this action must have
+      the `iam:PassRole` permission.
 
 - `"ExplainerConfig"`: A member of `CreateEndpointConfig` that enables explainers.
+
 - `"KmsKeyId"`: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management
-  Service key that SageMaker uses to encrypt data on the storage volume attached to the
-  ML compute instance that hosts the endpoint.
+  Service key that SageMaker uses to encrypt data on the storage volume attached to the ML
+  compute instance that hosts the endpoint.
 
   The KmsKeyId can be any of the following formats:
 
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
-  - Key ARN:
-    `arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
+  - Key ARN: `arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
   - Alias name: `alias/ExampleAlias`
   - Alias name ARN: `arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias`
 
   The KMS key policy must grant permission to the IAM role that you specify in your
-  `CreateEndpoint`, `UpdateEndpoint` requests. For more information, refer to the Amazon
-  Web Services Key Management Service section[Using Key Policies in Amazon Web Services KMS](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)
+  `CreateEndpoint`, `UpdateEndpoint` requests. For more information, refer to the Amazon Web
+  Services Key Management Service section[Using Key Policies in Amazon Web Services KMS](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)
 
   !!! note
-      Certain Nitro-based instances include local storage, dependent on the instance
-      type. Local storage volumes are encrypted using a hardware module on the instance.
-      You can't request a `KmsKeyId` when using an instance type with local storage. If
-      any of the models that you specify in the `ProductionVariants` parameter use nitro-
-      based instances with local storage, do not specify a value for the `KmsKeyId`
-      parameter. If you specify a value for `KmsKeyId` when using any nitro-based
-      instances with local storage, the call to `CreateEndpointConfig` fails.
+      Certain Nitro-based instances include local storage, dependent on the instance type.
+      Local storage volumes are encrypted using a hardware module on the instance. You can't
+      request a `KmsKeyId` when using an instance type with local storage. If any of the
+      models that you specify in the `ProductionVariants` parameter use nitro-based
+      instances with local storage, do not specify a value for the `KmsKeyId` parameter. If
+      you specify a value for `KmsKeyId` when using any nitro-based instances with local
+      storage, the call to `CreateEndpointConfig` fails.
 
       For a list of instance types that support local instance storage, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes).
 
       For more information about local instance storage encryption, see [SSD Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html).
 
 - `"ShadowProductionVariants"`: An array of `ProductionVariant` objects, one for each model
-  that you want to host at this endpoint in shadow mode with production traffic
-  replicated from the model specified on `ProductionVariants`. If you use this field, you
-  can only specify one variant for `ProductionVariants` and one variant for
+  that you want to host at this endpoint in shadow mode with production traffic replicated
+  from the model specified on `ProductionVariants`. If you use this field, you can only
+  specify one variant for `ProductionVariants` and one variant for
   `ShadowProductionVariants`.
+
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+
 - `"VpcConfig"`:
 """
 function create_endpoint_config end
@@ -1913,8 +1934,8 @@ Multiple trials are performed, each one isolating and measuring the impact of a 
 one or more inputs, while keeping the remaining inputs constant.
 
 When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and
-trial components are automatically tracked, logged, and indexed. When you use the Amazon
-Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK.
+trial components are automatically tracked, logged, and indexed. When you use the Amazon Web
+Services SDK for Python (Boto), you must use the logging APIs provided by the SDK.
 
 You can add tags to experiments, trials, trial components and then use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
 API to search for the tags.
@@ -1997,18 +2018,18 @@ Note that it can take approximately 10-15 minutes to provision an `OnlineStore`
 - `event_time_feature_name`: The name of the feature that stores the `EventTime` of a
   `Record` in a `FeatureGroup`.
 
-  An `EventTime` is a point in time when a new event occurs that corresponds to the
-  creation or update of a `Record` in a `FeatureGroup`. All `Records` in the
-  `FeatureGroup` must have a corresponding `EventTime`.
+  An `EventTime` is a point in time when a new event occurs that corresponds to the creation
+  or update of a `Record` in a `FeatureGroup`. All `Records` in the `FeatureGroup` must have
+  a corresponding `EventTime`.
 
   An `EventTime` can be a `String` or `Fractional`.
 
   - `Fractional`: `EventTime` feature values must be a Unix timestamp in seconds.
   - `String`: `EventTime` feature values must be an ISO-8601 string in the format. The
     following formats are supported `yyyy-MM-dd'T'HH:mm:ssZ` and
-    `yyyy-MM-dd'T'HH:mm:ss.SSSZ` where `yyyy`, `MM`, and `dd` represent the year, month,
-    and day respectively and `HH`, `mm`, `ss`, and if applicable, `SSS` represent the
-    hour, month, second and milliseconds respsectively. `'T'` and `Z` are constants.
+    `yyyy-MM-dd'T'HH:mm:ss.SSSZ` where `yyyy`, `MM`, and `dd` represent the year, month, and
+    day respectively and `HH`, `mm`, `ss`, and if applicable, `SSS` represent the hour,
+    month, second and milliseconds respsectively. `'T'` and `Z` are constants.
 
 - `feature_definitions`: A list of `Feature` names and types. `Name` and `Type` is
   compulsory per `Feature`.
@@ -2019,6 +2040,7 @@ Note that it can take approximately 10-15 minutes to provision an `OnlineStore`
   `api_invocation_time`
 
   You can create up to 2,500 `FeatureDefinition`s per `FeatureGroup`.
+
 - `feature_group_name`: The name of the `FeatureGroup`. The name must be unique within an
   Amazon Web Services Region in an Amazon Web Services account.
 
@@ -2029,46 +2051,50 @@ Note that it can take approximately 10-15 minutes to provision an `OnlineStore`
     allowed.
 
 - `record_identifier_feature_name`: The name of the `Feature` whose value uniquely
-  identifies a `Record` defined in the `FeatureStore`. Only the latest record per
-  identifier value will be stored in the `OnlineStore`. `RecordIdentifierFeatureName`
-  must be one of feature definitions' names.
+  identifies a `Record` defined in the `FeatureStore`. Only the latest record per identifier
+  value will be stored in the `OnlineStore`. `RecordIdentifierFeatureName` must be one of
+  feature definitions' names.
 
   You use the `RecordIdentifierFeatureName` to access data in a `FeatureStore`.
 
   This name:
 
   - Must start with an alphanumeric character.
-  - Can only contains alphanumeric characters, hyphens, underscores. Spaces are not
-    allowed.
+  - Can only contains alphanumeric characters, hyphens, underscores. Spaces are not allowed.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A free-form description of a `FeatureGroup`.
+
 - `"OfflineStoreConfig"`: Use this to configure an `OfflineFeatureStore`. This parameter
   allows you to specify:
 
   - The Amazon Simple Storage Service (Amazon S3) location of an `OfflineStore`.
   - A configuration for an Amazon Web Services Glue or Amazon Web Services Hive data
     catalog.
-  - An KMS encryption key to encrypt the Amazon S3 location used for `OfflineStore`. If
-    KMS encryption key is not specified, by default we encrypt all data at rest using
-    Amazon Web Services KMS key. By defining your [bucket-level key](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html)
+  - An KMS encryption key to encrypt the Amazon S3 location used for `OfflineStore`. If KMS
+    encryption key is not specified, by default we encrypt all data at rest using Amazon Web
+    Services KMS key. By defining your [bucket-level key](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html)
     for SSE, you can reduce Amazon Web Services KMS requests costs by up to 99 percent.
   - Format for the offline store table. Supported formats are Glue (Default) and [Apache Iceberg](https://iceberg.apache.org/).
 
   To learn more about this parameter, see [OfflineStoreConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_OfflineStoreConfig.html).
+
 - `"OnlineStoreConfig"`: You can turn the `OnlineStore` on or off by specifying `True` for
   the `EnableOnlineStore` flag in `OnlineStoreConfig`.
 
-  You can also include an Amazon Web Services KMS key ID (`KMSKeyId`) for at-rest
-  encryption of the `OnlineStore`.
+  You can also include an Amazon Web Services KMS key ID (`KMSKeyId`) for at-rest encryption
+  of the `OnlineStore`.
 
   The default value is `False`.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM execution role used to persist
-  data into the `OfflineStore` if an `OfflineStoreConfig` is provided.
+
+- `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM execution role used to persist data
+  into the `OfflineStore` if an `OfflineStoreConfig` is provided.
+
 - `"Tags"`: Tags used to identify `Features` in each `FeatureGroup`.
+
 - `"ThroughputConfig"`:
 """
 function create_feature_group end
@@ -2144,8 +2170,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HumanLoopConfig"`: An object containing information about the tasks the human reviewers
   will perform.
 - `"HumanLoopRequestSource"`: Container for configuring the source of human task requests.
-  Use to specify if Amazon Rekognition or Amazon Textract is used as an integration
-  source.
+  Use to specify if Amazon Rekognition or Amazon Textract is used as an integration source.
 - `"Tags"`: An array of key-value pairs that contain metadata to help you categorize and
   organize a flow definition. Each tag consists of a key and a value, both of which you
   define.
@@ -2327,8 +2352,8 @@ area.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Tags"`: An array of key-value pairs that contain metadata to help you categorize and
-  organize a human review workflow user interface. Each tag consists of a key and a
-  value, both of which you define.
+  organize a human review workflow user interface. Each tag consists of a key and a value,
+  both of which you define.
 """
 function create_human_task_ui end
 
@@ -2382,20 +2407,20 @@ SageMaker Studio. For more information, see [View Experiments, Trials, and Trial
 !!! important
     Do not include any security-sensitive information including account access IDs, secrets
     or tokens in any hyperparameter field. If the use of security-sensitive credentials are
-    detected, SageMaker will reject your training job request and return an exception
-    error.
+    detected, SageMaker will reject your training job request and return an exception error.
 
 # Arguments
 
 - `hyper_parameter_tuning_job_config`: The [HyperParameterTuningJobConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html)
-  object that describes the tuning job, including the search strategy, the objective
-  metric used to evaluate training jobs, ranges of parameters to search, and resource
-  limits for the tuning job. For more information, see [How Hyperparameter Tuning Works](https://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-how-it-works.html).
-- `hyper_parameter_tuning_job_name`: The name of the tuning job. This name is the prefix
-  for the names of all training jobs that this tuning job launches. The name must be
-  unique within the same Amazon Web Services account and Amazon Web Services Region. The
-  name must have 1 to 32 characters. Valid characters are a-z, A-Z, 0-9, and : + = @ _ % -
-   (hyphen). The name is not case sensitive.
+  object that describes the tuning job, including the search strategy, the objective metric
+  used to evaluate training jobs, ranges of parameters to search, and resource limits for
+  the tuning job. For more information, see [How Hyperparameter Tuning Works](https://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-how-it-works.html).
+
+- `hyper_parameter_tuning_job_name`: The name of the tuning job. This name is the prefix for
+  the names of all training jobs that this tuning job launches. The name must be unique
+  within the same Amazon Web Services account and Amazon Web Services Region. The name must
+  have 1 to 32 characters. Valid characters are a-z, A-Z, 0-9, and : + = @ _ % - (hyphen).
+  The name is not case sensitive.
 
 # Optional Parameters
 
@@ -2407,49 +2432,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - [ParameterRanges](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html#sagemaker-Type-HyperParameterTuningJobConfig-ParameterRanges):
     The names and ranges of parameters that a hyperparameter tuning job can optimize.
   - [ResourceLimits](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceLimits.html):
-    The maximum resources that can be used for a training job. These resources include
-    the maximum number of training jobs, the maximum runtime of a tuning job, and the
-    maximum number of training jobs to run at the same time.
+    The maximum resources that can be used for a training job. These resources include the
+    maximum number of training jobs, the maximum runtime of a tuning job, and the maximum
+    number of training jobs to run at the same time.
   - [TrainingJobEarlyStoppingType](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html#sagemaker-Type-HyperParameterTuningJobConfig-TrainingJobEarlyStoppingType):
-    A flag that specifies whether or not to use early stopping for training jobs launched
-    by a hyperparameter tuning job.
+    A flag that specifies whether or not to use early stopping for training jobs launched by
+    a hyperparameter tuning job.
   - [RetryStrategy](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTrainingJobDefinition.html#sagemaker-Type-HyperParameterTrainingJobDefinition-RetryStrategy):
     The number of times to retry a training job.
   - [Strategy](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobConfig.html):
-    Specifies how hyperparameter tuning chooses the combinations of hyperparameter values
-    to use for the training jobs that it launches.
+    Specifies how hyperparameter tuning chooses the combinations of hyperparameter values to
+    use for the training jobs that it launches.
   - [ConvergenceDetected](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ConvergenceDetected.html):
     A flag to indicate that Automatic model tuning (AMT) has detected model convergence.
 
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 
   Tags that you specify for the tuning job are also added to all training jobs that the
   tuning job launches.
+
 - `"TrainingJobDefinition"`: The [HyperParameterTrainingJobDefinition](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTrainingJobDefinition.html)
   object that describes the training jobs that this tuning job launches, including static
   hyperparameters, input data configuration, output data configuration, resource
   configuration, and stopping condition.
+
 - `"TrainingJobDefinitions"`: A list of the [HyperParameterTrainingJobDefinition](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTrainingJobDefinition.html)
   objects launched for this tuning job.
+
 - `"WarmStartConfig"`: Specifies the configuration for starting the hyperparameter tuning
   job using one or more previous tuning jobs as a starting point. The results of previous
-  tuning jobs are used to inform which combinations of hyperparameters to search over in
-  the new tuning job.
+  tuning jobs are used to inform which combinations of hyperparameters to search over in the
+  new tuning job.
 
-  All training jobs launched by the new hyperparameter tuning job are evaluated by using
-  the objective metric. If you specify `IDENTICAL_DATA_AND_ALGORITHM` as the
-  `WarmStartType` value for the warm start configuration, the training job that performs
-  the best in the new tuning job is compared to the best training jobs from the parent
-  tuning jobs. From these, the training job that performs the best as measured by the
-  objective metric is returned as the overall best training job.
+  All training jobs launched by the new hyperparameter tuning job are evaluated by using the
+  objective metric. If you specify `IDENTICAL_DATA_AND_ALGORITHM` as the `WarmStartType`
+  value for the warm start configuration, the training job that performs the best in the new
+  tuning job is compared to the best training jobs from the parent tuning jobs. From these,
+  the training job that performs the best as measured by the objective metric is returned as
+  the overall best training job.
 
   !!! note
       All training jobs launched by parent hyperparameter tuning jobs and the new
       hyperparameter tuning jobs count against the limit of training jobs for the tuning
       job.
-
 """
 function create_hyper_parameter_tuning_job end
 
@@ -2559,8 +2586,10 @@ the Amazon ECR container image specified by `BaseImage`.
   this version. The path is an Amazon ECR URI in the following format:
 
   `&lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt;`
+
 - `client_token`: A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web
   Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
+
 - `image_name`: The `ImageName` of the `Image` to create a version of.
 
 # Optional Parameters
@@ -2568,7 +2597,9 @@ the Amazon ECR container image specified by `BaseImage`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Aliases"`: A list of aliases created with the image version.
+
 - `"Horovod"`: Indicates Horovod compatibility.
+
 - `"JobType"`: Indicates SageMaker job type compatibility.
 
   - `TRAINING`: The image version is compatible with SageMaker training jobs.
@@ -2576,13 +2607,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `NOTEBOOK_KERNEL`: The image version is compatible with SageMaker notebook kernels.
 
 - `"MLFramework"`: The machine learning framework vended in the image version.
+
 - `"Processor"`: Indicates CPU or GPU compatibility.
 
   - `CPU`: The image version is compatible with CPU.
   - `GPU`: The image version is compatible with GPU.
 
 - `"ProgrammingLang"`: The supported programming language and its version.
+
 - `"ReleaseNotes"`: The maintainer description of the image version.
+
 - `"VendorGuidance"`: The stability of the image version, specified by the maintainer.
 
   - `NOT_PROVIDED`: The maintainers did not provide a status for image version stability.
@@ -2591,7 +2625,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     are set to be archived are automatically archived after three months.
   - `ARCHIVED`: The image version is archived. Archived image versions are not searchable
     and are no longer actively supported.
-
 """
 function create_image_version end
 
@@ -2736,23 +2769,28 @@ compare your model variants. For more information, see [View, monitor, and edit 
 
 - `endpoint_name`: The name of the Amazon SageMaker endpoint on which you want to run the
   inference experiment.
+
 - `model_variants`: An array of `ModelVariantConfig` objects. There is one for each variant
-  in the inference experiment. Each `ModelVariantConfig` object in the array describes
-  the infrastructure configuration for the corresponding variant.
+  in the inference experiment. Each `ModelVariantConfig` object in the array describes the
+  infrastructure configuration for the corresponding variant.
+
 - `name`: The name for the inference experiment.
+
 - `role_arn`: The ARN of the IAM role that Amazon SageMaker can assume to access model
-  artifacts and container images, and manage Amazon SageMaker Inference endpoints for
-  model deployment.
+  artifacts and container images, and manage Amazon SageMaker Inference endpoints for model
+  deployment.
+
 - `shadow_mode_config`: The configuration of `ShadowMode` inference experiment type. Use
-  this field to specify a production variant which takes all the inference requests, and
-  a shadow variant to which Amazon SageMaker replicates a percentage of the inference
+  this field to specify a production variant which takes all the inference requests, and a
+  shadow variant to which Amazon SageMaker replicates a percentage of the inference
   requests. For the shadow variant also specify the percentage of requests that Amazon
   SageMaker replicates.
+
 - `type`: The type of the inference experiment that you want to run. The following types of
   experiments are possible:
 
-  - `ShadowMode`: You can use this type to validate a shadow variant. For more
-    information, see [Shadow tests](https://docs.aws.amazon.com/sagemaker/latest/dg/shadow-tests.html).
+  - `ShadowMode`: You can use this type to validate a shadow variant. For more information,
+    see [Shadow tests](https://docs.aws.amazon.com/sagemaker/latest/dg/shadow-tests.html).
 
 # Optional Parameters
 
@@ -2761,9 +2799,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataStorageConfig"`: The Amazon S3 location and configuration for storing inference
   request and response data.
 
-  This is an optional parameter that you can use for data capture. For more information,
-  see [Capture data](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-data-capture.html).
+  This is an optional parameter that you can use for data capture. For more information, see [Capture data](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-data-capture.html).
+
 - `"Description"`: A description for the inference experiment.
+
 - `"KmsKey"`: The Amazon Web Services Key Management Service (Amazon Web Services KMS) key
   that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML
   compute instance that hosts the endpoint. The `KmsKey` can be any of the following
@@ -2782,24 +2821,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `"arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"`
 
-  If you use a KMS key ID or an alias of your KMS key, the Amazon SageMaker execution
-  role must include permissions to call `kms:Encrypt`. If you don't provide a KMS key ID,
-  Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon
-  SageMaker uses server-side encryption with KMS managed keys for `OutputDataConfig`. If
-  you use a bucket policy with an `s3:PutObject` permission that only allows objects with
-  server-side encryption, set the condition key of `s3:x-amz-server-side-encryption` to
-  `"aws:kms"`. For more information, see [KMS managed Encryption Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html)
+  If you use a KMS key ID or an alias of your KMS key, the Amazon SageMaker execution role
+  must include permissions to call `kms:Encrypt`. If you don't provide a KMS key ID, Amazon
+  SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker
+  uses server-side encryption with KMS managed keys for `OutputDataConfig`. If you use a
+  bucket policy with an `s3:PutObject` permission that only allows objects with server-side
+  encryption, set the condition key of `s3:x-amz-server-side-encryption` to `"aws:kms"`. For
+  more information, see [KMS managed Encryption Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html)
   in the *Amazon Simple Storage Service Developer Guide.*
 
   The KMS key policy must grant permission to the IAM role that you specify in your
   `CreateEndpoint` and `UpdateEndpoint` requests. For more information, see [Using Key Policies in Amazon Web Services KMS](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)
   in the *Amazon Web Services Key Management Service Developer Guide*.
+
 - `"Schedule"`: The duration for which you want the inference experiment to run. If you
   don't specify this field, the experiment automatically starts immediately upon creation
   and concludes after 7 days.
+
 - `"Tags"`: Array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging your Amazon Web Services Resources](https://docs.aws.amazon.com/ARG/latest/userguide/tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging your Amazon Web Services Resources](https://docs.aws.amazon.com/ARG/latest/userguide/tagging.html).
 """
 function create_inference_experiment end
 
@@ -2869,17 +2910,20 @@ job.
 
 - `input_config`: Provides information about the versioned model package Amazon Resource
   Name (ARN), the traffic pattern, and endpoint configurations.
+
 - `job_name`: A name for the recommendation job. The name must be unique within the Amazon
   Web Services Region and within your Amazon Web Services account. The job name is passed
-  down to the resources created by the recommendation job. The names of resources (such
-  as the model, endpoint configuration, endpoint, and compilation) that are prefixed with
-  the job name are truncated at 40 characters.
+  down to the resources created by the recommendation job. The names of resources (such as
+  the model, endpoint configuration, endpoint, and compilation) that are prefixed with the
+  job name are truncated at 40 characters.
+
 - `job_type`: Defines the type of recommendation job. Specify `Default` to initiate an
   instance recommendation and `Advanced` to initiate a load test. If left unspecified,
   Amazon SageMaker Inference Recommender will run an instance recommendation (`DEFAULT`)
   job.
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker
-  to perform tasks on your behalf.
+
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to
+  perform tasks on your behalf.
 
 # Optional Parameters
 
@@ -2948,8 +2992,8 @@ end
     create_labeling_job(human_task_config, input_config, label_attribute_name, labeling_job_name, output_config, role_arn)
     create_labeling_job(human_task_config, input_config, label_attribute_name, labeling_job_name, output_config, role_arn, params::Dict{String,<:Any})
 
-Creates a job that uses workers to label the data objects in your input dataset. You can
-use the labeled data to train machine learning models.
+Creates a job that uses workers to label the data objects in your input dataset. You can use
+the labeled data to train machine learning models.
 
 You can select your workforce from one of three providers:
 
@@ -2958,27 +3002,27 @@ You can select your workforce from one of three providers:
   when a specific set of skills is required.
 - One or more vendors that you select from the Amazon Web Services Marketplace. Vendors
   provide expertise in specific areas.
-- The Amazon Mechanical Turk workforce. This is the largest workforce, but it should only
-  be used for public data or data that has been stripped of any personally identifiable
+- The Amazon Mechanical Turk workforce. This is the largest workforce, but it should only be
+  used for public data or data that has been stripped of any personally identifiable
   information.
 
-You can also use *automated data labeling* to reduce the number of data objects that need
-to be labeled by a human. Automated data labeling uses *active learning* to determine if a
-data object can be labeled by machine or if it needs to be sent to a human worker. For more
+You can also use *automated data labeling* to reduce the number of data objects that need to
+be labeled by a human. Automated data labeling uses *active learning* to determine if a data
+object can be labeled by machine or if it needs to be sent to a human worker. For more
 information, see [Using Automated Data Labeling](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-automated-labeling.html).
 
 The data objects to be labeled are contained in an Amazon S3 bucket. You create a *manifest
 file* that describes the location of each object. For more information, see [Using Input and Output Data](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-data.html).
 
-The output can be used as the manifest file for another labeling job or as training data
-for your machine learning models.
+The output can be used as the manifest file for another labeling job or as training data for
+your machine learning models.
 
 You can use this operation to create a static labeling job or a streaming labeling job. A
 static labeling job stops if all data objects in the input manifest file identified in
 `ManifestS3Uri` have been labeled. A streaming labeling job runs perpetually until it is
 manually stopped, or remains idle for 10 days. You can send new data objects to an active
-(`InProgress`) streaming labeling job in real time. To learn how to create a static
-labeling job, see [Create a Labeling Job (API)](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-create-labeling-job-api.html)
+(`InProgress`) streaming labeling job in real time. To learn how to create a static labeling
+job, see [Create a Labeling Job (API)](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-create-labeling-job-api.html)
 in the Amazon SageMaker Developer Guide. To learn how to create a streaming labeling job,
 see [Create a Streaming Labeling Job](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-streaming-create-job.html).
 
@@ -2986,38 +3030,39 @@ see [Create a Streaming Labeling Job](https://docs.aws.amazon.com/sagemaker/late
 
 - `human_task_config`: Configures the labeling task and how it is presented to workers;
   including, but not limited to price, keywords, and batch size (task count).
+
 - `input_config`: Input data for the labeling job, such as the Amazon S3 location of the
   data objects and the location of the manifest file that describes the data objects.
 
   You must specify at least one of the following: `S3DataSource` or `SnsDataSource`.
 
-  - Use `SnsDataSource` to specify an SNS input topic for a streaming labeling job. If
-    you do not specify and SNS input topic ARN, Ground Truth will create a one-time
-    labeling job that stops after all data objects in the input manifest file have been
-    labeled.
+  - Use `SnsDataSource` to specify an SNS input topic for a streaming labeling job. If you
+    do not specify and SNS input topic ARN, Ground Truth will create a one-time labeling job
+    that stops after all data objects in the input manifest file have been labeled.
   - Use `S3DataSource` to specify an input manifest file for both streaming and one-time
-    labeling jobs. Adding an `S3DataSource` is optional if you use `SnsDataSource` to
-    create a streaming labeling job.
+    labeling jobs. Adding an `S3DataSource` is optional if you use `SnsDataSource` to create
+    a streaming labeling job.
 
   If you use the Amazon Mechanical Turk workforce, your input data should not include
   confidential information, personal information or protected health information. Use
   `ContentClassifiers` to specify that your data is free of personally identifiable
   information and adult content.
+
 - `label_attribute_name`: The attribute name to use for the label in the output manifest
-  file. This is the key for the key/value pair formed with the label that a worker
-  assigns to the object. The `LabelAttributeName` must meet the following requirements.
+  file. This is the key for the key/value pair formed with the label that a worker assigns
+  to the object. The `LabelAttributeName` must meet the following requirements.
 
   - The name can't end with "-metadata".
   - If you are using one of the following [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html),
-    the attribute name *must* end with "-ref". If the task type you are using is not
-    listed below, the attribute name *must not* end with "-ref".   - Image semantic
-    segmentation (`SemanticSegmentation)`, and adjustment
-    (`AdjustmentSemanticSegmentation`) and verification
-    (`VerificationSemanticSegmentation`) labeling jobs for this task type.
-    - Video frame object detection (`VideoObjectDetection`), and adjustment and
-      verification (`AdjustmentVideoObjectDetection`) labeling jobs for this task type.
-    - Video frame object tracking (`VideoObjectTracking`), and adjustment and
-      verification (`AdjustmentVideoObjectTracking`) labeling jobs for this task type.
+    the attribute name *must* end with "-ref". If the task type you are using is not listed
+    below, the attribute name *must not* end with "-ref".
+    - Image semantic segmentation (`SemanticSegmentation)`, and adjustment
+      (`AdjustmentSemanticSegmentation`) and verification
+      (`VerificationSemanticSegmentation`) labeling jobs for this task type.
+    - Video frame object detection (`VideoObjectDetection`), and adjustment and verification
+      (`AdjustmentVideoObjectDetection`) labeling jobs for this task type.
+    - Video frame object tracking (`VideoObjectTracking`), and adjustment and verification
+      (`AdjustmentVideoObjectTracking`) labeling jobs for this task type.
     - 3D point cloud semantic segmentation (`3DPointCloudSemanticSegmentation`), and
       adjustment and verification (`Adjustment3DPointCloudSemanticSegmentation`) labeling
       jobs for this task type.
@@ -3025,21 +3070,21 @@ see [Create a Streaming Labeling Job](https://docs.aws.amazon.com/sagemaker/late
       verification (`Adjustment3DPointCloudObjectTracking`) labeling jobs for this task
       type.
 
-
-
   !!! important
       If you are creating an adjustment or verification labeling job, you must use a
-      *different* `LabelAttributeName` than the one used in the original labeling job.
-      The original labeling job is the Ground Truth labeling job that produced the labels
-      that you want verified or adjusted. To learn more about adjustment and verification
+      *different* `LabelAttributeName` than the one used in the original labeling job. The
+      original labeling job is the Ground Truth labeling job that produced the labels that
+      you want verified or adjusted. To learn more about adjustment and verification
       labeling jobs, see [Verify and Adjust Labels](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-verification-data.html).
 
 - `labeling_job_name`: The name of the labeling job. This name is used to identify the job
   in a list of labeling jobs. Labeling job names must be unique within an Amazon Web
   Services account and region. `LabelingJobName` is not case sensitive. For example,
   Example-job and example-job are considered the same labeling job name by Ground Truth.
+
 - `output_config`: The location of the output data and the Amazon Web Services Key
   Management Service key ID for the key used to encrypt the output data, if any.
+
 - `role_arn`: The Amazon Resource Number (ARN) that Amazon SageMaker assumes to perform
   tasks on your behalf during data labeling. You must grant this role the necessary
   permissions so that Amazon SageMaker can successfully complete data labeling.
@@ -3051,8 +3096,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LabelCategoryConfigS3Uri"`: The S3 URI of the file, referred to as a *label category
   configuration file*, that defines the categories used to label the data objects.
 
-  For 3D point cloud and video frame task types, you can add label category attributes
-  and frame attributes to your label category configuration file. To learn how, see [Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-point-cloud-label-category-config.html).
+  For 3D point cloud and video frame task types, you can add label category attributes and
+  frame attributes to your label category configuration file. To learn how, see [Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-point-cloud-label-category-config.html).
 
   For named entity recognition jobs, in addition to `"labels"`, you must provide worker
   instructions in the label category configuration file using the `"instructions"`
@@ -3063,8 +3108,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For all other [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html)
   and [custom tasks](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-custom-templates.html),
   your label category configuration file must be a JSON file in the following format.
-  Identify the labels you want to use by replacing `label_1`, `label_2`,`...`,`label_n`
-  with your label categories.
+  Identify the labels you want to use by replacing `label_1`, `label_2`,`...`,`label_n` with
+  your label categories.
 
   `{`
 
@@ -3077,19 +3122,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Note the following about the label category configuration file:
 
   - For image classification and text classification (single and multi-label) you must
-    specify at least two label categories. For all other task types, the minimum number
-    of label categories required is one.
+    specify at least two label categories. For all other task types, the minimum number of
+    label categories required is one.
   - Each label category must be unique, you cannot specify duplicate label categories.
-  - If you create a 3D point cloud or video frame adjustment or verification labeling
-    job, you must include `auditLabelAttributeName` in the label category configuration.
-    Use this parameter to enter the [`LabelAttributeName`](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateLabelingJob.html#sagemaker-CreateLabelingJob-request-LabelAttributeName)
+  - If you create a 3D point cloud or video frame adjustment or verification labeling job,
+    you must include `auditLabelAttributeName` in the label category configuration. Use this
+    parameter to enter the [`LabelAttributeName`](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateLabelingJob.html#sagemaker-CreateLabelingJob-request-LabelAttributeName)
     of the labeling job you want to adjust or verify annotations of.
 
 - `"LabelingJobAlgorithmsConfig"`: Configures the information required to perform automated
   data labeling.
+
 - `"StoppingConditions"`: A set of conditions for stopping the labeling job. If any of the
   conditions are met, the job is automatically stopped. You can use these conditions to
   control the cost of data labeling.
+
 - `"Tags"`: An array of key/value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what)
   in the *Amazon Web Services Billing and Cost Management User Guide*.
 """
@@ -3161,10 +3208,10 @@ store. For more information, see [Create an MLflow Tracking Server](https://docs
 
 - `artifact_store_uri`: The S3 URI for a general purpose bucket to use as the MLflow
   Tracking Server artifact store.
-- `role_arn`: The Amazon Resource Name (ARN) for an IAM role in your account that the
-  MLflow Tracking Server uses to access the artifact store in Amazon S3. The role should
-  have `AmazonS3FullAccess` permissions. For more information on IAM permissions for
-  tracking server creation, see [Set up IAM permissions for MLflow](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-create-tracking-server-iam.html).
+- `role_arn`: The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow
+  Tracking Server uses to access the artifact store in Amazon S3. The role should have
+  `AmazonS3FullAccess` permissions. For more information on IAM permissions for tracking
+  server creation, see [Set up IAM permissions for MLflow](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-create-tracking-server-iam.html).
 - `tracking_server_name`: A unique string identifying the tracking server name. This string
   is part of the tracking server ARN.
 
@@ -3172,24 +3219,27 @@ store. For more information, see [Create an MLflow Tracking Server](https://docs
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AutomaticModelRegistration"`: Whether to enable or disable automatic registration of
-  new MLflow models to the SageMaker Model Registry. To enable automatic model
-  registration, set this value to `True`. To disable automatic model registration, set
-  this value to `False`. If not specified, `AutomaticModelRegistration` defaults to
-  `False`.
+- `"AutomaticModelRegistration"`: Whether to enable or disable automatic registration of new
+  MLflow models to the SageMaker Model Registry. To enable automatic model registration, set
+  this value to `True`. To disable automatic model registration, set this value to `False`.
+  If not specified, `AutomaticModelRegistration` defaults to `False`.
+
 - `"MlflowVersion"`: The version of MLflow that the tracking server uses. To see which
   MLflow versions are available to use, see [How it works](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow.html#mlflow-create-tracking-server-how-it-works).
+
 - `"Tags"`: Tags consisting of key-value pairs used to manage metadata for the tracking
   server.
-- `"TrackingServerSize"`: The size of the tracking server you want to create. You can
-  choose between `"Small"`, `"Medium"`, and `"Large"`. The default MLflow Tracking Server
-  configuration size is `"Small"`. You can choose a size depending on the projected use
-  of the tracking server such as the volume of data logged, number of users, and
-  frequency of use.
 
-  We recommend using a small tracking server for teams of up to 25 users, a medium
-  tracking server for teams of up to 50 users, and a large tracking server for teams of
-  up to 100 users.
+- `"TrackingServerSize"`: The size of the tracking server you want to create. You can choose
+  between `"Small"`, `"Medium"`, and `"Large"`. The default MLflow Tracking Server
+  configuration size is `"Small"`. You can choose a size depending on the projected use of
+  the tracking server such as the volume of data logged, number of users, and frequency of
+  use.
+
+  We recommend using a small tracking server for teams of up to 25 users, a medium tracking
+  server for teams of up to 50 users, and a large tracking server for teams of up to 100
+  users.
+
 - `"WeeklyMaintenanceWindowStart"`: The day and time of the week in Coordinated Universal
   Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For
   example: TUE:03:30.
@@ -3274,12 +3324,14 @@ resources, you grant necessary permissions via this role.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Containers"`: Specifies the containers in the inference pipeline.
+
 - `"EnableNetworkIsolation"`: Isolates the model container. No inbound or outbound network
   calls can be made to or from the model container.
+
 - `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that SageMaker can
-  assume to access model artifacts and docker image for deployment on ML compute
-  instances or for batch transform jobs. Deploying on ML compute instances is part of
-  model hosting. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
+  assume to access model artifacts and docker image for deployment on ML compute instances
+  or for batch transform jobs. Deploying on ML compute instances is part of model hosting.
+  For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 
   !!! note
       To be able to pass this role to SageMaker, the caller of this API must have the
@@ -3287,12 +3339,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InferenceExecutionConfig"`: Specifies details of how containers in a multi-container
   endpoint are called.
+
 - `"PrimaryContainer"`: The location of the primary docker image containing inference code,
   associated artifacts, and custom environment map that the inference code uses when the
   model is deployed for predictions.
+
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+
 - `"VpcConfig"`: A [VpcConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html)
   object that specifies the VPC that you want your model to connect to. Control access to
   and from your model container by configuring the VPC. `VpcConfig` is used in hosting
@@ -3333,15 +3388,15 @@ Creates the definition for a model bias job.
 
 # Arguments
 
-- `job_definition_name`: The name of the bias job definition. The name must be unique
-  within an Amazon Web Services Region in the Amazon Web Services account.
+- `job_definition_name`: The name of the bias job definition. The name must be unique within
+  an Amazon Web Services Region in the Amazon Web Services account.
 - `job_resources`:
 - `model_bias_app_specification`: Configures the model bias job to run a specified Docker
   container image.
 - `model_bias_job_input`: Inputs for the model bias job.
 - `model_bias_job_output_config`:
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
-  assume to perform tasks on your behalf.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume
+  to perform tasks on your behalf.
 
 # Optional Parameters
 
@@ -3422,10 +3477,11 @@ For information about how to use model cards, see [Amazon SageMaker Model Card](
 
 - `content`: The content of the model card. Content must be in [model card JSON schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html#model-cards-json-schema)
   and provided as a string.
+
 - `model_card_name`: The unique name of the model card.
+
 - `model_card_status`: The approval status of the model card within your organization.
-  Different organizations might have different criteria for model card review and
-  approval.
+  Different organizations might have different criteria for model card review and approval.
 
   - `Draft`: The model card is a work in progress.
   - `PendingReview`: The model card is pending review.
@@ -3496,8 +3552,8 @@ Creates an Amazon SageMaker Model Card export job.
 
 - `model_card_export_job_name`: The name of the model card export job.
 - `model_card_name`: The name or Amazon Resource Name (ARN) of the model card to export.
-- `output_config`: The model card output configuration that specifies the Amazon S3 path
-  for exporting.
+- `output_config`: The model card output configuration that specifies the Amazon S3 path for
+  exporting.
 
 # Optional Parameters
 
@@ -3562,12 +3618,12 @@ Creates the definition for a model explainability job.
 - `job_definition_name`: The name of the model explainability job definition. The name must
   be unique within an Amazon Web Services Region in the Amazon Web Services account.
 - `job_resources`:
-- `model_explainability_app_specification`: Configures the model explainability job to run
-  a specified Docker container image.
+- `model_explainability_app_specification`: Configures the model explainability job to run a
+  specified Docker container image.
 - `model_explainability_job_input`: Inputs for the model explainability job.
 - `model_explainability_job_output_config`:
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
-  assume to perform tasks on your behalf.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume
+  to perform tasks on your behalf.
 
 # Optional Parameters
 
@@ -3648,8 +3704,8 @@ Services Marketplace, or a versioned model that is part of a model group. Buyers
 subscribe to model packages listed on Amazon Web Services Marketplace to create models in
 SageMaker.
 
-To create a model package by specifying a Docker container that contains your inference
-code and the Amazon S3 location of your model artifacts, provide values for
+To create a model package by specifying a Docker container that contains your inference code
+and the Amazon S3 location of your model artifacts, provide values for
 `InferenceSpecification`. To create a model from an algorithm resource that you created or
 subscribed to in Amazon Web Services Marketplace, provide a value for
 `SourceAlgorithmSpecification`.
@@ -3665,84 +3721,100 @@ subscribed to in Amazon Web Services Marketplace, provide a value for
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AdditionalInferenceSpecifications"`: An array of additional Inference Specification
-  objects. Each additional Inference Specification specifies artifacts based on this
-  model package that can be used on inference endpoints. Generally used with SageMaker
-  Neo to store the compiled artifacts.
+  objects. Each additional Inference Specification specifies artifacts based on this model
+  package that can be used on inference endpoints. Generally used with SageMaker Neo to
+  store the compiled artifacts.
+
 - `"CertifyForMarketplace"`: Whether to certify the model package for listing on Amazon Web
   Services Marketplace.
 
-  This parameter is optional for unversioned models, and does not apply to versioned
-  models.
+  This parameter is optional for unversioned models, and does not apply to versioned models.
+
 - `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
+
 - `"CustomerMetadataProperties"`: The metadata properties associated with the model package
   versions.
+
 - `"Domain"`: The machine learning domain of your model package and its components. Common
   machine learning domains include computer vision and natural language processing.
+
 - `"DriftCheckBaselines"`: Represents the drift check baselines that can be used when the
   model monitor is set using the model package. For more information, see the topic on [Drift Detection against Previous Baselines in SageMaker Pipelines](https://docs.aws.amazon.com/sagemaker/latest/dg/pipelines-quality-clarify-baseline-lifecycle.html#pipelines-quality-clarify-baseline-drift-detection)
   in the *Amazon SageMaker Developer Guide*.
+
 - `"InferenceSpecification"`: Specifies details about inference jobs that you can run with
   models based on this model package, including the following information:
 
-  - The Amazon ECR paths of containers that contain the inference code and model
-    artifacts.
+  - The Amazon ECR paths of containers that contain the inference code and model artifacts.
   - The instance types that the model package supports for transform jobs and real-time
     endpoints used for inference.
   - The input and output content formats that the model package supports for inference.
 
 - `"MetadataProperties"`:
+
 - `"ModelApprovalStatus"`: Whether the model is approved for deployment.
 
-  This parameter is optional for versioned models, and does not apply to unversioned
-  models.
+  This parameter is optional for versioned models, and does not apply to unversioned models.
 
-  For versioned models, the value of this parameter must be set to `Approved` to deploy
-  the model.
+  For versioned models, the value of this parameter must be set to `Approved` to deploy the
+  model.
+
 - `"ModelCard"`: The model card associated with the model package. Since
-  `ModelPackageModelCard` is tied to a model package, it is a specific usage of a model
-  card and its schema is simplified compared to the schema of `ModelCard`. The
+  `ModelPackageModelCard` is tied to a model package, it is a specific usage of a model card
+  and its schema is simplified compared to the schema of `ModelCard`. The
   `ModelPackageModelCard` schema does not include `model_package_details`, and
-  `model_overview` is composed of the `model_creator` and `model_artifact` properties.
-  For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema).
+  `model_overview` is composed of the `model_creator` and `model_artifact` properties. For
+  more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema).
   For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+
 - `"ModelMetrics"`: A structure that contains model metrics reports.
+
 - `"ModelPackageDescription"`: A description of the model package.
+
 - `"ModelPackageGroupName"`: The name or Amazon Resource Name (ARN) of the model package
   group that this model version belongs to.
 
-  This parameter is required for versioned models, and does not apply to unversioned
-  models.
+  This parameter is required for versioned models, and does not apply to unversioned models.
+
 - `"ModelPackageName"`: The name of the model package. The name must have 1 to 63
   characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
 
   This parameter is required for unversioned models. It is not applicable to versioned
   models.
+
 - `"SamplePayloadUrl"`: The Amazon Simple Storage Service (Amazon S3) path where the sample
-  payload is stored. This path must point to a single gzip compressed tar archive
-  (.tar.gz suffix). This archive can hold multiple files that are all equally used in the
-  load test. Each file in the archive must satisfy the size constraints of the [InvokeEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpoint.html#API_runtime_InvokeEndpoint_RequestSyntax)
+  payload is stored. This path must point to a single gzip compressed tar archive (.tar.gz
+  suffix). This archive can hold multiple files that are all equally used in the load test.
+  Each file in the archive must satisfy the size constraints of the [InvokeEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpoint.html#API_runtime_InvokeEndpoint_RequestSyntax)
   call.
+
 - `"SecurityConfig"`: The KMS Key ID (`KMSKeyId`) used for encryption of model package
   information.
+
 - `"SkipModelValidation"`: Indicates if you want to skip model validation.
+
 - `"SourceAlgorithmSpecification"`: Details about the algorithm that was used to create the
   model package.
+
 - `"SourceUri"`: The URI of the source for the model package. If you want to clone a model
-  package, set it to the model package Amazon Resource Name (ARN). If you want to
-  register a model, set it to the model ARN.
+  package, set it to the model package Amazon Resource Name (ARN). If you want to register a
+  model, set it to the model ARN.
+
 - `"Tags"`: A list of key value pairs associated with the model. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference Guide*.
 
-  If you supply `ModelPackageGroupName`, your model package belongs to the model group
-  you specify and uses the tags associated with the model group. In this case, you cannot
-  supply a `tag` argument.
+  If you supply `ModelPackageGroupName`, your model package belongs to the model group you
+  specify and uses the tags associated with the model group. In this case, you cannot supply
+  a `tag` argument.
+
 - `"Task"`: The machine learning task your model package accomplishes. Common machine
-  learning tasks include object detection and image classification. The following tasks
-  are supported by Inference Recommender: `"IMAGE_CLASSIFICATION"` | `"OBJECT_DETECTION"`
-  | `"TEXT_GENERATION"` |`"IMAGE_SEGMENTATION"` | `"FILL_MASK"` | `"CLASSIFICATION"` |
+  learning tasks include object detection and image classification. The following tasks are
+  supported by Inference Recommender: `"IMAGE_CLASSIFICATION"` | `"OBJECT_DETECTION"` |
+  `"TEXT_GENERATION"` |`"IMAGE_SEGMENTATION"` | `"FILL_MASK"` | `"CLASSIFICATION"` |
   `"REGRESSION"` | `"OTHER"`.
 
   Specify "OTHER" if none of the tasks listed fit your use case.
+
 - `"ValidationSpecification"`: Specifies configurations for one or more transform jobs that
   SageMaker runs to test the model package.
 """
@@ -3785,8 +3857,8 @@ Creates a model group. A model group contains a group of model versions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ModelPackageGroupDescription"`: A description for the model group.
-- `"Tags"`: A list of key value pairs associated with the model group. For more
-  information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `"Tags"`: A list of key value pairs associated with the model group. For more information,
+  see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference Guide*.
 """
 function create_model_package_group end
@@ -3836,15 +3908,15 @@ model monitor, see [Amazon SageMaker Model Monitor](https://docs.aws.amazon.com/
 - `model_quality_job_input`: A list of the inputs that are monitored. Currently endpoints
   are supported.
 - `model_quality_job_output_config`:
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
-  assume to perform tasks on your behalf.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume
+  to perform tasks on your behalf.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ModelQualityBaselineConfig"`: Specifies the constraints and baselines for the
-  monitoring job.
+- `"ModelQualityBaselineConfig"`: Specifies the constraints and baselines for the monitoring
+  job.
 - `"NetworkConfig"`: Specifies the network configuration for the monitoring job.
 - `"StoppingCondition"`:
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL)
@@ -3976,8 +4048,8 @@ end
 Creates an SageMaker notebook instance. A notebook instance is a machine learning (ML)
 compute instance running on a Jupyter notebook.
 
-In a `CreateNotebookInstance` request, specify the type of ML compute instance that you
-want to run. SageMaker launches the instance, installs common libraries that you can use to
+In a `CreateNotebookInstance` request, specify the type of ML compute instance that you want
+to run. SageMaker launches the instance, installs common libraries that you can use to
 explore datasets for model training, and attaches an ML storage volume to the notebook
 instance.
 
@@ -3986,22 +4058,22 @@ SageMaker with a specific algorithm or with a machine learning framework.
 
 After receiving the request, SageMaker does the following:
 
-1. Creates a network interface in the SageMaker VPC.2. (Option) If you specified
-   `SubnetId`, SageMaker creates a network interface in your own VPC, which is inferred
-   from the subnet ID that you provide in the input. When creating this network interface,
-   SageMaker attaches the security group that you specified in the request to the network
-   interface that it creates in your VPC.3. Launches an EC2 instance of the type specified
-   in the request in the SageMaker VPC. If you specified `SubnetId` of your VPC, SageMaker
-   specifies both network interfaces when launching this instance. This enables inbound
-   traffic from your own VPC to the notebook instance, assuming that the security groups
-   allow it.
+1. Creates a network interface in the SageMaker VPC.
+2. (Option) If you specified `SubnetId`, SageMaker creates a network interface in your own
+   VPC, which is inferred from the subnet ID that you provide in the input. When creating
+   this network interface, SageMaker attaches the security group that you specified in the
+   request to the network interface that it creates in your VPC.
+3. Launches an EC2 instance of the type specified in the request in the SageMaker VPC. If
+   you specified `SubnetId` of your VPC, SageMaker specifies both network interfaces when
+   launching this instance. This enables inbound traffic from your own VPC to the notebook
+   instance, assuming that the security groups allow it.
 
 After creating the notebook instance, SageMaker returns its Amazon Resource Name (ARN). You
 can't change the name of a notebook instance after you create it.
 
 After SageMaker creates the notebook instance, you can connect to the Jupyter server and
-work in Jupyter notebooks. For example, you can write code to explore a dataset that you
-can use for model training, train a model, host models by creating SageMaker endpoints, and
+work in Jupyter notebooks. For example, you can write code to explore a dataset that you can
+use for model training, train a model, host models by creating SageMaker endpoints, and
 validate hosted models.
 
 For more information, see [How It Works](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html).
@@ -4009,12 +4081,14 @@ For more information, see [How It Works](https://docs.aws.amazon.com/sagemaker/l
 # Arguments
 
 - `instance_type`: The type of ML compute instance to launch for the notebook instance.
+
 - `notebook_instance_name`: The name of the new notebook instance.
+
 - `role_arn`: When you send any requests to Amazon Web Services resources from the notebook
-  instance, SageMaker assumes this role to perform tasks on your behalf. You must grant
-  this role necessary permissions so SageMaker can perform these tasks. The policy must
-  allow the SageMaker service principal (sagemaker.amazonaws.com) permissions to assume
-  this role. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
+  instance, SageMaker assumes this role to perform tasks on your behalf. You must grant this
+  role necessary permissions so SageMaker can perform these tasks. The policy must allow the
+  SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For
+  more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 
   !!! note
       To be able to pass this role to SageMaker, the caller of this API must have the
@@ -4027,49 +4101,60 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceleratorTypes"`: A list of Elastic Inference (EI) instance types to associate with
   this notebook instance. Currently, only one instance type can be associated with a
   notebook instance. For more information, see [Using Elastic Inference in Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
-- `"AdditionalCodeRepositories"`: An array of up to three Git repositories to associate
-  with the notebook instance. These can be either the names of Git repositories stored as
+
+- `"AdditionalCodeRepositories"`: An array of up to three Git repositories to associate with
+  the notebook instance. These can be either the names of Git repositories stored as
   resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
   or in any other Git repository. These repositories are cloned at the same level as the
   default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
-- `"DefaultCodeRepository"`: A Git repository to associate with the notebook instance as
-  its default code repository. This can be either the name of a Git repository stored as
-  a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
+
+- `"DefaultCodeRepository"`: A Git repository to associate with the notebook instance as its
+  default code repository. This can be either the name of a Git repository stored as a
+  resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
   or in any other Git repository. When you open a notebook instance, it opens in the
   directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+
 - `"DirectInternetAccess"`: Sets whether SageMaker provides internet access to the notebook
-  instance. If you set this to `Disabled` this notebook instance is able to access
-  resources only in your VPC, and is not be able to connect to SageMaker training and
-  endpoint services unless you configure a NAT Gateway in your VPC.
+  instance. If you set this to `Disabled` this notebook instance is able to access resources
+  only in your VPC, and is not be able to connect to SageMaker training and endpoint
+  services unless you configure a NAT Gateway in your VPC.
 
   For more information, see [Notebook Instances Are Internet-Enabled by Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access).
   You can set the value of this parameter to `Disabled` only if you set a value for the
   `SubnetId` parameter.
+
 - `"InstanceMetadataServiceConfiguration"`: Information on the IMDS configuration of the
   notebook instance
+
 - `"KmsKeyId"`: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management
   Service key that SageMaker uses to encrypt data on the storage volume attached to your
   notebook instance. The KMS key you provide must be enabled. For information, see [Enabling and Disabling Keys](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html)
   in the *Amazon Web Services Key Management Service Developer Guide*.
+
 - `"LifecycleConfigName"`: The name of a lifecycle configuration to associate with the
   notebook instance. For information about lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
+
 - `"PlatformIdentifier"`: The platform identifier of the notebook instance runtime
   environment.
+
 - `"RootAccess"`: Whether root access is enabled or disabled for users of the notebook
   instance. The default value is `Enabled`.
 
   !!! note
       Lifecycle configurations need root access to be able to set up a notebook instance.
-      Because of this, lifecycle configurations associated with a notebook instance
-      always run with root access even if you disable root access for users.
+      Because of this, lifecycle configurations associated with a notebook instance always
+      run with root access even if you disable root access for users.
 
 - `"SecurityGroupIds"`: The VPC security group IDs, in the form sg-xxxxxxxx. The security
   groups must be for the same VPC as specified in the subnet.
-- `"SubnetId"`: The ID of the subnet in a VPC to which you would like to have a
-  connectivity from your ML compute instance.
+
+- `"SubnetId"`: The ID of the subnet in a VPC to which you would like to have a connectivity
+  from your ML compute instance.
+
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+
 - `"VolumeSizeInGB"`: The size, in GB, of the ML storage volume to attach to the notebook
   instance. The default value is 5 GB.
 """
@@ -4123,8 +4208,8 @@ end
     create_notebook_instance_lifecycle_config(notebook_instance_lifecycle_config_name, params::Dict{String,<:Any})
 
 Creates a lifecycle configuration that you can associate with a notebook instance. A
-*lifecycle configuration* is a collection of shell scripts that run when you create or
-start a notebook instance.
+*lifecycle configuration* is a collection of shell scripts that run when you create or start
+a notebook instance.
 
 Each lifecycle configuration script has a limit of 16384 characters.
 
@@ -4148,8 +4233,8 @@ For information about notebook instance lifestyle configurations, see [Step 2.1:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"OnCreate"`: A shell script that runs only once, when you create a notebook instance.
-  The shell script must be a base64-encoded string.
+- `"OnCreate"`: A shell script that runs only once, when you create a notebook instance. The
+  shell script must be a base64-encoded string.
 - `"OnStart"`: A shell script that runs every time you start a notebook instance, including
   when you create the notebook instance. The shell script must be a base64-encoded string.
 """
@@ -4206,14 +4291,19 @@ techniques, see [Optimize model inference with Amazon SageMaker](https://docs.aw
 
 - `deployment_instance_type`: The type of instance that hosts the optimized model that you
   create with the optimization job.
+
 - `model_source`: The location of the source model to optimize with an optimization job.
+
 - `optimization_configs`: Settings for each of the optimization techniques that the job
   applies.
+
 - `optimization_job_name`: A custom name for the new optimization job.
+
 - `output_config`: Details for where to store the optimized model that you create with the
   optimization job.
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker
-  to perform tasks on your behalf.
+
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to
+  perform tasks on your behalf.
 
   During model optimization, Amazon SageMaker needs your permission to:
 
@@ -4222,9 +4312,10 @@ techniques, see [Optimize model inference with Amazon SageMaker](https://docs.aw
   - Write logs to Amazon CloudWatch Logs
   - Publish metrics to Amazon CloudWatch
 
-  You grant permissions for all of these tasks to an IAM role. To pass this role to
-  Amazon SageMaker, the caller of this API must have the `iam:PassRole` permission. For
-  more information, see [Amazon SageMaker Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+  You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon
+  SageMaker, the caller of this API must have the `iam:PassRole` permission. For more
+  information, see [Amazon SageMaker Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+
 - `stopping_condition`:
 
 # Optional Parameters
@@ -4306,9 +4397,8 @@ Creates a pipeline using a JSON pipeline definition.
 
 # Arguments
 
-- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one
-  time.
+- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the operation. An idempotent operation completes no more than one time.
 - `pipeline_name`: The name of the pipeline.
 - `role_arn`: The Amazon Resource Name (ARN) of the role used by the pipeline to access and
   create resources.
@@ -4321,9 +4411,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the pipeline. If specified, it applies to all runs of this pipeline by default.
 - `"PipelineDefinition"`: The [JSON pipeline definition](https://aws-sagemaker-mlops.github.io/sagemaker-model-building-pipeline-definition-JSON-schema/)
   of the pipeline.
-- `"PipelineDefinitionS3Location"`: The location of the pipeline definition stored in
-  Amazon S3. If specified, SageMaker will retrieve the pipeline definition from this
-  location.
+- `"PipelineDefinitionS3Location"`: The location of the pipeline definition stored in Amazon
+  S3. If specified, SageMaker will retrieve the pipeline definition from this location.
 - `"PipelineDescription"`: A description of the pipeline.
 - `"PipelineDisplayName"`: The display name of the pipeline.
 - `"Tags"`: A list of tags to apply to the created pipeline.
@@ -4379,8 +4468,8 @@ end
 
 Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the
 user will be automatically signed in to the domain, and granted access to all of the Apps
-and files associated with the Domain's Amazon Elastic File System volume. This operation
-can only be called when the authentication mode equals IAM.
+and files associated with the Domain's Amazon Elastic File System volume. This operation can
+only be called when the authentication mode equals IAM.
 
 The IAM role or user passed to this API defines the permissions to access the app. Once the
 presigned URL is created, no additional permission is required to access this URL. IAM
@@ -4394,8 +4483,8 @@ addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more inform
 !!! note
     The URL that you get from a call to `CreatePresignedDomainUrl` has a default timeout of
     5 minutes. You can configure this value using `ExpiresInSeconds`. If you try to use the
-    URL after the timeout limit expires, you are directed to the Amazon Web Services
-    console sign-in page.
+URL after the timeout limit expires, you are directed to the Amazon Web Services console
+sign-in page.
 
 # Arguments
 
@@ -4408,24 +4497,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ExpiresInSeconds"`: The number of seconds until the pre-signed URL expires. This value
   defaults to 300.
-- `"LandingUri"`: The landing page that the user is directed to when accessing the
-  presigned URL. Using this value, users can access Studio or Studio Classic, even if it
-  is not the default experience for the domain. The supported values are:
+
+- `"LandingUri"`: The landing page that the user is directed to when accessing the presigned
+  URL. Using this value, users can access Studio or Studio Classic, even if it is not the
+  default experience for the domain. The supported values are:
 
   - `studio::relative/path`: Directs users to the relative path in Studio.
   - `app:JupyterServer:relative/path`: Directs users to the relative path in the Studio
     Classic application.
   - `app:JupyterLab:relative/path`: Directs users to the relative path in the JupyterLab
     application.
-  - `app:RStudioServerPro:relative/path`: Directs users to the relative path in the
-    RStudio application.
-  - `app:CodeEditor:relative/path`: Directs users to the relative path in the Code
-    Editor, based on Code-OSS, Visual Studio Code - Open Source application.
+  - `app:RStudioServerPro:relative/path`: Directs users to the relative path in the RStudio
+    application.
+  - `app:CodeEditor:relative/path`: Directs users to the relative path in the Code Editor,
+    based on Code-OSS, Visual Studio Code - Open Source application.
   - `app:Canvas:relative/path`: Directs users to the relative path in the Canvas
     application.
 
 - `"SessionExpirationDurationInSeconds"`: The session expiration duration in seconds. This
   value defaults to 43200.
+
 - `"SpaceName"`: The name of the space.
 """
 function create_presigned_domain_url end
@@ -4517,25 +4608,25 @@ end
     create_presigned_notebook_instance_url(notebook_instance_name)
     create_presigned_notebook_instance_url(notebook_instance_name, params::Dict{String,<:Any})
 
-Returns a URL that you can use to connect to the Jupyter server from a notebook instance.
-In the SageMaker console, when you choose `Open` next to a notebook instance, SageMaker
-opens a new tab showing the Jupyter server home page from the notebook instance. The
-console uses this API to get the URL and show the page.
+Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In
+the SageMaker console, when you choose `Open` next to a notebook instance, SageMaker opens a
+new tab showing the Jupyter server home page from the notebook instance. The console uses
+this API to get the URL and show the page.
 
 The IAM role or user used to call this API defines the permissions to access the notebook
 instance. Once the presigned URL is created, no additional permission is required to access
 this URL. IAM authorization policies for this API are also enforced for every HTTP request
 and WebSocket frame that attempts to connect to the notebook instance.
 
-You can restrict access to this API and to the URL that it returns to a list of IP
-addresses that you specify. Use the `NotIpAddress` condition operator and the
-`aws:SourceIP` condition context key to specify the list of IP addresses that you want to
-have access to the notebook instance. For more information, see [Limit Access to a Notebook Instance by IP Address](https://docs.aws.amazon.com/sagemaker/latest/dg/security_iam_id-based-policy-examples.html#nbi-ip-filter).
+You can restrict access to this API and to the URL that it returns to a list of IP addresses
+that you specify. Use the `NotIpAddress` condition operator and the `aws:SourceIP` condition
+context key to specify the list of IP addresses that you want to have access to the notebook
+instance. For more information, see [Limit Access to a Notebook Instance by IP Address](https://docs.aws.amazon.com/sagemaker/latest/dg/security_iam_id-based-policy-examples.html#nbi-ip-filter).
 
 !!! note
     The URL that you get from a call to [CreatePresignedNotebookInstanceUrl](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreatePresignedNotebookInstanceUrl.html)
-    is valid only for 5 minutes. If you try to use the URL after the 5-minute limit
-    expires, you are directed to the Amazon Web Services console sign-in page.
+    is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires,
+    you are directed to the Amazon Web Services console sign-in page.
 
 # Arguments
 
@@ -4593,10 +4684,10 @@ Creates a processing job.
 - `processing_job_name`: The name of the processing job. The name must be unique within an
   Amazon Web Services Region in the Amazon Web Services account.
 - `processing_resources`: Identifies the resources, ML compute instances, and ML storage
-  volumes to deploy for a processing job. In distributed training, you specify more than
-  one instance.
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
-  assume to perform tasks on your behalf.
+  volumes to deploy for a processing job. In distributed training, you specify more than one
+  instance.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume
+  to perform tasks on your behalf.
 
 # Optional Parameters
 
@@ -4606,8 +4697,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and values entries in the map are supported.
 - `"ExperimentConfig"`:
 - `"NetworkConfig"`: Networking options for a processing job, such as whether to allow
-  inbound and outbound network calls to and from processing containers, and the VPC
-  subnets and security groups to use for VPC-enabled processing jobs.
+  inbound and outbound network calls to and from processing containers, and the VPC subnets
+  and security groups to use for VPC-enabled processing jobs.
 - `"ProcessingInputs"`: An array of inputs configuring the data to download into the
   processing container.
 - `"ProcessingOutputConfig"`: Output configuration for the processing job.
@@ -4750,8 +4841,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SpaceSettings"`: A collection of space settings.
 - `"SpaceSharingSettings"`: A collection of space sharing settings.
 - `"Tags"`: Tags to associated with the space. Each tag consists of a key and an optional
-  value. Tag keys must be unique for each resource. Tags are searchable using the
-  `Search` API.
+  value. Tag keys must be unique for each resource. Tags are searchable using the `Search`
+  API.
 """
 function create_space end
 
@@ -4806,8 +4897,8 @@ Creates a new Amazon SageMaker Studio Lifecycle Configuration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Tags"`: Tags to be associated with the Lifecycle Configuration. Each tag consists of a
-  key and an optional value. Tag keys must be unique per resource. Tags are searchable
-  using the Search API.
+  key and an optional value. Tag keys must be unique per resource. Tags are searchable using
+  the Search API.
 """
 function create_studio_lifecycle_config end
 
@@ -4861,10 +4952,9 @@ end
 Starts a model training job. After training completes, SageMaker saves the resulting model
 artifacts to an Amazon S3 location that you specify.
 
-If you choose to host your model using SageMaker hosting services, you can use the
-resulting model artifacts as part of the model. You can also use the artifacts in a machine
-learning service other than SageMaker, provided that you know how to use them for
-inference.
+If you choose to host your model using SageMaker hosting services, you can use the resulting
+model artifacts as part of the model. You can also use the artifacts in a machine learning
+service other than SageMaker, provided that you know how to use them for inference.
 
 In the request body, you provide the following:
 
@@ -4874,27 +4964,26 @@ In the request body, you provide the following:
   learning process. For a list of hyperparameters for each training algorithm provided by
   SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html).
 
-!!! important
-    Do not include any security-sensitive information including account access IDs, secrets
-    or tokens in any hyperparameter field. If the use of security-sensitive credentials are
-    detected, SageMaker will reject your training job request and return an exception
-    error.
+  !!! important
+      Do not include any security-sensitive information including account access IDs,
+      secrets or tokens in any hyperparameter field. If the use of security-sensitive
+      credentials are detected, SageMaker will reject your training job request and return
+      an exception error.
 
 - `InputDataConfig` - Describes the input required by the training job and the Amazon S3,
   EFS, or FSx location where it is stored.
 - `OutputDataConfig` - Identifies the Amazon S3 bucket where you want SageMaker to save the
   results of model training.
 - `ResourceConfig` - Identifies the resources, ML compute instances, and ML storage volumes
-  to deploy for model training. In distributed training, you specify more than one
-  instance.
+  to deploy for model training. In distributed training, you specify more than one instance.
 - `EnableManagedSpotTraining` - Optimize the cost of training machine learning models by up
   to 80% by using Amazon EC2 Spot instances. For more information, see [Managed Spot Training](https://docs.aws.amazon.com/sagemaker/latest/dg/model-managed-spot-training.html).
-- `RoleArn` - The Amazon Resource Name (ARN) that SageMaker assumes to perform tasks on
-  your behalf during model training. You must grant this role the necessary permissions so
-  that SageMaker can successfully complete model training.
+- `RoleArn` - The Amazon Resource Name (ARN) that SageMaker assumes to perform tasks on your
+  behalf during model training. You must grant this role the necessary permissions so that
+  SageMaker can successfully complete model training.
 - `StoppingCondition` - To help cap training costs, use `MaxRuntimeInSeconds` to set a time
-  limit for training. Use `MaxWaitTimeInSeconds` to specify how long a managed spot
-  training job has to complete.
+  limit for training. Use `MaxWaitTimeInSeconds` to specify how long a managed spot training
+  job has to complete.
 - `Environment` - The environment variables to set in the Docker container.
 - `RetryStrategy` - The number of times to retry the job when the job fails due to an
   `InternalServerError`.
@@ -4907,37 +4996,39 @@ For more information about SageMaker, see [How It Works](https://docs.aws.amazon
   training algorithm and algorithm-specific metadata, including the input mode. For more
   information about algorithms provided by SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html).
   For information about providing your own algorithms, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
+
 - `output_data_config`: Specifies the path to the S3 location where you want to store model
   artifacts. SageMaker creates subfolders for the artifacts.
+
 - `resource_config`: The resources, including the ML compute instances and ML storage
   volumes, to use for model training.
 
-  ML storage volumes store model artifacts and incremental states. Training algorithms
-  might also use ML storage volumes for scratch space. If you want SageMaker to use the
-  ML storage volume to store the training data, choose `File` as the `TrainingInputMode`
-  in the algorithm specification. For distributed training algorithms, specify an
-  instance count greater than 1.
+  ML storage volumes store model artifacts and incremental states. Training algorithms might
+  also use ML storage volumes for scratch space. If you want SageMaker to use the ML storage
+  volume to store the training data, choose `File` as the `TrainingInputMode` in the
+  algorithm specification. For distributed training algorithms, specify an instance count
+  greater than 1.
+
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM role that SageMaker can assume to
   perform tasks on your behalf.
 
   During model training, SageMaker needs your permission to read input data from an S3
-  bucket, download a Docker image that contains training code, write model artifacts to
-  an S3 bucket, write logs to Amazon CloudWatch Logs, and publish metrics to Amazon
-  CloudWatch. You grant permissions for all of these tasks to an IAM role. For more
-  information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
+  bucket, download a Docker image that contains training code, write model artifacts to an
+  S3 bucket, write logs to Amazon CloudWatch Logs, and publish metrics to Amazon CloudWatch.
+  You grant permissions for all of these tasks to an IAM role. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 
   !!! note
       To be able to pass this role to SageMaker, the caller of this API must have the
       `iam:PassRole` permission.
 
 - `stopping_condition`: Specifies a limit to how long a model training job can run. It also
-  specifies how long a managed Spot training job has to complete. When the job reaches
-  the time limit, SageMaker ends the training job. Use this API to cap model training
-  costs.
+  specifies how long a managed Spot training job has to complete. When the job reaches the
+  time limit, SageMaker ends the training job. Use this API to cap model training costs.
 
   To stop a job, SageMaker sends the algorithm the `SIGTERM` signal, which delays job
-  termination for 120 seconds. Algorithms can use this 120-second window to save the
-  model artifacts, so the results of training are not lost.
+  termination for 120 seconds. Algorithms can use this 120-second window to save the model
+  artifacts, so the results of training are not lost.
+
 - `training_job_name`: The name of the training job. The name must be unique within an
   Amazon Web Services Region in an Amazon Web Services account.
 
@@ -4947,79 +5038,94 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CheckpointConfig"`: Contains information about the output location for managed spot
   training checkpoint data.
+
 - `"DebugHookConfig"`:
-- `"DebugRuleConfigurations"`: Configuration information for Amazon SageMaker Debugger
-  rules for debugging output tensors.
+
+- `"DebugRuleConfigurations"`: Configuration information for Amazon SageMaker Debugger rules
+  for debugging output tensors.
+
 - `"EnableInterContainerTrafficEncryption"`: To encrypt all communications between ML
   compute instances in distributed training, choose `True`. Encryption provides greater
   security for distributed training, but training might take longer. How long it takes
-  depends on the amount of communication between compute instances, especially if you use
-  a deep learning algorithm in distributed training. For more information, see [Protect Communications Between ML Compute Instances in a Distributed Training Job](https://docs.aws.amazon.com/sagemaker/latest/dg/train-encrypt.html).
-- `"EnableManagedSpotTraining"`: To train models using managed spot training, choose
-  `True`. Managed spot training provides a fully managed and scalable infrastructure for
-  training machine learning models. this option is useful when training jobs can be
-  interrupted and when there is flexibility when the training job is run.
+  depends on the amount of communication between compute instances, especially if you use a
+  deep learning algorithm in distributed training. For more information, see [Protect Communications Between ML Compute Instances in a Distributed Training Job](https://docs.aws.amazon.com/sagemaker/latest/dg/train-encrypt.html).
 
-  The complete and intermediate results of jobs are stored in an Amazon S3 bucket, and
-  can be used as a starting point to train models incrementally. Amazon SageMaker
-  provides metrics and logs in CloudWatch. They can be used to see when managed spot
-  training jobs are running, interrupted, resumed, or completed.
+- `"EnableManagedSpotTraining"`: To train models using managed spot training, choose `True`.
+  Managed spot training provides a fully managed and scalable infrastructure for training
+  machine learning models. this option is useful when training jobs can be interrupted and
+  when there is flexibility when the training job is run.
+
+  The complete and intermediate results of jobs are stored in an Amazon S3 bucket, and can
+  be used as a starting point to train models incrementally. Amazon SageMaker provides
+  metrics and logs in CloudWatch. They can be used to see when managed spot training jobs
+  are running, interrupted, resumed, or completed.
+
 - `"EnableNetworkIsolation"`: Isolates the training container. No inbound or outbound
   network calls can be made, except for calls between peers within a training cluster for
   distributed training. If you enable network isolation for training jobs that are
-  configured to use a VPC, SageMaker downloads and uploads customer data and model
-  artifacts through the specified VPC, but the training container does not have network
-  access.
+  configured to use a VPC, SageMaker downloads and uploads customer data and model artifacts
+  through the specified VPC, but the training container does not have network access.
+
 - `"Environment"`: The environment variables to set in the Docker container.
+
 - `"ExperimentConfig"`:
+
 - `"HyperParameters"`: Algorithm-specific parameters that influence the quality of the
   model. You set hyperparameters before you start the learning process. For a list of
   hyperparameters for each training algorithm provided by SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html).
 
-  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value
-  pair. Each key and value is limited to 256 characters, as specified by the
-  `Length Constraint`.
+  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair.
+  Each key and value is limited to 256 characters, as specified by the `Length Constraint`.
 
   !!! important
       Do not include any security-sensitive information including account access IDs,
       secrets or tokens in any hyperparameter field. If the use of security-sensitive
-      credentials are detected, SageMaker will reject your training job request and
-      return an exception error.
+      credentials are detected, SageMaker will reject your training job request and return
+      an exception error.
 
 - `"InfraCheckConfig"`: Contains information about the infrastructure health check
   configuration for the training job.
+
 - `"InputDataConfig"`: An array of `Channel` objects. Each channel is a named input source.
   `InputDataConfig` describes the input data and its location.
 
   Algorithms can accept input data from one or more channels. For example, an algorithm
   might have two channels of input data, `training_data` and `validation_data`. The
-  configuration for each channel provides the S3, EFS, or FSx location where the input
-  data is stored. It also provides information about the stored data: the MIME type,
-  compression method, and whether the data is wrapped in RecordIO format.
+  configuration for each channel provides the S3, EFS, or FSx location where the input data
+  is stored. It also provides information about the stored data: the MIME type, compression
+  method, and whether the data is wrapped in RecordIO format.
 
   Depending on the input mode that the algorithm supports, SageMaker either copies input
   data files from an S3 bucket to a local directory in the Docker container, or makes it
-  available as input streams. For example, if you specify an EFS location, input data
-  files are available as input streams. They do not need to be downloaded.
+  available as input streams. For example, if you specify an EFS location, input data files
+  are available as input streams. They do not need to be downloaded.
 
   Your input must be in the same Amazon Web Services region as your training job.
+
 - `"ProfilerConfig"`:
+
 - `"ProfilerRuleConfigurations"`: Configuration information for Amazon SageMaker Debugger
   rules for profiling system and framework metrics.
+
 - `"RemoteDebugConfig"`: Configuration for remote debugging. To learn more about the remote
   debugging functionality of SageMaker, see [Access a training container through Amazon Web Services Systems Manager (SSM) for remote debugging](https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html).
+
 - `"RetryStrategy"`: The number of times to retry the job when the job fails due to an
   `InternalServerError`.
+
 - `"SessionChainingConfig"`: Contains information about attribute-based access control
   (ABAC) for the training job.
+
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+
 - `"TensorBoardOutputConfig"`:
+
 - `"VpcConfig"`: A [VpcConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html)
   object that specifies the VPC that you want your training job to connect to. Control
-  access to and from your training container by configuring the VPC. For more
-  information, see [Protect Training Jobs by Using an Amazon Virtual Private Cloud](https://docs.aws.amazon.com/sagemaker/latest/dg/train-vpc.html).
+  access to and from your training container by configuring the VPC. For more information,
+  see [Protect Training Jobs by Using an Amazon Virtual Private Cloud](https://docs.aws.amazon.com/sagemaker/latest/dg/train-vpc.html).
 """
 function create_training_job end
 
@@ -5123,48 +5229,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inference request. A *record* <i/> is a single unit of input data that inference can be
   made on. For example, a single line in a CSV file is a record.
 
-  To enable the batch strategy, you must set the `SplitType` property to `Line`,
-  `RecordIO`, or `TFRecord`.
+  To enable the batch strategy, you must set the `SplitType` property to `Line`, `RecordIO`,
+  or `TFRecord`.
 
   To use only one record when making an HTTP invocation request to a container, set
   `BatchStrategy` to `SingleRecord` and `SplitType` to `Line`.
 
-  To fit as many records in a mini-batch as can fit within the `MaxPayloadInMB` limit,
-  set `BatchStrategy` to `MultiRecord` and `SplitType` to `Line`.
+  To fit as many records in a mini-batch as can fit within the `MaxPayloadInMB` limit, set
+  `BatchStrategy` to `MultiRecord` and `SplitType` to `Line`.
+
 - `"DataCaptureConfig"`: Configuration to control how SageMaker captures inference data.
+
 - `"DataProcessing"`: The data structure used to specify the data to be used for inference
   in a batch transform job and to associate the data that is relevant to the prediction
-  results in the output. The input filter provided allows you to exclude input data that
-  is not needed for inference in a batch transform job. The output filter provided allows
-  you to include input data relevant to interpreting the predictions in the output from
-  the job. For more information, see [Associate Prediction Results with their Corresponding Input Records](https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform-data-processing.html).
+  results in the output. The input filter provided allows you to exclude input data that is
+  not needed for inference in a batch transform job. The output filter provided allows you
+  to include input data relevant to interpreting the predictions in the output from the job.
+  For more information, see [Associate Prediction Results with their Corresponding Input Records](https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform-data-processing.html).
+
 - `"Environment"`: The environment variables to set in the Docker container. Don't include
   any sensitive data in your environment variables. We support up to 16 key and values
   entries in the map.
+
 - `"ExperimentConfig"`:
+
 - `"MaxConcurrentTransforms"`: The maximum number of parallel requests that can be sent to
   each instance in a transform job. If `MaxConcurrentTransforms` is set to `0` or left
-  unset, Amazon SageMaker checks the optional execution-parameters to determine the
-  settings for your chosen algorithm. If the execution-parameters endpoint is not
-  enabled, the default value is `1`. For more information on execution-parameters, see [How Containers Serve Requests](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-batch-code.html#your-algorithms-batch-code-how-containe-serves-requests).
+  unset, Amazon SageMaker checks the optional execution-parameters to determine the settings
+  for your chosen algorithm. If the execution-parameters endpoint is not enabled, the
+  default value is `1`. For more information on execution-parameters, see [How Containers Serve Requests](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-batch-code.html#your-algorithms-batch-code-how-containe-serves-requests).
   For built-in algorithms, you don't need to set a value for `MaxConcurrentTransforms`.
+
 - `"MaxPayloadInMB"`: The maximum allowed size of the payload, in MB. A *payload* is the
-  data portion of a record (without metadata). The value in `MaxPayloadInMB` must be
-  greater than, or equal to, the size of a single record. To estimate the size of a
-  record in MB, divide the size of your dataset by the number of records. To ensure that
-  the records fit within the maximum payload size, we recommend using a slightly larger
-  value. The default value is `6` MB.
+  data portion of a record (without metadata). The value in `MaxPayloadInMB` must be greater
+  than, or equal to, the size of a single record. To estimate the size of a record in MB,
+  divide the size of your dataset by the number of records. To ensure that the records fit
+  within the maximum payload size, we recommend using a slightly larger value. The default
+  value is `6` MB.
 
   The value of `MaxPayloadInMB` cannot be greater than 100 MB. If you specify the
   `MaxConcurrentTransforms` parameter, the value of
   `(MaxConcurrentTransforms * MaxPayloadInMB)` also cannot exceed 100 MB.
 
   For cases where the payload might be arbitrarily large and is transmitted using HTTP
-  chunked encoding, set the value to `0`. This feature works only in supported
-  algorithms. Currently, Amazon SageMaker built-in algorithms do not support HTTP chunked
-  encoding.
-- `"ModelClientConfig"`: Configures the timeout and maximum number of retries for
-  processing a transform job invocation.
+  chunked encoding, set the value to `0`. This feature works only in supported algorithms.
+  Currently, Amazon SageMaker built-in algorithms do not support HTTP chunked encoding.
+
+- `"ModelClientConfig"`: Configures the timeout and maximum number of retries for processing
+  a transform job invocation.
+
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what)
   in the *Amazon Web Services Billing and Cost Management User Guide*.
 """
@@ -5229,8 +5342,8 @@ Creates an SageMaker *trial*. A trial is a set of steps called *trial components
 produce a machine learning model. A trial is part of a single SageMaker *experiment*.
 
 When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and
-trial components are automatically tracked, logged, and indexed. When you use the Amazon
-Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK.
+trial components are automatically tracked, logged, and indexed. When you use the Amazon Web
+Services SDK for Python (Boto), you must use the logging APIs provided by the SDK.
 
 You can add tags to a trial and then use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
 API to search for the tags.
@@ -5301,8 +5414,8 @@ composed of one or more trial components. A trial component can be used in multi
 Trial components include pre-processing jobs, training jobs, and batch transform jobs.
 
 When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and
-trial components are automatically tracked, logged, and indexed. When you use the Amazon
-Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK.
+trial components are automatically tracked, logged, and indexed. When you use the Amazon Web
+Services SDK for Python (Boto), you must use the logging APIs provided by the SDK.
 
 You can add tags to a trial component and then use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
 API to search for the tags.
@@ -5318,14 +5431,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DisplayName"`: The name of the component as displayed. The name doesn't need to be
   unique. If `DisplayName` isn't specified, `TrialComponentName` is displayed.
+
 - `"EndTime"`: When the component ended.
-- `"InputArtifacts"`: The input artifacts for the component. Examples of input artifacts
-  are datasets, algorithms, hyperparameters, source code, and instance types.
+
+- `"InputArtifacts"`: The input artifacts for the component. Examples of input artifacts are
+  datasets, algorithms, hyperparameters, source code, and instance types.
+
 - `"MetadataProperties"`:
+
 - `"OutputArtifacts"`: The output artifacts for the component. Examples of output artifacts
   are metrics, snapshots, logs, and images.
+
 - `"Parameters"`: The hyperparameters for the component.
+
 - `"StartTime"`: When the component started.
+
 - `"Status"`: The status of the component. States include:
 
   - InProgress
@@ -5387,18 +5507,21 @@ directory.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"SingleSignOnUserIdentifier"`: A specifier for the type of value specified in
-  SingleSignOnUserValue. Currently, the only supported value is "UserName". If the
-  Domain's AuthMode is IAM Identity Center, this field is required. If the Domain's
-  AuthMode is not IAM Identity Center, this field cannot be specified.
+  SingleSignOnUserValue. Currently, the only supported value is "UserName". If the Domain's
+  AuthMode is IAM Identity Center, this field is required. If the Domain's AuthMode is not
+  IAM Identity Center, this field cannot be specified.
+
 - `"SingleSignOnUserValue"`: The username of the associated Amazon Web Services Single Sign-
-  On User for this UserProfile. If the Domain's AuthMode is IAM Identity Center, this
-  field is required, and must match a valid username of a user in your directory. If the
-  Domain's AuthMode is not IAM Identity Center, this field cannot be specified.
+  On User for this UserProfile. If the Domain's AuthMode is IAM Identity Center, this field
+  is required, and must match a valid username of a user in your directory. If the Domain's
+  AuthMode is not IAM Identity Center, this field cannot be specified.
+
 - `"Tags"`: Each tag consists of a key and an optional value. Tag keys must be unique per
   resource.
 
   Tags that you specify for the User Profile are also added to all Apps that the User
   Profile launches.
+
 - `"UserSettings"`: A collection of settings.
 """
 function create_user_profile end
@@ -5440,9 +5563,9 @@ end
     create_workforce(workforce_name)
     create_workforce(workforce_name, params::Dict{String,<:Any})
 
-Use this operation to create a workforce. This operation will return an error if a
-workforce already exists in the Amazon Web Services Region that you specify. You can only
-create one workforce in each Amazon Web Services Region per Amazon Web Services account.
+Use this operation to create a workforce. This operation will return an error if a workforce
+already exists in the Amazon Web Services Region that you specify. You can only create one
+workforce in each Amazon Web Services Region per Amazon Web Services account.
 
 If you want to create a new workforce in an Amazon Web Services Region where a workforce
 already exists, use the [DeleteWorkforce](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkforce.html)
@@ -5469,14 +5592,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   single Cognito workforce is created using and corresponds to a single [Amazon Cognito user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
 
   Do not use `OidcConfig` if you specify values for `CognitoConfig`.
+
 - `"OidcConfig"`: Use this parameter to configure a private workforce using your own OIDC
   Identity Provider.
 
   Do not use `CognitoConfig` if you specify values for `OidcConfig`.
+
 - `"SourceIpConfig"`:
+
 - `"Tags"`: An array of key-value pairs that contain metadata to help you categorize and
-  organize our workforce. Each tag consists of a key and a value, both of which you
-  define.
+  organize our workforce. Each tag consists of a key and a value, both of which you define.
+
 - `"WorkforceVpcConfig"`: Use this parameter to configure a workforce using VPC.
 """
 function create_workforce end
@@ -5509,34 +5635,33 @@ end
     create_workteam(description, member_definitions, workteam_name)
     create_workteam(description, member_definitions, workteam_name, params::Dict{String,<:Any})
 
-Creates a new work team for labeling your data. A work team is defined by one or more
-Amazon Cognito user pools. You must first create the user pools before you can create a
-work team.
+Creates a new work team for labeling your data. A work team is defined by one or more Amazon
+Cognito user pools. You must first create the user pools before you can create a work team.
 
 You cannot create more than 25 work teams in an account and region.
 
 # Arguments
 
 - `description`: A description of the work team.
+
 - `member_definitions`: A list of `MemberDefinition` objects that contains objects that
   identify the workers that make up the work team.
 
-  Workforces can be created using Amazon Cognito or your own OIDC Identity Provider
-  (IdP). For private workforces created using Amazon Cognito use
-  `CognitoMemberDefinition`. For workforces created using your own OIDC identity provider
-  (IdP) use `OidcMemberDefinition`. Do not provide input for both of these parameters in
-  a single request.
+  Workforces can be created using Amazon Cognito or your own OIDC Identity Provider (IdP).
+  For private workforces created using Amazon Cognito use `CognitoMemberDefinition`. For
+  workforces created using your own OIDC identity provider (IdP) use `OidcMemberDefinition`.
+  Do not provide input for both of these parameters in a single request.
 
   For workforces created using Amazon Cognito, private work teams correspond to Amazon
   Cognito *user groups* within the user pool used to create a workforce. All of the
   `CognitoMemberDefinition` objects that make up the member definition must have the same
-  `ClientId` and `UserPool` values. To add a Amazon Cognito user group to an existing
-  worker pool, see [Adding groups to a User Pool](). For more information about user
-  pools, see [Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
+  `ClientId` and `UserPool` values. To add a Amazon Cognito user group to an existing worker
+  pool, see [Adding groups to a User Pool](). For more information about user pools, see [Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
 
-  For workforces created using your own OIDC IdP, specify the user groups that you want
-  to include in your private work team in `OidcMemberDefinition` by listing those groups
-  in `Groups`.
+  For workforces created using your own OIDC IdP, specify the user groups that you want to
+  include in your private work team in `OidcMemberDefinition` by listing those groups in
+  `Groups`.
+
 - `workteam_name`: The name of the work team. Use this name to identify the work team.
 
 # Optional Parameters
@@ -5545,14 +5670,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NotificationConfiguration"`: Configures notification of workers regarding available or
   expiring work items.
+
 - `"Tags"`: An array of key-value pairs.
 
   For more information, see [Resource Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
   and [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what)
   in the *Amazon Web Services Billing and Cost Management User Guide*.
+
 - `"WorkerAccessConfiguration"`: Use this optional parameter to constrain access to an
-  Amazon S3 resource based on the IP address using supported IAM global condition keys.
-  The Amazon S3 resource is accessed in the worker portal using a Amazon S3 presigned URL.
+  Amazon S3 resource based on the IP address using supported IAM global condition keys. The
+  Amazon S3 resource is accessed in the worker portal using a Amazon S3 presigned URL.
+
 - `"WorkforceName"`: The name of the workforce.
 """
 function create_workteam end
@@ -5927,14 +6055,14 @@ end
     delete_compilation_job(compilation_job_name)
     delete_compilation_job(compilation_job_name, params::Dict{String,<:Any})
 
-Deletes the specified compilation job. This action deletes only the compilation job
-resource in Amazon SageMaker. It doesn't delete other resources that are related to that
-job, such as the model artifacts that the job creates, the compilation logs in CloudWatch,
-the compiled model, or the IAM role.
+Deletes the specified compilation job. This action deletes only the compilation job resource
+in Amazon SageMaker. It doesn't delete other resources that are related to that job, such as
+the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled
+model, or the IAM role.
 
 You can delete a compilation job only if its current status is `COMPLETED`, `FAILED`, or
-`STOPPED`. If the job status is `STARTING` or `INPROGRESS`, stop the job, and then delete
-it after its status becomes `STOPPED`.
+`STOPPED`. If the job status is `STARTING` or `INPROGRESS`, stop the job, and then delete it
+after its status becomes `STOPPED`.
 
 # Arguments
 
@@ -6090,10 +6218,9 @@ end
     delete_domain(domain_id)
     delete_domain(domain_id, params::Dict{String,<:Any})
 
-Used to delete a domain. If you onboarded with IAM mode, you will need to delete your
-domain to onboard again using IAM Identity Center. Use with caution. All of the members of
-the domain will lose access to their EFS volume, including data, notebooks, and other
-artifacts.
+Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain
+to onboard again using IAM Identity Center. Use with caution. All of the members of the
+domain will lose access to their EFS volume, including data, notebooks, and other artifacts.
 
 # Arguments
 
@@ -6277,8 +6404,8 @@ end
     delete_endpoint_config(endpoint_config_name)
     delete_endpoint_config(endpoint_config_name, params::Dict{String,<:Any})
 
-Deletes an endpoint configuration. The `DeleteEndpointConfig` API deletes only the
-specified configuration. It does not delete endpoints created using the configuration.
+Deletes an endpoint configuration. The `DeleteEndpointConfig` API deletes only the specified
+configuration. It does not delete endpoints created using the configuration.
 
 You must not delete an `EndpointConfig` in use by an endpoint that is live or while the
 `UpdateEndpoint` or [`create_endpoint`](@ref) operations are being performed on the
@@ -6654,13 +6781,13 @@ end
 
 Deletes a hyperparameter tuning job. The `DeleteHyperParameterTuningJob` API deletes only
 the tuning job entry that was created in SageMaker when you called the
-`CreateHyperParameterTuningJob` API. It does not delete training jobs, artifacts, or the
-IAM role that you specified when creating the model.
+`CreateHyperParameterTuningJob` API. It does not delete training jobs, artifacts, or the IAM
+role that you specified when creating the model.
 
 # Arguments
 
-- `hyper_parameter_tuning_job_name`: The name of the hyperparameter tuning job that you
-  want to delete.
+- `hyper_parameter_tuning_job_name`: The name of the hyperparameter tuning job that you want
+  to delete.
 """
 function delete_hyper_parameter_tuning_job end
 
@@ -7068,8 +7195,8 @@ Marketplace to create models in SageMaker.
 - `model_package_name`: The name or Amazon Resource Name (ARN) of the model package to
   delete.
 
-  When you specify a name, the name must have 1 to 63 characters. Valid characters are a-
-  z, A-Z, 0-9, and - (hyphen).
+  When you specify a name, the name must have 1 to 63 characters. Valid characters are a-z,
+  A-Z, 0-9, and - (hyphen).
 """
 function delete_model_package end
 
@@ -7276,9 +7403,9 @@ Deletes an SageMaker notebook instance. Before you can delete a notebook instanc
 call the `StopNotebookInstance` API.
 
 !!! important
-    When you delete a notebook instance, you lose all of your data. SageMaker removes the
-    ML compute instance, and deletes the ML storage volume and the network interface
-    associated with the notebook instance.
+    When you delete a notebook instance, you lose all of your data. SageMaker removes the ML
+    compute instance, and deletes the ML storage volume and the network interface associated
+    with the notebook instance.
 
 # Arguments
 
@@ -7416,9 +7543,8 @@ When you delete a pipeline, all instances of the pipeline are deleted.
 
 # Arguments
 
-- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one
-  time.
+- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the operation. An idempotent operation completes no more than one time.
 - `pipeline_name`: The name of the pipeline to delete.
 """
 function delete_pipeline end
@@ -7594,9 +7720,9 @@ Deletes the specified tags from an SageMaker resource.
 To list a resource's tags, use the `ListTags` API.
 
 !!! note
-    When you call this API to delete tags from a hyperparameter tuning job, the deleted
-    tags are not removed from training jobs that the hyperparameter tuning job launched
-    before you called this API.
+    When you call this API to delete tags from a hyperparameter tuning job, the deleted tags
+    are not removed from training jobs that the hyperparameter tuning job launched before
+    you called this API.
 
 !!! note
     When you call this API to delete tags from a SageMaker Domain or User Profile, the
@@ -7782,9 +7908,9 @@ to create a new workforce.
 
 !!! important
     If a private workforce contains one or more work teams, you must use the [DeleteWorkteam](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkteam.html)
-    operation to delete all work teams before you delete the workforce. If you try to
-    delete a workforce that contains one or more work teams, you will receive a
-    `ResourceInUse` error.
+    operation to delete all work teams before you delete the workforce. If you try to delete
+    a workforce that contains one or more work teams, you will receive a `ResourceInUse`
+    error.
 
 # Arguments
 
@@ -9011,8 +9137,8 @@ Returns information about the requested human task user interface (worker task t
 
 # Arguments
 
-- `human_task_ui_name`: The name of the human task user interface (worker task template)
-  you want information about.
+- `human_task_ui_name`: The name of the human task user interface (worker task template) you
+  want information about.
 """
 function describe_human_task_ui end
 
@@ -9049,8 +9175,8 @@ end
     describe_hyper_parameter_tuning_job(hyper_parameter_tuning_job_name, params::Dict{String,<:Any})
 
 Returns a description of a hyperparameter tuning job, depending on the fields selected.
-These fields can include the name, Amazon Resource Name (ARN), job status of your tuning
-job and more.
+These fields can include the name, Amazon Resource Name (ARN), job status of your tuning job
+and more.
 
 # Arguments
 
@@ -9632,8 +9758,8 @@ Services Marketplace.
 - `model_package_name`: The name or Amazon Resource Name (ARN) of the model package to
   describe.
 
-  When you specify a name, the name must have 1 to 63 characters. Valid characters are a-
-  z, A-Z, 0-9, and - (hyphen).
+  When you specify a name, the name must have 1 to 63 characters. Valid characters are a-z,
+  A-Z, 0-9, and - (hyphen).
 """
 function describe_model_package end
 
@@ -10469,8 +10595,8 @@ Allowable IP address ranges are the IP addresses that workers can use to access 
 # Arguments
 
 - `workforce_name`: The name of the private workforce whose access you want to restrict.
-  `WorkforceName` is automatically set to `default` when a workforce is created and
-  cannot be modified.
+  `WorkforceName` is automatically set to `default` when a workforce is created and cannot
+  be modified.
 """
 function describe_workforce end
 
@@ -10572,10 +10698,9 @@ end
     disassociate_trial_component(trial_component_name, trial_name)
     disassociate_trial_component(trial_component_name, trial_name, params::Dict{String,<:Any})
 
-Disassociates a trial component from a trial. This doesn't effect other trials the
-component is associated with. Before you can delete a component, you must disassociate the
-component from all trials it is associated with. To associate a trial component with a
-trial, call the [AssociateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AssociateTrialComponent.html)
+Disassociates a trial component from a trial. This doesn't effect other trials the component
+is associated with. Before you can delete a component, you must disassociate the component
+from all trials it is associated with. To associate a trial component with a trial, call the [AssociateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AssociateTrialComponent.html)
 API.
 
 To get a list of the trials a component is associated with, use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
@@ -10738,8 +10863,8 @@ end
     get_model_package_group_policy(model_package_group_name)
     get_model_package_group_policy(model_package_group_name, params::Dict{String,<:Any})
 
-Gets a resource policy that manages access for a model group. For information about
-resource policies, see [Identity-based policies and resource-based policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html)
+Gets a resource policy that manages access for a model group. For information about resource
+policies, see [Identity-based policies and resource-based policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html)
 in the *Amazon Web Services Identity and Access Management User Guide.*.
 
 # Arguments
@@ -10783,8 +10908,8 @@ end
     get_sagemaker_servicecatalog_portfolio_status()
     get_sagemaker_servicecatalog_portfolio_status(params::Dict{String,<:Any})
 
-Gets the status of Service Catalog in SageMaker. Service Catalog is used to create
-SageMaker projects.
+Gets the status of Service Catalog in SageMaker. Service Catalog is used to create SageMaker
+projects.
 """
 function get_sagemaker_servicecatalog_portfolio_status end
 
@@ -10830,13 +10955,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned by the job specified in the `InferenceRecommendationsJobName` field.
 
   Specify either this field or the `RecommendationId` field.
+
 - `"RecommendationId"`: The recommendation ID of a previously completed inference
   recommendation. This ID should come from one of the recommendations returned by the job
   specified in the `InferenceRecommendationsJobName` field.
 
   Specify either this field or the `EndpointName` field.
+
 - `"ScalingPolicyObjective"`: An object where you specify the anticipated traffic pattern
   for an endpoint.
+
 - `"TargetCpuUtilizationPerCore"`: The percentage of how much utilization you want an
   instance to use before autoscaling. The default value is 50%.
 """
@@ -11017,8 +11145,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time.
 - `"CreatedBefore"`: A filter that returns only actions created on or before the specified
   time.
-- `"MaxResults"`: The maximum number of actions to return in the response. The default
-  value is 10.
+- `"MaxResults"`: The maximum number of actions to return in the response. The default value
+  is 10.
 - `"NextToken"`: If the previous call to `ListActions` didn't return the full set of
   actions, the call returns a token for getting the next set of actions.
 - `"SortBy"`: The property used to sort results. The default value is `CreationTime`.
@@ -11051,14 +11179,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CreationTimeAfter"`: A filter that returns only algorithms created after the specified
   time (timestamp).
-- `"CreationTimeBefore"`: A filter that returns only algorithms created before the
-  specified time (timestamp).
+- `"CreationTimeBefore"`: A filter that returns only algorithms created before the specified
+  time (timestamp).
 - `"MaxResults"`: The maximum number of algorithms to return in the response.
 - `"NameContains"`: A string in the algorithm name. This filter returns only algorithms
   whose name contains the specified string.
 - `"NextToken"`: If the response to a previous `ListAlgorithms` request was truncated, the
-  response includes a `NextToken`. To retrieve the next set of algorithms, use the token
-  in the next request.
+  response includes a `NextToken`. To retrieve the next set of algorithms, use the token in
+  the next request.
 - `"SortBy"`: The parameter by which to sort the results. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for the results. The default is `Ascending`.
 """
@@ -11145,8 +11273,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of items available is more than the value specified, a `NextToken` is provided in the
   response. To resume pagination, provide the `NextToken` value in the as part of a
   subsequent call. The default value is 10.
-- `"ModifiedTimeAfter"`: A filter that returns only AppImageConfigs modified on or after
-  the specified time.
+- `"ModifiedTimeAfter"`: A filter that returns only AppImageConfigs modified on or after the
+  specified time.
 - `"ModifiedTimeBefore"`: A filter that returns only AppImageConfigs modified on or before
   the specified time.
 - `"NameContains"`: A filter that returns only AppImageConfigs whose name contains the
@@ -11186,18 +11314,24 @@ Lists apps.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DomainIdEquals"`: A parameter to search for the domain ID.
-- `"MaxResults"`: This parameter defines the maximum number of results that can be return
-  in a single response. The `MaxResults` parameter is an upper bound, not a target. If
-  there are more results available than the value specified, a `NextToken` is provided in
-  the response. The `NextToken` indicates that the user should get the next set of
-  results by providing this token as a part of a subsequent call. The default value for
-  `MaxResults` is 10.
-- `"NextToken"`: If the previous response was truncated, you will receive this token. Use
-  it in your next request to receive the next set of results.
+
+- `"MaxResults"`: This parameter defines the maximum number of results that can be return in
+  a single response. The `MaxResults` parameter is an upper bound, not a target. If there
+  are more results available than the value specified, a `NextToken` is provided in the
+  response. The `NextToken` indicates that the user should get the next set of results by
+  providing this token as a part of a subsequent call. The default value for `MaxResults` is
+  10.
+
+- `"NextToken"`: If the previous response was truncated, you will receive this token. Use it
+  in your next request to receive the next set of results.
+
 - `"SortBy"`: The parameter by which to sort the results. The default is CreationTime.
+
 - `"SortOrder"`: The sort order for the results. The default is Ascending.
+
 - `"SpaceNameEquals"`: A parameter to search by space name. If `UserProfileNameEquals` is
   set, then this value cannot be set.
+
 - `"UserProfileNameEquals"`: A parameter to search by user profile name. If
   `SpaceNameEquals` is set, then this value cannot be set.
 """
@@ -11228,8 +11362,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ArtifactType"`: A filter that returns only artifacts of the specified type.
 - `"CreatedAfter"`: A filter that returns only artifacts created on or after the specified
   time.
-- `"CreatedBefore"`: A filter that returns only artifacts created on or before the
-  specified time.
+- `"CreatedBefore"`: A filter that returns only artifacts created on or before the specified
+  time.
 - `"MaxResults"`: The maximum number of artifacts to return in the response. The default
   value is 10.
 - `"NextToken"`: If the previous call to `ListArtifacts` didn't return the full set of
@@ -11269,8 +11403,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified time.
 - `"CreatedBefore"`: A filter that returns only associations created on or before the
   specified time.
-- `"DestinationArn"`: A filter that returns only associations with the specified
-  destination Amazon Resource Name (ARN).
+- `"DestinationArn"`: A filter that returns only associations with the specified destination
+  Amazon Resource Name (ARN).
 - `"DestinationType"`: A filter that returns only associations with the specified
   destination type.
 - `"MaxResults"`: The maximum number of associations to return in the response. The default
@@ -11402,32 +11536,36 @@ HyperPod cluster.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CreationTimeAfter"`: A filter that returns nodes in a SageMaker HyperPod cluster
-  created after the specified time. Timestamps are formatted according to the ISO 8601
-  standard.
+- `"CreationTimeAfter"`: A filter that returns nodes in a SageMaker HyperPod cluster created
+  after the specified time. Timestamps are formatted according to the ISO 8601 standard.
 
   Acceptable formats include:
 
   - `YYYY-MM-DDThh:mm:ss.sssTZD` (UTC), for example, `2014-10-01T20:30:00.000Z`
-  - `YYYY-MM-DDThh:mm:ss.sssTZD` (with offset), for example,
-    `2014-10-01T12:30:00.000-08:00`
+  - `YYYY-MM-DDThh:mm:ss.sssTZD` (with offset), for example, `2014-10-01T12:30:00.000-08:00`
   - `YYYY-MM-DD`, for example, `2014-10-01`
-  - Unix time in seconds, for example, `1412195400`. This is also referred to as Unix
-    Epoch time and represents the number of seconds since midnight, January 1, 1970 UTC.
+  - Unix time in seconds, for example, `1412195400`. This is also referred to as Unix Epoch
+    time and represents the number of seconds since midnight, January 1, 1970 UTC.
 
   For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp)
   in the *Amazon Web Services Command Line Interface User Guide*.
+
 - `"CreationTimeBefore"`: A filter that returns nodes in a SageMaker HyperPod cluster
   created before the specified time. The acceptable formats are the same as the timestamp
   formats for `CreationTimeAfter`. For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp)
   in the *Amazon Web Services Command Line Interface User Guide*.
+
 - `"InstanceGroupNameContains"`: A filter that returns the instance groups whose name
   contain a specified string.
+
 - `"MaxResults"`: The maximum number of nodes to return in the response.
-- `"NextToken"`: If the result of the previous `ListClusterNodes` request was truncated,
-  the response includes a `NextToken`. To retrieve the next set of cluster nodes, use the
-  token in the next request.
+
+- `"NextToken"`: If the result of the previous `ListClusterNodes` request was truncated, the
+  response includes a `NextToken`. To retrieve the next set of cluster nodes, use the token
+  in the next request.
+
 - `"SortBy"`: The field by which to sort results. The default value is `CREATION_TIME`.
+
 - `"SortOrder"`: The sort order for results. The default value is `Ascending`.
 """
 function list_cluster_nodes end
@@ -11467,30 +11605,33 @@ Retrieves the list of SageMaker HyperPod clusters.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CreationTimeAfter"`: Set a start time for the time range during which you want to list
-  SageMaker HyperPod clusters. Timestamps are formatted according to the ISO 8601
-  standard.
+  SageMaker HyperPod clusters. Timestamps are formatted according to the ISO 8601 standard.
 
   Acceptable formats include:
 
   - `YYYY-MM-DDThh:mm:ss.sssTZD` (UTC), for example, `2014-10-01T20:30:00.000Z`
-  - `YYYY-MM-DDThh:mm:ss.sssTZD` (with offset), for example,
-    `2014-10-01T12:30:00.000-08:00`
+  - `YYYY-MM-DDThh:mm:ss.sssTZD` (with offset), for example, `2014-10-01T12:30:00.000-08:00`
   - `YYYY-MM-DD`, for example, `2014-10-01`
-  - Unix time in seconds, for example, `1412195400`. This is also referred to as Unix
-    Epoch time and represents the number of seconds since midnight, January 1, 1970 UTC.
+  - Unix time in seconds, for example, `1412195400`. This is also referred to as Unix Epoch
+    time and represents the number of seconds since midnight, January 1, 1970 UTC.
 
   For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp)
   in the *Amazon Web Services Command Line Interface User Guide*.
+
 - `"CreationTimeBefore"`: Set an end time for the time range during which you want to list
-  SageMaker HyperPod clusters. A filter that returns nodes in a SageMaker HyperPod
-  cluster created before the specified time. The acceptable formats are the same as the
-  timestamp formats for `CreationTimeAfter`. For more information about the timestamp
-  format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp)
+  SageMaker HyperPod clusters. A filter that returns nodes in a SageMaker HyperPod cluster
+  created before the specified time. The acceptable formats are the same as the timestamp
+  formats for `CreationTimeAfter`. For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp)
   in the *Amazon Web Services Command Line Interface User Guide*.
+
 - `"MaxResults"`: Set the maximum number of SageMaker HyperPod clusters to list.
+
 - `"NameContains"`: Set the maximum number of instances to print in the list.
+
 - `"NextToken"`: Set the next token to retrieve the list of SageMaker HyperPod clusters.
+
 - `"SortBy"`: The field by which to sort results. The default value is `CREATION_TIME`.
+
 - `"SortOrder"`: The sort order for results. The default value is `Ascending`.
 """
 function list_clusters end
@@ -11517,8 +11658,8 @@ Gets a list of the Git repositories in your account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CreationTimeAfter"`: A filter that returns only Git repositories that were created
-  after the specified time.
+- `"CreationTimeAfter"`: A filter that returns only Git repositories that were created after
+  the specified time.
 - `"CreationTimeBefore"`: A filter that returns only Git repositories that were created
   before the specified time.
 - `"LastModifiedTimeAfter"`: A filter that returns only Git repositories that were last
@@ -11529,8 +11670,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: A string in the Git repositories name. This filter returns only
   repositories whose name contains the specified string.
 - `"NextToken"`: If the result of a `ListCodeRepositoriesOutput` request was truncated, the
-  response includes a `NextToken`. To get the next set of Git repositories, use the token
-  in the next request.
+  response includes a `NextToken`. To get the next set of Git repositories, use the token in
+  the next request.
 - `"SortBy"`: The field to sort results by. The default is `Name`.
 - `"SortOrder"`: The sort order for results. The default is `Ascending`.
 """
@@ -11568,8 +11709,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CreationTimeAfter"`: A filter that returns the model compilation jobs that were created
   after a specified time.
-- `"CreationTimeBefore"`: A filter that returns the model compilation jobs that were
-  created before a specified time.
+- `"CreationTimeBefore"`: A filter that returns the model compilation jobs that were created
+  before a specified time.
 - `"LastModifiedTimeAfter"`: A filter that returns the model compilation jobs that were
   modified after a specified time.
 - `"LastModifiedTimeBefore"`: A filter that returns the model compilation jobs that were
@@ -11578,8 +11719,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: A filter that returns the model compilation jobs whose name contains a
   specified string.
 - `"NextToken"`: If the result of the previous `ListCompilationJobs` request was truncated,
-  the response includes a `NextToken`. To retrieve the next set of model compilation
-  jobs, use the token in the next request.
+  the response includes a `NextToken`. To retrieve the next set of model compilation jobs,
+  use the token in the next request.
 - `"SortBy"`: The field by which to sort results. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Ascending`.
 - `"StatusEquals"`: A filter that retrieves model compilation jobs with a specific
@@ -11653,15 +11794,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CreationTimeAfter"`: A filter that returns only data quality monitoring job definitions
   created after the specified time.
-- `"CreationTimeBefore"`: A filter that returns only data quality monitoring job
-  definitions created before the specified time.
-- `"EndpointName"`: A filter that lists the data quality job definitions associated with
-  the specified endpoint.
-- `"MaxResults"`: The maximum number of data quality monitoring job definitions to return
-  in the response.
-- `"NameContains"`: A string in the data quality monitoring job definition name. This
-  filter returns only data quality monitoring job definitions whose name contains the
-  specified string.
+- `"CreationTimeBefore"`: A filter that returns only data quality monitoring job definitions
+  created before the specified time.
+- `"EndpointName"`: A filter that lists the data quality job definitions associated with the
+  specified endpoint.
+- `"MaxResults"`: The maximum number of data quality monitoring job definitions to return in
+  the response.
+- `"NameContains"`: A string in the data quality monitoring job definition name. This filter
+  returns only data quality monitoring job definitions whose name contains the specified
+  string.
 - `"NextToken"`: If the result of the previous `ListDataQualityJobDefinitions` request was
   truncated, the response includes a `NextToken`. To retrieve the next set of transform
   jobs, use the token in the next request.&gt;
@@ -11772,14 +11913,15 @@ Lists the domains.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: This parameter defines the maximum number of results that can be return
-  in a single response. The `MaxResults` parameter is an upper bound, not a target. If
-  there are more results available than the value specified, a `NextToken` is provided in
-  the response. The `NextToken` indicates that the user should get the next set of
-  results by providing this token as a part of a subsequent call. The default value for
-  `MaxResults` is 10.
-- `"NextToken"`: If the previous response was truncated, you will receive this token. Use
-  it in your next request to receive the next set of results.
+- `"MaxResults"`: This parameter defines the maximum number of results that can be return in
+  a single response. The `MaxResults` parameter is an upper bound, not a target. If there
+  are more results available than the value specified, a `NextToken` is provided in the
+  response. The `NextToken` indicates that the user should get the next set of results by
+  providing this token as a part of a subsequent call. The default value for `MaxResults` is
+  10.
+
+- `"NextToken"`: If the previous response was truncated, you will receive this token. Use it
+  in your next request to receive the next set of results.
 """
 function list_domains end
 
@@ -11809,8 +11951,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CreationTimeBefore"`: Selects edge deployment plans created before this time.
 - `"DeviceFleetNameContains"`: Selects edge deployment plans with a device fleet name
   containing this name.
-- `"LastModifiedTimeAfter"`: Selects edge deployment plans that were last updated after
-  this time.
+- `"LastModifiedTimeAfter"`: Selects edge deployment plans that were last updated after this
+  time.
 - `"LastModifiedTimeBefore"`: Selects edge deployment plans that were last updated before
   this time.
 - `"MaxResults"`: The maximum number of results to select (50 by default).
@@ -11900,8 +12042,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: A string in the endpoint configuration name. This filter returns only
   endpoint configurations whose name contains the specified string.
 - `"NextToken"`: If the result of the previous `ListEndpointConfig` request was truncated,
-  the response includes a `NextToken`. To retrieve the next set of endpoint
-  configurations, use the token in the next request.
+  the response includes a `NextToken`. To retrieve the next set of endpoint configurations,
+  use the token in the next request.
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Descending`.
 """
@@ -11940,15 +12082,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified time (timestamp).
 - `"LastModifiedTimeAfter"`: A filter that returns only endpoints that were modified after
   the specified timestamp.
-- `"LastModifiedTimeBefore"`: A filter that returns only endpoints that were modified
-  before the specified timestamp.
+- `"LastModifiedTimeBefore"`: A filter that returns only endpoints that were modified before
+  the specified timestamp.
 - `"MaxResults"`: The maximum number of endpoints to return in the response. This value
   defaults to 10.
 - `"NameContains"`: A string in endpoint names. This filter returns only endpoints whose
   name contains the specified string.
 - `"NextToken"`: If the result of a `ListEndpoints` request was truncated, the response
-  includes a `NextToken`. To retrieve the next set of endpoints, use the token in the
-  next request.
+  includes a `NextToken`. To retrieve the next set of endpoints, use the token in the next
+  request.
 - `"SortBy"`: Sorts the list of results. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Descending`.
 - `"StatusEquals"`: A filter that returns only endpoints with the specified status.
@@ -11973,9 +12115,9 @@ end
     list_experiments()
     list_experiments(params::Dict{String,<:Any})
 
-Lists all the experiments in your account. The list can be filtered to show only
-experiments that were created in a specific time range. The list can be sorted by
-experiment name or creation time.
+Lists all the experiments in your account. The list can be filtered to show only experiments
+that were created in a specific time range. The list can be sorted by experiment name or
+creation time.
 
 # Optional Parameters
 
@@ -12019,8 +12161,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CreationTimeAfter"`: Use this parameter to search for `FeatureGroups`s created after a
   specific date and time.
-- `"CreationTimeBefore"`: Use this parameter to search for `FeatureGroups`s created before
-  a specific date and time.
+- `"CreationTimeBefore"`: Use this parameter to search for `FeatureGroups`s created before a
+  specific date and time.
 - `"FeatureGroupStatusEquals"`: A `FeatureGroup` status. Filters by `FeatureGroup` status.
 - `"MaxResults"`: The maximum number of results returned by `ListFeatureGroups`.
 - `"NameContains"`: A string that partially matches one or more `FeatureGroup`s names.
@@ -12181,8 +12323,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxSchemaVersion"`: The upper bound of the hub content schema verion.
 - `"NameContains"`: Only list hub content if the name contains the specified string.
 - `"NextToken"`: If the response to a previous `ListHubContents` request was truncated, the
-  response includes a `NextToken`. To retrieve the next set of hub content, use the token
-  in the next request.
+  response includes a `NextToken`. To retrieve the next set of hub content, use the token in
+  the next request.
 - `"SortBy"`: Sort hub content versions by either name or creation time.
 - `"SortOrder"`: Sort hubs by ascending or descending order.
 """
@@ -12309,16 +12451,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified time.
 - `"CreationTimeBefore"`: A filter that returns only tuning jobs that were created before
   the specified time.
-- `"LastModifiedTimeAfter"`: A filter that returns only tuning jobs that were modified
-  after the specified time.
+- `"LastModifiedTimeAfter"`: A filter that returns only tuning jobs that were modified after
+  the specified time.
 - `"LastModifiedTimeBefore"`: A filter that returns only tuning jobs that were modified
   before the specified time.
 - `"MaxResults"`: The maximum number of tuning jobs to return. The default value is 10.
 - `"NameContains"`: A string in the tuning job name. This filter returns only tuning jobs
   whose name contains the specified string.
 - `"NextToken"`: If the result of the previous `ListHyperParameterTuningJobs` request was
-  truncated, the response includes a `NextToken`. To retrieve the next set of tuning
-  jobs, use the token in the next request.
+  truncated, the response includes a `NextToken`. To retrieve the next set of tuning jobs,
+  use the token in the next request.
 - `"SortBy"`: The field to sort results by. The default is `Name`.
 - `"SortOrder"`: The sort order for results. The default is `Ascending`.
 - `"StatusEquals"`: A filter that returns only tuning jobs with the specified status.
@@ -12413,8 +12555,8 @@ time or modified time, and whether the image name contains a specified string.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CreationTimeAfter"`: A filter that returns only images created on or after the
-  specified time.
+- `"CreationTimeAfter"`: A filter that returns only images created on or after the specified
+  time.
 - `"CreationTimeBefore"`: A filter that returns only images created on or before the
   specified time.
 - `"LastModifiedTimeAfter"`: A filter that returns only images modified on or after the
@@ -12465,8 +12607,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   were updated after the specified time.
 - `"LastModifiedTimeBefore"`: Filters the results to only those inference components that
   were updated before the specified time.
-- `"MaxResults"`: The maximum number of inference components to return in the response.
-  This value defaults to 10.
+- `"MaxResults"`: The maximum number of inference components to return in the response. This
+  value defaults to 10.
 - `"NameContains"`: Filters the results to only those inference components with a name that
   contains the specified string.
 - `"NextToken"`: A token that you use to get the next set of results following a truncated
@@ -12478,8 +12620,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatusEquals"`: Filters the results to only those inference components with the
   specified status.
 - `"VariantNameEquals"`: A production variant name to filter the listed inference
-  components. The response includes only those inference components that are hosted at
-  the specified variant.
+  components. The response includes only those inference components that are hosted at the
+  specified variant.
 """
 function list_inference_components end
 
@@ -12524,8 +12666,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tokening.
 - `"SortBy"`: The column by which to sort the listed inference experiments.
 - `"SortOrder"`: The direction of sorting (ascending or descending).
-- `"StatusEquals"`: Selects inference experiments which are in this status. For the
-  possible statuses, see [DescribeInferenceExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeInferenceExperiment.html).
+- `"StatusEquals"`: Selects inference experiments which are in this status. For the possible
+  statuses, see [DescribeInferenceExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeInferenceExperiment.html).
 - `"Type"`: Selects inference experiments of this type. For the possible types of inference
   experiments, see [CreateInferenceExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateInferenceExperiment.html).
 """
@@ -12566,10 +12708,13 @@ different instance types.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to return.
+
 - `"NextToken"`: A token that you can specify to return more results from the list. Specify
   this field if you have a token that was returned from a previous request.
+
 - `"Status"`: A filter to return benchmarks of a specified status. If this field is left
   empty, then all benchmarks are returned.
+
 - `"StepType"`: A filter to return details about the specified type of subtask.
 
   `BENCHMARK`: Evaluate the performance of your model on different instance types.
@@ -12616,14 +12761,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (timestamp).
 - `"LastModifiedTimeAfter"`: A filter that returns only jobs that were last modified after
   the specified time (timestamp).
-- `"LastModifiedTimeBefore"`: A filter that returns only jobs that were last modified
-  before the specified time (timestamp).
+- `"LastModifiedTimeBefore"`: A filter that returns only jobs that were last modified before
+  the specified time (timestamp).
 - `"MaxResults"`: The maximum number of recommendations to return in the response.
 - `"ModelNameEquals"`: A filter that returns only jobs that were created for this model.
 - `"ModelPackageVersionArnEquals"`: A filter that returns only jobs that were created for
   this versioned model package.
-- `"NameContains"`: A string in the job name. This filter returns only recommendations
-  whose name contains the specified string.
+- `"NameContains"`: A string in the job name. This filter returns only recommendations whose
+  name contains the specified string.
 - `"NextToken"`: If the response to a previous `ListInferenceRecommendationsJobsRequest`
   request was truncated, the response includes a `NextToken`. To retrieve the next set of
   recommendations, use the token in the next request.
@@ -12677,9 +12822,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response.
 - `"NameContains"`: A string in the labeling job name. This filter returns only labeling
   jobs whose name contains the specified string.
-- `"NextToken"`: If the result of the previous `ListLabelingJobs` request was truncated,
-  the response includes a `NextToken`. To retrieve the next set of labeling jobs, use the
-  token in the next request.
+- `"NextToken"`: If the result of the previous `ListLabelingJobs` request was truncated, the
+  response includes a `NextToken`. To retrieve the next set of labeling jobs, use the token
+  in the next request.
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Ascending`.
 - `"StatusEquals"`: A filter that retrieves only labeling jobs with a specific status.
@@ -12724,8 +12869,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of labeling jobs to return in each page of the
   response.
 - `"NextToken"`: If the result of the previous `ListLabelingJobsForWorkteam` request was
-  truncated, the response includes a `NextToken`. To retrieve the next set of labeling
-  jobs, use the token in the next request.
+  truncated, the response includes a `NextToken`. To retrieve the next set of labeling jobs,
+  use the token in the next request.
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Ascending`.
 """
@@ -12761,8 +12906,8 @@ end
     list_lineage_groups()
     list_lineage_groups(params::Dict{String,<:Any})
 
-A list of lineage groups shared with your Amazon Web Services account. For more
-information, see [Cross-Account Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/xaccount-lineage-tracking.html)
+A list of lineage groups shared with your Amazon Web Services account. For more information,
+see [Cross-Account Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/xaccount-lineage-tracking.html)
 in the *Amazon SageMaker Developer Guide*.
 
 # Optional Parameters
@@ -12775,8 +12920,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   point in time.
 - `"MaxResults"`: The maximum number of endpoints to return in the response. This value
   defaults to 10.
-- `"NextToken"`: If the response is truncated, SageMaker returns this token. To retrieve
-  the next set of algorithms, use it in the subsequent request.
+- `"NextToken"`: If the response is truncated, SageMaker returns this token. To retrieve the
+  next set of algorithms, use it in the subsequent request.
 - `"SortBy"`: The parameter by which to sort the results. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for the results. The default is `Ascending`.
 """
@@ -12816,13 +12961,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
 - `"MaxResults"`: The maximum number of tracking servers to list.
 - `"MlflowVersion"`: Filter for tracking servers using the specified MLflow version.
-- `"NextToken"`: If the previous response was truncated, you will receive this token. Use
-  it in your next request to receive the next set of results.
+- `"NextToken"`: If the previous response was truncated, you will receive this token. Use it
+  in your next request to receive the next set of results.
 - `"SortBy"`: Filter for trackings servers sorting by name, creation time, or creation
   status.
 - `"SortOrder"`: Change the order of the listed tracking servers. By default, tracking
-  servers are listed in `Descending` order by creation time. To change the list order,
-  you can specify `SortOrder` to be `Ascending`.
+  servers are listed in `Descending` order by creation time. To change the list order, you
+  can specify `SortOrder` to be `Ascending`.
 - `"TrackingServerStatus"`: Filter for tracking servers with a specified creation status.
 """
 function list_mlflow_tracking_servers end
@@ -12908,8 +13053,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CreationTimeAfter"`: Only list model card export jobs that were created after the time
   specified.
-- `"CreationTimeBefore"`: Only list model card export jobs that were created before the
-  time specified.
+- `"CreationTimeBefore"`: Only list model card export jobs that were created before the time
+  specified.
 - `"MaxResults"`: The maximum number of model card export jobs to list.
 - `"ModelCardExportJobNameContains"`: Only list model card export jobs with names that
   contain the specified string.
@@ -12917,8 +13062,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If the response to a previous `ListModelCardExportJobs` request was
   truncated, the response includes a `NextToken`. To retrieve the next set of model card
   export jobs, use the token in the next request.
-- `"SortBy"`: Sort model card export jobs by either name or creation time. Sorts by
-  creation time by default.
+- `"SortBy"`: Sort model card export jobs by either name or creation time. Sorts by creation
+  time by default.
 - `"SortOrder"`: Sort model card export jobs by ascending or descending order.
 - `"StatusEquals"`: Only list model card export jobs with the specified status.
 """
@@ -13021,8 +13166,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ModelCardStatus"`: Only list model cards with the specified approval status.
 - `"NameContains"`: Only list model cards with names that contain the specified string.
 - `"NextToken"`: If the response to a previous `ListModelCards` request was truncated, the
-  response includes a `NextToken`. To retrieve the next set of model cards, use the token
-  in the next request.
+  response includes a `NextToken`. To retrieve the next set of model cards, use the token in
+  the next request.
 - `"SortBy"`: Sort model cards by either name or creation time. Sorts by creation time by
   default.
 - `"SortOrder"`: Sort model cards by ascending or descending order.
@@ -13058,8 +13203,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CreationTimeBefore"`: A filter that returns only model explainability jobs created
   before a specified time.
 - `"EndpointName"`: Name of the endpoint to monitor for model explainability.
-- `"MaxResults"`: The maximum number of jobs to return in the response. The default value
-  is 10.
+- `"MaxResults"`: The maximum number of jobs to return in the response. The default value is
+  10.
 - `"NameContains"`: Filter for model explainability jobs whose name contains a specified
   string.
 - `"NextToken"`: The token returned if the response is truncated. To retrieve the next set
@@ -13105,12 +13250,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of models to return in the response.
 - `"NextToken"`: If the response to a previous `ListModelMetadataResponse` request was
-  truncated, the response includes a NextToken. To retrieve the next set of model
-  metadata, use the token in the next request.
+  truncated, the response includes a NextToken. To retrieve the next set of model metadata,
+  use the token in the next request.
 - `"SearchExpression"`: One or more filters that searches for the specified resource or
   resources in a search. All resource objects that satisfy the expression's condition are
-  included in the search results. Specify the Framework, FrameworkVersion, Domain or Task
-  to filter supported. Filter names and values are case-sensitive.
+  included in the search results. Specify the Framework, FrameworkVersion, Domain or Task to
+  filter supported. Filter names and values are case-sensitive.
 """
 function list_model_metadata end
 
@@ -13138,21 +13283,20 @@ Gets a list of the model groups in your Amazon Web Services account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CreationTimeAfter"`: A filter that returns only model groups created after the
-  specified time.
+- `"CreationTimeAfter"`: A filter that returns only model groups created after the specified
+  time.
 - `"CreationTimeBefore"`: A filter that returns only model groups created before the
   specified time.
-- `"CrossAccountFilterOption"`: A filter that returns either model groups shared with you
-  or model groups in your own account. When the value is `CrossAccount`, the results show
-  the resources made discoverable to you from other accounts. When the value is
-  `SameAccount` or `null`, the results show resources from your account. The default is
-  `SameAccount`.
+- `"CrossAccountFilterOption"`: A filter that returns either model groups shared with you or
+  model groups in your own account. When the value is `CrossAccount`, the results show the
+  resources made discoverable to you from other accounts. When the value is `SameAccount` or
+  `null`, the results show resources from your account. The default is `SameAccount`.
 - `"MaxResults"`: The maximum number of results to return in the response.
 - `"NameContains"`: A string in the model group name. This filter returns only model groups
   whose name contains the specified string.
 - `"NextToken"`: If the result of the previous `ListModelPackageGroups` request was
-  truncated, the response includes a `NextToken`. To retrieve the next set of model
-  groups, use the token in the next request.
+  truncated, the response includes a `NextToken`. To retrieve the next set of model groups,
+  use the token in the next request.
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Ascending`.
 """
@@ -13187,15 +13331,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CreationTimeAfter"`: A filter that returns only model packages created after the
   specified time (timestamp).
+
 - `"CreationTimeBefore"`: A filter that returns only model packages created before the
   specified time (timestamp).
+
 - `"MaxResults"`: The maximum number of model packages to return in the response.
+
 - `"ModelApprovalStatus"`: A filter that returns only the model packages with the specified
   approval status.
+
 - `"ModelPackageGroupName"`: A filter that returns only model versions that belong to the
   specified model group.
-- `"ModelPackageType"`: A filter that returns only the model packages of the specified
-  type. This can be one of the following values.
+
+- `"ModelPackageType"`: A filter that returns only the model packages of the specified type.
+  This can be one of the following values.
 
   - `UNVERSIONED` - List only unversioined models. This is the default value if no
     `ModelPackageType` is specified.
@@ -13204,10 +13353,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NameContains"`: A string in the model package name. This filter returns only model
   packages whose name contains the specified string.
+
 - `"NextToken"`: If the response to a previous `ListModelPackages` request was truncated,
-  the response includes a `NextToken`. To retrieve the next set of model packages, use
-  the token in the next request.
+  the response includes a `NextToken`. To retrieve the next set of model packages, use the
+  token in the next request.
+
 - `"SortBy"`: The parameter by which to sort the results. The default is `CreationTime`.
+
 - `"SortOrder"`: The sort order for the results. The default is `Ascending`.
 """
 function list_model_packages end
@@ -13236,19 +13388,19 @@ Gets a list of model quality monitoring job definitions in your account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CreationTimeAfter"`: A filter that returns only model quality monitoring job
-  definitions created after the specified time.
+- `"CreationTimeAfter"`: A filter that returns only model quality monitoring job definitions
+  created after the specified time.
 - `"CreationTimeBefore"`: A filter that returns only model quality monitoring job
   definitions created before the specified time.
-- `"EndpointName"`: A filter that returns only model quality monitoring job definitions
-  that are associated with the specified endpoint.
+- `"EndpointName"`: A filter that returns only model quality monitoring job definitions that
+  are associated with the specified endpoint.
 - `"MaxResults"`: The maximum number of results to return in a call to
   `ListModelQualityJobDefinitions`.
 - `"NameContains"`: A string in the transform job name. This filter returns only model
   quality monitoring job definitions whose name contains the specified string.
 - `"NextToken"`: If the result of the previous `ListModelQualityJobDefinitions` request was
-  truncated, the response includes a `NextToken`. To retrieve the next set of model
-  quality monitoring job definitions, use the token in the next request.
+  truncated, the response includes a `NextToken`. To retrieve the next set of model quality
+  monitoring job definitions, use the token in the next request.
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: Whether to sort the results in `Ascending` or `Descending` order. The
   default is `Descending`.
@@ -13286,16 +13438,16 @@ Lists models created with the `CreateModel` API.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CreationTimeAfter"`: A filter that returns only models with a creation time greater
-  than or equal to the specified time (timestamp).
+- `"CreationTimeAfter"`: A filter that returns only models with a creation time greater than
+  or equal to the specified time (timestamp).
 - `"CreationTimeBefore"`: A filter that returns only models created before the specified
   time (timestamp).
 - `"MaxResults"`: The maximum number of models to return in the response.
 - `"NameContains"`: A string in the model name. This filter returns only models whose name
   contains the specified string.
 - `"NextToken"`: If the response to a previous `ListModels` request was truncated, the
-  response includes a `NextToken`. To retrieve the next set of models, use the token in
-  the next request.
+  response includes a `NextToken`. To retrieve the next set of models, use the token in the
+  next request.
 - `"SortBy"`: Sorts the list of results. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Descending`.
 """
@@ -13323,16 +13475,16 @@ Gets a list of past alerts in a model monitoring schedule.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CreationTimeAfter"`: A filter that returns only alerts created on or after the
-  specified time.
+- `"CreationTimeAfter"`: A filter that returns only alerts created on or after the specified
+  time.
 - `"CreationTimeBefore"`: A filter that returns only alerts created on or before the
   specified time.
 - `"MaxResults"`: The maximum number of results to display. The default is 100.
 - `"MonitoringAlertName"`: The name of a monitoring alert.
 - `"MonitoringScheduleName"`: The name of a monitoring schedule.
 - `"NextToken"`: If the result of the previous `ListMonitoringAlertHistory` request was
-  truncated, the response includes a `NextToken`. To retrieve the next set of alerts in
-  the history, use the token in the next request.
+  truncated, the response includes a `NextToken`. To retrieve the next set of alerts in the
+  history, use the token in the next request.
 - `"SortBy"`: The field used to sort results. The default is `CreationTime`.
 - `"SortOrder"`: The sort order, whether `Ascending` or `Descending`, of the alert history.
   The default is `Descending`.
@@ -13372,9 +13524,9 @@ Gets the alerts for a single monitoring schedule.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to display. The default is 100.
-- `"NextToken"`: If the result of the previous `ListMonitoringAlerts` request was
-  truncated, the response includes a `NextToken`. To retrieve the next set of alerts in
-  the history, use the token in the next request.
+- `"NextToken"`: If the result of the previous `ListMonitoringAlerts` request was truncated,
+  the response includes a `NextToken`. To retrieve the next set of alerts in the history,
+  use the token in the next request.
 """
 function list_monitoring_alerts end
 
@@ -13425,8 +13577,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time.
 - `"LastModifiedTimeBefore"`: A filter that returns only jobs modified after a specified
   time.
-- `"MaxResults"`: The maximum number of jobs to return in the response. The default value
-  is 10.
+- `"MaxResults"`: The maximum number of jobs to return in the response. The default value is
+  10.
 - `"MonitoringJobDefinitionName"`: Gets a list of the monitoring job runs of the specified
   monitoring job definitions.
 - `"MonitoringScheduleName"`: Name of a specific schedule to fetch jobs for.
@@ -13480,10 +13632,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a specified time.
 - `"LastModifiedTimeBefore"`: A filter that returns only monitoring schedules modified
   before a specified time.
-- `"MaxResults"`: The maximum number of jobs to return in the response. The default value
-  is 10.
-- `"MonitoringJobDefinitionName"`: Gets a list of the monitoring schedules for the
-  specified monitoring job definition.
+- `"MaxResults"`: The maximum number of jobs to return in the response. The default value is
+  10.
+- `"MonitoringJobDefinitionName"`: Gets a list of the monitoring schedules for the specified
+  monitoring job definition.
 - `"MonitoringTypeEquals"`: A filter that returns only the monitoring schedules for the
   specified monitoring type.
 - `"NameContains"`: Filter for monitoring schedules whose name contains a specified string.
@@ -13579,20 +13731,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AdditionalCodeRepositoryEquals"`: A filter that returns only notebook instances with
   associated with the specified git repository.
+
 - `"CreationTimeAfter"`: A filter that returns only notebook instances that were created
   after the specified time (timestamp).
+
 - `"CreationTimeBefore"`: A filter that returns only notebook instances that were created
   before the specified time (timestamp).
+
 - `"DefaultCodeRepositoryContains"`: A string in the name or URL of a Git repository
   associated with this notebook instance. This filter returns only notebook instances
   associated with a git repository with a name that contains the specified string.
+
 - `"LastModifiedTimeAfter"`: A filter that returns only notebook instances that were
   modified after the specified time (timestamp).
+
 - `"LastModifiedTimeBefore"`: A filter that returns only notebook instances that were
   modified before the specified time (timestamp).
+
 - `"MaxResults"`: The maximum number of notebook instances to return.
+
 - `"NameContains"`: A string in the notebook instances' name. This filter returns only
   notebook instances whose name contains the specified string.
+
 - `"NextToken"`: If the previous call to the `ListNotebookInstances` is truncated, the
   response includes a `NextToken`. You can use this token in your subsequent
   `ListNotebookInstances` request to fetch the next set of notebook instances.
@@ -13604,10 +13764,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NotebookInstanceLifecycleConfigNameContains"`: A string in the name of a notebook
   instances lifecycle configuration associated with this notebook instance. This filter
-  returns only notebook instances associated with a lifecycle configuration with a name
-  that contains the specified string.
+  returns only notebook instances associated with a lifecycle configuration with a name that
+  contains the specified string.
+
 - `"SortBy"`: The field to sort results by. The default is `Name`.
+
 - `"SortOrder"`: The sort order for results.
+
 - `"StatusEquals"`: A filter that returns only notebook instances with the specified status.
 """
 function list_notebook_instances end
@@ -13838,8 +14001,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified time.
 - `"MaxResults"`: The maximum number of pipelines to return in the response.
 - `"NextToken"`: If the result of the previous `ListPipelines` request was truncated, the
-  response includes a `NextToken`. To retrieve the next set of pipelines, use the token
-  in the next request.
+  response includes a `NextToken`. To retrieve the next set of pipelines, use the token in
+  the next request.
 - `"PipelineNamePrefix"`: The prefix of the pipeline name.
 - `"SortBy"`: The field by which to sort results. The default is `CreatedTime`.
 - `"SortOrder"`: The sort order for results.
@@ -13876,14 +14039,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified time.
 - `"LastModifiedTimeAfter"`: A filter that returns only processing jobs modified after the
   specified time.
-- `"LastModifiedTimeBefore"`: A filter that returns only processing jobs modified before
-  the specified time.
+- `"LastModifiedTimeBefore"`: A filter that returns only processing jobs modified before the
+  specified time.
 - `"MaxResults"`: The maximum number of processing jobs to return in the response.
-- `"NameContains"`: A string in the processing job name. This filter returns only
-  processing jobs whose name contains the specified string.
+- `"NameContains"`: A string in the processing job name. This filter returns only processing
+  jobs whose name contains the specified string.
 - `"NextToken"`: If the result of the previous `ListProcessingJobs` request was truncated,
-  the response includes a `NextToken`. To retrieve the next set of processing jobs, use
-  the token in the next request.
+  the response includes a `NextToken`. To retrieve the next set of processing jobs, use the
+  token in the next request.
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Ascending`.
 - `"StatusEquals"`: A filter that retrieves only processing jobs with a specific status.
@@ -13952,10 +14115,10 @@ Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum n
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CreationTimeAfter"`: Use this parameter to search for `ResourceCatalog`s created after
+- `"CreationTimeAfter"`: Use this parameter to search for `ResourceCatalog`s created after a
+  specific date and time.
+- `"CreationTimeBefore"`: Use this parameter to search for `ResourceCatalog`s created before
   a specific date and time.
-- `"CreationTimeBefore"`: Use this parameter to search for `ResourceCatalog`s created
-  before a specific date and time.
 - `"MaxResults"`: The maximum number of results returned by `ListResourceCatalogs`.
 - `"NameContains"`: A string that partially matches one or more `ResourceCatalog`s names.
   Filters `ResourceCatalog` by name.
@@ -13993,16 +14156,21 @@ Lists spaces.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DomainIdEquals"`: A parameter to search for the domain ID.
-- `"MaxResults"`: This parameter defines the maximum number of results that can be return
-  in a single response. The `MaxResults` parameter is an upper bound, not a target. If
-  there are more results available than the value specified, a `NextToken` is provided in
-  the response. The `NextToken` indicates that the user should get the next set of
-  results by providing this token as a part of a subsequent call. The default value for
-  `MaxResults` is 10.
-- `"NextToken"`: If the previous response was truncated, you will receive this token. Use
-  it in your next request to receive the next set of results.
+
+- `"MaxResults"`: This parameter defines the maximum number of results that can be return in
+  a single response. The `MaxResults` parameter is an upper bound, not a target. If there
+  are more results available than the value specified, a `NextToken` is provided in the
+  response. The `NextToken` indicates that the user should get the next set of results by
+  providing this token as a part of a subsequent call. The default value for `MaxResults` is
+  10.
+
+- `"NextToken"`: If the previous response was truncated, you will receive this token. Use it
+  in your next request to receive the next set of results.
+
 - `"SortBy"`: The parameter by which to sort the results. The default is `CreationTime`.
+
 - `"SortOrder"`: The sort order for the results. The default is `Ascending`.
+
 - `"SpaceNameContains"`: A parameter by which to filter the results.
 """
 function list_spaces end
@@ -14038,8 +14206,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExcludeDevicesDeployedInOtherStage"`: Toggle for excluding devices deployed in other
   stages.
 - `"MaxResults"`: The maximum number of requests to select.
-- `"NextToken"`: The response from the last list when returning a list large enough to
-  neeed tokening.
+- `"NextToken"`: The response from the last list when returning a list large enough to neeed
+  tokening.
 """
 function list_stage_devices end
 
@@ -14147,8 +14315,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: A string in the work team name. This filter returns only work teams
   whose name contains the specified string.
 - `"NextToken"`: If the result of the previous `ListSubscribedWorkteams` request was
-  truncated, the response includes a `NextToken`. To retrieve the next set of labeling
-  jobs, use the token in the next request.
+  truncated, the response includes a `NextToken`. To retrieve the next set of labeling jobs,
+  use the token in the next request.
 """
 function list_subscribed_workteams end
 
@@ -14222,8 +14390,8 @@ Lists training jobs.
 
 !!! note
     When `StatusEquals` and `MaxResults` are set at the same time, the `MaxResults` number
-    of training jobs are first retrieved ignoring the `StatusEquals` parameter and then
-    they are filtered by the `StatusEquals` parameter, which is returned as a response.
+    of training jobs are first retrieved ignoring the `StatusEquals` parameter and then they
+    are filtered by the `StatusEquals` parameter, which is returned as a response.
 
     For example, if `ListTrainingJobs` is invoked with the following parameters:
 
@@ -14252,9 +14420,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of training jobs to return in the response.
 - `"NameContains"`: A string in the training job name. This filter returns only training
   jobs whose name contains the specified string.
-- `"NextToken"`: If the result of the previous `ListTrainingJobs` request was truncated,
-  the response includes a `NextToken`. To retrieve the next set of training jobs, use the
-  token in the next request.
+- `"NextToken"`: If the result of the previous `ListTrainingJobs` request was truncated, the
+  response includes a `NextToken`. To retrieve the next set of training jobs, use the token
+  in the next request.
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Ascending`.
 - `"StatusEquals"`: A filter that retrieves only training jobs with a specific status.
@@ -14286,22 +14454,26 @@ objects that describe the training jobs that a hyperparameter tuning job launche
 
 # Arguments
 
-- `hyper_parameter_tuning_job_name`: The name of the tuning job whose training jobs you
-  want to list.
+- `hyper_parameter_tuning_job_name`: The name of the tuning job whose training jobs you want
+  to list.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of training jobs to return. The default value is 10.
+
 - `"NextToken"`: If the result of the previous `ListTrainingJobsForHyperParameterTuningJob`
   request was truncated, the response includes a `NextToken`. To retrieve the next set of
   training jobs, use the token in the next request.
+
 - `"SortBy"`: The field to sort results by. The default is `Name`.
 
-  If the value of this field is `FinalObjectiveMetricValue`, any training jobs that did
-  not return an objective metric are not listed.
+  If the value of this field is `FinalObjectiveMetricValue`, any training jobs that did not
+  return an objective metric are not listed.
+
 - `"SortOrder"`: The sort order for results. The default is `Ascending`.
+
 - `"StatusEquals"`: A filter that returns only training jobs with the specified status.
 """
 function list_training_jobs_for_hyper_parameter_tuning_job end
@@ -14361,8 +14533,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: A string in the transform job name. This filter returns only transform
   jobs whose name contains the specified string.
 - `"NextToken"`: If the result of the previous `ListTransformJobs` request was truncated,
-  the response includes a `NextToken`. To retrieve the next set of transform jobs, use
-  the token in the next request.
+  the response includes a `NextToken`. To retrieve the next set of transform jobs, use the
+  token in the next request.
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Descending`.
 - `"StatusEquals"`: A filter that retrieves only transform jobs with a specific status.
@@ -14387,8 +14559,8 @@ end
     list_trial_components()
     list_trial_components(params::Dict{String,<:Any})
 
-Lists the trial components in your account. You can sort the list by trial component name
-or creation time. You can filter the list to show only components that were created in a
+Lists the trial components in your account. You can sort the list by trial component name or
+creation time. You can filter the list to show only components that were created in a
 specific time range. You can also filter on one of the following:
 
 - `ExperimentName`
@@ -14407,15 +14579,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `TrialName`.
 - `"MaxResults"`: The maximum number of components to return in the response. The default
   value is 10.
-- `"NextToken"`: If the previous call to `ListTrialComponents` didn't return the full set
-  of components, the call returns a token for getting the next set of components.
+- `"NextToken"`: If the previous call to `ListTrialComponents` didn't return the full set of
+  components, the call returns a token for getting the next set of components.
 - `"SortBy"`: The property used to sort results. The default value is `CreationTime`.
 - `"SortOrder"`: The sort order. The default value is `Descending`.
-- `"SourceArn"`: A filter that returns only components that have the specified source
-  Amazon Resource Name (ARN). If you specify `SourceArn`, you can't filter by
-  `ExperimentName` or `TrialName`.
-- `"TrialName"`: A filter that returns only components that are part of the specified
-  trial. If you specify `TrialName`, you can't filter by `ExperimentName` or `SourceArn`.
+- `"SourceArn"`: A filter that returns only components that have the specified source Amazon
+  Resource Name (ARN). If you specify `SourceArn`, you can't filter by `ExperimentName` or
+  `TrialName`.
+- `"TrialName"`: A filter that returns only components that are part of the specified trial.
+  If you specify `TrialName`, you can't filter by `ExperimentName` or `SourceArn`.
 """
 function list_trial_components end
 
@@ -14440,11 +14612,11 @@ end
     list_trials()
     list_trials(params::Dict{String,<:Any})
 
-Lists the trials in your account. Specify an experiment name to limit the list to the
-trials that are part of that experiment. Specify a trial component name to limit the list
-to the trials that associated with that trial component. The list can be filtered to show
-only trials that were created in a specific time range. The list can be sorted by trial
-name or creation time.
+Lists the trials in your account. Specify an experiment name to limit the list to the trials
+that are part of that experiment. Specify a trial component name to limit the list to the
+trials that associated with that trial component. The list can be filtered to show only
+trials that were created in a specific time range. The list can be sorted by trial name or
+creation time.
 
 # Optional Parameters
 
@@ -14488,16 +14660,21 @@ Lists user profiles.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DomainIdEquals"`: A parameter by which to filter the results.
-- `"MaxResults"`: This parameter defines the maximum number of results that can be return
-  in a single response. The `MaxResults` parameter is an upper bound, not a target. If
-  there are more results available than the value specified, a `NextToken` is provided in
-  the response. The `NextToken` indicates that the user should get the next set of
-  results by providing this token as a part of a subsequent call. The default value for
-  `MaxResults` is 10.
-- `"NextToken"`: If the previous response was truncated, you will receive this token. Use
-  it in your next request to receive the next set of results.
+
+- `"MaxResults"`: This parameter defines the maximum number of results that can be return in
+  a single response. The `MaxResults` parameter is an upper bound, not a target. If there
+  are more results available than the value specified, a `NextToken` is provided in the
+  response. The `NextToken` indicates that the user should get the next set of results by
+  providing this token as a part of a subsequent call. The default value for `MaxResults` is
+  10.
+
+- `"NextToken"`: If the previous response was truncated, you will receive this token. Use it
+  in your next request to receive the next set of results.
+
 - `"SortBy"`: The parameter by which to sort the results. The default is CreationTime.
+
 - `"SortOrder"`: The sort order for the results. The default is Ascending.
+
 - `"UserProfileNameContains"`: A parameter by which to filter the results.
 """
 function list_user_profiles end
@@ -14565,8 +14742,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: A string in the work team's name. This filter returns only work teams
   whose name contains the specified string.
 - `"NextToken"`: If the result of the previous `ListWorkteams` request was truncated, the
-  response includes a `NextToken`. To retrieve the next set of labeling jobs, use the
-  token in the next request.
+  response includes a `NextToken`. To retrieve the next set of labeling jobs, use the token
+  in the next request.
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Ascending`.
 """
@@ -14654,27 +14831,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Direction"`: Associations between lineage entities have a direction. This parameter
   determines the direction from the StartArn(s) that the query traverses.
-- `"Filters"`: A set of filtering parameters that allow you to specify which entities
-  should be returned.
+
+- `"Filters"`: A set of filtering parameters that allow you to specify which entities should
+  be returned.
 
   - Properties - Key-value pairs to match on the lineage entities' properties.
-  - LineageTypes - A set of lineage entity types to match on. For example:
-    `TrialComponent`, `Artifact`, or `Context`.
+  - LineageTypes - A set of lineage entity types to match on. For example: `TrialComponent`,
+    `Artifact`, or `Context`.
   - CreatedBefore - Filter entities created before this date.
   - ModifiedBefore - Filter entities modified before this date.
   - ModifiedAfter - Filter entities modified after this date.
 
-- `"IncludeEdges"`: Setting this value to `True` retrieves not only the entities of
-  interest but also the [Associations](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking-entities.html)
+- `"IncludeEdges"`: Setting this value to `True` retrieves not only the entities of interest
+  but also the [Associations](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking-entities.html)
   and lineage entities on the path. Set to `False` to only return lineage entities that
   match your query.
+
 - `"MaxDepth"`: The maximum depth in lineage relationships from the `StartArns` that are
-  traversed. Depth is a measure of the number of `Associations` from the `StartArn`
-  entity to the matched results.
+  traversed. Depth is a measure of the number of `Associations` from the `StartArn` entity
+  to the matched results.
+
 - `"MaxResults"`: Limits the number of vertices in the results. Use the `NextToken` in a
   response to to retrieve the next page of results.
+
 - `"NextToken"`: Limits the number of vertices in the request. Use the `NextToken` in a
   response to to retrieve the next page of results.
+
 - `"StartArns"`: A list of resource Amazon Resource Name (ARN) that represent the starting
   point for your lineage query.
 """
@@ -14752,8 +14934,8 @@ Renders the UI template so that you can preview the worker's experience.
 
 # Arguments
 
-- `role_arn`: The Amazon Resource Name (ARN) that has access to the S3 objects that are
-  used by the template.
+- `role_arn`: The Amazon Resource Name (ARN) that has access to the S3 objects that are used
+  by the template.
 - `task`: A `RenderableTask` object containing a representative task to render.
 
 # Optional Parameters
@@ -14764,6 +14946,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide a `HumanTaskUiArn` if you use the `UiTemplate` parameter.
 
   See a list of available Human Ui Amazon Resource Names (ARNs) in [UiConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UiConfig.html).
+
 - `"UiTemplate"`: A `Template` object containing the worker UI template to render.
 """
 function render_ui_template end
@@ -14805,8 +14988,8 @@ Retry the execution of the pipeline.
 
 # Arguments
 
-- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than once.
+- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the operation. An idempotent operation completes no more than once.
 - `pipeline_execution_arn`: The Amazon Resource Name (ARN) of the pipeline execution.
 
 # Optional Parameters
@@ -14880,25 +15063,30 @@ You can query against the following value types: numeric, text, Boolean, and tim
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CrossAccountFilterOption"`: A cross account filter option. When the value is
-  `"CrossAccount"` the search results will only include resources made discoverable to
-  you from other accounts. When the value is `"SameAccount"` or `null` the search results
-  will only include resources from your account. Default is `null`. For more information
-  on searching for resources made discoverable to your account, see [Search discoverable resources](https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-cross-account-discoverability-use.html)
+  `"CrossAccount"` the search results will only include resources made discoverable to you
+  from other accounts. When the value is `"SameAccount"` or `null` the search results will
+  only include resources from your account. Default is `null`. For more information on
+  searching for resources made discoverable to your account, see [Search discoverable resources](https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-cross-account-discoverability-use.html)
   in the SageMaker Developer Guide. The maximum number of `ResourceCatalog`s viewable is
   1000.
+
 - `"MaxResults"`: The maximum number of results to return.
-- `"NextToken"`: If more than `MaxResults` resources match the specified
-  `SearchExpression`, the response includes a `NextToken`. The `NextToken` can be passed
-  to the next `SearchRequest` to continue retrieving results.
+
+- `"NextToken"`: If more than `MaxResults` resources match the specified `SearchExpression`,
+  the response includes a `NextToken`. The `NextToken` can be passed to the next
+  `SearchRequest` to continue retrieving results.
+
 - `"SearchExpression"`: A Boolean conditional statement. Resources must satisfy this
-  condition to be included in search results. You must provide at least one
-  subexpression, filter, or nested filter. The maximum number of recursive
-  `SubExpressions`, `NestedFilters`, and `Filters` that can be included in a
-  `SearchExpression` object is 50.
+  condition to be included in search results. You must provide at least one subexpression,
+  filter, or nested filter. The maximum number of recursive `SubExpressions`,
+  `NestedFilters`, and `Filters` that can be included in a `SearchExpression` object is 50.
+
 - `"SortBy"`: The name of the resource property used to sort the `SearchResults`. The
   default is `LastModifiedTime`.
+
 - `"SortOrder"`: How `SearchResults` are ordered. Valid values are `Ascending` or
   `Descending`. The default is `Descending`.
+
 - `"VisibilityConditions"`: Limits the results of your search request to the resources that
   you can access.
 """
@@ -14944,9 +15132,8 @@ includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS)
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one
-  time.
+- `"ClientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the operation. An idempotent operation completes no more than one time.
 - `"FailureReason"`: A message describing why the step failed.
 """
 function send_pipeline_execution_step_failure end
@@ -14990,10 +15177,9 @@ end
     send_pipeline_execution_step_success(callback_token)
     send_pipeline_execution_step_success(callback_token, params::Dict{String,<:Any})
 
-Notifies the pipeline that the execution of a callback step succeeded and provides a list
-of the step's output parameters. When a callback step is run, the pipeline generates a
-callback token and includes the token in a message sent to Amazon Simple Queue Service
-(Amazon SQS).
+Notifies the pipeline that the execution of a callback step succeeded and provides a list of
+the step's output parameters. When a callback step is run, the pipeline generates a callback
+token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
 
 # Arguments
 
@@ -15003,9 +15189,8 @@ callback token and includes the token in a message sent to Amazon Simple Queue S
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one
-  time.
+- `"ClientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the operation. An idempotent operation completes no more than one time.
 - `"OutputParameters"`: A list of the output parameters of the callback step.
 """
 function send_pipeline_execution_step_success end
@@ -15267,8 +15452,8 @@ Starts a pipeline execution.
 
 # Arguments
 
-- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than once.
+- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the operation. An idempotent operation completes no more than once.
 - `pipeline_name`: The name or Amazon Resource Name (ARN) of the pipeline.
 
 # Optional Parameters
@@ -15570,6 +15755,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   variant that you want to deploy after the inference experiment stops. Each
   `ModelVariantConfig` describes the infrastructure configuration for deploying the
   corresponding variant.
+
 - `"DesiredState"`: The desired state of the experiment after stopping. The possible states
   are the following:
 
@@ -15873,8 +16059,8 @@ Stops a pipeline execution.
 
 A pipeline execution won't stop while a callback step is running. When you call
 `StopPipelineExecution` on a pipeline execution with a running callback step, SageMaker
-Pipelines sends an additional Amazon SQS message to the specified SQS queue. The body of
-the SQS message contains a "Status" field which is set to "Stopping".
+Pipelines sends an additional Amazon SQS message to the specified SQS queue. The body of the
+SQS message contains a "Status" field which is set to "Stopping".
 
 You should add logic to your Amazon SQS message consumer to take any needed action (for
 example, resource cleanup) upon receipt of the message followed by a call to
@@ -15894,8 +16080,8 @@ execution status is `Failed`.
 
 # Arguments
 
-- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than once.
+- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the operation. An idempotent operation completes no more than once.
 - `pipeline_execution_arn`: The Amazon Resource Name (ARN) of the pipeline execution.
 """
 function stop_pipeline_execution end
@@ -15984,8 +16170,8 @@ end
     stop_training_job(training_job_name, params::Dict{String,<:Any})
 
 Stops a training job. To stop a job, SageMaker sends the algorithm the `SIGTERM` signal,
-which delays job termination for 120 seconds. Algorithms might use this 120-second window
-to save the model artifacts, so the results of the training is not lost.
+which delays job termination for 120 seconds. Algorithms might use this 120-second window to
+save the model artifacts, so the results of the training is not lost.
 
 When it receives a `StopTrainingJob` request, SageMaker changes the status of the job to
 `Stopping`. After SageMaker stops the job, it sets the status to `Stopped`.
@@ -16403,12 +16589,14 @@ Updates a fleet of devices.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: Description of the fleet.
+
 - `"EnableIotRoleAlias"`: Whether to create an Amazon Web Services IoT Role Alias during
   device fleet creation. The name of the role alias generated will match this pattern:
   "SageMakerEdge-{DeviceFleetName}".
 
-  For example, if your device fleet is called "demo-fleet", the name of the role alias
-  will be "SageMakerEdge-demo-fleet".
+  For example, if your device fleet is called "demo-fleet", the name of the role alias will
+  be "SageMakerEdge-demo-fleet".
+
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the device.
 """
 function update_device_fleet end
@@ -16516,22 +16704,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This configuration can only be modified if there are no apps in the `InService`,
   `Pending`, or `Deleting` state. The configuration cannot be updated if
-  `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn` is already set
-  or `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn` is provided
-  as part of the same request.
+  `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn` is already set or
+  `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn` is provided as part
+  of the same request.
+
 - `"AppSecurityGroupManagement"`: The entity that creates and manages the required security
   groups for inter-app communication in `VPCOnly` mode. Required when
   `CreateDomain.AppNetworkAccessType` is `VPCOnly` and
   `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn` is provided. If
   setting up the domain for use with RStudio, this value must be set to `Service`.
+
 - `"DefaultSpaceSettings"`: The default settings used to create a space within the domain.
+
 - `"DefaultUserSettings"`: A collection of settings.
+
 - `"DomainSettingsForUpdate"`: A collection of `DomainSettings` configuration values to
   update.
+
 - `"SubnetIds"`: The VPC subnets that Studio uses for communication.
 
-  If removing subnets, ensure there are no apps in the `InService`, `Pending`, or
-  `Deleting` state.
+  If removing subnets, ensure there are no apps in the `InService`, `Pending`, or `Deleting`
+  state.
 """
 function update_domain end
 
@@ -16563,11 +16756,11 @@ end
     update_endpoint(endpoint_config_name, endpoint_name)
     update_endpoint(endpoint_config_name, endpoint_name, params::Dict{String,<:Any})
 
-Deploys the `EndpointConfig` specified in the request to a new fleet of instances.
-SageMaker shifts endpoint traffic to the new instances with the updated endpoint
-configuration and then deletes the old instances using the previous `EndpointConfig` (there
-is no availability loss). For more information about how to control the update and traffic
-shifting process, see [Update models in production](https://docs.aws.amazon.com/sagemaker/latest/dg/deployment-guardrails.html).
+Deploys the `EndpointConfig` specified in the request to a new fleet of instances. SageMaker
+shifts endpoint traffic to the new instances with the updated endpoint configuration and
+then deletes the old instances using the previous `EndpointConfig` (there is no availability
+loss). For more information about how to control the update and traffic shifting process,
+see [Update models in production](https://docs.aws.amazon.com/sagemaker/latest/dg/deployment-guardrails.html).
 
 When SageMaker receives the request, it sets the endpoint status to `Updating`. After
 updating the endpoint, it sets the status to `InService`. To check the status of an
@@ -16594,17 +16787,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DeploymentConfig"`: The deployment configuration for an endpoint, which contains the
   desired deployment strategy and rollback configurations.
+
 - `"ExcludeRetainedVariantProperties"`: When you are updating endpoint resources with
   `RetainAllVariantProperties`, whose value is set to `true`,
   `ExcludeRetainedVariantProperties` specifies the list of type [VariantProperty](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VariantProperty.html)
-  to override with the values provided by `EndpointConfig`. If you don't specify a value
-  for `ExcludeRetainedVariantProperties`, no variant properties are overridden.
+  to override with the values provided by `EndpointConfig`. If you don't specify a value for
+  `ExcludeRetainedVariantProperties`, no variant properties are overridden.
+
 - `"RetainAllVariantProperties"`: When updating endpoint resources, enables or disables the
   retention of [variant properties](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VariantProperty.html),
-  such as the instance count or the variant weight. To retain the variant properties of
-  an endpoint when updating it, set `RetainAllVariantProperties` to `true`. To use the
-  variant properties specified in a new `EndpointConfig` call when updating an endpoint,
-  set `RetainAllVariantProperties` to `false`. The default is `false`.
+  such as the instance count or the variant weight. To retain the variant properties of an
+  endpoint when updating it, set `RetainAllVariantProperties` to `true`. To use the variant
+  properties specified in a new `EndpointConfig` call when updating an endpoint, set
+  `RetainAllVariantProperties` to `false`. The default is `false`.
+
 - `"RetainDeploymentConfig"`: Specifies whether to reuse the last deployment configuration.
   The default value is false (the configuration is not reused).
 """
@@ -16758,8 +16954,8 @@ Updates the feature group by either adding features or updating the online store
 configuration. Use one of the following request parameters at a time while using the
 `UpdateFeatureGroup` API.
 
-You can add features for your feature group using the `feature_additions` request
-parameter. Features cannot be removed from a feature group.
+You can add features for your feature group using the `feature_additions` request parameter.
+Features cannot be removed from a feature group.
 
 You can update the online store configuration by using the `online_store_config` request
 parameter. If a `TtlDuration` is specified, the default `TtlDuration` applies for all
@@ -16779,9 +16975,9 @@ from an existing feature group, use the `UpdateFeatureGroup` API and set the `Tt
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FeatureAdditions"`: Updates the feature group. Updating a feature group is an
-  asynchronous operation. When you get an HTTP 200 response, you've made a valid request.
-  It takes some time after you've made a valid request for Feature Store to update the
-  feature group.
+  asynchronous operation. When you get an HTTP 200 response, you've made a valid request. It
+  takes some time after you've made a valid request for Feature Store to update the feature
+  group.
 - `"OnlineStoreConfig"`: Updates the feature group online store configuration.
 - `"ThroughputConfig"`:
 """
@@ -16980,9 +17176,13 @@ Updates the properties of a SageMaker image version.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Alias"`: The alias of the image version.
+
 - `"AliasesToAdd"`: A list of aliases to add.
+
 - `"AliasesToDelete"`: A list of aliases to delete.
+
 - `"Horovod"`: Indicates Horovod compatibility.
+
 - `"JobType"`: Indicates SageMaker job type compatibility.
 
   - `TRAINING`: The image version is compatible with SageMaker training jobs.
@@ -16990,13 +17190,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `NOTEBOOK_KERNEL`: The image version is compatible with SageMaker notebook kernels.
 
 - `"MLFramework"`: The machine learning framework vended in the image version.
+
 - `"Processor"`: Indicates CPU or GPU compatibility.
 
   - `CPU`: The image version is compatible with CPU.
   - `GPU`: The image version is compatible with GPU.
 
 - `"ProgrammingLang"`: The supported programming language and its version.
+
 - `"ReleaseNotes"`: The maintainer description of the image version.
+
 - `"VendorGuidance"`: The availability of the image version specified by the maintainer.
 
   - `NOT_PROVIDED`: The maintainers did not provide a status for image version stability.
@@ -17142,8 +17345,8 @@ end
     update_inference_experiment(name)
     update_inference_experiment(name, params::Dict{String,<:Any})
 
-Updates an inference experiment that you created. The status of the inference experiment
-has to be either `Created`, `Running`. For more information on the status of an inference
+Updates an inference experiment that you created. The status of the inference experiment has
+to be either `Created`, `Running`. For more information on the status of an inference
 experiment, see [DescribeInferenceExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeInferenceExperiment.html).
 
 # Arguments
@@ -17156,16 +17359,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DataStorageConfig"`: The Amazon S3 location and configuration for storing inference
   request and response data.
+
 - `"Description"`: The description of the inference experiment.
+
 - `"ModelVariants"`: An array of `ModelVariantConfig` objects. There is one for each
   variant, whose infrastructure configuration you want to update.
+
 - `"Schedule"`: The duration for which the inference experiment will run. If the status of
-  the inference experiment is `Created`, then you can update both the start and end
-  dates. If the status of the inference experiment is `Running`, then you can update only
-  the end date.
+  the inference experiment is `Created`, then you can update both the start and end dates.
+  If the status of the inference experiment is `Running`, then you can update only the end
+  date.
+
 - `"ShadowModeConfig"`: The configuration of `ShadowMode` inference experiment type. Use
-  this field to specify a production variant which takes all the inference requests, and
-  a shadow variant to which Amazon SageMaker replicates a percentage of the inference
+  this field to specify a production variant which takes all the inference requests, and a
+  shadow variant to which Amazon SageMaker replicates a percentage of the inference
   requests. For the shadow variant also specify the percentage of requests that Amazon
   SageMaker replicates.
 """
@@ -17207,17 +17414,16 @@ Updates properties of an existing MLflow Tracking Server.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ArtifactStoreUri"`: The new S3 URI for the general purpose bucket to use as the
-  artifact store for the MLflow Tracking Server.
-- `"AutomaticModelRegistration"`: Whether to enable or disable automatic registration of
-  new MLflow models to the SageMaker Model Registry. To enable automatic model
-  registration, set this value to `True`. To disable automatic model registration, set
-  this value to `False`. If not specified, `AutomaticModelRegistration` defaults to
-  `False`
+- `"ArtifactStoreUri"`: The new S3 URI for the general purpose bucket to use as the artifact
+  store for the MLflow Tracking Server.
+- `"AutomaticModelRegistration"`: Whether to enable or disable automatic registration of new
+  MLflow models to the SageMaker Model Registry. To enable automatic model registration, set
+  this value to `True`. To disable automatic model registration, set this value to `False`.
+  If not specified, `AutomaticModelRegistration` defaults to `False`
 - `"TrackingServerSize"`: The new size for the MLflow Tracking Server.
 - `"WeeklyMaintenanceWindowStart"`: The new weekly maintenance window start day and time to
-  update. The maintenance window day and time should be in Coordinated Universal Time
-  (UTC) 24-hour standard time. For example: TUE:03:30.
+  update. The maintenance window day and time should be in Coordinated Universal Time (UTC)
+  24-hour standard time. For example: TUE:03:30.
 """
 function update_mlflow_tracking_server end
 
@@ -17269,18 +17475,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content"`: The updated model card content. Content must be in [model card JSON schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html#model-cards-json-schema)
   and provided as a string.
 
-  When updating model card content, be sure to include the full content and not just
-  updated content.
+  When updating model card content, be sure to include the full content and not just updated
+  content.
+
 - `"ModelCardStatus"`: The approval status of the model card within your organization.
-  Different organizations might have different criteria for model card review and
-  approval.
+  Different organizations might have different criteria for model card review and approval.
 
   - `Draft`: The model card is a work in progress.
   - `PendingReview`: The model card is pending review.
   - `Approved`: The model card is approved.
   - `Archived`: The model card is archived. No more updates should be made to the model
     card, but it can still be exported.
-
 """
 function update_model_card end
 
@@ -17324,34 +17529,38 @@ Updates a versioned model.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AdditionalInferenceSpecificationsToAdd"`: An array of additional Inference
-  Specification objects to be added to the existing array additional Inference
-  Specification. Total number of additional Inference Specifications can not exceed 15.
-  Each additional Inference Specification specifies artifacts based on this model package
-  that can be used on inference endpoints. Generally used with SageMaker Neo to store the
-  compiled artifacts.
+- `"AdditionalInferenceSpecificationsToAdd"`: An array of additional Inference Specification
+  objects to be added to the existing array additional Inference Specification. Total number
+  of additional Inference Specifications can not exceed 15. Each additional Inference
+  Specification specifies artifacts based on this model package that can be used on
+  inference endpoints. Generally used with SageMaker Neo to store the compiled artifacts.
+
 - `"ApprovalDescription"`: A description for the approval status of the model.
+
 - `"CustomerMetadataProperties"`: The metadata properties associated with the model package
   versions.
+
 - `"CustomerMetadataPropertiesToRemove"`: The metadata properties associated with the model
   package versions to remove.
+
 - `"InferenceSpecification"`: Specifies details about inference jobs that you can run with
   models based on this model package, including the following information:
 
-  - The Amazon ECR paths of containers that contain the inference code and model
-    artifacts.
+  - The Amazon ECR paths of containers that contain the inference code and model artifacts.
   - The instance types that the model package supports for transform jobs and real-time
     endpoints used for inference.
   - The input and output content formats that the model package supports for inference.
 
 - `"ModelApprovalStatus"`: The approval status of the model.
+
 - `"ModelCard"`: The model card associated with the model package. Since
-  `ModelPackageModelCard` is tied to a model package, it is a specific usage of a model
-  card and its schema is simplified compared to the schema of `ModelCard`. The
+  `ModelPackageModelCard` is tied to a model package, it is a specific usage of a model card
+  and its schema is simplified compared to the schema of `ModelCard`. The
   `ModelPackageModelCard` schema does not include `model_package_details`, and
-  `model_overview` is composed of the `model_creator` and `model_artifact` properties.
-  For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema).
+  `model_overview` is composed of the `model_creator` and `model_artifact` properties. For
+  more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema).
   For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+
 - `"SourceUri"`: The URI of the source for the model package.
 """
 function update_model_package end
@@ -17519,39 +17728,49 @@ requirements.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AcceleratorTypes"`: A list of the Elastic Inference (EI) instance types to associate
-  with this notebook instance. Currently only one EI instance type can be associated with
-  a notebook instance. For more information, see [Using Elastic Inference in Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
-- `"AdditionalCodeRepositories"`: An array of up to three Git repositories to associate
-  with the notebook instance. These can be either the names of Git repositories stored as
+  with this notebook instance. Currently only one EI instance type can be associated with a
+  notebook instance. For more information, see [Using Elastic Inference in Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
+
+- `"AdditionalCodeRepositories"`: An array of up to three Git repositories to associate with
+  the notebook instance. These can be either the names of Git repositories stored as
   resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
   or in any other Git repository. These repositories are cloned at the same level as the
   default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+
 - `"DefaultCodeRepository"`: The Git repository to associate with the notebook instance as
-  its default code repository. This can be either the name of a Git repository stored as
-  a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
+  its default code repository. This can be either the name of a Git repository stored as a
+  resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
   or in any other Git repository. When you open a notebook instance, it opens in the
   directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+
 - `"DisassociateAcceleratorTypes"`: A list of the Elastic Inference (EI) instance types to
   remove from this notebook instance. This operation is idempotent. If you specify an
   accelerator type that is not associated with the notebook instance when you call this
   method, it does not throw an error.
+
 - `"DisassociateAdditionalCodeRepositories"`: A list of names or URLs of the default Git
-  repositories to remove from this notebook instance. This operation is idempotent. If
-  you specify a Git repository that is not associated with the notebook instance when you
-  call this method, it does not throw an error.
+  repositories to remove from this notebook instance. This operation is idempotent. If you
+  specify a Git repository that is not associated with the notebook instance when you call
+  this method, it does not throw an error.
+
 - `"DisassociateDefaultCodeRepository"`: The name or URL of the default Git repository to
   remove from this notebook instance. This operation is idempotent. If you specify a Git
-  repository that is not associated with the notebook instance when you call this method,
-  it does not throw an error.
+  repository that is not associated with the notebook instance when you call this method, it
+  does not throw an error.
+
 - `"DisassociateLifecycleConfig"`: Set to `true` to remove the notebook instance lifecycle
   configuration currently associated with the notebook instance. This operation is
   idempotent. If you specify a lifecycle configuration that is not associated with the
   notebook instance when you call this method, it does not throw an error.
+
 - `"InstanceMetadataServiceConfiguration"`: Information on the IMDS configuration of the
   notebook instance
+
 - `"InstanceType"`: The Amazon ML compute instance type.
+
 - `"LifecycleConfigName"`: The name of a lifecycle configuration to associate with the
   notebook instance. For information about lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
+
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM role that SageMaker can assume to
   access the notebook instance. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 
@@ -17563,15 +17782,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance. The default value is `Enabled`.
 
   !!! note
-      If you set this to `Disabled`, users don't have root access on the notebook
-      instance, but lifecycle configuration scripts still run with root permissions.
+      If you set this to `Disabled`, users don't have root access on the notebook instance,
+      but lifecycle configuration scripts still run with root permissions.
 
 - `"VolumeSizeInGB"`: The size, in GB, of the ML storage volume to attach to the notebook
-  instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker
-  can't determine the amount of available free space on the volume. Because of this, you
-  can increase the volume size when you update a notebook instance, but you can't
-  decrease the volume size. If you want to decrease the size of the ML storage volume in
-  use, create a new notebook instance with the desired size.
+  instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker can't
+  determine the amount of available free space on the volume. Because of this, you can
+  increase the volume size when you update a notebook instance, but you can't decrease the
+  volume size. If you want to decrease the size of the ML storage volume in use, create a
+  new notebook instance with the desired size.
 """
 function update_notebook_instance end
 
@@ -17623,8 +17842,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OnCreate"`: The shell script that runs only once, when you create a notebook instance.
   The shell script must be a base64-encoded string.
 - `"OnStart"`: The shell script that runs every time you start a notebook instance,
-  including when you create the notebook instance. The shell script must be a base64-
-  encoded string.
+  including when you create the notebook instance. The shell script must be a base64-encoded
+  string.
 """
 function update_notebook_instance_lifecycle_config end
 
@@ -17680,9 +17899,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ParallelismConfiguration"`: If specified, it applies to all executions of this pipeline
   by default.
 - `"PipelineDefinition"`: The JSON pipeline definition.
-- `"PipelineDefinitionS3Location"`: The location of the pipeline definition stored in
-  Amazon S3. If specified, SageMaker will retrieve the pipeline definition from this
-  location.
+- `"PipelineDefinitionS3Location"`: The location of the pipeline definition stored in Amazon
+  S3. If specified, SageMaker will retrieve the pipeline definition from this location.
 - `"PipelineDescription"`: The description of the pipeline.
 - `"PipelineDisplayName"`: The display name of the pipeline.
 - `"RoleArn"`: The Amazon Resource Name (ARN) that the pipeline uses to execute.
@@ -17785,13 +18003,15 @@ pipeline from training to deploying an approved model.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ProjectDescription"`: The description for the project.
+
 - `"ServiceCatalogProvisioningUpdateDetails"`: The product ID and provisioning artifact ID
   to provision a service catalog. The provisioning artifact ID will default to the latest
   provisioning artifact ID of the product, if you don't provide the provisioning artifact
   ID. For more information, see [What is Amazon Web Services Service Catalog](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html).
+
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
-  Services resources in different ways, for example, by purpose, owner, or environment.
-  For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
   In addition, the project must have tag update constraints set in order to include this
   parameter in the request. For more information, see [Amazon Web Services Service Catalog Tag Update Constraints](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/constraints-resourceupdate.html).
 """
@@ -17894,8 +18114,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProfilerRuleConfigurations"`: Configuration information for Amazon SageMaker Debugger
   rules for profiling system and framework metrics.
 - `"RemoteDebugConfig"`: Configuration for remote debugging while the training job is
-  running. You can update the remote debugging configuration when the `SecondaryStatus`
-  of the job is `Downloading` or `Training`.To learn more about the remote debugging
+  running. You can update the remote debugging configuration when the `SecondaryStatus` of
+  the job is `Downloading` or `Training`.To learn more about the remote debugging
   functionality of SageMaker, see [Access a training container through Amazon Web Services Systems Manager (SSM) for remote debugging](https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html).
 - `"ResourceConfig"`: The training job `ResourceConfig` to update warm pool retention
   length.
@@ -17991,16 +18211,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unique. If `DisplayName` isn't specified, `TrialComponentName` is displayed.
 - `"EndTime"`: When the component ended.
 - `"InputArtifacts"`: Replaces all of the component's input artifacts with the specified
-  artifacts or adds new input artifacts. Existing input artifacts are replaced if the
-  trial component is updated with an identical input artifact key.
+  artifacts or adds new input artifacts. Existing input artifacts are replaced if the trial
+  component is updated with an identical input artifact key.
 - `"InputArtifactsToRemove"`: The input artifacts to remove from the component.
 - `"OutputArtifacts"`: Replaces all of the component's output artifacts with the specified
   artifacts or adds new output artifacts. Existing output artifacts are replaced if the
   trial component is updated with an identical output artifact key.
 - `"OutputArtifactsToRemove"`: The output artifacts to remove from the component.
 - `"Parameters"`: Replaces all of the component's hyperparameters with the specified
-  hyperparameters or add new hyperparameters. Existing hyperparameters are replaced if
-  the trial component is updated with an identical hyperparameter key.
+  hyperparameters or add new hyperparameters. Existing hyperparameters are replaced if the
+  trial component is updated with an identical hyperparameter key.
 - `"ParametersToRemove"`: The hyperparameters to remove from the component.
 - `"StartTime"`: When the component started.
 - `"Status"`: The new status of the component.
@@ -18097,11 +18317,11 @@ Identity Provider (IdP) workforce configuration.
 
 The worker portal is now supported in VPC and public internet.
 
-Use `SourceIpConfig` to restrict worker access to tasks to a specific range of IP
-addresses. You specify allowed IP addresses by creating a list of up to ten [CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html).
-By default, a workforce isn't restricted to specific IP addresses. If you specify a range
-of IP addresses, workers who attempt to access tasks using any IP address outside the
-specified range are denied and get a `Not Found` error message on the worker portal.
+Use `SourceIpConfig` to restrict worker access to tasks to a specific range of IP addresses.
+You specify allowed IP addresses by creating a list of up to ten [CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html).
+By default, a workforce isn't restricted to specific IP addresses. If you specify a range of
+IP addresses, workers who attempt to access tasks using any IP address outside the specified
+range are denied and get a `Not Found` error message on the worker portal.
 
 To restrict access to all the workers in public internet, add the `SourceIpConfig` CIDR
 value as "10.0.0.0/16".
@@ -18109,8 +18329,7 @@ value as "10.0.0.0/16".
 !!! important
     Amazon SageMaker does not support Source Ip restriction for worker portals in VPC.
 
-Use `OidcConfig` to update the configuration of a workforce created using your own OIDC
-IdP.
+Use `OidcConfig` to update the configuration of a workforce created using your own OIDC IdP.
 
 !!! important
     You can only update your OIDC IdP configuration when there are no work teams associated
@@ -18136,10 +18355,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"OidcConfig"`: Use this parameter to update your OIDC Identity Provider (IdP)
   configuration for a workforce made using your own IdP.
+
 - `"SourceIpConfig"`: A list of one to ten worker IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html))
   that can be used to access tasks assigned to this workforce.
 
   Maximum: Ten CIDR values
+
 - `"WorkforceVpcConfig"`: Use this parameter to update your VPC configuration for a
   workforce.
 """
@@ -18184,33 +18405,33 @@ Updates an existing work team with new member definitions or description.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: An updated description for the work team.
+
 - `"MemberDefinitions"`: A list of `MemberDefinition` objects that contains objects that
   identify the workers that make up the work team.
 
-  Workforces can be created using Amazon Cognito or your own OIDC Identity Provider
-  (IdP). For private workforces created using Amazon Cognito use
-  `CognitoMemberDefinition`. For workforces created using your own OIDC identity provider
-  (IdP) use `OidcMemberDefinition`. You should not provide input for both of these
-  parameters in a single request.
+  Workforces can be created using Amazon Cognito or your own OIDC Identity Provider (IdP).
+  For private workforces created using Amazon Cognito use `CognitoMemberDefinition`. For
+  workforces created using your own OIDC identity provider (IdP) use `OidcMemberDefinition`.
+  You should not provide input for both of these parameters in a single request.
 
   For workforces created using Amazon Cognito, private work teams correspond to Amazon
   Cognito *user groups* within the user pool used to create a workforce. All of the
   `CognitoMemberDefinition` objects that make up the member definition must have the same
-  `ClientId` and `UserPool` values. To add a Amazon Cognito user group to an existing
-  worker pool, see [Adding groups to a User Pool](). For more information about user
-  pools, see [Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
+  `ClientId` and `UserPool` values. To add a Amazon Cognito user group to an existing worker
+  pool, see [Adding groups to a User Pool](). For more information about user pools, see [Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
 
-  For workforces created using your own OIDC IdP, specify the user groups that you want
-  to include in your private work team in `OidcMemberDefinition` by listing those groups
-  in `Groups`. Be aware that user groups that are already in the work team must also be
-  listed in `Groups` when you make this request to remain on the work team. If you do not
-  include these user groups, they will no longer be associated with the work team you
-  update.
+  For workforces created using your own OIDC IdP, specify the user groups that you want to
+  include in your private work team in `OidcMemberDefinition` by listing those groups in
+  `Groups`. Be aware that user groups that are already in the work team must also be listed
+  in `Groups` when you make this request to remain on the work team. If you do not include
+  these user groups, they will no longer be associated with the work team you update.
+
 - `"NotificationConfiguration"`: Configures SNS topic notifications for available or
   expiring work items
+
 - `"WorkerAccessConfiguration"`: Use this optional parameter to constrain access to an
-  Amazon S3 resource based on the IP address using supported IAM global condition keys.
-  The Amazon S3 resource is accessed in the worker portal using a Amazon S3 presigned URL.
+  Amazon S3 resource based on the IP address using supported IAM global condition keys. The
+  Amazon S3 resource is accessed in the worker portal using a Amazon S3 presigned URL.
 """
 function update_workteam end
 

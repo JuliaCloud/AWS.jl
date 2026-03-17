@@ -99,8 +99,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"componentTypeName"`: A friendly name for the component type.
 - `"compositeComponentTypes"`: This is an object that maps strings to
-  `compositeComponentTypes` of the `componentType`. `CompositeComponentType` is
-  referenced by `componentTypeId`.
+  `compositeComponentTypes` of the `componentType`. `CompositeComponentType` is referenced
+  by `componentTypeId`.
 - `"description"`: The description of the component type.
 - `"extendsFrom"`: Specifies the parent component type to extend.
 - `"functions"`: An object that maps strings to the functions in the component type. Each
@@ -322,6 +322,7 @@ This action creates a SyncJob.
 
 - `sync_role`: The SyncJob IAM role. This IAM role is used by the SyncJob to read from the
   syncSource, and create, update, or delete the corresponding resources.
+
 - `sync_source`: The sync source.
 
   !!! note
@@ -383,8 +384,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The description of the workspace.
 - `"role"`: The ARN of the execution role associated with the workspace.
-- `"s3Location"`: The ARN of the S3 bucket where resources associated with the workspace
-  are stored.
+- `"s3Location"`: The ARN of the S3 bucket where resources associated with the workspace are
+  stored.
 - `"tags"`: Metadata that you can use to manage the workspace
 """
 function create_workspace end
@@ -834,16 +835,23 @@ You must specify a value for either `componentName`, `componentTypeId`, `entityI
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"componentName"`: The name of the component whose property values the operation returns.
+
 - `"componentPath"`: This string specifies the path to the composite component, starting
   from the top-level component.
+
 - `"componentTypeId"`: The ID of the component type whose property values the operation
   returns.
+
 - `"entityId"`: The ID of the entity whose property values the operation returns.
+
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
   Valid Range: Minimum value of 1. Maximum value of 250.
+
 - `"nextToken"`: The string that specifies the next page of results.
+
 - `"propertyGroupName"`: The property group name.
+
 - `"tabularConditions"`: The tabular conditions.
 """
 function get_property_value end
@@ -900,23 +908,35 @@ You must specify a value for `workspaceId`. For entity-specific queries, specify
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"componentName"`: The name of the component.
+
 - `"componentPath"`: This string specifies the path to the composite component, starting
   from the top-level component.
+
 - `"componentTypeId"`: The ID of the component type.
+
 - `"endDateTime"`: The date and time of the latest property value to return.
+
 - `"endTime"`: The ISO8601 DateTime of the latest property value to return.
 
   For more information about the ISO8601 DateTime format, see the data type [PropertyValue](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_PropertyValue.html).
+
 - `"entityId"`: The ID of the entity.
+
 - `"interpolation"`: An object that specifies the interpolation type and the interval over
   which to interpolate data.
+
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
   Valid Range: Minimum value of 1. Maximum value of 250.
+
 - `"nextToken"`: The string that specifies the next page of results.
+
 - `"orderByTime"`: The time direction to use in the result order.
+
 - `"propertyFilters"`: A list of objects that filter the property value history request.
+
 - `"startDateTime"`: The date and time of the earliest property value to return.
+
 - `"startTime"`: The ISO8601 DateTime of the earliest property value to return.
 
   For more information about the ISO8601 DateTime format, see the data type [PropertyValue](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_PropertyValue.html).
@@ -1085,9 +1105,11 @@ Lists all component types in a workspace.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: A list of objects that filter the request.
+
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
   Valid Range: Minimum value of 1. Maximum value of 250.
+
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_component_types end
@@ -1188,6 +1210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
   Valid Range: Minimum value of 1. Maximum value of 250.
+
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_entities end
@@ -1384,6 +1407,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 50.
 
   Valid Range: Minimum value of 0. Maximum value of 200.
+
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_sync_jobs end
@@ -1441,6 +1465,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 50.
 
   Valid Range: Minimum value of 0. Maximum value of 200.
+
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_sync_resources end
@@ -1488,6 +1513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
   Valid Range: Minimum value of 1. Maximum value of 250.
+
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_tags_for_resource end
@@ -1533,6 +1559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
   Valid Range: Minimum value of 1. Maximum value of 250.
+
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_workspaces end
@@ -1663,8 +1690,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"componentTypeName"`: The component type name.
 - `"compositeComponentTypes"`: This is an object that maps strings to
-  `compositeComponentTypes` of the `componentType`. `CompositeComponentType` is
-  referenced by `componentTypeId`.
+  `compositeComponentTypes` of the `componentType`. `CompositeComponentType` is referenced
+  by `componentTypeId`.
 - `"description"`: The description of the component type.
 - `"extendsFrom"`: Specifies the component type that this component type extends.
 - `"functions"`: An object that maps strings to the functions in the component type. Each
@@ -1718,11 +1745,11 @@ Updates an entity.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"componentUpdates"`: An object that maps strings to the component updates in the
-  request. Each string in the mapping must be unique to this object.
-- `"compositeComponentUpdates"`: This is an object that maps strings to
-  `compositeComponent` updates in the request. Each key of the map represents the
-  `componentPath` of the `compositeComponent`.
+- `"componentUpdates"`: An object that maps strings to the component updates in the request.
+  Each string in the mapping must be unique to this object.
+- `"compositeComponentUpdates"`: This is an object that maps strings to `compositeComponent`
+  updates in the request. Each key of the map represents the `componentPath` of the
+  `compositeComponent`.
 - `"description"`: The description of the entity.
 - `"entityName"`: The name of the entity.
 - `"parentEntityUpdate"`: An object that describes the update request for a parent entity.
@@ -1866,8 +1893,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The description of the workspace.
 - `"role"`: The ARN of the execution role associated with the workspace.
-- `"s3Location"`: The ARN of the S3 bucket where resources associated with the workspace
-  are stored.
+- `"s3Location"`: The ARN of the S3 bucket where resources associated with the workspace are
+  stored.
 """
 function update_workspace end
 

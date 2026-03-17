@@ -77,8 +77,6 @@ end
     allocate_connection_on_interconnect(bandwidth, connection_name, interconnect_id, owner_account, vlan)
     allocate_connection_on_interconnect(bandwidth, connection_name, interconnect_id, owner_account, vlan, params::Dict{String,<:Any})
 
-
-
 !!! note
     Deprecated. Use [`allocate_hosted_connection`](@ref) instead.
 
@@ -93,9 +91,9 @@ on the specified interconnect.
 # Arguments
 
 - `bandwidth`: The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
-  200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only
-  those Direct Connect Partners who have met specific requirements are allowed to create
-  a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
+  200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those
+Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps,
+2Gbps, 5Gbps or 10Gbps hosted connection.
 - `connection_name`: The name of the provisioned connection.
 - `interconnect_id`: The ID of the interconnect on which the connection will be provisioned.
 - `owner_account`: The ID of the Amazon Web Services account of the customer for whom the
@@ -164,8 +162,8 @@ of interconnects.
 
 Allocates a VLAN number and a specified amount of capacity (bandwidth) for use by a hosted
 connection on the specified interconnect or LAG of interconnects. Amazon Web Services
-polices the hosted connection for the specified capacity and the Direct Connect Partner
-must also police the hosted connection for the specified capacity.
+polices the hosted connection for the specified capacity and the Direct Connect Partner must
+also police the hosted connection for the specified capacity.
 
 !!! note
     Intended for use by Direct Connect Partners only.
@@ -174,8 +172,8 @@ must also police the hosted connection for the specified capacity.
 
 - `bandwidth`: The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
   200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, 10Gbps, and 25Gbps. Note that
-  only those Direct Connect Partners who have met specific requirements are allowed to
-  create a 1Gbps, 2Gbps, 5Gbps, 10Gbps, or 25Gbps hosted connection.
+only those Direct Connect Partners who have met specific requirements are allowed to create
+a 1Gbps, 2Gbps, 5Gbps, 10Gbps, or 25Gbps hosted connection.
 - `connection_id`: The ID of the interconnect or LAG.
 - `connection_name`: The name of the hosted connection.
 - `owner_account`: The ID of the Amazon Web Services account ID of the customer for the
@@ -596,6 +594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you use this request parameter, you must use the `ckn` request parameter and not use
   the `secret_arn` request parameter.
+
 - `"ckn"`: The MAC Security (MACsec) CKN to associate with the dedicated connection.
 
   You can create the CKN/CAK pair using an industry standard tool.
@@ -604,14 +603,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you use this request parameter, you must use the `cak` request parameter and not use
   the `secret_arn` request parameter.
+
 - `"secretARN"`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to
   associate with the dedicated connection.
 
-  You can use [`describe_connections`](@ref) or [`describe_lags`](@ref) to retrieve the
-  MAC Security (MACsec) secret key.
+  You can use [`describe_connections`](@ref) or [`describe_lags`](@ref) to retrieve the MAC
+  Security (MACsec) secret key.
 
-  If you use this request parameter, you do not use the `ckn` and `cak` request
-  parameters.
+  If you use this request parameter, you do not use the `ckn` and `cak` request parameters.
 """
 function associate_mac_sec_key end
 
@@ -653,10 +652,9 @@ conflicting VLAN number or a conflicting IP address, the operation fails.
 Virtual interfaces associated with a hosted connection cannot be associated with a LAG;
 hosted connections must be migrated along with their virtual interfaces using [`associate_hosted_connection`](@ref).
 
-To reassociate a virtual interface to a new connection or LAG, the requester must own
-either the virtual interface itself or the connection to which the virtual interface is
-currently associated. Additionally, the requester must own the connection or LAG for the
-association.
+To reassociate a virtual interface to a new connection or LAG, the requester must own either
+the virtual interface itself or the connection to which the virtual interface is currently
+associated. Additionally, the requester must own the connection or LAG for the association.
 
 # Arguments
 
@@ -935,17 +933,17 @@ Creates a BGP peer on the specified virtual interface.
 You must create a BGP peer for the corresponding address family (IPv4/IPv6) in order to
 access Amazon Web Services resources that also use that address family.
 
-If logical redundancy is not supported by the connection, interconnect, or LAG, the BGP
-peer cannot be in the same address family as an existing BGP peer on the virtual interface.
+If logical redundancy is not supported by the connection, interconnect, or LAG, the BGP peer
+cannot be in the same address family as an existing BGP peer on the virtual interface.
 
 When creating a IPv6 BGP peer, omit the Amazon address and customer address. IPv6 addresses
-are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify
-custom IPv6 addresses.
+are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom
+IPv6 addresses.
 
 !!! important
     If you let Amazon Web Services auto-assign IPv4 addresses, a /30 CIDR will be allocated
-    from 169.254.0.0/16. Amazon Web Services does not recommend this option if you intend
-    to use the customer router peer IP address as the source and destination for traffic.
+    from 169.254.0.0/16. Amazon Web Services does not recommend this option if you intend to
+    use the customer router peer IP address as the source and destination for traffic.
     Instead you should use RFC 1918 or other addressing, and specify the address yourself.
     For more information about RFC 1918 see [Address Allocation for Private Internets](https://datatracker.ietf.org/doc/html/rfc1918).
 
@@ -987,10 +985,10 @@ an Direct Connect router.
 
 To find the locations for your Region, use [`describe_locations`](@ref).
 
-You can automatically add the new connection to a link aggregation group (LAG) by
-specifying a LAG ID in the request. This ensures that the new connection is allocated on
-the same Direct Connect endpoint that hosts the specified LAG. If there are no available
-ports on the endpoint, the request fails and no connection is created.
+You can automatically add the new connection to a link aggregation group (LAG) by specifying
+a LAG ID in the request. This ensures that the new connection is allocated on the same
+Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the
+endpoint, the request fails and no connection is created.
 
 # Arguments
 
@@ -1003,14 +1001,17 @@ ports on the endpoint, the request fails and no connection is created.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"lagId"`: The ID of the LAG.
+
 - `"providerName"`: The name of the service provider associated with the requested
   connection.
+
 - `"requestMACSec"`: Indicates whether you want the connection to support MAC Security
   (MACsec).
 
   MAC Security (MACsec) is only available on dedicated connections. For information about
   MAC Security (MACsec) prerequisties, see [MACsec prerequisties](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites)
   in the *Direct Connect User Guide*.
+
 - `"tags"`: The tags to associate with the lag.
 """
 function create_connection end
@@ -1063,8 +1064,8 @@ Creates a Direct Connect gateway, which is an intermediate object that enables y
 connect a set of virtual interfaces and virtual private gateways. A Direct Connect gateway
 is global and visible in any Amazon Web Services Region after it is created. The virtual
 interfaces and virtual private gateways that are connected through a Direct Connect gateway
-can be in different Amazon Web Services Regions. This enables you to connect to a VPC in
-any Region, regardless of the Region in which the virtual interfaces are located, and pass
+can be in different Amazon Web Services Regions. This enables you to connect to a VPC in any
+Region, regardless of the Region in which the virtual interfaces are located, and pass
 traffic between them.
 
 # Arguments
@@ -1075,9 +1076,9 @@ traffic between them.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"amazonSideAsn"`: The autonomous system number (ASN) for Border Gateway Protocol (BGP)
-  to be configured on the Amazon side of the connection. The ASN must be in the private
-  range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
+- `"amazonSideAsn"`: The autonomous system number (ASN) for Border Gateway Protocol (BGP) to
+  be configured on the Amazon side of the connection. The ASN must be in the private range
+  of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
 """
 function create_direct_connect_gateway end
 
@@ -1134,7 +1135,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For information about how to set the prefixes, see [Allowed Prefixes](https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html#allowed-prefixes)
   in the *Direct Connect User Guide*.
+
 - `"gatewayId"`: The ID of the virtual private gateway or transit gateway.
+
 - `"virtualGatewayId"`: The ID of the virtual private gateway.
 """
 function create_direct_connect_gateway_association end
@@ -1331,8 +1334,8 @@ end
     create_lag(connections_bandwidth, lag_name, location, number_of_connections, params::Dict{String,<:Any})
 
 Creates a link aggregation group (LAG) with the specified number of bundled physical
-dedicated connections between the customer network and a specific Direct Connect location.
-A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to
+dedicated connections between the customer network and a specific Direct Connect location. A
+LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to
 aggregate multiple interfaces, enabling you to treat them as a single interface.
 
 All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or
@@ -1345,10 +1348,9 @@ no LAG is created..
 You can specify an existing physical dedicated connection or interconnect to include in the
 LAG (which counts towards the total number of connections). Doing so interrupts the current
 physical dedicated connection, and re-establishes them as a member of the LAG. The LAG will
-be created on the same Direct Connect endpoint to which the dedicated connection
-terminates. Any virtual interfaces associated with the dedicated connection are
-automatically disassociated and re-associated with the LAG. The connection ID does not
-change.
+be created on the same Direct Connect endpoint to which the dedicated connection terminates.
+Any virtual interfaces associated with the dedicated connection are automatically
+disassociated and re-associated with the LAG. The connection ID does not change.
 
 If the Amazon Web Services account used to create a LAG is a registered Direct Connect
 Partner, the LAG is automatically enabled to host sub-connections. For a LAG owned by a
@@ -1369,8 +1371,11 @@ partner, any associated virtual interfaces cannot be directly configured.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"childConnectionTags"`: The tags to associate with the automtically created LAGs.
+
 - `"connectionId"`: The ID of an existing dedicated connection to migrate to the LAG.
+
 - `"providerName"`: The name of the service provider associated with the LAG.
+
 - `"requestMACSec"`: Indicates whether the connection will support MAC Security (MACsec).
 
   !!! note
@@ -1437,8 +1442,8 @@ Creates a private virtual interface. A virtual interface is the VLAN that transp
 Connect traffic. A private virtual interface can be connected to either a Direct Connect
 gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a
 Direct Connect gateway enables the possibility for connecting to multiple VPCs, including
-VPCs in different Amazon Web Services Regions. Connecting the private virtual interface to
-a VGW only provides access to a single VPC within the same Region.
+VPCs in different Amazon Web Services Regions. Connecting the private virtual interface to a
+VGW only provides access to a single VPC within the same Region.
 
 Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the
 underlying physical connection if it wasn't updated to support jumbo frames. Updating the
@@ -1566,8 +1571,8 @@ Connect gateway.
     gateway must be different. For example, if you use the default ASN 64512 for both your
     the transit gateway and Direct Connect gateway, the association request fails.
 
-A jumbo MTU value must be either 1500 or 8500. No other values will be accepted. Setting
-the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying
+A jumbo MTU value must be either 1500 or 8500. No other values will be accepted. Setting the
+MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying
 physical connection if it wasn't updated to support jumbo frames. Updating the connection
 disrupts network connectivity for all virtual interfaces associated with the connection for
 up to 30 seconds. To check whether your connection supports jumbo frames, call [`describe_connections`](@ref).
@@ -1864,8 +1869,8 @@ end
     delete_lag(lag_id)
     delete_lag(lag_id, params::Dict{String,<:Any})
 
-Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has
-active virtual interfaces or hosted connections.
+Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has active
+virtual interfaces or hosted connections.
 
 # Arguments
 
@@ -1937,16 +1942,14 @@ end
     describe_connection_loa(connection_id)
     describe_connection_loa(connection_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     Deprecated. Use [`describe_loa`](@ref) instead.
 
 Gets the LOA-CFA for a connection.
 
 The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that
-your APN partner or service provider uses when establishing your cross connect to Amazon
-Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html)
+your APN partner or service provider uses when establishing your cross connect to Amazon Web
+Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html)
 in the *Direct Connect User Guide*.
 
 # Arguments
@@ -1960,8 +1963,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"loaContentType"`: The standard media type for the LOA-CFA document. The only supported
   value is application/pdf.
 - `"providerName"`: The name of the APN partner or service provider who establishes
-  connectivity on your behalf. If you specify this parameter, the LOA-CFA lists the
-  provider name alongside your company name as the requester of the cross connect.
+  connectivity on your behalf. If you specify this parameter, the LOA-CFA lists the provider
+  name alongside your company name as the requester of the cross connect.
 """
 function describe_connection_loa end
 
@@ -2025,8 +2028,6 @@ end
 """
     describe_connections_on_interconnect(interconnect_id)
     describe_connections_on_interconnect(interconnect_id, params::Dict{String,<:Any})
-
-
 
 !!! note
     Deprecated. Use [`describe_hosted_connections`](@ref) instead.
@@ -2098,20 +2099,24 @@ end
     describe_direct_connect_gateway_association_proposals()
     describe_direct_connect_gateway_association_proposals(params::Dict{String,<:Any})
 
-Describes one or more association proposals for connection between a virtual private
-gateway or transit gateway and a Direct Connect gateway.
+Describes one or more association proposals for connection between a virtual private gateway
+or transit gateway and a Direct Connect gateway.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"associatedGatewayId"`: The ID of the associated gateway.
+
 - `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 
   If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
 - `"nextToken"`: The token for the next page of results.
+
 - `"proposalId"`: The ID of the proposal.
 """
 function describe_direct_connect_gateway_association_proposals end
@@ -2141,8 +2146,8 @@ end
     describe_direct_connect_gateway_associations()
     describe_direct_connect_gateway_associations(params::Dict{String,<:Any})
 
-Lists the associations between your Direct Connect gateways and virtual private gateways
-and transit gateways. You must specify one of the following:
+Lists the associations between your Direct Connect gateways and virtual private gateways and
+transit gateways. You must specify one of the following:
 
 - A Direct Connect gateway
 
@@ -2156,8 +2161,8 @@ The response contains the Direct Connect gateway.
 The response contains the Direct Connect gateway.
 - A Direct Connect gateway and a virtual private gateway
 
-The response contains the association between the Direct Connect gateway and virtual
-private gateway.
+The response contains the association between the Direct Connect gateway and virtual private
+gateway.
 - A Direct Connect gateway and a transit gateway
 
 The response contains the association between the Direct Connect gateway and transit
@@ -2168,13 +2173,18 @@ gateway.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"associatedGatewayId"`: The ID of the associated gateway.
+
 - `"associationId"`: The ID of the Direct Connect gateway association.
+
 - `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 
   If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
+
 - `"virtualGatewayId"`: The ID of the virtual private gateway or transit gateway.
 """
 function describe_direct_connect_gateway_associations end
@@ -2206,21 +2216,24 @@ end
 
 Lists the attachments between your Direct Connect gateways and virtual interfaces. You must
 specify a Direct Connect gateway, a virtual interface, or both. If you specify a Direct
-Connect gateway, the response contains all virtual interfaces attached to the Direct
-Connect gateway. If you specify a virtual interface, the response contains all Direct
-Connect gateways attached to the virtual interface. If you specify both, the response
-contains the attachment between the Direct Connect gateway and the virtual interface.
+Connect gateway, the response contains all virtual interfaces attached to the Direct Connect
+gateway. If you specify a virtual interface, the response contains all Direct Connect
+gateways attached to the virtual interface. If you specify both, the response contains the
+attachment between the Direct Connect gateway and the virtual interface.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 
   If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
+
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
 function describe_direct_connect_gateway_attachments end
@@ -2250,18 +2263,20 @@ end
     describe_direct_connect_gateways()
     describe_direct_connect_gateways(params::Dict{String,<:Any})
 
-Lists all your Direct Connect gateways or only the specified Direct Connect gateway.
-Deleted Direct Connect gateways are not returned.
+Lists all your Direct Connect gateways or only the specified Direct Connect gateway. Deleted
+Direct Connect gateways are not returned.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 
   If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
 """
 function describe_direct_connect_gateways end
@@ -2333,16 +2348,14 @@ end
     describe_interconnect_loa(interconnect_id)
     describe_interconnect_loa(interconnect_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     Deprecated. Use [`describe_loa`](@ref) instead.
 
 Gets the LOA-CFA for the specified interconnect.
 
-The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that
-is used when establishing your cross connect to Amazon Web Services at the colocation
-facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html)
+The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is
+used when establishing your cross connect to Amazon Web Services at the colocation facility.
+For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html)
 in the *Direct Connect User Guide*.
 
 # Arguments
@@ -2356,8 +2369,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"loaContentType"`: The standard media type for the LOA-CFA document. The only supported
   value is application/pdf.
 - `"providerName"`: The name of the service provider who establishes connectivity on your
-  behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside
-  your company name as the requester of the cross connect.
+  behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your
+  company name as the requester of the cross connect.
 """
 function describe_interconnect_loa end
 
@@ -2453,9 +2466,9 @@ end
 
 Gets the LOA-CFA for a connection, interconnect, or link aggregation group (LAG).
 
-The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that
-is used when establishing your cross connect to Amazon Web Services at the colocation
-facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html)
+The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is
+used when establishing your cross connect to Amazon Web Services at the colocation facility.
+For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html)
 in the *Direct Connect User Guide*.
 
 # Arguments
@@ -2469,8 +2482,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"loaContentType"`: The standard media type for the LOA-CFA document. The only supported
   value is application/pdf.
 - `"providerName"`: The name of the service provider who establishes connectivity on your
-  behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside
-  your company name as the requester of the cross connect.
+  behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside your
+  company name as the requester of the cross connect.
 """
 function describe_loa end
 
@@ -2608,8 +2621,6 @@ end
     describe_virtual_gateways()
     describe_virtual_gateways(params::Dict{String,<:Any})
 
-
-
 !!! note
     Deprecated. Use `DescribeVpnGateways` instead. See [DescribeVPNGateways](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnGateways.html)
     in the *Amazon Elastic Compute Cloud API Reference*.
@@ -2644,11 +2655,11 @@ end
 
 Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces
 deleted fewer than 15 minutes before you make the request are also returned. If you specify
-a connection ID, only the virtual interfaces associated with the connection are returned.
-If you specify a virtual interface ID, then only a single virtual interface is returned.
+a connection ID, only the virtual interfaces associated with the connection are returned. If
+you specify a virtual interface ID, then only a single virtual interface is returned.
 
-A virtual interface (VLAN) transmits the traffic between the Direct Connect location and
-the customer network.
+A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the
+customer network.
 
 # Optional Parameters
 
@@ -2681,11 +2692,11 @@ end
     disassociate_connection_from_lag(connection_id, lag_id, params::Dict{String,<:Any})
 
 Disassociates a connection from a link aggregation group (LAG). The connection is
-interrupted and re-established as a standalone connection (the connection is not deleted;
-to delete the connection, use the [`delete_connection`](@ref) request). If the LAG has
+interrupted and re-established as a standalone connection (the connection is not deleted; to
+delete the connection, use the [`delete_connection`](@ref) request). If the LAG has
 associated virtual interfaces or hosted connections, they remain associated with the LAG. A
-disassociated connection owned by an Direct Connect Partner is automatically converted to
-an interconnect.
+disassociated connection owned by an Direct Connect Partner is automatically converted to an
+interconnect.
 
 If disassociating the connection would cause the LAG to fall below its setting for minimum
 number of operational connections, the request fails, except when it's the last member of
@@ -2744,6 +2755,7 @@ dedicated connection.
 
   You can use [`describe_connections`](@ref) or [`describe_lags`](@ref) to retrieve
   connection ID.
+
 - `secret_arn`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key.
 
   You can use [`describe_connections`](@ref) to retrieve the ARN of the MAC Security
@@ -2794,13 +2806,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"bgpPeers"`: The BGP peers that were placed in the DOWN state during the virtual
   interface failover test.
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 
   If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
 - `"nextToken"`: The token for the next page of results.
+
 - `"status"`: The status of the virtual interface failover test.
+
 - `"testId"`: The ID of the virtual interface failover test.
+
 - `"virtualInterfaceId"`: The ID of the virtual interface that was tested.
 """
 function list_virtual_interface_test_history end
@@ -2850,6 +2867,7 @@ If you need to stop the test before the test interval completes, use [StopBgpFai
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"bgpPeers"`: The BGP peers to place in the DOWN state.
+
 - `"testDurationInMinutes"`: The time in minutes that the virtual interface failover test
   will last.
 
@@ -3039,6 +3057,7 @@ You can update the following parameters for a connection:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"connectionName"`: The name of the connection.
+
 - `"encryptionMode"`: The connection MAC Security (MACsec) encryption mode.
 
   The valid values are `no_encrypt`, `should_encrypt`, and `must_encrypt`.
@@ -3194,7 +3213,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"encryptionMode"`: The LAG MAC Security (MACsec) encryption mode.
 
   Amazon Web Services applies the value to all connections which are part of the LAG.
+
 - `"lagName"`: The name of the LAG.
+
 - `"minimumLinks"`: The minimum number of physical connections that must be operational for
   the LAG itself to be operational.
 """

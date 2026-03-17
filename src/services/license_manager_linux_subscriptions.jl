@@ -138,8 +138,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: An array of structures that you can use to filter the results by your
   specified criteria. For example, you can specify `Region` in the `Name`, with the
-  `contains` operator to list all subscriptions that match a partial string in the
-  `Value`, such as `us-west`.
+  `contains` operator to list all subscriptions that match a partial string in the `Value`,
+  such as `us-west`.
 
   For each filter, you can specify one of the following values for the `Name` key to
   streamline results:
@@ -154,14 +154,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `Status`
   - `UsageOperation`
 
-  For each filter, you can use one of the following `Operator` values to define the
-  behavior of the filter:
+  For each filter, you can use one of the following `Operator` values to define the behavior
+  of the filter:
 
   - `contains`
   - `equals`
   - `Notequal`
 
 - `"MaxResults"`: The maximum items to return in a request.
+
 - `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -203,9 +204,9 @@ Organizations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: An array of structures that you can use to filter the results to those that
-  match one or more sets of key-value pairs that you specify. For example, you can filter
-  by the name of `Subscription` with an optional operator to see subscriptions that
-  match, partially match, or don't match a certain subscription's name.
+  match one or more sets of key-value pairs that you specify. For example, you can filter by
+  the name of `Subscription` with an optional operator to see subscriptions that match,
+  partially match, or don't match a certain subscription's name.
 
   The valid names for this filter are:
 
@@ -218,6 +219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `Notequal`
 
 - `"MaxResults"`: The maximum items to return in a request.
+
 - `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -333,8 +335,8 @@ Register the supported third-party subscription provider for your Bring Your Own
 # Arguments
 
 - `secret_arn`: The Amazon Resource Name (ARN) of the secret where you've stored your
-  subscription provider's access token. For RHEL subscriptions managed through the Red
-  Hat Subscription Manager (RHSM), the secret contains your Red Hat Offline token.
+  subscription provider's access token. For RHEL subscriptions managed through the Red Hat
+  Subscription Manager (RHSM), the secret contains your Red Hat Offline token.
 - `subscription_provider_source`: The supported Linux subscription provider to register.
 
 # Optional Parameters
@@ -479,8 +481,8 @@ Updates the service settings for Linux subscriptions.
 - `linux_subscriptions_discovery`: Describes if the discovery of Linux subscriptions is
   enabled.
 - `linux_subscriptions_discovery_settings`: The settings defined for Linux subscriptions
-  discovery. The settings include if Organizations integration has been enabled, and
-  which Regions data will be aggregated from.
+  discovery. The settings include if Organizations integration has been enabled, and which
+  Regions data will be aggregated from.
 
 # Optional Parameters
 

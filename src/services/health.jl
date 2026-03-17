@@ -11,8 +11,8 @@ using AWS.UUIDs
 Returns a list of accounts in the organization from Organizations that are affected by the
 provided event. For more information about the different types of Health events, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html).
 
-Before you can call this operation, you must first enable Health to work with
-Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html)
+Before you can call this operation, you must first enable Health to work with Organizations.
+To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html)
 operation from your organization's management account.
 
 !!! note
@@ -36,10 +36,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve
-  the next batch of results, reissue the search request and include the returned token.
-  When all results have been returned, the response does not contain a pagination token
-  value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
+  next batch of results, reissue the search request and include the returned token. When all
+  results have been returned, the response does not contain a pagination token value.
 """
 function describe_affected_accounts_for_organization end
 
@@ -75,9 +74,9 @@ end
 
 Returns a list of entities that have been affected by the specified events, based on the
 specified filter criteria. Entities can refer to individual customer resources, groups of
-customer resources, or any other construct, depending on the Amazon Web Service. Events
-that have impact beyond that of the affected entities, or where the extent of impact is
-unknown, include at least one entity indicating this.
+customer resources, or any other construct, depending on the Amazon Web Service. Events that
+have impact beyond that of the affected entities, or where the extent of impact is unknown,
+include at least one entity indicating this.
 
 At least one event ARN is required.
 
@@ -101,10 +100,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve
-  the next batch of results, reissue the search request and include the returned token.
-  When all results have been returned, the response does not contain a pagination token
-  value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
+  next batch of results, reissue the search request and include the returned token. When all
+  results have been returned, the response does not contain a pagination token value.
 """
 function describe_affected_entities end
 
@@ -141,16 +139,15 @@ construct, depending on the Amazon Web Service.
 
 At least one event Amazon Resource Name (ARN) and account ID are required.
 
-Before you can call this operation, you must first enable Health to work with
-Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html)
+Before you can call this operation, you must first enable Health to work with Organizations.
+To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html)
 operation from your organization's management account.
 
 !!! note
     - This API operation uses pagination. Specify the `nextToken` parameter in the next
       request to return more results.
     - This operation doesn't support resource-level permissions. You can't use this
-      operation to allow or deny access to specific Health events. For more information,
-      see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions)
+      operation to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions)
       in the *Health User Guide*.
 
 # Optional Parameters
@@ -162,14 +159,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve
-  the next batch of results, reissue the search request and include the returned token.
-  When all results have been returned, the response does not contain a pagination token
-  value.
-- `"organizationEntityAccountFilters"`: A JSON set of elements including the
-  `awsAccountId`, `eventArn` and a set of `statusCodes`.
-- `"organizationEntityFilters"`: A JSON set of elements including the `awsAccountId` and
-  the `eventArn`.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
+  next batch of results, reissue the search request and include the returned token. When all
+  results have been returned, the response does not contain a pagination token value.
+- `"organizationEntityAccountFilters"`: A JSON set of elements including the `awsAccountId`,
+  `eventArn` and a set of `statusCodes`.
+- `"organizationEntityFilters"`: A JSON set of elements including the `awsAccountId` and the
+  `eventArn`.
 """
 function describe_affected_entities_for_organization end
 
@@ -297,10 +293,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve
-  the next batch of results, reissue the search request and include the returned token.
-  When all results have been returned, the response does not contain a pagination token
-  value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
+  next batch of results, reissue the search request and include the returned token. When all
+  results have been returned, the response does not contain a pagination token value.
 """
 function describe_event_aggregates end
 
@@ -412,8 +407,8 @@ note the following differences:
   an error message because public events aren't specific to an account.
 - To return event details for an event that is specific to an account in your organization,
   you must specify the `awsAccountId` parameter in the request. If you don't specify an
-  account ID, Health returns an error message because the event is specific to an account
-  in your organization.
+  account ID, Health returns an error message because the event is specific to an account in
+  your organization.
 
 For more information, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html).
 
@@ -491,20 +486,21 @@ particular order.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filter"`: Values to narrow the results returned.
+
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
+
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 
   !!! note
-      If you don't specify the `maxResults` parameter, this operation returns a maximum
-      of 30 items by default.
+      If you don't specify the `maxResults` parameter, this operation returns a maximum of
+      30 items by default.
 
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve
-  the next batch of results, reissue the search request and include the returned token.
-  When all results have been returned, the response does not contain a pagination token
-  value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
+  next batch of results, reissue the search request and include the returned token. When all
+  results have been returned, the response does not contain a pagination token value.
 """
 function describe_event_types end
 
@@ -557,10 +553,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve
-  the next batch of results, reissue the search request and include the returned token.
-  When all results have been returned, the response does not contain a pagination token
-  value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
+  next batch of results, reissue the search request and include the returned token. When all
+  results have been returned, the response does not contain a pagination token value.
 """
 function describe_events end
 
@@ -581,10 +576,10 @@ end
     describe_events_for_organization(params::Dict{String,<:Any})
 
 Returns information about events across your organization in Organizations. You can use
-the`filters` parameter to specify the events that you want to return. Events are returned
-in a summary form and don't include the affected accounts, detailed description, any
-additional metadata that depends on the event type, or any affected resources. To retrieve
-that information, use the following operations:
+the`filters` parameter to specify the events that you want to return. Events are returned in
+a summary form and don't include the affected accounts, detailed description, any additional
+metadata that depends on the event type, or any affected resources. To retrieve that
+information, use the following operations:
 
 - [DescribeAffectedAccountsForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedAccountsForOrganization.html)
 - [DescribeEventDetailsForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html)
@@ -596,8 +591,8 @@ recent event.
 
 For more information about the different types of Health events, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html).
 
-Before you can call this operation, you must first enable Health to work with
-Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html)
+Before you can call this operation, you must first enable Health to work with Organizations.
+To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html)
 operation from your organization's management account.
 
 !!! note
@@ -614,10 +609,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve
-  the next batch of results, reissue the search request and include the returned token.
-  When all results have been returned, the response does not contain a pagination token
-  value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
+  next batch of results, reissue the search request and include the returned token. When all
+  results have been returned, the response does not contain a pagination token value.
 """
 function describe_events_for_organization end
 
@@ -646,9 +640,8 @@ end
     describe_health_service_status_for_organization()
     describe_health_service_status_for_organization(params::Dict{String,<:Any})
 
-This operation provides status information on enabling or disabling Health to work with
-your organization. To call this operation, you must use the organization's management
-account.
+This operation provides status information on enabling or disabling Health to work with your
+organization. To call this operation, you must use the organization's management account.
 """
 function describe_health_service_status_for_organization end
 
@@ -677,8 +670,8 @@ end
     disable_health_service_access_for_organization()
     disable_health_service_access_for_organization(params::Dict{String,<:Any})
 
-Disables Health from working with Organizations. To call this operation, you must sign in
-to the organization's management account. For more information, see [Aggregating Health events](https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html)
+Disables Health from working with Organizations. To call this operation, you must sign in to
+the organization's management account. For more information, see [Aggregating Health events](https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html)
 in the *Health User Guide*.
 
 This operation doesn't remove the service-linked role from the management account in your
@@ -692,7 +685,6 @@ in the *IAM User Guide*.
     other Amazon Web Services accounts in your organization. If you call the Health API
     operations for organizational view, Health returns an error. Health continues to
     aggregate health events for your Amazon Web Services account.
-
 """
 function disable_health_service_access_for_organization end
 
@@ -722,8 +714,8 @@ end
     enable_health_service_access_for_organization(params::Dict{String,<:Any})
 
 Enables Health to work with Organizations. You can use the organizational view feature to
-aggregate events from all Amazon Web Services accounts in your organization in a
-centralized location.
+aggregate events from all Amazon Web Services accounts in your organization in a centralized
+location.
 
 This operation also creates a service-linked role for the management account in the
 organization.

@@ -11,8 +11,8 @@ using AWS.UUIDs
 `BatchMeterUsage` is called from a SaaS application listed on AWS Marketplace to post
 metering records for a set of customers.
 
-For identical requests, the API is idempotent; requests can be retried with the same
-records or a subset of the input records.
+For identical requests, the API is idempotent; requests can be retried with the same records
+or a subset of the input records.
 
 Every request to `BatchMeterUsage` is for one product. If you need to meter usage for
 multiple products, you must make multiple calls to `BatchMeterUsage`.
@@ -22,13 +22,12 @@ being recorded, and are not accepted more than 6 hours after the event.
 
 `BatchMeterUsage` can process up to 25 `UsageRecords` at a time.
 
-A `UsageRecord` can optionally include multiple usage allocations, to provide customers
-with usage data split into buckets by tags that you define (or allow the customer to
-define).
+A `UsageRecord` can optionally include multiple usage allocations, to provide customers with
+usage data split into buckets by tags that you define (or allow the customer to define).
 
-`BatchMeterUsage` returns a list of `UsageRecordResult` objects, showing the result for
-each `UsageRecord`, as well as a list of `UnprocessedRecords`, indicating errors in the
-service side that you should retry.
+`BatchMeterUsage` returns a list of `UsageRecordResult` objects, showing the result for each
+`UsageRecord`, as well as a list of `UnprocessedRecords`, indicating errors in the service
+side that you should retry.
 
 `BatchMeterUsage` requests must be less than 1MB in size.
 
@@ -103,8 +102,8 @@ being recorded, and are not accepted more than 6 hours after the event.
 - `timestamp`: Timestamp, in UTC, for which the usage is being reported. Your application
   can meter usage for up to one hour in the past. Make sure the `timestamp` value is not
   before the start of the software usage.
-- `usage_dimension`: It will be one of the fcp dimension name provided during the
-  publishing of the product.
+- `usage_dimension`: It will be one of the fcp dimension name provided during the publishing
+  of the product.
 
 # Optional Parameters
 
@@ -113,11 +112,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the permissions required for the action, but does not
   make the request. If you have the permissions, the request returns `DryRunOperation`;
   otherwise, it returns `UnauthorizedException`. Defaults to `false` if not specified.
+
 - `"UsageAllocations"`: The set of `UsageAllocations` to submit.
 
   The sum of all `UsageAllocation` quantities must equal the `UsageQuantity` of the
-  `MeterUsage` request, and each `UsageAllocation` must have a unique set of tags
-  (include no tags).
+  `MeterUsage` request, and each `UsageAllocation` must have a unique set of tags (include
+  no tags).
+
 - `"UsageQuantity"`: Consumption value for the hour. Defaults to `0` if not specified.
 """
 function meter_usage end
@@ -180,8 +181,8 @@ usage data in your seller reports. The sections below explain the behavior of
   software is subscribed to your product on AWS Marketplace, enabling you to guard against
   unauthorized use. Your container image that integrates with `RegisterUsage` is only
   required to guard against unauthorized use at container startup, as such a
-  `CustomerNotSubscribedException` or `PlatformNotSupportedException` will only be thrown
-  on the initial call to `RegisterUsage`. Subsequent calls from the same Amazon ECS task
+  `CustomerNotSubscribedException` or `PlatformNotSupportedException` will only be thrown on
+  the initial call to `RegisterUsage`. Subsequent calls from the same Amazon ECS task
   instance (e.g. task-id) or Amazon EKS pod will not throw a
   `CustomerNotSubscribedException`, even if the customer unsubscribes while the Amazon ECS
   task or Amazon EKS pod is still running.
@@ -254,8 +255,8 @@ end
 
 `ResolveCustomer` is called by a SaaS application during the registration process. When a
 buyer visits your website during the registration process, the buyer submits a registration
-token through their browser. The registration token is resolved through this API to obtain
-a `CustomerIdentifier` along with the `CustomerAWSAccountId` and `ProductCode`.
+token through their browser. The registration token is resolved through this API to obtain a
+`CustomerIdentifier` along with the `CustomerAWSAccountId` and `ProductCode`.
 
 !!! note
     The API needs to called from the seller account id used to publish the SaaS application

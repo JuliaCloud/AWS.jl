@@ -27,8 +27,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accepted in a temporary credential request.
 - `"durationSeconds"`: Used to determine how long sessions vended using this profile are
   valid for. See the `Expiration` section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object)
-  page for more details. In requests, if this value is not provided, the default value
-  will be 3600.
+  page for more details. In requests, if this value is not provided, the default value will
+  be 3600.
 - `"enabled"`: Specifies whether the profile is enabled.
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
@@ -142,8 +142,8 @@ Delete an entry from the attribute mapping rules enforced by a given profile.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"specifiers"`: A list of specifiers of a certificate field; for example, CN, OU, UID
-  from a Subject.
+- `"specifiers"`: A list of specifiers of a certificate field; for example, CN, OU, UID from
+  a Subject.
 """
 function delete_attribute_mapping end
 
@@ -735,9 +735,9 @@ Services Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous request did not show all results. To get the next results, make the request
-  again with this value.
+- `"nextToken"`: A token that indicates where the output should continue from, if a previous
+  request did not show all results. To get the next results, make the request again with
+  this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_crls end
@@ -768,9 +768,9 @@ Lists all profiles in the authenticated account and Amazon Web Services Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous request did not show all results. To get the next results, make the request
-  again with this value.
+- `"nextToken"`: A token that indicates where the output should continue from, if a previous
+  request did not show all results. To get the next results, make the request again with
+  this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_profiles end
@@ -801,9 +801,9 @@ Lists the subjects in the authenticated account and Amazon Web Services Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous request did not show all results. To get the next results, make the request
-  again with this value.
+- `"nextToken"`: A token that indicates where the output should continue from, if a previous
+  request did not show all results. To get the next results, make the request again with
+  this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_subjects end
@@ -876,9 +876,9 @@ Lists the trust anchors in the authenticated account and Amazon Web Services Reg
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous request did not show all results. To get the next results, make the request
-  again with this value.
+- `"nextToken"`: A token that indicates where the output should continue from, if a previous
+  request did not show all results. To get the next results, make the request again with
+  this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_trust_anchors end
@@ -1172,8 +1172,8 @@ end
     update_crl(crl_id, params::Dict{String,<:Any})
 
 Updates the certificate revocation list (CRL). A CRL is a list of certificates that have
-been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates
-against the CRL before issuing credentials.
+been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against
+the CRL before issuing credentials.
 
 **Required permissions:** `rolesanywhere:UpdateCrl`.
 
@@ -1229,8 +1229,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accepted in a temporary credential request.
 - `"durationSeconds"`: Used to determine how long sessions vended using this profile are
   valid for. See the `Expiration` section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object)
-  page for more details. In requests, if this value is not provided, the default value
-  will be 3600.
+  page for more details. In requests, if this value is not provided, the default value will
+  be 3600.
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
 - `"name"`: The name of the profile.

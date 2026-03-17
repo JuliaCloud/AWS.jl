@@ -75,8 +75,8 @@ Associates phone numbers with the specified Amazon Chime Voice Connector.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ForceAssociate"`: If true, associates the provided phone numbers with the provided
-  Amazon Chime Voice Connector and removes any previously existing associations. If
-  false, does not associate any phone numbers that have previously existing associations.
+  Amazon Chime Voice Connector and removes any previously existing associations. If false,
+  does not associate any phone numbers that have previously existing associations.
 """
 function associate_phone_numbers_with_voice_connector end
 
@@ -298,10 +298,10 @@ Adds a specified number of users to a channel.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Type"`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are
-  always returned as part of `ListChannelMemberships`. Hidden members are only returned
-  if the type filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden
-  members are not returned. This is only supported by moderators.
+- `"Type"`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are always
+  returned as part of `ListChannelMemberships`. Hidden members are only returned if the type
+  filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are not
+  returned. This is only supported by moderators.
 - `"x-amz-chime-bearer"`: The `AppInstanceUserArn` of the user that makes the API call.
 """
 function batch_create_channel_membership end
@@ -340,8 +340,8 @@ end
     batch_create_room_membership(membership_item_list, account_id, room_id, params::Dict{String,<:Any})
 
 Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be
-users or bots. The member role designates whether the member is a chat room administrator
-or a general chat room member.
+users or bots. The member role designates whether the member is a chat room administrator or
+a general chat room member.
 
 # Arguments
 
@@ -538,8 +538,8 @@ end
     batch_update_phone_number(update_phone_number_request_items, params::Dict{String,<:Any})
 
 Updates phone number product types or calling names. You can update one attribute at a time
-for each `UpdatePhoneNumberRequestItem`. For example, you can update the product type or
-the calling name.
+for each `UpdatePhoneNumberRequestItem`. For example, you can update the product type or the
+calling name.
 
 For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For
 numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In
@@ -593,9 +593,9 @@ end
     batch_update_user(update_user_request_items, account_id)
     batch_update_user(update_user_request_items, account_id, params::Dict{String,<:Any})
 
-Updates user details within the [`update_user_request_item`](@ref) object for up to 20
-users for the specified Amazon Chime account. Currently, only `LicenseType` updates are
-supported for this action.
+Updates user details within the [`update_user_request_item`](@ref) object for up to 20 users
+for the specified Amazon Chime account. Currently, only `LicenseType` updates are supported
+for this action.
 
 # Arguments
 
@@ -678,9 +678,9 @@ end
     create_app_instance(client_request_token, name)
     create_app_instance(client_request_token, name, params::Dict{String,<:Any})
 
-Creates an Amazon Chime SDK messaging `AppInstance` under an AWS account. Only SDK
-messaging customers use this API. `CreateAppInstance` supports idempotency behavior as
-described in the AWS API Standard.
+Creates an Amazon Chime SDK messaging `AppInstance` under an AWS account. Only SDK messaging
+customers use this API. `CreateAppInstance` supports idempotency behavior as described in
+the AWS API Standard.
 
 !!! important
     **This API is is no longer supported and will not be updated.** We recommend using the
@@ -901,8 +901,8 @@ in the *Amazon Chime SDK Developer Guide*.
 
 # Arguments
 
-- `external_user_id`: The Amazon Chime SDK external user ID. An idempotency token. Links
-  the attendee to an identity managed by a builder application.
+- `external_user_id`: The Amazon Chime SDK external user ID. An idempotency token. Links the
+  attendee to an identity managed by a builder application.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 # Optional Parameters
@@ -1026,8 +1026,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and channel members can add themselves and other members to unrestricted channels. Only
   administrators and moderators can add members to restricted channels.
 - `"Privacy"`: The channel's privacy level: `PUBLIC` or `PRIVATE`. Private channels aren't
-  discoverable by users outside the channel. Public channels are discoverable by anyone
-  in the `AppInstance`.
+  discoverable by users outside the channel. Public channels are discoverable by anyone in
+  the `AppInstance`.
 - `"Tags"`: The tags for the creation request.
 - `"x-amz-chime-bearer"`: The `AppInstanceUserArn` of the user that makes the API call.
 """
@@ -1148,8 +1148,8 @@ end
     create_channel_membership(member_arn, type, channel_arn)
     create_channel_membership(member_arn, type, channel_arn, params::Dict{String,<:Any})
 
-Adds a user to a channel. The `InvitedBy` response field is derived from the request
-header. A channel member can:
+Adds a user to a channel. The `InvitedBy` response field is derived from the request header.
+A channel member can:
 
 - List messages
 - Send messages
@@ -1159,8 +1159,8 @@ header. A channel member can:
 
 Privacy settings impact this action as follows:
 
-- Public Channels: You do not need to be a member to list messages, but you must be a
-  member to send messages.
+- Public Channels: You do not need to be a member to list messages, but you must be a member
+  to send messages.
 - Private Channels: You must be a member to list or send messages.
 
 !!! note
@@ -1180,9 +1180,9 @@ Privacy settings impact this action as follows:
 
 - `member_arn`: The ARN of the member you want to add to the channel.
 - `type`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are always
-  returned as part of `ListChannelMemberships`. Hidden members are only returned if the
-  type filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are
-  not returned. This is only supported by moderators.
+  returned as part of `ListChannelMemberships`. Hidden members are only returned if the type
+  filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are not
+  returned. This is only supported by moderators.
 - `channel_arn`: The ARN of the channel to which you're adding users.
 
 # Optional Parameters
@@ -1388,8 +1388,8 @@ end
 
 Creates a new Amazon Chime SDK meeting in the specified media Region with no initial
 attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html)
-in the *Amazon Chime SDK Developer Guide* . For more information about the Amazon Chime
-SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
+in the *Amazon Chime SDK Developer Guide* . For more information about the Amazon Chime SDK,
+see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
 in the *Amazon Chime SDK Developer Guide*.
 
 !!! important
@@ -1411,15 +1411,19 @@ in the *Amazon Chime SDK Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ExternalMeetingId"`: The external meeting ID.
+
 - `"MediaRegion"`: The Region in which to create the meeting. Default: `us-east-1`.
 
   Available values: `af-south-1` , `ap-northeast-1` , `ap-northeast-2` , `ap-south-1` ,
   `ap-southeast-1` , `ap-southeast-2` , `ca-central-1` , `eu-central-1` , `eu-north-1` ,
   `eu-south-1` , `eu-west-1` , `eu-west-2` , `eu-west-3` , `sa-east-1` , `us-east-1` ,
   `us-east-2` , `us-west-1` , `us-west-2` .
+
 - `"MeetingHostId"`: Reserved.
+
 - `"NotificationsConfiguration"`: The configuration for resource targets to receive
   notifications when meeting and attendee events occur.
+
 - `"Tags"`: The tag key-value pairs.
 """
 function create_meeting end
@@ -1532,8 +1536,8 @@ end
 
 Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For
 more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html)
-in the *Amazon Chime SDK Developer Guide* . For more information about the Amazon Chime
-SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
+in the *Amazon Chime SDK Developer Guide* . For more information about the Amazon Chime SDK,
+see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
 in the *Amazon Chime SDK Developer Guide* .
 
 !!! important
@@ -1555,17 +1559,22 @@ in the *Amazon Chime SDK Developer Guide* .
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Attendees"`: The request containing the attendees to create.
+
 - `"ExternalMeetingId"`: The external meeting ID.
+
 - `"MediaRegion"`: The Region in which to create the meeting. Default: `us-east-1` .
 
   Available values: `af-south-1` , `ap-northeast-1` , `ap-northeast-2` , `ap-south-1` ,
   `ap-southeast-1` , `ap-southeast-2` , `ca-central-1` , `eu-central-1` , `eu-north-1` ,
   `eu-south-1` , `eu-west-1` , `eu-west-2` , `eu-west-3` , `sa-east-1` , `us-east-1` ,
   `us-east-2` , `us-west-1` , `us-west-2` .
+
 - `"MeetingHostId"`: Reserved.
+
 - `"NotificationsConfiguration"`: The resource target configurations for receiving Amazon
-  Chime SDK meeting and attendee event notifications. The Amazon Chime SDK supports
-  resource targets located in the US East (N. Virginia) AWS Region (us-east-1).
+  Chime SDK meeting and attendee event notifications. The Amazon Chime SDK supports resource
+  targets located in the US East (N. Virginia) AWS Region (us-east-1).
+
 - `"Tags"`: The tag key-value pairs.
 """
 function create_meeting_with_attendees end
@@ -1679,8 +1688,8 @@ participant phone numbers.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ExpiryMinutes"`: The number of minutes allowed for the proxy session.
-- `"GeoMatchLevel"`: The preference for matching the country or area code of the proxy
-  phone number with that of the first participant.
+- `"GeoMatchLevel"`: The preference for matching the country or area code of the proxy phone
+  number with that of the first participant.
 - `"GeoMatchParams"`: The country and area code for the proxy phone number.
 - `"Name"`: The name of the proxy session.
 - `"NumberSelectionBehavior"`: The preference for proxy phone number reuse, or stickiness,
@@ -1785,9 +1794,9 @@ end
     create_room_membership(member_id, account_id, room_id)
     create_room_membership(member_id, account_id, room_id, params::Dict{String,<:Any})
 
-Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either
-a user or a bot. The member role designates whether the member is a chat room administrator
-or a general chat room member.
+Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a
+user or a bot. The member role designates whether the member is a chat room administrator or
+a general chat room member.
 
 # Arguments
 
@@ -1986,16 +1995,19 @@ specific trigger type.
 # Arguments
 
 - `name`: The name of the SIP rule.
+
 - `target_applications`: List of SIP media applications with priority and AWS Region. Only
   one SIP application per AWS Region can be used.
+
 - `trigger_type`: The type of trigger assigned to the SIP rule in `TriggerValue`, currently
   `RequestUriHostname` or `ToPhoneNumber`.
+
 - `trigger_value`: If `TriggerType` is `RequestUriHostname`, the value can be the outbound
   host name of an Amazon Chime Voice Connector. If `TriggerType` is `ToPhoneNumber`, the
-  value can be a customer-owned phone number in the E164 format. The
-  `SipMediaApplication` specified in the `SipRule` is triggered if the request URI in an
-  incoming SIP request matches the `RequestUriHostname`, or if the `To` header in the
-  incoming SIP request matches the `ToPhoneNumber` value.
+  value can be a customer-owned phone number in the E164 format. The `SipMediaApplication`
+  specified in the `SipRule` is triggered if the request URI in an incoming SIP request
+  matches the `RequestUriHostname`, or if the `To` header in the incoming SIP request
+  matches the `ToPhoneNumber` value.
 
 # Optional Parameters
 
@@ -2170,12 +2182,12 @@ end
     create_voice_connector_group(name)
     create_voice_connector_group(name, params::Dict{String,<:Any})
 
-Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You
-can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by
+Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can
+associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by
 including `VoiceConnectorItems` in the request.
 
-You can include Amazon Chime Voice Connectors from different AWS Regions in your group.
-This creates a fault tolerant mechanism for fallback in case of availability events.
+You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This
+creates a fault tolerant mechanism for fallback in case of availability events.
 
 !!! important
     **This API is is no longer supported and will not be updated.** We recommend using the
@@ -2317,8 +2329,7 @@ end
     delete_app_instance_admin(app_instance_admin_arn, app_instance_arn)
     delete_app_instance_admin(app_instance_admin_arn, app_instance_arn, params::Dict{String,<:Any})
 
-Demotes an `AppInstanceAdmin` to an `AppInstanceUser`. This action does not delete the
-user.
+Demotes an `AppInstanceAdmin` to an `AppInstanceUser`. This action does not delete the user.
 
 !!! important
     **This API is is no longer supported and will not be updated.** We recommend using the
@@ -2459,8 +2470,8 @@ end
     delete_attendee(attendee_id, meeting_id, params::Dict{String,<:Any})
 
 Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
-`JoinToken`. Attendees are automatically deleted when a Amazon Chime SDK meeting is
-deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
+`JoinToken`. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted.
+For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
 in the *Amazon Chime SDK Developer Guide*.
 
 !!! important
@@ -3883,8 +3894,7 @@ end
     describe_channel_membership_for_app_instance_user(app-instance-user-arn, channel_arn)
     describe_channel_membership_for_app_instance_user(app-instance-user-arn, channel_arn, params::Dict{String,<:Any})
 
-Returns the details of a channel based on the membership of the specified
-`AppInstanceUser`.
+Returns the details of a channel based on the membership of the specified `AppInstanceUser`.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the `AppInstanceUserArn` of
@@ -4262,8 +4272,8 @@ end
     get_account(account_id)
     get_account(account_id, params::Dict{String,<:Any})
 
-Retrieves details for the specified Amazon Chime account, such as account type and
-supported licenses.
+Retrieves details for the specified Amazon Chime account, such as account type and supported
+licenses.
 
 # Arguments
 
@@ -4298,8 +4308,8 @@ end
     get_account_settings(account_id)
     get_account_settings(account_id, params::Dict{String,<:Any})
 
-Retrieves account settings for the specified Amazon Chime account ID, such as remote
-control and dialout settings. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html)
+Retrieves account settings for the specified Amazon Chime account ID, such as remote control
+and dialout settings. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html)
 in the *Amazon Chime Administration Guide*.
 
 # Arguments
@@ -4613,8 +4623,8 @@ end
     get_global_settings()
     get_global_settings(params::Dict{String,<:Any})
 
-Retrieves global settings for the administrator's AWS account, such as Amazon Chime
-Business Calling and Amazon Chime Voice Connector settings.
+Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business
+Calling and Amazon Chime Voice Connector settings.
 """
 function get_global_settings end
 
@@ -4680,8 +4690,6 @@ end
     get_meeting(meeting_id)
     get_meeting(meeting_id, params::Dict{String,<:Any})
 
-
-
 !!! important
     **This API is is no longer supported and will not be updated.** We recommend using the
     latest version, [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html),
@@ -4691,8 +4699,8 @@ end
     information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html)
     in the *Amazon Chime SDK Developer Guide*.
 
-Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more
-information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
+Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information
+about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
 in the *Amazon Chime SDK Developer Guide* .
 
 # Arguments
@@ -4738,7 +4746,6 @@ The details of the endpoint for the messaging session.
     Using the latest version requires migrating to a dedicated namespace. For more
     information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html)
     in the *Amazon Chime SDK Developer Guide*.
-
 """
 function get_messaging_session_endpoint end
 
@@ -4769,8 +4776,8 @@ end
     get_phone_number(phone_number_id)
     get_phone_number(phone_number_id, params::Dict{String,<:Any})
 
-Retrieves details for the specified phone number ID, such as associations, capabilities,
-and product type.
+Retrieves details for the specified phone number ID, such as associations, capabilities, and
+product type.
 
 # Arguments
 
@@ -4843,8 +4850,8 @@ end
     get_phone_number_settings()
     get_phone_number_settings(params::Dict{String,<:Any})
 
-Retrieves the phone number settings for the administrator's AWS account, such as the
-default outbound calling name.
+Retrieves the phone number settings for the administrator's AWS account, such as the default
+outbound calling name.
 """
 function get_phone_number_settings end
 
@@ -5136,8 +5143,8 @@ end
     get_user(account_id, user_id)
     get_user(account_id, user_id, params::Dict{String,<:Any})
 
-Retrieves details for the specified user ID, such as primary email address, license
-type,and personal meeting PIN.
+Retrieves details for the specified user ID, such as primary email address, license type,and
+personal meeting PIN.
 
 To retrieve user details with an email address instead of a user ID, use the [`list_users`](@ref)
 action, and then filter by email address.
@@ -5589,8 +5596,6 @@ end
 """
     get_voice_connector_termination_health(voice_connector_id)
     get_voice_connector_termination_health(voice_connector_id, params::Dict{String,<:Any})
-
-
 
 !!! important
     **This API is is no longer supported and will not be updated.** We recommend using the
@@ -6098,10 +6103,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of channel memberships that you want returned.
 - `"next-token"`: The token passed by previous API calls until all requested channel
   memberships are returned.
-- `"type"`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are
-  always returned as part of `ListChannelMemberships`. Hidden members are only returned
-  if the type filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden
-  members are not returned.
+- `"type"`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are always
+  returned as part of `ListChannelMemberships`. Hidden members are only returned if the type
+  filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are not
+  returned.
 - `"x-amz-chime-bearer"`: The `AppInstanceUserArn` of the user that makes the API call.
 """
 function list_channel_memberships end
@@ -6409,8 +6414,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"app-instance-user-arn"`: The ARN of the user in the moderated channel.
 - `"max-results"`: The maximum number of channels in the request.
-- `"next-token"`: The token returned from previous API requests until the number of
-  channels moderated by the user is reached.
+- `"next-token"`: The token returned from previous API requests until the number of channels
+  moderated by the user is reached.
 - `"x-amz-chime-bearer"`: The `AppInstanceUserArn` of the user that makes the API call.
 """
 function list_channels_moderated_by_app_instance_user end
@@ -6741,9 +6746,9 @@ end
     list_rooms(account_id)
     list_rooms(account_id, params::Dict{String,<:Any})
 
-Lists the room details for the specified Amazon Chime Enterprise account. Optionally,
-filter the results by a member ID (user ID or bot ID) to see a list of rooms that the
-member belongs to.
+Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter
+the results by a member ID (user ID or bot ID) to see a list of rooms that the member
+belongs to.
 
 # Arguments
 
@@ -7698,9 +7703,9 @@ end
     put_voice_connector_streaming_configuration(streaming_configuration, voice_connector_id)
     put_voice_connector_streaming_configuration(streaming_configuration, voice_connector_id, params::Dict{String,<:Any})
 
-Adds a streaming configuration for the specified Amazon Chime Voice Connector. The
-streaming configuration specifies whether media streaming is enabled for sending to
-Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data.
+Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming
+configuration specifies whether media streaming is enabled for sending to Kinesis. It also
+sets the retention period, in hours, for the Amazon Kinesis data.
 
 !!! important
     **This API is is no longer supported and will not be updated.** We recommend using the
@@ -8140,8 +8145,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   numbers.
 - `"state"`: The state used to filter results. Required only if you provide `City`. Only
   applies to the US.
-- `"toll-free-prefix"`: The toll-free prefix that you use to filter results. Only applies
-  to the US.
+- `"toll-free-prefix"`: The toll-free prefix that you use to filter results. Only applies to
+  the US.
 """
 function search_available_phone_numbers end
 
@@ -8679,8 +8684,8 @@ end
     update_account(account_id)
     update_account(account_id, params::Dict{String,<:Any})
 
-Updates account details for the specified Amazon Chime account. Currently, only account
-name and default license updates are supported for this action.
+Updates account details for the specified Amazon Chime account. Currently, only account name
+and default license updates are supported for this action.
 
 # Arguments
 
@@ -9142,8 +9147,8 @@ For toll-free numbers, you cannot use the Amazon Chime Business Calling product 
 numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In
 product type.
 
-Updates to outbound calling names can take 72 hours to complete. Pending updates to
-outbound calling names must be complete before you can request another update.
+Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound
+calling names must be complete before you can request another update.
 
 # Arguments
 
@@ -9438,8 +9443,8 @@ end
     update_sip_media_application_call(arguments, sip_media_application_id, transaction_id)
     update_sip_media_application_call(arguments, sip_media_application_id, transaction_id, params::Dict{String,<:Any})
 
-Invokes the AWS Lambda function associated with the SIP media application and transaction
-ID in an update request. The Lambda function can then return a new set of actions.
+Invokes the AWS Lambda function associated with the SIP media application and transaction ID
+in an update request. The Lambda function can then return a new set of actions.
 
 !!! important
     **This API is is no longer supported and will not be updated.** We recommend using the

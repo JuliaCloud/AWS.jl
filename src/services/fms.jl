@@ -10,9 +10,9 @@ using AWS.UUIDs
 
 Sets a Firewall Manager default administrator account. The Firewall Manager default
 administrator account can manage third-party firewalls and has full administrative scope
-that allows administration of all policy types, accounts, organizational units, and
-Regions. This account must be a member account of the organization in Organizations whose
-resources you want to protect.
+that allows administration of all policy types, accounts, organizational units, and Regions.
+This account must be a member account of the organization in Organizations whose resources
+you want to protect.
 
 For information about working with Firewall Manager administrator accounts, see [Managing Firewall Manager administrators](https://docs.aws.amazon.com/organizations/latest/userguide/fms-administrators.html)
 in the *Firewall Manager Developer Guide*.
@@ -20,9 +20,9 @@ in the *Firewall Manager Developer Guide*.
 # Arguments
 
 - `admin_account`: The Amazon Web Services account ID to associate with Firewall Manager as
-  the Firewall Manager default administrator account. This account must be a member
-  account of the organization in Organizations whose resources you want to protect. For
-  more information about Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
+  the Firewall Manager default administrator account. This account must be a member account
+  of the organization in Organizations whose resources you want to protect. For more
+  information about Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
 """
 function associate_admin_account end
 
@@ -102,8 +102,8 @@ Associate resources to a Firewall Manager resource set.
 
 # Arguments
 
-- `items`: The uniform resource identifiers (URIs) of resources that should be associated
-  to the resource set. The URIs must be Amazon Resource Names (ARNs).
+- `items`: The uniform resource identifiers (URIs) of resources that should be associated to
+  the resource set. The URIs must be Amazon Resource Names (ARNs).
 - `resource_set_identifier`: A unique identifier for the resource set, used in a request to
   refer to the resource set.
 """
@@ -231,8 +231,8 @@ end
     delete_notification_channel()
     delete_notification_channel(params::Dict{String,<:Any})
 
-Deletes an Firewall Manager association with the IAM role and the Amazon Simple
-Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
+Deletes an Firewall Manager association with the IAM role and the Amazon Simple Notification
+Service (SNS) topic that is used to record Firewall Manager SNS logs.
 """
 function delete_notification_channel end
 
@@ -277,25 +277,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Removes web ACLs from in-scope resources
   - Deletes web ACLs that contain no rules or rule groups
 
-  For security group policies, the cleanup does the following for each security group in
-  the policy:
+  For security group policies, the cleanup does the following for each security group in the
+  policy:
 
   - Disassociates the security group from in-scope resources
   - Deletes the security group if it was created through Firewall Manager and if it's no
     longer associated with any resources through another policy
 
   !!! note
-      For security group common policies, even if set to `False`, Firewall Manager
-      deletes all security groups created by Firewall Manager that aren't associated with
-      any other resources through another policy.
+      For security group common policies, even if set to `False`, Firewall Manager deletes
+      all security groups created by Firewall Manager that aren't associated with any other
+      resources through another policy.
 
-  After the cleanup, in-scope resources are no longer protected by web ACLs in this
-  policy. Protection of out-of-scope resources remains unchanged. Scope is determined by
-  tags that you create and accounts that you associate with the policy. When creating the
-  policy, if you specify that only resources in specific accounts or with specific tags
-  are in scope of the policy, those accounts and resources are handled by the policy. All
-  others are out of scope. If you don't specify tags or accounts, all resources are in
-  scope.
+  After the cleanup, in-scope resources are no longer protected by web ACLs in this policy.
+  Protection of out-of-scope resources remains unchanged. Scope is determined by tags that
+  you create and accounts that you associate with the policy. When creating the policy, if
+  you specify that only resources in specific accounts or with specific tags are in scope of
+  the policy, those accounts and resources are handled by the policy. All others are out of
+  scope. If you don't specify tags or accounts, all resources are in scope.
 """
 function delete_policy end
 
@@ -577,8 +576,8 @@ type.
 
 # Arguments
 
-- `member_account`: The Amazon Web Services account that owns the resources that you want
-  to get the details for.
+- `member_account`: The Amazon Web Services account that owns the resources that you want to
+  get the details for.
 - `policy_id`: The ID of the policy that you want to get the details for. `PolicyId` is
   returned by `PutPolicy` and by `ListPolicies`.
 """
@@ -696,21 +695,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type. The request syntax listing indicates a `number` type because the default used by
   Firewall Manager is Unix time in seconds. However, any valid `timestamp` format is
   allowed.
+
 - `"MaxResults"`: Specifies the number of objects that you want Firewall Manager to return
   for this request. If you have more objects than the number that you specify for
   `MaxResults`, the response includes a `NextToken` value that you can use to get another
   batch of objects.
+
 - `"MemberAccountId"`: The Amazon Web Services account that is in scope of the policy that
   you want to get the details for.
+
 - `"NextToken"`: If you specify a value for `MaxResults` and you have more objects than the
-  number that you specify for `MaxResults`, Firewall Manager returns a `NextToken` value
-  in the response, which you can use to retrieve another group of objects. For the second
-  and subsequent `GetProtectionStatus` requests, specify the value of `NextToken` from
-  the previous response to get information about another batch of objects.
+  number that you specify for `MaxResults`, Firewall Manager returns a `NextToken` value in
+  the response, which you can use to retrieve another group of objects. For the second and
+  subsequent `GetProtectionStatus` requests, specify the value of `NextToken` from the
+  previous response to get information about another batch of objects.
+
 - `"StartTime"`: The start of the time period to query for the attacks. This is a
-  `timestamp` type. The request syntax listing indicates a `number` type because the
-  default used by Firewall Manager is Unix time in seconds. However, any valid
-  `timestamp` format is allowed.
+  `timestamp` type. The request syntax listing indicates a `number` type because the default
+  used by Firewall Manager is Unix time in seconds. However, any valid `timestamp` format is
+  allowed.
 """
 function get_protection_status end
 
@@ -865,6 +868,7 @@ Amazon Web Services account.
 # Arguments
 
 - `member_account`: The Amazon Web Services account ID that you want the details for.
+
 - `policy_id`: The ID of the Firewall Manager policy that you want the details for. You can
   get violation details for the following policy types:
 
@@ -876,10 +880,10 @@ Amazon Web Services account.
   - Third-party firewall
 
 - `resource_id`: The ID of the resource that has violations.
+
 - `resource_type`: The resource type. This is in the format shown in the [Amazon Web Services Resource Types Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html).
   Supported resource types are: `AWS::EC2::Instance`, `AWS::EC2::NetworkInterface`,
-  `AWS::EC2::SecurityGroup`, `AWS::NetworkFirewall::FirewallPolicy`, and
-  `AWS::EC2::Subnet`.
+  `AWS::EC2::SecurityGroup`, `AWS::NetworkFirewall::FirewallPolicy`, and `AWS::EC2::Subnet`.
 """
 function get_violation_details end
 
@@ -943,15 +947,13 @@ This operation can be called only from the organization's management account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return
-  for this request. If more objects are available, in the response, Firewall Manager
-  provides a `NextToken` value that you can use in a subsequent call to get the next
-  batch of objects.
+- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return for
+  this request. If more objects are available, in the response, Firewall Manager provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
-  requested, Firewall Manager returns a `NextToken` value in the response. To retrieve
-  the next batch of objects, use the token returned from the prior request in your next
-  request.
+  requested, Firewall Manager returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
 """
 function list_admin_accounts_for_organization end
 
@@ -989,15 +991,13 @@ account within their [`admin_scope`](@ref).
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return
-  for this request. If more objects are available, in the response, Firewall Manager
-  provides a `NextToken` value that you can use in a subsequent call to get the next
-  batch of objects.
+- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return for
+  this request. If more objects are available, in the response, Firewall Manager provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
-  requested, Firewall Manager returns a `NextToken` value in the response. To retrieve
-  the next batch of objects, use the token returned from the prior request in your next
-  request.
+  requested, Firewall Manager returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
 """
 function list_admins_managing_account end
 
@@ -1027,9 +1027,8 @@ Returns an array of `AppsListDataSummary` objects.
 # Arguments
 
 - `max_results`: The maximum number of objects that you want Firewall Manager to return for
-  this request. If more objects are available, in the response, Firewall Manager provides
-  a `NextToken` value that you can use in a subsequent call to get the next batch of
-  objects.
+  this request. If more objects are available, in the response, Firewall Manager provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
 
   If you don't specify this, Firewall Manager returns all available objects.
 
@@ -1090,6 +1089,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   objects than the number that you specify for `MaxResults`, the response includes a
   `NextToken` value that you can use to get another batch of `PolicyComplianceStatus`
   objects.
+
 - `"NextToken"`: If you specify a value for `MaxResults` and you have more
   `PolicyComplianceStatus` objects than the number that you specify for `MaxResults`,
   Firewall Manager returns a `NextToken` value in the response that allows you to list
@@ -1142,15 +1142,13 @@ associated with a resource set.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return
-  for this request. If more objects are available, in the response, Firewall Manager
-  provides a `NextToken` value that you can use in a subsequent call to get the next
-  batch of objects.
+- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return for
+  this request. If more objects are available, in the response, Firewall Manager provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
-  requested, Firewall Manager returns a `NextToken` value in the response. To retrieve
-  the next batch of objects, use the token returned from the prior request in your next
-  request.
+  requested, Firewall Manager returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
 """
 function list_discovered_resources end
 
@@ -1207,11 +1205,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to return for this request. If you have more IDs than the number that you specify for
   `MaxResults`, the response includes a `NextToken` value that you can use to get another
   batch of member account IDs.
+
 - `"NextToken"`: If you specify a value for `MaxResults` and you have more account IDs than
-  the number that you specify for `MaxResults`, Firewall Manager returns a `NextToken`
-  value in the response that allows you to list another group of IDs. For the second and
-  subsequent `ListMemberAccountsRequest` requests, specify the value of `NextToken` from
-  the previous response to get information about another batch of member account IDs.
+  the number that you specify for `MaxResults`, Firewall Manager returns a `NextToken` value
+  in the response that allows you to list another group of IDs. For the second and
+  subsequent `ListMemberAccountsRequest` requests, specify the value of `NextToken` from the
+  previous response to get information about another batch of member account IDs.
 """
 function list_member_accounts end
 
@@ -1239,14 +1238,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the number of `PolicySummary` objects that you want Firewall
   Manager to return for this request. If you have more `PolicySummary` objects than the
-  number that you specify for `MaxResults`, the response includes a `NextToken` value
-  that you can use to get another batch of `PolicySummary` objects.
+  number that you specify for `MaxResults`, the response includes a `NextToken` value that
+  you can use to get another batch of `PolicySummary` objects.
+
 - `"NextToken"`: If you specify a value for `MaxResults` and you have more `PolicySummary`
   objects than the number that you specify for `MaxResults`, Firewall Manager returns a
-  `NextToken` value in the response that allows you to list another group of
-  `PolicySummary` objects. For the second and subsequent `ListPolicies` requests, specify
-  the value of `NextToken` from the previous response to get information about another
-  batch of `PolicySummary` objects.
+  `NextToken` value in the response that allows you to list another group of `PolicySummary`
+  objects. For the second and subsequent `ListPolicies` requests, specify the value of
+  `NextToken` from the previous response to get information about another batch of
+  `PolicySummary` objects.
 """
 function list_policies end
 
@@ -1271,9 +1271,8 @@ Returns an array of `ProtocolsListDataSummary` objects.
 # Arguments
 
 - `max_results`: The maximum number of objects that you want Firewall Manager to return for
-  this request. If more objects are available, in the response, Firewall Manager provides
-  a `NextToken` value that you can use in a subsequent call to get the next batch of
-  objects.
+  this request. If more objects are available, in the response, Firewall Manager provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
 
   If you don't specify this, Firewall Manager returns all available objects.
 
@@ -1331,15 +1330,13 @@ Returns an array of resources that are currently associated to a resource set.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return
-  for this request. If more objects are available, in the response, Firewall Manager
-  provides a `NextToken` value that you can use in a subsequent call to get the next
-  batch of objects.
+- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return for
+  this request. If more objects are available, in the response, Firewall Manager provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
-  requested, Firewall Manager returns a `NextToken` value in the response. To retrieve
-  the next batch of objects, use the token returned from the prior request in your next
-  request.
+  requested, Firewall Manager returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
 """
 function list_resource_set_resources end
 
@@ -1379,15 +1376,13 @@ Returns an array of `ResourceSetSummary` objects.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return
-  for this request. If more objects are available, in the response, Firewall Manager
-  provides a `NextToken` value that you can use in a subsequent call to get the next
-  batch of objects.
+- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return for
+  this request. If more objects are available, in the response, Firewall Manager provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
-  requested, Firewall Manager returns a `NextToken` value in the response. To retrieve
-  the next batch of objects, use the token returned from the prior request in your next
-  request.
+  requested, Firewall Manager returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
 """
 function list_resource_sets end
 
@@ -1457,6 +1452,7 @@ third-party firewall administrator's account.
   than `MaxResults` firewall policies, the response includes a `NextToken` element.
   `NextToken` contains an encrypted token that identifies the first third-party firewall
   policies that Firewall Manager will return if you submit another request.
+
 - `third_party_firewall`: The name of the third-party firewall vendor.
 
 # Optional Parameters
@@ -1464,13 +1460,13 @@ third-party firewall administrator's account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"NextToken"`: If the previous response included a `NextToken` element, the specified
-  third-party firewall vendor is associated with more third-party firewall policies. To
-  get more third-party firewall policies, submit another
+  third-party firewall vendor is associated with more third-party firewall policies. To get
+  more third-party firewall policies, submit another
   `ListThirdPartyFirewallFirewallPoliciesRequest` request.
 
-  For the value of `NextToken`, specify the value of `NextToken` from the previous
-  response. If the previous response didn't include a `NextToken` element, there are no
-  more third-party firewall policies to get.
+  For the value of `NextToken`, specify the value of `NextToken` from the previous response.
+  If the previous response didn't include a `NextToken` element, there are no more third-
+  party firewall policies to get.
 """
 function list_third_party_firewall_firewall_policies end
 
@@ -1517,26 +1513,26 @@ Creates or updates an Firewall Manager administrator account. The account must b
 of the organization that was onboarded to Firewall Manager by [`associate_admin_account`](@ref).
 Only the organization's management account can create an Firewall Manager administrator
 account. When you create an Firewall Manager administrator account, the service checks to
-see if the account is already a delegated administrator within Organizations. If the
-account isn't a delegated administrator, Firewall Manager calls Organizations to delegate
-the account within Organizations. For more information about administrator accounts within
+see if the account is already a delegated administrator within Organizations. If the account
+isn't a delegated administrator, Firewall Manager calls Organizations to delegate the
+account within Organizations. For more information about administrator accounts within
 Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
 
 # Arguments
 
 - `admin_account`: The Amazon Web Services account ID to add as an Firewall Manager
-  administrator account. The account must be a member of the organization that was
-  onboarded to Firewall Manager by [`associate_admin_account`](@ref). For more
-  information about Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
+  administrator account. The account must be a member of the organization that was onboarded
+  to Firewall Manager by [`associate_admin_account`](@ref). For more information about
+  Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AdminScope"`: Configures the resources that the specified Firewall Manager
-  administrator can manage. As a best practice, set the administrative scope according to
-  the principles of least privilege. Only grant the administrator the specific resources
-  or permissions that they need to perform the duties of their role.
+- `"AdminScope"`: Configures the resources that the specified Firewall Manager administrator
+  can manage. As a best practice, set the administrative scope according to the principles
+  of least privilege. Only grant the administrator the specific resources or permissions
+  that they need to perform the duties of their role.
 """
 function put_admin_account end
 
@@ -1670,8 +1666,8 @@ end
 Creates an Firewall Manager policy.
 
 A Firewall Manager policy is specific to the individual policy type. If you want to enforce
-multiple policy types across accounts, you can create multiple policies. You can create
-more than one policy for each type.
+multiple policy types across accounts, you can create multiple policies. You can create more
+than one policy for each type.
 
 If you add a new account to an organization that you created with Organizations, Firewall
 Manager automatically applies the policy to the resources in that account that are within
@@ -1696,13 +1692,13 @@ Firewall Manager provides the following types of policies:
 - **Third-party firewall policy** - This policy applies third-party firewall protections.
   Third-party firewalls are available by subscription through the Amazon Web Services
   Marketplace console at [Amazon Web Services Marketplace](http://aws.amazon.com/marketplace).
-    - **Palo Alto Networks Cloud NGFW policy** - This policy applies Palo Alto Networks
-      Cloud Next Generation Firewall (NGFW) protections and Palo Alto Networks Cloud NGFW
-      rulestacks to your organization's VPCs.
+  - **Palo Alto Networks Cloud NGFW policy** - This policy applies Palo Alto Networks Cloud
+    Next Generation Firewall (NGFW) protections and Palo Alto Networks Cloud NGFW rulestacks
+    to your organization's VPCs.
   - **Fortigate CNF policy** - This policy applies Fortigate Cloud Native Firewall (CNF)
-    protections. Fortigate CNF is a cloud-centered solution that blocks Zero-Day threats
-    and secures cloud infrastructures with industry-leading advanced threat prevention,
-    smart web application firewalls (WAF), and API protection.
+    protections. Fortigate CNF is a cloud-centered solution that blocks Zero-Day threats and
+    secures cloud infrastructures with industry-leading advanced threat prevention, smart
+    web application firewalls (WAF), and API protection.
 
 # Arguments
 
@@ -1800,8 +1796,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagList"`: Retrieves the tags associated with the specified resource set. Tags are
   key:value pairs that you can use to categorize and manage your resources, for purposes
   like billing. For example, you might set the tag key to "customer" and the value to the
-  customer name or ID. You can specify one or more tags to add to each Amazon Web
-  Services resource, up to 50 tags for a resource.
+  customer name or ID. You can specify one or more tags to add to each Amazon Web Services
+  resource, up to 50 tags for a resource.
 """
 function put_resource_set end
 

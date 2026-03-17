@@ -72,6 +72,7 @@ Creates a new Changeset in a FinSpace Dataset.
 
 - `dataset_id`: The unique identifier for the FinSpace Dataset where the Changeset will be
   created.
+
 - `format_params`: Options that define the structure of the source file(s) including the
   format type (`formatType`), header row (`withHeader`), data separation character
   (`separator`) and the type of compression (`compression`).
@@ -94,6 +95,7 @@ Creates a new Changeset in a FinSpace Dataset.
 
   For more information about supported file formats, see [Supported Data Types and File Formats](https://docs.aws.amazon.com/finspace/latest/userguide/supported-data-types.html)
   in the FinSpace User Guide.
+
 - `source_params`: Options that define the location of the data being ingested
   (`s3SourcePath`) and the source of the changeset (`sourceType`).
 
@@ -180,8 +182,8 @@ Creates a Dataview for a Dataset.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"asOfTimestamp"`: Beginning time to use for the Dataview. The value is determined as
-  epoch time in milliseconds. For example, the value for Monday, November 1, 2021
-  12:00:00 PM UTC is specified as 1635768000000.
+  epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00
+  PM UTC is specified as 1635768000000.
 - `"autoUpdate"`: Flag to indicate Dataview should be updated automatically.
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
 - `"partitionColumns"`: Ordered set of column names used to partition data.
@@ -237,6 +239,7 @@ Creates a new FinSpace Dataset.
 # Arguments
 
 - `dataset_title`: Display title for a FinSpace Dataset.
+
 - `kind`: The format in which Dataset data is structured.
 
   - `TABULAR` – Data is structured in a tabular format.
@@ -317,15 +320,15 @@ Creates a group of permissions for various actions that a user can perform in Fi
   !!! important
       When assigning application permissions, be aware that the permission
       `ManageUsersAndGroups` allows users to grant themselves or others access to any
-      functionality in their FinSpace environment's application. It should only be
-      granted to trusted users.
+      functionality in their FinSpace environment's application. It should only be granted
+      to trusted users.
 
   - `CreateDataset` – Group members can create new datasets.
   - `ManageClusters` – Group members can manage Apache Spark clusters from FinSpace
     notebooks.
-  - `ManageUsersAndGroups` – Group members can manage users and permission groups. This
-    is a privileged permission that allows users to grant themselves or others access to
-    any functionality in the application. It should only be granted to trusted users.
+  - `ManageUsersAndGroups` – Group members can manage users and permission groups. This is a
+    privileged permission that allows users to grant themselves or others access to any
+    functionality in the application. It should only be granted to trusted users.
   - `ManageAttributeSets` – Group members can manage attribute sets.
   - `ViewAuditData` – Group members can view audit data.
   - `AccessNotebooks` – Group members will have access to FinSpace notebooks.
@@ -394,6 +397,7 @@ Creates a new user in FinSpace.
 - `email_address`: The email address of the user that you want to register. The email
   address serves as a uniquer identifier for each user and cannot be changed after it's
   created.
+
 - `type`: The option to indicate the type of user. Use one of the following options to
   specify this parameter:
 
@@ -415,8 +419,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"apiAccessPrincipalArn"`: The ARN identifier of an AWS user or role that is allowed to
   call the `GetProgrammaticAccessCredentials` API to obtain a credentials token for a
   specific FinSpace user. This must be an IAM role within your FinSpace account.
+
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+
 - `"firstName"`: The first name of the user that you want to register.
+
 - `"lastName"`: The last name of the user that you want to register.
 """
 function create_user end
@@ -965,11 +972,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"locationType"`: Specify the type of the working location.
 
-  - `SAGEMAKER` – Use the Amazon S3 location as a temporary location to store data
-    content when working with FinSpace Notebooks that run on SageMaker studio.
-  - `INGESTION` – Use the Amazon S3 location as a staging location to copy your data
-    content and then use the location with the Changeset creation operation.
-
+  - `SAGEMAKER` – Use the Amazon S3 location as a temporary location to store data content
+    when working with FinSpace Notebooks that run on SageMaker studio.
+  - `INGESTION` – Use the Amazon S3 location as a staging location to copy your data content
+    and then use the location with the Changeset creation operation.
 """
 function get_working_location end
 
@@ -1344,8 +1350,10 @@ Updates a FinSpace Changeset.
 # Arguments
 
 - `changeset_id`: The unique identifier for the Changeset to update.
+
 - `dataset_id`: The unique identifier for the FinSpace Dataset in which the Changeset is
   created.
+
 - `format_params`: Options that define the structure of the source file(s) including the
   format type (`formatType`), header row (`withHeader`), data separation character
   (`separator`) and the type of compression (`compression`).
@@ -1368,6 +1376,7 @@ Updates a FinSpace Changeset.
 
   For more information about supported file formats, see [Supported Data Types and File Formats](https://docs.aws.amazon.com/finspace/latest/userguide/supported-data-types.html)
   in the FinSpace User Guide.
+
 - `source_params`: Options that define the location of the data being ingested
   (`s3SourcePath`) and the source of the changeset (`sourceType`).
 
@@ -1444,7 +1453,9 @@ Updates a FinSpace Dataset.
 # Arguments
 
 - `dataset_id`: The unique identifier for the Dataset to update.
+
 - `dataset_title`: A display title for the Dataset.
+
 - `kind`: The format in which the Dataset data is structured.
 
   - `TABULAR` – Data is structured in a tabular format.
@@ -1521,22 +1532,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! important
       When assigning application permissions, be aware that the permission
       `ManageUsersAndGroups` allows users to grant themselves or others access to any
-      functionality in their FinSpace environment's application. It should only be
-      granted to trusted users.
+      functionality in their FinSpace environment's application. It should only be granted
+      to trusted users.
 
   - `CreateDataset` – Group members can create new datasets.
   - `ManageClusters` – Group members can manage Apache Spark clusters from FinSpace
     notebooks.
-  - `ManageUsersAndGroups` – Group members can manage users and permission groups. This
-    is a privileged permission that allows users to grant themselves or others access to
-    any functionality in the application. It should only be granted to trusted users.
+  - `ManageUsersAndGroups` – Group members can manage users and permission groups. This is a
+    privileged permission that allows users to grant themselves or others access to any
+    functionality in the application. It should only be granted to trusted users.
   - `ManageAttributeSets` – Group members can manage attribute sets.
   - `ViewAuditData` – Group members can view audit data.
   - `AccessNotebooks` – Group members will have access to FinSpace notebooks.
   - `GetTemporaryCredentials` – Group members can get temporary API credentials.
 
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+
 - `"description"`: A brief description for the permission group.
+
 - `"name"`: The name of the permission group.
 """
 function update_permission_group end
@@ -1593,15 +1606,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"apiAccessPrincipalArn"`: The ARN identifier of an AWS user or role that is allowed to
   call the `GetProgrammaticAccessCredentials` API to obtain a credentials token for a
   specific FinSpace user. This must be an IAM role within your FinSpace account.
+
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+
 - `"firstName"`: The first name of the user.
+
 - `"lastName"`: The last name of the user.
+
 - `"type"`: The option to indicate the type of user.
 
   - `SUPER_USER`– A user with permission to all the functionality and data in FinSpace.
   - `APP_USER` – A user with specific permissions in FinSpace. The users are assigned
     permissions by adding them to a permission group.
-
 """
 function update_user end
 

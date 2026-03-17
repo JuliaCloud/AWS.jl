@@ -52,8 +52,8 @@ Creates a new Channel.
 
 # Arguments
 
-- `id`: The ID of the Channel. The ID must be unique within the region and it
-  cannot be changed after a Channel is created.
+- `id`: The ID of the Channel. The ID must be unique within the region and it cannot be
+  changed after a Channel is created.
 
 # Optional Parameters
 
@@ -95,8 +95,8 @@ Creates a new HarvestJob record.
 # Arguments
 
 - `end_time`: The end of the time-window which will be harvested
-- `id`: The ID of the HarvestJob. The ID must be unique within the region
-  and it cannot be changed after the HarvestJob is submitted
+- `id`: The ID of the HarvestJob. The ID must be unique within the region and it cannot be
+  changed after the HarvestJob is submitted
 - `origin_endpoint_id`: The ID of the OriginEndpoint that the HarvestJob will harvest from.
   This cannot be changed after the HarvestJob is submitted.
 - `s3_destination`:
@@ -165,10 +165,10 @@ Creates a new OriginEndpoint record.
 
 # Arguments
 
-- `channel_id`: The ID of the Channel that the OriginEndpoint will be associated with.
-  This cannot be changed after the OriginEndpoint is created.
-- `id`: The ID of the OriginEndpoint.  The ID must be unique within the region
-  and it cannot be changed after the OriginEndpoint is created.
+- `channel_id`: The ID of the Channel that the OriginEndpoint will be associated with. This
+  cannot be changed after the OriginEndpoint is created.
+- `id`: The ID of the OriginEndpoint. The ID must be unique within the region and it cannot
+  be changed after the OriginEndpoint is created.
 
 # Optional Parameters
 
@@ -183,18 +183,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   URL (defaults to "index").
 - `"mssPackage"`:
 - `"origination"`: Control whether origination of video is allowed for this OriginEndpoint.
-  If set to ALLOW, the OriginEndpoint
-  may by requested, pursuant to any other form of access control. If set to DENY, the
-  OriginEndpoint may not be
-  requested. This can be helpful for Live to VOD harvesting, or for temporarily disabling
-  origination
+  If set to ALLOW, the OriginEndpoint may by requested, pursuant to any other form of access
+  control. If set to DENY, the OriginEndpoint may not be requested. This can be helpful for
+  Live to VOD harvesting, or for temporarily disabling origination
 - `"startoverWindowSeconds"`: Maximum duration (seconds) of content to retain for startover
-  playback.
-  If not specified, startover playback will be disabled for the OriginEndpoint.
+  playback. If not specified, startover playback will be disabled for the OriginEndpoint.
 - `"tags"`:
 - `"timeDelaySeconds"`: Amount of delay (seconds) to enforce on the playback of live
-  content.
-  If not specified, there will be no time delay in effect for the OriginEndpoint.
+  content. If not specified, there will be no time delay in effect for the OriginEndpoint.
 - `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """
@@ -733,17 +729,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"manifestName"`: A short string that will be appended to the end of the Endpoint URL.
 - `"mssPackage"`:
 - `"origination"`: Control whether origination of video is allowed for this OriginEndpoint.
-  If set to ALLOW, the OriginEndpoint
-  may by requested, pursuant to any other form of access control. If set to DENY, the
-  OriginEndpoint may not be
-  requested. This can be helpful for Live to VOD harvesting, or for temporarily disabling
-  origination
+  If set to ALLOW, the OriginEndpoint may by requested, pursuant to any other form of access
+  control. If set to DENY, the OriginEndpoint may not be requested. This can be helpful for
+  Live to VOD harvesting, or for temporarily disabling origination
 - `"startoverWindowSeconds"`: Maximum duration (in seconds) of content to retain for
-  startover playback.
-  If not specified, startover playback will be disabled for the OriginEndpoint.
+  startover playback. If not specified, startover playback will be disabled for the
+  OriginEndpoint.
 - `"timeDelaySeconds"`: Amount of delay (in seconds) to enforce on the playback of live
-  content.
-  If not specified, there will be no time delay in effect for the OriginEndpoint.
+  content. If not specified, there will be no time delay in effect for the OriginEndpoint.
 - `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """

@@ -57,30 +57,35 @@ operations.
 
 - `error_report_configuration`: Configuration for error reporting. Error reports will be
   generated when a problem is encountered when writing the query results.
+
 - `name`: Name of the scheduled query.
+
 - `notification_configuration`: Notification configuration for the scheduled query. A
-  notification is sent by Timestream when a query run finishes, when the state is updated
-  or when you delete it.
+  notification is sent by Timestream when a query run finishes, when the state is updated or
+  when you delete it.
+
 - `query_string`: The query string to run. Parameter names can be specified in the query
-  string `@` character followed by an identifier. The named Parameter
-  `@scheduled_runtime` is reserved and can be used in the query to get the time at which
-  the query is scheduled to run.
+  string `@` character followed by an identifier. The named Parameter `@scheduled_runtime`
+  is reserved and can be used in the query to get the time at which the query is scheduled
+  to run.
 
   The timestamp calculated according to the ScheduleConfiguration parameter, will be the
   value of `@scheduled_runtime` paramater for each query run. For example, consider an
   instance of a scheduled query executing on 2021-12-01 00:00:00. For this instance, the
   `@scheduled_runtime` parameter is initialized to the timestamp 2021-12-01 00:00:00 when
   invoking the query.
+
 - `schedule_configuration`: The schedule configuration for the query.
-- `scheduled_query_execution_role_arn`: The ARN for the IAM role that Timestream will
-  assume when running the scheduled query.
+
+- `scheduled_query_execution_role_arn`: The ARN for the IAM role that Timestream will assume
+  when running the scheduled query.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientToken"`: Using a ClientToken makes the call to CreateScheduledQuery idempotent,
-  in other words, making the same request repeatedly will produce the same result. Making
+- `"ClientToken"`: Using a ClientToken makes the call to CreateScheduledQuery idempotent, in
+  other words, making the same request repeatedly will produce the same result. Making
   multiple identical CreateScheduledQuery requests has the same effect as making a single
   request.
 
@@ -88,14 +93,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `ClientToken` on your behalf.
   - After 8 hours, any request with the same `ClientToken` is treated as a new request.
 
-- `"KmsKeyId"`: The Amazon KMS key used to encrypt the scheduled query resource, at-rest.
-  If the Amazon KMS key is not specified, the scheduled query resource will be encrypted
-  with a Timestream owned Amazon KMS key. To specify a KMS key, use the key ID, key ARN,
-  alias name, or alias ARN. When using an alias name, prefix the name with *alias/*
+- `"KmsKeyId"`: The Amazon KMS key used to encrypt the scheduled query resource, at-rest. If
+  the Amazon KMS key is not specified, the scheduled query resource will be encrypted with a
+  Timestream owned Amazon KMS key. To specify a KMS key, use the key ID, key ARN, alias
+  name, or alias ARN. When using an alias name, prefix the name with *alias/*
 
-  If ErrorReportConfiguration uses `SSE_KMS` as encryption type, the same KmsKeyId is
-  used to encrypt the error report at rest.
+  If ErrorReportConfiguration uses `SSE_KMS` as encryption type, the same KmsKeyId is used
+  to encrypt the error report at rest.
+
 - `"Tags"`: A list of key-value pairs to label the scheduled query.
+
 - `"TargetConfiguration"`: Configuration used for writing the result of a query.
 """
 function create_scheduled_query end
@@ -458,8 +465,7 @@ Timestream for later running. Timestream only supports using this operation with
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ValidateOnly"`: By setting this value to `true`, Timestream will only validate that the
-  query string is a valid Timestream query, and not store the prepared query for later
-  use.
+  query string is a valid Timestream query, and not store the prepared query for later use.
 """
 function prepare_query end
 
@@ -492,8 +498,8 @@ end
     query(query_string, params::Dict{String,<:Any})
 
 `Query` is a synchronous operation that enables you to run a query against your Amazon
-Timestream data. `Query` will time out after 60 seconds. You must update the default
-timeout in the SDK to support a timeout of 60 seconds. See the [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html)
+Timestream data. `Query` will time out after 60 seconds. You must update the default timeout
+in the SDK to support a timeout of 60 seconds. See the [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html)
 for details.
 
 Your query request will fail in the following cases:
@@ -518,11 +524,11 @@ Your query request will fail in the following cases:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientToken"`: Unique, case-sensitive string of up to 64 ASCII characters specified
-  when a `Query` request is made. Providing a `ClientToken` makes the call to `Query`
+- `"ClientToken"`: Unique, case-sensitive string of up to 64 ASCII characters specified when
+  a `Query` request is made. Providing a `ClientToken` makes the call to `Query`
   *idempotent*. This means that running the same query repeatedly will produce the same
-  result. In other words, making multiple identical `Query` requests has the same effect
-  as making a single request. When using `ClientToken` in a query, note the following:
+  result. In other words, making multiple identical `Query` requests has the same effect as
+  making a single request. When using `ClientToken` in a query, note the following:
 
   - If the Query API is instantiated without a `ClientToken`, the Query SDK generates a
     `ClientToken` on your behalf.
@@ -533,34 +539,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - After 4 hours, any request with the same `ClientToken` is treated as a new request.
 
 - `"MaxRows"`: The total number of rows to be returned in the `Query` output. The initial
-  run of `Query` with a `MaxRows` value specified will return the result set of the query
-  in two cases:
+  run of `Query` with a `MaxRows` value specified will return the result set of the query in
+  two cases:
 
   - The size of the result is less than `1MB`.
   - The number of rows in the result set is less than the value of `maxRows`.
 
-  Otherwise, the initial invocation of `Query` only returns a `NextToken`, which can then
-  be used in subsequent calls to fetch the result set. To resume pagination, provide the
+  Otherwise, the initial invocation of `Query` only returns a `NextToken`, which can then be
+  used in subsequent calls to fetch the result set. To resume pagination, provide the
   `NextToken` value in the subsequent command.
 
-  If the row size is large (e.g. a row has many columns), Timestream may return fewer
-  rows to keep the response size from exceeding the 1 MB limit. If `MaxRows` is not
-  provided, Timestream will send the necessary number of rows to meet the 1 MB limit.
-- `"NextToken"`: A pagination token used to return a set of results. When the `Query` API
-  is invoked using `NextToken`, that particular invocation is assumed to be a subsequent
+  If the row size is large (e.g. a row has many columns), Timestream may return fewer rows
+  to keep the response size from exceeding the 1 MB limit. If `MaxRows` is not provided,
+  Timestream will send the necessary number of rows to meet the 1 MB limit.
+
+- `"NextToken"`: A pagination token used to return a set of results. When the `Query` API is
+  invoked using `NextToken`, that particular invocation is assumed to be a subsequent
   invocation of a prior call to `Query`, and a result set is returned. However, if the
-  `Query` invocation only contains the `ClientToken`, that invocation of `Query` is
-  assumed to be a new query run.
+  `Query` invocation only contains the `ClientToken`, that invocation of `Query` is assumed
+  to be a new query run.
 
   Note the following when using NextToken in a query:
 
-  - A pagination token can be used for up to five `Query` invocations, OR for a duration
-    of up to 1 hour – whichever comes first.
+  - A pagination token can be used for up to five `Query` invocations, OR for a duration of
+    up to 1 hour – whichever comes first.
   - Using the same `NextToken` will return the same set of records. To keep paginating
     through the result set, you must to use the most recent `nextToken`.
-  - Suppose a `Query` invocation returns two `NextToken` values, `TokenA` and `TokenB`.
-    If `TokenB` is used in a subsequent `Query` invocation, then `TokenA` is invalidated
-    and cannot be reused.
+  - Suppose a `Query` invocation returns two `NextToken` values, `TokenA` and `TokenB`. If
+    `TokenB` is used in a subsequent `Query` invocation, then `TokenA` is invalidated and
+    cannot be reused.
   - To request a previous result set from a query after pagination has begun, you must re-
     invoke the Query API.
   - The latest `NextToken` should be used to paginate until `null` is returned, at which
@@ -568,7 +575,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - If the IAM principal of the query initiator and the result reader are not the same
     and/or the query initiator and the result reader do not have the same query string in
     the query requests, the query will fail with an `Invalid pagination token` error.
-
 """
 function query end
 
@@ -606,9 +612,9 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Associate a set of tags with a Timestream resource. You can then activate these user-
-defined tags so that they appear on the Billing and Cost Management console for cost
-allocation tracking.
+Associate a set of tags with a Timestream resource. You can then activate these user-defined
+tags so that they appear on the Billing and Cost Management console for cost allocation
+tracking.
 
 # Arguments
 
@@ -710,20 +716,19 @@ configuration, the new value can take up to 24 hours to be effective.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxQueryTCU"`: The maximum number of compute units the service will use at any point in
-  time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU.
-  You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and
-  so on.
+  time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You
+  can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on.
 
-  The maximum value supported for `MaxQueryTCU` is 1000. To request an increase to this
-  soft limit, contact Amazon Web Services Support. For information about the default
-  quota for maxQueryTCU, see [Default quotas](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default).
+  The maximum value supported for `MaxQueryTCU` is 1000. To request an increase to this soft
+  limit, contact Amazon Web Services Support. For information about the default quota for
+  maxQueryTCU, see [Default quotas](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default).
+
 - `"QueryPricingModel"`: The pricing model for queries in an account.
 
   !!! note
-      The `QueryPricingModel` parameter is used by several Timestream operations;
-      however, the `UpdateAccountSettings` API operation doesn't recognize any values
-      other than `COMPUTE_UNITS`.
-
+      The `QueryPricingModel` parameter is used by several Timestream operations; however,
+      the `UpdateAccountSettings` API operation doesn't recognize any values other than
+      `COMPUTE_UNITS`.
 """
 function update_account_settings end
 

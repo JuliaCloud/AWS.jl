@@ -17,8 +17,8 @@ Associates a physical device with a placement.
   values.
 - `device_template_name`: The device template name to associate with the device ID.
 - `placement_name`: The name of the placement in which to associate the device.
-- `project_name`: The name of the project containing the placement in which to associate
-  the device.
+- `project_name`: The name of the project containing the placement in which to associate the
+  device.
 """
 function associate_device_with_placement end
 
@@ -161,8 +161,7 @@ end
     delete_placement(placement_name, project_name)
     delete_placement(placement_name, project_name, params::Dict{String,<:Any})
 
-Deletes a placement. To delete a placement, it must not have any devices associated with
-it.
+Deletes a placement. To delete a placement, it must not have any devices associated with it.
 
 !!! note
     When you delete a placement, all associated data becomes irretrievable.
@@ -409,8 +408,8 @@ Lists the placement(s) of a project.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to return per request. If not set, a
-  default value of 100 is used.
+- `"maxResults"`: The maximum number of results to return per request. If not set, a default
+  value of 100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_placements end
@@ -448,8 +447,8 @@ Lists the AWS IoT 1-Click project(s) associated with your AWS account and region
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to return per request. If not set, a
-  default value of 100 is used.
+- `"maxResults"`: The maximum number of results to return per request. If not set, a default
+  value of 100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_projects end

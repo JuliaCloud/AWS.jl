@@ -572,15 +572,16 @@ Updates additional product configuration settings for the registered identity pr
 # Arguments
 
 - `identity_provider`:
+
 - `product`: The name of the user-based subscription product.
+
 - `update_settings`: Updates the registered identity provider’s product related
-  configuration settings. You can update any combination of settings in a single
-  operation such as the:
+  configuration settings. You can update any combination of settings in a single operation
+  such as the:
 
   - Subnets which you want to add to provision VPC endpoints.
   - Subnets which you want to remove the VPC endpoints from.
   - Security group ID which permits traffic to the VPC endpoints.
-
 """
 function update_identity_provider_settings end
 

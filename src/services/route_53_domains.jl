@@ -138,8 +138,8 @@ provides additional information, for example,
 
 # Arguments
 
-- `domain_name`: The name of the domain for which you want to cancel the transfer to
-  another Amazon Web Services account.
+- `domain_name`: The name of the domain for which you want to cancel the transfer to another
+  Amazon Web Services account.
 """
 function cancel_domain_transfer_to_another_aws_account end
 
@@ -174,14 +174,14 @@ end
     check_domain_availability(domain_name, params::Dict{String,<:Any})
 
 This operation checks the availability of one domain name. Note that if the availability
-status of a domain is pending, you must submit another request to determine the
-availability of the domain name.
+status of a domain is pending, you must submit another request to determine the availability
+of the domain name.
 
 # Arguments
 
-- `domain_name`: The name of the domain that you want to get availability for. The top-
-  level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of
-  supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
+- `domain_name`: The name of the domain that you want to get availability for. The top-level
+  domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported
+  TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
   in the *Amazon Route 53 Developer Guide*.
 
   The domain name can contain only the following characters:
@@ -191,9 +191,8 @@ availability of the domain name.
   - Hyphen (-). You can't specify a hyphen at the beginning or end of a label.
   - Period (.) to separate the labels in the name, such as the `.` in `example.com`.
 
-  Internationalized domain names are not supported for some top-level domains. To
-  determine whether the TLD that you want to use supports internationalized domain names,
-  see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html).
+  Internationalized domain names are not supported for some top-level domains. To determine
+  whether the TLD that you want to use supports internationalized domain names, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html).
   For more information, see [Formatting Internationalized Domain Names](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html#domain-name-format-idns).
 
 # Optional Parameters
@@ -238,9 +237,9 @@ Checks whether a domain name can be transferred to Amazon Route 53.
 
 # Arguments
 
-- `domain_name`: The name of the domain that you want to transfer to Route 53. The top-
-  level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of
-  supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
+- `domain_name`: The name of the domain that you want to transfer to Route 53. The top-level
+  domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported
+  TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
   in the *Amazon Route 53 Developer Guide*.
 
   The domain name can contain only the following characters:
@@ -290,18 +289,19 @@ end
     delete_domain(domain_name)
     delete_domain(domain_name, params::Dict{String,<:Any})
 
-This operation deletes the specified domain. This action is permanent. For more
-information, see [Deleting a domain name registration](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-delete.html).
+This operation deletes the specified domain. This action is permanent. For more information,
+see [Deleting a domain name registration](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-delete.html).
 
 To transfer the domain registration to another registrar, use the transfer process that’s
 provided by the registrar to which you want to transfer the registration. Otherwise, the
 following apply:
 
-1. You can’t get a refund for the cost of a deleted domain registration.2. The registry for
-   the top-level domain might hold the domain name for a brief time before releasing it for
-   other users to register (varies by registry).3. When the registration has been deleted,
-   we'll send you a confirmation to the registrant contact. The email will come from
-   `noreply@domainnameverification.net` or `noreply@registrar.amazon.com`.
+1. You can’t get a refund for the cost of a deleted domain registration.
+2. The registry for the top-level domain might hold the domain name for a brief time before
+   releasing it for other users to register (varies by registry).
+3. When the registration has been deleted, we'll send you a confirmation to the registrant
+   contact. The email will come from `noreply@domainnameverification.net` or
+   `noreply@registrar.amazon.com`.
 
 # Arguments
 
@@ -472,8 +472,8 @@ Deletes a delegation signer (DS) record in the registry zone for this domain nam
 # Arguments
 
 - `domain_name`: Name of the domain.
-- `id`: An internal identification number assigned to each DS record after it’s created.
-  You can retrieve it as part of DNSSEC information returned by [GetDomainDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetDomainDetail.html).
+- `id`: An internal identification number assigned to each DS record after it’s created. You
+  can retrieve it as part of DNSSEC information returned by [GetDomainDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetDomainDetail.html).
 """
 function disassociate_delegation_signer_from_domain end
 
@@ -510,14 +510,14 @@ end
     enable_domain_auto_renew(domain_name)
     enable_domain_auto_renew(domain_name, params::Dict{String,<:Any})
 
-This operation configures Amazon Route 53 to automatically renew the specified domain
-before the domain registration expires. The cost of renewing your domain registration is
-billed to your Amazon Web Services account.
+This operation configures Amazon Route 53 to automatically renew the specified domain before
+the domain registration expires. The cost of renewing your domain registration is billed to
+your Amazon Web Services account.
 
 The period during which you can renew a domain name varies by TLD. For a list of TLDs and
 their renewal policies, see [Domains That You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
-in the *Amazon Route 53 Developer Guide*. Route 53 requires that you renew before the end
-of the renewal period so we can complete processing before the deadline.
+in the *Amazon Route 53 Developer Guide*. Route 53 requires that you renew before the end of
+the renewal period so we can complete processing before the deadline.
 
 # Arguments
 
@@ -557,9 +557,9 @@ end
 
 This operation sets the transfer lock on the domain (specifically the
 `clientTransferProhibited` status) to prevent domain transfers. Successful submission
-returns an operation ID that you can use to track the progress and completion of the
-action. If the request is not completed successfully, the domain registrant will be
-notified by email.
+returns an operation ID that you can use to track the progress and completion of the action.
+If the request is not completed successfully, the domain registrant will be notified by
+email.
 
 # Arguments
 
@@ -598,8 +598,8 @@ end
     get_contact_reachability_status(params::Dict{String,<:Any})
 
 For operations that require confirmation that the email address for the registrant contact
-is valid, such as registering a new domain, this operation returns information about
-whether the registrant contact has responded.
+is valid, such as registering a new domain, this operation returns information about whether
+the registrant contact has responded.
 
 If you want us to resend the email, use the [`resend_contact_reachability_email`](@ref)
 operation.
@@ -638,9 +638,9 @@ end
     get_domain_detail(domain_name)
     get_domain_detail(domain_name, params::Dict{String,<:Any})
 
-This operation returns detailed information about a specified domain that is associated
-with the current Amazon Web Services account. Contact information for the domain is also
-returned as part of the output.
+This operation returns detailed information about a specified domain that is associated with
+the current Amazon Web Services account. Contact information for the domain is also returned
+as part of the output.
 
 # Arguments
 
@@ -692,15 +692,16 @@ The GetDomainSuggestions operation returns a list of suggested domain names.
   - Hyphen (-). You can't specify a hyphen at the beginning or end of a label.
   - Period (.) to separate the labels in the name, such as the `.` in `example.com`.
 
-  Internationalized domain names are not supported for some top-level domains. To
-  determine whether the TLD that you want to use supports internationalized domain names,
-  see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html).
+  Internationalized domain names are not supported for some top-level domains. To determine
+  whether the TLD that you want to use supports internationalized domain names, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html).
+
 - `only_available`: If `OnlyAvailable` is `true`, Route 53 returns only domain names that
   are available. If `OnlyAvailable` is `false`, Route 53 returns domain names without
   checking whether they're available to be registered. To determine whether the domain is
   available, you can call `checkDomainAvailability` for each suggestion.
-- `suggestion_count`: The number of suggested domain names that you want Route 53 to
-  return. Specify a value between 1 and 50.
+
+- `suggestion_count`: The number of suggested domain names that you want Route 53 to return.
+  Specify a value between 1 and 50.
 """
 function get_domain_suggestions end
 
@@ -798,19 +799,22 @@ Amazon Web Services account if no filtering conditions are used.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FilterConditions"`: A complex type that contains information about the filters applied
-  during the `ListDomains` request. The filter conditions can include domain name and
-  domain expiration.
-- `"Marker"`: For an initial request for a list of domains, omit this element. If the
-  number of domains that are associated with the current Amazon Web Services account is
-  greater than the value that you specified for `MaxItems`, you can use `Marker` to
-  return additional domains. Get the value of `NextPageMarker` from the previous
-  response, and submit another request that includes the value of `NextPageMarker` in the
-  `Marker` element.
+  during the `ListDomains` request. The filter conditions can include domain name and domain
+  expiration.
+
+- `"Marker"`: For an initial request for a list of domains, omit this element. If the number
+  of domains that are associated with the current Amazon Web Services account is greater
+  than the value that you specified for `MaxItems`, you can use `Marker` to return
+  additional domains. Get the value of `NextPageMarker` from the previous response, and
+  submit another request that includes the value of `NextPageMarker` in the `Marker`
+  element.
 
   Constraints: The marker must match the value specified in the previous request.
+
 - `"MaxItems"`: Number of domains to be returned.
 
   Default: 20
+
 - `"SortCondition"`: A complex type that contains information about the requested ordering
   of domains in the returned list.
 """
@@ -848,15 +852,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified for `MaxItems`, you can use `Marker` to return additional operations. Get the
   value of `NextPageMarker` from the previous response, and submit another request that
   includes the value of `NextPageMarker` in the `Marker` element.
+
 - `"MaxItems"`: Number of domains to be returned.
 
   Default: 20
+
 - `"SortBy"`: The sort type for returned values.
+
 - `"SortOrder"`: The sort order for returned values, either ascending or descending.
+
 - `"Status"`: The status of the operations.
+
 - `"SubmittedSince"`: An optional parameter that lets you get information about all the
-  operations that you submitted after a specified date and time. Specify the date and
-  time in Unix time format and Coordinated Universal time (UTC).
+  operations that you submitted after a specified date and time. Specify the date and time
+  in Unix time format and Coordinated Universal time (UTC).
+
 - `"Type"`: An arrays of the domains operation types.
 """
 function list_operations end
@@ -895,18 +905,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: For an initial request for a list of prices, omit this element. If the number
   of prices that are not yet complete is greater than the value that you specified for
   `MaxItems`, you can use `Marker` to return additional prices. Get the value of
-  `NextPageMarker` from the previous response, and submit another request that includes
-  the value of `NextPageMarker` in the `Marker` element.
+  `NextPageMarker` from the previous response, and submit another request that includes the
+  value of `NextPageMarker` in the `Marker` element.
 
   Used only for all TLDs. If you specify a TLD, don't specify a `Marker`.
+
 - `"MaxItems"`: Number of `Prices` to be returned.
 
   Used only for all TLDs. If you specify a TLD, don't specify a `MaxItems`.
+
 - `"Tld"`: The TLD for which you want to receive the pricing information. For example.
   `.net`.
 
-  If a `Tld` value is not provided, a list of prices for all TLDs supported by Route 53
-  is returned.
+  If a `Tld` value is not provided, a list of prices for all TLDs supported by Route 53 is
+  returned.
 """
 function list_prices end
 
@@ -1021,33 +1033,34 @@ requires extra parameters.
 
 When you register a domain, Amazon Route 53 does the following:
 
-- Creates a Route 53 hosted zone that has the same name as the domain. Route 53 assigns
-  four name servers to your hosted zone and automatically updates your domain registration
-  with the names of these name servers.
+- Creates a Route 53 hosted zone that has the same name as the domain. Route 53 assigns four
+  name servers to your hosted zone and automatically updates your domain registration with
+  the names of these name servers.
 - Enables auto renew, so your domain registration will renew automatically each year. We'll
   notify you in advance of the renewal date so you can choose whether to renew the
   registration.
 - Optionally enables privacy protection, so WHOIS queries return contact for the registrar
   or the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt; owner." If you
-  don't enable privacy protection, WHOIS queries return the information that you entered
-  for the administrative, registrant, and technical contacts.
+  don't enable privacy protection, WHOIS queries return the information that you entered for
+  the administrative, registrant, and technical contacts.
 
-!!! note
-    While some domains may allow different privacy settings per contact, we recommend
-    specifying the same privacy setting for all contacts.
+  !!! note
+      While some domains may allow different privacy settings per contact, we recommend
+      specifying the same privacy setting for all contacts.
 
 - If registration is successful, returns an operation ID that you can use to track the
   progress and completion of the action. If the request is not completed successfully, the
   domain registrant is notified by email.
-- Charges your Amazon Web Services account an amount based on the top-level domain. For
-  more information, see [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/).
+- Charges your Amazon Web Services account an amount based on the top-level domain. For more
+  information, see [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/).
 
 # Arguments
 
 - `admin_contact`: Provides detailed contact information. For information about the values
   that you specify for each element, see [ContactDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html).
-- `domain_name`: The domain name that you want to register. The top-level domain (TLD),
-  such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
+
+- `domain_name`: The domain name that you want to register. The top-level domain (TLD), such
+  as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
   in the *Amazon Route 53 Developer Guide*.
 
   The domain name can contain only the following characters:
@@ -1057,18 +1070,20 @@ When you register a domain, Amazon Route 53 does the following:
   - Hyphen (-). You can't specify a hyphen at the beginning or end of a label.
   - Period (.) to separate the labels in the name, such as the `.` in `example.com`.
 
-  Internationalized domain names are not supported for some top-level domains. To
-  determine whether the TLD that you want to use supports internationalized domain names,
-  see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html).
+  Internationalized domain names are not supported for some top-level domains. To determine
+  whether the TLD that you want to use supports internationalized domain names, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html).
   For more information, see [Formatting Internationalized Domain Names](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html#domain-name-format-idns).
-- `duration_in_years`: The number of years that you want to register the domain for.
-  Domains are registered for a minimum of one year. The maximum period depends on the top-
-  level domain. For the range of valid values for your domain, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
+
+- `duration_in_years`: The number of years that you want to register the domain for. Domains
+  are registered for a minimum of one year. The maximum period depends on the top-level
+  domain. For the range of valid values for your domain, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
   in the *Amazon Route 53 Developer Guide*.
 
   Default: 1
+
 - `registrant_contact`: Provides detailed contact information. For information about the
   values that you specify for each element, see [ContactDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html).
+
 - `tech_contact`: Provides detailed contact information. For information about the values
   that you specify for each element, see [ContactDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html).
 
@@ -1080,50 +1095,52 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (`false`). Auto renewal only takes effect after the account is charged.
 
   Default: `true`
+
 - `"BillingContact"`: Provides detailed contact information. For information about the
   values that you specify for each element, see [ContactDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html).
+
 - `"IdnLangCode"`: Reserved for future use.
-- `"PrivacyProtectAdminContact"`: Whether you want to conceal contact information from
-  WHOIS queries. If you specify `true`, WHOIS ("who is") queries return contact
-  information either for Amazon Registrar or for our registrar associate, Gandi. If you
-  specify `false`, WHOIS queries return the information that you entered for the admin
-  contact.
+
+- `"PrivacyProtectAdminContact"`: Whether you want to conceal contact information from WHOIS
+  queries. If you specify `true`, WHOIS ("who is") queries return contact information either
+  for Amazon Registrar or for our registrar associate, Gandi. If you specify `false`, WHOIS
+  queries return the information that you entered for the admin contact.
 
   !!! note
-      You must specify the same privacy setting for the administrative, billing,
-      registrant, and technical contacts.
+      You must specify the same privacy setting for the administrative, billing, registrant,
+      and technical contacts.
 
   Default: `true`
+
 - `"PrivacyProtectBillingContact"`: Whether you want to conceal contact information from
-  WHOIS queries. If you specify `true`, WHOIS ("who is") queries return contact
-  information either for Amazon Registrar or for our registrar associate, Gandi. If you
-  specify `false`, WHOIS queries return the information that you entered for the billing
-  contact.
+  WHOIS queries. If you specify `true`, WHOIS ("who is") queries return contact information
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify `false`,
+  WHOIS queries return the information that you entered for the billing contact.
 
   !!! note
-      You must specify the same privacy setting for the administrative, billing,
-      registrant, and technical contacts.
+      You must specify the same privacy setting for the administrative, billing, registrant,
+      and technical contacts.
 
 - `"PrivacyProtectRegistrantContact"`: Whether you want to conceal contact information from
-  WHOIS queries. If you specify `true`, WHOIS ("who is") queries return contact
-  information either for Amazon Registrar or for our registrar associate, Gandi. If you
-  specify `false`, WHOIS queries return the information that you entered for the
-  registrant contact (the domain owner).
+  WHOIS queries. If you specify `true`, WHOIS ("who is") queries return contact information
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify `false`,
+  WHOIS queries return the information that you entered for the registrant contact (the
+  domain owner).
 
   !!! note
-      You must specify the same privacy setting for the administrative, billing,
-      registrant, and technical contacts.
+      You must specify the same privacy setting for the administrative, billing, registrant,
+      and technical contacts.
 
   Default: `true`
+
 - `"PrivacyProtectTechContact"`: Whether you want to conceal contact information from WHOIS
-  queries. If you specify `true`, WHOIS ("who is") queries return contact information
-  either for Amazon Registrar or for our registrar associate, Gandi. If you specify
-  `false`, WHOIS queries return the information that you entered for the technical
-  contact.
+  queries. If you specify `true`, WHOIS ("who is") queries return contact information either
+  for Amazon Registrar or for our registrar associate, Gandi. If you specify `false`, WHOIS
+  queries return the information that you entered for the technical contact.
 
   !!! note
-      You must specify the same privacy setting for the administrative, billing,
-      registrant, and technical contacts.
+      You must specify the same privacy setting for the administrative, billing, registrant,
+      and technical contacts.
 
   Default: `true`
 """
@@ -1251,8 +1268,8 @@ in the *Amazon Route 53 Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DurationInYears"`: The number of years that you want to renew the domain for. The
-  maximum number of years depends on the top-level domain. For the range of valid values
-  for your domain, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
+  maximum number of years depends on the top-level domain. For the range of valid values for
+  your domain, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
   in the *Amazon Route 53 Developer Guide*.
 
   Default: 1
@@ -1299,8 +1316,8 @@ end
     resend_contact_reachability_email(params::Dict{String,<:Any})
 
 For operations that require confirmation that the email address for the registrant contact
-is valid, such as registering a new domain, this operation resends the confirmation email
-to the current email address for the registrant contact.
+is valid, such as registering a new domain, this operation resends the confirmation email to
+the current email address for the registrant contact.
 
 # Optional Parameters
 
@@ -1438,20 +1455,21 @@ purchase a domain registration. When you transfer the registration, the previous
 will not renew your domain registration and could end your DNS service at any time.
 
 !!! important
-    If the registrar for your domain is also the DNS service provider for the domain and
-    you don't transfer DNS service to another provider, your website, email, and the web
+    If the registrar for your domain is also the DNS service provider for the domain and you
+    don't transfer DNS service to another provider, your website, email, and the web
     applications associated with the domain might become unavailable.
 
-If the transfer is successful, this method returns an operation ID that you can use to
-track the progress and completion of the action. If the transfer doesn't complete
-successfully, the domain registrant will be notified by email.
+If the transfer is successful, this method returns an operation ID that you can use to track
+the progress and completion of the action. If the transfer doesn't complete successfully,
+the domain registrant will be notified by email.
 
 # Arguments
 
 - `admin_contact`: Provides detailed contact information.
-- `domain_name`: The name of the domain that you want to transfer to Route 53. The top-
-  level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of
-  supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
+
+- `domain_name`: The name of the domain that you want to transfer to Route 53. The top-level
+  domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported
+  TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html)
   in the *Amazon Route 53 Developer Guide*.
 
   The domain name can contain only the following characters:
@@ -1461,12 +1479,14 @@ successfully, the domain registrant will be notified by email.
   - Hyphen (-). You can't specify a hyphen at the beginning or end of a label.
   - Period (.) to separate the labels in the name, such as the `.` in `example.com`.
 
-- `duration_in_years`: The number of years that you want to register the domain for.
-  Domains are registered for a minimum of one year. The maximum period depends on the top-
-  level domain.
+- `duration_in_years`: The number of years that you want to register the domain for. Domains
+  are registered for a minimum of one year. The maximum period depends on the top-level
+  domain.
 
   Default: 1
+
 - `registrant_contact`: Provides detailed contact information.
+
 - `tech_contact`: Provides detailed contact information.
 
 # Optional Parameters
@@ -1475,53 +1495,58 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AuthCode"`: The authorization code for the domain. You get this value from the current
   registrar.
+
 - `"AutoRenew"`: Indicates whether the domain will be automatically renewed (true) or not
   (false). Auto renewal only takes effect after the account is charged.
 
   Default: true
+
 - `"BillingContact"`: Provides detailed contact information.
+
 - `"IdnLangCode"`: Reserved for future use.
+
 - `"Nameservers"`: Contains details for the host and glue IP addresses.
-- `"PrivacyProtectAdminContact"`: Whether you want to conceal contact information from
-  WHOIS queries. If you specify `true`, WHOIS ("who is") queries return contact
-  information for the registrar, the phrase "REDACTED FOR PRIVACY", or "On behalf of
-  &lt;domain name&gt; owner.".
+
+- `"PrivacyProtectAdminContact"`: Whether you want to conceal contact information from WHOIS
+  queries. If you specify `true`, WHOIS ("who is") queries return contact information for
+  the registrar, the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt;
+  owner.".
 
   !!! note
       While some domains may allow different privacy settings per contact, we recommend
       specifying the same privacy setting for all contacts.
 
   Default: `true`
+
 - `"PrivacyProtectBillingContact"`: Whether you want to conceal contact information from
-  WHOIS queries. If you specify `true`, WHOIS ("who is") queries return contact
-  information either for Amazon Registrar or for our registrar associate, Gandi. If you
-  specify `false`, WHOIS queries return the information that you entered for the billing
-  contact.
+  WHOIS queries. If you specify `true`, WHOIS ("who is") queries return contact information
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify `false`,
+  WHOIS queries return the information that you entered for the billing contact.
 
   !!! note
-      You must specify the same privacy setting for the administrative, billing,
-      registrant, and technical contacts.
+      You must specify the same privacy setting for the administrative, billing, registrant,
+      and technical contacts.
 
 - `"PrivacyProtectRegistrantContact"`: Whether you want to conceal contact information from
-  WHOIS queries. If you specify `true`, WHOIS ("who is") queries return contact
-  information either for Amazon Registrar or for our registrar associate, Gandi. If you
-  specify `false`, WHOIS queries return the information that you entered for the
-  registrant contact (domain owner).
+  WHOIS queries. If you specify `true`, WHOIS ("who is") queries return contact information
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify `false`,
+  WHOIS queries return the information that you entered for the registrant contact (domain
+  owner).
 
   !!! note
-      You must specify the same privacy setting for the administrative, billing,
-      registrant, and technical contacts.
+      You must specify the same privacy setting for the administrative, billing, registrant,
+      and technical contacts.
 
   Default: `true`
+
 - `"PrivacyProtectTechContact"`: Whether you want to conceal contact information from WHOIS
-  queries. If you specify `true`, WHOIS ("who is") queries return contact information
-  either for Amazon Registrar or for our registrar associate, Gandi. If you specify
-  `false`, WHOIS queries return the information that you entered for the technical
-  contact.
+  queries. If you specify `true`, WHOIS ("who is") queries return contact information either
+  for Amazon Registrar or for our registrar associate, Gandi. If you specify `false`, WHOIS
+  queries return the information that you entered for the technical contact.
 
   !!! note
-      You must specify the same privacy setting for the administrative, billing,
-      registrant, and technical contacts.
+      You must specify the same privacy setting for the administrative, billing, registrant,
+      and technical contacts.
 
   Default: `true`
 """
@@ -1704,28 +1729,28 @@ end
     update_domain_contact_privacy(domain_name, params::Dict{String,<:Any})
 
 This operation updates the specified domain contact's privacy setting. When privacy
-protection is enabled, your contact information is replaced with contact information for
-the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain
-name&gt; owner."
+protection is enabled, your contact information is replaced with contact information for the
+registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt;
+owner."
 
 !!! note
     While some domains may allow different privacy settings per contact, we recommend
     specifying the same privacy setting for all contacts.
 
 This operation affects only the contact information for the specified contact type
-(administrative, registrant, or technical). If the request succeeds, Amazon Route 53
-returns an operation ID that you can use with [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html)
+(administrative, registrant, or technical). If the request succeeds, Amazon Route 53 returns
+an operation ID that you can use with [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html)
 to track the progress and completion of the action. If the request doesn't complete
 successfully, the domain registrant will be notified by email.
 
 !!! important
     By disabling the privacy service via API, you consent to the publication of the contact
-    information provided for this domain via the public WHOIS database. You certify that
-    you are the registrant of this domain name and have the authority to make this
-    decision. You may withdraw your consent at any time by enabling privacy protection
-    using either `UpdateDomainContactPrivacy` or the Route 53 console. Enabling privacy
-    protection removes the contact information provided for this domain from the WHOIS
-    database. For more information on our privacy practices, see [https://aws.amazon.com/privacy/](https://aws.amazon.com/privacy/).
+    information provided for this domain via the public WHOIS database. You certify that you
+    are the registrant of this domain name and have the authority to make this decision. You
+    may withdraw your consent at any time by enabling privacy protection using either
+    `UpdateDomainContactPrivacy` or the Route 53 console. Enabling privacy protection
+    removes the contact information provided for this domain from the WHOIS database. For
+    more information on our privacy practices, see [https://aws.amazon.com/privacy/](https://aws.amazon.com/privacy/).
 
 # Arguments
 
@@ -1736,42 +1761,40 @@ successfully, the domain registrant will be notified by email.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AdminPrivacy"`: Whether you want to conceal contact information from WHOIS queries. If
-  you specify `true`, WHOIS ("who is") queries return contact information either for
-  Amazon Registrar or for our registrar associate, Gandi. If you specify `false`, WHOIS
-  queries return the information that you entered for the admin contact.
+  you specify `true`, WHOIS ("who is") queries return contact information either for Amazon
+  Registrar or for our registrar associate, Gandi. If you specify `false`, WHOIS queries
+  return the information that you entered for the admin contact.
 
   !!! note
-      You must specify the same privacy setting for the administrative, billing,
-      registrant, and technical contacts.
+      You must specify the same privacy setting for the administrative, billing, registrant,
+      and technical contacts.
 
-- `"BillingPrivacy"`: Whether you want to conceal contact information from WHOIS queries.
+- `"BillingPrivacy"`: Whether you want to conceal contact information from WHOIS queries. If
+  you specify `true`, WHOIS ("who is") queries return contact information either for Amazon
+  Registrar or for our registrar associate, Gandi. If you specify `false`, WHOIS queries
+  return the information that you entered for the billing contact.
+
+  !!! note
+      You must specify the same privacy setting for the administrative, billing, registrant,
+      and technical contacts.
+
+- `"RegistrantPrivacy"`: Whether you want to conceal contact information from WHOIS queries.
   If you specify `true`, WHOIS ("who is") queries return contact information either for
   Amazon Registrar or for our registrar associate, Gandi. If you specify `false`, WHOIS
-  queries return the information that you entered for the billing contact.
+  queries return the information that you entered for the registrant contact (domain owner).
 
   !!! note
-      You must specify the same privacy setting for the administrative, billing,
-      registrant, and technical contacts.
-
-- `"RegistrantPrivacy"`: Whether you want to conceal contact information from WHOIS
-  queries. If you specify `true`, WHOIS ("who is") queries return contact information
-  either for Amazon Registrar or for our registrar associate, Gandi. If you specify
-  `false`, WHOIS queries return the information that you entered for the registrant
-  contact (domain owner).
-
-  !!! note
-      You must specify the same privacy setting for the administrative, billing,
-      registrant, and technical contacts.
+      You must specify the same privacy setting for the administrative, billing, registrant,
+      and technical contacts.
 
 - `"TechPrivacy"`: Whether you want to conceal contact information from WHOIS queries. If
-  you specify `true`, WHOIS ("who is") queries return contact information either for
-  Amazon Registrar or for our registrar associate, Gandi. If you specify `false`, WHOIS
-  queries return the information that you entered for the technical contact.
+  you specify `true`, WHOIS ("who is") queries return contact information either for Amazon
+  Registrar or for our registrar associate, Gandi. If you specify `false`, WHOIS queries
+  return the information that you entered for the technical contact.
 
   !!! note
-      You must specify the same privacy setting for the administrative, billing,
-      registrant, and technical contacts.
-
+      You must specify the same privacy setting for the administrative, billing, registrant,
+      and technical contacts.
 """
 function update_domain_contact_privacy end
 
@@ -1809,9 +1832,9 @@ This operation replaces the current set of name servers for the domain with the 
 set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name
 servers in the delegation set for the hosted zone for the domain.
 
-If successful, this operation returns an operation ID that you can use to track the
-progress and completion of the action. If the request is not completed successfully, the
-domain registrant will be notified by email.
+If successful, this operation returns an operation ID that you can use to track the progress
+and completion of the action. If the request is not completed successfully, the domain
+registrant will be notified by email.
 
 # Arguments
 
@@ -1874,8 +1897,8 @@ represent all issued operations.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"TagsToUpdate"`: A list of the tag keys and values that you want to add or update. If
-  you specify a key that already exists, the corresponding value will be replaced.
+- `"TagsToUpdate"`: A list of the tag keys and values that you want to add or update. If you
+  specify a key that already exists, the corresponding value will be replaced.
 """
 function update_tags_for_domain end
 
@@ -1919,21 +1942,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"End"`: The end date and time for the time period for which you want a list of billing
   records. Specify the date and time in Unix time format and Coordinated Universal time
   (UTC).
+
 - `"Marker"`: For an initial request for a list of billing records, omit this element. If
   the number of billing records that are associated with the current Amazon Web Services
   account during the specified period is greater than the value that you specified for
   `MaxItems`, you can use `Marker` to return additional billing records. Get the value of
-  `NextPageMarker` from the previous response, and submit another request that includes
-  the value of `NextPageMarker` in the `Marker` element.
+  `NextPageMarker` from the previous response, and submit another request that includes the
+  value of `NextPageMarker` in the `Marker` element.
 
-  Constraints: The marker must match the value of `NextPageMarker` that was returned in
-  the previous response.
+  Constraints: The marker must match the value of `NextPageMarker` that was returned in the
+  previous response.
+
 - `"MaxItems"`: The number of billing records to be returned.
 
   Default: 20
+
 - `"Start"`: The beginning date and time for the time period for which you want a list of
-  billing records. Specify the date and time in Unix time format and Coordinated
-  Universal time (UTC).
+  billing records. Specify the date and time in Unix time format and Coordinated Universal
+  time (UTC).
 """
 function view_billing end
 

@@ -199,10 +199,10 @@ end
     create_security_configuration(client_token, name, security_configuration_data)
     create_security_configuration(client_token, name, security_configuration_data, params::Dict{String,<:Any})
 
-Creates a security configuration. Security configurations in Amazon EMR on EKS are
-templates for different security setups. You can use security configurations to configure
-the Lake Formation integration setup. You can also create a security configuration to re-
-use a security setup each time you create a virtual cluster.
+Creates a security configuration. Security configurations in Amazon EMR on EKS are templates
+for different security setups. You can use security configurations to configure the Lake
+Formation integration setup. You can also create a security configuration to re-use a
+security setup each time you create a virtual cluster.
 
 # Arguments
 
@@ -268,8 +268,8 @@ end
     create_virtual_cluster(client_token, container_provider, name)
     create_virtual_cluster(client_token, container_provider, name, params::Dict{String,<:Any})
 
-Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You
-can create, describe, list and delete virtual clusters. They do not consume any additional
+Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can
+create, describe, list and delete virtual clusters. They do not consume any additional
 resource in your system. A single virtual cluster maps to a single Kubernetes namespace.
 Given this relationship, you can model virtual clusters the same way you model Kubernetes
 namespaces to meet your requirements.
@@ -413,8 +413,8 @@ end
     delete_virtual_cluster(virtual_cluster_id)
     delete_virtual_cluster(virtual_cluster_id, params::Dict{String,<:Any})
 
-Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You
-can create, describe, list and delete virtual clusters. They do not consume any additional
+Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can
+create, describe, list and delete virtual clusters. They do not consume any additional
 resource in your system. A single virtual cluster maps to a single Kubernetes namespace.
 Given this relationship, you can model virtual clusters the same way you model Kubernetes
 namespaces to meet your requirements.
@@ -534,9 +534,9 @@ end
     describe_managed_endpoint(endpoint_id, virtual_cluster_id)
     describe_managed_endpoint(endpoint_id, virtual_cluster_id, params::Dict{String,<:Any})
 
-Displays detailed information about a managed endpoint. A managed endpoint is a gateway
-that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can
-communicate with your virtual cluster.
+Displays detailed information about a managed endpoint. A managed endpoint is a gateway that
+connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate
+with your virtual cluster.
 
 # Arguments
 
@@ -576,8 +576,8 @@ end
     describe_security_configuration(security_configuration_id, params::Dict{String,<:Any})
 
 Displays detailed information about a specified security configuration. Security
-configurations in Amazon EMR on EKS are templates for different security setups. You can
-use security configurations to configure the Lake Formation integration setup. You can also
+configurations in Amazon EMR on EKS are templates for different security setups. You can use
+security configurations to configure the Lake Formation integration setup. You can also
 create a security configuration to re-use a security setup each time you create a virtual
 cluster.
 
@@ -675,8 +675,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The client idempotency token of the job run request.
 - `"durationInSeconds"`: Duration in seconds for which the session token is valid. The
   default duration is 15 minutes and the maximum is 12 hours.
-- `"logContext"`: String identifier used to separate sections of the execution logs
-  uploaded to S3.
+- `"logContext"`: String identifier used to separate sections of the execution logs uploaded
+  to S3.
 """
 function get_managed_endpoint_session_credentials end
 
@@ -780,8 +780,8 @@ end
 
 Lists job templates based on a set of parameters. Job template stores values of StartJobRun
 API request in a template and can be used to start a job run. Job template allows two use
-cases: avoid repeating recurring StartJobRun API request values, enforcing certain values
-in StartJobRun API request.
+cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in
+StartJobRun API request.
 
 # Optional Parameters
 
@@ -959,9 +959,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is the only supported type as of now.
 - `"createdAfter"`: The date and time after which the virtual clusters are created.
 - `"createdBefore"`: The date and time before which the virtual clusters are created.
-- `"eksAccessEntryIntegrated"`: Optional Boolean that specifies whether the operation
-  should return the virtual clusters that have the access entry integration enabled or
-  disabled. If not specified, the operation returns all applicable virtual clusters.
+- `"eksAccessEntryIntegrated"`: Optional Boolean that specifies whether the operation should
+  return the virtual clusters that have the access entry integration enabled or disabled. If
+  not specified, the operation returns all applicable virtual clusters.
 - `"maxResults"`: The maximum number of virtual clusters that can be listed.
 - `"nextToken"`: The token for the next set of virtual clusters to return.
 - `"states"`: The states of the requested virtual clusters.

@@ -14,7 +14,9 @@ Creates the specified schedule.
 
 - `flexible_time_window`: Allows you to configure a time window during which EventBridge
   Scheduler invokes the schedule.
+
 - `name`: The name of the schedule that you are creating.
+
 - `schedule_expression`: The expression that defines when the schedule runs. The following
   formats are supported.
 
@@ -23,11 +25,11 @@ Creates the specified schedule.
   - `cron` expression - `cron(fields)`
 
   You can use `at` expressions to create one-time schedules that invoke a target once, at
-  the time and in the time zone, that you specify. You can use `rate` and `cron`
-  expressions to create recurring schedules. Rate-based schedules are useful when you
-  want to invoke a target at regular intervals, such as every 15 minutes or every five
-  days. Cron-based schedules are useful when you want to invoke a target periodically at
-  a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
+  the time and in the time zone, that you specify. You can use `rate` and `cron` expressions
+  to create recurring schedules. Rate-based schedules are useful when you want to invoke a
+  target at regular intervals, such as every 15 minutes or every five days. Cron-based
+  schedules are useful when you want to invoke a target periodically at a specific time,
+  such as at 8:00 am (UTC+0) every 1st day of the month.
 
   A `cron` expression consists of six fields separated by white spaces:
   `(minutes hours day_of_month month day_of_week year)`.
@@ -37,6 +39,7 @@ Creates the specified schedule.
 
   For more information and examples, see [Schedule types on EventBridge Scheduler](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html)
   in the *EventBridge Scheduler User Guide*.
+
 - `target`: The schedule's target.
 
 # Optional Parameters
@@ -52,16 +55,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EndDate"`: The date, in UTC, before which the schedule can invoke its target. Depending
   on the schedule's recurrence expression, invocations might stop on, or before, the
   `EndDate` you specify. EventBridge Scheduler ignores `EndDate` for one-time schedules.
-- `"GroupName"`: The name of the schedule group to associate with this schedule. If you
-  omit this, the default schedule group is used.
+- `"GroupName"`: The name of the schedule group to associate with this schedule. If you omit
+  this, the default schedule group is used.
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) for the customer managed KMS key that
   EventBridge Scheduler will use to encrypt and decrypt your data.
 - `"ScheduleExpressionTimezone"`: The timezone in which the scheduling expression is
   evaluated.
 - `"StartDate"`: The date, in UTC, after which the schedule can begin invoking its target.
-  Depending on the schedule's recurrence expression, invocations might occur on, or
-  after, the `StartDate` you specify. EventBridge Scheduler ignores `StartDate` for one-
-  time schedules.
+  Depending on the schedule's recurrence expression, invocations might occur on, or after,
+  the `StartDate` you specify. EventBridge Scheduler ignores `StartDate` for one-time
+  schedules.
 - `"State"`: Specifies whether the schedule is enabled or disabled.
 """
 function create_schedule end
@@ -339,8 +342,8 @@ Returns a paginated list of your schedule groups.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: If specified, limits the number of results returned by this operation.
-  The operation also returns a `NextToken` which you can use in a subsequent operation to
+- `"MaxResults"`: If specified, limits the number of results returned by this operation. The
+  operation also returns a `NextToken` which you can use in a subsequent operation to
   retrieve the next set of results.
 - `"NamePrefix"`: The name prefix that you can use to return a filtered list of your
   schedule groups.
@@ -376,8 +379,8 @@ Returns a paginated list of your EventBridge Scheduler schedules.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: If specified, limits the number of results returned by this operation.
-  The operation also returns a `NextToken` which you can use in a subsequent operation to
+- `"MaxResults"`: If specified, limits the number of results returned by this operation. The
+  operation also returns a `NextToken` which you can use in a subsequent operation to
   retrieve the next set of results.
 - `"NamePrefix"`: Schedule name prefix to return the filtered list of resources.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
@@ -537,7 +540,9 @@ and make a note of all optional parameters for your `UpdateSchedule` call.
 
 - `flexible_time_window`: Allows you to configure a time window during which EventBridge
   Scheduler invokes the schedule.
+
 - `name`: The name of the schedule that you are updating.
+
 - `schedule_expression`: The expression that defines when the schedule runs. The following
   formats are supported.
 
@@ -546,11 +551,11 @@ and make a note of all optional parameters for your `UpdateSchedule` call.
   - `cron` expression - `cron(fields)`
 
   You can use `at` expressions to create one-time schedules that invoke a target once, at
-  the time and in the time zone, that you specify. You can use `rate` and `cron`
-  expressions to create recurring schedules. Rate-based schedules are useful when you
-  want to invoke a target at regular intervals, such as every 15 minutes or every five
-  days. Cron-based schedules are useful when you want to invoke a target periodically at
-  a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
+  the time and in the time zone, that you specify. You can use `rate` and `cron` expressions
+  to create recurring schedules. Rate-based schedules are useful when you want to invoke a
+  target at regular intervals, such as every 15 minutes or every five days. Cron-based
+  schedules are useful when you want to invoke a target periodically at a specific time,
+  such as at 8:00 am (UTC+0) every 1st day of the month.
 
   A `cron` expression consists of six fields separated by white spaces:
   `(minutes hours day_of_month month day_of_week year)`.
@@ -560,6 +565,7 @@ and make a note of all optional parameters for your `UpdateSchedule` call.
 
   For more information and examples, see [Schedule types on EventBridge Scheduler](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html)
   in the *EventBridge Scheduler User Guide*.
+
 - `target`: The schedule target. You can use this operation to change the target that your
   schedule invokes.
 
@@ -577,17 +583,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on the schedule's recurrence expression, invocations might stop on, or before, the
   `EndDate` you specify. EventBridge Scheduler ignores `EndDate` for one-time schedules.
 - `"GroupName"`: The name of the schedule group with which the schedule is associated. You
-  must provide this value in order for EventBridge Scheduler to find the schedule you
-  want to update. If you omit this value, EventBridge Scheduler assumes the group is
-  associated to the default group.
+  must provide this value in order for EventBridge Scheduler to find the schedule you want
+  to update. If you omit this value, EventBridge Scheduler assumes the group is associated
+  to the default group.
 - `"KmsKeyArn"`: The ARN for the customer managed KMS key that that you want EventBridge
   Scheduler to use to encrypt and decrypt your data.
 - `"ScheduleExpressionTimezone"`: The timezone in which the scheduling expression is
   evaluated.
 - `"StartDate"`: The date, in UTC, after which the schedule can begin invoking its target.
-  Depending on the schedule's recurrence expression, invocations might occur on, or
-  after, the `StartDate` you specify. EventBridge Scheduler ignores `StartDate` for one-
-  time schedules.
+  Depending on the schedule's recurrence expression, invocations might occur on, or after,
+  the `StartDate` you specify. EventBridge Scheduler ignores `StartDate` for one-time
+  schedules.
 - `"State"`: Specifies whether the schedule is enabled or disabled.
 """
 function update_schedule end

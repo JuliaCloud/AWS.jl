@@ -12,9 +12,9 @@ Adds a notification channel to DevOps Guru. A notification channel is used to no
 about important DevOps Guru events, such as when an insight is generated.
 
 If you use an Amazon SNS topic in another account, you must attach a policy to it that
-grants DevOps Guru permission to send it notifications. DevOps Guru adds the required
-policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru
-only supports standard SNS topics. For more information, see [Permissions for Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html).
+grants DevOps Guru permission to send it notifications. DevOps Guru adds the required policy
+on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only
+supports standard SNS topics. For more information, see [Permissions for Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html).
 
 If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management
 Service customer-managed key (CMK), then you must add permissions to the CMK. For more
@@ -86,9 +86,9 @@ end
     describe_account_health()
     describe_account_health(params::Dict{String,<:Any})
 
-Returns the number of open reactive insights, the number of open proactive insights, and
-the number of metrics analyzed in your Amazon Web Services account. Use these numbers to
-gauge the health of operations in your Amazon Web Services account.
+Returns the number of open reactive insights, the number of open proactive insights, and the
+number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge
+the health of operations in your Amazon Web Services account.
 """
 function describe_account_health end
 
@@ -114,23 +114,23 @@ end
     describe_account_overview(from_time)
     describe_account_overview(from_time, params::Dict{String,<:Any})
 
-For the time range passed in, returns the number of open reactive insight that were
-created, the number of open proactive insights that were created, and the Mean Time to
-Recover (MTTR) for all closed reactive insights.
+For the time range passed in, returns the number of open reactive insight that were created,
+the number of open proactive insights that were created, and the Mean Time to Recover (MTTR)
+for all closed reactive insights.
 
 # Arguments
 
 - `from_time`: The start of the time range passed in. The start time granularity is at the
-  day level. The floor of the start time is used. Returned information occurred after
-  this day.
+  day level. The floor of the start time is used. Returned information occurred after this
+  day.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ToTime"`: The end of the time range passed in. The start time granularity is at the day
-  level. The floor of the start time is used. Returned information occurred before this
-  day. If this is not specified, then the current day is used.
+  level. The floor of the start time is used. Returned information occurred before this day.
+  If this is not specified, then the current day is used.
 """
 function describe_account_overview end
 
@@ -338,8 +338,8 @@ overview includes the total reactive and proactive insights.
 # Arguments
 
 - `from_time`: The start of the time range passed in. The start time granularity is at the
-  day level. The floor of the start time is used. Returned information occurred after
-  this day.
+  day level. The floor of the start time is used. Returned information occurred after this
+  day.
 
 # Optional Parameters
 
@@ -348,8 +348,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccountIds"`: The ID of the Amazon Web Services account.
 - `"OrganizationalUnitIds"`: The ID of the organizational unit.
 - `"ToTime"`: The end of the time range passed in. The start time granularity is at the day
-  level. The floor of the start time is used. Returned information occurred before this
-  day. If this is not specified, then the current day is used.
+  level. The floor of the start time is used. Returned information occurred before this day.
+  If this is not specified, then the current day is used.
 """
 function describe_organization_overview end
 
@@ -385,18 +385,18 @@ end
     describe_organization_resource_collection_health(organization_resource_collection_type)
     describe_organization_resource_collection_health(organization_resource_collection_type, params::Dict{String,<:Any})
 
-Provides an overview of your system's health. If additional member accounts are part of
-your organization, you can filter those accounts using the `AccountIds` field.
+Provides an overview of your system's health. If additional member accounts are part of your
+organization, you can filter those accounts using the `AccountIds` field.
 
 # Arguments
 
 - `organization_resource_collection_type`: An Amazon Web Services resource collection type.
-  This type specifies how analyzed Amazon Web Services resources are defined. The two
-  types of Amazon Web Services resource collections supported are Amazon Web Services
-  CloudFormation stacks and Amazon Web Services resources that contain the same Amazon
-  Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services
-  resources that are defined in the stacks or that are tagged using the same tag *key*.
-  You can specify up to 500 Amazon Web Services CloudFormation stacks.
+  This type specifies how analyzed Amazon Web Services resources are defined. The two types
+  of Amazon Web Services resource collections supported are Amazon Web Services
+  CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web
+  Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources
+  that are defined in the stacks or that are tagged using the same tag *key*. You can
+  specify up to 500 Amazon Web Services CloudFormation stacks.
 
 # Optional Parameters
 
@@ -464,12 +464,12 @@ CloudFormation stacks.
 # Arguments
 
 - `resource_collection_type`: An Amazon Web Services resource collection type. This type
-  specifies how analyzed Amazon Web Services resources are defined. The two types of
-  Amazon Web Services resource collections supported are Amazon Web Services
-  CloudFormation stacks and Amazon Web Services resources that contain the same Amazon
-  Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services
-  resources that are defined in the stacks or that are tagged using the same tag *key*.
-  You can specify up to 500 Amazon Web Services CloudFormation stacks.
+  specifies how analyzed Amazon Web Services resources are defined. The two types of Amazon
+  Web Services resource collections supported are Amazon Web Services CloudFormation stacks
+  and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps
+  Guru can be configured to analyze the Amazon Web Services resources that are defined in
+  the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon
+  Web Services CloudFormation stacks.
 
 # Optional Parameters
 
@@ -642,8 +642,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
-- `"StartTimeRange"`: A time range used to specify when the requested anomalies started.
-  All returned anomalies started during this time range.
+- `"StartTimeRange"`: A time range used to specify when the requested anomalies started. All
+  returned anomalies started during this time range.
 """
 function list_anomalies_for_insight end
 
@@ -725,8 +725,8 @@ end
     list_events(filters)
     list_events(filters, params::Dict{String,<:Any})
 
-Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
-You can use filters to specify which events are returned.
+Returns a list of the events emitted by the resources that are evaluated by DevOps Guru. You
+can use filters to specify which events are returned.
 
 # Arguments
 
@@ -944,8 +944,8 @@ end
     list_recommendations(insight_id)
     list_recommendations(insight_id, params::Dict{String,<:Any})
 
-Returns a list of a specified insight's recommendations. Each recommendation includes a
-list of related metrics and a list of related events.
+Returns a list of a specified insight's recommendations. Each recommendation includes a list
+of related metrics and a list of related events.
 
 # Arguments
 
@@ -1054,11 +1054,11 @@ end
     search_insights(start_time_range, type, params::Dict{String,<:Any})
 
 Returns a list of insights in your Amazon Web Services account. You can specify which
-insights are returned by their start time, one or more statuses (`ONGOING` or `CLOSED`),
-one or more severities (`LOW`, `MEDIUM`, and `HIGH`), and type (`REACTIVE` or `PROACTIVE`).
+insights are returned by their start time, one or more statuses (`ONGOING` or `CLOSED`), one
+or more severities (`LOW`, `MEDIUM`, and `HIGH`), and type (`REACTIVE` or `PROACTIVE`).
 
-Use the `Filters` parameter to specify status and severity search parameters. Use the
-`Type` parameter to specify `REACTIVE` or `PROACTIVE` in your search.
+Use the `Filters` parameter to specify status and severity search parameters. Use the `Type`
+parameter to specify `REACTIVE` or `PROACTIVE` in your search.
 
 # Arguments
 
@@ -1116,12 +1116,12 @@ end
     search_organization_insights(account_ids, start_time_range, type)
     search_organization_insights(account_ids, start_time_range, type, params::Dict{String,<:Any})
 
-Returns a list of insights in your organization. You can specify which insights are
-returned by their start time, one or more statuses (`ONGOING`, `CLOSED`, and `CLOSED`), one
-or more severities (`LOW`, `MEDIUM`, and `HIGH`), and type (`REACTIVE` or `PROACTIVE`).
+Returns a list of insights in your organization. You can specify which insights are returned
+by their start time, one or more statuses (`ONGOING`, `CLOSED`, and `CLOSED`), one or more
+severities (`LOW`, `MEDIUM`, and `HIGH`), and type (`REACTIVE` or `PROACTIVE`).
 
-Use the `Filters` parameter to specify status and severity search parameters. Use the
-`Type` parameter to specify `REACTIVE` or `PROACTIVE` in your search.
+Use the `Filters` parameter to specify status and severity search parameters. Use the `Type`
+parameter to specify `REACTIVE` or `PROACTIVE` in your search.
 
 # Arguments
 
@@ -1133,8 +1133,8 @@ Use the `Filters` parameter to specify status and severity search parameters. Us
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: A `SearchOrganizationInsightsFilters` object that is used to set the
-  severity and status filters on your insight search.
+- `"Filters"`: A `SearchOrganizationInsightsFilters` object that is used to set the severity
+  and status filters on your insight search.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
@@ -1280,11 +1280,11 @@ end
 
 Updates the collection of resources that DevOps Guru analyzes. The two types of Amazon Web
 Services resource collections supported are Amazon Web Services CloudFormation stacks and
-Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru
-can be configured to analyze the Amazon Web Services resources that are defined in the
-stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web
-Services CloudFormation stacks. This method also creates the IAM role required for you to
-use DevOps Guru.
+Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can
+be configured to analyze the Amazon Web Services resources that are defined in the stacks or
+that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services
+CloudFormation stacks. This method also creates the IAM role required for you to use DevOps
+Guru.
 
 # Arguments
 

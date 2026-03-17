@@ -119,7 +119,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       This time will only be recorded up to the second.
-
 """
 function get_token_balance end
 
@@ -168,8 +167,8 @@ end
 Gets the details of a transaction.
 
 !!! note
-    This action will return transaction details for all transactions that are *confirmed*
-    on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
+    This action will return transaction details for all transactions that are *confirmed* on
+    the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
 
 # Arguments
 
@@ -181,12 +180,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"transactionHash"`: The hash of a transaction. It is generated when a transaction is
   created.
+
 - `"transactionId"`: The identifier of a Bitcoin transaction. It is generated when a
   transaction is created.
 
   !!! note
       `transactionId` is only supported on the Bitcoin networks.
-
 """
 function get_transaction end
 
@@ -236,12 +235,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: `100`
 
   !!! note
-      Even if additional results can be retrieved, the request can return less results
-      than `maxResults` or an empty array of results.
+      Even if additional results can be retrieved, the request can return less results than
+      `maxResults` or an empty array of results.
 
       To retrieve the next set of results, make another request with the returned
-      `nextToken` value. The value of `nextToken` is `null` when there are no more
-      results to return
+      `nextToken` value. The value of `nextToken` is `null` when there are no more results
+      to return
 
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 """
@@ -286,8 +285,9 @@ Lists all the transaction events for an address on the blockchain.
 
 # Arguments
 
-- `address_identifier_filter`: This is the unique public address on the blockchain for
-  which the transaction events are being requested.
+- `address_identifier_filter`: This is the unique public address on the blockchain for which
+  the transaction events are being requested.
+
 - `network`: The blockchain network where the transaction occurred.
 
   Valid Values: `BITCOIN_MAINNET` | `BITCOIN_TESTNET`
@@ -297,22 +297,26 @@ Lists all the transaction events for an address on the blockchain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"confirmationStatusFilter"`:
+
 - `"maxResults"`: The maximum number of transaction events to list.
 
   Default: `100`
 
   !!! note
-      Even if additional results can be retrieved, the request can return less results
-      than `maxResults` or an empty array of results.
+      Even if additional results can be retrieved, the request can return less results than
+      `maxResults` or an empty array of results.
 
       To retrieve the next set of results, make another request with the returned
-      `nextToken` value. The value of `nextToken` is `null` when there are no more
-      results to return
+      `nextToken` value. The value of `nextToken` is `null` when there are no more results
+      to return
 
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
+
 - `"sort"`: The order by which the results will be sorted.
+
 - `"timeFilter"`: This container specifies the time frame for the transaction events
   returned in the response.
+
 - `"voutFilter"`: This container specifies filtering attributes related to BITCOIN_VOUT
   event types
 """
@@ -390,14 +394,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: `100`
 
   !!! note
-      Even if additional results can be retrieved, the request can return less results
-      than `maxResults` or an empty array of results.
+      Even if additional results can be retrieved, the request can return less results than
+      `maxResults` or an empty array of results.
 
       To retrieve the next set of results, make another request with the returned
-      `nextToken` value. The value of `nextToken` is `null` when there are no more
-      results to return
+      `nextToken` value. The value of `nextToken` is `null` when there are no more results
+      to return
 
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
+
 - `"ownerFilter"`: The contract or wallet address on the blockchain network by which to
   filter the request. You must specify the `address` property of the `ownerFilter` when
   listing balances of tokens owned by the address.
@@ -439,8 +444,8 @@ end
 Lists all the transaction events for a transaction
 
 !!! note
-    This action will return transaction details for all transactions that are *confirmed*
-    on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
+    This action will return transaction details for all transactions that are *confirmed* on
+    the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
 
 # Arguments
 
@@ -455,22 +460,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: `100`
 
   !!! note
-      Even if additional results can be retrieved, the request can return less results
-      than `maxResults` or an empty array of results.
+      Even if additional results can be retrieved, the request can return less results than
+      `maxResults` or an empty array of results.
 
       To retrieve the next set of results, make another request with the returned
-      `nextToken` value. The value of `nextToken` is `null` when there are no more
-      results to return
+      `nextToken` value. The value of `nextToken` is `null` when there are no more results
+      to return
 
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
+
 - `"transactionHash"`: The hash of a transaction. It is generated when a transaction is
   created.
+
 - `"transactionId"`: The identifier of a Bitcoin transaction. It is generated when a
   transaction is created.
 
   !!! note
       `transactionId` is only supported on the Bitcoin networks.
-
 """
 function list_transaction_events end
 
@@ -519,21 +525,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"confirmationStatusFilter"`: This filter is used to include transactions in the response
   that haven't reached [*finality*](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
   Transactions that have reached finality are always part of the response.
+
 - `"fromBlockchainInstant"`:
+
 - `"maxResults"`: The maximum number of transactions to list.
 
   Default: `100`
 
   !!! note
-      Even if additional results can be retrieved, the request can return less results
-      than `maxResults` or an empty array of results.
+      Even if additional results can be retrieved, the request can return less results than
+      `maxResults` or an empty array of results.
 
       To retrieve the next set of results, make another request with the returned
-      `nextToken` value. The value of `nextToken` is `null` when there are no more
-      results to return
+      `nextToken` value. The value of `nextToken` is `null` when there are no more results
+      to return
 
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
+
 - `"sort"`: The order by which the results will be sorted.
+
 - `"toBlockchainInstant"`:
 """
 function list_transactions end

@@ -31,20 +31,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkType"`: The blockchain network that the `Accessor` token is created for.
 
   !!! note
-      - Use the actual `networkType` value for the blockchain network that you are
-        creating the `Accessor` token for.
+      - Use the actual `networkType` value for the blockchain network that you are creating
+        the `Accessor` token for.
       - With the shut down of the *Ethereum Goerli* and *Polygon Mumbai Testnet* networks
         the following `networkType` values are no longer available for selection and use.
-          - `ETHEREUM_MAINNET_AND_GOERLI`
+        - `ETHEREUM_MAINNET_AND_GOERLI`
         - `ETHEREUM_GOERLI`
         - `POLYGON_MUMBAI`
-       However, your existing `Accessor` tokens with these `networkType` values will
-       remain unchanged.
+      However, your existing `Accessor` tokens with these `networkType` values will remain
+      unchanged.
 
 - `"Tags"`: Tags to assign to the Accessor.
 
-  Each tag consists of a key and an optional value. You can specify multiple key-value
-  pairs in a single request with an overall maximum of 50 tags allowed per resource.
+  Each tag consists of a key and an optional value. You can specify multiple key-value pairs
+  in a single request with an overall maximum of 50 tags allowed per resource.
 
   For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
   in the *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
@@ -100,11 +100,10 @@ Applies only to Hyperledger Fabric.
 
 # Arguments
 
-- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one
-  time. This identifier is required only if you make a service request directly using an
-  HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the
-  CLI.
+- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the operation. An idempotent operation completes no more than one time.
+  This identifier is required only if you make a service request directly using an HTTP
+  client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
 - `invitation_id`: The unique identifier of the invitation that is sent to the member to
   join the network.
 - `member_configuration`: Member configuration parameters.
@@ -174,10 +173,15 @@ Applies only to Hyperledger Fabric.
   once. This identifier is required only if you make a service request directly using an
   HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the
   Amazon Web Services CLI.
+
 - `framework`: The blockchain framework that the network uses.
+
 - `framework_version`: The version of the blockchain framework that the network uses.
+
 - `member_configuration`: Configuration properties for the first member within the network.
+
 - `name`: The name of the network.
+
 - `voting_policy`: The voting rules used by the network to determine if a proposal is
   approved.
 
@@ -186,12 +190,14 @@ Applies only to Hyperledger Fabric.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: An optional description for the network.
+
 - `"FrameworkConfiguration"`: Configuration properties of the blockchain framework relevant
   to the network configuration.
+
 - `"Tags"`: Tags to assign to the network.
 
-  Each tag consists of a key and an optional value. You can specify multiple key-value
-  pairs in a single request with an overall maximum of 50 tags allowed per resource.
+  Each tag consists of a key and an optional value. You can specify multiple key-value pairs
+  in a single request with an overall maximum of 50 tags allowed per resource.
 
   For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
   in the *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
@@ -266,12 +272,13 @@ Applies to Hyperledger Fabric and Ethereum.
 
 # Arguments
 
-- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one
-  time. This identifier is required only if you make a service request directly using an
-  HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the
-  CLI.
+- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the operation. An idempotent operation completes no more than one time.
+  This identifier is required only if you make a service request directly using an HTTP
+  client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
+
 - `node_configuration`: The properties of a node configuration.
+
 - `network_id`: The unique identifier of the network for the node.
 
   Ethereum public networks have the following `NetworkId`s:
@@ -285,10 +292,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MemberId"`: The unique identifier of the member that owns this node.
 
   Applies only to Hyperledger Fabric.
+
 - `"Tags"`: Tags to assign to the node.
 
-  Each tag consists of a key and an optional value. You can specify multiple key-value
-  pairs in a single request with an overall maximum of 50 tags allowed per resource.
+  Each tag consists of a key and an optional value. You can specify multiple key-value pairs
+  in a single request with an overall maximum of 50 tags allowed per resource.
 
   For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
   in the *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
@@ -352,13 +360,12 @@ Applies only to Hyperledger Fabric.
 # Arguments
 
 - `actions`: The type of actions proposed, such as inviting a member or removing a member.
-  The types of `Actions` in a proposal are mutually exclusive. For example, a proposal
-  with `Invitations` actions cannot also contain `Removals` actions.
-- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one
-  time. This identifier is required only if you make a service request directly using an
-  HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the
-  CLI.
+  The types of `Actions` in a proposal are mutually exclusive. For example, a proposal with
+  `Invitations` actions cannot also contain `Removals` actions.
+- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the operation. An idempotent operation completes no more than one time.
+  This identifier is required only if you make a service request directly using an HTTP
+  client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
 - `member_id`: The unique identifier of the member that is creating the proposal. This
   identifier is especially useful for identifying the member making the proposal when
   multiple members exist in a single Amazon Web Services account.
@@ -370,10 +377,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description for the proposal that is visible to voting members, for
   example, "Proposal to add Example Corp. as member."
+
 - `"Tags"`: Tags to assign to the proposal.
 
-  Each tag consists of a key and an optional value. You can specify multiple key-value
-  pairs in a single request with an overall maximum of 50 tags allowed per resource.
+  Each tag consists of a key and an optional value. You can specify multiple key-value pairs
+  in a single request with an overall maximum of 50 tags allowed per resource.
 
   For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
   in the *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
@@ -473,8 +481,8 @@ end
     delete_member(member_id, network_id)
     delete_member(member_id, network_id, params::Dict{String,<:Any})
 
-Deletes a member. Deleting a member removes the member and all associated resources from
-the network. `DeleteMember` can only be called for a specified `MemberId` if the principal
+Deletes a member. Deleting a member removes the member and all associated resources from the
+network. `DeleteMember` can only be called for a specified `MemberId` if the principal
 performing the action is associated with the Amazon Web Services account that owns the
 member. In all other cases, the `DeleteMember` action is carried out as the result of an
 approved proposal to remove a member. If `MemberId` is the last member in a network
@@ -780,11 +788,12 @@ have the information required for token based access to your Ethereum nodes.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of accessors to list.
+
 - `"networkType"`: The blockchain network that the `Accessor` token is created for.
 
   !!! note
-      Use the value `ETHEREUM_MAINNET_AND_GOERLI` for all existing `Accessors` tokens
-      that were created before the `networkType` property was introduced.
+      Use the value `ETHEREUM_MAINNET_AND_GOERLI` for all existing `Accessors` tokens that
+      were created before the `networkType` property was introduced.
 
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 """
@@ -904,9 +913,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"framework"`: An optional framework specifier. If provided, only networks of this
   framework type are listed.
+
 - `"maxResults"`: The maximum number of networks to list.
+
 - `"name"`: The name of the network.
+
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
+
 - `"status"`: An optional status specifier. If provided, only networks currently in this
   status are listed.
 
@@ -945,12 +958,15 @@ Applies to Hyperledger Fabric and Ethereum.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of nodes to list.
+
 - `"memberId"`: The unique identifier of the member who owns the nodes to list.
 
   Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
+
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
-- `"status"`: An optional status specifier. If provided, only nodes currently in this
-  status are listed.
+
+- `"status"`: An optional status specifier. If provided, only nodes currently in this status
+  are listed.
 """
 function list_nodes end
 
@@ -981,8 +997,8 @@ end
     list_proposal_votes(network_id, proposal_id)
     list_proposal_votes(network_id, proposal_id, params::Dict{String,<:Any})
 
-Returns the list of votes for a specified proposal, including the value of each vote and
-the unique identifier of the member that cast the vote.
+Returns the list of votes for a specified proposal, including the value of each vote and the
+unique identifier of the member that cast the vote.
 
 Applies only to Hyperledger Fabric.
 
@@ -1083,8 +1099,8 @@ in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
-  about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information about
+  ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
 function list_tags_for_resource end
@@ -1173,10 +1189,10 @@ in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
 # Arguments
 
 - `tags`: The tags to assign to the specified resource. Tag values can be empty, for
-  example, `"MyTagKey" : ""`. You can specify multiple key-value pairs in a single
-  request, with an overall maximum of 50 tags added to each resource.
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
-  about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  example, `"MyTagKey" : ""`. You can specify multiple key-value pairs in a single request,
+  with an overall maximum of 50 tags added to each resource.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information about
+  ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
 function tag_resource end
@@ -1218,8 +1234,8 @@ in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
-  about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information about
+  ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `tag_keys`: The tag keys.
 """
@@ -1320,6 +1336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"LogPublishingConfiguration"`: Configuration properties for publishing to Amazon
   CloudWatch Logs.
+
 - `"MemberId"`: The unique identifier of the member that owns the node.
 
   Applies only to Hyperledger Fabric.

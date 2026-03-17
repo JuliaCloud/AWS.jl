@@ -606,9 +606,9 @@ Get the discovered schema that was generated based on sampled events.
 
 # Arguments
 
-- `events`: An array of strings where each string is a JSON event. These are the events
-  that were used to generate the schema. The array includes a single type of event and
-  has a maximum size of 10 events.
+- `events`: An array of strings where each string is a JSON event. These are the events that
+  were used to generate the schema. The array includes a single type of event and has a
+  maximum size of 10 events.
 - `type`: The type of event.
 """
 function get_discovered_schema end
@@ -683,11 +683,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"discovererIdPrefix"`: Specifying this limits the results to only those discoverer IDs
   that start with the specified prefix.
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
-  the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
-  shared with other accounts.
-- `"sourceArnPrefix"`: Specifying this limits the results to only those ARNs that start
-  with the specified prefix.
+- `"nextToken"`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
+- `"sourceArnPrefix"`: Specifying this limits the results to only those ARNs that start with
+  the specified prefix.
 """
 function list_discoverers end
 
@@ -720,13 +720,13 @@ List the registries.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
-  the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
-  shared with other accounts.
+- `"nextToken"`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
 - `"registryNamePrefix"`: Specifying this limits the results to only those registry names
   that start with the specified prefix.
-- `"scope"`: Can be set to Local or AWS to limit responses to your custom registries, or
-  the ones provided by AWS.
+- `"scope"`: Can be set to Local or AWS to limit responses to your custom registries, or the
+  ones provided by AWS.
 """
 function list_registries end
 
@@ -764,9 +764,9 @@ Provides a list of the schema versions and related information.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
-  the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
-  shared with other accounts.
+- `"nextToken"`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
 """
 function list_schema_versions end
 
@@ -811,9 +811,9 @@ List the schemas.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
-  the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
-  shared with other accounts.
+- `"nextToken"`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
 - `"schemaNamePrefix"`: Specifying this limits the results to only those schema names that
   start with the specified prefix.
 """
@@ -984,9 +984,9 @@ Search the schemas
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
-  the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
-  shared with other accounts.
+- `"nextToken"`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
 """
 function search_schemas end
 

@@ -14,8 +14,8 @@ worker. Used for custom actions only.
 # Arguments
 
 - `job_id`: The unique system-generated ID of the job for which you want to confirm receipt.
-- `nonce`: A system-generated random number that CodePipeline uses to ensure that the job
-  is being worked on by only one job worker. Get this number from the response of the [`poll_for_jobs`](@ref)
+- `nonce`: A system-generated random number that CodePipeline uses to ensure that the job is
+  being worked on by only one job worker. Get this number from the response of the [`poll_for_jobs`](@ref)
   request that returned this job.
 """
 function acknowledge_job end
@@ -56,8 +56,8 @@ Confirms a job worker has received the specified job. Used for partner actions o
 - `client_token`: The clientToken portion of the clientId and clientToken pair used to
   verify that the calling entity is allowed access to the job and its details.
 - `job_id`: The unique system-generated ID of the job.
-- `nonce`: A system-generated random number that CodePipeline uses to ensure that the job
-  is being worked on by only one job worker. Get this number from the response to a [`get_third_party_job_details`](@ref)
+- `nonce`: A system-generated random number that CodePipeline uses to ensure that the job is
+  being worked on by only one job worker. Get this number from the response to a [`get_third_party_job_details`](@ref)
   request.
 """
 function acknowledge_third_party_job end
@@ -100,8 +100,8 @@ end
     create_custom_action_type(category, input_artifact_details, output_artifact_details, provider, version)
     create_custom_action_type(category, input_artifact_details, output_artifact_details, provider, version, params::Dict{String,<:Any})
 
-Creates a new custom action that can be used in all pipelines associated with the Amazon
-Web Services account. Only used for custom actions.
+Creates a new custom action that can be used in all pipelines associated with the Amazon Web
+Services account. Only used for custom actions.
 
 # Arguments
 
@@ -125,6 +125,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       configuration property is both required and not secret. For more information, see [Create a Custom Action for a Pipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/how-to-create-custom-action.html).
 
 - `"settings"`: URLs that provide users information about this custom action.
+
 - `"tags"`: The tags for the custom action.
 """
 function create_custom_action_type end
@@ -232,14 +233,14 @@ end
     delete_custom_action_type(category, provider, version)
     delete_custom_action_type(category, provider, version, params::Dict{String,<:Any})
 
-Marks a custom action as deleted. `PollForJobs` for the custom action fails after the
-action is marked for deletion. Used for custom actions only.
+Marks a custom action as deleted. `PollForJobs` for the custom action fails after the action
+is marked for deletion. Used for custom actions only.
 
 !!! important
     To re-create a custom action after it has been deleted you must use a string in the
-    version field that has never been used before. This string can be an incremented
-    version number, for example. To restore a deleted custom action, use a JSON file that
-    is identical to the deleted action, including the original string in the version field.
+    version field that has never been used before. This string can be an incremented version
+    number, for example. To restore a deleted custom action, use a JSON file that is
+    identical to the deleted action, including the original string in the version field.
 
 # Arguments
 
@@ -357,9 +358,9 @@ end
     deregister_webhook_with_third_party()
     deregister_webhook_with_third_party(params::Dict{String,<:Any})
 
-Removes the connection between the webhook that was created by CodePipeline and the
-external tool with events to be detected. Currently supported only for webhooks that target
-an action type of GitHub.
+Removes the connection between the webhook that was created by CodePipeline and the external
+tool with events to be detected. Currently supported only for webhooks that target an action
+type of GitHub.
 
 # Optional Parameters
 
@@ -406,8 +407,8 @@ Prevents artifacts in a pipeline from transitioning to the next stage in the pip
   transition of artifacts.
 - `transition_type`: Specifies whether artifacts are prevented from transitioning into the
   stage and being processed by the actions in that stage (inbound), or prevented from
-  transitioning from the stage after they have been processed by the actions in that
-  stage (outbound).
+  transitioning from the stage after they have been processed by the actions in that stage
+  (outbound).
 """
 function disable_stage_transition end
 
@@ -541,8 +542,10 @@ supported integration model.
 
 - `owner`: The creator of an action type that was created with any supported integration
   model. There are two valid values: `AWS` and `ThirdParty`.
+
 - `provider`: The provider of the action type being called. The provider name is specified
   when the action type is created.
+
 - `version`: A string that describes the action type version.
 """
 function get_action_type end
@@ -645,8 +648,8 @@ update the pipeline structure with [`update_pipeline`](@ref).
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"version"`: The version number of the pipeline. If you do not specify a version,
-  defaults to the current version.
+- `"version"`: The version number of the pipeline. If you do not specify a version, defaults
+  to the current version.
 """
 function get_pipeline end
 
@@ -674,8 +677,8 @@ end
     get_pipeline_execution(pipeline_execution_id, pipeline_name)
     get_pipeline_execution(pipeline_execution_id, pipeline_name, params::Dict{String,<:Any})
 
-Returns information about an execution of a pipeline, including details about artifacts,
-the pipeline execution ID, and the name, version, and status of the pipeline.
+Returns information about an execution of a pipeline, including details about artifacts, the
+pipeline execution ID, and the name, version, and status of the pipeline.
 
 # Arguments
 
@@ -825,9 +828,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filter"`: Input information used to filter action execution history.
 - `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned nextToken value. Action
-  execution history is retained for up to 12 months, based on action execution start
-  times. Default value is 100.
+  remaining results, make another call with the returned nextToken value. Action execution
+  history is retained for up to 12 months, based on action execution start times. Default
+  value is 100.
 - `"nextToken"`: The token that was returned from the previous `ListActionExecutions` call,
   which can be used to return the next set of action executions in the list.
 """
@@ -913,9 +916,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filter"`: The pipeline execution to filter on.
 - `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned nextToken value. Pipeline
-  history is limited to the most recent 12 months, based on pipeline execution start
-  times. Default value is 100.
+  remaining results, make another call with the returned nextToken value. Pipeline history
+  is limited to the most recent 12 months, based on pipeline execution start times. Default
+  value is 100.
 - `"nextToken"`: The token that was returned from the previous `ListPipelineExecutions`
   call, which can be used to return the next set of pipeline executions in the list.
 """
@@ -958,8 +961,8 @@ Gets a summary of all of the pipelines associated with your account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of pipelines to return in a single call. To retrieve
-  the remaining pipelines, make another call with the returned nextToken value. The
-  minimum value you can specify is 1. The maximum accepted value is 1000.
+  the remaining pipelines, make another call with the returned nextToken value. The minimum
+  value you can specify is 1. The maximum accepted value is 1000.
 - `"nextToken"`: An identifier that was returned from the previous list pipelines call. It
   can be used to return the next set of pipelines in the list.
 """
@@ -997,9 +1000,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filter"`: Input information used to filter rule execution history.
 - `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned nextToken value. Pipeline
-  history is limited to the most recent 12 months, based on pipeline execution start
-  times. Default value is 100.
+  remaining results, make another call with the returned nextToken value. Pipeline history
+  is limited to the most recent 12 months, based on pipeline execution start times. Default
+  value is 100.
 - `"nextToken"`: The token that was returned from the previous `ListRuleExecutions` call,
   which can be used to return the next set of rule executions in the list.
 """
@@ -1075,9 +1078,9 @@ Gets the set of key-value pairs (metadata) that are used to manage the resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return in a single call.
-- `"nextToken"`: The token that was returned from the previous API call, which would be
-  used to return the next page of the list. The ListTagsforResource call lists all
-  available tags in one call and does not use pagination.
+- `"nextToken"`: The token that was returned from the previous API call, which would be used
+  to return the next page of the list. The ListTagsforResource call lists all available tags
+  in one call and does not use pagination.
 """
 function list_tags_for_resource end
 
@@ -1230,9 +1233,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxBatchSize"`: The maximum number of jobs to return in a poll for jobs call.
 - `"queryParam"`: A map of property names and values. For an action type with no queryable
-  properties, this value must be null or an empty map. For an action type with a
-  queryable property, you must supply that property as a key in the map. Only jobs whose
-  action configuration matches the mapped value are returned.
+  properties, this value must be null or an empty map. For an action type with a queryable
+  property, you must supply that property as a key in the map. Only jobs whose action
+  configuration matches the mapped value are returned.
 """
 function poll_for_jobs end
 
@@ -1448,8 +1451,8 @@ end
     put_job_failure_result(failure_details, job_id)
     put_job_failure_result(failure_details, job_id, params::Dict{String,<:Any})
 
-Represents the failure of a job as returned to the pipeline by a job worker. Used for
-custom actions only.
+Represents the failure of a job as returned to the pipeline by a job worker. Used for custom
+actions only.
 
 # Arguments
 
@@ -1494,8 +1497,8 @@ end
     put_job_success_result(job_id)
     put_job_success_result(job_id, params::Dict{String,<:Any})
 
-Represents the success of a job as returned to the pipeline by a job worker. Used for
-custom actions only.
+Represents the success of a job as returned to the pipeline by a job worker. Used for custom
+actions only.
 
 # Arguments
 
@@ -1508,13 +1511,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"continuationToken"`: A token generated by a job worker, such as a CodeDeploy deployment
   ID, that a successful job provides to identify a custom action in progress. Future jobs
-  use this token to identify the running instance of the action. It can be reused to
-  return more information about the progress of the custom action. When the action is
-  complete, no continuation token should be supplied.
-- `"currentRevision"`: The ID of the current revision of the artifact successfully worked
-  on by the job.
+  use this token to identify the running instance of the action. It can be reused to return
+  more information about the progress of the custom action. When the action is complete, no
+  continuation token should be supplied.
+
+- `"currentRevision"`: The ID of the current revision of the artifact successfully worked on
+  by the job.
+
 - `"executionDetails"`: The execution details of the successful job, such as the actions
   taken by the job worker.
+
 - `"outputVariables"`: Key-value pairs produced as output by a job worker that can be made
   available to a downstream action configuration. `outputVariables` can be included only
   when there is no continuation token on the request.
@@ -1609,21 +1615,23 @@ Used for partner actions only.
 
 - `client_token`: The clientToken portion of the clientId and clientToken pair used to
   verify that the calling entity is allowed access to the job and its details.
-- `job_id`: The ID of the job that successfully completed. This is the same ID returned
-  from `PollForThirdPartyJobs`.
+- `job_id`: The ID of the job that successfully completed. This is the same ID returned from
+  `PollForThirdPartyJobs`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"continuationToken"`: A token generated by a job worker, such as a CodeDeploy deployment
-  ID, that a successful job provides to identify a partner action in progress. Future
-  jobs use this token to identify the running instance of the action. It can be reused to
-  return more information about the progress of the partner action. When the action is
-  complete, no continuation token should be supplied.
+  ID, that a successful job provides to identify a partner action in progress. Future jobs
+  use this token to identify the running instance of the action. It can be reused to return
+  more information about the progress of the partner action. When the action is complete, no
+  continuation token should be supplied.
+
 - `"currentRevision"`: Represents information about a current revision.
-- `"executionDetails"`: The details of the actions taken and results produced on an
-  artifact as it passes through stages in the pipeline.
+
+- `"executionDetails"`: The details of the actions taken and results produced on an artifact
+  as it passes through stages in the pipeline.
 """
 function put_third_party_job_success_result end
 
@@ -1684,10 +1692,10 @@ parties to call the generated webhook URL.
 
 # Arguments
 
-- `webhook`: The detail provided in an input file to create the webhook, such as the
-  webhook name, the pipeline name, and the action name. Give the webhook a unique name
-  that helps you identify it. You might name the webhook after the pipeline and action it
-  targets so that you can easily recognize what it's used for later.
+- `webhook`: The detail provided in an input file to create the webhook, such as the webhook
+  name, the pipeline name, and the action name. Give the webhook a unique name that helps
+  you identify it. You might name the webhook after the pipeline and action it targets so
+  that you can easily recognize what it's used for later.
 
 # Optional Parameters
 
@@ -1765,8 +1773,8 @@ beginning. You do this by either retrying the failed actions in a stage or by re
 actions in the stage starting from the first action in the stage. When you retry the failed
 actions in a stage, all actions that are still in progress continue working, and failed
 actions are triggered again. When you retry a failed stage from the first action in the
-stage, the stage cannot have any actions in progress. Before a stage can be retried, it
-must either have all actions failed or some actions failed and some succeeded.
+stage, the stage cannot have any actions in progress. Before a stage can be retried, it must
+either have all actions failed or some actions failed and some succeeded.
 
 # Arguments
 
@@ -1899,12 +1907,11 @@ source location specified as part of the pipeline.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientRequestToken"`: The system-generated unique ID used to identify a unique
-  execution request.
+- `"clientRequestToken"`: The system-generated unique ID used to identify a unique execution
+  request.
 - `"sourceRevisions"`: A list that allows you to specify, or override, the source revision
-  for a pipeline execution that's being started. A source revision is the version with
-  all the changes to your application code, or source artifact, for the pipeline
-  execution.
+  for a pipeline execution that's being started. A source revision is the version with all
+  the changes to your application code, or source artifact, for the pipeline execution.
 - `"variables"`: A list that overrides pipeline variables for a pipeline execution that's
   being started. Variable names must match `[A-Za-z0-9@\\-_]+`, and the values can be
   anything except an empty string.
@@ -1943,9 +1950,9 @@ end
 
 Stops the specified pipeline execution. You choose to either stop the pipeline execution by
 completing in-progress actions without starting subsequent actions, or by abandoning in-
-progress actions. While completing or abandoning in-progress actions, the pipeline
-execution is in a `Stopping` state. After all in-progress actions are completed or
-abandoned, the pipeline execution is in a `Stopped` state.
+progress actions. While completing or abandoning in-progress actions, the pipeline execution
+is in a `Stopping` state. After all in-progress actions are completed or abandoned, the
+pipeline execution is in a `Stopped` state.
 
 # Arguments
 
@@ -2096,8 +2103,8 @@ end
     update_action_type(action_type, params::Dict{String,<:Any})
 
 Updates an action type that was created with any supported integration model, where the
-action type is to be used by customers of the action type provider. Use a JSON file with
-the action definition and `UpdateActionType` to provide the full structure.
+action type is to be used by customers of the action type provider. Use a JSON file with the
+action definition and `UpdateActionType` to provide the full structure.
 
 # Arguments
 

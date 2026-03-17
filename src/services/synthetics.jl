@@ -74,14 +74,16 @@ outbound calls over the internet. For more information, see [Security Considerat
 # Arguments
 
 - `artifact_s3_location`: The location in Amazon S3 where Synthetics stores artifacts from
-  the test runs of this canary. Artifacts include the log file, screenshots, and HAR
-  files. The name of the S3 bucket can't include a period (.).
+  the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.
+  The name of the S3 bucket can't include a period (.).
+
 - `code`: A structure that includes the entry point from which the canary should start
   running your script. If the script is stored in an S3 bucket, the bucket name, key, and
   version are also included.
-- `execution_role_arn`: The ARN of the IAM role to be used to run the canary. This role
-  must already exist, and must include `lambda.amazonaws.com` as a principal in the trust
-  policy. The role must also have the following permissions:
+
+- `execution_role_arn`: The ARN of the IAM role to be used to run the canary. This role must
+  already exist, and must include `lambda.amazonaws.com` as a principal in the trust policy.
+  The role must also have the following permissions:
 
   - `s3:PutObject`
   - `s3:GetBucketLocation`
@@ -91,27 +93,31 @@ outbound calls over the internet. For more information, see [Security Considerat
   - `logs:CreateLogStream`
   - `logs:PutLogEvents`
 
-- `name`: The name for this canary. Be sure to give it a descriptive name that
-  distinguishes it from other canaries in your account.
+- `name`: The name for this canary. Be sure to give it a descriptive name that distinguishes
+  it from other canaries in your account.
 
   Do not include secrets or proprietary information in your canary names. The canary name
   makes up part of the canary ARN, and the ARN is included in outbound calls over the
   internet. For more information, see [Security Considerations for Synthetics Canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/servicelens_canaries_security.html).
+
 - `runtime_version`: Specifies the runtime version to use for the canary. For a list of
   valid runtime versions and more information about runtime versions, see [Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
-- `schedule`: A structure that contains information about how often the canary is to run
-  and when these test runs are to stop.
+
+- `schedule`: A structure that contains information about how often the canary is to run and
+  when these test runs are to stop.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ArtifactConfig"`: A structure that contains the configuration for canary artifacts,
-  including the encryption-at-rest settings for artifacts that the canary uploads to
-  Amazon S3.
+  including the encryption-at-rest settings for artifacts that the canary uploads to Amazon
+  S3.
+
 - `"FailureRetentionPeriodInDays"`: The number of days to retain data about failed runs of
-  this canary. If you omit this field, the default of 31 days is used. The valid range is
-  1 to 455 days.
+  this canary. If you omit this field, the default of 31 days is used. The valid range is 1
+  to 455 days.
+
 - `"RunConfig"`: A structure that contains the configuration for individual canary runs,
   such as timeout value and environment variables.
 
@@ -120,14 +126,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       information in this field.
 
 - `"SuccessRetentionPeriodInDays"`: The number of days to retain data about successful runs
-  of this canary. If you omit this field, the default of 31 days is used. The valid range
-  is 1 to 455 days.
+  of this canary. If you omit this field, the default of 31 days is used. The valid range is
+  1 to 455 days.
+
 - `"Tags"`: A list of key-value pairs to associate with the canary. You can associate as
   many as 50 tags with a canary.
 
-  Tags can help you organize and categorize your resources. You can also use them to
-  scope user permissions, by granting a user permission to access or change only the
-  resources that have certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions, by granting a user permission to access or change only the resources
+  that have certain tag values.
+
 - `"VpcConfig"`: If this canary is to test an endpoint in a VPC, this structure contains
   information about the subnet and security groups of the VPC endpoint. For more
   information, see [Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
@@ -221,12 +229,12 @@ account. Any single canary can be a member of up to 10 groups.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Tags"`: A list of key-value pairs to associate with the group. You can associate as
-  many as 50 tags with a group.
+- `"Tags"`: A list of key-value pairs to associate with the group. You can associate as many
+  as 50 tags with a group.
 
-  Tags can help you organize and categorize your resources. You can also use them to
-  scope user permissions, by granting a user permission to access or change only the
-  resources that have certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions, by granting a user permission to access or change only the resources
+  that have certain tag values.
 """
 function create_group end
 
@@ -285,8 +293,8 @@ delete these resources after you delete the canary.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"deleteLambda"`: Specifies whether to also delete the Lambda functions and layers used
-  by this canary. The default is false.
+- `"deleteLambda"`: Specifies whether to also delete the Lambda functions and layers used by
+  this canary. The default is false.
 
   Type: Boolean
 """
@@ -354,8 +362,8 @@ end
     describe_canaries()
     describe_canaries(params::Dict{String,<:Any})
 
-This operation returns a list of the canaries in your account, along with full details
-about each canary.
+This operation returns a list of the canaries in your account, along with full details about
+each canary.
 
 This operation supports resource-level authorization using an IAM policy and the `Names`
 parameter. If you specify the `Names` parameter, the operation is successful only if you
@@ -371,18 +379,20 @@ information, see [Limiting a user to viewing specific canaries](https://docs.aws
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Specify this parameter to limit how many canaries are returned each time
-  you use the [`describe_canaries`](@ref) operation. If you omit this parameter, the
-  default of 100 is used.
+  you use the [`describe_canaries`](@ref) operation. If you omit this parameter, the default
+  of 100 is used.
+
 - `"Names"`: Use this parameter to return only canaries that match the names that you
   specify here. You can specify as many as five canary names.
 
-  If you specify this parameter, the operation is successful only if you have
-  authorization to view all the canaries that you specify in your request. If you do not
-  have permission to view any of the canaries, the request fails with a 403 response.
+  If you specify this parameter, the operation is successful only if you have authorization
+  to view all the canaries that you specify in your request. If you do not have permission
+  to view any of the canaries, the request fails with a 403 response.
 
-  You are required to use this parameter if you are logged on to a user or role that has
-  an IAM policy that restricts which canaries that you are allowed to view. For more
+  You are required to use this parameter if you are logged on to a user or role that has an
+  IAM policy that restricts which canaries that you are allowed to view. For more
   information, see [Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
+
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
   token in a subsequent operation to retrieve the next set of results.
 """
@@ -423,21 +433,23 @@ information, see [Limiting a user to viewing specific canaries](https://docs.aws
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Specify this parameter to limit how many runs are returned each time you
-  use the [`describe_last_run`](@ref) operation. If you omit this parameter, the default
-  of 100 is used.
+  use the [`describe_last_run`](@ref) operation. If you omit this parameter, the default of
+  100 is used.
+
 - `"Names"`: Use this parameter to return only canaries that match the names that you
   specify here. You can specify as many as five canary names.
 
-  If you specify this parameter, the operation is successful only if you have
-  authorization to view all the canaries that you specify in your request. If you do not
-  have permission to view any of the canaries, the request fails with a 403 response.
+  If you specify this parameter, the operation is successful only if you have authorization
+  to view all the canaries that you specify in your request. If you do not have permission
+  to view any of the canaries, the request fails with a 403 response.
 
-  You are required to use the `Names` parameter if you are logged on to a user or role
-  that has an IAM policy that restricts which canaries that you are allowed to view. For
-  more information, see [Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
+  You are required to use the `Names` parameter if you are logged on to a user or role that
+  has an IAM policy that restricts which canaries that you are allowed to view. For more
+  information, see [Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
+
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
-  token in a subsequent [`describe_canaries_last_run`](@ref) operation to retrieve the
-  next set of results.
+  token in a subsequent [`describe_canaries_last_run`](@ref) operation to retrieve the next
+  set of results.
 """
 function describe_canaries_last_run end
 
@@ -473,8 +485,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use the [`describe_runtime_versions`](@ref) operation. If you omit this parameter, the
   default of 100 is used.
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
-  token in a subsequent [`describe_runtime_versions`](@ref) operation to retrieve the
-  next set of results.
+  token in a subsequent [`describe_runtime_versions`](@ref) operation to retrieve the next
+  set of results.
 """
 function describe_runtime_versions end
 
@@ -667,8 +679,8 @@ you specify must be in the current Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: Specify this parameter to limit how many groups are returned each time
-  you use the [`list_associated_groups`](@ref) operation. If you omit this parameter, the
+- `"MaxResults"`: Specify this parameter to limit how many groups are returned each time you
+  use the [`list_associated_groups`](@ref) operation. If you omit this parameter, the
   default of 20 is used.
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
   token in a subsequent operation to retrieve the next set of results.
@@ -717,8 +729,8 @@ specified group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Specify this parameter to limit how many canary ARNs are returned each
-  time you use the [`list_group_resources`](@ref) operation. If you omit this parameter,
-  the default of 20 is used.
+  time you use the [`list_group_resources`](@ref) operation. If you omit this parameter, the
+  default of 20 is used.
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
   token in a subsequent operation to retrieve the next set of results.
 """
@@ -760,9 +772,9 @@ The groups from all Regions are returned.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: Specify this parameter to limit how many groups are returned each time
-  you use the [`list_groups`](@ref) operation. If you omit this parameter, the default of
-  20 is used.
+- `"MaxResults"`: Specify this parameter to limit how many groups are returned each time you
+  use the [`list_groups`](@ref) operation. If you omit this parameter, the default of 20 is
+  used.
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
   token in a subsequent operation to retrieve the next set of results.
 """
@@ -795,8 +807,7 @@ Displays the tags associated with a canary or group.
   The ARN format of a canary is
   `arn:aws:synthetics:*Region*:*account-id*:canary:*canary-name*`.
 
-  The ARN format of a group is
-  `arn:aws:synthetics:*Region*:*account-id*:group:*group-name*`
+  The ARN format of a group is `arn:aws:synthetics:*Region*:*account-id*:group:*group-name*`
 """
 function list_tags_for_resource end
 
@@ -864,9 +875,9 @@ end
     stop_canary(name)
     stop_canary(name, params::Dict{String,<:Any})
 
-Stops the canary to prevent all future runs. If the canary is currently running,the run
-that is in progress completes on its own, publishes metrics, and uploads artifacts, but it
-is not recorded in Synthetics as a completed run.
+Stops the canary to prevent all future runs. If the canary is currently running,the run that
+is in progress completes on its own, publishes metrics, and uploads artifacts, but it is not
+recorded in Synthetics as a completed run.
 
 You can use `StartCanary` to start it running again with the canary’s current schedule at
 any point in the future.
@@ -912,23 +923,23 @@ certain tag values.
 Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
 strings of characters.
 
-You can use the `TagResource` action with a resource that already has tags. If you specify
-a new tag key for the resource, this tag is appended to the list of tags associated with
-the resource. If you specify a tag key that is already associated with the resource, the
-new tag value that you specify replaces the previous value for that tag.
+You can use the `TagResource` action with a resource that already has tags. If you specify a
+new tag key for the resource, this tag is appended to the list of tags associated with the
+resource. If you specify a tag key that is already associated with the resource, the new tag
+value that you specify replaces the previous value for that tag.
 
 You can associate as many as 50 tags with a canary or group.
 
 # Arguments
 
 - `tags`: The list of key-value pairs to associate with the resource.
+
 - `resource_arn`: The ARN of the canary or group that you're adding tags to.
 
   The ARN format of a canary is
   `arn:aws:synthetics:*Region*:*account-id*:canary:*canary-name*`.
 
-  The ARN format of a group is
-  `arn:aws:synthetics:*Region*:*account-id*:group:*group-name*`
+  The ARN format of a group is `arn:aws:synthetics:*Region*:*account-id*:group:*group-name*`
 """
 function tag_resource end
 
@@ -970,8 +981,8 @@ Removes one or more tags from the specified resource.
   The ARN format of a canary is
   `arn:aws:synthetics:*Region*:*account-id*:canary:*canary-name*`.
 
-  The ARN format of a group is
-  `arn:aws:synthetics:*Region*:*account-id*:group:*group-name*`
+  The ARN format of a group is `arn:aws:synthetics:*Region*:*account-id*:group:*group-name*`
+
 - `tag_keys`: The list of tag keys to remove from the resource.
 """
 function untag_resource end
@@ -1009,8 +1020,8 @@ end
 
 Updates the configuration of a canary that has already been created.
 
-You can't use this operation to update the tags of an existing canary. To change the tags
-of an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html).
+You can't use this operation to update the tags of an existing canary. To change the tags of
+an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html).
 
 # Arguments
 
@@ -1024,17 +1035,20 @@ of an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynth
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ArtifactConfig"`: A structure that contains the configuration for canary artifacts,
-  including the encryption-at-rest settings for artifacts that the canary uploads to
-  Amazon S3.
+  including the encryption-at-rest settings for artifacts that the canary uploads to Amazon
+  S3.
+
 - `"ArtifactS3Location"`: The location in Amazon S3 where Synthetics stores artifacts from
-  the test runs of this canary. Artifacts include the log file, screenshots, and HAR
-  files. The name of the S3 bucket can't include a period (.).
+  the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.
+  The name of the S3 bucket can't include a period (.).
+
 - `"Code"`: A structure that includes the entry point from which the canary should start
   running your script. If the script is stored in an S3 bucket, the bucket name, key, and
   version are also included.
-- `"ExecutionRoleArn"`: The ARN of the IAM role to be used to run the canary. This role
-  must already exist, and must include `lambda.amazonaws.com` as a principal in the trust
-  policy. The role must also have the following permissions:
+
+- `"ExecutionRoleArn"`: The ARN of the IAM role to be used to run the canary. This role must
+  already exist, and must include `lambda.amazonaws.com` as a principal in the trust policy.
+  The role must also have the following permissions:
 
   - `s3:PutObject`
   - `s3:GetBucketLocation`
@@ -1046,6 +1060,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FailureRetentionPeriodInDays"`: The number of days to retain data about failed runs of
   this canary.
+
 - `"RunConfig"`: A structure that contains the timeout value that is used for each
   individual run of the canary.
 
@@ -1055,18 +1070,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"RuntimeVersion"`: Specifies the runtime version to use for the canary. For a list of
   valid runtime versions and for more information about runtime versions, see [Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
+
 - `"Schedule"`: A structure that contains information about how often the canary is to run,
   and when these runs are to stop.
+
 - `"SuccessRetentionPeriodInDays"`: The number of days to retain data about successful runs
   of this canary.
-- `"VisualReference"`: Defines the screenshots to use as the baseline for comparisons
-  during visual monitoring comparisons during future runs of this canary. If you omit
-  this parameter, no changes are made to any baseline screenshots that the canary might
-  be using already.
+
+- `"VisualReference"`: Defines the screenshots to use as the baseline for comparisons during
+  visual monitoring comparisons during future runs of this canary. If you omit this
+  parameter, no changes are made to any baseline screenshots that the canary might be using
+  already.
 
   Visual monitoring is supported only on canaries running the **syn-puppeteer-node-3.2**
   runtime or later. For more information, see [Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html)
   and [Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
+
 - `"VpcConfig"`: If this canary is to test an endpoint in a VPC, this structure contains
   information about the subnet and security groups of the VPC endpoint. For more
   information, see [Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).

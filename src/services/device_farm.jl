@@ -21,13 +21,14 @@ Creates a device pool.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The device pool's description.
-- `"maxDevices"`: The number of devices that Device Farm can add to your device pool.
-  Device Farm adds devices that are available and meet the criteria that you assign for
-  the `rules` parameter. Depending on how many devices meet these constraints, your
-  device pool might contain fewer devices than the value for this parameter.
 
-  By specifying the maximum number of devices, you can control the costs that you incur
-  by running tests.
+- `"maxDevices"`: The number of devices that Device Farm can add to your device pool. Device
+  Farm adds devices that are available and meet the criteria that you assign for the `rules`
+  parameter. Depending on how many devices meet these constraints, your device pool might
+  contain fewer devices than the value for this parameter.
+
+  By specifying the maximum number of devices, you can control the costs that you incur by
+  running tests.
 """
 function create_device_pool end
 
@@ -80,14 +81,17 @@ Creates a profile that can be applied to one or more private fleet device instan
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of your instance profile.
+
 - `"excludeAppPackagesFromCleanup"`: An array of strings that specifies the list of app
   packages that should not be cleaned up from the device after a test run.
 
   The list of packages is considered only if you set `packageCleanup` to `true`.
-- `"packageCleanup"`: When set to `true`, Device Farm removes app packages after a test
-  run. The default value is `false` for private devices.
-- `"rebootAfterUse"`: When set to `true`, Device Farm reboots the instance after a test
-  run. The default value is `true`.
+
+- `"packageCleanup"`: When set to `true`, Device Farm removes app packages after a test run.
+  The default value is `false` for private devices.
+
+- `"rebootAfterUse"`: When set to `true`, Device Farm reboots the instance after a test run.
+  The default value is `true`.
 """
 function create_instance_profile end
 
@@ -128,8 +132,8 @@ Creates a network profile.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of the network profile.
-- `"downlinkBandwidthBits"`: The data throughput rate in bits per second, as an integer
-  from 0 to 104857600.
+- `"downlinkBandwidthBits"`: The data throughput rate in bits per second, as an integer from
+  0 to 104857600.
 - `"downlinkDelayMs"`: Delay time for all packets to destination in milliseconds as an
   integer from 0 to 2000.
 - `"downlinkJitterMs"`: Time variation in the delay of received packets in milliseconds as
@@ -137,14 +141,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"downlinkLossPercent"`: Proportion of received packets that fail to arrive from 0 to 100
   percent.
 - `"type"`: The type of network profile to create. Valid values are listed here.
-- `"uplinkBandwidthBits"`: The data throughput rate in bits per second, as an integer from
-  0 to 104857600.
-- `"uplinkDelayMs"`: Delay time for all packets to destination in milliseconds as an
-  integer from 0 to 2000.
+- `"uplinkBandwidthBits"`: The data throughput rate in bits per second, as an integer from 0
+  to 104857600.
+- `"uplinkDelayMs"`: Delay time for all packets to destination in milliseconds as an integer
+  from 0 to 2000.
 - `"uplinkJitterMs"`: Time variation in the delay of received packets in milliseconds as an
   integer from 0 to 2000.
-- `"uplinkLossPercent"`: Proportion of transmitted packets that fail to arrive from 0 to
-  100 percent.
+- `"uplinkLossPercent"`: Proportion of transmitted packets that fail to arrive from 0 to 100
+  percent.
 """
 function create_network_profile end
 
@@ -191,9 +195,9 @@ Creates a project.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"defaultJobTimeoutMinutes"`: Sets the execution timeout value (in minutes) for a
-  project. All test runs in this project use the specified execution timeout value unless
-  overridden when scheduling a run.
+- `"defaultJobTimeoutMinutes"`: Sets the execution timeout value (in minutes) for a project.
+  All test runs in this project use the specified execution timeout value unless overridden
+  when scheduling a run.
 - `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
 function create_project end
@@ -236,40 +240,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientId"`: Unique identifier for the client. If you want access to multiple devices on
   the same client, you should pass the same `clientId` value in each call to
-  `CreateRemoteAccessSession`. This identifier is required only if `remoteDebugEnabled`
-  is set to `true`.
+  `CreateRemoteAccessSession`. This identifier is required only if `remoteDebugEnabled` is
+  set to `true`.
 
   Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
+
 - `"configuration"`: The configuration information for the remote access session request.
+
 - `"instanceArn"`: The Amazon Resource Name (ARN) of the device instance for which you want
   to create a remote access session.
+
 - `"interactionMode"`: The interaction mode of the remote access session. Valid values are:
 
-
-  - INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating
-    the screen. You cannot run XCUITest framework-based tests in this mode.
+  - INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating the
+    screen. You cannot run XCUITest framework-based tests in this mode.
   - NO_VIDEO: You are connected to the device, but cannot interact with it or view the
-    screen. This mode has the fastest test execution speed. You can run XCUITest
-    framework-based tests in this mode.
-  - VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can run
-    XCUITest framework-based tests and watch the screen in this mode.
+    screen. This mode has the fastest test execution speed. You can run XCUITest framework-
+    based tests in this mode.
+  - VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can run XCUITest
+    framework-based tests and watch the screen in this mode.
 
 - `"name"`: The name of the remote access session to create.
-- `"remoteDebugEnabled"`: Set to `true` if you want to access devices remotely for
-  debugging in your remote access session.
+
+- `"remoteDebugEnabled"`: Set to `true` if you want to access devices remotely for debugging
+  in your remote access session.
 
   Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
+
 - `"remoteRecordAppArn"`: The Amazon Resource Name (ARN) for the app to be recorded in the
   remote access session.
+
 - `"remoteRecordEnabled"`: Set to `true` to enable remote recording for the remote access
   session.
-- `"skipAppResign"`: When set to `true`, for private devices, Device Farm does not sign
-  your app again. For public devices, Device Farm always signs your apps again.
+
+- `"skipAppResign"`: When set to `true`, for private devices, Device Farm does not sign your
+  app again. For public devices, Device Farm always signs your apps again.
 
   For more information on how Device Farm modifies your uploads during tests, see [Do you modify my app?](http://aws.amazon.com/device-farm/faqs/)
+
 - `"sshPublicKey"`: Ignored. The public key of the `ssh` key pair you want to use for
-  connecting to remote devices in your remote debugging session. This key is required
-  only if `remoteDebugEnabled` is set to `true`.
+  connecting to remote devices in your remote debugging session. This key is required only
+  if `remoteDebugEnabled` is set to `true`.
 
   Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
 """
@@ -405,10 +416,12 @@ Uploads an app or test scripts.
 # Arguments
 
 - `name`: The upload's file name. The name should not contain any forward slashes (`/`). If
-  you are uploading an iOS app, the file name must end with the `.ipa` extension. If you
-  are uploading an Android app, the file name must end with the `.apk` extension. For all
+  you are uploading an iOS app, the file name must end with the `.ipa` extension. If you are
+  uploading an Android app, the file name must end with the `.apk` extension. For all
   others, the file name must end with the `.zip` file extension.
+
 - `project_arn`: The ARN of the project for the upload.
+
 - `type`: The upload's upload type.
 
   Must be one of the following values:
@@ -501,15 +514,15 @@ endpoint.
   Farm to test.
 - `vpce_configuration_name`: The friendly name you give to your VPC endpoint configuration,
   to manage your configurations more easily.
-- `vpce_service_name`: The name of the VPC endpoint service running in your AWS account
-  that you want Device Farm to test.
+- `vpce_service_name`: The name of the VPC endpoint service running in your AWS account that
+  you want Device Farm to test.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"vpceConfigurationDescription"`: An optional description that provides details about
-  your VPC endpoint configuration.
+- `"vpceConfigurationDescription"`: An optional description that provides details about your
+  VPC endpoint configuration.
 """
 function create_vpceconfiguration end
 
@@ -871,8 +884,8 @@ end
     get_account_settings()
     get_account_settings(params::Dict{String,<:Any})
 
-Returns the number of unmetered iOS or unmetered Android devices that have been purchased
-by the account.
+Returns the number of unmetered iOS or unmetered Android devices that have been purchased by
+the account.
 """
 function get_account_settings end
 
@@ -1001,8 +1014,11 @@ Gets information about compatibility with a device pool.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"appArn"`: The ARN of the app that is associated with the specified device pool.
+
 - `"configuration"`: An object that contains information about the settings for a run.
+
 - `"test"`: Information about the uploaded test to be run against the device pool.
+
 - `"testType"`: The test type for the specified device pool.
 
   Allowed values include the following:
@@ -1021,7 +1037,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - INSTRUMENTATION.
   - XCTEST.
   - XCTEST_UI.
-
 """
 function get_device_pool_compatibility end
 
@@ -1152,8 +1167,8 @@ end
     get_offering_status(params::Dict{String,<:Any})
 
 Gets the current status and future status of all offerings purchased by an AWS account. The
-response indicates how many offerings are currently available and the offerings that will
-be available in the next period. The API returns a `NotEligible` error if the user is not
+response indicates how many offerings are currently available and the offerings that will be
+available in the next period. The API returns a `NotEligible` error if the user is not
 permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
 
 # Optional Parameters
@@ -1219,8 +1234,8 @@ Returns a link to a currently running remote access session.
 
 # Arguments
 
-- `arn`: The Amazon Resource Name (ARN) of the remote access session about which you want
-  to get session information.
+- `arn`: The Amazon Resource Name (ARN) of the remote access session about which you want to
+  get session information.
 """
 function get_remote_access_session end
 
@@ -1383,13 +1398,11 @@ end
     get_test_grid_session()
     get_test_grid_session(params::Dict{String,<:Any})
 
-A session is an instance of a browser created through a `RemoteWebDriver` with the URL from
-[`create_test_grid_url_result\$url`](@ref). You can use the following to look up sessions:
+A session is an instance of a browser created through a `RemoteWebDriver` with the URL from [`create_test_grid_url_result\$url`](@ref).
+You can use the following to look up sessions:
 
 - The session ARN ([`get_test_grid_session_request\$session_arn`](@ref)).
-- The project ARN and a session ID ([`get_test_grid_session_request\$project_arn`](@ref)
-  and [`get_test_grid_session_request\$session_id`](@ref)).
-
+- The project ARN and a session ID ([`get_test_grid_session_request\$project_arn`](@ref) and [`get_test_grid_session_request\$session_id`](@ref)).
 
 # Optional Parameters
 
@@ -1541,6 +1554,7 @@ Gets information about artifacts.
 # Arguments
 
 - `arn`: The run, job, suite, or test ARN.
+
 - `type`: The artifacts' type.
 
   Allowed values include:
@@ -1634,13 +1648,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
+
 - `"type"`: The device pools' type.
 
   Allowed values include:
 
   - CURATED: A device pool that is created and managed by AWS Device Farm.
   - PRIVATE: A device pool that is created and managed by the device pool developer.
-
 """
 function list_device_pools end
 
@@ -1675,14 +1689,16 @@ Gets information about unique device types.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"arn"`: The Amazon Resource Name (ARN) of the project.
+
 - `"filters"`: Used to select a set of devices. A filter is made up of an attribute, an
   operator, and one or more values.
 
   - Attribute: The aspect of a device such as platform or model used as the selection
     criteria in a device filter.
 
-  Allowed values include:   - ARN: The Amazon Resource Name (ARN) of the device (for
-  example, `arn:aws:devicefarm:us-west-2::device:12345Example`).
+  Allowed values include:
+    - ARN: The Amazon Resource Name (ARN) of the device (for example,
+      `arn:aws:devicefarm:us-west-2::device:12345Example`).
     - PLATFORM: The device platform. Valid values are ANDROID or IOS.
     - OS_VERSION: The operating system version (for example, 10.3.2).
     - MODEL: The device model (for example, iPad 5th Gen).
@@ -1690,23 +1706,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
     - FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.
     - MANUFACTURER: The device manufacturer (for example, Apple).
-    - REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid
-      values are TRUE or FALSE.
-    - REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid
-      values are TRUE or FALSE. Because remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html),
+    - REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid values
+      are TRUE or FALSE.
+    - REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid values
+      are TRUE or FALSE. Because remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html),
       this attribute is ignored.
     - INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.
     - INSTANCE_LABELS: The label of the device instance.
     - FLEET_TYPE: The fleet type. Valid values are PUBLIC or PRIVATE.
-  - Operator: The filter operator.   - The EQUALS operator is available for every
-    attribute except INSTANCE_LABELS.
+  - Operator: The filter operator.
+    - The EQUALS operator is available for every attribute except INSTANCE_LABELS.
     - The CONTAINS operator is available for the INSTANCE_LABELS and MODEL attributes.
     - The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL,
       MANUFACTURER, and INSTANCE_ARN attributes.
-    - The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS
-      operators are also available for the OS_VERSION attribute.
-  - Values: An array of one or more filter values.   - The IN and NOT_IN operators take a
-    values array that has one or more elements.
+    - The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS operators
+      are also available for the OS_VERSION attribute.
+  - Values: An array of one or more filter values.
+    - The IN and NOT_IN operators take a values array that has one or more elements.
     - The other operators require an array with a single element.
     - In a request, the AVAILABILITY attribute takes the following values: AVAILABLE,
       HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
@@ -1820,8 +1836,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
-- `"type"`: The type of network profile to return information about. Valid values are
-  listed here.
+- `"type"`: The type of network profile to return information about. Valid values are listed
+  here.
 """
 function list_network_profiles end
 
@@ -1884,8 +1900,8 @@ end
     list_offering_transactions()
     list_offering_transactions(params::Dict{String,<:Any})
 
-Returns a list of all historical purchases, renewals, and system renewal transactions for
-an AWS account. The list is paginated and ordered by a descending timestamp (most recent
+Returns a list of all historical purchases, renewals, and system renewal transactions for an
+AWS account. The list is paginated and ordered by a descending timestamp (most recent
 transactions are first). The API returns a `NotEligible` error if the user is not permitted
 to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
 
@@ -2147,8 +2163,8 @@ List the tags for an AWS Device Farm resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource or resources for which to
   list tags. You can associate tags with the following Device Farm resources: `PROJECT`,
-  `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`, `SESSION`,
-  `DEVICE_POOL`, `DEVICE`, and `VPCE_CONFIGURATION`.
+  `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`, `SESSION`, `DEVICE_POOL`,
+  `DEVICE`, and `VPCE_CONFIGURATION`.
 """
 function list_tags_for_resource end
 
@@ -2398,8 +2414,8 @@ Gets information about unique problems, such as exceptions or crashes.
 
 Unique problems are defined as a single instance of an error across a run, job, or suite.
 For example, if a call in your application consistently raises an exception
-(`OutOfBoundsException in MyActivity.java:386`), `ListUniqueProblems` returns a single
-entry instead of many individual entries for that exception.
+(`OutOfBoundsException in MyActivity.java:386`), `ListUniqueProblems` returns a single entry
+instead of many individual entries for that exception.
 
 # Arguments
 
@@ -2450,6 +2466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
+
 - `"type"`: The type of upload.
 
   Must be one of the following values:
@@ -2483,7 +2500,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - APPIUM_WEB_RUBY_TEST_SPEC
   - INSTRUMENTATION_TEST_SPEC
   - XCTEST_UI_TEST_SPEC
-
 """
 function list_uploads end
 
@@ -2600,9 +2616,8 @@ end
     renew_offering(offering_id, quantity, params::Dict{String,<:Any})
 
 Explicitly sets the quantity of devices to renew for an offering, starting from the
-`effectiveDate` of the next period. The API returns a `NotEligible` error if the user is
-not permitted to invoke the operation. If you must be able to invoke this operation,
-contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
+`effectiveDate` of the next period. The API returns a `NotEligible` error if the user is not
+permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
 
 # Arguments
 
@@ -2659,15 +2674,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"appArn"`: The ARN of an application package to run tests against, created with [`create_upload`](@ref).
   See [`list_uploads`](@ref).
+
 - `"configuration"`: Information about the settings for the run to be scheduled.
+
 - `"devicePoolArn"`: The ARN of the device pool for the run to be scheduled.
+
 - `"deviceSelectionConfiguration"`: The filter criteria used to dynamically select a set of
   devices for a test run and the maximum number of devices to be included in the run.
 
-  Either **`devicePoolArn`** or **`deviceSelectionConfiguration`** is required in a
-  request.
+  Either **`devicePoolArn`** or **`deviceSelectionConfiguration`** is required in a request.
+
 - `"executionConfiguration"`: Specifies configuration information about a test run, such as
   the execution timeout (in minutes).
+
 - `"name"`: The name for the run to be scheduled.
 """
 function schedule_run end
@@ -2771,11 +2790,11 @@ end
     stop_run(arn)
     stop_run(arn, params::Dict{String,<:Any})
 
-Initiates a stop request for the current test run. AWS Device Farm immediately stops the
-run on devices where tests have not started. You are not billed for these devices. On
-devices where tests have started executing, setup suite and teardown suite tests run to
-completion on those devices. You are billed for setup, teardown, and any tests that were in
-progress or already completed.
+Initiates a stop request for the current test run. AWS Device Farm immediately stops the run
+on devices where tests have not started. You are not billed for these devices. On devices
+where tests have started executing, setup suite and teardown suite tests run to completion
+on those devices. You are billed for setup, teardown, and any tests that were in progress or
+already completed.
 
 # Arguments
 
@@ -2808,15 +2827,15 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Associates the specified tags to a resource with the specified `resourceArn`. If existing
-tags on a resource are not specified in the request parameters, they are not changed. When
-a resource is deleted, the tags associated with that resource are also deleted.
+tags on a resource are not specified in the request parameters, they are not changed. When a
+resource is deleted, the tags associated with that resource are also deleted.
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource or resources to which to
   add tags. You can associate tags with the following Device Farm resources: `PROJECT`,
-  `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`, `SESSION`,
-  `DEVICE_POOL`, `DEVICE`, and `VPCE_CONFIGURATION`.
+  `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`, `SESSION`, `DEVICE_POOL`,
+  `DEVICE`, and `VPCE_CONFIGURATION`.
 - `tags`: The tags to add to the resource. A tag is an array of key-value pairs. Tag keys
   can have a maximum character length of 128 characters. Tag values can have a maximum
   length of 256 characters.
@@ -2861,9 +2880,9 @@ Deletes the specified tags from a resource.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource or resources from which to
-  delete tags. You can associate tags with the following Device Farm resources:
-  `PROJECT`, `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`, `SESSION`,
-  `DEVICE_POOL`, `DEVICE`, and `VPCE_CONFIGURATION`.
+  delete tags. You can associate tags with the following Device Farm resources: `PROJECT`,
+  `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`, `SESSION`, `DEVICE_POOL`,
+  `DEVICE`, and `VPCE_CONFIGURATION`.
 - `tag_keys`: The keys of the tags to be removed.
 """
 function untag_resource end
@@ -2943,9 +2962,9 @@ end
     update_device_pool(arn)
     update_device_pool(arn, params::Dict{String,<:Any})
 
-Modifies the name, description, and rules in a device pool given the attributes and the
-pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or
-not at all).
+Modifies the name, description, and rules in a device pool given the attributes and the pool
+ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at
+all).
 
 # Arguments
 
@@ -2956,27 +2975,31 @@ not at all).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clearMaxDevices"`: Sets whether the `maxDevices` parameter applies to your device pool.
-  If you set this parameter to `true`, the `maxDevices` parameter does not apply, and
-  Device Farm does not limit the number of devices that it adds to your device pool. In
-  this case, Device Farm adds all available devices that meet the criteria specified in
-  the `rules` parameter.
+  If you set this parameter to `true`, the `maxDevices` parameter does not apply, and Device
+  Farm does not limit the number of devices that it adds to your device pool. In this case,
+  Device Farm adds all available devices that meet the criteria specified in the `rules`
+  parameter.
 
   If you use this parameter in your request, you cannot use the `maxDevices` parameter in
   the same request.
+
 - `"description"`: A description of the device pool to update.
-- `"maxDevices"`: The number of devices that Device Farm can add to your device pool.
-  Device Farm adds devices that are available and that meet the criteria that you assign
-  for the `rules` parameter. Depending on how many devices meet these constraints, your
-  device pool might contain fewer devices than the value for this parameter.
 
-  By specifying the maximum number of devices, you can control the costs that you incur
-  by running tests.
+- `"maxDevices"`: The number of devices that Device Farm can add to your device pool. Device
+  Farm adds devices that are available and that meet the criteria that you assign for the
+  `rules` parameter. Depending on how many devices meet these constraints, your device pool
+  might contain fewer devices than the value for this parameter.
 
-  If you use this parameter in your request, you cannot use the `clearMaxDevices`
-  parameter in the same request.
+  By specifying the maximum number of devices, you can control the costs that you incur by
+  running tests.
+
+  If you use this parameter in your request, you cannot use the `clearMaxDevices` parameter
+  in the same request.
+
 - `"name"`: A string that represents the name of the device pool to update.
-- `"rules"`: Represents the rules to modify for the device pool. Updating rules is
-  optional. If you update rules for your request, the update replaces the existing rules.
+
+- `"rules"`: Represents the rules to modify for the device pool. Updating rules is optional.
+  If you update rules for your request, the update replaces the existing rules.
 """
 function update_device_pool end
 
@@ -3015,13 +3038,17 @@ Updates information about an existing private device instance profile.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The updated description for your instance profile.
+
 - `"excludeAppPackagesFromCleanup"`: An array of strings that specifies the list of app
   packages that should not be cleaned up from the device after a test run is over.
 
   The list of packages is only considered if you set `packageCleanup` to `true`.
+
 - `"name"`: The updated name for your instance profile.
+
 - `"packageCleanup"`: The updated choice for whether you want to specify package cleanup.
   The default value is `false` for private devices.
+
 - `"rebootAfterUse"`: The updated choice for whether you want to reboot the device after
   use. The default value is `true`.
 """
@@ -3064,8 +3091,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The description of the network profile about which you are returning
   information.
-- `"downlinkBandwidthBits"`: The data throughput rate in bits per second, as an integer
-  from 0 to 104857600.
+- `"downlinkBandwidthBits"`: The data throughput rate in bits per second, as an integer from
+  0 to 104857600.
 - `"downlinkDelayMs"`: Delay time for all packets to destination in milliseconds as an
   integer from 0 to 2000.
 - `"downlinkJitterMs"`: Time variation in the delay of received packets in milliseconds as
@@ -3073,16 +3100,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"downlinkLossPercent"`: Proportion of received packets that fail to arrive from 0 to 100
   percent.
 - `"name"`: The name of the network profile about which you are returning information.
-- `"type"`: The type of network profile to return information about. Valid values are
-  listed here.
-- `"uplinkBandwidthBits"`: The data throughput rate in bits per second, as an integer from
-  0 to 104857600.
-- `"uplinkDelayMs"`: Delay time for all packets to destination in milliseconds as an
-  integer from 0 to 2000.
+- `"type"`: The type of network profile to return information about. Valid values are listed
+  here.
+- `"uplinkBandwidthBits"`: The data throughput rate in bits per second, as an integer from 0
+  to 104857600.
+- `"uplinkDelayMs"`: Delay time for all packets to destination in milliseconds as an integer
+  from 0 to 2000.
 - `"uplinkJitterMs"`: Time variation in the delay of received packets in milliseconds as an
   integer from 0 to 2000.
-- `"uplinkLossPercent"`: Proportion of transmitted packets that fail to arrive from 0 to
-  100 percent.
+- `"uplinkLossPercent"`: Proportion of transmitted packets that fail to arrive from 0 to 100
+  percent.
 """
 function update_network_profile end
 
@@ -3252,12 +3279,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"serviceDnsName"`: The DNS (domain) name used to connect to your private service in your
   VPC. The DNS name must not already be in use on the internet.
-- `"vpceConfigurationDescription"`: An optional description that provides details about
-  your VPC endpoint configuration.
+- `"vpceConfigurationDescription"`: An optional description that provides details about your
+  VPC endpoint configuration.
 - `"vpceConfigurationName"`: The friendly name you give to your VPC endpoint configuration
   to manage your configurations more easily.
-- `"vpceServiceName"`: The name of the VPC endpoint service running in your AWS account
-  that you want Device Farm to test.
+- `"vpceServiceName"`: The name of the VPC endpoint service running in your AWS account that
+  you want Device Farm to test.
 """
 function update_vpceconfiguration end
 

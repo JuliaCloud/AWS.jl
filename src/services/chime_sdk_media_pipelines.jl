@@ -98,8 +98,7 @@ Creates a media concatenation pipeline.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: The unique identifier for the client request. The token makes the
-  API request idempotent. Use a unique token for each media concatenation pipeline
-  request.
+  API request idempotent. Use a unique token for each media concatenation pipeline request.
 - `"Tags"`: The tags associated with the media concatenation pipeline.
 """
 function create_media_concatenation_pipeline end
@@ -1059,8 +1058,8 @@ Starts a speaker search task.
 !!! important
     Before starting any speaker search tasks, you must provide all notices and obtain all
     consents from the speaker as required under applicable privacy and biometrics laws, and
-    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
-    the Amazon Chime SDK.
+    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
+    Amazon Chime SDK.
 
 # Arguments
 
@@ -1129,8 +1128,8 @@ in the *Amazon Chime SDK Developer Guide*.
 !!! important
     Before starting any voice tone analysis tasks, you must provide all notices and obtain
     all consents from the speaker as required under applicable privacy and biometrics laws,
-    and as required under the [AWS service terms](https://aws.amazon.com/service-terms/)
-    for the Amazon Chime SDK.
+    and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
+    the Amazon Chime SDK.
 
 # Arguments
 

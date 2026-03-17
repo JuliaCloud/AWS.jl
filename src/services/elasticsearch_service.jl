@@ -266,45 +266,58 @@ Domains</a> in the *Amazon Elasticsearch Service Developer Guide*.
 # Arguments
 
 - `domain_name`: The name of the Elasticsearch domain that you are creating. Domain names
-  are unique across the domains owned by an account within an AWS region. Domain names
-  must start with a lowercase letter and can contain the following characters: a-z
-  (lowercase), 0-9, and - (hyphen).
+  are unique across the domains owned by an account within an AWS region. Domain names must
+  start with a lowercase letter and can contain the following characters: a-z (lowercase),
+  0-9, and - (hyphen).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccessPolicies"`: IAM access policy as a JSON-formatted string.
+
 - `"AdvancedOptions"`: Option to allow references to indices in an HTTP request body. Must
-  be `false` when configuring access to individual sub-resources. By default, the value
-  is `true`. See <a href="http://docs.aws.amazon.com/elasticsearch-
+  be `false` when configuring access to individual sub-resources. By default, the value is
+  `true`. See <a href="http://docs.aws.amazon.com/elasticsearch-
   service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-
-  advanced-options" target="_blank">Configuration Advanced Options</a> for more
-  information.
+  advanced-options" target="_blank">Configuration Advanced Options</a> for more information.
+
 - `"AdvancedSecurityOptions"`: Specifies advanced security options.
+
 - `"AutoTuneOptions"`: Specifies Auto-Tune options.
+
 - `"CognitoOptions"`: Options to specify the Cognito user and identity pools for Kibana
   authentication. For more information, see <a
   href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-
   auth.html" target="_blank">Amazon Cognito Authentication for Kibana</a>.
+
 - `"DomainEndpointOptions"`: Options to specify configuration that will be applied to the
   domain endpoint.
+
 - `"EBSOptions"`: Options to enable, disable and specify the type and size of EBS storage
   volumes.
+
 - `"ElasticsearchClusterConfig"`: Configuration options for an Elasticsearch domain.
   Specifies the instance type and number of instances in the domain cluster.
+
 - `"ElasticsearchVersion"`: String of format X.Y to specify version for the Elasticsearch
   domain eg. "1.5" or "2.3". For more information, see <a
   href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-
   createupdatedomains.html#es-createdomains" target="_blank">Creating Elasticsearch
   Domains</a> in the *Amazon Elasticsearch Service Developer Guide*.
+
 - `"EncryptionAtRestOptions"`: Specifies the Encryption At Rest Options.
+
 - `"LogPublishingOptions"`: Map of `LogType` and `LogPublishingOption`, each containing
   options to publish a given type of Elasticsearch log.
+
 - `"NodeToNodeEncryptionOptions"`: Specifies the NodeToNodeEncryptionOptions.
+
 - `"SnapshotOptions"`: Option to set time, in UTC format, of the daily automated snapshot.
   Default value is 0 hours.
+
 - `"TagList"`: A list of `Tag` added during domain creation.
+
 - `"VPCOptions"`: Options to specify the subnets and security groups for VPC endpoint. For
   more information, see <a href="http://docs.aws.amazon.com/elasticsearch-
   service/latest/developerguide/es-vpc.html#es-creating-vpc" target="_blank">Creating a
@@ -523,8 +536,8 @@ end
     delete_elasticsearch_domain(domain_name)
     delete_elasticsearch_domain(domain_name, params::Dict{String,<:Any})
 
-Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain
-is deleted, it cannot be recovered.
+Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is
+deleted, it cannot be recovered.
 
 # Arguments
 
@@ -793,8 +806,8 @@ end
     describe_domain_change_progress(domain_name)
     describe_domain_change_progress(domain_name, params::Dict{String,<:Any})
 
-Returns information about the current blue/green deployment happening on a domain,
-including a change ID, status, and progress stages.
+Returns information about the current blue/green deployment happening on a domain, including
+a change ID, status, and progress stages.
 
 # Arguments
 
@@ -839,8 +852,8 @@ end
     describe_elasticsearch_domain(domain_name)
     describe_elasticsearch_domain(domain_name, params::Dict{String,<:Any})
 
-Returns domain configuration information about the specified Elasticsearch domain,
-including the domain ID, domain endpoint, and domain ARN.
+Returns domain configuration information about the specified Elasticsearch domain, including
+the domain ID, domain endpoint, and domain ARN.
 
 # Arguments
 
@@ -877,8 +890,8 @@ end
     describe_elasticsearch_domain_config(domain_name)
     describe_elasticsearch_domain_config(domain_name, params::Dict{String,<:Any})
 
-Provides cluster configuration information about the specified Elasticsearch domain, such
-as the state, creation date, update version, and update date for cluster options.
+Provides cluster configuration information about the specified Elasticsearch domain, such as
+the state, creation date, update version, and update date for cluster options.
 
 # Arguments
 
@@ -970,9 +983,9 @@ supported for modifying.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domainName"`: DomainName represents the name of the Domain that we are trying to
-  modify. This should be present only if we are querying for Elasticsearch
-  `[`limits`](@ref)` for existing domain.
+- `"domainName"`: DomainName represents the name of the Domain that we are trying to modify.
+  This should be present only if we are querying for Elasticsearch `[`limits`](@ref)` for
+  existing domain.
 """
 function describe_elasticsearch_instance_type_limits end
 
@@ -1023,6 +1036,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
   defaults to 100.
+
 - `"NextToken"`: NextToken is sent in case the earlier API call results contain the
   NextToken. It is used for pagination.
 """
@@ -1072,6 +1086,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
   defaults to 100.
+
 - `"NextToken"`: NextToken is sent in case the earlier API call results contain the
   NextToken. It is used for pagination.
 """
@@ -1559,9 +1574,9 @@ List all Elasticsearch instance types that are supported for given Elasticsearch
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domainName"`: DomainName represents the name of the Domain that we are trying to
-  modify. This should be present only if we are querying for list of available
-  Elasticsearch instance types when modifying existing domain.
+- `"domainName"`: DomainName represents the name of the Domain that we are trying to modify.
+  This should be present only if we are querying for list of available Elasticsearch
+  instance types when modifying existing domain.
 - `"maxResults"`: Set this value to limit the number of results returned. Value provided
   must be greater than 30 else it wont be honored.
 - `"nextToken"`: NextToken should be sent in case if earlier API call produced result
@@ -1983,8 +1998,8 @@ end
     revoke_vpc_endpoint_access(account, domain_name)
     revoke_vpc_endpoint_access(account, domain_name, params::Dict{String,<:Any})
 
-Revokes access to an Amazon OpenSearch Service domain that was provided through an
-interface VPC endpoint.
+Revokes access to an Amazon OpenSearch Service domain that was provided through an interface
+VPC endpoint.
 
 # Arguments
 
@@ -2065,8 +2080,8 @@ end
     update_elasticsearch_domain_config(domain_name)
     update_elasticsearch_domain_config(domain_name, params::Dict{String,<:Any})
 
-Modifies the cluster configuration of the specified Elasticsearch domain, setting as
-setting the instance type and the number of instances.
+Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting
+the instance type and the number of instances.
 
 # Arguments
 
@@ -2077,34 +2092,45 @@ setting the instance type and the number of instances.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccessPolicies"`: IAM access policy as a JSON-formatted string.
+
 - `"AdvancedOptions"`: Modifies the advanced option to allow references to indices in an
-  HTTP request body. Must be `false` when configuring access to individual sub-resources.
-  By default, the value is `true`. See <a href="http://docs.aws.amazon.com/elasticsearch-
+  HTTP request body. Must be `false` when configuring access to individual sub-resources. By
+  default, the value is `true`. See <a href="http://docs.aws.amazon.com/elasticsearch-
   service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-
-  advanced-options" target="_blank">Configuration Advanced Options</a> for more
-  information.
+  advanced-options" target="_blank">Configuration Advanced Options</a> for more information.
+
 - `"AdvancedSecurityOptions"`: Specifies advanced security options.
+
 - `"AutoTuneOptions"`: Specifies Auto-Tune options.
+
 - `"CognitoOptions"`: Options to specify the Cognito user and identity pools for Kibana
   authentication. For more information, see <a
   href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-
   auth.html" target="_blank">Amazon Cognito Authentication for Kibana</a>.
+
 - `"DomainEndpointOptions"`: Options to specify configuration that will be applied to the
   domain endpoint.
-- `"DryRun"`: This flag, when set to True, specifies whether the
-  `UpdateElasticsearchDomain` request should return the results of validation checks
-  without actually applying the change. This flag, when set to True, specifies the
-  deployment mechanism through which the update shall be applied on the domain. This will
-  not actually perform the Update.
+
+- `"DryRun"`: This flag, when set to True, specifies whether the `UpdateElasticsearchDomain`
+  request should return the results of validation checks without actually applying the
+  change. This flag, when set to True, specifies the deployment mechanism through which the
+  update shall be applied on the domain. This will not actually perform the Update.
+
 - `"EBSOptions"`: Specify the type and size of the EBS volume that you want to use.
+
 - `"ElasticsearchClusterConfig"`: The type and number of instances to instantiate for the
   domain cluster.
+
 - `"EncryptionAtRestOptions"`: Specifies the Encryption At Rest Options.
+
 - `"LogPublishingOptions"`: Map of `LogType` and `LogPublishingOption`, each containing
   options to publish a given type of Elasticsearch log.
+
 - `"NodeToNodeEncryptionOptions"`: Specifies the NodeToNodeEncryptionOptions.
+
 - `"SnapshotOptions"`: Option to set the time, in UTC format, for the daily automated
   snapshot. Default value is `0` hours.
+
 - `"VPCOptions"`: Options to specify the subnets and security groups for VPC endpoint. For
   more information, see <a href="http://docs.aws.amazon.com/elasticsearch-
   service/latest/developerguide/es-vpc.html#es-creating-vpc" target="_blank">Creating a

@@ -15,8 +15,8 @@ Attaches the specified customer managed policy to the specified [`permission_set
 - `customer_managed_policy_reference`: Specifies the name and path of a customer managed
   policy. You must have an IAM policy that matches the name and path in each Amazon Web
   Services account where you want to deploy your permission set.
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed.
 - `permission_set_arn`: The ARN of the `PermissionSet`.
 """
 function attach_customer_managed_policy_reference_to_permission_set end
@@ -71,15 +71,15 @@ end
 Attaches an Amazon Web Services managed policy ARN to a permission set.
 
 !!! note
-    If the permission set is already referenced by one or more account assignments, you
-    will need to call `[`provision_permission_set`](@ref)` after this operation. Calling
+    If the permission set is already referenced by one or more account assignments, you will
+    need to call `[`provision_permission_set`](@ref)` after this operation. Calling
     `ProvisionPermissionSet` applies the corresponding IAM policy updates to all assigned
     accounts.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `managed_policy_arn`: The Amazon Web Services managed policy ARN to be attached to a
   permission set.
@@ -145,19 +145,19 @@ permission set.
 !!! note
     As part of a successful `CreateAccountAssignment` call, the specified permission set
     will automatically be provisioned to the account in the form of an IAM policy. That
-    policy is attached to the IAM role created in IAM Identity Center. If the permission
-    set is subsequently updated, the corresponding IAM policies attached to roles in your
+    policy is attached to the IAM role created in IAM Identity Center. If the permission set
+    is subsequently updated, the corresponding IAM policies attached to roles in your
     accounts will not be updated automatically. In this case, you must call
     `[`provision_permission_set`](@ref)` to make these updates.
 
-!!! note
-    After a successful response, call `DescribeAccountAssignmentCreationStatus` to describe
-    the status of an assignment creation request.
+ !!! note
+     After a successful response, call `DescribeAccountAssignmentCreationStatus` to describe
+     the status of an assignment creation request.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set that the admin wants to grant the
   principal access to.
@@ -247,19 +247,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to
-  an operation requires that you also pass the same value for all other parameters. We
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We
   recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"Description"`: The description of the .
+
 - `"PortalOptions"`: A structure that describes the options for the portal associated with
   an application.
+
 - `"Status"`: Specifies whether the application is enabled or disabled.
+
 - `"Tags"`: Specifies tags to be attached to the application.
 """
 function create_application end
@@ -372,10 +375,9 @@ end
     create_instance()
     create_instance(params::Dict{String,<:Any})
 
-Creates an instance of IAM Identity Center for a standalone Amazon Web Services account
-that is not managed by Organizations or a member Amazon Web Services account in an
-organization. You can create only one instance per account and across all Amazon Web
-Services Regions.
+Creates an instance of IAM Identity Center for a standalone Amazon Web Services account that
+is not managed by Organizations or a member Amazon Web Services account in an organization.
+You can create only one instance per account and across all Amazon Web Services Regions.
 
 The CreateInstance request is rejected if the following apply:
 
@@ -388,16 +390,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to
-  an operation requires that you also pass the same value for all other parameters. We
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We
   recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"Name"`: The name of the instance of IAM Identity Center.
+
 - `"Tags"`: Specifies tags to be attached to the instance of IAM Identity Center.
 """
 function create_instance end
@@ -446,8 +449,9 @@ in the *IAM Identity Center User Guide*.
   Identity Center identity store. If a SAML assertion passes any of these attributes, IAM
   Identity Center will replace the attribute value with the value from the IAM Identity
   Center identity store.
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed.
+
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed.
 """
 function create_instance_access_control_attribute_configuration end
 
@@ -504,8 +508,8 @@ Creates a permission set within a specified IAM Identity Center instance.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `name`: The name of the [`permission_set`](@ref).
 
@@ -581,15 +585,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to
-  an operation requires that you also pass the same value for all other parameters. We
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We
   recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for
-  you.
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
 
-  If you retry the operation with the same `ClientToken`, but with different parameters,
-  the retry fails with an `IdempotentParameterMismatch` error.
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"Tags"`: Specifies tags to be attached to the new trusted token issuer configuration.
 """
 function create_trusted_token_issuer end
@@ -656,8 +660,8 @@ permission set.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set that will be used to remove access.
 - `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
@@ -977,8 +981,8 @@ Deletes the inline policy from a specified permission set.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set that will be used to remove access.
 """
@@ -1070,8 +1074,8 @@ in the *IAM Identity Center User Guide*.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed.
 """
 function delete_instance_access_control_attribute_configuration end
 
@@ -1109,8 +1113,8 @@ Deletes the specified permission set.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set that should be deleted.
 """
@@ -1159,8 +1163,8 @@ Deletes the permissions boundary from a specified [`permission_set`](@ref).
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed.
 - `permission_set_arn`: The ARN of the `PermissionSet`.
 """
 function delete_permissions_boundary_from_permission_set end
@@ -1212,8 +1216,8 @@ Deletes a trusted token issuer configuration from an instance of IAM Identity Ce
 
 # Arguments
 
-- `trusted_token_issuer_arn`: Specifies the ARN of the trusted token issuer configuration
-  to delete.
+- `trusted_token_issuer_arn`: Specifies the ARN of the trusted token issuer configuration to
+  delete.
 """
 function delete_trusted_token_issuer end
 
@@ -1255,10 +1259,10 @@ Describes the status of the assignment creation request.
 
 # Arguments
 
-- `account_assignment_creation_request_id`: The identifier that is used to track the
-  request operation progress.
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `account_assignment_creation_request_id`: The identifier that is used to track the request
+  operation progress.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
 function describe_account_assignment_creation_status end
@@ -1311,10 +1315,10 @@ Describes the status of the assignment deletion request.
 
 # Arguments
 
-- `account_assignment_deletion_request_id`: The identifier that is used to track the
-  request operation progress.
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `account_assignment_deletion_request_id`: The identifier that is used to track the request
+  operation progress.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
 function describe_account_assignment_deletion_status end
@@ -1403,10 +1407,10 @@ end
     describe_application_assignment(application_arn, principal_id, principal_type)
     describe_application_assignment(application_arn, principal_id, principal_type, params::Dict{String,<:Any})
 
-Retrieves a direct assignment of a user or group to an application. If the user doesn’t
-have a direct assignment to the application, the user may still have access to the
-application through a group. Therefore, don’t use this API to test access to an application
-for a user. Instead use [`list_application_assignments_for_principal`](@ref).
+Retrieves a direct assignment of a user or group to an application. If the user doesn’t have
+a direct assignment to the application, the user may still have access to the application
+through a group. Therefore, don’t use this API to test access to an application for a user.
+Instead use [`list_application_assignments_for_principal`](@ref).
 
 # Arguments
 
@@ -1565,8 +1569,8 @@ in the *IAM Identity Center User Guide*.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed.
 """
 function describe_instance_access_control_attribute_configuration end
 
@@ -1604,8 +1608,8 @@ Gets the details of the permission set.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 """
@@ -1654,8 +1658,8 @@ Describes the status for the given permission set provisioning request.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `provision_permission_set_request_id`: The identifier that is provided by the [`provision_permission_set`](@ref)
   call to retrieve the current status of the provisioning workflow.
@@ -1758,8 +1762,8 @@ Detaches the specified customer managed policy from the specified [`permission_s
 - `customer_managed_policy_reference`: Specifies the name and path of a customer managed
   policy. You must have an IAM policy that matches the name and path in each Amazon Web
   Services account where you want to deploy your permission set.
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed.
 - `permission_set_arn`: The ARN of the `PermissionSet`.
 """
 function detach_customer_managed_policy_reference_from_permission_set end
@@ -1816,13 +1820,13 @@ set.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `managed_policy_arn`: The Amazon Web Services managed policy ARN to be detached from a
   permission set.
-- `permission_set_arn`: The ARN of the [`permission_set`](@ref) from which the policy
-  should be detached.
+- `permission_set_arn`: The ARN of the [`permission_set`](@ref) from which the policy should
+  be detached.
 """
 function detach_managed_policy_from_permission_set end
 
@@ -2061,8 +2065,8 @@ Obtains the inline policy assigned to the permission set.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 """
@@ -2111,8 +2115,8 @@ Obtains the permissions boundary for a specified [`permission_set`](@ref).
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed.
 - `permission_set_arn`: The ARN of the `PermissionSet`.
 """
 function get_permissions_boundary_for_permission_set end
@@ -2161,8 +2165,8 @@ specified IAM Identity Center instance.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -2171,8 +2175,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filter"`: Filters results based on the passed attribute value.
 - `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
-  the output of previous API calls to make subsequent calls.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
 """
 function list_account_assignment_creation_status end
 
@@ -2211,8 +2215,8 @@ specified IAM Identity Center instance.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -2221,8 +2225,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filter"`: Filters results based on the passed attribute value.
 - `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
-  the output of previous API calls to make subsequent calls.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
 """
 function list_account_assignment_deletion_status end
 
@@ -2263,8 +2267,8 @@ permission set.
 
 - `account_id`: The identifier of the Amazon Web Services account from which to list the
   assignments.
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set from which to list assignments.
 
@@ -2273,8 +2277,8 @@ permission set.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
-  the output of previous API calls to make subsequent calls.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
 """
 function list_account_assignments end
 
@@ -2325,15 +2329,15 @@ end
     list_account_assignments_for_principal(instance_arn, principal_id, principal_type)
     list_account_assignments_for_principal(instance_arn, principal_id, principal_type, params::Dict{String,<:Any})
 
-Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that
-the principal has access to.
+Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the
+principal has access to.
 
 # Arguments
 
-- `instance_arn`: Specifies the ARN of the instance of IAM Identity Center that contains
-  the principal.
-- `principal_id`: Specifies the principal for which you want to retrieve the list of
-  account assignments.
+- `instance_arn`: Specifies the ARN of the instance of IAM Identity Center that contains the
+  principal.
+- `principal_id`: Specifies the principal for which you want to retrieve the list of account
+  assignments.
 - `principal_type`: Specifies the type of the principal.
 
 # Optional Parameters
@@ -2342,17 +2346,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filter"`: Specifies an Amazon Web Services account ID number. Results are filtered to
   only those that match this ID number.
+
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as
-  the `next_token` request parameter in the next call to the operation to get the next
-  set of results. Note that the service might return fewer results than the maximum even
-  when there are more results available. You should check `NextToken` after every
-  operation to ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as the
+  `next_token` request parameter in the next call to the operation to get the next set of
+  results. Note that the service might return fewer results than the maximum even when there
+  are more results available. You should check `NextToken` after every operation to ensure
+  that you receive all of the results.
+
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_account_assignments_for_principal end
 
@@ -2408,8 +2414,8 @@ provisioned.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the [`permission_set`](@ref) from which the associated
   Amazon Web Services accounts will be listed.
@@ -2419,8 +2425,8 @@ provisioned.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to display for the [`permission_set`](@ref).
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
-  the output of previous API calls to make subsequent calls.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
 - `"ProvisioningStatus"`: The permission set provisioning status for an Amazon Web Services
   account.
 """
@@ -2477,15 +2483,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as
-  the `next_token` request parameter in the next call to the operation to get the next
-  set of results. Note that the service might return fewer results than the maximum even
-  when there are more results available. You should check `NextToken` after every
-  operation to ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as the
+  `next_token` request parameter in the next call to the operation to get the next set of
+  results. Note that the service might return fewer results than the maximum even when there
+  are more results available. You should check `NextToken` after every operation to ensure
+  that you receive all of the results.
+
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_application_access_scopes end
 
@@ -2531,15 +2538,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as
-  the `next_token` request parameter in the next call to the operation to get the next
-  set of results. Note that the service might return fewer results than the maximum even
-  when there are more results available. You should check `NextToken` after every
-  operation to ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as the
+  `next_token` request parameter in the next call to the operation to get the next set of
+  results. Note that the service might return fewer results than the maximum even when there
+  are more results available. You should check `NextToken` after every operation to ensure
+  that you receive all of the results.
+
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_application_assignments end
 
@@ -2588,19 +2596,21 @@ Lists the applications to which a specified principal is assigned.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filter"`: Filters the output to include only assignments associated with the
-  application that has the specified ARN.
+- `"Filter"`: Filters the output to include only assignments associated with the application
+  that has the specified ARN.
+
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as
-  the `next_token` request parameter in the next call to the operation to get the next
-  set of results. Note that the service might return fewer results than the maximum even
-  when there are more results available. You should check `NextToken` after every
-  operation to ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as the
+  `next_token` request parameter in the next call to the operation to get the next set of
+  results. Note that the service might return fewer results than the maximum even when there
+  are more results available. You should check `NextToken` after every operation to ensure
+  that you receive all of the results.
+
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_application_assignments_for_principal end
 
@@ -2663,9 +2673,9 @@ Lists all of the authentication methods supported by the specified application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_application_authentication_methods end
 
@@ -2710,9 +2720,9 @@ List the grants associated with an application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_application_grants end
 
@@ -2754,15 +2764,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as
-  the `next_token` request parameter in the next call to the operation to get the next
-  set of results. Note that the service might return fewer results than the maximum even
-  when there are more results available. You should check `NextToken` after every
-  operation to ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as the
+  `next_token` request parameter in the next call to the operation to get the next set of
+  results. Note that the service might return fewer results than the maximum even when there
+  are more results available. You should check `NextToken` after every operation to ensure
+  that you receive all of the results.
+
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_application_providers end
 
@@ -2803,17 +2814,19 @@ account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filter"`: Filters response results.
+
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as
-  the `next_token` request parameter in the next call to the operation to get the next
-  set of results. Note that the service might return fewer results than the maximum even
-  when there are more results available. You should check `NextToken` after every
-  operation to ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as the
+  `next_token` request parameter in the next call to the operation to get the next set of
+  results. Note that the service might return fewer results than the maximum even when there
+  are more results available. You should check `NextToken` after every operation to ensure
+  that you receive all of the results.
+
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_applications end
 
@@ -2849,8 +2862,8 @@ Lists all customer managed policies attached to a specified [`permission_set`](@
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed.
 - `permission_set_arn`: The ARN of the `PermissionSet`.
 
 # Optional Parameters
@@ -2858,8 +2871,8 @@ Lists all customer managed policies attached to a specified [`permission_set`](@
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to display for the list call.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
-  the output of previous API calls to make subsequent calls.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
 """
 function list_customer_managed_policy_references_in_permission_set end
 
@@ -2902,16 +2915,16 @@ end
     list_instances()
     list_instances(params::Dict{String,<:Any})
 
-Lists the details of the organization and account instances of IAM Identity Center that
-were created in or visible to the account calling this API.
+Lists the details of the organization and account instances of IAM Identity Center that were
+created in or visible to the account calling this API.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to display for the instance.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
-  the output of previous API calls to make subsequent calls.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
 """
 function list_instances end
 
@@ -2937,8 +2950,8 @@ Lists the Amazon Web Services managed policy that is attached to a specified per
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the [`permission_set`](@ref) whose managed policies will
   be listed.
@@ -2948,8 +2961,8 @@ Lists the Amazon Web Services managed policy that is attached to a specified per
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to display for the [`permission_set`](@ref).
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
-  the output of previous API calls to make subsequent calls.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
 """
 function list_managed_policies_in_permission_set end
 
@@ -2997,8 +3010,8 @@ Center instance.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -3007,8 +3020,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filter"`: Filters results based on the passed attribute value.
 - `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
-  the output of previous API calls to make subsequent calls.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
 """
 function list_permission_set_provisioning_status end
 
@@ -3046,8 +3059,8 @@ Lists the [`permission_set`](@ref)s in an IAM Identity Center instance.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -3055,8 +3068,8 @@ Lists the [`permission_set`](@ref)s in an IAM Identity Center instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
-  the output of previous API calls to make subsequent calls.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
 """
 function list_permission_sets end
 
@@ -3097,8 +3110,8 @@ account.
 
 - `account_id`: The identifier of the Amazon Web Services account from which to list the
   assignments.
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -3106,8 +3119,8 @@ account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
-  the output of previous API calls to make subsequent calls.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
 - `"ProvisioningStatus"`: The status object for the permission set provisioning operation.
 """
 function list_permission_sets_provisioned_to_account end
@@ -3160,8 +3173,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceArn"`: The ARN of the IAM Identity Center instance under which the operation
   will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
-  the output of previous API calls to make subsequent calls.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
 """
 function list_tags_for_resource end
 
@@ -3208,15 +3221,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as
-  the `next_token` request parameter in the next call to the operation to get the next
-  set of results. Note that the service might return fewer results than the maximum even
-  when there are more results available. You should check `NextToken` after every
-  operation to ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as the
+  `next_token` request parameter in the next call to the operation to get the next set of
+  results. Note that the service might return fewer results than the maximum even when there
+  are more results available. You should check `NextToken` after every operation to ensure
+  that you receive all of the results.
+
 - `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_trusted_token_issuers end
 
@@ -3254,8 +3268,8 @@ The process by which a specified permission set is provisioned to the specified 
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 - `target_type`: The entity type for which the assignment will be created.
@@ -3433,8 +3447,8 @@ Adds or updates an authentication method for an application.
 
 - `application_arn`: Specifies the ARN of the application with the authentication method to
   add or update.
-- `authentication_method`: Specifies a structure that describes the authentication method
-  to add or update. The structure type you provide is determined by the
+- `authentication_method`: Specifies a structure that describes the authentication method to
+  add or update. The structure type you provide is determined by the
   `AuthenticationMethodType` parameter.
 - `authentication_method_type`: Specifies the type of the authentication method that you
   want to add or update.
@@ -3543,15 +3557,15 @@ end
 Attaches an inline policy to a permission set.
 
 !!! note
-    If the permission set is already referenced by one or more account assignments, you
-    will need to call `[`provision_permission_set`](@ref)` after this action to apply the
+    If the permission set is already referenced by one or more account assignments, you will
+    need to call `[`provision_permission_set`](@ref)` after this action to apply the
     corresponding IAM policy updates to all assigned accounts.
 
 # Arguments
 
 - `inline_policy`: The inline policy to attach to a [`permission_set`](@ref).
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 """
@@ -3609,8 +3623,8 @@ as a permissions boundary.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed.
 - `permission_set_arn`: The ARN of the `PermissionSet`.
 - `permissions_boundary`: The permissions boundary that you want to attach to a
   `PermissionSet`.
@@ -3868,16 +3882,16 @@ Identity Center instance for attributes-based access control (ABAC). When using 
 identity provider as an identity source, you can pass attributes through the SAML assertion
 as an alternative to configuring attributes from the IAM Identity Center identity store. If
 a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute
-value with the value from the IAM Identity Center identity store. For more information
-about ABAC, see [Attribute-Based Access Control](/singlesignon/latest/userguide/abac.html)
-in the *IAM Identity Center User Guide*.
+value with the value from the IAM Identity Center identity store. For more information about
+ABAC, see [Attribute-Based Access Control](/singlesignon/latest/userguide/abac.html) in the
+*IAM Identity Center User Guide*.
 
 # Arguments
 
 - `instance_access_control_attribute_configuration`: Updates the attributes for your ABAC
   configuration.
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed.
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed.
 """
 function update_instance_access_control_attribute_configuration end
 
@@ -3930,8 +3944,8 @@ Updates an existing permission set.
 
 # Arguments
 
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 
@@ -3990,8 +4004,8 @@ Updates the name of the trusted token issuer, or the path of a source attribute 
 destination attribute for a trusted token issuer configuration.
 
 !!! note
-    Updating this trusted token issuer configuration might cause users to lose access to
-    any applications that are configured to use the trusted token issuer.
+    Updating this trusted token issuer configuration might cause users to lose access to any
+    applications that are configured to use the trusted token issuer.
 
 # Arguments
 

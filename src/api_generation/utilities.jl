@@ -467,7 +467,9 @@ function html_to_md_unordered_list(str::AbstractString, indent=0)
 end
 
 # Custom `replace` function which allows arbitrary code to be executed in the replacment
-function _replace(str::AbstractString, (pat, sub)::Pair{Regex,<:Function}; overlap::Bool=false)
+function _replace(
+    str::AbstractString, (pat, sub)::Pair{Regex,<:Function}; overlap::Bool=false
+)
     i = firstindex(str)
     m = match(pat, str, i)
     prev_str = ""

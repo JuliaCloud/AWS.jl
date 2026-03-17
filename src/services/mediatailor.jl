@@ -59,13 +59,14 @@ Amazon CloudWatch log settings for a playback configuration.
 # Arguments
 
 - `percent_enabled`: The percentage of session logs that MediaTailor sends to your
-  Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions
-  and percentEnabled is set to `60`, MediaTailor sends logs for 600 of the sessions to
+  Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and
+  percentEnabled is set to `60`, MediaTailor sends logs for 600 of the sessions to
   CloudWatch Logs. MediaTailor decides at random which of the playback configuration
   sessions to send logs for. If you want to view logs for a specific session, you can use
   the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html).
 
   Valid values: `0` - `100`
+
 - `playback_configuration_name`: The name of the playback configuration.
 """
 function configure_logs_for_playback_configuration end
@@ -121,14 +122,16 @@ in the *MediaTailor User Guide*.
 # Arguments
 
 - `channel_name`: The name of the channel.
+
 - `outputs`: The channel's output properties.
+
 - `playback_mode`: The type of playback mode to use for this channel.
 
   `LINEAR` - The programs in the schedule play once back-to-back in the schedule.
 
-  `LOOP` - The programs in the schedule play back-to-back in an endless loop. When the
-  last program in the schedule stops playing, playback loops back to the first program in
-  the schedule.
+  `LOOP` - The programs in the schedule play back-to-back in an endless loop. When the last
+  program in the schedule stops playing, playback loops back to the first program in the
+  schedule.
 
 # Optional Parameters
 
@@ -253,9 +256,9 @@ in the *MediaTailor User Guide*.
 # Arguments
 
 - `consumption`: The configuration settings for MediaTailor's *consumption* of the
-  prefetched ads from the ad decision server. Each consumption configuration contains an
-  end time and an optional start time that define the *consumption window*. Prefetch
-  schedules automatically expire no earlier than seven days after the end time.
+  prefetched ads from the ad decision server. Each consumption configuration contains an end
+  time and an optional start time that define the *consumption window*. Prefetch schedules
+  automatically expire no earlier than seven days after the end time.
 - `name`: The name to assign to the schedule request.
 - `playback_configuration_name`: The name to assign to the playback configuration.
 - `retrieval`: The configuration settings for retrieval of prefetched ads from the ad
@@ -406,8 +409,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   serves segments.
 - `"SegmentDeliveryConfigurations"`: A list of the segment delivery configurations
   associated with this resource.
-- `"tags"`: The tags to assign to the source location. Tags are key-value pairs that you
-  can associate with Amazon resources to help with organization, access control, and cost
+- `"tags"`: The tags to assign to the source location. Tags are key-value pairs that you can
+  associate with Amazon resources to help with organization, access control, and cost
   tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
 function create_source_location end
@@ -1058,20 +1061,23 @@ Retrieves information about your channel's schedule.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"audience"`: The single audience for GetChannelScheduleRequest.
+
 - `"durationMinutes"`: The duration in minutes of the channel schedule.
+
 - `"maxResults"`: The maximum number of channel schedules that you want MediaTailor to
   return in response to the current request. If there are more than `MaxResults` channel
   schedules, use the value of `NextToken` in the response to get the next page of results.
-- `"nextToken"`: (Optional) If the playback configuration has more than `MaxResults`
-  channel schedules, use `NextToken` to get the second and subsequent pages of results.
+
+- `"nextToken"`: (Optional) If the playback configuration has more than `MaxResults` channel
+  schedules, use `NextToken` to get the second and subsequent pages of results.
 
   For the first `GetChannelScheduleRequest` request, omit this value.
 
   For the second and subsequent requests, get the value of `NextToken` from the previous
   response and specify that value for `NextToken` in the request.
 
-  If the previous response didn't include a `NextToken` element, there are no more
-  channel schedules to get.
+  If the previous response didn't include a `NextToken` element, there are no more channel
+  schedules to get.
 """
 function get_channel_schedule end
 
@@ -1149,8 +1155,8 @@ in the *MediaTailor User Guide*.
 - `name`: The name of the prefetch schedule. The name must be unique among all prefetch
   schedules that are associated with the specified playback configuration.
 - `playback_configuration_name`: Returns information about the prefetch schedule for a
-  specific playback configuration. If you call `GetPrefetchSchedule` on an expired
-  prefetch schedule, MediaTailor returns an HTTP 404 status code.
+  specific playback configuration. If you call `GetPrefetchSchedule` on an expired prefetch
+  schedule, MediaTailor returns an HTTP 404 status code.
 """
 function get_prefetch_schedule end
 
@@ -1195,8 +1201,8 @@ Lists the alerts that are associated with a MediaTailor channel assembly resourc
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of alerts that you want MediaTailor to return in
-  response to the current request. If there are more than `MaxResults` alerts, use the
-  value of `NextToken` in the response to get the next page of results.
+  response to the current request. If there are more than `MaxResults` alerts, use the value
+  of `NextToken` in the response to get the next page of results.
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1277,8 +1283,8 @@ content.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of live sources that you want MediaTailor to return in
-  response to the current request. If there are more than `MaxResults` live sources, use
-  the value of `NextToken` in the response to get the next page of results.
+  response to the current request. If there are more than `MaxResults` live sources, use the
+  value of `NextToken` in the response to get the next page of results.
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1320,10 +1326,10 @@ configurations, see [Working with Configurations in AWS Elemental MediaTailor](h
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of playback configurations that you want MediaTailor
-  to return in response to the current request. If there are more than `MaxResults`
-  playback configurations, use the value of `NextToken` in the response to get the next
-  page of results.
+- `"MaxResults"`: The maximum number of playback configurations that you want MediaTailor to
+  return in response to the current request. If there are more than `MaxResults` playback
+  configurations, use the value of `NextToken` in the response to get the next page of
+  results.
 - `"NextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1368,6 +1374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of prefetch schedules that you want MediaTailor to
   return in response to the current request. If there are more than `MaxResults` prefetch
   schedules, use the value of `NextToken` in the response to get the next page of results.
+
 - `"NextToken"`: (Optional) If the playback configuration has more than `MaxResults`
   prefetch schedules, use `NextToken` to get the second and subsequent pages of results.
 
@@ -1376,8 +1383,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For the second and subsequent requests, get the value of `NextToken` from the previous
   response and specify that value for `NextToken` in the request.
 
-  If the previous response didn't include a `NextToken` element, there are no more
-  prefetch schedules to get.
+  If the previous response didn't include a `NextToken` element, there are no more prefetch
+  schedules to get.
+
 - `"StreamId"`: An optional filtering parameter whereby MediaTailor filters the prefetch
   schedules to include only specific streams.
 """
@@ -1412,16 +1420,16 @@ end
     list_source_locations()
     list_source_locations(params::Dict{String,<:Any})
 
-Lists the source locations for a channel. A source location defines the host server URL,
-and contains a list of sources.
+Lists the source locations for a channel. A source location defines the host server URL, and
+contains a list of sources.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of source locations that you want MediaTailor to
-  return in response to the current request. If there are more than `MaxResults` source
-  locations, use the value of `NextToken` in the response to get the next page of results.
+- `"maxResults"`: The maximum number of source locations that you want MediaTailor to return
+  in response to the current request. If there are more than `MaxResults` source locations,
+  use the value of `NextToken` in the response to get the next page of results.
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1449,8 +1457,8 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-A list of tags that are associated with this resource. Tags are key-value pairs that you
-can associate with Amazon resources to help with organization, access control, and cost
+A list of tags that are associated with this resource. Tags are key-value pairs that you can
+associate with Amazon resources to help with organization, access control, and cost
 tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 
 # Arguments
@@ -1501,8 +1509,8 @@ content.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of VOD sources that you want MediaTailor to return in
-  response to the current request. If there are more than `MaxResults` VOD sources, use
-  the value of `NextToken` in the response to get the next page of results.
+  response to the current request. If there are more than `MaxResults` VOD sources, use the
+  value of `NextToken` in the response to get the next page of results.
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1589,47 +1597,59 @@ Creates a playback configuration. For information about MediaTailor configuratio
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AdDecisionServerUrl"`: The URL for the ad decision server (ADS). This includes the
-  specification of static parameters and placeholders for dynamic parameters. AWS
-  Elemental MediaTailor substitutes player-specific and session-specific parameters as
-  needed when calling the ADS. Alternately, for testing you can provide a static VAST
-  URL. The maximum length is 25,000 characters.
+  specification of static parameters and placeholders for dynamic parameters. AWS Elemental
+  MediaTailor substitutes player-specific and session-specific parameters as needed when
+  calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum
+  length is 25,000 characters.
+
 - `"AvailSuppression"`: The configuration for avail suppression, also known as ad
   suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
+
 - `"Bumper"`: The configuration for bumpers. Bumpers are short audio or video clips that
   play at the start or before the end of an ad break. To learn more about bumpers, see [Bumpers](https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html).
+
 - `"CdnConfiguration"`: The configuration for using a content delivery network (CDN), like
   Amazon CloudFront, for content and ad segment management.
+
 - `"ConfigurationAliases"`: The player parameters and aliases used as dynamic variables
   during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+
 - `"DashConfiguration"`: The configuration for DASH content.
-- `"InsertionMode"`: The setting that controls whether players can use stitched or guided
-  ad insertion. The default, `STITCHED_ONLY`, forces all player sessions to use stitched
+
+- `"InsertionMode"`: The setting that controls whether players can use stitched or guided ad
+  insertion. The default, `STITCHED_ONLY`, forces all player sessions to use stitched
   (server-side) ad insertion. Choosing `PLAYER_SELECT` allows players to select either
   stitched or guided ad insertion at session-initialization time. The default for players
   that do not specify an insertion mode is stitched.
+
 - `"LivePreRollConfiguration"`: The configuration for pre-roll ad insertion.
+
 - `"ManifestProcessingRules"`: The configuration for manifest processing rules. Manifest
   processing rules enable customization of the personalized manifests created by
   MediaTailor.
+
 - `"PersonalizationThresholdSeconds"`: Defines the maximum duration of underfilled ad time
   (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the
-  personalization threshold, then the personalization of the ad break is abandoned and
-  the underlying content is shown. This feature applies to *ad replacement* in live and
-  VOD streams, rather than ad insertion, because it relies on an underlying content
-  stream. For more information about ad break behavior, including ad replacement and
-  insertion, see [Ad Behavior in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
+  personalization threshold, then the personalization of the ad break is abandoned and the
+  underlying content is shown. This feature applies to *ad replacement* in live and VOD
+  streams, rather than ad insertion, because it relies on an underlying content stream. For
+  more information about ad break behavior, including ad replacement and insertion, see [Ad Behavior in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
+
 - `"SlateAdUrl"`: The URL for a high-quality video asset to transcode and use to fill in
-  time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps
-  in media content. Configuring the slate is optional for non-VPAID configurations. For
-  VPAID, the slate is required because MediaTailor provides it in the slots that are
-  designated for dynamic ad content. The slate must be a high-quality asset that contains
-  both audio and video.
+  time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in
+  media content. Configuring the slate is optional for non-VPAID configurations. For VPAID,
+  the slate is required because MediaTailor provides it in the slots that are designated for
+  dynamic ad content. The slate must be a high-quality asset that contains both audio and
+  video.
+
 - `"TranscodeProfileName"`: The name that is used to associate this playback configuration
   with a custom transcode profile. This overrides the dynamic transcoding defaults of
-  MediaTailor. Use this only if you have already set up custom profiles with the help of
-  AWS Support.
+  MediaTailor. Use this only if you have already set up custom profiles with the help of AWS
+  Support.
+
 - `"VideoContentSourceUrl"`: The URL prefix for the parent manifest for the stream, minus
   the asset ID. The maximum length is 512 characters.
+
 - `"tags"`: The tags to assign to the playback configuration. Tags are key-value pairs that
   you can associate with Amazon resources to help with organization, access control, and
   cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
@@ -2042,8 +2062,8 @@ Updates a VOD source's configuration.
 
 # Arguments
 
-- `http_package_configurations`: A list of HTTP package configurations for the VOD source
-  on this account.
+- `http_package_configurations`: A list of HTTP package configurations for the VOD source on
+  this account.
 - `source_location_name`: The name of the source location associated with this VOD Source.
 - `vod_source_name`: The name of the VOD source.
 """

@@ -39,26 +39,29 @@ in the *Amazon MQ Developer Guide*.
 
 - `broker_name`: Required. The broker's name. This value must be unique in your Amazon Web
   Services account, 1-50 characters long, must contain only letters, numbers, dashes, and
-  underscores, and must not contain white spaces, brackets, wildcard characters, or
-  special characters.
+  underscores, and must not contain white spaces, brackets, wildcard characters, or special
+  characters.
 
   !!! important
       Do not add personally identifiable information (PII) or other confidential or
-      sensitive information in broker names. Broker names are accessible to other Amazon
-      Web Services services, including CloudWatch Logs. Broker names are not intended to
-      be used for private or sensitive data.
+      sensitive information in broker names. Broker names are accessible to other Amazon Web
+      Services services, including CloudWatch Logs. Broker names are not intended to be used
+      for private or sensitive data.
 
 - `deployment_mode`: Required. The broker's deployment mode.
-- `engine_type`: Required. The type of broker engine. Currently, Amazon MQ supports
-  ACTIVEMQ and RABBITMQ.
+
+- `engine_type`: Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ
+  and RABBITMQ.
+
 - `host_instance_type`: Required. The broker's instance type.
-- `publicly_accessible`: Enables connections from applications outside of the VPC that
-  hosts the broker's subnets. Set to false by default, if no value is provided.
+
+- `publicly_accessible`: Enables connections from applications outside of the VPC that hosts
+  the broker's subnets. Set to false by default, if no value is provided.
+
 - `users`: The list of broker users (persons or applications) who can access queues and
   topics. For Amazon MQ for RabbitMQ brokers, one and only one administrative user is
-  accepted and created when a broker is first provisioned. All subsequent broker users
-  are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web
-  console.
+  accepted and created when a broker is first provisioned. All subsequent broker users are
+  created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
 
 # Optional Parameters
 
@@ -66,16 +69,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"authenticationStrategy"`: Optional. The authentication strategy used to secure the
   broker. The default is SIMPLE.
+
 - `"autoMinorVersionUpgrade"`: Enables automatic upgrades to new patch versions for brokers
-  as new versions are released and supported by Amazon MQ. Automatic upgrades occur
-  during the scheduled maintenance window or after a manual broker reboot. Set to true by
-  default, if no value is specified.
+  as new versions are released and supported by Amazon MQ. Automatic upgrades occur during
+  the scheduled maintenance window or after a manual broker reboot. Set to true by default,
+  if no value is specified.
 
   !!! note
       Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ
       brokers version 3.13 and above.
 
 - `"configuration"`: A list of information about the configuration.
+
 - `"creatorRequestId"`: The unique ID that the requester receives for the created broker.
   Amazon MQ passes your ID with the API action.
 
@@ -84,21 +89,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       You may omit the creatorRequestId if your application doesn't require idempotency.
 
 - `"dataReplicationMode"`: Defines whether this broker is a part of a data replication pair.
+
 - `"dataReplicationPrimaryBrokerArn"`: The Amazon Resource Name (ARN) of the primary broker
   that is used to replicate data from in a data replication pair, and is applied to the
   replica broker. Must be set when dataReplicationMode is set to CRDR.
+
 - `"encryptionOptions"`: Encryption options for the broker.
-- `"engineVersion"`: The broker engine version. Defaults to the latest available version
-  for the specified broker engine type. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
+
+- `"engineVersion"`: The broker engine version. Defaults to the latest available version for
+  the specified broker engine type. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
   and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
   sections in the Amazon MQ Developer Guide.
-- `"ldapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate
-  and authorize connections to the broker. Does not apply to RabbitMQ brokers.
+
+- `"ldapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate and
+  authorize connections to the broker. Does not apply to RabbitMQ brokers.
+
 - `"logs"`: Enables Amazon CloudWatch logging for brokers.
+
 - `"maintenanceWindowStartTime"`: The parameters that determine the WeeklyStartTime.
+
 - `"securityGroups"`: The list of rules (1 minimum, 125 maximum) that authorize connections
   to brokers.
+
 - `"storageType"`: The broker's storage type.
+
 - `"subnetIds"`: The list of groups that define which subnets and IP ranges the broker can
   use from different Availability Zones. If you specify more than one subnet, the subnets
   must be in different Availability Zones. Amazon MQ will not be able to create VPC
@@ -111,10 +125,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       If you specify subnets in a [shared VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html)
-      for a RabbitMQ broker, the associated VPC to which the specified subnets belong
-      must be owned by your Amazon Web Services account. Amazon MQ will not be able to
-      create VPC endpoints in VPCs that are not owned by your Amazon Web Services
-      account.
+      for a RabbitMQ broker, the associated VPC to which the specified subnets belong must
+      be owned by your Amazon Web Services account. Amazon MQ will not be able to create VPC
+      endpoints in VPCs that are not owned by your Amazon Web Services account.
 
 - `"tags"`: Create tags when creating the broker.
 """
@@ -183,16 +196,16 @@ end
     create_configuration(engine_type, name)
     create_configuration(engine_type, name, params::Dict{String,<:Any})
 
-Creates a new configuration for the specified configuration name. Amazon MQ uses the
-default configuration (the engine type and version).
+Creates a new configuration for the specified configuration name. Amazon MQ uses the default
+configuration (the engine type and version).
 
 # Arguments
 
-- `engine_type`: Required. The type of broker engine. Currently, Amazon MQ supports
-  ACTIVEMQ and RABBITMQ.
+- `engine_type`: Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ
+  and RABBITMQ.
 - `name`: Required. The name of the configuration. This value can contain only alphanumeric
-  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-
-  150 characters long.
+  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150
+  characters long.
 
 # Optional Parameters
 
@@ -200,8 +213,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"authenticationStrategy"`: Optional. The authentication strategy associated with the
   configuration. The default is SIMPLE.
-- `"engineVersion"`: The broker engine version. Defaults to the latest available version
-  for the specified broker engine type. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
+- `"engineVersion"`: The broker engine version. Defaults to the latest available version for
+  the specified broker engine type. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
   and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
   sections in the Amazon MQ Developer Guide.
 - `"tags"`: Create tags when creating the configuration.
@@ -296,20 +309,20 @@ Creates an ActiveMQ user.
 
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 - `password`: Required. The password of the user. This value must be at least 12 characters
-  long, must contain at least 4 unique characters, and must not contain commas, colons,
-  or equal signs (,:=).
+  long, must contain at least 4 unique characters, and must not contain commas, colons, or
+  equal signs (,:=).
 - `username`: The username of the ActiveMQ user. This value can contain only alphanumeric
-  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-
-  100 characters long.
+  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
+  characters long.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"consoleAccess"`: Enables access to the ActiveMQ Web Console for the ActiveMQ user.
-- `"groups"`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This
-  value can contain only alphanumeric characters, dashes, periods, underscores, and
-  tildes (- . _ ~). This value must be 2-100 characters long.
+- `"groups"`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value
+  can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _
+  ~). This value must be 2-100 characters long.
 - `"replicationUser"`: Defines if this user is intended for CRDR replication purposes.
 """
 function create_user end
@@ -429,8 +442,8 @@ Deletes an ActiveMQ user.
 
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 - `username`: The username of the ActiveMQ user. This value can contain only alphanumeric
-  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-
-  100 characters long.
+  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
+  characters long.
 """
 function delete_user end
 
@@ -665,8 +678,8 @@ Returns information about an ActiveMQ user.
 
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 - `username`: The username of the ActiveMQ user. This value can contain only alphanumeric
-  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-
-  100 characters long.
+  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
+  characters long.
 """
 function describe_user end
 
@@ -975,30 +988,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"authenticationStrategy"`: Optional. The authentication strategy used to secure the
   broker. The default is SIMPLE.
+
 - `"autoMinorVersionUpgrade"`: Enables automatic upgrades to new patch versions for brokers
-  as new versions are released and supported by Amazon MQ. Automatic upgrades occur
-  during the scheduled maintenance window or after a manual broker reboot.
+  as new versions are released and supported by Amazon MQ. Automatic upgrades occur during
+  the scheduled maintenance window or after a manual broker reboot.
 
   !!! note
       Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ
       brokers version 3.13 and above.
 
 - `"configuration"`: A list of information about the configuration.
+
 - `"dataReplicationMode"`: Defines whether this broker is a part of a data replication pair.
+
 - `"engineVersion"`: The broker engine version. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
   and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
   sections in the Amazon MQ Developer Guide.
 
   !!! note
-      When upgrading to ActiveMQ version 5.18 and above or RabbitMQ version 3.13 and
-      above, you must have autoMinorVersionUpgrade set to true for the broker.
+      When upgrading to ActiveMQ version 5.18 and above or RabbitMQ version 3.13 and above,
+      you must have autoMinorVersionUpgrade set to true for the broker.
 
 - `"hostInstanceType"`: The broker's host instance type to upgrade to. For a list of
   supported instance types, see [Broker instance types](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types).
-- `"ldapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate
-  and authorize connections to the broker. Does not apply to RabbitMQ brokers.
+
+- `"ldapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate and
+  authorize connections to the broker. Does not apply to RabbitMQ brokers.
+
 - `"logs"`: Enables Amazon CloudWatch logging for brokers.
+
 - `"maintenanceWindowStartTime"`: The parameters that determine the WeeklyStartTime.
+
 - `"securityGroups"`: The list of security groups (1 minimum, 5 maximum) that authorizes
   connections to brokers.
 """
@@ -1084,20 +1104,20 @@ Updates the information for an ActiveMQ user.
 
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 - `username`: The username of the ActiveMQ user. This value can contain only alphanumeric
-  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-
-  100 characters long.
+  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
+  characters long.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"consoleAccess"`: Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-- `"groups"`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This
-  value can contain only alphanumeric characters, dashes, periods, underscores, and
-  tildes (- . _ ~). This value must be 2-100 characters long.
+- `"groups"`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value
+  can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _
+  ~). This value must be 2-100 characters long.
 - `"password"`: The password of the user. This value must be at least 12 characters long,
-  must contain at least 4 unique characters, and must not contain commas, colons, or
-  equal signs (,:=).
+  must contain at least 4 unique characters, and must not contain commas, colons, or equal
+  signs (,:=).
 - `"replicationUser"`: Defines whether the user is intended for data replication.
 """
 function update_user end

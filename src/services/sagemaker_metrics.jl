@@ -8,8 +8,8 @@ using AWS.UUIDs
     batch_put_metrics(metric_data, trial_component_name)
     batch_put_metrics(metric_data, trial_component_name, params::Dict{String,<:Any})
 
-Used to ingest training metrics into SageMaker. These metrics can be visualized in
-SageMaker Studio and retrieved with the `GetMetrics` API.
+Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker
+Studio and retrieved with the `GetMetrics` API.
 
 # Arguments
 

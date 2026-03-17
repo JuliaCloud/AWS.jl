@@ -70,8 +70,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results is greater than this value, use the token returned in the response in the
   `nextToken` field when making another request to return the next batch of results.
 - `"nextToken"`: If the total number of results is greater than the maxItems value provided
-  in the request, enter the token returned in the `nextToken` field in the response in
-  this field to return the next batch of results.
+  in the request, enter the token returned in the `nextToken` field in the response in this
+  field to return the next batch of results.
 """
 function get_agent_memory end
 
@@ -118,11 +118,8 @@ end
     invoke_agent(agent_alias_id, agent_id, session_id)
     invoke_agent(agent_alias_id, agent_id, session_id, params::Dict{String,<:Any})
 
-
-
 !!! note
-    The CLI doesn't support streaming operations in Amazon Bedrock, including
-    `InvokeAgent`.
+    The CLI doesn't support streaming operations in Amazon Bedrock, including `InvokeAgent`.
 
 Sends a prompt for the agent to process and respond to. Note the following fields for the
 request:
@@ -159,7 +156,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"enableTrace"`: Specifies whether to turn on the trace or not to track the agent's
   reasoning process. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events).
+
 - `"endSession"`: Specifies whether to end the session with the agent or not.
+
 - `"inputText"`: The prompt text to send the agent.
 
   !!! note
@@ -167,13 +166,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       `inputText` field will be ignored.
 
 - `"memoryId"`: The unique identifier of the agent memory.
+
 - `"sessionState"`: Contains parameters that specify various attributes of the session. For
   more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html).
 
   !!! note
       If you include `returnControlInvocationResults` in the `sessionState` field, the
       `inputText` field will be ignored.
-
 """
 function invoke_agent end
 
@@ -321,14 +320,16 @@ response only cites sources that are relevant to the query.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"retrieveAndGenerateConfiguration"`: Contains configurations for the knowledge base
-  query and retrieval process. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html).
+- `"retrieveAndGenerateConfiguration"`: Contains configurations for the knowledge base query
+  and retrieval process. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html).
+
 - `"sessionConfiguration"`: Contains details about the session with the knowledge base.
+
 - `"sessionId"`: The unique identifier of the session. When you first make a
-  `RetrieveAndGenerate` request, Amazon Bedrock automatically generates this value. You
-  must reuse this value for all subsequent requests in the same conversational session.
-  This value allows Amazon Bedrock to maintain context and knowledge from previous
-  interactions. You can't explicitly set the `sessionId` yourself.
+  `RetrieveAndGenerate` request, Amazon Bedrock automatically generates this value. You must
+  reuse this value for all subsequent requests in the same conversational session. This
+  value allows Amazon Bedrock to maintain context and knowledge from previous interactions.
+  You can't explicitly set the `sessionId` yourself.
 """
 function retrieve_and_generate end
 

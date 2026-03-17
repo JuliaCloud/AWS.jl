@@ -14,10 +14,10 @@ primary email address (also known as the root user email address) for the specif
 # Arguments
 
 - `account_id`: Specifies the 12-digit account ID number of the Amazon Web Services account
-  that you want to access or modify with this operation. To use this parameter, the
-  caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
-  or a delegated administrator account. The specified account ID must be a member account
-  in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+  that you want to access or modify with this operation. To use this parameter, the caller
+  must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account. The specified account ID must be a member account in
+  the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
   and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
   enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
   account assigned.
@@ -30,6 +30,7 @@ primary email address (also known as the root user email address) for the specif
 
 - `otp`: The OTP code sent to the `PrimaryEmail` specified on the `StartPrimaryEmailUpdate`
   API call.
+
 - `primary_email`: The new primary email address for use with the specified account. This
   must match the `PrimaryEmail` from the `StartPrimaryEmailUpdate` API call.
 """
@@ -94,8 +95,8 @@ For complete details about how to use the alternate contact operations, see [Acc
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation.
+- `"AccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation.
 
   If you do not specify this parameter, it defaults to the Amazon Web Services account of
   the identity used to call the operation.
@@ -108,12 +109,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account assigned.
 
   !!! note
-      The management account can't specify its own `AccountId`; it must call the
-      operation in standalone context by not including the `AccountId` parameter.
+      The management account can't specify its own `AccountId`; it must call the operation
+      in standalone context by not including the `AccountId` parameter.
 
-  To call this operation on an account that is not a member of an organization, then
-  don't specify this parameter, and call the operation using an identity belonging to the
-  account whose contacts you wish to retrieve or modify.
+  To call this operation on an account that is not a member of an organization, then don't
+  specify this parameter, and call the operation using an identity belonging to the account
+  whose contacts you wish to retrieve or modify.
 """
 function delete_alternate_contact end
 
@@ -156,34 +157,34 @@ end
 Disables (opts-out) a particular Region for an account.
 
 !!! note
-    The act of disabling a Region will remove all IAM access to any resources that reside
-    in that Region.
+    The act of disabling a Region will remove all IAM access to any resources that reside in
+    that Region.
 
 # Arguments
 
 - `region_name`: Specifies the Region-code for a given Region name (for example,
   `af-south-1`). When you disable a Region, Amazon Web Services performs actions to
   deactivate that Region in your account, such as destroying IAM resources in the Region.
-  This process takes a few minutes for most accounts, but this can take several hours.
-  You cannot enable the Region until the disabling process is fully completed.
+  This process takes a few minutes for most accounts, but this can take several hours. You
+  cannot enable the Region until the disabling process is fully completed.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation. If you don't specify
-  this parameter, it defaults to the Amazon Web Services account of the identity used to
-  call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
-  or a delegated administrator account. The specified account ID must be a member account
-  in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account. The specified account ID must be a member account in
+  the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
   and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
   enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
   account assigned.
 
   !!! note
-      The management account can't specify its own `AccountId`. It must call the
-      operation in standalone context by not including the `AccountId` parameter.
+      The management account can't specify its own `AccountId`. It must call the operation
+      in standalone context by not including the `AccountId` parameter.
 
   To call this operation on an account that is not a member of an organization, don't
   specify this parameter. Instead, call the operation using an identity belonging to the
@@ -226,29 +227,29 @@ Enables (opts-in) a particular Region for an account.
 # Arguments
 
 - `region_name`: Specifies the Region-code for a given Region name (for example,
-  `af-south-1`). When you enable a Region, Amazon Web Services performs actions to
-  prepare your account in that Region, such as distributing your IAM resources to the
-  Region. This process takes a few minutes for most accounts, but it can take several
-  hours. You cannot use the Region until this process is complete. Furthermore, you
-  cannot disable the Region until the enabling process is fully completed.
+  `af-south-1`). When you enable a Region, Amazon Web Services performs actions to prepare
+  your account in that Region, such as distributing your IAM resources to the Region. This
+  process takes a few minutes for most accounts, but it can take several hours. You cannot
+  use the Region until this process is complete. Furthermore, you cannot disable the Region
+  until the enabling process is fully completed.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation. If you don't specify
-  this parameter, it defaults to the Amazon Web Services account of the identity used to
-  call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
-  or a delegated administrator account. The specified account ID must be a member account
-  in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account. The specified account ID must be a member account in
+  the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
   and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
   enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
   account assigned.
 
   !!! note
-      The management account can't specify its own `AccountId`. It must call the
-      operation in standalone context by not including the `AccountId` parameter.
+      The management account can't specify its own `AccountId`. It must call the operation
+      in standalone context by not including the `AccountId` parameter.
 
   To call this operation on an account that is not a member of an organization, don't
   specify this parameter. Instead, call the operation using an identity belonging to the
@@ -303,8 +304,8 @@ For complete details about how to use the alternate contact operations, see [Acc
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation.
+- `"AccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation.
 
   If you do not specify this parameter, it defaults to the Amazon Web Services account of
   the identity used to call the operation.
@@ -317,12 +318,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account assigned.
 
   !!! note
-      The management account can't specify its own `AccountId`; it must call the
-      operation in standalone context by not including the `AccountId` parameter.
+      The management account can't specify its own `AccountId`; it must call the operation
+      in standalone context by not including the `AccountId` parameter.
 
-  To call this operation on an account that is not a member of an organization, then
-  don't specify this parameter, and call the operation using an identity belonging to the
-  account whose contacts you wish to retrieve or modify.
+  To call this operation on an account that is not a member of an organization, then don't
+  specify this parameter, and call the operation using an identity belonging to the account
+  whose contacts you wish to retrieve or modify.
 """
 function get_alternate_contact end
 
@@ -370,19 +371,19 @@ For complete details about how to use the primary contact operations, see [Updat
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation. If you don't specify
-  this parameter, it defaults to the Amazon Web Services account of the identity used to
-  call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
-  or a delegated administrator account. The specified account ID must be a member account
-  in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account. The specified account ID must be a member account in
+  the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
   and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
   enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
   account assigned.
 
   !!! note
-      The management account can't specify its own `AccountId`. It must call the
-      operation in standalone context by not including the `AccountId` parameter.
+      The management account can't specify its own `AccountId`. It must call the operation
+      in standalone context by not including the `AccountId` parameter.
 
   To call this operation on an account that is not a member of an organization, don't
   specify this parameter. Instead, call the operation using an identity belonging to the
@@ -420,10 +421,10 @@ Retrieves the primary email address for the specified account.
 # Arguments
 
 - `account_id`: Specifies the 12-digit account ID number of the Amazon Web Services account
-  that you want to access or modify with this operation. To use this parameter, the
-  caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
-  or a delegated administrator account. The specified account ID must be a member account
-  in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+  that you want to access or modify with this operation. To use this parameter, the caller
+  must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account. The specified account ID must be a member account in
+  the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
   and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
   enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
   account assigned.
@@ -433,7 +434,6 @@ Retrieves the primary email address for the specified account.
 
   !!! note
       The management account can't specify its own `AccountId`.
-
 """
 function get_primary_email end
 
@@ -472,26 +472,26 @@ Retrieves the opt-in status of a particular Region.
 # Arguments
 
 - `region_name`: Specifies the Region-code for a given Region name (for example,
-  `af-south-1`). This function will return the status of whatever Region you pass into
-  this parameter.
+  `af-south-1`). This function will return the status of whatever Region you pass into this
+  parameter.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation. If you don't specify
-  this parameter, it defaults to the Amazon Web Services account of the identity used to
-  call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
-  or a delegated administrator account. The specified account ID must be a member account
-  in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account. The specified account ID must be a member account in
+  the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
   and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
   enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
   account assigned.
 
   !!! note
-      The management account can't specify its own `AccountId`. It must call the
-      operation in standalone context by not including the `AccountId` parameter.
+      The management account can't specify its own `AccountId`. It must call the operation
+      in standalone context by not including the `AccountId` parameter.
 
   To call this operation on an account that is not a member of an organization, don't
   specify this parameter. Instead, call the operation using an identity belonging to the
@@ -538,32 +538,35 @@ this list can be filtered by the `region-opt-status-contains` parameter.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation. If you don't specify
-  this parameter, it defaults to the Amazon Web Services account of the identity used to
-  call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
-  or a delegated administrator account. The specified account ID must be a member account
-  in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account. The specified account ID must be a member account in
+  the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
   and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
   enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
   account assigned.
 
   !!! note
-      The management account can't specify its own `AccountId`. It must call the
-      operation in standalone context by not including the `AccountId` parameter.
+      The management account can't specify its own `AccountId`. It must call the operation
+      in standalone context by not including the `AccountId` parameter.
 
   To call this operation on an account that is not a member of an organization, don't
   specify this parameter. Instead, call the operation using an identity belonging to the
   account whose contacts you wish to retrieve or modify.
+
 - `"MaxResults"`: The total number of items to return in the command’s output. If the total
-  number of items available is more than the value specified, a `NextToken` is provided
-  in the command’s output. To resume pagination, provide the `NextToken` value in the
+  number of items available is more than the value specified, a `NextToken` is provided in
+  the command’s output. To resume pagination, provide the `NextToken` value in the
   `starting-token` argument of a subsequent command. Do not use the `NextToken` response
   element directly outside of the Amazon Web Services CLI. For usage examples, see [Pagination](http://docs.aws.amazon.com/cli/latest/userguide/pagination.html)
   in the *Amazon Web Services Command Line Interface User Guide*.
+
 - `"NextToken"`: A token used to specify where to start paginating. This is the `NextToken`
   from a previously truncated response. For usage examples, see [Pagination](http://docs.aws.amazon.com/cli/latest/userguide/pagination.html)
   in the *Amazon Web Services Command Line Interface User Guide*.
+
 - `"RegionOptStatusContains"`: A list of Region statuses (Enabling, Enabled, Disabling,
   Disabled, Enabled_by_default) to use to filter the list of Regions for a given account.
   For example, passing in a value of ENABLING will only return a list of Regions with a
@@ -614,8 +617,8 @@ For complete details about how to use the alternate contact operations, see [Acc
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation.
+- `"AccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation.
 
   If you do not specify this parameter, it defaults to the Amazon Web Services account of
   the identity used to call the operation.
@@ -628,12 +631,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account assigned.
 
   !!! note
-      The management account can't specify its own `AccountId`; it must call the
-      operation in standalone context by not including the `AccountId` parameter.
+      The management account can't specify its own `AccountId`; it must call the operation
+      in standalone context by not including the `AccountId` parameter.
 
-  To call this operation on an account that is not a member of an organization, then
-  don't specify this parameter, and call the operation using an identity belonging to the
-  account whose contacts you wish to retrieve or modify.
+  To call this operation on an account that is not a member of an organization, then don't
+  specify this parameter, and call the operation using an identity belonging to the account
+  whose contacts you wish to retrieve or modify.
 """
 function put_alternate_contact end
 
@@ -707,19 +710,19 @@ For complete details about how to use the primary contact operations, see [Updat
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
-  account that you want to access or modify with this operation. If you don't specify
-  this parameter, it defaults to the Amazon Web Services account of the identity used to
-  call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
-  or a delegated administrator account. The specified account ID must be a member account
-  in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account. The specified account ID must be a member account in
+  the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
   and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
   enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
   account assigned.
 
   !!! note
-      The management account can't specify its own `AccountId`. It must call the
-      operation in standalone context by not including the `AccountId` parameter.
+      The management account can't specify its own `AccountId`. It must call the operation
+      in standalone context by not including the `AccountId` parameter.
 
   To call this operation on an account that is not a member of an organization, don't
   specify this parameter. Instead, call the operation using an identity belonging to the
@@ -766,10 +769,10 @@ Starts the process to update the primary email address for the specified account
 # Arguments
 
 - `account_id`: Specifies the 12-digit account ID number of the Amazon Web Services account
-  that you want to access or modify with this operation. To use this parameter, the
-  caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
-  or a delegated administrator account. The specified account ID must be a member account
-  in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+  that you want to access or modify with this operation. To use this parameter, the caller
+  must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account. The specified account ID must be a member account in
+  the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
   and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
   enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
   account assigned.
@@ -780,8 +783,8 @@ Starts the process to update the primary email address for the specified account
   !!! note
       The management account can't specify its own `AccountId`.
 
-- `primary_email`: The new primary email address (also known as the root user email
-  address) to use in the specified account.
+- `primary_email`: The new primary email address (also known as the root user email address)
+  to use in the specified account.
 """
 function start_primary_email_update end
 

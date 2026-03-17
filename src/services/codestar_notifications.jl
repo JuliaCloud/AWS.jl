@@ -18,13 +18,13 @@ for Slack) where you want to receive them.
   `BASIC` will include only the contents of the event as it would appear in Amazon
   CloudWatch. `FULL` will include any supplemental information provided by AWS CodeStar
   Notifications and/or the service for the resource for which the notification is created.
-- `event_type_ids`: A list of event types associated with this notification rule. For a
-  list of allowed events, see [`event_type_summary`](@ref).
-- `name`: The name for the notification rule. Notification rule names must be unique in
-  your Amazon Web Services account.
+- `event_type_ids`: A list of event types associated with this notification rule. For a list
+  of allowed events, see [`event_type_summary`](@ref).
+- `name`: The name for the notification rule. Notification rule names must be unique in your
+  Amazon Web Services account.
 - `resource`: The Amazon Resource Name (ARN) of the resource to associate with the
-  notification rule. Supported resources include pipelines in CodePipeline, repositories
-  in CodeCommit, and build projects in CodeBuild.
+  notification rule. Supported resources include pipelines in CodePipeline, repositories in
+  CodeCommit, and build projects in CodeBuild.
 - `targets`: A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service
   topics and Chatbot clients to associate with the notification rule.
 
@@ -34,8 +34,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`: A unique, client-generated idempotency token that, when provided
   in a request, ensures the request cannot be repeated with a changed parameter. If a
-  request with the same parameters is received and a token is included, the request
-  returns information about the initial request that used that token.
+  request with the same parameters is received and a token is included, the request returns
+  information about the initial request that used that token.
 
   !!! note
       The Amazon Web Services SDKs prepopulate client request tokens. If you are using an
@@ -43,6 +43,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Status"`: The status of the notification rule. The default value is `ENABLED`. If the
   status is set to `DISABLED`, notifications aren't sent for the notification rule.
+
 - `"Tags"`: A list of tags to apply to this notification rule. Key names cannot start with
   "`aws`".
 """
@@ -145,17 +146,16 @@ Deletes a specified target for notifications.
 
 # Arguments
 
-- `target_address`: The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client
-  to delete.
+- `target_address`: The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to
+  delete.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ForceUnsubscribeAll"`: A Boolean value that can be used to delete all associations with
-  this Chatbot topic. The default value is FALSE. If set to TRUE, all associations
-  between that target and every notification rule in your Amazon Web Services account are
-  deleted.
+  this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between
+  that target and every notification rule in your Amazon Web Services account are deleted.
 """
 function delete_target end
 
@@ -274,6 +274,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: A non-negative integer used to limit the number of returned results. The
   maximum number of results that can be returned is 100.
+
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
@@ -353,6 +354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: A non-negative integer used to limit the number of returned results. The
   maximum number of results that can be returned is 100.
+
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
@@ -380,9 +382,9 @@ end
     subscribe(arn, target)
     subscribe(arn, target, params::Dict{String,<:Any})
 
-Creates an association between a notification rule and an Chatbot topic or Chatbot client
-so that the associated target can receive notifications when the events described in the
-rule are triggered.
+Creates an association between a notification rule and an Chatbot topic or Chatbot client so
+that the associated target can receive notifications when the events described in the rule
+are triggered.
 
 # Arguments
 
@@ -394,8 +396,8 @@ rule are triggered.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientRequestToken"`: An enumeration token that, when provided in a request, returns
-  the next batch of the results.
+- `"ClientRequestToken"`: An enumeration token that, when provided in a request, returns the
+  next batch of the results.
 """
 function subscribe end
 
@@ -573,9 +575,9 @@ notification rule, the status of the rule, and the targets that receive the noti
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DetailType"`: The level of detail to include in the notifications for this resource.
-  BASIC will include only the contents of the event as it would appear in Amazon
-  CloudWatch. FULL will include any supplemental information provided by AWS CodeStar
-  Notifications and/or the service for the resource for which the notification is created.
+  BASIC will include only the contents of the event as it would appear in Amazon CloudWatch.
+  FULL will include any supplemental information provided by AWS CodeStar Notifications
+  and/or the service for the resource for which the notification is created.
 - `"EventTypeIds"`: A list of event types associated with this notification rule. For a
   complete list of event types and IDs, see [Notification concepts](https://docs.aws.amazon.com/codestar-notifications/latest/userguide/concepts.html#concepts-api)
   in the *Developer Tools Console User Guide*.

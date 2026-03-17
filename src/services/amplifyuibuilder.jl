@@ -310,8 +310,6 @@ end
     exchange_code_for_token(provider, request)
     exchange_code_for_token(provider, request, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is for internal use.
 
@@ -964,8 +962,6 @@ end
     refresh_token(provider, refresh_token_body)
     refresh_token(provider, refresh_token_body, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is for internal use.
 
@@ -1026,8 +1022,8 @@ Starts a code generation job for a specified Amplify app and backend environment
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: The idempotency token used to ensure that the code generation job
-  request completes only once.
+- `"clientToken"`: The idempotency token used to ensure that the code generation job request
+  completes only once.
 """
 function start_codegen_job end
 

@@ -390,8 +390,6 @@ end
     get_connection(connection_id)
     get_connection(connection_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     Amazon Web Services uses this action to install Outpost servers.
 
@@ -669,10 +667,10 @@ end
 
 Lists the hardware assets for the specified Outpost.
 
-Use filters to return specific results. If you specify multiple filters, the results
-include only the resources that match all of the specified filters. For a filter where you
-can specify multiple values, the results include items that match any of the values that
-you specify for the filter.
+Use filters to return specific results. If you specify multiple filters, the results include
+only the resources that match all of the specified filters. For a filter where you can
+specify multiple values, the results include items that match any of the values that you
+specify for the filter.
 
 # Arguments
 
@@ -718,10 +716,10 @@ end
 
 Lists the capacity tasks for your Amazon Web Services account.
 
-Use filters to return specific results. If you specify multiple filters, the results
-include only the resources that match all of the specified filters. For a filter where you
-can specify multiple values, the results include items that match any of the values that
-you specify for the filter.
+Use filters to return specific results. If you specify multiple filters, the results include
+only the resources that match all of the specified filters. For a filter where you can
+specify multiple values, the results include items that match any of the values that you
+specify for the filter.
 
 # Optional Parameters
 
@@ -759,10 +757,10 @@ end
 
 Lists the items in the catalog.
 
-Use filters to return specific results. If you specify multiple filters, the results
-include only the resources that match all of the specified filters. For a filter where you
-can specify multiple values, the results include items that match any of the values that
-you specify for the filter.
+Use filters to return specific results. If you specify multiple filters, the results include
+only the resources that match all of the specified filters. For a filter where you can
+specify multiple values, the results include items that match any of the values that you
+specify for the filter.
 
 # Optional Parameters
 
@@ -834,10 +832,10 @@ end
 
 Lists the Outposts for your Amazon Web Services account.
 
-Use filters to return specific results. If you specify multiple filters, the results
-include only the resources that match all of the specified filters. For a filter where you
-can specify multiple values, the results include items that match any of the values that
-you specify for the filter.
+Use filters to return specific results. If you specify multiple filters, the results include
+only the resources that match all of the specified filters. For a filter where you can
+specify multiple values, the results include items that match any of the values that you
+specify for the filter.
 
 # Optional Parameters
 
@@ -870,13 +868,13 @@ end
     list_sites()
     list_sites(params::Dict{String,<:Any})
 
-Lists the Outpost sites for your Amazon Web Services account. Use filters to return
-specific results.
+Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific
+results.
 
-Use filters to return specific results. If you specify multiple filters, the results
-include only the resources that match all of the specified filters. For a filter where you
-can specify multiple values, the results include items that match any of the values that
-you specify for the filter.
+Use filters to return specific results. If you specify multiple filters, the results include
+only the resources that match all of the specified filters. For a filter where you can
+specify multiple values, the results include items that match any of the values that you
+specify for the filter.
 
 # Optional Parameters
 
@@ -948,8 +946,8 @@ Starts the specified capacity task. You can have one active capacity task for an
 # Arguments
 
 - `instance_pools`: The instance pools specified in the capacity task.
-- `order_id`: The ID of the Amazon Web Services Outposts order associated with the
-  specified capacity task.
+- `order_id`: The ID of the Amazon Web Services Outposts order associated with the specified
+  capacity task.
 - `outpost_id`: The ID or ARN of the Outposts associated with the specified capacity task.
 
 # Optional Parameters
@@ -957,8 +955,8 @@ Starts the specified capacity task. You can have one active capacity task for an
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DryRun"`: You can request a dry run to determine if the instance type and instance size
-  changes is above or below available instance capacity. Requesting a dry run does not
-  make any changes to your plan.
+  changes is above or below available instance capacity. Requesting a dry run does not make
+  any changes to your plan.
 """
 function start_capacity_task end
 
@@ -1000,8 +998,6 @@ end
     start_connection(asset_id, client_public_key, network_interface_device_index)
     start_connection(asset_id, client_public_key, network_interface_device_index, params::Dict{String,<:Any})
 
-
-
 !!! note
     Amazon Web Services uses this action to install Outpost servers.
 
@@ -1016,8 +1012,8 @@ in the *Amazon Web Services Outposts User Guide*.
 
 - `asset_id`: The ID of the Outpost server.
 - `client_public_key`: The public key of the client.
-- `network_interface_device_index`: The device index of the network interface on the
-  Outpost server.
+- `network_interface_device_index`: The device index of the network interface on the Outpost
+  server.
 
 # Optional Parameters
 
@@ -1304,13 +1300,15 @@ complete or cancel the order.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"FiberOpticCableType"`: The type of fiber that you will use to attach the Outpost to
-  your network.
+- `"FiberOpticCableType"`: The type of fiber that you will use to attach the Outpost to your
+  network.
+
 - `"MaximumSupportedWeightLbs"`: The maximum rack weight that this site can support.
   `NO_LIMIT` is over 2000lbs.
+
 - `"OpticalStandard"`: The type of optical standard that you will use to attach the Outpost
-  to your network. This field is dependent on uplink speed, fiber type, and distance to
-  the upstream device. For more information about networking requirements for racks, see [Network](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#facility-networking)
+  to your network. This field is dependent on uplink speed, fiber type, and distance to the
+  upstream device. For more information about networking requirements for racks, see [Network](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#facility-networking)
   in the Amazon Web Services Outposts User Guide.
 
   - `OPTIC_10GBASE_SR`: 10GBASE-SR
@@ -1331,14 +1329,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for connections to the hardware. Note the correlation between `PowerPhase` and
   `PowerConnector`.
 
-  - Single-phase AC feed   - **L6-30P** – (common in US); 30A; single phase
+  - Single-phase AC feed
+    - **L6-30P** – (common in US); 30A; single phase
     - **IEC309 (blue)** – P+N+E, 6hr; 32 A; single phase
-  - Three-phase AC feed   - **AH530P7W (red)** – 3P+N+E, 7hr; 30A; three phase
+  - Three-phase AC feed
+    - **AH530P7W (red)** – 3P+N+E, 7hr; 30A; three phase
     - **AH532P6W (red)** – 3P+N+E, 6hr; 32A; three phase
 
-- `"PowerDrawKva"`: The power draw, in kVA, available at the hardware placement position
-  for the rack.
+- `"PowerDrawKva"`: The power draw, in kVA, available at the hardware placement position for
+  the rack.
+
 - `"PowerFeedDrop"`: Indicates whether the power feed comes above or below the rack.
+
 - `"PowerPhase"`: The power option that you can provide for hardware.
 
   - Single-phase AC feed: 200 V to 277 V, 50 Hz or 60 Hz
@@ -1346,9 +1348,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"UplinkCount"`: Racks come with two Outpost network devices. Depending on the supported
   uplink speed at the site, the Outpost network devices provide a variable number of
-  uplinks. Specify the number of uplinks for each Outpost network device that you intend
-  to use to connect the rack to your network. Note the correlation between `UplinkGbps`
-  and `UplinkCount`.
+  uplinks. Specify the number of uplinks for each Outpost network device that you intend to
+  use to connect the rack to your network. Note the correlation between `UplinkGbps` and
+  `UplinkCount`.
 
   - 1Gbps - Uplinks available: 1, 2, 4, 6, 8
   - 10Gbps - Uplinks available: 1, 2, 4, 8, 12, 16

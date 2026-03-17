@@ -23,9 +23,9 @@ different Amazon Web Services account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"TagList"`: Tags to apply to the destination backup during creation. If you specify
-  tags, only these tags will be applied to the destination backup. If you do not specify
-  tags, the service copies tags from the source backup to the destination backup.
+- `"TagList"`: Tags to apply to the destination backup during creation. If you specify tags,
+  only these tags will be applied to the destination backup. If you do not specify tags, the
+  service copies tags from the source backup to the destination backup.
 """
 function copy_backup_to_region end
 
@@ -68,17 +68,17 @@ end
 
 Creates a new CloudHSM cluster.
 
-**Cross-account use:** Yes. To perform this operation with an CloudHSM backup in a
-different AWS account, specify the full backup ARN in the value of the SourceBackupId
-parameter.
+**Cross-account use:** Yes. To perform this operation with an CloudHSM backup in a different
+AWS account, specify the full backup ARN in the value of the SourceBackupId parameter.
 
 # Arguments
 
 - `hsm_type`: The type of HSM to use in the cluster. The allowed values are `hsm1.medium`
   and `hsm2m.medium`.
-- `subnet_ids`: The identifiers (IDs) of the subnets where you are creating the cluster.
-  You must specify at least one subnet. If you specify multiple subnets, they must meet
-  the following criteria:
+
+- `subnet_ids`: The identifiers (IDs) of the subnets where you are creating the cluster. You
+  must specify at least one subnet. If you specify multiple subnets, they must meet the
+  following criteria:
 
   - All subnets must be in the same virtual private cloud (VPC).
   - You can specify only one subnet per Availability Zone.
@@ -90,9 +90,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BackupRetentionPolicy"`: A policy that defines how the service retains backups.
 - `"Mode"`: The mode to use in the cluster. The allowed values are `FIPS` and `NON_FIPS`.
 - `"SourceBackupId"`: The identifier (ID) or the Amazon Resource Name (ARN) of the cluster
-  backup to restore. Use this value to restore the cluster from a backup instead of
-  creating a new cluster. To find the backup ID or ARN, use [`describe_backups`](@ref).
-  *If using a backup in another account, the full ARN must be supplied.*
+  backup to restore. Use this value to restore the cluster from a backup instead of creating
+  a new cluster. To find the backup ID or ARN, use [`describe_backups`](@ref). *If using a
+  backup in another account, the full ARN must be supplied.*
 - `"TagList"`: Tags to apply to the CloudHSM cluster during creation.
 """
 function create_cluster end
@@ -148,8 +148,8 @@ different Amazon Web Service account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"IpAddress"`: The HSM's IP address. If you specify an IP address, use an available
-  address from the subnet that maps to the Availability Zone where you are creating the
-  HSM. If you don't specify an IP address, one is chosen for you from that subnet.
+  address from the subnet that maps to the Availability Zone where you are creating the HSM.
+  If you don't specify an IP address, one is chosen for you from that subnet.
 """
 function create_hsm end
 
@@ -231,8 +231,8 @@ end
     delete_cluster(cluster_id)
     delete_cluster(cluster_id, params::Dict{String,<:Any})
 
-Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must delete
-all HSMs in the cluster. To see if the cluster contains any HSMs, use [`describe_clusters`](@ref).
+Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must delete all
+HSMs in the cluster. To see if the cluster contains any HSMs, use [`describe_clusters`](@ref).
 To delete an HSM, use [`delete_hsm`](@ref).
 
 **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a
@@ -362,11 +362,11 @@ end
     describe_backups()
     describe_backups(params::Dict{String,<:Any})
 
-Gets information about backups of CloudHSM clusters. Lists either the backups you own or
-the backups shared with you when the Shared parameter is true.
+Gets information about backups of CloudHSM clusters. Lists either the backups you own or the
+backups shared with you when the Shared parameter is true.
 
-This is a paginated operation, which means that each response might contain only a subset
-of all the backups. When the response contains only a subset of backups, it includes a
+This is a paginated operation, which means that each response might contain only a subset of
+all the backups. When the response contains only a subset of backups, it includes a
 `NextToken` value. Use this value in a subsequent `DescribeBackups` request to get more
 backups. When you receive a response with no `NextToken` (or an empty or null value), that
 means there are no more backups to get.
@@ -380,33 +380,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: One or more filters to limit the items returned in the response.
 
-  Use the `backupIds` filter to return only the specified backups. Specify backups by
-  their backup identifier (ID).
+  Use the `backupIds` filter to return only the specified backups. Specify backups by their
+  backup identifier (ID).
 
-  Use the `sourceBackupIds` filter to return only the backups created from a source
-  backup. The `sourceBackupID` of a source backup is returned by the [`copy_backup_to_region`](@ref)
+  Use the `sourceBackupIds` filter to return only the backups created from a source backup.
+  The `sourceBackupID` of a source backup is returned by the [`copy_backup_to_region`](@ref)
   operation.
 
-  Use the `clusterIds` filter to return only the backups for the specified clusters.
-  Specify clusters by their cluster identifier (ID).
+  Use the `clusterIds` filter to return only the backups for the specified clusters. Specify
+  clusters by their cluster identifier (ID).
 
   Use the `states` filter to return only backups that match the specified state.
 
   Use the `neverExpires` filter to return backups filtered by the value in the
   `neverExpires` parameter. `True` returns all backups exempt from the backup retention
-  policy. `False` returns all backups with a backup retention policy defined at the
-  cluster.
+  policy. `False` returns all backups with a backup retention policy defined at the cluster.
+
 - `"MaxResults"`: The maximum number of backups to return in the response. When there are
   more backups than the number you specify, the response contains a `NextToken` value.
+
 - `"NextToken"`: The `NextToken` value that you received in the previous response. Use this
   value to get more backups.
+
 - `"Shared"`: Describe backups that are shared with you.
 
   !!! note
-      By default when using this option, the command returns backups that have been
-      shared using a standard Resource Access Manager resource share. In order for a
-      backup that was shared using the PutResourcePolicy command to be returned, the
-      share must be promoted to a standard resource share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/cli/latest/reference/ram/promote-resource-share-created-from-policy.html)
+      By default when using this option, the command returns backups that have been shared
+      using a standard Resource Access Manager resource share. In order for a backup that
+      was shared using the PutResourcePolicy command to be returned, the share must be
+      promoted to a standard resource share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/cli/latest/reference/ram/promote-resource-share-created-from-policy.html)
       API operation. For more information about sharing backups, see [Working with shared backups](https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html)
       in the CloudHSM User Guide.
 
@@ -435,8 +437,8 @@ end
 
 Gets information about CloudHSM clusters.
 
-This is a paginated operation, which means that each response might contain only a subset
-of all the clusters. When the response contains only a subset of clusters, it includes a
+This is a paginated operation, which means that each response might contain only a subset of
+all the clusters. When the response contains only a subset of clusters, it includes a
 `NextToken` value. Use this value in a subsequent `DescribeClusters` request to get more
 clusters. When you receive a response with no `NextToken` (or an empty or null value), that
 means there are no more clusters to get.
@@ -457,8 +459,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   clouds (VPCs). Specify VPCs by their VPC identifier (ID).
 
   Use the `states` filter to return only clusters that match the specified state.
+
 - `"MaxResults"`: The maximum number of clusters to return in the response. When there are
   more clusters than the number you specify, the response contains a `NextToken` value.
+
 - `"NextToken"`: The `NextToken` value that you received in the previous response. Use this
   value to get more clusters.
 """
@@ -525,14 +529,16 @@ different Amazon Web Services account.
 
 - `cluster_id`: The identifier (ID) of the cluster that you are claiming. To find the
   cluster ID, use [`describe_clusters`](@ref).
+
 - `signed_cert`: The cluster certificate issued (signed) by your issuing certificate
   authority (CA). The certificate must be in PEM format and can contain a maximum of 5000
   characters.
+
 - `trust_anchor`: The issuing certificate of the issuing certificate authority (CA) that
   issued (signed) the cluster certificate. You must use a self-signed certificate. The
-  certificate used to sign the HSM CSR must be directly available, and thus must be the
-  root certificate. The certificate must be in PEM format and can contain a maximum of
-  5000 characters.
+  certificate used to sign the HSM CSR must be directly available, and thus must be the root
+  certificate. The certificate must be in PEM format and can contain a maximum of 5000
+  characters.
 """
 function initialize_cluster end
 
@@ -582,11 +588,11 @@ end
 
 Gets a list of tags for the specified CloudHSM cluster.
 
-This is a paginated operation, which means that each response might contain only a subset
-of all the tags. When the response contains only a subset of tags, it includes a
-`NextToken` value. Use this value in a subsequent `ListTags` request to get more tags. When
-you receive a response with no `NextToken` (or an empty or null value), that means there
-are no more tags to get.
+This is a paginated operation, which means that each response might contain only a subset of
+all the tags. When the response contains only a subset of tags, it includes a `NextToken`
+value. Use this value in a subsequent `ListTags` request to get more tags. When you receive
+a response with no `NextToken` (or an empty or null value), that means there are no more
+tags to get.
 
 **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a
 different Amazon Web Services account.
@@ -645,8 +651,8 @@ different Amazon Web Services account.
 - `backup_id`: The identifier (ID) of the backup to modify. To find the ID of a backup, use
   the [`describe_backups`](@ref) operation.
 - `never_expires`: Specifies whether the service should exempt a backup from the retention
-  policy for the cluster. `True` exempts a backup from the retention policy. `False`
-  means the service applies the backup retention policy defined at the cluster.
+  policy for the cluster. `True` exempts a backup from the retention policy. `False` means
+  the service applies the backup retention policy defined at the cluster.
 """
 function modify_backup_attributes end
 
@@ -750,8 +756,8 @@ In order to share a backup, it must be in a 'READY' state and you must own it.
 !!! important
     While you can share a backup using the CloudHSM PutResourcePolicy operation, we
     recommend using Resource Access Manager (RAM) instead. Using RAM provides multiple
-    benefits as it creates the policy for you, allows multiple resources to be shared at
-    one time, and increases the discoverability of shared resources. If you use
+    benefits as it creates the policy for you, allows multiple resources to be shared at one
+    time, and increases the discoverability of shared resources. If you use
     PutResourcePolicy and want consumers to be able to describe the backups you share with
     them, you must promote the backup to a standard RAM Resource Share using the RAM
     PromoteResourceShareCreatedFromPolicy API operation. For more information, see [Working with shared backups](https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html)
@@ -768,6 +774,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For an example policy, see [Working with shared backups](https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html)
   in the CloudHSM User Guide
+
 - `"ResourceArn"`: Amazon Resource Name (ARN) of the resource to which you want to attach a
   policy.
 """
@@ -887,10 +894,10 @@ different Amazon Web Services account.
 
 # Arguments
 
-- `resource_id`: The cluster identifier (ID) for the cluster whose tags you are removing.
-  To find the cluster ID, use [`describe_clusters`](@ref).
-- `tag_key_list`: A list of one or more tag keys for the tags that you are removing.
-  Specify only the tag keys, not the tag values.
+- `resource_id`: The cluster identifier (ID) for the cluster whose tags you are removing. To
+  find the cluster ID, use [`describe_clusters`](@ref).
+- `tag_key_list`: A list of one or more tag keys for the tags that you are removing. Specify
+  only the tag keys, not the tag values.
 """
 function untag_resource end
 

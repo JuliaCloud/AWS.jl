@@ -21,10 +21,11 @@ Adds an Amazon CloudWatch log stream to monitor application configuration errors
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
-  updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`.
-  You get the application's current `ConditionalToken` using [`describe_application`](@ref).
-  For better concurrency support, use the `ConditionalToken` parameter instead of
+  updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`. You
+  get the application's current `ConditionalToken` using [`describe_application`](@ref). For
+  better concurrency support, use the `ConditionalToken` parameter instead of
   `CurrentApplicationVersionId`.
+
 - `"CurrentApplicationVersionId"`: The version ID of the SQL-based Kinesis Data Analytics
   application. You must provide the `CurrentApplicationVersionId` or the
   `ConditionalToken`.You can retrieve the application version ID using [`describe_application`](@ref).
@@ -78,9 +79,8 @@ end
 
 Adds a streaming source to your SQL-based Kinesis Data Analytics application.
 
-You can add a streaming source when you create an application, or you can use this
-operation to add a streaming source after you create an application. For more information,
-see [`create_application`](@ref).
+You can add a streaming source when you create an application, or you can use this operation
+to add a streaming source after you create an application. For more information, see [`create_application`](@ref).
 
 Any configuration update, including adding a streaming source using this operation, results
 in a new version of the application. You can use the [`describe_application`](@ref)
@@ -217,8 +217,8 @@ end
 
 Adds an external destination to your SQL-based Kinesis Data Analytics application.
 
-If you want Kinesis Data Analytics to deliver data from an in-application stream within
-your application to an external destination (such as an Kinesis data stream, a Kinesis Data
+If you want Kinesis Data Analytics to deliver data from an in-application stream within your
+application to an external destination (such as an Kinesis data stream, a Kinesis Data
 Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration
 to your application using this operation. You can configure one or more outputs for your
 application. Each output configuration maps an in-application stream and an external
@@ -236,12 +236,12 @@ operation to find the current application version.
 - `application_name`: The name of the application to which you want to add the output
   configuration.
 - `current_application_version_id`: The version of the application to which you want to add
-  the output configuration. You can use the [`describe_application`](@ref) operation to
-  get the current application version. If the version specified is not the current
-  version, the `ConcurrentModificationException` is returned.
+  the output configuration. You can use the [`describe_application`](@ref) operation to get
+  the current application version. If the version specified is not the current version, the
+  `ConcurrentModificationException` is returned.
 - `output`: An array of objects, each describing one output configuration. In the output
-  configuration, you specify the name of an in-application stream, a destination (that
-  is, a Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda
+  configuration, you specify the name of an in-application stream, a destination (that is, a
+  Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda
   function), and record the formation to use when writing to the destination.
 """
 function add_application_output end
@@ -298,16 +298,16 @@ Adds a reference data source to an existing SQL-based Kinesis Data Analytics app
 Kinesis Data Analytics reads reference data (that is, an Amazon S3 object) and creates an
 in-application table within your application. In the request, you provide the source (S3
 bucket name and object key name), name of the in-application table to create, and the
-necessary mapping information that describes how data in an Amazon S3 object maps to
-columns in the resulting in-application table.
+necessary mapping information that describes how data in an Amazon S3 object maps to columns
+in the resulting in-application table.
 
 # Arguments
 
 - `application_name`: The name of an existing application.
 - `current_application_version_id`: The version of the application for which you are adding
-  the reference data source. You can use the [`describe_application`](@ref) operation to
-  get the current application version. If the version specified is not the current
-  version, the `ConcurrentModificationException` is returned.
+  the reference data source. You can use the [`describe_application`](@ref) operation to get
+  the current application version. If the version specified is not the current version, the
+  `ConcurrentModificationException` is returned.
 - `reference_data_source`: The reference data source can be an object in your Amazon S3
   bucket. Kinesis Data Analytics reads the object and copies the data into the in-
   application table that is created. You provide an S3 bucket, object key name, and the
@@ -369,8 +369,8 @@ Note the following about VPC configurations for Managed Service for Apache Flink
 applications:
 
 - VPC configurations are not supported for SQL applications.
-- When a VPC is added to a Managed Service for Apache Flink application, the application
-  can no longer be accessed from the Internet directly. To enable Internet access to the
+- When a VPC is added to a Managed Service for Apache Flink application, the application can
+  no longer be accessed from the Internet directly. To enable Internet access to the
   application, add an Internet gateway to your VPC.
 
 # Arguments
@@ -387,6 +387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the application's current `ConditionalToken` using [`describe_application`](@ref). For
   better concurrency support, use the `ConditionalToken` parameter instead of
   `CurrentApplicationVersionId`.
+
 - `"CurrentApplicationVersionId"`: The version of the application to which you want to add
   the VPC configuration. You must provide the `CurrentApplicationVersionId` or the
   `ConditionalToken`. You can use the [`describe_application`](@ref) operation to get the
@@ -453,15 +454,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ApplicationConfiguration"`: Use this parameter to configure the application.
 - `"ApplicationDescription"`: A summary description of the application.
-- `"ApplicationMode"`: Use the `STREAMING` mode to create a Managed Service for Apache
-  Flink application. To create a Managed Service for Apache Flink Studio notebook, use
-  the `INTERACTIVE` mode.
+- `"ApplicationMode"`: Use the `STREAMING` mode to create a Managed Service for Apache Flink
+  application. To create a Managed Service for Apache Flink Studio notebook, use the
+  `INTERACTIVE` mode.
 - `"CloudWatchLoggingOptions"`: Use this parameter to configure an Amazon CloudWatch log
   stream to monitor application configuration errors.
 - `"Tags"`: A list of one or more tags to assign to the application. A tag is a key-value
   pair that identifies an application. Note that the maximum number of application tags
-  includes system tags. The maximum number of user-defined application tags is 50. For
-  more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
+  includes system tags. The maximum number of user-defined application tags is 50. For more
+  information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
 """
 function create_application end
 
@@ -515,8 +516,8 @@ end
 Creates and returns a URL that you can use to connect to an application's extension.
 
 The IAM role or user used to call this API defines the permissions to access the extension.
-After the presigned URL is created, no additional permission is required to access this
-URL. IAM authorization policies for this API are also enforced for every HTTP request that
+After the presigned URL is created, no additional permission is required to access this URL.
+IAM authorization policies for this API are also enforced for every HTTP request that
 attempts to connect to the extension.
 
 You control the amount of time that the URL will be valid using the
@@ -531,15 +532,15 @@ returned URL is valid for twelve hours.
 # Arguments
 
 - `application_name`: The name of the application.
-- `url_type`: The type of the extension for which to create and return a URL. Currently,
-  the only valid extension URL type is `FLINK_DASHBOARD_URL`.
+- `url_type`: The type of the extension for which to create and return a URL. Currently, the
+  only valid extension URL type is `FLINK_DASHBOARD_URL`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"SessionExpirationDurationInSeconds"`: The duration in seconds for which the returned
-  URL will be valid.
+- `"SessionExpirationDurationInSeconds"`: The duration in seconds for which the returned URL
+  will be valid.
 """
 function create_application_presigned_url end
 
@@ -693,14 +694,15 @@ application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
-  updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`.
-  You get the application's current `ConditionalToken` using [`describe_application`](@ref).
-  For better concurrency support, use the `ConditionalToken` parameter instead of
+  updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`. You
+  get the application's current `ConditionalToken` using [`describe_application`](@ref). For
+  better concurrency support, use the `ConditionalToken` parameter instead of
   `CurrentApplicationVersionId`.
+
 - `"CurrentApplicationVersionId"`: The version ID of the application. You must provide the
-  `CurrentApplicationVersionId` or the `ConditionalToken`. You can retrieve the
-  application version ID using [`describe_application`](@ref). For better concurrency
-  support, use the `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
+  `CurrentApplicationVersionId` or the `ConditionalToken`. You can retrieve the application
+  version ID using [`describe_application`](@ref). For better concurrency support, use the
+  `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
 """
 function delete_application_cloud_watch_logging_option end
 
@@ -815,14 +817,16 @@ corresponding in-application stream to the external output destination.
 # Arguments
 
 - `application_name`: The application name.
+
 - `current_application_version_id`: The application version. You can use the [`describe_application`](@ref)
   operation to get the current application version. If the version specified is not the
   current version, the `ConcurrentModificationException` is returned.
+
 - `output_id`: The ID of the configuration to delete. Each output configuration that is
   added to the application (either when the application is created or later) using the [`add_application_output`](@ref)
   operation has a unique ID. You need to provide the ID to uniquely identify the output
-  configuration that you want to delete from the application configuration. You can use
-  the [`describe_application`](@ref) operation to get the specific `OutputId`.
+  configuration that you want to delete from the application configuration. You can use the [`describe_application`](@ref)
+  operation to get the specific `OutputId`.
 """
 function delete_application_output end
 
@@ -876,9 +880,8 @@ end
 Deletes a reference data source configuration from the specified SQL-based Kinesis Data
 Analytics application's configuration.
 
-If the application is running, Kinesis Data Analytics immediately removes the in-
-application table that you created using the [`add_application_reference_data_source`](@ref)
-operation.
+If the application is running, Kinesis Data Analytics immediately removes the in-application
+table that you created using the [`add_application_reference_data_source`](@ref) operation.
 
 # Arguments
 
@@ -888,8 +891,8 @@ operation.
   current version, the `ConcurrentModificationException` is returned.
 - `reference_id`: The ID of the reference data source. When you add a reference data source
   to your application using the [`add_application_reference_data_source`](@ref), Kinesis
-  Data Analytics assigns an ID. You can use the [`describe_application`](@ref) operation
-  to get the reference ID.
+  Data Analytics assigns an ID. You can use the [`describe_application`](@ref) operation to
+  get the reference ID.
 """
 function delete_application_reference_data_source end
 
@@ -1010,14 +1013,15 @@ Removes a VPC configuration from a Managed Service for Apache Flink application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
-  updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`.
-  You get the application's current `ConditionalToken` using [`describe_application`](@ref).
-  For better concurrency support, use the `ConditionalToken` parameter instead of
+  updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`. You
+  get the application's current `ConditionalToken` using [`describe_application`](@ref). For
+  better concurrency support, use the `ConditionalToken` parameter instead of
   `CurrentApplicationVersionId`.
+
 - `"CurrentApplicationVersionId"`: The current application version ID. You must provide the
-  `CurrentApplicationVersionId` or the `ConditionalToken`. You can retrieve the
-  application version ID using [`describe_application`](@ref). For better concurrency
-  support, use the `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
+  `CurrentApplicationVersionId` or the `ConditionalToken`. You can retrieve the application
+  version ID using [`describe_application`](@ref). For better concurrency support, use the
+  `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
 """
 function delete_application_vpc_configuration end
 
@@ -1287,12 +1291,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InputProcessingConfiguration"`: The [`input_processing_configuration`](@ref) to use to
   preprocess the records before discovering the schema of the records.
-- `"InputStartingPositionConfiguration"`: The point at which you want Kinesis Data
-  Analytics to start reading records from the specified streaming source for discovery
-  purposes.
+- `"InputStartingPositionConfiguration"`: The point at which you want Kinesis Data Analytics
+  to start reading records from the specified streaming source for discovery purposes.
 - `"ResourceARN"`: The Amazon Resource Name (ARN) of the streaming source.
-- `"S3Configuration"`: Specify this parameter to discover a schema from data in an Amazon
-  S3 object.
+- `"S3Configuration"`: Specify this parameter to discover a schema from data in an Amazon S3
+  object.
 """
 function discover_input_schema end
 
@@ -1520,8 +1523,7 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieves the list of key-value tags assigned to the application. For more information, see
-[Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
+Retrieves the list of key-value tags assigned to the application. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
 
 # Arguments
 
@@ -1559,8 +1561,8 @@ end
     rollback_application(application_name, current_application_version_id)
     rollback_application(application_name, current_application_version_id, params::Dict{String,<:Any})
 
-Reverts the application to the previous running version. You can roll back an application
-if you suspect it is stuck in a transient status or in the running status.
+Reverts the application to the previous running version. You can roll back an application if
+you suspect it is stuck in a transient status or in the running status.
 
 You can roll back an application only if it is in the `UPDATING`, `AUTOSCALING`, or
 `RUNNING` statuses.
@@ -1572,8 +1574,8 @@ request.
 # Arguments
 
 - `application_name`: The name of the application.
-- `current_application_version_id`: The current application version ID. You can retrieve
-  the application version ID using [`describe_application`](@ref).
+- `current_application_version_id`: The current application version ID. You can retrieve the
+  application version ID using [`describe_application`](@ref).
 """
 function rollback_application end
 
@@ -1668,8 +1670,8 @@ end
     stop_application(application_name)
     stop_application(application_name, params::Dict{String,<:Any})
 
-Stops the application from processing data. You can stop an application only if it is in
-the running status, unless you set the `Force` parameter to `true`.
+Stops the application from processing data. You can stop an application only if it is in the
+running status, unless you set the `Force` parameter to `true`.
 
 You can use the [`describe_application`](@ref) operation to find the application status.
 
@@ -1688,9 +1690,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Managed Service for Apache Flink stops the application without taking a snapshot.
 
   !!! note
-      Force-stopping your application may lead to data loss or duplication. To prevent
-      data loss or duplicate processing of data during application restarts, we recommend
-      you to take frequent snapshots of your application.
+      Force-stopping your application may lead to data loss or duplication. To prevent data
+      loss or duplicate processing of data during application restarts, we recommend you to
+      take frequent snapshots of your application.
 
   You can only force stop a Managed Service for Apache Flink application. You can't force
   stop a SQL-based Kinesis Data Analytics application.
@@ -1732,9 +1734,9 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds one or more key-value tags to a Managed Service for Apache Flink application. Note
-that the maximum number of application tags includes system tags. The maximum number of
-user-defined application tags is 50. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
+Adds one or more key-value tags to a Managed Service for Apache Flink application. Note that
+the maximum number of application tags includes system tags. The maximum number of user-
+defined application tags is 50. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
 
 # Arguments
 
@@ -1837,25 +1839,30 @@ your application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ApplicationConfigurationUpdate"`: Describes application configuration updates.
-- `"CloudWatchLoggingOptionUpdates"`: Describes application Amazon CloudWatch logging
-  option updates. You can only update existing CloudWatch logging options with this
-  action. To add a new CloudWatch logging option, use [`add_application_cloud_watch_logging_option`](@ref).
+
+- `"CloudWatchLoggingOptionUpdates"`: Describes application Amazon CloudWatch logging option
+  updates. You can only update existing CloudWatch logging options with this action. To add
+  a new CloudWatch logging option, use [`add_application_cloud_watch_logging_option`](@ref).
+
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
-  updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`.
-  You get the application's current `ConditionalToken` using [`describe_application`](@ref).
-  For better concurrency support, use the `ConditionalToken` parameter instead of
+  updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`. You
+  get the application's current `ConditionalToken` using [`describe_application`](@ref). For
+  better concurrency support, use the `ConditionalToken` parameter instead of
   `CurrentApplicationVersionId`.
+
 - `"CurrentApplicationVersionId"`: The current application version ID. You must provide the
-  `CurrentApplicationVersionId` or the `ConditionalToken`.You can retrieve the
-  application version ID using [`describe_application`](@ref). For better concurrency
-  support, use the `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
+  `CurrentApplicationVersionId` or the `ConditionalToken`.You can retrieve the application
+  version ID using [`describe_application`](@ref). For better concurrency support, use the
+  `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
+
 - `"RunConfigurationUpdate"`: Describes updates to the application's starting parameters.
+
 - `"RuntimeEnvironmentUpdate"`: Updates the Managed Service for Apache Flink runtime
   environment used to run your code. To avoid issues you must:
 
   - Ensure your new jar and dependencies are compatible with the new runtime selected.
-  - Ensure your new code's state is compatible with the snapshot from which your
-    application will start
+  - Ensure your new code's state is compatible with the snapshot from which your application
+    will start
 
 - `"ServiceExecutionRoleUpdate"`: Describes updates to the service execution role.
 """
@@ -1898,12 +1905,11 @@ Updates the maintenance configuration of the Managed Service for Apache Flink ap
 You can invoke this operation on an application that is in one of the two following states:
 `READY` or `RUNNING`. If you invoke it when the application is in a state other than these
 two states, it throws a `ResourceInUseException`. The service makes use of the updated
-configuration the next time it schedules maintenance for the application. If you invoke
-this operation after the service schedules maintenance, the service will apply the
-configuration update the next time it schedules maintenance for the application. This means
-that you might not see the maintenance configuration update applied to the maintenance
-process that follows a successful invocation of this operation, but to the following
-maintenance process instead.
+configuration the next time it schedules maintenance for the application. If you invoke this
+operation after the service schedules maintenance, the service will apply the configuration
+update the next time it schedules maintenance for the application. This means that you might
+not see the maintenance configuration update applied to the maintenance process that follows
+a successful invocation of this operation, but to the following maintenance process instead.
 
 To see the current maintenance configuration of your application, invoke the [`describe_application`](@ref)
 operation.

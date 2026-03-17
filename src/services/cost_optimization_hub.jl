@@ -77,8 +77,8 @@ end
     list_enrollment_statuses()
     list_enrollment_statuses(params::Dict{String,<:Any})
 
-Retrieves the enrollment status for an account. It can also return the list of accounts
-that are enrolled under the organization.
+Retrieves the enrollment status for an account. It can also return the list of accounts that
+are enrolled under the organization.
 
 # Optional Parameters
 
@@ -206,8 +206,8 @@ Hub service.
 If the account is a management account or delegated administrator of an organization, this
 action can also be used to enroll member accounts of the organization.
 
-You must have the appropriate permissions to opt in to Cost Optimization Hub and to view
-its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-
+You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its
+recommendations. When you opt in, Cost Optimization Hub automatically creates a service-
 linked role in your account to access its data.
 
 # Arguments
@@ -218,8 +218,8 @@ linked role in your account to access its data.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"includeMemberAccounts"`: Indicates whether to enroll member accounts of the
-  organization if the account is the management account or delegated administrator.
+- `"includeMemberAccounts"`: Indicates whether to enroll member accounts of the organization
+  if the account is the management account or delegated administrator.
 """
 function update_enrollment_status end
 

@@ -73,9 +73,9 @@ Cancels the requested policy generation.
 
 # Arguments
 
-- `job_id`: The `JobId` that is returned by the [`start_policy_generation`](@ref)
-  operation. The `JobId` can be used with `GetGeneratedPolicy` to retrieve the generated
-  policies or used with `CancelPolicyGeneration` to cancel the policy generation request.
+- `job_id`: The `JobId` that is returned by the [`start_policy_generation`](@ref) operation.
+  The `JobId` can be used with `GetGeneratedPolicy` to retrieve the generated policies or
+  used with `CancelPolicyGeneration` to cancel the policy generation request.
 """
 function cancel_policy_generation end
 
@@ -109,12 +109,14 @@ Checks whether the specified access isn't allowed by a policy.
 # Arguments
 
 - `access`: An access object containing the permissions that shouldn't be granted by the
-  specified policy. If only actions are specified, IAM Access Analyzer checks for access
-  of the actions on all resources in the policy. If only resources are specified, then
-  IAM Access Analyzer checks which actions have access to the specified resources. If
-  both actions and resources are specified, then IAM Access Analyzer checks which of the
+  specified policy. If only actions are specified, IAM Access Analyzer checks for access of
+  the actions on all resources in the policy. If only resources are specified, then IAM
+  Access Analyzer checks which actions have access to the specified resources. If both
+  actions and resources are specified, then IAM Access Analyzer checks which of the
   specified actions have access to the specified resources.
+
 - `policy_document`: The JSON policy document to use as the content for the policy.
+
 - `policy_type`: The type of policy. Identity policies grant permissions to IAM principals.
   Identity policies include managed and inline policies for IAM roles, users, and groups.
 
@@ -174,8 +176,8 @@ end
 Checks whether new access is allowed for an updated policy when compared to the existing
 policy.
 
-You can find examples for reference policies and learn how to set up and run a custom
-policy check for new access in the [IAM Access Analyzer custom policy checks samples](https://github.com/aws-samples/iam-access-analyzer-custom-policy-check-samples)
+You can find examples for reference policies and learn how to set up and run a custom policy
+check for new access in the [IAM Access Analyzer custom policy checks samples](https://github.com/aws-samples/iam-access-analyzer-custom-policy-check-samples)
 repository on GitHub. The reference policies in this repository are meant to be passed to
 the `existing_policy_document` request parameter.
 
@@ -183,8 +185,10 @@ the `existing_policy_document` request parameter.
 
 - `existing_policy_document`: The JSON policy document to use as the content for the
   existing policy.
+
 - `new_policy_document`: The JSON policy document to use as the content for the updated
   policy.
+
 - `policy_type`: The type of policy to compare. Identity policies grant permissions to IAM
   principals. Identity policies include managed and inline policies for IAM roles, users,
   and groups.
@@ -250,9 +254,10 @@ Checks whether a resource policy can grant public access to the specified resour
 # Arguments
 
 - `policy_document`: The JSON policy document to evaluate for public access.
-- `resource_type`: The type of resource to evaluate for public access. For example, to
-  check for public access to Amazon S3 buckets, you can choose `AWS::S3::Bucket` for the
-  resource type.
+
+- `resource_type`: The type of resource to evaluate for public access. For example, to check
+  for public access to Amazon S3 buckets, you can choose `AWS::S3::Bucket` for the resource
+  type.
 
   For resource types not supported as valid values, IAM Access Analyzer will return an
   error.
@@ -306,8 +311,8 @@ resource before deploying resource permissions.
 # Arguments
 
 - `analyzer_arn`: The [ARN of the account analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources)
-  used to generate the access preview. You can only create an access preview for
-  analyzers with an `Account` type and `Active` status.
+  used to generate the access preview. You can only create an access preview for analyzers
+  with an `Account` type and `Active` status.
 - `configurations`: Access control configuration for your resource that is used to generate
   the access preview. The access preview includes findings for external access allowed to
   the resource with the proposed access control configuration. The configuration must
@@ -372,9 +377,9 @@ Creates an analyzer for your account.
 
 - `analyzer_name`: The name of the analyzer to create.
 - `type`: The type of analyzer to create. Only `ACCOUNT`, `ORGANIZATION`,
-  `ACCOUNT_UNUSED_ACCESS`, and `ORGANIZATION_UNUSED_ACCESS` analyzers are supported. You
-  can create only one analyzer per account per Region. You can create up to 5 analyzers
-  per organization per Region.
+  `ACCOUNT_UNUSED_ACCESS`, and `ORGANIZATION_UNUSED_ACCESS` analyzers are supported. You can
+  create only one analyzer per account per Region. You can create up to 5 analyzers per
+  organization per Region.
 
 # Optional Parameters
 
@@ -497,9 +502,9 @@ end
     delete_analyzer(analyzer_name)
     delete_analyzer(analyzer_name, params::Dict{String,<:Any})
 
-Deletes the specified analyzer. When you delete an analyzer, IAM Access Analyzer is
-disabled for the account or organization in the current or specific Region. All findings
-that were generated by the analyzer are deleted. You cannot undo this action.
+Deletes the specified analyzer. When you delete an analyzer, IAM Access Analyzer is disabled
+for the account or organization in the current or specific Region. All findings that were
+generated by the analyzer are deleted. You cannot undo this action.
 
 # Arguments
 
@@ -950,20 +955,21 @@ Retrieves the policy that was generated using `StartPolicyGeneration`.
 
 # Arguments
 
-- `job_id`: The `JobId` that is returned by the [`start_policy_generation`](@ref)
-  operation. The `JobId` can be used with `GetGeneratedPolicy` to retrieve the generated
-  policies or used with `CancelPolicyGeneration` to cancel the policy generation request.
+- `job_id`: The `JobId` that is returned by the [`start_policy_generation`](@ref) operation.
+  The `JobId` can be used with `GetGeneratedPolicy` to retrieve the generated policies or
+  used with `CancelPolicyGeneration` to cancel the policy generation request.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"includeResourcePlaceholders"`: The level of detail that you want to generate. You can
-  specify whether to generate policies with placeholders for resource ARNs for actions
-  that support resource level granularity in policies.
+  specify whether to generate policies with placeholders for resource ARNs for actions that
+  support resource level granularity in policies.
 
   For example, in the resource section of a policy, you can receive a placeholder such as
   `"Resource":"arn:aws:s3:::\${BucketName}"` instead of `"*"`.
+
 - `"includeServiceLevelTemplate"`: The level of detail that you want to generate. You can
   specify whether to generate service-level policies.
 
@@ -1096,9 +1102,8 @@ end
     list_analyzed_resources(analyzer_arn)
     list_analyzed_resources(analyzer_arn, params::Dict{String,<:Any})
 
-Retrieves a list of resources of the specified type that have been analyzed by the
-specified external access analyzer. This action is not supported for unused access
-analyzers.
+Retrieves a list of resources of the specified type that have been analyzed by the specified
+external access analyzer. This action is not supported for unused access analyzers.
 
 # Arguments
 
@@ -1414,13 +1419,14 @@ Starts the policy generation request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only
-  once. With an idempotent request, if the original request completes successfully, the
-  subsequent retries with the same client token return the result from the original
-  successful request and they have no additional effect.
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, the subsequent
+  retries with the same client token return the result from the original successful request
+  and they have no additional effect.
 
   If you do not specify a client token, one is automatically generated by the Amazon Web
   Services SDK.
+
 - `"cloudTrailDetails"`: A `CloudTrailDetails` object that contains details about a `Trail`
   that you want to analyze to generate policies.
 """
@@ -1730,6 +1736,7 @@ to author functional policies that meet security best practices.
 # Arguments
 
 - `policy_document`: The JSON policy document to use as the content for the policy.
+
 - `policy_type`: The type of policy to validate. Identity policies grant permissions to IAM
   principals. Identity policies include managed and inline policies for IAM roles, users,
   and groups.
@@ -1747,17 +1754,20 @@ to author functional policies that meet security best practices.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"locale"`: The locale to use for localizing the findings.
+
 - `"maxResults"`: The maximum number of results to return in the response.
+
 - `"nextToken"`: A token used for pagination of results returned.
+
 - `"validatePolicyResourceType"`: The type of resource to attach to your resource policy.
   Specify a value for the policy validation resource type only if the policy type is
   `RESOURCE_POLICY`. For example, to validate a resource policy to attach to an Amazon S3
   bucket, you can choose `AWS::S3::Bucket` for the policy validation resource type.
 
-  For resource types not supported as valid values, IAM Access Analyzer runs policy
-  checks that apply to all resource policies. For example, to validate a resource policy
-  to attach to a KMS key, do not specify a value for the policy validation resource type
-  and IAM Access Analyzer will run policy checks that apply to all resource policies.
+  For resource types not supported as valid values, IAM Access Analyzer runs policy checks
+  that apply to all resource policies. For example, to validate a resource policy to attach
+  to a KMS key, do not specify a value for the policy validation resource type and IAM
+  Access Analyzer will run policy checks that apply to all resource policies.
 """
 function validate_policy end
 

@@ -27,8 +27,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DDTHH:MM:SSZ).
 - `"tags"`: One or more tags.
 - `"upfrontPaymentAmount"`: The up-front payment amount. This is a whole number between 50
-  and 99 percent of the total value of the Savings Plan. This parameter is only supported
-  if the payment option is `Partial Upfront`.
+  and 99 percent of the total value of the Savings Plan. This parameter is only supported if
+  the payment option is `Partial Upfront`.
 """
 function create_savings_plan end
 

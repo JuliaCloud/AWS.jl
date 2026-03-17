@@ -8,8 +8,8 @@ using AWS.UUIDs
     cancel_zonal_shift(zonal_shift_id)
     cancel_zonal_shift(zonal_shift_id, params::Dict{String,<:Any})
 
-Cancel a zonal shift in Amazon Route 53 Application Recovery Controller. To cancel the
-zonal shift, specify the zonal shift ID.
+Cancel a zonal shift in Amazon Route 53 Application Recovery Controller. To cancel the zonal
+shift, specify the zonal shift ID.
 
 A zonal shift can be one that you've started for a resource in your Amazon Web Services
 account in an Amazon Web Services Region, or it can be a zonal shift started by a practice
@@ -70,11 +70,12 @@ in the Amazon Route 53 Application Recovery Controller Developer Guide.
 - `outcome_alarms`: The *outcome alarm* for practice runs is a required Amazon CloudWatch
   alarm that you specify that ends a practice run when the alarm is in an `ALARM` state.
 
-  Configure the alarm to monitor the health of your application when traffic is shifted
-  away from an Availability Zone during each weekly practice run. You should configure
-  the alarm to go into an `ALARM` state if your application is impacted by the zonal
-  shift, and you want to stop the zonal shift, to let traffic for the resource return to
-  the Availability Zone.
+  Configure the alarm to monitor the health of your application when traffic is shifted away
+  from an Availability Zone during each weekly practice run. You should configure the alarm
+  to go into an `ALARM` state if your application is impacted by the zonal shift, and you
+  want to stop the zonal shift, to let traffic for the resource return to the Availability
+  Zone.
+
 - `resource_identifier`: The identifier of the resource that Amazon Web Services shifts
   traffic for with a practice run zonal shift. The identifier is the Amazon Resource Name
   (ARN) for the resource.
@@ -86,30 +87,31 @@ in the Amazon Route 53 Application Recovery Controller Developer Guide.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"blockedDates"`: Optionally, you can block Route 53 ARC from starting practice runs for
-  a resource on specific calendar dates.
+- `"blockedDates"`: Optionally, you can block Route 53 ARC from starting practice runs for a
+  resource on specific calendar dates.
 
   The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that
-  dates and times for practice runs are in UTC. Separate multiple blocked dates with
-  spaces.
+  dates and times for practice runs are in UTC. Separate multiple blocked dates with spaces.
 
-  For example, if you have an application update scheduled to launch on May 1, 2024, and
-  you don't want practice runs to shift traffic away at that time, you could set a
-  blocked date for `2024-05-01`.
-- `"blockedWindows"`: Optionally, you can block Route 53 ARC from starting practice runs
-  for specific windows of days and times.
+  For example, if you have an application update scheduled to launch on May 1, 2024, and you
+  don't want practice runs to shift traffic away at that time, you could set a blocked date
+  for `2024-05-01`.
+
+- `"blockedWindows"`: Optionally, you can block Route 53 ARC from starting practice runs for
+  specific windows of days and times.
 
   The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify
-  dates, that dates and times for practice runs are in UTC. Also, be aware of potential
-  time adjustments that might be required for daylight saving time differences. Separate
-  multiple blocked windows with spaces.
+  dates, that dates and times for practice runs are in UTC. Also, be aware of potential time
+  adjustments that might be required for daylight saving time differences. Separate multiple
+  blocked windows with spaces.
 
-  For example, say you run business report summaries three days a week. For this
-  scenario, you might set the following recurring days and times as blocked windows, for
-  example: `MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30`.
+  For example, say you run business report summaries three days a week. For this scenario,
+  you might set the following recurring days and times as blocked windows, for example:
+  `MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30`.
+
 - `"blockingAlarms"`: An Amazon CloudWatch alarm that you can specify for zonal autoshift
-  practice runs. This alarm blocks Route 53 ARC from starting practice run zonal shifts,
-  and ends a practice run that's in progress, when the alarm is in an `ALARM` state.
+  practice runs. This alarm blocks Route 53 ARC from starting practice run zonal shifts, and
+  ends a practice run that's in progress, when the alarm is in an `ALARM` state.
 """
 function create_practice_run_configuration end
 
@@ -162,8 +164,8 @@ runs must be configured for zonal autoshift to be enabled.
 # Arguments
 
 - `resource_identifier`: The identifier for the resource that you want to delete the
-  practice run configuration for. The identifier is the Amazon Resource Name (ARN) for
-  the resource.
+  practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the
+  resource.
 """
 function delete_practice_run_configuration end
 
@@ -197,13 +199,13 @@ end
     get_autoshift_observer_notification_status(params::Dict{String,<:Any})
 
 Returns the status of autoshift observer notification. Autoshift observer notification
-enables you to be notified, through Amazon EventBridge, when there is an autoshift event
-for zonal autoshift.
+enables you to be notified, through Amazon EventBridge, when there is an autoshift event for
+zonal autoshift.
 
 If the status is `ENABLED`, Route 53 ARC includes all autoshift events when you use the
 EventBridge pattern `Autoshift In Progress`. When the status is `DISABLED`, Route 53 ARC
-includes only autoshift events for autoshifts when one or more of your resources is
-included in the autoshift.
+includes only autoshift events for autoshifts when one or more of your resources is included
+in the autoshift.
 
 For more information, see [Notifications for practice runs and autoshifts](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html#ZAShiftNotification)
 in the Amazon Route 53 Application Recovery Controller Developer Guide.
@@ -242,8 +244,8 @@ Get information about a resource that's been registered for zonal shifts with Am
 registered for zonal shifts are managed resources in Route 53 ARC. You can start zonal
 shifts and configure zonal autoshift for managed resources.
 
-At this time, you can only start a zonal shift or configure zonal autoshift for Network
-Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
+At this time, you can only start a zonal shift or configure zonal autoshift for Network Load
+Balancers and Application Load Balancers with cross-zone load balancing turned off.
 
 # Arguments
 
@@ -284,9 +286,9 @@ end
     list_autoshifts()
     list_autoshifts(params::Dict{String,<:Any})
 
-Returns a list of autoshifts for an Amazon Web Services Region. By default, the call
-returns only `ACTIVE` autoshifts. Optionally, you can specify the `status` parameter to
-return `COMPLETED` autoshifts.
+Returns a list of autoshifts for an Amazon Web Services Region. By default, the call returns
+only `ACTIVE` autoshifts. Optionally, you can specify the `status` parameter to return
+`COMPLETED` autoshifts.
 
 # Optional Parameters
 
@@ -294,9 +296,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 - `"status"`: The status of the autoshift.
 """
 function list_autoshifts end
@@ -320,10 +322,10 @@ end
     list_managed_resources(params::Dict{String,<:Any})
 
 Lists all the resources in your Amazon Web Services account in this Amazon Web Services
-Region that are managed for zonal shifts in Amazon Route 53 Application Recovery
-Controller, and information about them. The information includes the zonal autoshift status
-for the resource, as well as the Amazon Resource Name (ARN), the Availability Zones that
-each resource is deployed in, and the resource name.
+Region that are managed for zonal shifts in Amazon Route 53 Application Recovery Controller,
+and information about them. The information includes the zonal autoshift status for the
+resource, as well as the Amazon Resource Name (ARN), the Availability Zones that each
+resource is deployed in, and the resource name.
 
 # Optional Parameters
 
@@ -331,9 +333,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
 """
 function list_managed_resources end
 
@@ -372,12 +374,15 @@ about listing autoshifts, see ["&gt;ListAutoshifts](https://docs.aws.amazon.com/
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The number of objects that you want to return with this call.
+
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a `NextToken` response in the previous request. If you did, it indicates
-  that more output is available. Set this parameter to the value provided by the previous
-  call's `NextToken` response to request the next page of results.
-- `"resourceIdentifier"`: The identifier for the resource that you want to list zonal
-  shifts for. The identifier is the Amazon Resource Name (ARN) for the resource.
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+
+- `"resourceIdentifier"`: The identifier for the resource that you want to list zonal shifts
+  for. The identifier is the Amazon Resource Name (ARN) for the resource.
+
 - `"status"`: A status for a zonal shift.
 
   The `Status` for a zonal shift can have one of the following values:
@@ -385,7 +390,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - **ACTIVE**: The zonal shift has been started and active.
   - **EXPIRED**: The zonal shift has expired (the expiry time was exceeded).
   - **CANCELED**: The zonal shift was canceled.
-
 """
 function list_zonal_shifts end
 
@@ -436,25 +440,28 @@ in the Amazon Route 53 Application Recovery Controller Developer Guide.
   from for a resource when you start a zonal shift. Until the zonal shift expires or you
   cancel it, traffic for the resource is instead moved to other Availability Zones in the
   Amazon Web Services Region.
+
 - `comment`: A comment that you enter about the zonal shift. Only the latest comment is
-  retained; no comment history is maintained. A new comment overwrites any existing
-  comment string.
+  retained; no comment history is maintained. A new comment overwrites any existing comment
+  string.
+
 - `expires_in`: The length of time that you want a zonal shift to be active, which Route 53
-  ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can
-  set a zonal shift to be active initially for up to three days (72 hours).
+  ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set
+  a zonal shift to be active initially for up to three days (72 hours).
 
-  If you want to still keep traffic away from an Availability Zone, you can update the
-  zonal shift and set a new expiration. You can also cancel a zonal shift, before it
-  expires, for example, if you're ready to restore traffic to the Availability Zone.
+  If you want to still keep traffic away from an Availability Zone, you can update the zonal
+  shift and set a new expiration. You can also cancel a zonal shift, before it expires, for
+  example, if you're ready to restore traffic to the Availability Zone.
 
-  To set a length of time for a zonal shift to be active, specify a whole number, and
-  then one of the following, with no space:
+  To set a length of time for a zonal shift to be active, specify a whole number, and then
+  one of the following, with no space:
 
   - **A lowercase letter m:** To specify that the value is in minutes.
   - **A lowercase letter h:** To specify that the value is in hours.
 
-  For example: `20h` means the zonal shift expires in 20 hours. `120m` means the zonal
-  shift expires in 120 minutes (2 hours).
+  For example: `20h` means the zonal shift expires in 20 hours. `120m` means the zonal shift
+  expires in 120 minutes (2 hours).
+
 - `resource_identifier`: The identifier for the resource that Amazon Web Services shifts
   traffic for. The identifier is the Amazon Resource Name (ARN) for the resource.
 
@@ -517,13 +524,13 @@ end
     update_autoshift_observer_notification_status(status, params::Dict{String,<:Any})
 
 Update the status of autoshift observer notification. Autoshift observer notification
-enables you to be notified, through Amazon EventBridge, when there is an autoshift event
-for zonal autoshift.
+enables you to be notified, through Amazon EventBridge, when there is an autoshift event for
+zonal autoshift.
 
 If the status is `ENABLED`, Route 53 ARC includes all autoshift events when you use the
 EventBridge pattern `Autoshift In Progress`. When the status is `DISABLED`, Route 53 ARC
-includes only autoshift events for autoshifts when one or more of your resources is
-included in the autoshift.
+includes only autoshift events for autoshifts when one or more of your resources is included
+in the autoshift.
 
 For more information, see [Notifications for practice runs and autoshifts](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html#ZAShiftNotification)
 in the Amazon Route 53 Application Recovery Controller Developer Guide.
@@ -531,10 +538,10 @@ in the Amazon Route 53 Application Recovery Controller Developer Guide.
 # Arguments
 
 - `status`: The status to set for autoshift observer notification. If the status is
-  `ENABLED`, Route 53 ARC includes all autoshift events when you use the Amazon
-  EventBridge pattern `Autoshift In Progress`. When the status is `DISABLED`, Route 53
-  ARC includes only autoshift events for autoshifts when one or more of your resources is
-  included in the autoshift.
+  `ENABLED`, Route 53 ARC includes all autoshift events when you use the Amazon EventBridge
+  pattern `Autoshift In Progress`. When the status is `DISABLED`, Route 53 ARC includes only
+  autoshift events for autoshifts when one or more of your resources is included in the
+  autoshift.
 """
 function update_autoshift_observer_notification_status end
 
@@ -573,8 +580,8 @@ dates or time windows.
 # Arguments
 
 - `resource_identifier`: The identifier for the resource that you want to update the
-  practice run configuration for. The identifier is the Amazon Resource Name (ARN) for
-  the resource.
+  practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the
+  resource.
 
 # Optional Parameters
 
@@ -584,25 +591,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   autoshift.
 
   Optionally, you can block practice runs for specific calendar dates. The format for
-  blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and
-  times for practice runs are in UTC. Separate multiple blocked dates with spaces.
+  blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and times
+  for practice runs are in UTC. Separate multiple blocked dates with spaces.
 
-  For example, if you have an application update scheduled to launch on May 1, 2024, and
-  you don't want practice runs to shift traffic away at that time, you could set a
-  blocked date for `2024-05-01`.
+  For example, if you have an application update scheduled to launch on May 1, 2024, and you
+  don't want practice runs to shift traffic away at that time, you could set a blocked date
+  for `2024-05-01`.
+
 - `"blockedWindows"`: Add, change, or remove windows of days and times for when you can,
   optionally, block Route 53 ARC from starting a practice run for a resource.
 
   The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify
-  dates, that dates and times for practice runs are in UTC. Also, be aware of potential
-  time adjustments that might be required for daylight saving time differences. Separate
-  multiple blocked windows with spaces.
+  dates, that dates and times for practice runs are in UTC. Also, be aware of potential time
+  adjustments that might be required for daylight saving time differences. Separate multiple
+  blocked windows with spaces.
 
-  For example, say you run business report summaries three days a week. For this
-  scenario, you might set the following recurring days and times as blocked windows, for
-  example: `MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30`.
-- `"blockingAlarms"`: Add, change, or remove the Amazon CloudWatch alarm that you
-  optionally specify as the blocking alarm for practice runs.
+  For example, say you run business report summaries three days a week. For this scenario,
+  you might set the following recurring days and times as blocked windows, for example:
+  `MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30`.
+
+- `"blockingAlarms"`: Add, change, or remove the Amazon CloudWatch alarm that you optionally
+  specify as the blocking alarm for practice runs.
+
 - `"outcomeAlarms"`: Specify a new the Amazon CloudWatch alarm as the outcome alarm for
   practice runs.
 """
@@ -637,12 +647,11 @@ end
     update_zonal_autoshift_configuration(resource_identifier, zonal_autoshift_status)
     update_zonal_autoshift_configuration(resource_identifier, zonal_autoshift_status, params::Dict{String,<:Any})
 
-The zonal autoshift configuration for a resource includes the practice run configuration
-and the status for running autoshifts, zonal autoshift status. When a resource has a
-practice run configuation, Route 53 ARC starts weekly zonal shifts for the resource, to
-shift traffic away from an Availability Zone. Weekly practice runs help you to make sure
-that your application can continue to operate normally with the loss of one Availability
-Zone.
+The zonal autoshift configuration for a resource includes the practice run configuration and
+the status for running autoshifts, zonal autoshift status. When a resource has a practice
+run configuation, Route 53 ARC starts weekly zonal shifts for the resource, to shift traffic
+away from an Availability Zone. Weekly practice runs help you to make sure that your
+application can continue to operate normally with the loss of one Availability Zone.
 
 You can update the zonal autoshift autoshift status to enable or disable zonal autoshift.
 When zonal autoshift is `ENABLED`, you authorize Amazon Web Services to shift away resource
@@ -713,24 +722,25 @@ or replace the comment for the zonal shift.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"comment"`: A comment that you enter about the zonal shift. Only the latest comment is
-  retained; no comment history is maintained. A new comment overwrites any existing
-  comment string.
-- `"expiresIn"`: The length of time that you want a zonal shift to be active, which Route
-  53 ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You
-  can set a zonal shift to be active initially for up to three days (72 hours).
+  retained; no comment history is maintained. A new comment overwrites any existing comment
+  string.
 
-  If you want to still keep traffic away from an Availability Zone, you can update the
-  zonal shift and set a new expiration. You can also cancel a zonal shift, before it
-  expires, for example, if you're ready to restore traffic to the Availability Zone.
+- `"expiresIn"`: The length of time that you want a zonal shift to be active, which Route 53
+  ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set
+  a zonal shift to be active initially for up to three days (72 hours).
 
-  To set a length of time for a zonal shift to be active, specify a whole number, and
-  then one of the following, with no space:
+  If you want to still keep traffic away from an Availability Zone, you can update the zonal
+  shift and set a new expiration. You can also cancel a zonal shift, before it expires, for
+  example, if you're ready to restore traffic to the Availability Zone.
+
+  To set a length of time for a zonal shift to be active, specify a whole number, and then
+  one of the following, with no space:
 
   - **A lowercase letter m:** To specify that the value is in minutes.
   - **A lowercase letter h:** To specify that the value is in hours.
 
-  For example: `20h` means the zonal shift expires in 20 hours. `120m` means the zonal
-  shift expires in 120 minutes (2 hours).
+  For example: `20h` means the zonal shift expires in 20 hours. `120m` means the zonal shift
+  expires in 120 minutes (2 hours).
 """
 function update_zonal_shift end
 

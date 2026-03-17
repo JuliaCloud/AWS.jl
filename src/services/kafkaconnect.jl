@@ -14,30 +14,36 @@ Creates a connector using the specified properties.
 
 - `capacity`: Information about the capacity allocated to the connector. Exactly one of the
   two properties must be specified.
+
 - `connector_configuration`: A map of keys to values that represent the configuration for
   the connector.
+
 - `connector_name`: The name of the connector.
+
 - `kafka_cluster`: Specifies which Apache Kafka cluster to connect to.
+
 - `kafka_cluster_client_authentication`: Details of the client authentication used by the
   Apache Kafka cluster.
+
 - `kafka_cluster_encryption_in_transit`: Details of encryption in transit to the Apache
   Kafka cluster.
+
 - `kafka_connect_version`: The version of Kafka Connect. It has to be compatible with both
   the Apache Kafka cluster's version and the plugins.
-- `plugins`:
 
-  !!! important
-      Amazon MSK Connect does not currently support specifying multiple plugins as a
-      list. To use more than one plugin for your connector, you can create a single
-      custom plugin using a ZIP file that bundles multiple plugins together.
+- `plugins`: !!! important
+      Amazon MSK Connect does not currently support specifying multiple plugins as a list.
+      To use more than one plugin for your connector, you can create a single custom plugin
+      using a ZIP file that bundles multiple plugins together.
 
   Specifies which plugin to use for the connector. You must specify a single-element list
   containing one `customPlugin` object.
+
 - `service_execution_role_arn`: The Amazon Resource Name (ARN) of the IAM role used by the
   connector to access the Amazon Web Services resources that it needs. The types of
-  resources depends on the logic of the connector. For example, a connector that has
-  Amazon S3 as a destination must have permissions that allow it to write to the S3
-  destination bucket.
+  resources depends on the logic of the connector. For example, a connector that has Amazon
+  S3 as a destination must have permissions that allow it to write to the S3 destination
+  bucket.
 
 # Optional Parameters
 
@@ -478,9 +484,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"connectorNamePrefix"`: The name prefix that you want to use to search for and list
   connectors.
 - `"maxResults"`: The maximum number of connectors to list in one response.
-- `"nextToken"`: If the response of a ListConnectors operation is truncated, it will
-  include a NextToken. Send this NextToken in a subsequent request to continue listing
-  from where the previous operation left off.
+- `"nextToken"`: If the response of a ListConnectors operation is truncated, it will include
+  a NextToken. Send this NextToken in a subsequent request to continue listing from where
+  the previous operation left off.
 """
 function list_connectors end
 
@@ -515,8 +521,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of custom plugins to list in one response.
 - `"namePrefix"`: Lists custom plugin names that start with the specified text string.
 - `"nextToken"`: If the response of a ListCustomPlugins operation is truncated, it will
-  include a NextToken. Send this NextToken in a subsequent request to continue listing
-  from where the previous operation left off.
+  include a NextToken. Send this NextToken in a subsequent request to continue listing from
+  where the previous operation left off.
 """
 function list_custom_plugins end
 
@@ -590,8 +596,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namePrefix"`: Lists worker configuration names that start with the specified text
   string.
 - `"nextToken"`: If the response of a ListWorkerConfigurations operation is truncated, it
-  will include a NextToken. Send this NextToken in a subsequent request to continue
-  listing from where the previous operation left off.
+  will include a NextToken. Send this NextToken in a subsequent request to continue listing
+  from where the previous operation left off.
 """
 function list_worker_configurations end
 
@@ -624,8 +630,8 @@ Attaches tags to the specified resource.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to
-  attach tags.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to attach
+  tags.
 - `tags`: The tags that you want to attach to the resource.
 """
 function tag_resource end

@@ -97,8 +97,8 @@ requirements.
   actions to support your self-declaration as appropriate.
 - If you're not a reseller of Amazon Web Services, we don't recommend that you use this
   operation to set the TRN in Malaysia.
-- Only use this API operation to upload the TRNs for accounts through which you're
-  reselling Amazon Web Services.
+- Only use this API operation to upload the TRNs for accounts through which you're reselling
+  Amazon Web Services.
 - Amazon Web Services is currently registered under the following service tax codes. You
   must include at least one of the service tax codes in the service tax code strings to
   declare yourself as an authorized registered business reseller.
@@ -130,8 +130,8 @@ Digital services and electronic medium - 9907121690
   Korean characters for these fields.
 - You must specify the tax registration certificate document in the
   `taxRegistrationDocuments` field of the `VerificationDetails` object.
-- For the `address` object, use Korean characters for `addressLine1`, `addressLine2`
-  `city`, `postalCode`, and `stateOrRegion`.
+- For the `address` object, use Korean characters for `addressLine1`, `addressLine2` `city`,
+  `postalCode`, and `stateOrRegion`.
 
 **Spain**
 
@@ -143,8 +143,8 @@ Digital services and electronic medium - 9907121690
 **Turkey**
 
 - You must specify the `sector` in the `taxRegistrationEntry` object.
-- If your `sector` is `Business`, `Individual`, or `Government`:   - Specify the
-  `taxOffice`. If your `sector` is `Individual`, don't enter this value.
+- If your `sector` is `Business`, `Individual`, or `Government`:
+  - Specify the `taxOffice`. If your `sector` is `Individual`, don't enter this value.
   - (Optional) Specify the `kepEmailId`. If your `sector` is `Individual`, don't enter this
     value.
   - **Note:** In the **Tax Settings** page of the Billing console, `Government` appears as
@@ -217,9 +217,9 @@ Deletes tax registration for a single account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"accountId"`: Unique account identifier for the TRN information that needs to be
-  deleted. If this isn't passed, the account ID corresponding to the credentials of the
-  API caller will be used for this parameter.
+- `"accountId"`: Unique account identifier for the TRN information that needs to be deleted.
+  If this isn't passed, the account ID corresponding to the credentials of the API caller
+  will be used for this parameter.
 """
 function delete_tax_registration end
 
@@ -338,8 +338,8 @@ end
     list_tax_registrations()
     list_tax_registrations(params::Dict{String,<:Any})
 
-Retrieves the tax registration of accounts listed in a consolidated billing family. This
-can be used to retrieve up to 100 accounts' tax registrations in one call (default 50).
+Retrieves the tax registration of accounts listed in a consolidated billing family. This can
+be used to retrieve up to 100 accounts' tax registrations in one call (default 50).
 
 # Optional Parameters
 
@@ -418,8 +418,8 @@ requirements.
   actions to support your self-declaration as appropriate.
 - If you're not a reseller of Amazon Web Services, we don't recommend that you use this
   operation to set the TRN in Malaysia.
-- Only use this API operation to upload the TRNs for accounts through which you're
-  reselling Amazon Web Services.
+- Only use this API operation to upload the TRNs for accounts through which you're reselling
+  Amazon Web Services.
 - Amazon Web Services is currently registered under the following service tax codes. You
   must include at least one of the service tax codes in the service tax code strings to
   declare yourself as an authorized registered business reseller.
@@ -451,8 +451,8 @@ Digital services and electronic medium - 9907121690
   Korean characters for these fields.
 - You must specify the tax registration certificate document in the
   `taxRegistrationDocuments` field of the `VerificationDetails` object.
-- For the `address` object, use Korean characters for `addressLine1`, `addressLine2`
-  `city`, `postalCode`, and `stateOrRegion`.
+- For the `address` object, use Korean characters for `addressLine1`, `addressLine2` `city`,
+  `postalCode`, and `stateOrRegion`.
 
 **Spain**
 
@@ -464,8 +464,8 @@ Digital services and electronic medium - 9907121690
 **Turkey**
 
 - You must specify the `sector` in the `taxRegistrationEntry` object.
-- If your `sector` is `Business`, `Individual`, or `Government`:   - Specify the
-  `taxOffice`. If your `sector` is `Individual`, don't enter this value.
+- If your `sector` is `Business`, `Individual`, or `Government`:
+  - Specify the `taxOffice`. If your `sector` is `Individual`, don't enter this value.
   - (Optional) Specify the `kepEmailId`. If your `sector` is `Individual`, don't enter this
     value.
   - **Note:** In the **Tax Settings** page of the Billing console, `Government` appears as

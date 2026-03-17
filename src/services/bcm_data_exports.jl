@@ -13,16 +13,16 @@ optional resource tags.
 
 A `DataQuery` consists of both a `QueryStatement` and `TableConfigurations`.
 
-The `QueryStatement` is an SQL statement. Data Exports only supports a limited subset of
-the SQL syntax. For more information on the SQL syntax that is supported, see [Data query](https://docs.aws.amazon.com/cur/latest/userguide/de-data-query.html).
+The `QueryStatement` is an SQL statement. Data Exports only supports a limited subset of the
+SQL syntax. For more information on the SQL syntax that is supported, see [Data query](https://docs.aws.amazon.com/cur/latest/userguide/de-data-query.html).
 To view the available tables and columns, see the [Data Exports table dictionary](https://docs.aws.amazon.com/cur/latest/userguide/de-table-dictionary.html).
 
-The `TableConfigurations` is a collection of specified `TableProperties` for the table
-being queried in the `QueryStatement`. TableProperties are additional configurations you
-can provide to change the data and schema of a table. Each table can have different
+The `TableConfigurations` is a collection of specified `TableProperties` for the table being
+queried in the `QueryStatement`. TableProperties are additional configurations you can
+provide to change the data and schema of a table. Each table can have different
 TableProperties. However, tables are not required to have any TableProperties. Each table
-property has a default value that it assumes if not specified. For more information on
-table configurations, see [Data query](https://docs.aws.amazon.com/cur/latest/userguide/de-data-query.html).
+property has a default value that it assumes if not specified. For more information on table
+configurations, see [Data query](https://docs.aws.amazon.com/cur/latest/userguide/de-data-query.html).
 To view the table properties available for each table, see the [Data Exports table dictionary](https://docs.aws.amazon.com/cur/latest/userguide/de-table-dictionary.html)
 or use the `ListTables` API to get a response of all tables and their available properties.
 
@@ -181,8 +181,8 @@ end
     get_table(table_name)
     get_table(table_name, params::Dict{String,<:Any})
 
-Returns the metadata for the specified table and table properties. This includes the list
-of columns in the table schema, their data types, and column descriptions.
+Returns the metadata for the specified table and table properties. This includes the list of
+columns in the table schema, their data types, and column descriptions.
 
 # Arguments
 
@@ -378,8 +378,8 @@ Adds tags for an existing data export definition.
 # Arguments
 
 - `resource_arn`: The unique identifier for the resource.
-- `resource_tags`: The tags to associate with the resource. Each tag consists of a key and
-  a value, and each key must be unique for the resource.
+- `resource_tags`: The tags to associate with the resource. Each tag consists of a key and a
+  value, and each key must be unique for the resource.
 """
 function tag_resource end
 

@@ -52,8 +52,8 @@ target="_blank">Creating a Search Domain</a> in the *Amazon CloudSearch Develope
 # Arguments
 
 - `domain_name`: A name for the domain you are creating. Allowed characters are a-z (lower-
-  case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and
-  be at least 3 and no more than 28 characters long.
+  case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be
+  at least 3 and no more than 28 characters long.
 """
 function create_domain end
 
@@ -187,9 +187,9 @@ end
 Configures an `[`index_field`](@ref)` for the search domain. Used to create new fields and
 modify existing ones. You must specify the name of the domain you are configuring and an
 index field configuration. The index field configuration specifies a unique name, the index
-field type, and the options you want to configure for the field. The options you can
-specify depend on the `[`index_field_type`](@ref)`. If the field exists, the new
-configuration replaces the old one. For more information, see <a
+field type, and the options you want to configure for the field. The options you can specify
+depend on the `[`index_field_type`](@ref)`. If the field exists, the new configuration
+replaces the old one. For more information, see <a
 href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-
 fields.html" target="_blank">Configuring Index Fields</a> in the *Amazon CloudSearch
 Developer Guide*.
@@ -238,11 +238,10 @@ end
 
 Configures a suggester for a domain. A suggester enables you to display possible matches
 before users finish typing their queries. When you configure a suggester, you must specify
-the name of the text field you want to search for possible matches and a unique name for
-the suggester. For more information, see <a
-href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-
-suggestions.html" target="_blank">Getting Search Suggestions</a> in the *Amazon CloudSearch
-Developer Guide*.
+the name of the text field you want to search for possible matches and a unique name for the
+suggester. For more information, see <a
+href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html"
+target="_blank">Getting Search Suggestions</a> in the *Amazon CloudSearch Developer Guide*.
 
 # Arguments
 
@@ -476,9 +475,8 @@ end
     delete_suggester(domain_name, suggester_name, params::Dict{String,<:Any})
 
 Deletes a suggester. For more information, see <a
-href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-
-suggestions.html" target="_blank">Getting Search Suggestions</a> in the *Amazon CloudSearch
-Developer Guide*.
+href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html"
+target="_blank">Getting Search Suggestions</a> in the *Amazon CloudSearch Developer Guide*.
 
 # Arguments
 
@@ -641,8 +639,8 @@ endpoint-options.html" target="_blank">Configuring Domain Endpoint Options</a> i
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Deployed"`: Whether to retrieve the latest configuration (which might be in a
-  Processing state) or the current, active configuration. Defaults to `false`.
+- `"Deployed"`: Whether to retrieve the latest configuration (which might be in a Processing
+  state) or the current, active configuration. Defaults to `false`.
 """
 function describe_domain_endpoint_options end
 
@@ -680,9 +678,9 @@ Gets information about the search domains owned by this account. Can be limited 
 domains. Shows all domains by default. To get the number of searchable documents in a
 domain, use the console or submit a `matchall` request to your domain's search endpoint:
 `q=matchall&amp;amp;q.parser=structured&amp;amp;size=0`. For more information, see <a
-href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-domain-
-info.html" target="_blank">Getting Information about a Search Domain</a> in the *Amazon
-CloudSearch Developer Guide*.
+href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-domain-info.html"
+target="_blank">Getting Information about a Search Domain</a> in the *Amazon CloudSearch
+Developer Guide*.
 
 # Optional Parameters
 
@@ -728,8 +726,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Deployed"`: Whether to display the deployed configuration (`true`) or include any
   pending changes (`false`). Defaults to `false`.
-- `"ExpressionNames"`: Limits the `[`describe_expressions`](@ref)` response to the
-  specified expressions. If not specified, all expressions are shown.
+- `"ExpressionNames"`: Limits the `[`describe_expressions`](@ref)` response to the specified
+  expressions. If not specified, all expressions are shown.
 """
 function describe_expressions end
 
@@ -767,9 +765,8 @@ Gets information about the index fields configured for the search domain. Can be
 specific fields by name. By default, shows all fields and includes any pending changes to
 the configuration. Set the `Deployed` option to `true` to show the active configuration and
 exclude pending changes. For more information, see <a
-href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-domain-
-info.html" target="_blank">Getting Domain Information</a> in the *Amazon CloudSearch
-Developer Guide*.
+href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-domain-info.html"
+target="_blank">Getting Domain Information</a> in the *Amazon CloudSearch Developer Guide*.
 
 # Arguments
 
@@ -914,9 +911,8 @@ matches before users finish typing their queries. Can be limited to specific sug
 name. By default, shows all suggesters and includes any pending changes to the
 configuration. Set the `Deployed` option to `true` to show the active configuration and
 exclude pending changes. For more information, see <a
-href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-
-suggestions.html" target="_blank">Getting Search Suggestions</a> in the *Amazon CloudSearch
-Developer Guide*.
+href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html"
+target="_blank">Getting Search Suggestions</a> in the *Amazon CloudSearch Developer Guide*.
 
 # Arguments
 
@@ -1032,9 +1028,8 @@ CloudSearch Developer Guide*.
 
 - `domain_name`:
 - `multi_az`: You expand an existing search domain to a second Availability Zone by setting
-  the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to
-  downgrade the domain to a single Availability Zone by setting the Multi-AZ option to
-  `false`.
+  the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade
+  the domain to a single Availability Zone by setting the Multi-AZ option to `false`.
 """
 function update_availability_options end
 
@@ -1131,8 +1126,8 @@ end
 Configures scaling parameters for a domain. A domain's scaling parameters specify the
 desired search instance type and replication count. Amazon CloudSearch will still
 automatically scale your domain based on the volume of data and traffic, but not below the
-desired instance type and replication count. If the Multi-AZ option is enabled, these
-values control the resources used per Availability Zone. For more information, see <a
+desired instance type and replication count. If the Multi-AZ option is enabled, these values
+control the resources used per Availability Zone. For more information, see <a
 href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-scaling-
 options.html" target="_blank">Configuring Scaling Options</a> in the *Amazon CloudSearch
 Developer Guide*.

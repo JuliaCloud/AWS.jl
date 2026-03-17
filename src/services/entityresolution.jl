@@ -16,8 +16,10 @@ Adds a policy statement object. To retrieve a list of existing policy statements
 - `action`: The action that the principal can use on the resource.
 
   For example, `entityresolution:GetIdMappingJob`, `entityresolution:GetMatchingJob`.
+
 - `arn`: The Amazon Resource Name (ARN) of the resource that will be accessed by the
   principal.
+
 - `effect`: Determines whether the permissions specified in the policy are to be allowed
   (`Allow`) or denied (`Deny`).
 
@@ -28,6 +30,7 @@ Adds a policy statement object. To retrieve a list of existing policy statements
 
 - `principal`: The Amazon Web Services service or Amazon Web Services account that can
   access the resource defined as ARN.
+
 - `statement_id`: A statement identifier that differentiates the statement from others in
   the same policy.
 
@@ -220,13 +223,14 @@ ID namespace, use the `UpdateIdNamespace` API.
 # Arguments
 
 - `id_namespace_name`: The name of the ID namespace.
+
 - `type`: The type of ID namespace. There are two types: `SOURCE` and `TARGET`.
 
-  The `SOURCE` contains configurations for `sourceId` data that will be processed in an
-  ID mapping workflow.
+  The `SOURCE` contains configurations for `sourceId` data that will be processed in an ID
+  mapping workflow.
 
-  The `TARGET` contains a configuration of `targetId` to which all `sourceIds` will
-  resolve to.
+  The `TARGET` contains a configuration of `targetId` to which all `sourceIds` will resolve
+  to.
 
 # Optional Parameters
 
@@ -238,8 +242,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputSourceConfig"`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  this role to access the resources defined in this `IdNamespace` on your behalf as part
-  of the workflow run.
+  this role to access the resources defined in this `IdNamespace` on your behalf as part of
+  the workflow run.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_id_namespace end
@@ -294,8 +298,8 @@ job to be run. It is important to note that there should not be a pre-existing
   `OutputS3Path`, `ApplyNormalization`, and `Output`.
 - `resolution_techniques`: An object which defines the `resolutionType` and the
   `ruleBasedProperties`.
-- `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  this role to create resources on your behalf as part of workflow execution.
+- `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this
+  role to create resources on your behalf as part of workflow execution.
 - `workflow_name`: The name of the workflow. There can't be multiple `MatchingWorkflows`
   with the same name.
 
@@ -746,10 +750,10 @@ Returns the corresponding Match ID of a customer record if the record has been p
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"applyNormalization"`: Normalizes the attributes defined in the schema in the input
-  data. For example, if an attribute has an `AttributeType` of `PHONE_NUMBER`, and the
-  data in the input table is in a format of 1234567890, Entity Resolution will normalize
-  this field in the output to (123)-456-7890.
+- `"applyNormalization"`: Normalizes the attributes defined in the schema in the input data.
+  For example, if an attribute has an `AttributeType` of `PHONE_NUMBER`, and the data in the
+  input table is in a format of 1234567890, Entity Resolution will normalize this field in
+  the output to (123)-456-7890.
 """
 function get_match_id end
 
@@ -1190,8 +1194,8 @@ end
     list_schema_mappings()
     list_schema_mappings(params::Dict{String,<:Any})
 
-Returns a list of all the `SchemaMappings` that have been created for an Amazon Web
-Services account.
+Returns a list of all the `SchemaMappings` that have been created for an Amazon Web Services
+account.
 
 # Optional Parameters
 
@@ -1264,6 +1268,7 @@ Updates the resource-based policy.
 
 - `arn`: The Amazon Resource Name (ARN) of the resource for which the policy needs to be
   updated.
+
 - `policy`: The resource-based policy.
 
   !!! important
@@ -1352,8 +1357,8 @@ end
     start_matching_job(workflow_name)
     start_matching_job(workflow_name, params::Dict{String,<:Any})
 
-Starts the `MatchingJob` of a workflow. The workflow must have previously been created
-using the `CreateMatchingWorkflow` endpoint.
+Starts the `MatchingJob` of a workflow. The workflow must have previously been created using
+the `CreateMatchingWorkflow` endpoint.
 
 # Arguments
 
@@ -1390,15 +1395,15 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource.
-Tags can help you organize and categorize your resources. You can also use them to scope
-user permissions by granting a user permission to access or change only resources with
-certain tag values. In Entity Resolution, `SchemaMapping` and `MatchingWorkflow` can be
-tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted
-strictly as strings of characters. You can use the `TagResource` action with a resource
-that already has tags. If you specify a new tag key, this tag is appended to the list of
-tags associated with the resource. If you specify a tag key that is already associated with
-the resource, the new tag value that you specify replaces the previous value for that tag.
+Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags
+can help you organize and categorize your resources. You can also use them to scope user
+permissions by granting a user permission to access or change only resources with certain
+tag values. In Entity Resolution, `SchemaMapping` and `MatchingWorkflow` can be tagged. Tags
+don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
+strings of characters. You can use the `TagResource` action with a resource that already has
+tags. If you specify a new tag key, this tag is appended to the list of tags associated with
+the resource. If you specify a tag key that is already associated with the resource, the new
+tag value that you specify replaces the previous value for that tag.
 
 # Arguments
 
@@ -1478,8 +1483,8 @@ end
     update_id_mapping_workflow(id_mapping_techniques, input_source_config, workflow_name, params::Dict{String,<:Any})
 
 Updates an existing `IdMappingWorkflow`. This method is identical to
-`CreateIdMappingWorkflow`, except it uses an HTTP `PUT` request instead of a `POST`
-request, and the `IdMappingWorkflow` must already exist for the method to succeed.
+`CreateIdMappingWorkflow`, except it uses an HTTP `PUT` request instead of a `POST` request,
+and the `IdMappingWorkflow` must already exist for the method to succeed.
 
 # Arguments
 
@@ -1564,8 +1569,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputSourceConfig"`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  this role to access the resources defined in this `IdNamespace` on your behalf as part
-  of a workflow run.
+  this role to access the resources defined in this `IdNamespace` on your behalf as part of
+  a workflow run.
 """
 function update_id_namespace end
 
@@ -1610,8 +1615,8 @@ and the `MatchingWorkflow` must already exist for the method to succeed.
   `OutputS3Path`, `ApplyNormalization`, and `Output`.
 - `resolution_techniques`: An object which defines the `resolutionType` and the
   `ruleBasedProperties`.
-- `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  this role to create resources on your behalf as part of workflow execution.
+- `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this
+  role to create resources on your behalf as part of workflow execution.
 - `workflow_name`: The name of the workflow to be retrieved.
 
 # Optional Parameters

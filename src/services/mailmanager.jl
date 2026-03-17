@@ -14,8 +14,8 @@ policy.
 
 # Arguments
 
-- `addon_subscription_id`: The unique ID of a previously created subscription that an Add
-  On instance is created for. You can only have one instance per subscription.
+- `addon_subscription_id`: The unique ID of a previously created subscription that an Add On
+  instance is created for. You can only have one instance per subscription.
 
 # Optional Parameters
 
@@ -392,8 +392,8 @@ Provision a new traffic policy resource.
 # Arguments
 
 - `default_action`: Default action instructs the traﬃc policy to either Allow or Deny
-  (block) messages that fall outside of (or not addressed by) the conditions of your
-  policy statements
+  (block) messages that fall outside of (or not addressed by) the conditions of your policy
+  statements
 - `policy_statements`: Conditional statements for filtering email traffic.
 - `traffic_policy_name`: A user-friendly name for the traffic policy resource.
 
@@ -403,8 +403,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: A unique token that Amazon SES uses to recognize subsequent retries of
   the same request.
-- `"MaxMessageSizeBytes"`: The maximum message size in bytes of email which is allowed in
-  by this traffic policy—anything larger will be blocked.
+- `"MaxMessageSizeBytes"`: The maximum message size in bytes of email which is allowed in by
+  this traffic policy—anything larger will be blocked.
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
@@ -1196,8 +1196,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: If you received a pagination token from a previous call to this API, you
   can provide it here to continue paginating through the next page of results.
-- `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
-  call. You can use NextToken to obtain further ingress endpoints.
+- `"PageSize"`: The maximum number of ingress endpoint resources that are returned per call.
+  You can use NextToken to obtain further ingress endpoints.
 """
 function list_addon_instances end
 
@@ -1227,8 +1227,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: If you received a pagination token from a previous call to this API, you
   can provide it here to continue paginating through the next page of results.
-- `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
-  call. You can use NextToken to obtain further ingress endpoints.
+- `"PageSize"`: The maximum number of ingress endpoint resources that are returned per call.
+  You can use NextToken to obtain further ingress endpoints.
 """
 function list_addon_subscriptions end
 
@@ -1387,8 +1387,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: If you received a pagination token from a previous call to this API, you
   can provide it here to continue paginating through the next page of results.
-- `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
-  call. You can use NextToken to obtain further ingress endpoints.
+- `"PageSize"`: The maximum number of ingress endpoint resources that are returned per call.
+  You can use NextToken to obtain further ingress endpoints.
 """
 function list_ingress_points end
 
@@ -1446,8 +1446,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: If you received a pagination token from a previous call to this API, you
   can provide it here to continue paginating through the next page of results.
-- `"PageSize"`: The maximum number of rule set resources that are returned per call. You
-  can use NextToken to obtain further rule sets.
+- `"PageSize"`: The maximum number of rule set resources that are returned per call. You can
+  use NextToken to obtain further rule sets.
 """
 function list_rule_sets end
 
@@ -1755,8 +1755,8 @@ Adds one or more tags (keys and values) to a specified resource.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
-- `tags`: The tags used to organize, track, or control access for the resource. For
-  example, { "tags": {"key1":"value1", "key2":"value2"} }.
+- `tags`: The tags used to organize, track, or control access for the resource. For example,
+  { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function tag_resource end
 
@@ -2031,10 +2031,10 @@ Update attributes of an already provisioned traffic policy resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DefaultAction"`: Default action instructs the traﬃc policy to either Allow or Deny
-  (block) messages that fall outside of (or not addressed by) the conditions of your
-  policy statements
-- `"MaxMessageSizeBytes"`: The maximum message size in bytes of email which is allowed in
-  by this traffic policy—anything larger will be blocked.
+  (block) messages that fall outside of (or not addressed by) the conditions of your policy
+  statements
+- `"MaxMessageSizeBytes"`: The maximum message size in bytes of email which is allowed in by
+  this traffic policy—anything larger will be blocked.
 - `"PolicyStatements"`: The list of conditions to be updated for filtering email traffic.
 - `"TrafficPolicyName"`: A user-friendly name for the traffic policy resource.
 """

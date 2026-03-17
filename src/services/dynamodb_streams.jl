@@ -15,10 +15,10 @@ Resource Name (ARN), the composition of its shards, and its corresponding Dynamo
     You can call `DescribeStream` at a maximum rate of 10 times per second.
 
 Each shard in the stream has a `SequenceNumberRange` associated with it. If the
-`SequenceNumberRange` has a `StartingSequenceNumber` but no `EndingSequenceNumber`, then
-the shard is still open (able to receive more stream records). If both
-`StartingSequenceNumber` and `EndingSequenceNumber` are present, then that shard is closed
-and can no longer receive more data.
+`SequenceNumberRange` has a `StartingSequenceNumber` but no `EndingSequenceNumber`, then the
+shard is still open (able to receive more stream records). If both `StartingSequenceNumber`
+and `EndingSequenceNumber` are present, then that shard is closed and can no longer receive
+more data.
 
 # Arguments
 
@@ -68,8 +68,8 @@ Retrieves the stream records from a given shard.
 Specify a shard iterator using the `ShardIterator` parameter. The shard iterator specifies
 the position in the shard from which you want to start reading stream records sequentially.
 If there are no stream records available in the portion of the shard that the iterator
-points to, `GetRecords` returns an empty list. Note that it might take multiple calls to
-get to a portion of the shard that contains stream records.
+points to, `GetRecords` returns an empty list. Note that it might take multiple calls to get
+to a portion of the shard that contains stream records.
 
 !!! note
     `GetRecords` can retrieve a maximum of 1 MB of data or 1000 stream records, whichever
@@ -127,19 +127,20 @@ request to read the stream records from the shard.
 # Arguments
 
 - `shard_id`: The identifier of the shard. The iterator will be returned for this shard ID.
+
 - `shard_iterator_type`: Determines how the shard iterator is used to start reading stream
   records from the shard:
 
   - `AT_SEQUENCE_NUMBER` - Start reading exactly from the position denoted by a specific
     sequence number.
-  - `AFTER_SEQUENCE_NUMBER` - Start reading right after the position denoted by a
-    specific sequence number.
+  - `AFTER_SEQUENCE_NUMBER` - Start reading right after the position denoted by a specific
+    sequence number.
   - `TRIM_HORIZON` - Start reading at the last (untrimmed) stream record, which is the
     oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data
-    retention. Stream records whose age exceeds this limit are subject to removal
-    (trimming) from the stream.
-  - `LATEST` - Start reading just after the most recent stream record in the shard, so
-    that you always read the most recent data in the shard.
+    retention. Stream records whose age exceeds this limit are subject to removal (trimming)
+    from the stream.
+  - `LATEST` - Start reading just after the most recent stream record in the shard, so that
+    you always read the most recent data in the shard.
 
 - `stream_arn`: The Amazon Resource Name (ARN) for the stream.
 
@@ -211,8 +212,8 @@ that table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ExclusiveStartStreamArn"`: The ARN (Amazon Resource Name) of the first item that this
-  operation will evaluate. Use the value that was returned for `LastEvaluatedStreamArn`
-  in the previous operation.
+  operation will evaluate. Use the value that was returned for `LastEvaluatedStreamArn` in
+  the previous operation.
 - `"Limit"`: The maximum number of streams to return. The upper limit is 100.
 - `"TableName"`: If this parameter is provided, then only the streams associated with this
   table name are returned.

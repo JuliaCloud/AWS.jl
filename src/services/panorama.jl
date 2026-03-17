@@ -918,8 +918,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 - `"SortBy"`: The target column to be sorted on. Default column sort is CREATED_TIME.
-- `"SortOrder"`: The sorting order for the returned list. SortOrder is DESCENDING by
-  default based on CREATED_TIME. Otherwise, SortOrder is ASCENDING.
+- `"SortOrder"`: The sorting order for the returned list. SortOrder is DESCENDING by default
+  based on CREATED_TIME. Otherwise, SortOrder is ASCENDING.
 """
 function list_devices end
 

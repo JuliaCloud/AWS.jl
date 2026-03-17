@@ -126,14 +126,15 @@ instance).
 - `apply_action`: The pending maintenance action to apply to this resource.
 
   Valid values: `system-update`, `db-upgrade`
+
 - `opt_in_type`: A value that specifies the type of opt-in request or undoes an opt-in
   request. An opt-in request of type `immediate` can't be undone.
 
   Valid values:
 
   - `immediate` - Apply the maintenance action immediately.
-  - `next-maintenance` - Apply the maintenance action during the next maintenance window
-    for the resource.
+  - `next-maintenance` - Apply the maintenance action during the next maintenance window for
+    the resource.
   - `undo-opt-in` - Cancel any existing `next-maintenance` opt-in requests.
 
 - `resource_identifier`: The Amazon Resource Name (ARN) of the resource that the pending
@@ -198,8 +199,8 @@ Copies the specified cluster parameter group.
   Constraints:
 
   - Must specify a valid cluster parameter group.
-  - If the source cluster parameter group is in the same Amazon Web Services Region as
-    the copy, specify a valid parameter group identifier; for example,
+  - If the source cluster parameter group is in the same Amazon Web Services Region as the
+    copy, specify a valid parameter group identifier; for example,
     `my-db-cluster-param-group`, or a valid ARN.
   - If the source parameter group is in a different Amazon Web Services Region than the
     copy, specify a valid cluster parameter group ARN; for example,
@@ -207,6 +208,7 @@ Copies the specified cluster parameter group.
 
 - `target_dbcluster_parameter_group_description`: A description for the copied cluster
   parameter group.
+
 - `target_dbcluster_parameter_group_identifier`: The identifier for the copied cluster
   parameter group.
 
@@ -299,12 +301,13 @@ identified by `TargetDBClusterSnapshotIdentifier` while that cluster snapshot is
   Constraints:
 
   - Must specify a valid system snapshot in the *available* state.
-  - If the source snapshot is in the same Amazon Web Services Region as the copy, specify
-    a valid snapshot identifier.
+  - If the source snapshot is in the same Amazon Web Services Region as the copy, specify a
+    valid snapshot identifier.
   - If the source snapshot is in a different Amazon Web Services Region than the copy,
     specify a valid cluster snapshot ARN.
 
   Example: `my-cluster-snapshot1`
+
 - `target_dbcluster_snapshot_identifier`: The identifier of the new cluster snapshot to
   create from the source cluster snapshot. This parameter is not case sensitive.
 
@@ -322,17 +325,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CopyTags"`: Set to `true` to copy all tags from the source cluster snapshot to the
   target cluster snapshot, and otherwise `false`. The default is `false`.
+
 - `"KmsKeyId"`: The KMS key ID for an encrypted cluster snapshot. The KMS key ID is the
   Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS
   encryption key.
 
-  If you copy an encrypted cluster snapshot from your Amazon Web Services account, you
-  can specify a value for `KmsKeyId` to encrypt the copy with a new KMS encryption key.
-  If you don't specify a value for `KmsKeyId`, then the copy of the cluster snapshot is
-  encrypted with the same KMS key as the source cluster snapshot.
+  If you copy an encrypted cluster snapshot from your Amazon Web Services account, you can
+  specify a value for `KmsKeyId` to encrypt the copy with a new KMS encryption key. If you
+  don't specify a value for `KmsKeyId`, then the copy of the cluster snapshot is encrypted
+  with the same KMS key as the source cluster snapshot.
 
-  If you copy an encrypted cluster snapshot that is shared from another Amazon Web
-  Services account, then you must specify a value for `KmsKeyId`.
+  If you copy an encrypted cluster snapshot that is shared from another Amazon Web Services
+  account, then you must specify a value for `KmsKeyId`.
 
   To copy an encrypted cluster snapshot to another Amazon Web Services Region, set
   `KmsKeyId` to the KMS key ID that you want to use to encrypt the copy of the cluster
@@ -342,31 +346,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you copy an unencrypted cluster snapshot and specify a value for the `KmsKeyId`
   parameter, an error is returned.
+
 - `"PreSignedUrl"`: The URL that contains a Signature Version 4 signed request for
-  the`CopyDBClusterSnapshot` API action in the Amazon Web Services Region that contains
-  the source cluster snapshot to copy. You must use the `PreSignedUrl` parameter when
-  copying a cluster snapshot from another Amazon Web Services Region.
+  the`CopyDBClusterSnapshot` API action in the Amazon Web Services Region that contains the
+  source cluster snapshot to copy. You must use the `PreSignedUrl` parameter when copying a
+  cluster snapshot from another Amazon Web Services Region.
 
   If you are using an Amazon Web Services SDK tool or the CLI, you can specify
   `SourceRegion` (or `--source-region` for the CLI) instead of specifying `PreSignedUrl`
-  manually. Specifying `SourceRegion` autogenerates a pre-signed URL that is a valid
-  request for the operation that can be executed in the source Amazon Web Services
-  Region.
+  manually. Specifying `SourceRegion` autogenerates a pre-signed URL that is a valid request
+  for the operation that can be executed in the source Amazon Web Services Region.
 
-  The presigned URL must be a valid request for the `CopyDBClusterSnapshot` API action
-  that can be executed in the source Amazon Web Services Region that contains the cluster
+  The presigned URL must be a valid request for the `CopyDBClusterSnapshot` API action that
+  can be executed in the source Amazon Web Services Region that contains the cluster
   snapshot to be copied. The presigned URL request must contain the following parameter
   values:
 
   - `SourceRegion` - The ID of the region that contains the snapshot to be copied.
   - `SourceDBClusterSnapshotIdentifier` - The identifier for the the encrypted cluster
-    snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN)
-    format for the source Amazon Web Services Region. For example, if you are copying an
-    encrypted cluster snapshot from the us-east-1 Amazon Web Services Region, then your
+    snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format
+    for the source Amazon Web Services Region. For example, if you are copying an encrypted
+    cluster snapshot from the us-east-1 Amazon Web Services Region, then your
     `SourceDBClusterSnapshotIdentifier` looks something like the following:
     `arn:aws:rds:us-east-1:12345678012:sample-cluster:sample-cluster-snapshot`.
-  - `TargetDBClusterSnapshotIdentifier` - The identifier for the new cluster snapshot to
-    be created. This parameter isn't case sensitive.
+  - `TargetDBClusterSnapshotIdentifier` - The identifier for the new cluster snapshot to be
+    created. This parameter isn't case sensitive.
 
 - `"Tags"`: The tags to be assigned to the cluster snapshot.
 """
@@ -431,6 +435,7 @@ Creates a new Amazon DocumentDB cluster.
   - Cannot end with a hyphen or contain two consecutive hyphens.
 
   Example: `my-cluster`
+
 - `engine`: The name of the database engine to be used for this cluster.
 
   Valid values: `docdb`
@@ -441,6 +446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AvailabilityZones"`: A list of Amazon EC2 Availability Zones that instances in the
   cluster can be created in.
+
 - `"BackupRetentionPeriod"`: The number of days for which automated backups are retained.
   You must specify a minimum value of 1.
 
@@ -450,26 +456,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - Must be a value from 1 to 35.
 
-- `"DBClusterParameterGroupName"`: The name of the cluster parameter group to associate
-  with this cluster.
+- `"DBClusterParameterGroupName"`: The name of the cluster parameter group to associate with
+  this cluster.
+
 - `"DBSubnetGroupName"`: A subnet group to associate with this cluster.
 
   Constraints: Must match the name of an existing `DBSubnetGroup`. Must not be default.
 
   Example: `mySubnetgroup`
+
 - `"DeletionProtection"`: Specifies whether this cluster can be deleted. If
-  `DeletionProtection` is enabled, the cluster cannot be deleted unless it is modified
-  and `DeletionProtection` is disabled. `DeletionProtection` protects clusters from being
+  `DeletionProtection` is enabled, the cluster cannot be deleted unless it is modified and
+  `DeletionProtection` is disabled. `DeletionProtection` protects clusters from being
   accidentally deleted.
-- `"EnableCloudwatchLogsExports"`: A list of log types that need to be enabled for
-  exporting to Amazon CloudWatch Logs. You can enable audit logs or profiler logs. For
-  more information, see [Auditing Amazon DocumentDB Events](https://docs.aws.amazon.com/documentdb/latest/developerguide/event-auditing.html)
+
+- `"EnableCloudwatchLogsExports"`: A list of log types that need to be enabled for exporting
+  to Amazon CloudWatch Logs. You can enable audit logs or profiler logs. For more
+  information, see [Auditing Amazon DocumentDB Events](https://docs.aws.amazon.com/documentdb/latest/developerguide/event-auditing.html)
   and [Profiling Amazon DocumentDB Operations](https://docs.aws.amazon.com/documentdb/latest/developerguide/profiling.html).
+
 - `"EngineVersion"`: The version number of the database engine to use. The
   `--engine-version` will default to the latest major engine version. For production
-  workloads, we recommend explicitly declaring this parameter with the intended major
-  engine version.
+  workloads, we recommend explicitly declaring this parameter with the intended major engine
+  version.
+
 - `"GlobalClusterIdentifier"`: The cluster identifier of the new global cluster.
+
 - `"KmsKeyId"`: The KMS key identifier for an encrypted cluster.
 
   The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If
@@ -482,14 +494,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - If the `StorageEncrypted` parameter is `true`, Amazon DocumentDB uses your default
     encryption key.
 
-  KMS creates the default encryption key for your Amazon Web Services account. Your
-  Amazon Web Services account has a different default encryption key for each Amazon Web
-  Services Regions.
+  KMS creates the default encryption key for your Amazon Web Services account. Your Amazon
+  Web Services account has a different default encryption key for each Amazon Web Services
+  Regions.
+
 - `"MasterUserPassword"`: The password for the master database user. This password can
-  contain any printable ASCII character except forward slash (/), double quote ("), or
-  the "at" symbol (@).
+  contain any printable ASCII character except forward slash (/), double quote ("), or the
+  "at" symbol (@).
 
   Constraints: Must contain from 8 to 100 characters.
+
 - `"MasterUsername"`: The name of the master user for the cluster.
 
   Constraints:
@@ -499,12 +513,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Cannot be a reserved word for the chosen database engine.
 
 - `"Port"`: The port number on which the instances in the cluster accept connections.
-- `"PreSignedUrl"`: Not currently supported.
-- `"PreferredBackupWindow"`: The daily time range during which automated backups are
-  created if automated backups are enabled using the `BackupRetentionPeriod` parameter.
 
-  The default is a 30-minute window selected at random from an 8-hour block of time for
-  each Amazon Web Services Region.
+- `"PreSignedUrl"`: Not currently supported.
+
+- `"PreferredBackupWindow"`: The daily time range during which automated backups are created
+  if automated backups are enabled using the `BackupRetentionPeriod` parameter.
+
+  The default is a 30-minute window selected at random from an 8-hour block of time for each
+  Amazon Web Services Region.
 
   Constraints:
 
@@ -518,13 +534,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Format: `ddd:hh24:mi-ddd:hh24:mi`
 
-  The default is a 30-minute window selected at random from an 8-hour block of time for
-  each Amazon Web Services Region, occurring on a random day of the week.
+  The default is a 30-minute window selected at random from an 8-hour block of time for each
+  Amazon Web Services Region, occurring on a random day of the week.
 
   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 
   Constraints: Minimum 30-minute window.
+
 - `"StorageEncrypted"`: Specifies whether the cluster is encrypted.
+
 - `"StorageType"`: The storage type to associate with the DB cluster.
 
   For information on storage types for Amazon DocumentDB clusters, see Cluster storage
@@ -536,10 +554,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       When you create a DocumentDB DB cluster with the storage type set to `iopt1`, the
-      storage type is returned in the response. The storage type isn't returned when you
-      set it to `standard`.
+      storage type is returned in the response. The storage type isn't returned when you set
+      it to `standard`.
 
 - `"Tags"`: The tags to be assigned to the cluster.
+
 - `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with this cluster.
 """
 function create_dbcluster end
@@ -586,10 +605,10 @@ Creates a new cluster parameter group.
 Parameters in a cluster parameter group apply to all of the instances in a cluster.
 
 A cluster parameter group is initially created with the default parameters for the database
-engine used by instances in the cluster. In Amazon DocumentDB, you cannot make
-modifications directly to the `default.docdb3.6` cluster parameter group. If your Amazon
-DocumentDB cluster is using the default cluster parameter group and you want to modify a
-value in it, you must first [create a new parameter group](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-create.html)
+engine used by instances in the cluster. In Amazon DocumentDB, you cannot make modifications
+directly to the `default.docdb3.6` cluster parameter group. If your Amazon DocumentDB
+cluster is using the default cluster parameter group and you want to modify a value in it,
+you must first [create a new parameter group](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-create.html)
 or [copy an existing parameter group](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-copy.html),
 modify it, and then apply the modified parameter group to your cluster. For the new cluster
 parameter group and associated settings to take effect, you must then reboot the instances
@@ -607,6 +626,7 @@ in the cluster without failover. For more information, see [Modifying Amazon Doc
       This value is stored as a lowercase string.
 
 - `dbparameter_group_family`: The cluster parameter group family name.
+
 - `description`: The description for the cluster parameter group.
 
 # Optional Parameters
@@ -676,8 +696,9 @@ Creates a snapshot of a cluster.
   - Must match the identifier of an existing `DBCluster`.
 
   Example: `my-cluster`
-- `dbcluster_snapshot_identifier`: The identifier of the cluster snapshot. This parameter
-  is stored as a lowercase string.
+
+- `dbcluster_snapshot_identifier`: The identifier of the cluster snapshot. This parameter is
+  stored as a lowercase string.
 
   Constraints:
 
@@ -743,8 +764,10 @@ Creates a new instance.
 # Arguments
 
 - `dbcluster_identifier`: The identifier of the cluster that the instance will belong to.
+
 - `dbinstance_class`: The compute and memory capacity of the instance; for example,
   `db.r5.large`.
+
 - `dbinstance_identifier`: The instance identifier. This parameter is stored as a lowercase
   string.
 
@@ -755,6 +778,7 @@ Creates a new instance.
   - Cannot end with a hyphen or contain two consecutive hyphens.
 
   Example: `mydbinstance`
+
 - `engine`: The name of the database engine to be used for this instance.
 
   Valid value: `docdb`
@@ -767,49 +791,56 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DocumentDB does not perform minor version upgrades regardless of the value set.
 
   Default: `false`
+
 - `"AvailabilityZone"`: The Amazon EC2 Availability Zone that the instance is created in.
 
-  Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web
-  Services Region.
+  Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services
+  Region.
 
   Example: `us-east-1d`
+
 - `"CACertificateIdentifier"`: The CA certificate identifier to use for the DB instance's
   server certificate.
 
   For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html)
   and [Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html)
   in the *Amazon DocumentDB Developer Guide*.
+
 - `"CopyTagsToSnapshot"`: A value that indicates whether to copy tags from the DB instance
   to snapshots of the DB instance. By default, tags are not copied.
+
 - `"EnablePerformanceInsights"`: A value that indicates whether to enable Performance
   Insights for the DB Instance. For more information, see [Using Amazon Performance Insights](https://docs.aws.amazon.com/documentdb/latest/developerguide/performance-insights.html).
+
 - `"PerformanceInsightsKMSKeyId"`: The KMS key identifier for encryption of Performance
   Insights data.
 
-  The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS
-  key.
+  The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
 
-  If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon DocumentDB
-  uses your default KMS key. There is a default KMS key for your Amazon Web Services
-  account. Your Amazon Web Services account has a different default KMS key for each
-  Amazon Web Services region.
+  If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon DocumentDB uses
+  your default KMS key. There is a default KMS key for your Amazon Web Services account.
+  Your Amazon Web Services account has a different default KMS key for each Amazon Web
+  Services region.
+
 - `"PreferredMaintenanceWindow"`: The time range each week during which system maintenance
   can occur, in Universal Coordinated Time (UTC).
 
   Format: `ddd:hh24:mi-ddd:hh24:mi`
 
-  The default is a 30-minute window selected at random from an 8-hour block of time for
-  each Amazon Web Services Region, occurring on a random day of the week.
+  The default is a 30-minute window selected at random from an 8-hour block of time for each
+  Amazon Web Services Region, occurring on a random day of the week.
 
   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 
   Constraints: Minimum 30-minute window.
+
 - `"PromotionTier"`: A value that specifies the order in which an Amazon DocumentDB replica
   is promoted to the primary instance after a failure of the existing primary instance.
 
   Default: 1
 
   Valid values: 0-15
+
 - `"Tags"`: The tags to be assigned to the instance. You can assign up to 10 tags to an
   instance.
 """
@@ -872,13 +903,15 @@ Availability Zones in the Amazon Web Services Region.
 # Arguments
 
 - `dbsubnet_group_description`: The description for the subnet group.
+
 - `dbsubnet_group_name`: The name for the subnet group. This value is stored as a lowercase
   string.
 
-  Constraints: Must contain no more than 255 letters, numbers, periods, underscores,
-  spaces, or hyphens. Must not be default.
+  Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces,
+  or hyphens. Must not be default.
 
   Example: `mySubnetgroup`
+
 - `subnet_identifier`: The Amazon EC2 subnet IDs for the subnet group.
 
 # Optional Parameters
@@ -939,8 +972,8 @@ end
 
 Creates an Amazon DocumentDB event notification subscription. This action requires a topic
 Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS
-console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic
-in Amazon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console.
+console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in
+Amazon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console.
 
 You can specify the type of source (`SourceType`) that you want to be notified of. You can
 also provide a list of Amazon DocumentDB sources (`SourceIds`) that trigger the events, and
@@ -948,18 +981,19 @@ you can provide a list of event categories (`EventCategories`) for events that y
 be notified of. For example, you can specify `SourceType = db-instance`,
 `SourceIds = mydbinstance1, mydbinstance2` and `EventCategories = Availability, Backup`.
 
-If you specify both the `SourceType` and `SourceIds` (such as `SourceType = db-instance`
-and `SourceIdentifier = myDBInstance1`), you are notified of all the `db-instance` events
-for the specified source. If you specify a `SourceType` but do not specify a
-`SourceIdentifier`, you receive notice of the events for that source type for all your
-Amazon DocumentDB sources. If you do not specify either the `SourceType` or the
-`SourceIdentifier`, you are notified of events generated from all Amazon DocumentDB sources
-belonging to your customer account.
+If you specify both the `SourceType` and `SourceIds` (such as `SourceType = db-instance` and
+`SourceIdentifier = myDBInstance1`), you are notified of all the `db-instance` events for
+the specified source. If you specify a `SourceType` but do not specify a `SourceIdentifier`,
+you receive notice of the events for that source type for all your Amazon DocumentDB
+sources. If you do not specify either the `SourceType` or the `SourceIdentifier`, you are
+notified of events generated from all Amazon DocumentDB sources belonging to your customer
+account.
 
 # Arguments
 
 - `sns_topic_arn`: The Amazon Resource Name (ARN) of the SNS topic created for event
   notification. Amazon SNS creates the ARN when you create a topic and subscribe to it.
+
 - `subscription_name`: The name of the subscription.
 
   Constraints: The name must be fewer than 255 characters.
@@ -970,12 +1004,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Enabled"`: A Boolean value; set to `true` to activate the subscription, set to `false`
   to create the subscription but not active it.
+
 - `"EventCategories"`: A list of event categories for a `SourceType` that you want to
   subscribe to.
-- `"SourceIds"`: The list of identifiers of the event sources for which events are
-  returned. If not specified, then all sources are included in the response. An
-  identifier must begin with a letter and must contain only ASCII letters, digits, and
-  hyphens; it can't end with a hyphen or contain two consecutive hyphens.
+
+- `"SourceIds"`: The list of identifiers of the event sources for which events are returned.
+  If not specified, then all sources are included in the response. An identifier must begin
+  with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with
+  a hyphen or contain two consecutive hyphens.
 
   Constraints:
 
@@ -985,12 +1021,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - If the source type is a parameter group, a `DBParameterGroupName` must be provided.
   - If the source type is a snapshot, a `DBSnapshotIdentifier` must be provided.
 
-- `"SourceType"`: The type of source that is generating the events. For example, if you
-  want to be notified of events generated by an instance, you would set this parameter to
+- `"SourceType"`: The type of source that is generating the events. For example, if you want
+  to be notified of events generated by an instance, you would set this parameter to
   `db-instance`. If this value is not specified, all events are returned.
 
   Valid values: `db-instance`, `db-cluster`, `db-parameter-group`, `db-security-group`,
   `db-cluster-snapshot`
+
 - `"Tags"`: The tags to be assigned to the event subscription.
 """
 function create_event_subscription end
@@ -1055,8 +1092,8 @@ primary of the global cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DatabaseName"`: The name for your database of up to 64 alpha-numeric characters. If you
-  do not provide a name, Amazon DocumentDB will not create a database in the global
-  cluster you are creating.
+  do not provide a name, Amazon DocumentDB will not create a database in the global cluster
+  you are creating.
 - `"DeletionProtection"`: The deletion protection setting for the new global cluster. The
   global cluster can't be deleted when deletion protection is enabled.
 - `"Engine"`: The name of the database engine to be used for this cluster.
@@ -1118,12 +1155,12 @@ specified cluster are not deleted.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"FinalDBSnapshotIdentifier"`: The cluster snapshot identifier of the new cluster
-  snapshot created when `SkipFinalSnapshot` is set to `false`.
+- `"FinalDBSnapshotIdentifier"`: The cluster snapshot identifier of the new cluster snapshot
+  created when `SkipFinalSnapshot` is set to `false`.
 
   !!! note
-      Specifying this parameter and also setting the `SkipFinalShapshot` parameter to
-      `true` results in an error.
+      Specifying this parameter and also setting the `SkipFinalShapshot` parameter to `true`
+      results in an error.
 
   Constraints:
 
@@ -1132,8 +1169,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Cannot end with a hyphen or contain two consecutive hyphens.
 
 - `"SkipFinalSnapshot"`: Determines whether a final cluster snapshot is created before the
-  cluster is deleted. If `true` is specified, no cluster snapshot is created. If `false`
-  is specified, a cluster snapshot is created before the DB cluster is deleted.
+  cluster is deleted. If `true` is specified, no cluster snapshot is created. If `false` is
+  specified, a cluster snapshot is created before the DB cluster is deleted.
 
   !!! note
       If `SkipFinalSnapshot` is `false`, you must specify a `FinalDBSnapshotIdentifier`
@@ -1177,8 +1214,8 @@ end
     delete_dbcluster_parameter_group(dbcluster_parameter_group_name)
     delete_dbcluster_parameter_group(dbcluster_parameter_group_name, params::Dict{String,<:Any})
 
-Deletes a specified cluster parameter group. The cluster parameter group to be deleted
-can't be associated with any clusters.
+Deletes a specified cluster parameter group. The cluster parameter group to be deleted can't
+be associated with any clusters.
 
 # Arguments
 
@@ -1189,7 +1226,6 @@ can't be associated with any clusters.
   - Must be the name of an existing cluster parameter group.
   - You can't delete a default cluster parameter group.
   - Cannot be associated with any clusters.
-
 """
 function delete_dbcluster_parameter_group end
 
@@ -1289,7 +1325,6 @@ Deletes a previously provisioned instance.
   Constraints:
 
   - Must match the name of an existing instance.
-
 """
 function delete_dbinstance end
 
@@ -1474,18 +1509,20 @@ this Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CertificateIdentifier"`: The user-supplied certificate identifier. If this parameter is
-  specified, information for only the specified certificate is returned. If this
-  parameter is omitted, a list of up to `MaxRecords` certificates is returned. This
-  parameter is not case sensitive.
+  specified, information for only the specified certificate is returned. If this parameter
+  is omitted, a list of up to `MaxRecords` certificates is returned. This parameter is not
+  case sensitive.
 
   Constraints
 
   - Must match an existing `CertificateIdentifier`.
 
 - `"Filters"`: This parameter is not currently supported.
+
 - `"Marker"`: An optional pagination token provided by a previous `DescribeCertificates`
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -1496,7 +1533,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - Minimum: 20
   - Maximum: 100
-
 """
 function describe_certificates end
 
@@ -1521,9 +1557,9 @@ end
     describe_dbcluster_parameter_groups()
     describe_dbcluster_parameter_groups(params::Dict{String,<:Any})
 
-Returns a list of `DBClusterParameterGroup` descriptions. If a
-`DBClusterParameterGroupName` parameter is specified, the list contains only the
-description of the specified cluster parameter group.
+Returns a list of `DBClusterParameterGroup` descriptions. If a `DBClusterParameterGroupName`
+parameter is specified, the list contains only the description of the specified cluster
+parameter group.
 
 # Optional Parameters
 
@@ -1537,9 +1573,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - If provided, must match the name of an existing `DBClusterParameterGroup`.
 
 - `"Filters"`: This parameter is not currently supported.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -1579,8 +1617,8 @@ Returns the detailed parameter list for a particular cluster parameter group.
 
 # Arguments
 
-- `dbcluster_parameter_group_name`: The name of a specific cluster parameter group to
-  return parameter details for.
+- `dbcluster_parameter_group_name`: The name of a specific cluster parameter group to return
+  parameter details for.
 
   Constraints:
 
@@ -1591,9 +1629,11 @@ Returns the detailed parameter list for a particular cluster parameter group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: This parameter is not currently supported.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -1601,6 +1641,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 100
 
   Constraints: Minimum 20, maximum 100.
+
 - `"Source"`: A value that indicates to return only parameters for a specific source.
   Parameter sources can be `engine`, `service`, or `customer`.
 """
@@ -1702,33 +1743,37 @@ Returns information about cluster snapshots. This API operation supports paginat
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DBClusterIdentifier"`: The ID of the cluster to retrieve the list of cluster snapshots
-  for. This parameter can't be used with the `DBClusterSnapshotIdentifier` parameter.
-  This parameter is not case sensitive.
+  for. This parameter can't be used with the `DBClusterSnapshotIdentifier` parameter. This
+  parameter is not case sensitive.
 
   Constraints:
 
   - If provided, must match the identifier of an existing `DBCluster`.
 
 - `"DBClusterSnapshotIdentifier"`: A specific cluster snapshot identifier to describe. This
-  parameter can't be used with the `DBClusterIdentifier` parameter. This value is stored
-  as a lowercase string.
+  parameter can't be used with the `DBClusterIdentifier` parameter. This value is stored as
+  a lowercase string.
 
   Constraints:
 
   - If provided, must match the identifier of an existing `DBClusterSnapshot`.
-  - If this identifier is for an automated snapshot, the `SnapshotType` parameter must
-    also be specified.
+  - If this identifier is for an automated snapshot, the `SnapshotType` parameter must also
+    be specified.
 
 - `"Filters"`: This parameter is not currently supported.
+
 - `"IncludePublic"`: Set to `true` to include manual cluster snapshots that are public and
-  can be copied or restored by any Amazon Web Services account, and otherwise `false`.
-  The default is `false`.
+  can be copied or restored by any Amazon Web Services account, and otherwise `false`. The
+  default is `false`.
+
 - `"IncludeShared"`: Set to `true` to include shared manual cluster snapshots from other
   Amazon Web Services accounts that this Amazon Web Services account has been given
   permission to copy or restore, and otherwise `false`. The default is `false`.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -1736,24 +1781,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 100
 
   Constraints: Minimum 20, maximum 100.
-- `"SnapshotType"`: The type of cluster snapshots to be returned. You can specify one of
-  the following values:
+
+- `"SnapshotType"`: The type of cluster snapshots to be returned. You can specify one of the
+  following values:
 
   - `automated` - Return all cluster snapshots that Amazon DocumentDB has automatically
     created for your Amazon Web Services account.
-  - `manual` - Return all cluster snapshots that you have manually created for your
-    Amazon Web Services account.
-  - `shared` - Return all manual cluster snapshots that have been shared to your Amazon
+  - `manual` - Return all cluster snapshots that you have manually created for your Amazon
     Web Services account.
+  - `shared` - Return all manual cluster snapshots that have been shared to your Amazon Web
+    Services account.
   - `public` - Return all cluster snapshots that have been marked as public.
 
   If you don't specify a `SnapshotType` value, then both automated and manual cluster
   snapshots are returned. You can include shared cluster snapshots with these results by
-  setting the `IncludeShared` parameter to `true`. You can include public cluster
-  snapshots with these results by setting the`IncludePublic` parameter to `true`.
+  setting the `IncludeShared` parameter to `true`. You can include public cluster snapshots
+  with these results by setting the`IncludePublic` parameter to `true`.
 
-  The `IncludeShared` and `IncludePublic` parameters don't apply for `SnapshotType`
-  values of `manual` or `automated`. The `IncludePublic` parameter doesn't apply when
+  The `IncludeShared` and `IncludePublic` parameters don't apply for `SnapshotType` values
+  of `manual` or `automated`. The `IncludePublic` parameter doesn't apply when
   `SnapshotType` is set to `shared`. The `IncludeShared` parameter doesn't apply when
   `SnapshotType` is set to `public`.
 """
@@ -1802,13 +1848,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Supported filters:
 
-  - `db-cluster-id` - Accepts cluster identifiers and cluster Amazon Resource Names
-    (ARNs). The results list only includes information about the clusters identified by
-    these ARNs.
+  - `db-cluster-id` - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs).
+    The results list only includes information about the clusters identified by these ARNs.
 
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -1850,22 +1896,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - If provided, must match an existing `DBParameterGroupFamily`.
 
-- `"DefaultOnly"`: Indicates that only the default version of the specified engine or
-  engine and major version combination is returned.
+- `"DefaultOnly"`: Indicates that only the default version of the specified engine or engine
+  and major version combination is returned.
+
 - `"Engine"`: The database engine to return.
+
 - `"EngineVersion"`: The database engine version to return.
 
   Example: `3.6.0`
+
 - `"Filters"`: This parameter is not currently supported.
+
 - `"ListSupportedCharacterSets"`: If this parameter is specified and the requested engine
-  supports the `CharacterSetName` parameter for `CreateDBInstance`, the response includes
-  a list of supported character sets for each engine version.
+  supports the `CharacterSetName` parameter for `CreateDBInstance`, the response includes a
+  list of supported character sets for each engine version.
+
 - `"ListSupportedTimezones"`: If this parameter is specified and the requested engine
-  supports the `TimeZone` parameter for `CreateDBInstance`, the response includes a list
-  of supported time zones for each engine version.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+  supports the `TimeZone` parameter for `CreateDBInstance`, the response includes a list of
+  supported time zones for each engine version.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -1905,8 +1958,8 @@ pagination.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DBInstanceIdentifier"`: The user-provided instance identifier. If this parameter is
-  specified, information from only the specific instance is returned. This parameter
-  isn't case sensitive.
+  specified, information from only the specific instance is returned. This parameter isn't
+  case sensitive.
 
   Constraints:
 
@@ -1916,15 +1969,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Supported filters:
 
-  - `db-cluster-id` - Accepts cluster identifiers and cluster Amazon Resource Names
-    (ARNs). The results list includes only the information about the instances that are
-    associated with the clusters that are identified by these ARNs.
+  - `db-cluster-id` - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs).
+    The results list includes only the information about the instances that are associated
+    with the clusters that are identified by these ARNs.
   - `db-instance-id` - Accepts instance identifiers and instance ARNs. The results list
     includes only the information about the instances that are identified by these ARNs.
 
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -1964,10 +2018,13 @@ list will contain only the descriptions of the specified `DBSubnetGroup`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DBSubnetGroupName"`: The name of the subnet group to return details for.
+
 - `"Filters"`: This parameter is not currently supported.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -2011,9 +2068,11 @@ Returns the default engine and system parameter information for the cluster data
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: This parameter is not currently supported.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -2066,6 +2125,7 @@ source type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: This parameter is not currently supported.
+
 - `"SourceType"`: The type of source that is generating the events.
 
   Valid values: `db-instance`, `db-parameter-group`, `db-security-group`
@@ -2104,9 +2164,11 @@ If you specify a `SubscriptionName`, lists the description for that subscription
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: This parameter is not currently supported.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -2114,6 +2176,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 100
 
   Constraints: Minimum 20, maximum 100.
+
 - `"SubscriptionName"`: The name of the Amazon DocumentDB event notification subscription
   that you want to describe.
 """
@@ -2140,8 +2203,8 @@ end
     describe_events()
     describe_events(params::Dict{String,<:Any})
 
-Returns events related to instances, security groups, snapshots, and DB parameter groups
-for the past 14 days. You can obtain events specific to a particular DB instance, security
+Returns events related to instances, security groups, snapshots, and DB parameter groups for
+the past 14 days. You can obtain events specific to a particular DB instance, security
 group, snapshot, or parameter group by providing the name as a parameter. By default, the
 events of the past hour are returned.
 
@@ -2152,16 +2215,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Duration"`: The number of minutes to retrieve events for.
 
   Default: 60
+
 - `"EndTime"`: The end of the time interval for which to retrieve events, specified in ISO
   8601 format.
 
   Example: 2009-07-08T18:00Z
+
 - `"EventCategories"`: A list of event categories that trigger notifications for an event
   notification subscription.
+
 - `"Filters"`: This parameter is not currently supported.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -2169,8 +2237,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 100
 
   Constraints: Minimum 20, maximum 100.
-- `"SourceIdentifier"`: The identifier of the event source for which events are returned.
-  If not specified, then all sources are included in the response.
+
+- `"SourceIdentifier"`: The identifier of the event source for which events are returned. If
+  not specified, then all sources are included in the response.
 
   Constraints:
 
@@ -2183,8 +2252,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"SourceType"`: The event source to retrieve events for. If no value is specified, all
   events are returned.
-- `"StartTime"`: The beginning of the time interval to retrieve events for, specified in
-  ISO 8601 format.
+
+- `"StartTime"`: The beginning of the time interval to retrieve events for, specified in ISO
+  8601 format.
 
   Example: 2009-07-08T18:00Z
 """
@@ -2217,15 +2287,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: A filter that specifies one or more global DB clusters to describe.
 
-  Supported filters: `db-cluster-id` accepts cluster identifiers and cluster Amazon
-  Resource Names (ARNs). The results list will only include information about the
-  clusters identified by these ARNs.
+  Supported filters: `db-cluster-id` accepts cluster identifiers and cluster Amazon Resource
+  Names (ARNs). The results list will only include information about the clusters identified
+  by these ARNs.
+
 - `"GlobalClusterIdentifier"`: The user-supplied cluster identifier. If this parameter is
   specified, information from only the specific cluster is returned. This parameter isn't
   case-sensitive.
+
 - `"Marker"`: An optional pagination token provided by a previous `DescribeGlobalClusters`
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that you can retrieve the remaining results.
@@ -2265,14 +2338,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DBInstanceClass"`: The instance class filter value. Specify this parameter to show only
   the available offerings that match the specified instance class.
+
 - `"EngineVersion"`: The engine version filter value. Specify this parameter to show only
   the available offerings that match the specified engine version.
+
 - `"Filters"`: This parameter is not currently supported.
+
 - `"LicenseModel"`: The license model filter value. Specify this parameter to show only the
   available offerings that match the specified license model.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -2280,8 +2358,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 100
 
   Constraints: Minimum 20, maximum 100.
-- `"Vpc"`: The virtual private cloud (VPC) filter value. Specify this parameter to show
-  only the available VPC or non-VPC offerings.
+
+- `"Vpc"`: The virtual private cloud (VPC) filter value. Specify this parameter to show only
+  the available VPC or non-VPC offerings.
 """
 function describe_orderable_dbinstance_options end
 
@@ -2323,16 +2402,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Supported filters:
 
-  - `db-cluster-id` - Accepts cluster identifiers and cluster Amazon Resource Names
-    (ARNs). The results list includes only pending maintenance actions for the clusters
-    identified by these ARNs.
+  - `db-cluster-id` - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs).
+    The results list includes only pending maintenance actions for the clusters identified
+    by these ARNs.
   - `db-instance-id` - Accepts instance identifiers and instance ARNs. The results list
-    includes only pending maintenance actions for the DB instances identified by these
-    ARNs.
+    includes only pending maintenance actions for the DB instances identified by these ARNs.
 
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token (marker) is included in
   the response so that the remaining results can be retrieved.
@@ -2340,6 +2419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 100
 
   Constraints: Minimum 20, maximum 100.
+
 - `"ResourceIdentifier"`: The ARN of a resource to return pending maintenance actions for.
 """
 function describe_pending_maintenance_actions end
@@ -2392,8 +2472,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetDBInstanceIdentifier"`: The name of the instance to promote to the primary
   instance.
 
-  You must specify the instance identifier for an Amazon DocumentDB replica in the
-  cluster. For example, `mydbcluster-replica1`.
+  You must specify the instance identifier for an Amazon DocumentDB replica in the cluster.
+  For example, `mydbcluster-replica1`.
 """
 function failover_dbcluster end
 
@@ -2420,10 +2500,9 @@ cluster when failing over a global cluster occurs.
 
 Use this operation to respond to an unplanned event, such as a regional disaster in the
 primary region. Failing over can result in a loss of write transaction data that wasn't
-replicated to the chosen secondary before the failover event occurred. However, the
-recovery process that promotes a DB instance on the chosen seconday DB cluster to be the
-primary writer DB instance guarantees that the data is in a transactionally consistent
-state.
+replicated to the chosen secondary before the failover event occurred. However, the recovery
+process that promotes a DB instance on the chosen seconday DB cluster to be the primary
+writer DB instance guarantees that the data is in a transactionally consistent state.
 
 # Arguments
 
@@ -2437,6 +2516,7 @@ state.
   - Minimum length of 1. Maximum length of 255.
 
   Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+
 - `target_db_cluster_identifier`: The identifier of the secondary Amazon DocumentDB cluster
   that you want to promote to the primary for the global cluster. Use the Amazon Resource
   Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its
@@ -2453,8 +2533,8 @@ state.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AllowDataLoss"`: Specifies whether to allow data loss for this global cluster
-  operation. Allowing data loss triggers a global failover operation.
+- `"AllowDataLoss"`: Specifies whether to allow data loss for this global cluster operation.
+  Allowing data loss triggers a global failover operation.
 
   If you don't specify `AllowDataLoss`, the global cluster operation defaults to a
   switchover.
@@ -2468,7 +2548,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints:
 
   - Can't be specified together with the `AllowDataLoss` parameter.
-
 """
 function failover_global_cluster end
 
@@ -2580,20 +2659,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allowed.
 
   Constraints: You must allow major version upgrades when specifying a value for the
-  `EngineVersion` parameter that is a different major version than the DB cluster's
-  current version.
+  `EngineVersion` parameter that is a different major version than the DB cluster's current
+  version.
+
 - `"ApplyImmediately"`: A value that specifies whether the changes in this request and any
   pending changes are asynchronously applied as soon as possible, regardless of the
-  `PreferredMaintenanceWindow` setting for the cluster. If this parameter is set to
-  `false`, changes to the cluster are applied during the next maintenance window.
+  `PreferredMaintenanceWindow` setting for the cluster. If this parameter is set to `false`,
+  changes to the cluster are applied during the next maintenance window.
 
   The `ApplyImmediately` parameter affects only the `NewDBClusterIdentifier` and
   `MasterUserPassword` values. If you set this parameter value to `false`, the changes to
-  the `NewDBClusterIdentifier` and `MasterUserPassword` values are applied during the
-  next maintenance window. All other changes are applied immediately, regardless of the
-  value of the `ApplyImmediately` parameter.
+  the `NewDBClusterIdentifier` and `MasterUserPassword` values are applied during the next
+  maintenance window. All other changes are applied immediately, regardless of the value of
+  the `ApplyImmediately` parameter.
 
   Default: `false`
+
 - `"BackupRetentionPeriod"`: The number of days for which automated backups are retained.
   You must specify a minimum value of 1.
 
@@ -2607,25 +2688,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enabled for export to Amazon CloudWatch Logs for a specific instance or cluster. The
   `EnableLogTypes` and `DisableLogTypes` arrays determine which logs are exported (or not
   exported) to CloudWatch Logs.
+
 - `"DBClusterParameterGroupName"`: The name of the cluster parameter group to use for the
   cluster.
+
 - `"DeletionProtection"`: Specifies whether this cluster can be deleted. If
-  `DeletionProtection` is enabled, the cluster cannot be deleted unless it is modified
-  and `DeletionProtection` is disabled. `DeletionProtection` protects clusters from being
+  `DeletionProtection` is enabled, the cluster cannot be deleted unless it is modified and
+  `DeletionProtection` is disabled. `DeletionProtection` protects clusters from being
   accidentally deleted.
-- `"EngineVersion"`: The version number of the database engine to which you want to
-  upgrade. Changing this parameter results in an outage. The change is applied during the
-  next maintenance window unless `ApplyImmediately` is enabled.
+
+- `"EngineVersion"`: The version number of the database engine to which you want to upgrade.
+  Changing this parameter results in an outage. The change is applied during the next
+  maintenance window unless `ApplyImmediately` is enabled.
 
   To list all of the available engine versions for Amazon DocumentDB use the following
   command:
 
   `aws docdb describe-db-engine-versions --engine docdb --query "DBEngineVersions[].EngineVersion"`
+
 - `"MasterUserPassword"`: The password for the master database user. This password can
-  contain any printable ASCII character except forward slash (/), double quote ("), or
-  the "at" symbol (@).
+  contain any printable ASCII character except forward slash (/), double quote ("), or the
+  "at" symbol (@).
 
   Constraints: Must contain from 8 to 100 characters.
+
 - `"NewDBClusterIdentifier"`: The new cluster identifier for the cluster when renaming a
   cluster. This value is stored as a lowercase string.
 
@@ -2636,16 +2722,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Cannot end with a hyphen or contain two consecutive hyphens.
 
   Example: `my-cluster2`
+
 - `"Port"`: The port number on which the cluster accepts connections.
 
   Constraints: Must be a value from `1150` to `65535`.
 
   Default: The same port as the original cluster.
-- `"PreferredBackupWindow"`: The daily time range during which automated backups are
-  created if automated backups are enabled, using the `BackupRetentionPeriod` parameter.
 
-  The default is a 30-minute window selected at random from an 8-hour block of time for
-  each Amazon Web Services Region.
+- `"PreferredBackupWindow"`: The daily time range during which automated backups are created
+  if automated backups are enabled, using the `BackupRetentionPeriod` parameter.
+
+  The default is a 30-minute window selected at random from an 8-hour block of time for each
+  Amazon Web Services Region.
 
   Constraints:
 
@@ -2659,12 +2747,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Format: `ddd:hh24:mi-ddd:hh24:mi`
 
-  The default is a 30-minute window selected at random from an 8-hour block of time for
-  each Amazon Web Services Region, occurring on a random day of the week.
+  The default is a 30-minute window selected at random from an 8-hour block of time for each
+  Amazon Web Services Region, occurring on a random day of the week.
 
   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 
   Constraints: Minimum 30-minute window.
+
 - `"StorageType"`: The storage type to associate with the DB cluster.
 
   For information on storage types for Amazon DocumentDB clusters, see Cluster storage
@@ -2673,6 +2762,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid values for storage type - `standard | iopt1`
 
   Default value is `standard`
+
 - `"VpcSecurityGroupIds"`: A list of virtual private cloud (VPC) security groups that the
   cluster will belong to.
 """
@@ -2725,9 +2815,9 @@ maximum of 20 parameters can be modified in a single request.
     creating your first cluster that uses that cluster parameter group as the default
     parameter group. This allows Amazon DocumentDB to fully complete the create action
     before the parameter group is used as the default for a new cluster. This step is
-    especially important for parameters that are critical when creating the default
-    database for a cluster, such as the character set for the default database defined by
-    the `character_set_database` parameter.
+    especially important for parameters that are critical when creating the default database
+    for a cluster, such as the character set for the default database defined by the
+    `character_set_database` parameter.
 
 # Arguments
 
@@ -2792,19 +2882,20 @@ To share a manual cluster snapshot with other Amazon Web Services accounts, spec
 `restore` as the `AttributeName`, and use the `ValuesToAdd` parameter to add a list of IDs
 of the Amazon Web Services accounts that are authorized to restore the manual cluster
 snapshot. Use the value `all` to make the manual cluster snapshot public, which means that
-it can be copied or restored by all Amazon Web Services accounts. Do not add the `all`
-value for any manual cluster snapshots that contain private information that you don't want
-available to all Amazon Web Services accounts. If a manual cluster snapshot is encrypted,
-it can be shared, but only by specifying a list of authorized Amazon Web Services account
-IDs for the `ValuesToAdd` parameter. You can't use `all` as a value for that parameter in
-this case.
+it can be copied or restored by all Amazon Web Services accounts. Do not add the `all` value
+for any manual cluster snapshots that contain private information that you don't want
+available to all Amazon Web Services accounts. If a manual cluster snapshot is encrypted, it
+can be shared, but only by specifying a list of authorized Amazon Web Services account IDs
+for the `ValuesToAdd` parameter. You can't use `all` as a value for that parameter in this
+case.
 
 # Arguments
 
 - `attribute_name`: The name of the cluster snapshot attribute to modify.
 
-  To manage authorization for other Amazon Web Services accounts to copy or restore a
-  manual cluster snapshot, set this value to `restore`.
+  To manage authorization for other Amazon Web Services accounts to copy or restore a manual
+  cluster snapshot, set this value to `restore`.
+
 - `dbcluster_snapshot_identifier`: The identifier for the cluster snapshot to modify the
   attributes for.
 
@@ -2820,15 +2911,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the manual cluster snapshot restorable by any Amazon Web Services account, set it to
   `all`. Do not add the `all` value for any manual cluster snapshots that contain private
   information that you don't want to be available to all Amazon Web Services accounts.
+
 - `"ValuesToRemove"`: A list of cluster snapshot attributes to remove from the attribute
   specified by `AttributeName`.
 
-  To remove authorization for other Amazon Web Services accounts to copy or restore a
-  manual cluster snapshot, set this list to include one or more Amazon Web Services
-  account identifiers. To remove authorization for any Amazon Web Services account to
-  copy or restore the cluster snapshot, set it to `all` . If you specify `all`, an Amazon
-  Web Services account whose account ID is explicitly added to the `restore` attribute
-  can still copy or restore a manual cluster snapshot.
+  To remove authorization for other Amazon Web Services accounts to copy or restore a manual
+  cluster snapshot, set this list to include one or more Amazon Web Services account
+  identifiers. To remove authorization for any Amazon Web Services account to copy or
+  restore the cluster snapshot, set it to `all` . If you specify `all`, an Amazon Web
+  Services account whose account ID is explicitly added to the `restore` attribute can still
+  copy or restore a manual cluster snapshot.
 """
 function modify_dbcluster_snapshot_attribute end
 
@@ -2895,15 +2987,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   modifications are asynchronously applied as soon as possible, regardless of the
   `PreferredMaintenanceWindow` setting for the instance.
 
-  If this parameter is set to `false`, changes to the instance are applied during the
-  next maintenance window. Some parameter changes can cause an outage and are applied on
-  the next reboot.
+  If this parameter is set to `false`, changes to the instance are applied during the next
+  maintenance window. Some parameter changes can cause an outage and are applied on the next
+  reboot.
 
   Default: `false`
+
 - `"AutoMinorVersionUpgrade"`: This parameter does not apply to Amazon DocumentDB. Amazon
   DocumentDB does not perform minor version upgrades regardless of the value set.
+
 - `"CACertificateIdentifier"`: Indicates the certificate that needs to be associated with
   the instance.
+
 - `"CertificateRotationRestart"`: Specifies whether the DB instance is restarted when you
   rotate your SSL/TLS certificate.
 
@@ -2911,30 +3006,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   certificate is not updated until the DB instance is restarted.
 
   !!! important
-      Set this parameter only if you are *not* using SSL/TLS to connect to the DB
-      instance.
+      Set this parameter only if you are *not* using SSL/TLS to connect to the DB instance.
 
   If you are using SSL/TLS to connect to the DB instance, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html)
   and [Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html)
   in the *Amazon DocumentDB Developer Guide*.
+
 - `"CopyTagsToSnapshot"`: A value that indicates whether to copy all tags from the DB
   instance to snapshots of the DB instance. By default, tags are not copied.
+
 - `"DBInstanceClass"`: The new compute and memory capacity of the instance; for example,
-  `db.r5.large`. Not all instance classes are available in all Amazon Web Services
-  Regions.
+  `db.r5.large`. Not all instance classes are available in all Amazon Web Services Regions.
 
   If you modify the instance class, an outage occurs during the change. The change is
   applied during the next maintenance window, unless `ApplyImmediately` is specified as
   `true` for this request.
 
   Default: Uses existing setting.
+
 - `"EnablePerformanceInsights"`: A value that indicates whether to enable Performance
   Insights for the DB Instance. For more information, see [Using Amazon Performance Insights](https://docs.aws.amazon.com/documentdb/latest/developerguide/performance-insights.html).
-- `"NewDBInstanceIdentifier"`: The new instance identifier for the instance when renaming
-  an instance. When you change the instance identifier, an instance reboot occurs
-  immediately if you set `Apply Immediately` to `true`. It occurs during the next
-  maintenance window if you set `Apply Immediately` to `false`. This value is stored as a
-  lowercase string.
+
+- `"NewDBInstanceIdentifier"`: The new instance identifier for the instance when renaming an
+  instance. When you change the instance identifier, an instance reboot occurs immediately
+  if you set `Apply Immediately` to `true`. It occurs during the next maintenance window if
+  you set `Apply Immediately` to `false`. This value is stored as a lowercase string.
 
   Constraints:
 
@@ -2943,24 +3039,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Cannot end with a hyphen or contain two consecutive hyphens.
 
   Example: `mydbinstance`
+
 - `"PerformanceInsightsKMSKeyId"`: The KMS key identifier for encryption of Performance
   Insights data.
 
-  The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS
-  key.
+  The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
 
-  If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon DocumentDB
-  uses your default KMS key. There is a default KMS key for your Amazon Web Services
-  account. Your Amazon Web Services account has a different default KMS key for each
-  Amazon Web Services region.
+  If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon DocumentDB uses
+  your default KMS key. There is a default KMS key for your Amazon Web Services account.
+  Your Amazon Web Services account has a different default KMS key for each Amazon Web
+  Services region.
+
 - `"PreferredMaintenanceWindow"`: The weekly time range (in UTC) during which system
   maintenance can occur, which might result in an outage. Changing this parameter doesn't
   result in an outage except in the following situation, and the change is asynchronously
   applied as soon as possible. If there are pending actions that cause a reboot, and the
-  maintenance window is changed to include the current time, changing this parameter
-  causes a reboot of the instance. If you are moving this window to the current time,
-  there must be at least 30 minutes between the current time and end of the window to
-  ensure that pending changes are applied.
+  maintenance window is changed to include the current time, changing this parameter causes
+  a reboot of the instance. If you are moving this window to the current time, there must be
+  at least 30 minutes between the current time and end of the window to ensure that pending
+  changes are applied.
 
   Default: Uses existing setting.
 
@@ -2969,6 +3066,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 
   Constraints: Must be at least 30 minutes.
+
 - `"PromotionTier"`: A value that specifies the order in which an Amazon DocumentDB replica
   is promoted to the primary instance after a failure of the existing primary instance.
 
@@ -3023,6 +3121,7 @@ least two Availability Zones in the Amazon Web Services Region.
   Constraints: Must match the name of an existing `DBSubnetGroup`. Must not be default.
 
   Example: `mySubnetgroup`
+
 - `subnet_identifier`: The Amazon EC2 subnet IDs for the subnet group.
 
 # Optional Parameters
@@ -3085,14 +3184,17 @@ Modifies an existing Amazon DocumentDB event notification subscription.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Enabled"`: A Boolean value; set to `true` to activate the subscription.
+
 - `"EventCategories"`: A list of event categories for a `SourceType` that you want to
   subscribe to.
+
 - `"SnsTopicArn"`: The Amazon Resource Name (ARN) of the SNS topic created for event
   notification. The ARN is created by Amazon SNS when you create a topic and subscribe to
   it.
-- `"SourceType"`: The type of source that is generating the events. For example, if you
-  want to be notified of events generated by an instance, set this parameter to
-  `db-instance`. If this value is not specified, all events are returned.
+
+- `"SourceType"`: The type of source that is generating the events. For example, if you want
+  to be notified of events generated by an instance, set this parameter to `db-instance`. If
+  this value is not specified, all events are returned.
 
   Valid values: `db-instance`, `db-parameter-group`, `db-security-group`
 """
@@ -3152,6 +3254,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DeletionProtection"`: Indicates if the global cluster has deletion protection enabled.
   The global cluster can't be deleted when deletion protection is enabled.
+
 - `"NewGlobalClusterIdentifier"`: The new identifier for a global cluster when you modify a
   global cluster. This value is stored as a lowercase string.
 
@@ -3199,12 +3302,12 @@ end
     reboot_dbinstance(dbinstance_identifier)
     reboot_dbinstance(dbinstance_identifier, params::Dict{String,<:Any})
 
-You might need to reboot your instance, usually for maintenance reasons. For example, if
-you make certain changes, or if you change the cluster parameter group that is associated
-with the instance, you must reboot the instance for the changes to take effect.
+You might need to reboot your instance, usually for maintenance reasons. For example, if you
+make certain changes, or if you change the cluster parameter group that is associated with
+the instance, you must reboot the instance for the changes to take effect.
 
-Rebooting an instance restarts the database engine service. Rebooting an instance results
-in a momentary outage, during which the instance status is set to *rebooting*.
+Rebooting an instance restarts the database engine service. Rebooting an instance results in
+a momentary outage, during which the instance status is set to *rebooting*.
 
 # Arguments
 
@@ -3259,9 +3362,9 @@ end
     remove_from_global_cluster(db_cluster_identifier, global_cluster_identifier)
     remove_from_global_cluster(db_cluster_identifier, global_cluster_identifier, params::Dict{String,<:Any})
 
-Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes
-a standalone cluster with read-write capability instead of being read-only and receiving
-data from a primary in a different region.
+Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a
+standalone cluster with read-write capability instead of being read-only and receiving data
+from a primary in a different region.
 
 !!! note
     This action only applies to Amazon DocumentDB clusters.
@@ -3374,8 +3477,8 @@ Removes metadata tags from an Amazon DocumentDB resource.
 
 # Arguments
 
-- `resource_name`: The Amazon DocumentDB resource that the tags are removed from. This
-  value is an Amazon Resource Name (ARN).
+- `resource_name`: The Amazon DocumentDB resource that the tags are removed from. This value
+  is an Amazon Resource Name (ARN).
 - `tag_keys`: The tag key (name) of the tag to be removed.
 """
 function remove_tags_from_resource end
@@ -3415,9 +3518,9 @@ end
     reset_dbcluster_parameter_group(dbcluster_parameter_group_name)
     reset_dbcluster_parameter_group(dbcluster_parameter_group_name, params::Dict{String,<:Any})
 
-Modifies the parameters of a cluster parameter group to the default value. To reset
-specific parameters, submit a list of the following: `ParameterName` and `ApplyMethod`. To
-reset the entire cluster parameter group, specify the `DBClusterParameterGroupName` and
+Modifies the parameters of a cluster parameter group to the default value. To reset specific
+parameters, submit a list of the following: `ParameterName` and `ApplyMethod`. To reset the
+entire cluster parameter group, specify the `DBClusterParameterGroupName` and
 `ResetAllParameters` parameters.
 
 When you reset the entire group, dynamic parameters are updated immediately and static
@@ -3432,12 +3535,11 @@ parameters are set to `pending-reboot` to take effect on the next DB instance re
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Parameters"`: A list of parameter names in the cluster parameter group to reset to the
-  default values. You can't use this parameter if the `ResetAllParameters` parameter is
-  set to `true`.
+  default values. You can't use this parameter if the `ResetAllParameters` parameter is set
+  to `true`.
 - `"ResetAllParameters"`: A value that is set to `true` to reset all parameters in the
-  cluster parameter group to their default values, and `false` otherwise. You can't use
-  this parameter if there is a list of parameter names specified for the `Parameters`
-  parameter.
+  cluster parameter group to their default values, and `false` otherwise. You can't use this
+  parameter if there is a list of parameter names specified for the `Parameters` parameter.
 """
 function reset_dbcluster_parameter_group end
 
@@ -3479,12 +3581,12 @@ end
 
 Creates a new cluster from a snapshot or cluster snapshot.
 
-If a snapshot is specified, the target cluster is created from the source DB snapshot with
-a default configuration and default security group.
+If a snapshot is specified, the target cluster is created from the source DB snapshot with a
+default configuration and default security group.
 
 If a cluster snapshot is specified, the target cluster is created from the source cluster
-restore point with the same configuration as the original source DB cluster, except that
-the new cluster is created with the default security group.
+restore point with the same configuration as the original source DB cluster, except that the
+new cluster is created with the default security group.
 
 # Arguments
 
@@ -3498,11 +3600,13 @@ the new cluster is created with the default security group.
   - Cannot end with a hyphen or contain two consecutive hyphens.
 
   Example: `my-snapshot-id`
+
 - `engine`: The database engine to use for the new cluster.
 
   Default: The same as source.
 
   Constraint: Must be compatible with the engine of the source.
+
 - `snapshot_identifier`: The identifier for the snapshot or cluster snapshot to restore
   from.
 
@@ -3519,48 +3623,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AvailabilityZones"`: Provides the list of Amazon EC2 Availability Zones that instances
   in the restored DB cluster can be created in.
+
 - `"DBClusterParameterGroupName"`: The name of the DB cluster parameter group to associate
   with this DB cluster.
 
-  *Type:* String.       *Required:* No.
+  *Type:* String. *Required:* No.
 
-  If this argument is omitted, the default DB cluster parameter group is used. If
-  supplied, must match the name of an existing default DB cluster parameter group. The
-  string must consist of from 1 to 255 letters, numbers or hyphens. Its first character
-  must be a letter, and it cannot end with a hyphen or contain two consecutive hyphens.
+  If this argument is omitted, the default DB cluster parameter group is used. If supplied,
+  must match the name of an existing default DB cluster parameter group. The string must
+  consist of from 1 to 255 letters, numbers or hyphens. Its first character must be a
+  letter, and it cannot end with a hyphen or contain two consecutive hyphens.
+
 - `"DBSubnetGroupName"`: The name of the subnet group to use for the new cluster.
 
   Constraints: If provided, must match the name of an existing `DBSubnetGroup`.
 
   Example: `mySubnetgroup`
+
 - `"DeletionProtection"`: Specifies whether this cluster can be deleted. If
-  `DeletionProtection` is enabled, the cluster cannot be deleted unless it is modified
-  and `DeletionProtection` is disabled. `DeletionProtection` protects clusters from being
+  `DeletionProtection` is enabled, the cluster cannot be deleted unless it is modified and
+  `DeletionProtection` is disabled. `DeletionProtection` protects clusters from being
   accidentally deleted.
-- `"EnableCloudwatchLogsExports"`: A list of log types that must be enabled for exporting
-  to Amazon CloudWatch Logs.
+
+- `"EnableCloudwatchLogsExports"`: A list of log types that must be enabled for exporting to
+  Amazon CloudWatch Logs.
+
 - `"EngineVersion"`: The version of the database engine to use for the new cluster.
+
 - `"KmsKeyId"`: The KMS key identifier to use when restoring an encrypted cluster from a DB
   snapshot or cluster snapshot.
 
   The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If
   you are restoring a cluster with the same Amazon Web Services account that owns the KMS
-  encryption key used to encrypt the new cluster, then you can use the KMS key alias
-  instead of the ARN for the KMS encryption key.
+  encryption key used to encrypt the new cluster, then you can use the KMS key alias instead
+  of the ARN for the KMS encryption key.
 
   If you do not specify a value for the `KmsKeyId` parameter, then the following occurs:
 
   - If the snapshot or cluster snapshot in `SnapshotIdentifier` is encrypted, then the
-    restored cluster is encrypted using the KMS key that was used to encrypt the snapshot
-    or the cluster snapshot.
-  - If the snapshot or the cluster snapshot in `SnapshotIdentifier` is not encrypted,
-    then the restored DB cluster is not encrypted.
+    restored cluster is encrypted using the KMS key that was used to encrypt the snapshot or
+    the cluster snapshot.
+  - If the snapshot or the cluster snapshot in `SnapshotIdentifier` is not encrypted, then
+    the restored DB cluster is not encrypted.
 
 - `"Port"`: The port number on which the new cluster accepts connections.
 
   Constraints: Must be a value from `1150` to `65535`.
 
   Default: The same port as the original cluster.
+
 - `"StorageType"`: The storage type to associate with the DB cluster.
 
   For information on storage types for Amazon DocumentDB clusters, see Cluster storage
@@ -3569,7 +3680,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid values for storage type - `standard | iopt1`
 
   Default value is `standard`
+
 - `"Tags"`: The tags to be assigned to the restored cluster.
+
 - `"VpcSecurityGroupIds"`: A list of virtual private cloud (VPC) security groups that the
   new cluster will belong to.
 """
@@ -3637,8 +3750,7 @@ that the new cluster is created with the default security group.
   - The first character must be a letter.
   - Cannot end with a hyphen or contain two consecutive hyphens.
 
-- `source_dbcluster_identifier`: The identifier of the source cluster from which to
-  restore.
+- `source_dbcluster_identifier`: The identifier of the source cluster from which to restore.
 
   Constraints:
 
@@ -3653,19 +3765,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: If provided, must match the name of an existing `DBSubnetGroup`.
 
   Example: `mySubnetgroup`
+
 - `"DeletionProtection"`: Specifies whether this cluster can be deleted. If
-  `DeletionProtection` is enabled, the cluster cannot be deleted unless it is modified
-  and `DeletionProtection` is disabled. `DeletionProtection` protects clusters from being
+  `DeletionProtection` is enabled, the cluster cannot be deleted unless it is modified and
+  `DeletionProtection` is disabled. `DeletionProtection` protects clusters from being
   accidentally deleted.
-- `"EnableCloudwatchLogsExports"`: A list of log types that must be enabled for exporting
-  to Amazon CloudWatch Logs.
+
+- `"EnableCloudwatchLogsExports"`: A list of log types that must be enabled for exporting to
+  Amazon CloudWatch Logs.
+
 - `"KmsKeyId"`: The KMS key identifier to use when restoring an encrypted cluster from an
   encrypted cluster.
 
   The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If
   you are restoring a cluster with the same Amazon Web Services account that owns the KMS
-  encryption key used to encrypt the new cluster, then you can use the KMS key alias
-  instead of the ARN for the KMS encryption key.
+  encryption key used to encrypt the new cluster, then you can use the KMS key alias instead
+  of the ARN for the KMS encryption key.
 
   You can restore to a new cluster and encrypt the new cluster with an KMS key that is
   different from the KMS key used to encrypt the source cluster. The new DB cluster is
@@ -3679,11 +3794,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If `DBClusterIdentifier` refers to a cluster that is not encrypted, then the restore
   request is rejected.
+
 - `"Port"`: The port number on which the new cluster accepts connections.
 
   Constraints: Must be a value from `1150` to `65535`.
 
   Default: The default port for the engine.
+
 - `"RestoreToTime"`: The date and time to restore the cluster to.
 
   Valid values: A time in Universal Coordinated Time (UTC) format.
@@ -3696,8 +3813,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Cannot be specified if the `RestoreType` parameter is `copy-on-write`.
 
   Example: `2015-03-07T23:45:00Z`
-- `"RestoreType"`: The type of restore to be performed. You can specify one of the
-  following values:
+
+- `"RestoreType"`: The type of restore to be performed. You can specify one of the following
+  values:
 
   - `full-copy` - The new DB cluster is restored as a full copy of the source DB cluster.
   - `copy-on-write` - The new DB cluster is restored as a clone of the source DB cluster.
@@ -3705,8 +3823,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: You can't specify `copy-on-write` if the engine version of the source DB
   cluster is earlier than 1.11.
 
-  If you don't specify a `RestoreType` value, then the new DB cluster is restored as a
-  full copy of the source DB cluster.
+  If you don't specify a `RestoreType` value, then the new DB cluster is restored as a full
+  copy of the source DB cluster.
+
 - `"StorageType"`: The storage type to associate with the DB cluster.
 
   For information on storage types for Amazon DocumentDB clusters, see Cluster storage
@@ -3715,13 +3834,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid values for storage type - `standard | iopt1`
 
   Default value is `standard`
+
 - `"Tags"`: The tags to be assigned to the restored cluster.
+
 - `"UseLatestRestorableTime"`: A value that is set to `true` to restore the cluster to the
   latest restorable backup time, and `false` otherwise.
 
   Default: `false`
 
   Constraints: Cannot be specified if the `RestoreToTime` parameter is provided.
+
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the new cluster belongs to.
 """
 function restore_dbcluster_to_point_in_time end
@@ -3813,8 +3935,8 @@ end
     stop_dbcluster(dbcluster_identifier)
     stop_dbcluster(dbcluster_identifier, params::Dict{String,<:Any})
 
-Stops the running cluster that is specified by `DBClusterIdentifier`. The cluster must be
-in the *available* state. For more information, see [Stopping and Starting an Amazon DocumentDB Cluster](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html).
+Stops the running cluster that is specified by `DBClusterIdentifier`. The cluster must be in
+the *available* state. For more information, see [Stopping and Starting an Amazon DocumentDB Cluster](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html).
 
 # Arguments
 
@@ -3857,8 +3979,8 @@ end
     switchover_global_cluster(global_cluster_identifier, target_db_cluster_identifier)
     switchover_global_cluster(global_cluster_identifier, target_db_cluster_identifier, params::Dict{String,<:Any})
 
-Switches over the specified secondary Amazon DocumentDB cluster to be the new primary
-Amazon DocumentDB cluster in the global database cluster.
+Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon
+DocumentDB cluster in the global database cluster.
 
 # Arguments
 
@@ -3874,6 +3996,7 @@ Amazon DocumentDB cluster in the global database cluster.
   - Minimum length of 1. Maximum length of 255.
 
   Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+
 - `target_db_cluster_identifier`: The identifier of the secondary Amazon DocumentDB cluster
   to promote to the new primary for the global database cluster. Use the Amazon Resource
   Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its

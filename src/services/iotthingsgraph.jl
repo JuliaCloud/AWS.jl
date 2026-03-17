@@ -20,6 +20,7 @@ new device id, its previous association will be removed.
   The ID should be in the following format.
 
   `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
+
 - `thing_name`: The name of the thing to which the entity is to be associated.
 
 # Optional Parameters
@@ -68,8 +69,8 @@ end
 
 Creates a workflow template. Workflows can be created only in the user's namespace. (The
 public namespace contains only entities.) The workflow can contain only entities in the
-specified namespace. The workflow is validated against the entities in the latest version
-of the user's namespace unless another namespace version is specified in the request.
+specified namespace. The workflow is validated against the entities in the latest version of
+the user's namespace unless another namespace version is specified in the request.
 
 # Arguments
 
@@ -121,8 +122,7 @@ Creates a system instance.
 This action validates the system instance, prepares the deployment-related resources. For
 Greengrass deployments, it updates the Greengrass group that is specified by the
 `greengrassGroupName` parameter. It also adds a file to the S3 bucket specified by the
-`s3BucketName` parameter. You need to call `DeploySystemInstance` after running this
-action.
+`s3BucketName` parameter. You need to call `DeploySystemInstance` after running this action.
 
 For Greengrass deployments, since this action modifies and adds resources to a Greengrass
 group and an S3 bucket on the caller's behalf, the calling identity must have write
@@ -145,10 +145,10 @@ version will be used by default.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"flowActionsRoleArn"`: The ARN of the IAM role that AWS IoT Things Graph will assume
-  when it executes the flow. This role must have read and write access to AWS Lambda and
-  AWS IoT and any other AWS services that the flow uses when it executes. This value is
-  required if the value of the `target` parameter is `CLOUD`.
+- `"flowActionsRoleArn"`: The ARN of the IAM role that AWS IoT Things Graph will assume when
+  it executes the flow. This role must have read and write access to AWS Lambda and AWS IoT
+  and any other AWS services that the flow uses when it executes. This value is required if
+  the value of the `target` parameter is `CLOUD`.
 - `"greengrassGroupName"`: The name of the Greengrass group where the system instance will
   be deployed. This value is required if the value of the `target` parameter is
   `GREENGRASS`.
@@ -245,8 +245,8 @@ end
     delete_flow_template(id, params::Dict{String,<:Any})
 
 Deletes a workflow. Any new system or deployment that contains this workflow will fail to
-update or deploy. Existing deployments that contain the workflow will continue to run
-(since they use a snapshot of the workflow taken at the time of deployment).
+update or deploy. Existing deployments that contain the workflow will continue to run (since
+they use a snapshot of the workflow taken at the time of deployment).
 
 # Arguments
 
@@ -306,8 +306,8 @@ end
     delete_system_instance()
     delete_system_instance(params::Dict{String,<:Any})
 
-Deletes a system instance. Only system instances that have never been deployed, or that
-have been undeployed can be deleted.
+Deletes a system instance. Only system instances that have never been deployed, or that have
+been undeployed can be deleted.
 
 Users can create a new system instance that has the same ID as a deleted system instance.
 
@@ -341,8 +341,8 @@ end
     delete_system_template(id, params::Dict{String,<:Any})
 
 Deletes a system. New deployments can't contain the system after its deletion. Existing
-deployments that contain the system will continue to work because they use a snapshot of
-the system that is taken when it is deployed.
+deployments that contain the system will continue to work because they use a snapshot of the
+system that is taken when it is deployed.
 
 # Arguments
 
@@ -878,8 +878,8 @@ Gets the status of the specified upload.
 
 # Arguments
 
-- `upload_id`: The ID of the upload. This value is returned by the
-  `UploadEntityDefinitions` action.
+- `upload_id`: The ID of the upload. This value is returned by the `UploadEntityDefinitions`
+  action.
 """
 function get_upload_status end
 
@@ -1016,16 +1016,19 @@ and the public namespace that you're tracking.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filters"`: Optional filter to apply to the search. Valid filters are `NAME`
-  `NAMESPACE`, `SEMANTIC_TYPE_PATH` and `REFERENCED_ENTITY_ID`. `REFERENCED_ENTITY_ID`
-  filters on entities that are used by the entity in the result set. For example, you can
-  filter on the ID of a property that is used in a state.
+- `"filters"`: Optional filter to apply to the search. Valid filters are `NAME` `NAMESPACE`,
+  `SEMANTIC_TYPE_PATH` and `REFERENCED_ENTITY_ID`. `REFERENCED_ENTITY_ID` filters on
+  entities that are used by the entity in the result set. For example, you can filter on the
+  ID of a property that is used in a state.
 
-  Multiple filters function as OR criteria in the query. Multiple values passed inside
-  the filter function as AND criteria.
+  Multiple filters function as OR criteria in the query. Multiple values passed inside the
+  filter function as AND criteria.
+
 - `"maxResults"`: The maximum number of results to return in the response.
+
 - `"namespaceVersion"`: The version of the user's namespace. Defaults to the latest version
   of the user's namespace.
+
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
@@ -1154,9 +1157,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Optional filter to apply to the search. Valid filters are
   `SYSTEM_TEMPLATE_ID`, `STATUS`, and `GREENGRASS_GROUP_NAME`.
 
-  Multiple filters function as OR criteria in the query. Multiple values passed inside
-  the filter function as AND criteria.
+  Multiple filters function as OR criteria in the query. Multiple values passed inside the
+  filter function as AND criteria.
+
 - `"maxResults"`: The maximum number of results to return in the response.
+
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
@@ -1224,8 +1229,8 @@ device model.
 
 For example, if two different devices, camera1 and camera2, implement the camera device
 model, the user can associate thing1 to camera1 and thing2 to camera2.
-`SearchThings(camera2)` will return only thing2, but `SearchThings(camera)` will return
-both thing1 and thing2.
+`SearchThings(camera2)` will return only thing2, but `SearchThings(camera)` will return both
+thing1 and thing2.
 
 This action searches for exact matches and doesn't perform partial text matching.
 
@@ -1356,11 +1361,12 @@ Removes a tag from the specified resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags are to be
   removed.
+
 - `tag_keys`: A list of tag key names to remove from the resource. You don't specify the
   value. Both the key and its associated value are removed.
 
-  This parameter to the API requires a JSON text string argument. For information on how
-  to format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json)
+  This parameter to the API requires a JSON text string argument. For information on how to
+  format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json)
   in the *AWS CLI User Guide*.
 """
 function untag_resource end
@@ -1408,6 +1414,7 @@ copy. The workflow can contain only entities in the specified namespace.
 # Arguments
 
 - `definition`: The `DefinitionDocument` that contains the updated workflow definition.
+
 - `id`: The ID of the workflow to be updated.
 
   The ID should be in the following format.
@@ -1465,6 +1472,7 @@ redeployed.
 # Arguments
 
 - `definition`: The `DefinitionDocument` that contains the updated system definition.
+
 - `id`: The ID of the system to be updated.
 
   The ID should be in the following format.
@@ -1517,8 +1525,8 @@ end
 
 Asynchronously uploads one or more entity definitions to the user's namespace. The
 `document` parameter is required if `syncWithPublicNamespace` and `deleteExistingEntites`
-are false. If the `syncWithPublicNamespace` parameter is set to `true`, the user's
-namespace will synchronize with the latest version of the public namespace. If
+are false. If the `syncWithPublicNamespace` parameter is set to `true`, the user's namespace
+will synchronize with the latest version of the public namespace. If
 `deprecateExistingEntities` is set to true, all entities in the latest version will be
 deleted before the new `DefinitionDocument` is uploaded.
 
@@ -1540,8 +1548,8 @@ Valid entities are `Device`, `DeviceModel`, `Service`, `Capability`, `State`, `A
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"deprecateExistingEntities"`: A Boolean that specifies whether to deprecate all entities
-  in the latest version before uploading the new `DefinitionDocument`. If set to `true`,
-  the upload will create a new namespace version.
+  in the latest version before uploading the new `DefinitionDocument`. If set to `true`, the
+  upload will create a new namespace version.
 - `"document"`: The `DefinitionDocument` that defines the updated entities.
 - `"syncWithPublicNamespace"`: A Boolean that specifies whether to synchronize with the
   latest version of the public namespace. If set to `true`, the upload will create a new

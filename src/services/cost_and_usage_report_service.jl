@@ -12,8 +12,8 @@ Deletes the specified report. Any tags associated with the report are also delet
 
 # Arguments
 
-- `report_name`: The name of the report that you want to delete. The name must be unique,
-  is case sensitive, and can't include spaces.
+- `report_name`: The name of the report that you want to delete. The name must be unique, is
+  case sensitive, and can't include spaces.
 """
 function delete_report_definition end
 

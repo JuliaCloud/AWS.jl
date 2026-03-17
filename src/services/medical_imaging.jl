@@ -78,8 +78,8 @@ Create a data store.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"datastoreName"`: The data store name.
-- `"kmsKeyArn"`: The Amazon Resource Name (ARN) assigned to the Key Management Service
-  (KMS) key for accessing encrypted data.
+- `"kmsKeyArn"`: The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS)
+  key for accessing encrypted data.
 - `"tags"`: The tags provided when creating a data store.
 """
 function create_datastore end
@@ -232,8 +232,8 @@ Get the import job properties to learn more about the job or job progress.
     The `jobStatus` refers to the execution of the import job. Therefore, an import job can
     return a `jobStatus` as `COMPLETED` even if validation issues are discovered during the
     import process. If a `jobStatus` returns as `COMPLETED`, we still recommend you review
-    the output manifests written to S3, as they provide details on the success or failure
-    of individual P10 object imports.
+    the output manifests written to S3, as they provide details on the success or failure of
+    individual P10 object imports.
 
 # Arguments
 
@@ -582,8 +582,8 @@ Search image sets based on defined input attributes.
     response of all image sets that have the matching criteria. All date range queries must
     be input as `(lowerBound, upperBound)`.
 
-    By default, `SearchImageSets` uses the `updatedAt` field for sorting in descending
-    order from newest to oldest.
+    By default, `SearchImageSets` uses the `updatedAt` field for sorting in descending order
+    from newest to oldest.
 
 # Arguments
 
@@ -804,10 +804,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"force"`: Setting this flag will force the [`update_image_set_metadata`](@ref) operation
   for the following attributes:
 
-  - `Tag.StudyInstanceUID`, `Tag.SeriesInstanceUID`, `Tag.SOPInstanceUID`, and
-    `Tag.StudyID`
+  - `Tag.StudyInstanceUID`, `Tag.SeriesInstanceUID`, `Tag.SOPInstanceUID`, and `Tag.StudyID`
   - Adding, removing, or updating private tags for an individual SOP Instance
-
 """
 function update_image_set_metadata end
 

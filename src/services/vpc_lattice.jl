@@ -69,8 +69,8 @@ in the *Amazon VPC Lattice User Guide*.
 # Arguments
 
 - `destination_arn`: The Amazon Resource Name (ARN) of the destination. The supported
-  destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams,
-  and Amazon S3 buckets.
+  destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams, and
+  Amazon S3 buckets.
 - `resource_identifier`: The ID or Amazon Resource Name (ARN) of the service network or
   service.
 
@@ -79,9 +79,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using
-  the same client token and parameters, the retry succeeds without performing any
-  actions. If the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the access log subscription.
 """
 function create_access_log_subscription end
@@ -151,9 +151,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using
-  the same client token and parameters, the retry succeeds without performing any
-  actions. If the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"port"`: The listener port. You can specify a value from 1 to 65535. For HTTP, the
   default is 80. For HTTPS, the default is 443.
 - `"tags"`: The tags for the listener.
@@ -226,8 +226,8 @@ in the *Amazon VPC Lattice User Guide*.
 - `name`: The name of the rule. The name must be unique within the listener. The valid
   characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last
   character, or immediately after another hyphen.
-- `priority`: The priority assigned to the rule. Each rule for a specific listener must
-  have a unique priority. The lower the priority number the higher the priority.
+- `priority`: The priority assigned to the rule. Each rule for a specific listener must have
+  a unique priority. The lower the priority number the higher the priority.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 # Optional Parameters
@@ -235,9 +235,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using
-  the same client token and parameters, the retry succeeds without performing any
-  actions. If the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the rule.
 """
 function create_rule end
@@ -320,15 +320,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authType"`: The type of IAM policy.
 
   - `NONE`: The resource does not use an IAM policy. This is the default.
-  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-    and an auth policy is required.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled and
+    an auth policy is required.
 
 - `"certificateArn"`: The Amazon Resource Name (ARN) of the certificate.
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using
-  the same client token and parameters, the retry succeeds without performing any
-  actions. If the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
+
 - `"customDomainName"`: The custom domain name of the service.
+
 - `"tags"`: The tags for the service.
 """
 function create_service end
@@ -373,9 +376,9 @@ in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
 
-- `name`: The name of the service network. The name must be unique to the account. The
-  valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or
-  last character, or immediately after another hyphen.
+- `name`: The name of the service network. The name must be unique to the account. The valid
+  characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last
+  character, or immediately after another hyphen.
 
 # Optional Parameters
 
@@ -384,13 +387,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authType"`: The type of IAM policy.
 
   - `NONE`: The resource does not use an IAM policy. This is the default.
-  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-    and an auth policy is required.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled and
+    an auth policy is required.
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using
-  the same client token and parameters, the retry succeeds without performing any
-  actions. If the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
+
 - `"tags"`: The tags for the service network.
 """
 function create_service_network end
@@ -430,31 +434,31 @@ end
 Associates a service with a service network. For more information, see [Manage service associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-service-associations)
 in the *Amazon VPC Lattice User Guide*.
 
-You can't use this operation if the service and service network are already associated or
-if there is a disassociation or deletion in progress. If the association fails, you can
-retry the operation by deleting the association and recreating it.
+You can't use this operation if the service and service network are already associated or if
+there is a disassociation or deletion in progress. If the association fails, you can retry
+the operation by deleting the association and recreating it.
 
-You cannot associate a service and service network that are shared with a caller. The
-caller must own either the service or the service network.
+You cannot associate a service and service network that are shared with a caller. The caller
+must own either the service or the service network.
 
-As a result of this operation, the association is created in the service network account
-and the association owner account.
+As a result of this operation, the association is created in the service network account and
+the association owner account.
 
 # Arguments
 
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
-- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service
-  network. You must use the ARN if the resources specified in the operation are in
-  different accounts.
+- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
+  You must use the ARN if the resources specified in the operation are in different
+  accounts.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using
-  the same client token and parameters, the retry succeeds without performing any
-  actions. If the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the association.
 """
 function create_service_network_service_association end
@@ -517,16 +521,16 @@ fails, retry by deleting the association and recreating it.
 As a result of this operation, the association gets created in the service network account
 and the VPC owner account.
 
-If you add a security group to the service network and VPC association, the association
-must continue to always have at least one security group. You can add or edit security
-groups at any time. However, to remove all security groups, you must first delete the
-association and recreate it without security groups.
+If you add a security group to the service network and VPC association, the association must
+continue to always have at least one security group. You can add or edit security groups at
+any time. However, to remove all security groups, you must first delete the association and
+recreate it without security groups.
 
 # Arguments
 
-- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service
-  network. You must use the ARN when the resources specified in the operation are in
-  different accounts.
+- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
+  You must use the ARN when the resources specified in the operation are in different
+  accounts.
 - `vpc_identifier`: The ID of the VPC.
 
 # Optional Parameters
@@ -534,14 +538,16 @@ association and recreate it without security groups.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using
-  the same client token and parameters, the retry succeeds without performing any
-  actions. If the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
+
 - `"securityGroupIds"`: The IDs of the security groups. Security groups aren't added by
   default. You can add a security group to apply network level controls to control which
   resources in a VPC are allowed to access the service network and its services. For more
   information, see [Control traffic to resources using security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html)
   in the *Amazon VPC User Guide*.
+
 - `"tags"`: The tags for the association.
 """
 function create_service_network_vpc_association end
@@ -611,9 +617,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using
-  the same client token and parameters, the retry succeeds without performing any
-  actions. If the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"config"`: The target group configuration.
 - `"tags"`: The tags for the target group.
 """
@@ -696,8 +702,8 @@ end
 
 Deletes the specified auth policy. If an auth is set to `AWS_IAM` and the auth policy is
 deleted, all requests are denied. If you are trying to remove the auth policy completely,
-you must set the auth type to `NONE`. If auth is enabled on the resource, but no auth
-policy is set, all requests are denied.
+you must set the auth type to `NONE`. If auth is enabled on the resource, but no auth policy
+is set, all requests are denied.
 
 # Arguments
 
@@ -903,10 +909,10 @@ end
     delete_service_network(service_network_identifier)
     delete_service_network(service_network_identifier, params::Dict{String,<:Any})
 
-Deletes a service network. You can only delete the service network if there is no service
-or VPC associated with it. If you delete a service network, all resources related to the
-service network, such as the resource policy, auth policy, and access log subscriptions,
-are also deleted. For more information, see [Delete a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#delete-service-network)
+Deletes a service network. You can only delete the service network if there is no service or
+VPC associated with it. If you delete a service network, all resources related to the
+service network, such as the resource policy, auth policy, and access log subscriptions, are
+also deleted. For more information, see [Delete a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#delete-service-network)
 in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
@@ -984,8 +990,8 @@ end
     delete_service_network_vpc_association(service_network_vpc_association_identifier)
     delete_service_network_vpc_association(service_network_vpc_association_identifier, params::Dict{String,<:Any})
 
-Disassociates the VPC from the service network. You can't disassociate the VPC if there is
-a create or update association in progress.
+Disassociates the VPC from the service network. You can't disassociate the VPC if there is a
+create or update association in progress.
 
 # Arguments
 
@@ -1634,8 +1640,8 @@ end
     list_service_network_service_associations(params::Dict{String,<:Any})
 
 Lists the associations between the service network and the service. You can filter the list
-either by service or service network. You must provide either the service network
-identifier or the service identifier.
+either by service or service network. You must provide either the service network identifier
+or the service identifier.
 
 Every association in Amazon VPC Lattice is given a unique Amazon Resource Name (ARN), such
 as when a service network is associated with a VPC or when a service is associated with a
@@ -1951,16 +1957,16 @@ end
     put_resource_policy(policy, resource_arn)
     put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
 
-Attaches a resource-based permission policy to a service or service network. The policy
-must contain the same actions and condition statements as the Amazon Web Services Resource
-Access Manager permission for sharing services and service networks.
+Attaches a resource-based permission policy to a service or service network. The policy must
+contain the same actions and condition statements as the Amazon Web Services Resource Access
+Manager permission for sharing services and service networks.
 
 # Arguments
 
 - `policy`: An IAM policy. The policy string in JSON must not contain newlines or blank
   lines.
-- `resource_arn`: The ID or Amazon Resource Name (ARN) of the service network or service
-  for which the policy is created.
+- `resource_arn`: The ID or Amazon Resource Name (ARN) of the service network or service for
+  which the policy is created.
 """
 function put_resource_policy end
 
@@ -2273,8 +2279,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authType"`: The type of IAM policy.
 
   - `NONE`: The resource does not use an IAM policy. This is the default.
-  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-    and an auth policy is required.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled and
+    an auth policy is required.
 
 - `"certificateArn"`: The Amazon Resource Name (ARN) of the certificate.
 """
@@ -2316,8 +2322,8 @@ Updates the specified service network.
 - `auth_type`: The type of IAM policy.
 
   - `NONE`: The resource does not use an IAM policy. This is the default.
-  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-    and an auth policy is required.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled and
+    an auth policy is required.
 
 - `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
 """

@@ -20,6 +20,7 @@ data type description.
   this parameter is an Amazon Resource Name (ARN).
 
   For DMS, you can tag a replication instance, an endpoint, or a replication task.
+
 - `tags`: One or more tags to be assigned to the resource.
 """
 function add_tags_to_resource end
@@ -66,14 +67,15 @@ Applies a pending maintenance action to a resource (for example, to a replicatio
 - `apply_action`: The pending maintenance action to apply to this resource.
 
   Valid values: `os-upgrade`, `system-update`, `db-upgrade`
+
 - `opt_in_type`: A value that specifies the type of opt-in request, or undoes an opt-in
   request. You can't undo an opt-in request of type `immediate`.
 
   Valid values:
 
   - `immediate` - Apply the maintenance action immediately.
-  - `next-maintenance` - Apply the maintenance action during the next maintenance window
-    for the resource.
+  - `next-maintenance` - Apply the maintenance action during the next maintenance window for
+    the resource.
   - `undo-opt-in` - Cancel any existing `next-maintenance` opt-in requests.
 
 - `replication_instance_arn`: The Amazon Resource Name (ARN) of the DMS resource that the
@@ -128,13 +130,13 @@ end
     batch_start_recommendations()
     batch_start_recommendations(params::Dict{String,<:Any})
 
-Starts the analysis of up to 20 source databases to recommend target engines for each
-source database. This is a batch version of [StartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartRecommendations.html).
+Starts the analysis of up to 20 source databases to recommend target engines for each source
+database. This is a batch version of [StartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartRecommendations.html).
 
 The result of analysis of each source database is reported individually in the response.
 Because the batch request can result in a combination of successful and unsuccessful
-actions, you should check for batch errors even when the call returns an HTTP status code
-of `200`.
+actions, you should check for batch errors even when the call returns an HTTP status code of
+`200`.
 
 # Optional Parameters
 
@@ -276,36 +278,40 @@ Creates an endpoint using the provided settings.
     For a MySQL source or target endpoint, don't explicitly specify the database using the
     `database_name` request parameter on the `CreateEndpoint` API call. Specifying
     `DatabaseName` when you create a MySQL endpoint replicates all the task tables to this
-    single database. For MySQL endpoints, you specify the database only when you specify
-    the schema in the table-mapping rules of the DMS task.
+    single database. For MySQL endpoints, you specify the database only when you specify the
+    schema in the table-mapping rules of the DMS task.
 
 # Arguments
 
 - `endpoint_identifier`: The database endpoint identifier. Identifiers must begin with a
   letter and must contain only ASCII letters, digits, and hyphens. They can't end with a
   hyphen, or contain two consecutive hyphens.
+
 - `endpoint_type`: The type of endpoint. Valid values are `source` and `target`.
+
 - `engine_name`: The type of engine for the endpoint. Valid values, depending on the
   `EndpointType` value, include `"mysql"`, `"oracle"`, `"postgres"`, `"mariadb"`,
   `"aurora"`, `"aurora-postgresql"`, `"opensearch"`, `"redshift"`, `"s3"`, `"db2"`,
-  `"db2-zos"`, `"azuredb"`, `"sybase"`, `"dynamodb"`, `"mongodb"`, `"kinesis"`,
-  `"kafka"`, `"elasticsearch"`, `"docdb"`, `"sqlserver"`, `"neptune"`, and `"babelfish"`.
+  `"db2-zos"`, `"azuredb"`, `"sybase"`, `"dynamodb"`, `"mongodb"`, `"kinesis"`, `"kafka"`,
+  `"elasticsearch"`, `"docdb"`, `"sqlserver"`, `"neptune"`, and `"babelfish"`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CertificateArn"`: The Amazon Resource Name (ARN) for the certificate.
+
 - `"DatabaseName"`: The name of the endpoint database. For a MySQL source or target
-  endpoint, do not specify DatabaseName. To migrate to a specific database, use this
-  setting and `targetDbType`.
+  endpoint, do not specify DatabaseName. To migrate to a specific database, use this setting
+  and `targetDbType`.
+
 - `"DmsTransferSettings"`: The settings in JSON format for the DMS transfer type of source
   endpoint.
 
   Possible settings include the following:
 
-  - `ServiceAccessRoleArn` - The Amazon Resource Name (ARN) used by the service access
-    IAM role. The role must allow the `iam:PassRole` action.
+  - `ServiceAccessRoleArn` - The Amazon Resource Name (ARN) used by the service access IAM
+    role. The role must allow the `iam:PassRole` action.
   - `BucketName` - The name of the S3 bucket to use.
 
   Shorthand syntax for these settings is as follows:
@@ -313,88 +319,116 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   JSON syntax for these settings is as follows:
   `{ "ServiceAccessRoleArn": "string", "BucketName": "string", }`
+
 - `"DocDbSettings"`:
-- `"DynamoDbSettings"`: Settings in JSON format for the target Amazon DynamoDB endpoint.
-  For information about other available settings, see [Using Object Mapping to Migrate Data to DynamoDB](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.DynamoDB.html#CHAP_Target.DynamoDB.ObjectMapping)
+
+- `"DynamoDbSettings"`: Settings in JSON format for the target Amazon DynamoDB endpoint. For
+  information about other available settings, see [Using Object Mapping to Migrate Data to DynamoDB](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.DynamoDB.html#CHAP_Target.DynamoDB.ObjectMapping)
   in the *Database Migration Service User Guide.*
-- `"ElasticsearchSettings"`: Settings in JSON format for the target OpenSearch endpoint.
-  For more information about the available settings, see [Extra Connection Attributes When Using OpenSearch as a Target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Elasticsearch.html#CHAP_Target.Elasticsearch.Configuration)
+
+- `"ElasticsearchSettings"`: Settings in JSON format for the target OpenSearch endpoint. For
+  more information about the available settings, see [Extra Connection Attributes When Using OpenSearch as a Target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Elasticsearch.html#CHAP_Target.Elasticsearch.Configuration)
   in the *Database Migration Service User Guide*.
+
 - `"ExternalTableDefinition"`: The external table definition.
+
 - `"ExtraConnectionAttributes"`: Additional attributes associated with the connection. Each
   attribute is specified as a name-value pair associated by an equal sign (=). Multiple
   attributes are separated by a semicolon (;) with no additional white space. For
-  information on the attributes available for connecting your source or target endpoint,
-  see [Working with DMS Endpoints](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Endpoints.html)
+  information on the attributes available for connecting your source or target endpoint, see [Working with DMS Endpoints](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Endpoints.html)
   in the *Database Migration Service User Guide.*
+
 - `"GcpMySQLSettings"`: Settings in JSON format for the source GCP MySQL endpoint.
+
 - `"IBMDb2Settings"`: Settings in JSON format for the source IBM Db2 LUW endpoint. For
   information about other available settings, see [Extra connection attributes when using Db2 LUW as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.DB2.html#CHAP_Source.DB2.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"KafkaSettings"`: Settings in JSON format for the target Apache Kafka endpoint. For more
   information about the available settings, see [Using object mapping to migrate data to a Kafka topic](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html#CHAP_Target.Kafka.ObjectMapping)
   in the *Database Migration Service User Guide.*
+
 - `"KinesisSettings"`: Settings in JSON format for the target endpoint for Amazon Kinesis
   Data Streams. For more information about the available settings, see [Using object mapping to migrate data to a Kinesis data stream](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html#CHAP_Target.Kinesis.ObjectMapping)
   in the *Database Migration Service User Guide.*
+
 - `"KmsKeyId"`: An KMS key identifier that is used to encrypt the connection parameters for
   the endpoint.
 
   If you don't specify a value for the `KmsKeyId` parameter, then DMS uses your default
   encryption key.
 
-  KMS creates the default encryption key for your Amazon Web Services account. Your
-  Amazon Web Services account has a different default encryption key for each Amazon Web
-  Services Region.
+  KMS creates the default encryption key for your Amazon Web Services account. Your Amazon
+  Web Services account has a different default encryption key for each Amazon Web Services
+  Region.
+
 - `"MicrosoftSQLServerSettings"`: Settings in JSON format for the source and target
   Microsoft SQL Server endpoint. For information about other available settings, see [Extra connection attributes when using SQL Server as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SQLServer.html#CHAP_Source.SQLServer.ConnectionAttrib)
   and [Extra connection attributes when using SQL Server as a target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SQLServer.html#CHAP_Target.SQLServer.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"MongoDbSettings"`: Settings in JSON format for the source MongoDB endpoint. For more
   information about the available settings, see [Endpoint configuration settings when using MongoDB as a source for Database Migration Service](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html#CHAP_Source.MongoDB.Configuration)
   in the *Database Migration Service User Guide.*
+
 - `"MySQLSettings"`: Settings in JSON format for the source and target MySQL endpoint. For
   information about other available settings, see [Extra connection attributes when using MySQL as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MySQL.html#CHAP_Source.MySQL.ConnectionAttrib)
   and [Extra connection attributes when using a MySQL-compatible database as a target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.MySQL.html#CHAP_Target.MySQL.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"NeptuneSettings"`: Settings in JSON format for the target Amazon Neptune endpoint. For
   more information about the available settings, see [Specifying graph-mapping rules using Gremlin and R2RML for Amazon Neptune as a target](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings)
   in the *Database Migration Service User Guide.*
-- `"OracleSettings"`: Settings in JSON format for the source and target Oracle endpoint.
-  For information about other available settings, see [Extra connection attributes when using Oracle as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.ConnectionAttrib)
+
+- `"OracleSettings"`: Settings in JSON format for the source and target Oracle endpoint. For
+  information about other available settings, see [Extra connection attributes when using Oracle as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.ConnectionAttrib)
   and [Extra connection attributes when using Oracle as a target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Oracle.html#CHAP_Target.Oracle.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"Password"`: The password to be used to log in to the endpoint database.
+
 - `"Port"`: The port used by the endpoint database.
+
 - `"PostgreSQLSettings"`: Settings in JSON format for the source and target PostgreSQL
   endpoint. For information about other available settings, see [Extra connection attributes when using PostgreSQL as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib)
   and [Extra connection attributes when using PostgreSQL as a target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.PostgreSQL.html#CHAP_Target.PostgreSQL.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"RedisSettings"`: Settings in JSON format for the target Redis endpoint.
+
 - `"RedshiftSettings"`:
+
 - `"ResourceIdentifier"`: A friendly name for the resource identifier at the end of the
   `EndpointArn` response parameter that is returned in the created `Endpoint` object. The
-  value for this parameter can have up to 31 characters. It can contain only ASCII
-  letters, digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two
-  consecutive hyphens, and can only begin with a letter, such as `Example-App-ARN1`. For
-  example, this value might result in the `EndpointArn` value
+  value for this parameter can have up to 31 characters. It can contain only ASCII letters,
+  digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive
+  hyphens, and can only begin with a letter, such as `Example-App-ARN1`. For example, this
+  value might result in the `EndpointArn` value
   `arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1`. If you don't specify a
   `ResourceIdentifier` value, DMS generates a default identifier value for the end of
   `EndpointArn`.
+
 - `"S3Settings"`: Settings in JSON format for the target Amazon S3 endpoint. For more
   information about the available settings, see [Extra Connection Attributes When Using Amazon S3 as a Target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring)
   in the *Database Migration Service User Guide.*
+
 - `"ServerName"`: The name of the server where the endpoint database resides.
+
 - `"ServiceAccessRoleArn"`: The Amazon Resource Name (ARN) for the service access role that
   you want to use to create the endpoint. The role must allow the `iam:PassRole` action.
+
 - `"SslMode"`: The Secure Sockets Layer (SSL) mode to use for the SSL connection. The
   default is `none`
+
 - `"SybaseSettings"`: Settings in JSON format for the source and target SAP ASE endpoint.
   For information about other available settings, see [Extra connection attributes when using SAP ASE as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SAP.html#CHAP_Source.SAP.ConnectionAttrib)
   and [Extra connection attributes when using SAP ASE as a target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SAP.html#CHAP_Target.SAP.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"Tags"`: One or more tags to be assigned to the endpoint.
+
 - `"TimestreamSettings"`: Settings in JSON format for the target Amazon Timestream endpoint.
+
 - `"Username"`: The user name to be used to log in to the endpoint database.
 """
 function create_endpoint end
@@ -448,8 +482,8 @@ end
 
 Creates an DMS event notification subscription.
 
-You can specify the type of source (`SourceType`) you want to be notified of, provide a
-list of DMS source IDs (`SourceIds`) that triggers the events, and provide a list of event
+You can specify the type of source (`SourceType`) you want to be notified of, provide a list
+of DMS source IDs (`SourceIds`) that triggers the events, and provide a list of event
 categories (`EventCategories`) for events you want to be notified of. If you specify both
 the `SourceType` and `SourceIds`, such as `SourceType = replication-instance` and
 `SourceIdentifier = my-replinstance`, you will be notified of all the replication instance
@@ -475,22 +509,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Enabled"`: A Boolean value; set to `true` to activate the subscription, or set to
   `false` to create the subscription but not activate it.
+
 - `"EventCategories"`: A list of event categories for a source type that you want to
   subscribe to. For more information, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html)
   in the *Database Migration Service User Guide.*
+
 - `"SourceIds"`: A list of identifiers for which DMS provides notification events.
 
   If you don't specify a value, notifications are provided for all sources.
 
-  If you specify multiple values, they must be of the same type. For example, if you
-  specify a database instance ID, then all of the other values must be database instance
-  IDs.
+  If you specify multiple values, they must be of the same type. For example, if you specify
+  a database instance ID, then all of the other values must be database instance IDs.
+
 - `"SourceType"`: The type of DMS resource that generates the events. For example, if you
-  want to be notified of events generated by a replication instance, you set this
-  parameter to `replication-instance`. If this value isn't specified, all events are
-  returned.
+  want to be notified of events generated by a replication instance, you set this parameter
+  to `replication-instance`. If this value isn't specified, all events are returned.
 
   Valid values: `replication-instance` | `replication-task`
+
 - `"Tags"`: One or more tags to be assigned to the event subscription.
 """
 function create_event_subscription end
@@ -607,33 +643,40 @@ Creates the instance profile using the specified parameters.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AvailabilityZone"`: The Availability Zone where the instance profile will be created.
-  The default value is a random, system-chosen Availability Zone in the Amazon Web
-  Services Region where your data provider is created, for examplem `us-east-1d`.
+  The default value is a random, system-chosen Availability Zone in the Amazon Web Services
+  Region where your data provider is created, for examplem `us-east-1d`.
+
 - `"Description"`: A user-friendly description of the instance profile.
+
 - `"InstanceProfileName"`: A user-friendly name for the instance profile.
+
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the
   connection parameters for the instance profile.
 
   If you don't specify a value for the `KmsKeyArn` parameter, then DMS uses your default
   encryption key.
 
-  KMS creates the default encryption key for your Amazon Web Services account. Your
-  Amazon Web Services account has a different default encryption key for each Amazon Web
-  Services Region.
+  KMS creates the default encryption key for your Amazon Web Services account. Your Amazon
+  Web Services account has a different default encryption key for each Amazon Web Services
+  Region.
+
 - `"NetworkType"`: Specifies the network type for the instance profile. A value of `IPV4`
-  represents an instance profile with IPv4 network type and only supports IPv4
-  addressing. A value of `IPV6` represents an instance profile with IPv6 network type and
-  only supports IPv6 addressing. A value of `DUAL` represents an instance profile with
-  dual network type that supports IPv4 and IPv6 addressing.
+  represents an instance profile with IPv4 network type and only supports IPv4 addressing. A
+  value of `IPV6` represents an instance profile with IPv6 network type and only supports
+  IPv6 addressing. A value of `DUAL` represents an instance profile with dual network type
+  that supports IPv4 and IPv6 addressing.
+
 - `"PubliclyAccessible"`: Specifies the accessibility options for the instance profile. A
   value of `true` represents an instance profile with a public IP address. A value of
   `false` represents an instance profile with a private IP address. The default value is
   `true`.
+
 - `"SubnetGroupIdentifier"`: A subnet group to associate with the instance profile.
+
 - `"Tags"`: One or more tags to be assigned to the instance profile.
-- `"VpcSecurityGroups"`: Specifies the VPC security group names to be used with the
-  instance profile. The VPC security group must work with the VPC containing the instance
-  profile.
+
+- `"VpcSecurityGroups"`: Specifies the VPC security group names to be used with the instance
+  profile. The VPC security group must work with the VPC containing the instance profile.
 """
 function create_instance_profile end
 
@@ -743,13 +786,15 @@ start the replication.
 # Arguments
 
 - `compute_config`: Configuration parameters for provisioning an DMS Serverless replication.
+
 - `replication_config_identifier`: A unique identifier that you want to use to create a
   `ReplicationConfigArn` that is returned as part of the output from this action. You can
   then pass this output `ReplicationConfigArn` as the value of the `ReplicationConfigArn`
   option for other actions to identify both DMS Serverless replications and replication
-  configurations that you want those actions to operate on. For some actions, you can
-  also use either this unique identifier or a corresponding ARN in action filters to
-  identify the specific replication and replication configuration to operate on.
+  configurations that you want those actions to operate on. For some actions, you can also
+  use either this unique identifier or a corresponding ARN in action filters to identify the
+  specific replication and replication configuration to operate on.
+
 - `replication_type`: The type of DMS Serverless replication to provision using this
   replication configuration.
 
@@ -761,8 +806,10 @@ start the replication.
 
 - `source_endpoint_arn`: The Amazon Resource Name (ARN) of the source endpoint for this DMS
   Serverless replication configuration.
-- `table_mappings`: JSON table mappings for DMS Serverless replications that are
-  provisioned using this replication configuration. For more information, see [Specifying table selection and transformations rules using JSON](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.html).
+
+- `table_mappings`: JSON table mappings for DMS Serverless replications that are provisioned
+  using this replication configuration. For more information, see [Specifying table selection and transformations rules using JSON](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.html).
+
 - `target_endpoint_arn`: The Amazon Resource Name (ARN) of the target endpoint for this DMS
   serverless replication configuration.
 
@@ -848,8 +895,8 @@ can create a replication instance. For information on the required roles, see [C
 For information on the required permissions, see [IAM Permissions Needed to Use DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.IAMPermissions).
 
 !!! note
-    If you don't specify a version when creating a replication instance, DMS will create
-    the instance using the default engine version. For information about the default engine
+    If you don't specify a version when creating a replication instance, DMS will create the
+    instance using the default engine version. For information about the default engine
     version, see [Release Notes](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReleaseNotes.html).
 
 # Arguments
@@ -858,9 +905,10 @@ For information on the required permissions, see [IAM Permissions Needed to Use 
   as defined for the specified replication instance class. For example to specify the
   instance class dms.c4.large, set this parameter to `"dms.c4.large"`.
 
-  For more information on the settings and capacities for the available replication
-  instance classes, see [Choosing the right DMS replication instance](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html );
-  and, [Selecting the best size for a replication instance](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_BestPractices.SizingReplicationInstance.html).
+  For more information on the settings and capacities for the available replication instance
+  classes, see [Choosing the right DMS replication instance](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html
+  ); and, [Selecting the best size for a replication instance](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_BestPractices.SizingReplicationInstance.html).
+
 - `replication_instance_identifier`: The replication instance identifier. This parameter is
   stored as a lowercase string.
 
@@ -878,63 +926,76 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AllocatedStorage"`: The amount of storage (in gigabytes) to be initially allocated for
   the replication instance.
+
 - `"AutoMinorVersionUpgrade"`: A value that indicates whether minor engine upgrades are
   applied automatically to the replication instance during the maintenance window. This
   parameter defaults to `true`.
 
   Default: `true`
+
 - `"AvailabilityZone"`: The Availability Zone where the replication instance will be
-  created. The default value is a random, system-chosen Availability Zone in the
-  endpoint's Amazon Web Services Region, for example: `us-east-1d`.
+  created. The default value is a random, system-chosen Availability Zone in the endpoint's
+  Amazon Web Services Region, for example: `us-east-1d`.
+
 - `"DnsNameServers"`: A list of custom DNS name servers supported for the replication
   instance to access your on-premise source or target database. This list overrides the
   default name servers supported by the replication instance. You can specify a comma-
   separated list of internet addresses for up to four on-premise DNS name servers. For
   example: `"1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"`
+
 - `"EngineVersion"`: The engine version number of the replication instance.
 
-  If an engine version number is not specified when a replication instance is created,
-  the default is the latest engine version available.
+  If an engine version number is not specified when a replication instance is created, the
+  default is the latest engine version available.
+
 - `"KmsKeyId"`: An KMS key identifier that is used to encrypt the data on the replication
   instance.
 
   If you don't specify a value for the `KmsKeyId` parameter, then DMS uses your default
   encryption key.
 
-  KMS creates the default encryption key for your Amazon Web Services account. Your
-  Amazon Web Services account has a different default encryption key for each Amazon Web
-  Services Region.
+  KMS creates the default encryption key for your Amazon Web Services account. Your Amazon
+  Web Services account has a different default encryption key for each Amazon Web Services
+  Region.
+
 - `"MultiAZ"`: Specifies whether the replication instance is a Multi-AZ deployment. You
   can't set the `AvailabilityZone` parameter if the Multi-AZ parameter is set to `true`.
+
 - `"NetworkType"`: The type of IP address protocol used by a replication instance, such as
-  IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not
-  yet supported.
+  IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet
+  supported.
+
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC).
 
   Format: `ddd:hh24:mi-ddd:hh24:mi`
 
-  Default: A 30-minute window selected at random from an 8-hour block of time per Amazon
-  Web Services Region, occurring on a random day of the week.
+  Default: A 30-minute window selected at random from an 8-hour block of time per Amazon Web
+  Services Region, occurring on a random day of the week.
 
   Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 
   Constraints: Minimum 30-minute window.
+
 - `"PubliclyAccessible"`: Specifies the accessibility options for the replication instance.
   A value of `true` represents an instance with a public IP address. A value of `false`
   represents an instance with a private IP address. The default value is `true`.
+
 - `"ReplicationSubnetGroupIdentifier"`: A subnet group to associate with the replication
   instance.
+
 - `"ResourceIdentifier"`: A friendly name for the resource identifier at the end of the
   `EndpointArn` response parameter that is returned in the created `Endpoint` object. The
-  value for this parameter can have up to 31 characters. It can contain only ASCII
-  letters, digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two
-  consecutive hyphens, and can only begin with a letter, such as `Example-App-ARN1`. For
-  example, this value might result in the `EndpointArn` value
+  value for this parameter can have up to 31 characters. It can contain only ASCII letters,
+  digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive
+  hyphens, and can only begin with a letter, such as `Example-App-ARN1`. For example, this
+  value might result in the `EndpointArn` value
   `arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1`. If you don't specify a
   `ResourceIdentifier` value, DMS generates a default identifier value for the end of
   `EndpointArn`.
+
 - `"Tags"`: One or more tags to be assigned to the replication instance.
+
 - `"VpcSecurityGroupIds"`: Specifies the VPC security group to be used with the replication
   instance. The VPC security group must work with the VPC containing the replication
   instance.
@@ -1000,6 +1061,7 @@ Next, choose Delete from Actions.
 # Arguments
 
 - `replication_subnet_group_description`: The description for the subnet group.
+
 - `replication_subnet_group_identifier`: The name for the replication subnet group. This
   value is stored as a lowercase string.
 
@@ -1007,6 +1069,7 @@ Next, choose Delete from Actions.
   underscores, or hyphens. Must not be "default".
 
   Example: `mySubnetgroup`
+
 - `subnet_ids`: Two or more subnet IDs to be assigned to the subnet group.
 
 # Optional Parameters
@@ -1071,7 +1134,9 @@ Creates a replication task using the specified parameters.
 
 - `migration_type`: The migration type. Valid values: `full-load` | `cdc` |
   `full-load-and-cdc`
+
 - `replication_instance_arn`: The Amazon Resource Name (ARN) of a replication instance.
+
 - `replication_task_identifier`: An identifier for the replication task.
 
   Constraints:
@@ -1082,9 +1147,11 @@ Creates a replication task using the specified parameters.
 
 - `source_endpoint_arn`: An Amazon Resource Name (ARN) that uniquely identifies the source
   endpoint.
+
 - `table_mappings`: The table mappings for the task, in JSON format. For more information,
   see [Using Table Mapping to Specify Task Settings](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.html)
   in the *Database Migration Service User Guide.*
+
 - `target_endpoint_arn`: An Amazon Resource Name (ARN) that uniquely identifies the target
   endpoint.
 
@@ -1101,41 +1168,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Date Example: --cdc-start-position “2018-03-08T12:12:12”
 
   Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-
-  changelog.157832:1975:-1:2002:677883278264080:mysql-bin-
-  changelog.157832:1876#0#0#*#0#93"
+  changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93"
 
   LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
 
   !!! note
       When you use this task setting with a source PostgreSQL database, a logical
       replication slot should already be created and associated with the source endpoint.
-      You can verify this by setting the `slotName` extra connection attribute to the
-      name of this logical replication slot. For more information, see [Extra Connection Attributes When Using PostgreSQL as a Source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
+      You can verify this by setting the `slotName` extra connection attribute to the name
+      of this logical replication slot. For more information, see [Extra Connection Attributes When Using PostgreSQL as a Source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
 
 - `"CdcStartTime"`: Indicates the start time for a change data capture (CDC) operation. Use
-  either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to
-  start. Specifying both values results in an error.
+  either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start.
+  Specifying both values results in an error.
 
   Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
+
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time.
 
   Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12”
 
   Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
+
 - `"ReplicationTaskSettings"`: Overall settings for the task, in JSON format. For more
   information, see [Specifying Task Settings for Database Migration Service Tasks](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.html)
   in the *Database Migration Service User Guide.*
+
 - `"ResourceIdentifier"`: A friendly name for the resource identifier at the end of the
   `EndpointArn` response parameter that is returned in the created `Endpoint` object. The
-  value for this parameter can have up to 31 characters. It can contain only ASCII
-  letters, digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two
-  consecutive hyphens, and can only begin with a letter, such as `Example-App-ARN1`. For
-  example, this value might result in the `EndpointArn` value
+  value for this parameter can have up to 31 characters. It can contain only ASCII letters,
+  digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive
+  hyphens, and can only begin with a letter, such as `Example-App-ARN1`. For example, this
+  value might result in the `EndpointArn` value
   `arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1`. If you don't specify a
   `ResourceIdentifier` value, DMS generates a default identifier value for the end of
   `EndpointArn`.
+
 - `"Tags"`: One or more tags to be assigned to the replication task.
+
 - `"TaskData"`: Supplemental information that the task requires to migrate the data for
   certain source and target endpoints. For more information, see [Specifying Supplemental Data for Task Settings](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html)
   in the *Database Migration Service User Guide.*
@@ -1340,7 +1411,6 @@ Deletes the specified endpoint.
 !!! note
     All tasks associated with the endpoint must be deleted before you can delete the
     endpoint.
-
 
 # Arguments
 
@@ -1642,7 +1712,6 @@ Deletes the specified replication instance.
     You must delete any migration tasks that are associated with the replication instance
     before you can delete it.
 
-
 # Arguments
 
 - `replication_instance_arn`: The Amazon Resource Name (ARN) of the replication instance to
@@ -1870,16 +1939,16 @@ If you specify no parameters, this operation provides a list of all possible ind
 assessments that you can specify for an assessment run. If you specify any one of the task
 modeling parameters, you must specify all of them or the operation cannot provide a list of
 individual assessments. The only parameter that you can specify alone is for an existing
-migration task. The specified task definition then determines the default list of
-individual assessments that you can specify in an assessment run for the task.
+migration task. The specified task definition then determines the default list of individual
+assessments that you can specify in an assessment run for the task.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: Optional pagination token provided by a previous request. If this parameter
-  is specified, the response includes only records beyond the marker, up to the value
-  specified by `MaxRecords`.
+- `"Marker"`: Optional pagination token provided by a previous request. If this parameter is
+  specified, the response includes only records beyond the marker, up to the value specified
+  by `MaxRecords`.
 - `"MaxRecords"`: Maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -1927,11 +1996,13 @@ Provides a description of the certificate.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters applied to the certificates described in the form of key-value
-  pairs. Valid values are `certificate-arn` and `certificate-id`.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Filters"`: Filters applied to the certificates described in the form of key-value pairs.
+  Valid values are `certificate-arn` and `certificate-id`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -1961,8 +2032,8 @@ end
     describe_connections()
     describe_connections(params::Dict{String,<:Any})
 
-Describes the status of the connections that have been made between the replication
-instance and an endpoint. Connections are created when you test an endpoint.
+Describes the status of the connections that have been made between the replication instance
+and an endpoint. Connections are created when you test an endpoint.
 
 # Optional Parameters
 
@@ -1971,9 +2042,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: The filters applied to the connection.
 
   Valid filter names: endpoint-arn | replication-instance-arn
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -2060,14 +2133,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pairs.
 
   Valid filter names: data-provider-identifier
+
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
-  next page of results. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by `MaxRecords`.
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by `MaxRecords`.
 
   If `Marker` is returned by a previous response, there are more results available. The
-  value of `Marker` is a unique pagination token for each page. To retrieve the next
-  page, make the call again using the returned token and keeping all other arguments
-  unchanged.
+  value of `Marker` is a unique pagination token for each page. To retrieve the next page,
+  make the call again using the returned token and keeping all other arguments unchanged.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
@@ -2106,9 +2180,9 @@ endpoint for a specific database engine.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -2154,9 +2228,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Filters applied to the endpoint types.
 
   Valid filter names: engine-name | endpoint-type
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -2197,9 +2273,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Filters applied to the endpoints.
 
   Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -2234,9 +2312,9 @@ Returns information about the replication instance versions used in the project.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -2273,6 +2351,7 @@ in the *Database Migration Service User Guide.*
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters applied to the event categories.
+
 - `"SourceType"`: The type of DMS resource that generates events.
 
   Valid values: replication-instance | replication-task
@@ -2313,9 +2392,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Filters applied to event subscriptions.
 
   Valid filter names: event-subscription-arn | event-subscription-id
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -2323,6 +2404,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 100
 
   Constraints: Minimum 20, maximum 100.
+
 - `"SubscriptionName"`: The name of the DMS event subscription to be described.
 """
 function describe_event_subscriptions end
@@ -2348,8 +2430,8 @@ end
     describe_events()
     describe_events(params::Dict{String,<:Any})
 
-Lists events for a given source identifier and source type. You can also specify a start
-and end time. For more information on DMS events, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html)
+Lists events for a given source identifier and source type. You can also specify a start and
+end time. For more information on DMS events, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html)
 in the *Database Migration Service User Guide.*
 
 # Optional Parameters
@@ -2357,13 +2439,18 @@ in the *Database Migration Service User Guide.*
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Duration"`: The duration of the events to be listed.
+
 - `"EndTime"`: The end time for the events to be listed.
+
 - `"EventCategories"`: A list of event categories for the source type that you've chosen.
+
 - `"Filters"`: Filters applied to events. The only valid filter is
   `replication-instance-id`.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -2371,10 +2458,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 100
 
   Constraints: Minimum 20, maximum 100.
+
 - `"SourceIdentifier"`: The identifier of an event source.
+
 - `"SourceType"`: The type of DMS resource that generates events.
 
   Valid values: replication-instance | replication-task
+
 - `"StartTime"`: The start time for the events to be listed.
 """
 function describe_events end
@@ -2397,9 +2487,9 @@ end
     describe_extension_pack_associations(migration_project_identifier)
     describe_extension_pack_associations(migration_project_identifier, params::Dict{String,<:Any})
 
-Returns a paginated list of extension pack associations for the specified migration
-project. An extension pack is an add-on module that emulates functions present in a source
-database that are required when converting objects to the target database.
+Returns a paginated list of extension pack associations for the specified migration project.
+An extension pack is an add-on module that emulates functions present in a source database
+that are required when converting objects to the target database.
 
 # Arguments
 
@@ -2412,14 +2502,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters applied to the extension pack associations described in the form of
   key-value pairs.
+
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
-  next page of results. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by `MaxRecords`.
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by `MaxRecords`.
 
   If `Marker` is returned by a previous response, there are more results available. The
-  value of `Marker` is a unique pagination token for each page. To retrieve the next
-  page, make the call again using the returned token and keeping all other arguments
-  unchanged.
+  value of `Marker` is a unique pagination token for each page. To retrieve the next page,
+  make the call again using the returned token and keeping all other arguments unchanged.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
@@ -2477,11 +2568,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   An example is:
   `describe-fleet-advisor-collectors --filter Name="collector-referenced-id",Values="d4610ac5-e323-4ad9-bc50-eaf7249dfe9d"`
+
 - `"MaxRecords"`: Sets the maximum number of records returned in the response.
+
 - `"NextToken"`: If `NextToken` is returned by a previous response, there are more results
-  available. The value of `NextToken` is a unique pagination token for each page. Make
-  the call again using the returned token to retrieve the next page. Keep all other
-  arguments unchanged.
+  available. The value of `NextToken` is a unique pagination token for each page. Make the
+  call again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged.
 """
 function describe_fleet_advisor_collectors end
 
@@ -2526,13 +2619,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `database-ip-address` – The IP address of the database.
   - `collector-name` – The name of the associated Fleet Advisor collector.
 
-  An example is:
-  `describe-fleet-advisor-databases --filter Name="database-id",Values="45"`
+  An example is: `describe-fleet-advisor-databases --filter Name="database-id",Values="45"`
+
 - `"MaxRecords"`: Sets the maximum number of records returned in the response.
+
 - `"NextToken"`: If `NextToken` is returned by a previous response, there are more results
-  available. The value of `NextToken` is a unique pagination token for each page. Make
-  the call again using the returned token to retrieve the next page. Keep all other
-  arguments unchanged.
+  available. The value of `NextToken` is a unique pagination token for each page. Make the
+  call again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged.
 """
 function describe_fleet_advisor_databases end
 
@@ -2570,9 +2664,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxRecords"`: Sets the maximum number of records returned in the response.
 - `"NextToken"`: If `NextToken` is returned by a previous response, there are more results
-  available. The value of `NextToken` is a unique pagination token for each page. Make
-  the call again using the returned token to retrieve the next page. Keep all other
-  arguments unchanged.
+  available. The value of `NextToken` is a unique pagination token for each page. Make the
+  call again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged.
 """
 function describe_fleet_advisor_lsa_analysis end
 
@@ -2610,16 +2704,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: If you specify any of the following filters, the output includes information
   for only those schema objects that meet the filter criteria:
 
-  - `schema-id` – The ID of the schema, for example
-    `d4610ac5-e323-4ad9-bc50-eaf7249dfe9d`.
+  - `schema-id` – The ID of the schema, for example `d4610ac5-e323-4ad9-bc50-eaf7249dfe9d`.
 
   Example:
   `describe-fleet-advisor-schema-object-summary --filter Name="schema-id",Values="50"`
+
 - `"MaxRecords"`: Sets the maximum number of records returned in the response.
+
 - `"NextToken"`: If `NextToken` is returned by a previous response, there are more results
-  available. The value of `NextToken` is a unique pagination token for each page. Make
-  the call again using the returned token to retrieve the next page. Keep all other
-  arguments unchanged.
+  available. The value of `NextToken` is a unique pagination token for each page. Make the
+  call again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged.
 """
 function describe_fleet_advisor_schema_object_summary end
 
@@ -2668,11 +2763,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `server-ip-address` – The IP address of the schema database's server.
 
   An example is: `describe-fleet-advisor-schemas --filter Name="schema-id",Values="50"`
+
 - `"MaxRecords"`: Sets the maximum number of records returned in the response.
+
 - `"NextToken"`: If `NextToken` is returned by a previous response, there are more results
-  available. The value of `NextToken` is a unique pagination token for each page. Make
-  the call again using the returned token to retrieve the next page. Keep all other
-  arguments unchanged.
+  available. The value of `NextToken` is a unique pagination token for each page. Make the
+  call again using the returned token to retrieve the next page. Keep all other arguments
+  unchanged.
 """
 function describe_fleet_advisor_schemas end
 
@@ -2709,14 +2806,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters applied to the instance profiles described in the form of key-value
   pairs.
+
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
-  next page of results. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by `MaxRecords`.
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by `MaxRecords`.
 
   If `Marker` is returned by a previous response, there are more results available. The
-  value of `Marker` is a unique pagination token for each page. To retrieve the next
-  page, make the call again using the returned token and keeping all other arguments
-  unchanged.
+  value of `Marker` is a unique pagination token for each page. To retrieve the next page,
+  make the call again using the returned token and keeping all other arguments unchanged.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
@@ -2758,14 +2856,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters applied to the metadata model assessments described in the form of
   key-value pairs.
+
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
-  next page of results. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by `MaxRecords`.
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by `MaxRecords`.
 
   If `Marker` is returned by a previous response, there are more results available. The
-  value of `Marker` is a unique pagination token for each page. To retrieve the next
-  page, make the call again using the returned token and keeping all other arguments
-  unchanged.
+  value of `Marker` is a unique pagination token for each page. To retrieve the next page,
+  make the call again using the returned token and keeping all other arguments unchanged.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
@@ -2820,14 +2919,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters applied to the metadata model conversions described in the form of
   key-value pairs.
+
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
-  next page of results. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by `MaxRecords`.
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by `MaxRecords`.
 
   If `Marker` is returned by a previous response, there are more results available. The
-  value of `Marker` is a unique pagination token for each page. To retrieve the next
-  page, make the call again using the returned token and keeping all other arguments
-  unchanged.
+  value of `Marker` is a unique pagination token for each page. To retrieve the next page,
+  make the call again using the returned token and keeping all other arguments unchanged.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
@@ -2882,14 +2982,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters applied to the metadata model exports described in the form of key-
   value pairs.
+
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
-  next page of results. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by `MaxRecords`.
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by `MaxRecords`.
 
   If `Marker` is returned by a previous response, there are more results available. The
-  value of `Marker` is a unique pagination token for each page. To retrieve the next
-  page, make the call again using the returned token and keeping all other arguments
-  unchanged.
+  value of `Marker` is a unique pagination token for each page. To retrieve the next page,
+  make the call again using the returned token and keeping all other arguments unchanged.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
@@ -2944,14 +3045,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters applied to the metadata model exports described in the form of key-
   value pairs.
+
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
-  next page of results. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by `MaxRecords`.
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by `MaxRecords`.
 
   If `Marker` is returned by a previous response, there are more results available. The
-  value of `Marker` is a unique pagination token for each page. To retrieve the next
-  page, make the call again using the returned token and keeping all other arguments
-  unchanged.
+  value of `Marker` is a unique pagination token for each page. To retrieve the next page,
+  make the call again using the returned token and keeping all other arguments unchanged.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
@@ -3006,14 +3108,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters applied to the metadata model imports described in the form of key-
   value pairs.
+
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
-  next page of results. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by `MaxRecords`.
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by `MaxRecords`.
 
   If `Marker` is returned by a previous response, there are more results available. The
-  value of `Marker` is a unique pagination token for each page. To retrieve the next
-  page, make the call again using the returned token and keeping all other arguments
-  unchanged.
+  value of `Marker` is a unique pagination token for each page. To retrieve the next page,
+  make the call again using the returned token and keeping all other arguments unchanged.
+
 - `"MaxRecords"`: A paginated list of metadata model imports.
 """
 function describe_metadata_model_imports end
@@ -3062,14 +3165,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters applied to the migration projects described in the form of key-value
   pairs.
+
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
-  next page of results. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by `MaxRecords`.
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by `MaxRecords`.
 
   If `Marker` is returned by a previous response, there are more results available. The
-  value of `Marker` is a unique pagination token for each page. To retrieve the next
-  page, make the call again using the returned token and keeping all other arguments
-  unchanged.
+  value of `Marker` is a unique pagination token for each page. To retrieve the next page,
+  make the call again using the returned token and keeping all other arguments unchanged.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, DMS includes a pagination token in the
   response so that you can retrieve the remaining results.
@@ -3104,9 +3208,10 @@ specified region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3149,9 +3254,11 @@ For internal use only
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`:
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3159,6 +3266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 100
 
   Constraints: Minimum 20, maximum 100.
+
 - `"ReplicationInstanceArn"`: The Amazon Resource Name (ARN) of the replication instance.
 """
 function describe_pending_maintenance_actions end
@@ -3196,17 +3304,18 @@ engines.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters applied to the limitations described in the form of key-value pairs.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified `MaxRecords` value, Fleet Advisor includes a pagination token
-  in the response so that you can retrieve the remaining results.
-- `"NextToken"`: Specifies the unique pagination token that makes it possible to display
-  the next page of results. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by `MaxRecords`.
 
-  If `NextToken` is returned by a previous response, there are more results available.
-  The value of `NextToken` is a unique pagination token for each page. Make the call
-  again using the returned token to retrieve the next page. Keep all other arguments
-  unchanged.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified `MaxRecords` value, Fleet Advisor includes a pagination token in
+  the response so that you can retrieve the remaining results.
+
+- `"NextToken"`: Specifies the unique pagination token that makes it possible to display the
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by `MaxRecords`.
+
+  If `NextToken` is returned by a previous response, there are more results available. The
+  value of `NextToken` is a unique pagination token for each page. Make the call again using
+  the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
 function describe_recommendation_limitations end
 
@@ -3241,19 +3350,20 @@ Returns a paginated list of target engine recommendations for your source databa
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters applied to the target engine recommendations described in the form
-  of key-value pairs.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified `MaxRecords` value, Fleet Advisor includes a pagination token
-  in the response so that you can retrieve the remaining results.
-- `"NextToken"`: Specifies the unique pagination token that makes it possible to display
-  the next page of results. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by `MaxRecords`.
+- `"Filters"`: Filters applied to the target engine recommendations described in the form of
+  key-value pairs.
 
-  If `NextToken` is returned by a previous response, there are more results available.
-  The value of `NextToken` is a unique pagination token for each page. Make the call
-  again using the returned token to retrieve the next page. Keep all other arguments
-  unchanged.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified `MaxRecords` value, Fleet Advisor includes a pagination token in
+  the response so that you can retrieve the remaining results.
+
+- `"NextToken"`: Specifies the unique pagination token that makes it possible to display the
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by `MaxRecords`.
+
+  If `NextToken` is returned by a previous response, there are more results available. The
+  value of `NextToken` is a unique pagination token for each page. Make the call again using
+  the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
 function describe_recommendations end
 
@@ -3325,9 +3435,9 @@ structures.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters applied to the replication configs.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3365,9 +3475,10 @@ Returns information about the task logs for the specified task.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3422,9 +3533,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid filter names: replication-instance-arn | replication-instance-id | replication-
   instance-class | engine-version
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3469,9 +3582,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Filters applied to replication subnet groups.
 
   Valid filter names: replication-subnet-group-id
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3519,9 +3634,9 @@ given DMS Serverless replication configuration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters applied to the replication table statistics.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3572,9 +3687,10 @@ in the *Database Migration Service User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3582,9 +3698,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 100
 
   Constraints: Minimum 20, maximum 100.
-- `"ReplicationTaskArn"`: The Amazon Resource Name (ARN) string that uniquely identifies
-  the task. When this input parameter is specified, the API returns only one result and
-  ignore the values of the `MaxRecords` and `Marker` parameters.
+
+- `"ReplicationTaskArn"`: The Amazon Resource Name (ARN) string that uniquely identifies the
+  task. When this input parameter is specified, the API returns only one result and ignore
+  the values of the `MaxRecords` and `Marker` parameters.
 """
 function describe_replication_task_assessment_results end
 
@@ -3632,9 +3749,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid filter names: `replication-task-assessment-run-arn`, `replication-task-arn`,
   `replication-instance-arn`, `status`
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3680,9 +3799,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid filter names: `replication-task-assessment-run-arn`, `replication-task-arn`,
   `status`
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3724,9 +3845,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid filter names: replication-task-arn | replication-task-id | migration-type |
   endpoint-arn | replication-instance-arn
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3734,9 +3857,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 100
 
   Constraints: Minimum 20, maximum 100.
+
 - `"WithoutSettings"`: An option to set to avoid returning information about settings. Use
-  this to reduce overhead when setting information is too large. To use this option,
-  choose `true`; otherwise, choose `false` (the default).
+  this to reduce overhead when setting information is too large. To use this option, choose
+  `true`; otherwise, choose `false` (the default).
 """
 function describe_replication_tasks end
 
@@ -3769,9 +3893,9 @@ provisioned DMS Serverless replications.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters applied to the replications.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3810,9 +3934,10 @@ Returns information about the schema for the specified endpoint.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3870,11 +3995,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid filter names: schema-name | table-name | table-state
 
-  A combination of filters creates an AND condition where each record matches all
-  specified filters.
-- `"Marker"`: An optional pagination token provided by a previous request. If this
-  parameter is specified, the response includes only records beyond the marker, up to the
-  value specified by `MaxRecords`.
+  A combination of filters creates an AND condition where each record matches all specified
+  filters.
+
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -3982,19 +4109,21 @@ Uploads the specified certificate.
 # Arguments
 
 - `certificate_identifier`: A customer-assigned name for the certificate. Identifiers must
-  begin with a letter and must contain only ASCII letters, digits, and hyphens. They
-  can't end with a hyphen or contain two consecutive hyphens.
+  begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't
+  end with a hyphen or contain two consecutive hyphens.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CertificatePem"`: The contents of a `.pem` file, which contains an X.509 certificate.
+
 - `"CertificateWallet"`: The location of an imported Oracle Wallet certificate for use with
-  SSL. Provide the name of a `.sso` file using the `fileb://` prefix. You can't provide
-  the certificate inline.
+  SSL. Provide the name of a `.sso` file using the `fileb://` prefix. You can't provide the
+  certificate inline.
 
   Example: `filebase64("\${path.root}/rds-ca-2019-root.sso")`
+
 - `"Tags"`: The tags associated with the certificate.
 """
 function import_certificate end
@@ -4045,9 +4174,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource to list tags for. This returns a list of keys (names of tags) created for the
   resource and their associated tag values.
 - `"ResourceArnList"`: List of ARNs that identify multiple DMS resources that you want to
-  list tags for. This returns a list of keys (tag names) and their associated tag values.
-  It also returns each tag's associated `ResourceArn` value, which is the ARN of the
-  resource for which each listed tag is created.
+  list tags for. This returns a list of keys (tag names) and their associated tag values. It
+  also returns each tag's associated `ResourceArn` value, which is the ARN of the resource
+  for which each listed tag is created.
 """
 function list_tags_for_resource end
 
@@ -4140,18 +4269,21 @@ Modifies the specified data provider using the provided settings.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DataProviderName"`: The name of the data provider.
+
 - `"Description"`: A user-friendly description of the data provider.
+
 - `"Engine"`: The type of database engine for the data provider. Valid values include
   `"aurora"`, `"aurora-postgresql"`, `"mysql"`, `"oracle"`, `"postgres"`, `"sqlserver"`,
   `redshift`, `mariadb`, `mongodb`, and `docdb`. A value of `"aurora"` represents Amazon
   Aurora MySQL-Compatible Edition.
+
 - `"ExactSettings"`: If this attribute is Y, the current call to `ModifyDataProvider`
-  replaces all existing data provider settings with the exact settings that you specify
-  in this call. If this attribute is N, the current call to `ModifyDataProvider` does two
+  replaces all existing data provider settings with the exact settings that you specify in
+  this call. If this attribute is N, the current call to `ModifyDataProvider` does two
   things:
 
-  - It replaces any data provider settings that already exist with new values, for
-    settings with the same names.
+  - It replaces any data provider settings that already exist with new values, for settings
+    with the same names.
   - It creates new data provider settings that you specify in the call, for settings with
     different names.
 
@@ -4199,8 +4331,8 @@ Modifies the specified endpoint.
     For a MySQL source or target endpoint, don't explicitly specify the database using the
     `database_name` request parameter on the `ModifyEndpoint` API call. Specifying
     `DatabaseName` when you modify a MySQL endpoint replicates all the task tables to this
-    single database. For MySQL endpoints, you specify the database only when you specify
-    the schema in the table-mapping rules of the DMS task.
+    single database. For MySQL endpoints, you specify the database only when you specify the
+    schema in the table-mapping rules of the DMS task.
 
 # Arguments
 
@@ -4213,8 +4345,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CertificateArn"`: The Amazon Resource Name (ARN) of the certificate used for SSL
   connection.
+
 - `"DatabaseName"`: The name of the endpoint database. For a MySQL source or target
   endpoint, do not specify DatabaseName.
+
 - `"DmsTransferSettings"`: The settings in JSON format for the DMS transfer type of source
   endpoint.
 
@@ -4229,30 +4363,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   JSON syntax for these settings is as follows:
   `{ "ServiceAccessRoleArn": "string", "BucketName": "string"}`
+
 - `"DocDbSettings"`: Settings in JSON format for the source DocumentDB endpoint. For more
   information about the available settings, see the configuration properties section in [Using DocumentDB as a Target for Database Migration Service](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.DocumentDB.html)
   in the *Database Migration Service User Guide.*
-- `"DynamoDbSettings"`: Settings in JSON format for the target Amazon DynamoDB endpoint.
-  For information about other available settings, see [Using Object Mapping to Migrate Data to DynamoDB](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.DynamoDB.html#CHAP_Target.DynamoDB.ObjectMapping)
+
+- `"DynamoDbSettings"`: Settings in JSON format for the target Amazon DynamoDB endpoint. For
+  information about other available settings, see [Using Object Mapping to Migrate Data to DynamoDB](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.DynamoDB.html#CHAP_Target.DynamoDB.ObjectMapping)
   in the *Database Migration Service User Guide.*
-- `"ElasticsearchSettings"`: Settings in JSON format for the target OpenSearch endpoint.
-  For more information about the available settings, see [Extra Connection Attributes When Using OpenSearch as a Target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Elasticsearch.html#CHAP_Target.Elasticsearch.Configuration)
+
+- `"ElasticsearchSettings"`: Settings in JSON format for the target OpenSearch endpoint. For
+  more information about the available settings, see [Extra Connection Attributes When Using OpenSearch as a Target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Elasticsearch.html#CHAP_Target.Elasticsearch.Configuration)
   in the *Database Migration Service User Guide.*
+
 - `"EndpointIdentifier"`: The database endpoint identifier. Identifiers must begin with a
   letter and must contain only ASCII letters, digits, and hyphens. They can't end with a
   hyphen or contain two consecutive hyphens.
+
 - `"EndpointType"`: The type of endpoint. Valid values are `source` and `target`.
+
 - `"EngineName"`: The database engine name. Valid values, depending on the EndpointType,
   include `"mysql"`, `"oracle"`, `"postgres"`, `"mariadb"`, `"aurora"`,
   `"aurora-postgresql"`, `"redshift"`, `"s3"`, `"db2"`, `"db2-zos"`, `"azuredb"`,
   `"sybase"`, `"dynamodb"`, `"mongodb"`, `"kinesis"`, `"kafka"`, `"elasticsearch"`,
   `"documentdb"`, `"sqlserver"`, `"neptune"`, and `"babelfish"`.
-- `"ExactSettings"`: If this attribute is Y, the current call to `ModifyEndpoint` replaces
-  all existing endpoint settings with the exact settings that you specify in this call.
-  If this attribute is N, the current call to `ModifyEndpoint` does two things:
 
-  - It replaces any endpoint settings that already exist with new values, for settings
-    with the same names.
+- `"ExactSettings"`: If this attribute is Y, the current call to `ModifyEndpoint` replaces
+  all existing endpoint settings with the exact settings that you specify in this call. If
+  this attribute is N, the current call to `ModifyEndpoint` does two things:
+
+  - It replaces any endpoint settings that already exist with new values, for settings with
+    the same names.
   - It creates new endpoint settings that you specify in the call, for settings with
     different names.
 
@@ -4265,57 +4406,80 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `modify-endpoint ... --endpoint-settings '{"b":2}' --exact-settings ...` for that same
   endpoint again. Then the endpoint has the following settings: `'{"b":2}'`. All existing
   settings are replaced with the exact settings that you specify.
+
 - `"ExternalTableDefinition"`: The external table definition.
+
 - `"ExtraConnectionAttributes"`: Additional attributes associated with the connection. To
   reset this parameter, pass the empty string ("") as an argument.
+
 - `"GcpMySQLSettings"`: Settings in JSON format for the source GCP MySQL endpoint.
+
 - `"IBMDb2Settings"`: Settings in JSON format for the source IBM Db2 LUW endpoint. For
   information about other available settings, see [Extra connection attributes when using Db2 LUW as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.DB2.html#CHAP_Source.DB2.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"KafkaSettings"`: Settings in JSON format for the target Apache Kafka endpoint. For more
   information about the available settings, see [Using object mapping to migrate data to a Kafka topic](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html#CHAP_Target.Kafka.ObjectMapping)
   in the *Database Migration Service User Guide.*
+
 - `"KinesisSettings"`: Settings in JSON format for the target endpoint for Amazon Kinesis
   Data Streams. For more information about the available settings, see [Using object mapping to migrate data to a Kinesis data stream](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html#CHAP_Target.Kinesis.ObjectMapping)
   in the *Database Migration Service User Guide.*
+
 - `"MicrosoftSQLServerSettings"`: Settings in JSON format for the source and target
   Microsoft SQL Server endpoint. For information about other available settings, see [Extra connection attributes when using SQL Server as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SQLServer.html#CHAP_Source.SQLServer.ConnectionAttrib)
   and [Extra connection attributes when using SQL Server as a target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SQLServer.html#CHAP_Target.SQLServer.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"MongoDbSettings"`: Settings in JSON format for the source MongoDB endpoint. For more
   information about the available settings, see the configuration properties section in [Endpoint configuration settings when using MongoDB as a source for Database Migration Service](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html#CHAP_Source.MongoDB.Configuration)
   in the *Database Migration Service User Guide.*
+
 - `"MySQLSettings"`: Settings in JSON format for the source and target MySQL endpoint. For
   information about other available settings, see [Extra connection attributes when using MySQL as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MySQL.html#CHAP_Source.MySQL.ConnectionAttrib)
   and [Extra connection attributes when using a MySQL-compatible database as a target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.MySQL.html#CHAP_Target.MySQL.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"NeptuneSettings"`: Settings in JSON format for the target Amazon Neptune endpoint. For
   more information about the available settings, see [Specifying graph-mapping rules using Gremlin and R2RML for Amazon Neptune as a target](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings)
   in the *Database Migration Service User Guide.*
-- `"OracleSettings"`: Settings in JSON format for the source and target Oracle endpoint.
-  For information about other available settings, see [Extra connection attributes when using Oracle as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.ConnectionAttrib)
+
+- `"OracleSettings"`: Settings in JSON format for the source and target Oracle endpoint. For
+  information about other available settings, see [Extra connection attributes when using Oracle as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.ConnectionAttrib)
   and [Extra connection attributes when using Oracle as a target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Oracle.html#CHAP_Target.Oracle.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"Password"`: The password to be used to login to the endpoint database.
+
 - `"Port"`: The port used by the endpoint database.
+
 - `"PostgreSQLSettings"`: Settings in JSON format for the source and target PostgreSQL
   endpoint. For information about other available settings, see [Extra connection attributes when using PostgreSQL as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib)
   and [Extra connection attributes when using PostgreSQL as a target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.PostgreSQL.html#CHAP_Target.PostgreSQL.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"RedisSettings"`: Settings in JSON format for the Redis target endpoint.
+
 - `"RedshiftSettings"`:
+
 - `"S3Settings"`: Settings in JSON format for the target Amazon S3 endpoint. For more
   information about the available settings, see [Extra Connection Attributes When Using Amazon S3 as a Target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring)
   in the *Database Migration Service User Guide.*
+
 - `"ServerName"`: The name of the server where the endpoint database resides.
+
 - `"ServiceAccessRoleArn"`: The Amazon Resource Name (ARN) for the IAM role you want to use
   to modify the endpoint. The role must allow the `iam:PassRole` action.
+
 - `"SslMode"`: The SSL mode used to connect to the endpoint. The default value is `none`.
+
 - `"SybaseSettings"`: Settings in JSON format for the source and target SAP ASE endpoint.
   For information about other available settings, see [Extra connection attributes when using SAP ASE as a source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SAP.html#CHAP_Source.SAP.ConnectionAttrib)
   and [Extra connection attributes when using SAP ASE as a target for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SAP.html#CHAP_Target.SAP.ConnectionAttrib)
   in the *Database Migration Service User Guide.*
+
 - `"TimestreamSettings"`: Settings in JSON format for the target Amazon Timestream endpoint.
+
 - `"Username"`: The user name to be used to login to the endpoint database.
 """
 function modify_endpoint end
@@ -4359,12 +4523,14 @@ Modifies an existing DMS event notification subscription.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Enabled"`: A Boolean value; set to **true** to activate the subscription.
+
 - `"EventCategories"`: A list of event categories for a source type that you want to
-  subscribe to. Use the `DescribeEventCategories` action to see a list of event
-  categories.
+  subscribe to. Use the `DescribeEventCategories` action to see a list of event categories.
+
 - `"SnsTopicArn"`: The Amazon Resource Name (ARN) of the Amazon SNS topic created for event
   notification. The ARN is created by Amazon SNS when you create a topic and subscribe to
   it.
+
 - `"SourceType"`: The type of DMS resource that generates the events you want to subscribe
   to.
 
@@ -4413,35 +4579,42 @@ Modifies the specified instance profile using the provided parameters.
 # Arguments
 
 - `instance_profile_identifier`: The identifier of the instance profile. Identifiers must
-  begin with a letter and must contain only ASCII letters, digits, and hyphens. They
-  can't end with a hyphen, or contain two consecutive hyphens.
+  begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't
+  end with a hyphen, or contain two consecutive hyphens.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AvailabilityZone"`: The Availability Zone where the instance profile runs.
+
 - `"Description"`: A user-friendly description for the instance profile.
+
 - `"InstanceProfileName"`: A user-friendly name for the instance profile.
+
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the
   connection parameters for the instance profile.
 
   If you don't specify a value for the `KmsKeyArn` parameter, then DMS uses your default
   encryption key.
 
-  KMS creates the default encryption key for your Amazon Web Services account. Your
-  Amazon Web Services account has a different default encryption key for each Amazon Web
-  Services Region.
+  KMS creates the default encryption key for your Amazon Web Services account. Your Amazon
+  Web Services account has a different default encryption key for each Amazon Web Services
+  Region.
+
 - `"NetworkType"`: Specifies the network type for the instance profile. A value of `IPV4`
-  represents an instance profile with IPv4 network type and only supports IPv4
-  addressing. A value of `IPV6` represents an instance profile with IPv6 network type and
-  only supports IPv6 addressing. A value of `DUAL` represents an instance profile with
-  dual network type that supports IPv4 and IPv6 addressing.
+  represents an instance profile with IPv4 network type and only supports IPv4 addressing. A
+  value of `IPV6` represents an instance profile with IPv6 network type and only supports
+  IPv6 addressing. A value of `DUAL` represents an instance profile with dual network type
+  that supports IPv4 and IPv6 addressing.
+
 - `"PubliclyAccessible"`: Specifies the accessibility options for the instance profile. A
   value of `true` represents an instance profile with a public IP address. A value of
   `false` represents an instance profile with a private IP address. The default value is
   `true`.
+
 - `"SubnetGroupIdentifier"`: A subnet group to associate with the instance profile.
+
 - `"VpcSecurityGroups"`: Specifies the VPC security groups to be used with the instance
   profile. The VPC security group must work with the VPC containing the instance profile.
 """
@@ -4489,8 +4662,8 @@ Modifies the specified migration project using the provided parameters.
 # Arguments
 
 - `migration_project_identifier`: The identifier of the migration project. Identifiers must
-  begin with a letter and must contain only ASCII letters, digits, and hyphens. They
-  can't end with a hyphen, or contain two consecutive hyphens.
+  begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't
+  end with a hyphen, or contain two consecutive hyphens.
 
 # Optional Parameters
 
@@ -4630,19 +4803,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AllocatedStorage"`: The amount of storage (in gigabytes) to be allocated for the
   replication instance.
+
 - `"AllowMajorVersionUpgrade"`: Indicates that major version upgrades are allowed. Changing
-  this parameter does not result in an outage, and the change is asynchronously applied
-  as soon as possible.
+  this parameter does not result in an outage, and the change is asynchronously applied as
+  soon as possible.
 
   This parameter must be set to `true` when specifying a value for the `EngineVersion`
   parameter that is a different major version than the replication instance's current
   version.
+
 - `"ApplyImmediately"`: Indicates whether the changes should be applied immediately or
   during the next maintenance window.
+
 - `"AutoMinorVersionUpgrade"`: A value that indicates that minor version upgrades are
-  applied automatically to the replication instance during the maintenance window.
-  Changing this parameter doesn't result in an outage, except in the case described
-  following. The change is asynchronously applied as soon as possible.
+  applied automatically to the replication instance during the maintenance window. Changing
+  this parameter doesn't result in an outage, except in the case described following. The
+  change is asynchronously applied as soon as possible.
 
   An outage does result if these factors apply:
 
@@ -4652,19 +4828,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EngineVersion"`: The engine version number of the replication instance.
 
-  When modifying a major engine version of an instance, also set
-  `AllowMajorVersionUpgrade` to `true`.
+  When modifying a major engine version of an instance, also set `AllowMajorVersionUpgrade`
+  to `true`.
+
 - `"MultiAZ"`: Specifies whether the replication instance is a Multi-AZ deployment. You
   can't set the `AvailabilityZone` parameter if the Multi-AZ parameter is set to `true`.
+
 - `"NetworkType"`: The type of IP address protocol used by a replication instance, such as
-  IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not
-  yet supported.
+  IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet
+  supported.
+
 - `"PreferredMaintenanceWindow"`: The weekly time range (in UTC) during which system
-  maintenance can occur, which might result in an outage. Changing this parameter does
-  not result in an outage, except in the following situation, and the change is
-  asynchronously applied as soon as possible. If moving this window to the current time,
-  there must be at least 30 minutes between the current time and end of the window to
-  ensure pending changes are applied.
+  maintenance can occur, which might result in an outage. Changing this parameter does not
+  result in an outage, except in the following situation, and the change is asynchronously
+  applied as soon as possible. If moving this window to the current time, there must be at
+  least 30 minutes between the current time and end of the window to ensure pending changes
+  are applied.
 
   Default: Uses existing setting
 
@@ -4673,14 +4852,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun
 
   Constraints: Must be at least 30 minutes
+
 - `"ReplicationInstanceClass"`: The compute and memory capacity of the replication instance
   as defined for the specified replication instance class. For example to specify the
   instance class dms.c4.large, set this parameter to `"dms.c4.large"`.
 
-  For more information on the settings and capacities for the available replication
-  instance classes, see [Selecting the right DMS replication instance for your migration](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth).
+  For more information on the settings and capacities for the available replication instance
+  classes, see [Selecting the right DMS replication instance for your migration](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth).
+
 - `"ReplicationInstanceIdentifier"`: The replication instance identifier. This parameter is
   stored as a lowercase string.
+
 - `"VpcSecurityGroupIds"`: Specifies the VPC security group to be used with the replication
   instance. The VPC security group must work with the VPC containing the replication
   instance.
@@ -4804,30 +4986,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Date Example: --cdc-start-position “2018-03-08T12:12:12”
 
   Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-
-  changelog.157832:1975:-1:2002:677883278264080:mysql-bin-
-  changelog.157832:1876#0#0#*#0#93"
+  changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93"
 
   LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
 
   !!! note
       When you use this task setting with a source PostgreSQL database, a logical
       replication slot should already be created and associated with the source endpoint.
-      You can verify this by setting the `slotName` extra connection attribute to the
-      name of this logical replication slot. For more information, see [Extra Connection Attributes When Using PostgreSQL as a Source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
+      You can verify this by setting the `slotName` extra connection attribute to the name
+      of this logical replication slot. For more information, see [Extra Connection Attributes When Using PostgreSQL as a Source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
 
 - `"CdcStartTime"`: Indicates the start time for a change data capture (CDC) operation. Use
-  either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to
-  start. Specifying both values results in an error.
+  either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start.
+  Specifying both values results in an error.
 
   Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
+
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time.
 
   Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12”
 
   Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
+
 - `"MigrationType"`: The migration type. Valid values: `full-load` | `cdc` |
   `full-load-and-cdc`
+
 - `"ReplicationTaskIdentifier"`: The replication task identifier.
 
   Constraints:
@@ -4838,10 +5022,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ReplicationTaskSettings"`: JSON file that contains settings for the task, such as task
   metadata settings.
+
 - `"TableMappings"`: When using the CLI or boto3, provide the path of the JSON file that
   contains the table mappings. Precede the path with `file://`. For example,
   `--table-mappings file://mappingfile.json`. When working with the DMS API, provide the
   JSON as the parameter value.
+
 - `"TaskData"`: Supplemental information that the task requires to migrate the data for
   certain source and target endpoints. For more information, see [Specifying Supplemental Data for Task Settings](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html)
   in the *Database Migration Service User Guide.*
@@ -4881,8 +5067,8 @@ end
     move_replication_task(replication_task_arn, target_replication_instance_arn, params::Dict{String,<:Any})
 
 Moves a replication task from its current replication instance to a different target
-replication instance using the specified parameters. The target replication instance must
-be created with the same or later DMS version as the current replication instance.
+replication instance using the specified parameters. The target replication instance must be
+created with the same or later DMS version as the current replication instance.
 
 # Arguments
 
@@ -4946,15 +5132,13 @@ replication instance becomes available again.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ForceFailover"`: If this parameter is `true`, the reboot is conducted through a Multi-
-  AZ failover. If the instance isn't configured for Multi-AZ, then you can't specify
-  `true`. ( `--force-planned-failover` and `--force-failover` can't both be set to
-  `true`.)
+- `"ForceFailover"`: If this parameter is `true`, the reboot is conducted through a Multi-AZ
+  failover. If the instance isn't configured for Multi-AZ, then you can't specify `true`. (
+  `--force-planned-failover` and `--force-failover` can't both be set to `true`.)
 - `"ForcePlannedFailover"`: If this parameter is `true`, the reboot is conducted through a
-  planned Multi-AZ failover where resources are released and cleaned up prior to
-  conducting the failover. If the instance isn''t configured for Multi-AZ, then you can't
-  specify `true`. ( `--force-planned-failover` and `--force-failover` can't both be set
-  to `true`.)
+  planned Multi-AZ failover where resources are released and cleaned up prior to conducting
+  the failover. If the instance isn''t configured for Multi-AZ, then you can't specify
+  `true`. ( `--force-planned-failover` and `--force-failover` can't both be set to `true`.)
 """
 function reboot_replication_instance end
 
@@ -5047,8 +5231,8 @@ end
 Reloads the target database table with the source data for a given DMS Serverless
 replication configuration.
 
-You can only use this operation with a task in the RUNNING state, otherwise the service
-will throw an `InvalidResourceStateFault` exception.
+You can only use this operation with a task in the RUNNING state, otherwise the service will
+throw an `InvalidResourceStateFault` exception.
 
 # Arguments
 
@@ -5171,8 +5355,8 @@ end
     remove_tags_from_resource(resource_arn, tag_keys)
     remove_tags_from_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes metadata tags from an DMS resource, including replication instance, endpoint,
-subnet group, and migration task. For more information, see [`Tag`](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html)
+Removes metadata tags from an DMS resource, including replication instance, endpoint, subnet
+group, and migration task. For more information, see [`Tag`](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html)
 data type description.
 
 # Arguments
@@ -5597,12 +5781,13 @@ You can create recommendations for multiple source databases using [BatchStartRe
 
 - `database_id`: The identifier of the source database to analyze and provide
   recommendations for.
-- `settings`: The settings in JSON format that Fleet Advisor uses to determine target
-  engine recommendations. These parameters include target instance sizing and
-  availability and durability settings. For target instance sizing, Fleet Advisor
-  supports the following two options: total capacity and resource utilization. For
-  availability and durability, Fleet Advisor supports the following two options:
-  production (Multi-AZ deployments) and Dev/Test (Single-AZ deployments).
+
+- `settings`: The settings in JSON format that Fleet Advisor uses to determine target engine
+  recommendations. These parameters include target instance sizing and availability and
+  durability settings. For target instance sizing, Fleet Advisor supports the following two
+  options: total capacity and resource utilization. For availability and durability, Fleet
+  Advisor supports the following two options: production (Multi-AZ deployments) and Dev/Test
+  (Single-AZ deployments).
 """
 function start_recommendations end
 
@@ -5642,10 +5827,9 @@ end
     start_replication(replication_config_arn, start_replication_type, params::Dict{String,<:Any})
 
 For a given DMS Serverless replication configuration, DMS connects to the source endpoint
-and collects the metadata to analyze the replication workload. Using this metadata, DMS
-then computes and provisions the required capacity and starts replicating to the target
-endpoint using the server resources that DMS has provisioned for the DMS Serverless
-replication.
+and collects the metadata to analyze the replication workload. Using this metadata, DMS then
+computes and provisions the required capacity and starts replicating to the target endpoint
+using the server resources that DMS has provisioned for the DMS Serverless replication.
 
 # Arguments
 
@@ -5662,9 +5846,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation to start. Specifying both values results in an error.
 
   The value can be in date, checkpoint, or LSN/SCN format.
+
 - `"CdcStartTime"`: Indicates the start time for a change data capture (CDC) operation. Use
   either `CdcStartTime` or `CdcStartPosition` to specify when you want a CDC operation to
   start. Specifying both values results in an error.
+
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time.
 """
@@ -5722,6 +5908,7 @@ in the *Database Migration Service User Guide.*
 
 - `replication_task_arn`: The Amazon Resource Name (ARN) of the replication task to be
   started.
+
 - `start_replication_task_type`: The type of replication task to start.
 
   When the migration type is `full-load` or `full-load-and-cdc`, the only valid value for
@@ -5735,8 +5922,8 @@ in the *Database Migration Service User Guide.*
 
   For a `full-load-and-cdc` task, DMS migrates table data, and then applies data changes
   that occur on the source. To load all the tables again, and start capturing source
-  changes, use `reload-target`. Otherwise use `resume-processing`, to replicate the
-  changes from the last stop position.
+  changes, use `reload-target`. Otherwise use `resume-processing`, to replicate the changes
+  from the last stop position.
 
 # Optional Parameters
 
@@ -5751,22 +5938,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Date Example: --cdc-start-position “2018-03-08T12:12:12”
 
   Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-
-  changelog.157832:1975:-1:2002:677883278264080:mysql-bin-
-  changelog.157832:1876#0#0#*#0#93"
+  changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93"
 
   LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
 
   !!! note
       When you use this task setting with a source PostgreSQL database, a logical
       replication slot should already be created and associated with the source endpoint.
-      You can verify this by setting the `slotName` extra connection attribute to the
-      name of this logical replication slot. For more information, see [Extra Connection Attributes When Using PostgreSQL as a Source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
+      You can verify this by setting the `slotName` extra connection attribute to the name
+      of this logical replication slot. For more information, see [Extra Connection Attributes When Using PostgreSQL as a Source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
 
 - `"CdcStartTime"`: Indicates the start time for a change data capture (CDC) operation. Use
-  either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to
-  start. Specifying both values results in an error.
+  either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start.
+  Specifying both values results in an error.
 
   Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
+
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time.
 
@@ -5826,8 +6013,7 @@ You can only use this operation for a task if the following conditions are true:
 - The task must be in the `stopped` state.
 - The task must have successful connections to the source and target.
 
-If either of these conditions are not met, an `InvalidResourceStateFault` error will
-result.
+If either of these conditions are not met, an `InvalidResourceStateFault` error will result.
 
 For information about DMS task assessments, see [Creating a task assessment report](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.AssessmentReport.html)
 in the *Database Migration Service User Guide*.
@@ -5873,64 +6059,64 @@ end
 Starts a new premigration assessment run for one or more individual assessments of a
 migration task.
 
-The assessments that you can specify depend on the source and target database engine and
-the migration type defined for the given task. To run this operation, your migration task
-must already be created. After you run this operation, you can review the status of each
-individual assessment. You can also run the migration task manually after the assessment
-run and its individual assessments complete.
+The assessments that you can specify depend on the source and target database engine and the
+migration type defined for the given task. To run this operation, your migration task must
+already be created. After you run this operation, you can review the status of each
+individual assessment. You can also run the migration task manually after the assessment run
+and its individual assessments complete.
 
 # Arguments
 
 - `assessment_run_name`: Unique name to identify the assessment run.
 - `replication_task_arn`: Amazon Resource Name (ARN) of the migration task associated with
   the premigration assessment run that you want to start.
-- `result_location_bucket`: Amazon S3 bucket where you want DMS to store the results of
-  this assessment run.
-- `service_access_role_arn`: ARN of the service role needed to start the assessment run.
-  The role must allow the `iam:PassRole` action.
+- `result_location_bucket`: Amazon S3 bucket where you want DMS to store the results of this
+  assessment run.
+- `service_access_role_arn`: ARN of the service role needed to start the assessment run. The
+  role must allow the `iam:PassRole` action.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Exclude"`: Space-separated list of names for specific individual assessments that you
-  want to exclude. These names come from the default list of individual assessments that
+  want to exclude. These names come from the default list of individual assessments that DMS
+  supports for the associated migration task. This task is specified by
+  `ReplicationTaskArn`.
+
+  !!! note
+      You can't set a value for `Exclude` if you also set a value for `IncludeOnly` in the
+      API operation.
+
+      To identify the names of the default individual assessments that DMS supports for the
+      associated migration task, run the [`describe_applicable_individual_assessments`](@ref)
+      operation using its own `replication_task_arn` request parameter.
+
+- `"IncludeOnly"`: Space-separated list of names for specific individual assessments that
+  you want to include. These names come from the default list of individual assessments that
   DMS supports for the associated migration task. This task is specified by
   `ReplicationTaskArn`.
 
   !!! note
-      You can't set a value for `Exclude` if you also set a value for `IncludeOnly` in
-      the API operation.
+      You can't set a value for `IncludeOnly` if you also set a value for `Exclude` in the
+      API operation.
 
-      To identify the names of the default individual assessments that DMS supports for
-      the associated migration task, run the [`describe_applicable_individual_assessments`](@ref)
-      operation using its own `replication_task_arn` request parameter.
-
-- `"IncludeOnly"`: Space-separated list of names for specific individual assessments that
-  you want to include. These names come from the default list of individual assessments
-  that DMS supports for the associated migration task. This task is specified by
-  `ReplicationTaskArn`.
-
-  !!! note
-      You can't set a value for `IncludeOnly` if you also set a value for `Exclude` in
-      the API operation.
-
-      To identify the names of the default individual assessments that DMS supports for
-      the associated migration task, run the [`describe_applicable_individual_assessments`](@ref)
+      To identify the names of the default individual assessments that DMS supports for the
+      associated migration task, run the [`describe_applicable_individual_assessments`](@ref)
       operation using its own `replication_task_arn` request parameter.
 
 - `"ResultEncryptionMode"`: Encryption mode that you can specify to encrypt the results of
   this assessment run. If you don't specify this request parameter, DMS stores the
-  assessment run results without encryption. You can specify one of the options
-  following:
+  assessment run results without encryption. You can specify one of the options following:
 
   - `"SSE_S3"` – The server-side encryption provided as a default by Amazon S3.
-  - `"SSE_KMS"` – Key Management Service (KMS) encryption. This encryption can use either
-    a custom KMS encryption key that you specify or the default KMS encryption key that
-    DMS provides.
+  - `"SSE_KMS"` – Key Management Service (KMS) encryption. This encryption can use either a
+    custom KMS encryption key that you specify or the default KMS encryption key that DMS
+    provides.
 
 - `"ResultKmsKeyArn"`: ARN of a custom KMS encryption key that you specify when you set
   `ResultEncryptionMode` to `"SSE_KMS`".
+
 - `"ResultLocationFolder"`: Folder within an Amazon S3 bucket where you want DMS to store
   the results of this assessment run.
 """
@@ -6140,8 +6326,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ForceMove"`: When set to true, this operation migrates DMS subscriptions for Amazon SNS
   notifications no matter what your replication instance version is. If not set or set to
-  false, this operation runs only when all your replication instances are from DMS
-  version 3.4.5 or higher.
+  false, this operation runs only when all your replication instances are from DMS version
+  3.4.5 or higher.
 """
 function update_subscriptions_to_event_bridge end
 

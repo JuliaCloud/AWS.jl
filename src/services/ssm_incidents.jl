@@ -115,8 +115,8 @@ end
     create_response_plan(incident_template, name, params::Dict{String,<:Any})
 
 Creates a response plan that automates the initial response to incidents. A response plan
-engages contacts, starts chat channel collaboration, and initiates runbooks at the
-beginning of an incident.
+engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning
+of an incident.
 
 # Arguments
 
@@ -132,8 +132,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token ensuring that the operation is called only once with the
   specified details.
 - `"displayName"`: The long format of the response plan name. This field can contain spaces.
-- `"engagements"`: The Amazon Resource Name (ARN) for the contacts and escalation plans
-  that the response plan engages during an incident.
+- `"engagements"`: The Amazon Resource Name (ARN) for the contacts and escalation plans that
+  the response plan engages during an incident.
 - `"integrations"`: Information about third-party services integrated into the response
   plan.
 - `"tags"`: A list of tags that you are adding to the response plan.
@@ -185,21 +185,24 @@ end
     create_timeline_event(event_data, event_time, event_type, incident_record_arn)
     create_timeline_event(event_data, event_time, event_type, incident_record_arn, params::Dict{String,<:Any})
 
-Creates a custom timeline event on the incident details page of an incident record.
-Incident Manager automatically creates timeline events that mark key moments during an
-incident. You can create custom timeline events to mark important events that Incident
-Manager can detect automatically.
+Creates a custom timeline event on the incident details page of an incident record. Incident
+Manager automatically creates timeline events that mark key moments during an incident. You
+can create custom timeline events to mark important events that Incident Manager can detect
+automatically.
 
 # Arguments
 
 - `event_data`: A short description of the event.
+
 - `event_time`: The timestamp for when the event occurred.
-- `event_type`: The type of event. You can create timeline events of type `Custom Event`
-  and `Note`.
+
+- `event_type`: The type of event. You can create timeline events of type `Custom Event` and
+  `Note`.
 
   To make a Note-type event appear on the *Incident notes* panel in the console, specify
-  `eventType` as `Note`and enter the Amazon Resource Name (ARN) of the incident as the
-  value for `eventReference`.
+  `eventType` as `Note`and enter the Amazon Resource Name (ARN) of the incident as the value
+  for `eventReference`.
+
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record that the
   action adds the incident to.
 
@@ -209,11 +212,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A token that ensures that a client calls the action only once with the
   specified details.
-- `"eventReferences"`: Adds one or more references to the `TimelineEvent`. A reference is
-  an Amazon Web Services resource involved or associated with the incident. To specify a
+
+- `"eventReferences"`: Adds one or more references to the `TimelineEvent`. A reference is an
+  Amazon Web Services resource involved or associated with the incident. To specify a
   reference, enter its Amazon Resource Name (ARN). You can also specify a related item
-  associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table
-  as a resource, use the table's ARN. You can also specify an Amazon CloudWatch metric
+  associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as
+  a resource, use the table's ARN. You can also specify an Amazon CloudWatch metric
   associated with the DynamoDB table as a related item.
 """
 function create_timeline_event end
@@ -342,8 +346,8 @@ end
     delete_resource_policy(policy_id, resource_arn)
     delete_resource_policy(policy_id, resource_arn, params::Dict{String,<:Any})
 
-Deletes the resource policy that Resource Access Manager uses to share your Incident
-Manager resource.
+Deletes the resource policy that Resource Access Manager uses to share your Incident Manager
+resource.
 
 # Arguments
 
@@ -631,8 +635,8 @@ Retrieves a timeline event based on its ID and incident record.
 
 # Arguments
 
-- `event_id`: The ID of the event. You can get an event's ID when you create it, or by
-  using `ListTimelineEvents`.
+- `event_id`: The ID of the event. You can get an event's ID when you create it, or by using
+  `ListTimelineEvents`.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident that includes the
   timeline event.
 """
@@ -731,8 +735,8 @@ end
     list_incident_records()
     list_incident_records(params::Dict{String,<:Any})
 
-Lists all incident records in your account. Use this command to retrieve the Amazon
-Resource Name (ARN) of the incident record you want to update.
+Lists all incident records in your account. Use this command to retrieve the Amazon Resource
+Name (ARN) of the incident record you want to update.
 
 # Optional Parameters
 
@@ -749,12 +753,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Note the following when when you use Filters:
 
   - If you don't specify a Filter, the response includes all incident records.
-  - If you specify more than one filter in a single request, the response returns
-    incident records that match all filters.
-  - If you specify a filter with more than one value, the response returns incident
-    records that match any of the values provided.
+  - If you specify more than one filter in a single request, the response returns incident
+    records that match all filters.
+  - If you specify a filter with more than one value, the response returns incident records
+    that match any of the values provided.
 
 - `"maxResults"`: The maximum number of results per page.
+
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
 """
@@ -955,8 +960,8 @@ Lists timeline events for the specified incident record.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filters"`: Filters the timeline events based on the provided conditional values. You
-  can filter timeline events with the following keys:
+- `"filters"`: Filters the timeline events based on the provided conditional values. You can
+  filter timeline events with the following keys:
 
   - `eventReference`
   - `eventTime`
@@ -965,15 +970,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Note the following when deciding how to use Filters:
 
   - If you don't specify a Filter, the response includes all timeline events.
-  - If you specify more than one filter in a single request, the response returns
-    timeline events that match all filters.
-  - If you specify a filter with more than one value, the response returns timeline
-    events that match any of the values provided.
+  - If you specify more than one filter in a single request, the response returns timeline
+    events that match all filters.
+  - If you specify a filter with more than one value, the response returns timeline events
+    that match any of the values provided.
 
 - `"maxResults"`: The maximum number of results per page.
+
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
+
 - `"sortBy"`: Sort timeline events by the specified key value pair.
+
 - `"sortOrder"`: Sorts the order of timeline events by the value specified in the `sortBy`
   field.
 """
@@ -1075,8 +1083,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A token ensuring that the operation is called only once with the
   specified details.
-- `"impact"`: Defines the impact to the customers. Providing an impact overwrites the
-  impact provided by a response plan.
+
+- `"impact"`: Defines the impact to the customers. Providing an impact overwrites the impact
+  provided by a response plan.
 
   ## Supported impact codes
 
@@ -1087,10 +1096,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `5` - No Impact
 
 - `"relatedItems"`: Add related items to the incident for other responders to use. Related
-  items are Amazon Web Services resources, external links, or files uploaded to an Amazon
-  S3 bucket.
+  items are Amazon Web Services resources, external links, or files uploaded to an Amazon S3
+  bucket.
+
 - `"title"`: Provide a title for the incident. Providing a title overwrites the title
   provided by the response plan.
+
 - `"triggerDetails"`: Details of what created the incident record in Incident Manager.
 """
 function start_incident end
@@ -1137,8 +1148,8 @@ Adds a tag to a response plan.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the response plan you're adding the
-  tags to.
+- `resource_arn`: The Amazon Resource Name (ARN) of the response plan you're adding the tags
+  to.
 - `tags`: A list of tags to add to the response plan.
 """
 function tag_resource end
@@ -1289,11 +1300,12 @@ channels, see [Interacting through chat](https://docs.aws.amazon.com/incident-ma
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"chatChannel"`: The Chatbot chat channel where responders can collaborate.
-- `"clientToken"`: A token that ensures that a client calls the operation only once with
-  the specified details.
+
+- `"clientToken"`: A token that ensures that a client calls the operation only once with the
+  specified details.
+
 - `"impact"`: Defines the impact of the incident to customers and applications. If you
-  provide an impact for an incident, it overwrites the impact provided by the response
-  plan.
+  provide an impact for an incident, it overwrites the impact provided by the response plan.
 
   ## Supported impact codes
 
@@ -1306,10 +1318,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"notificationTargets"`: The Amazon SNS targets that Incident Manager notifies when a
   client updates an incident.
 
-  Using multiple SNS topics creates redundancy in the event that a Region is down during
-  the incident.
+  Using multiple SNS topics creates redundancy in the event that a Region is down during the
+  incident.
+
 - `"status"`: The status of the incident. Possible statuses are `Open` or `Resolved`.
+
 - `"summary"`: A longer description of what occurred during the incident.
+
 - `"title"`: A brief description of the incident.
 """
 function update_incident_record end
@@ -1350,8 +1365,8 @@ Add or remove related items from the related items tab of an incident record.
 
 # Arguments
 
-- `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record that
-  contains the related items that you update.
+- `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record that contains
+  the related items that you update.
 - `related_items_update`: Details about the item that you are add to, or delete from, an
   incident.
 
@@ -1359,8 +1374,8 @@ Add or remove related items from the related items tab of an incident record.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A token that ensures that a client calls the operation only once with
-  the specified details.
+- `"clientToken"`: A token that ensures that a client calls the operation only once with the
+  specified details.
 """
 function update_related_items end
 
@@ -1479,17 +1494,23 @@ Updates the specified response plan.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"actions"`: The actions that this response plan takes at the beginning of an incident.
+
 - `"chatChannel"`: The Chatbot chat channel used for collaboration during an incident.
 
   Use the empty structure to remove the chat channel from the response plan.
+
 - `"clientToken"`: A token ensuring that the operation is called only once with the
   specified details.
-- `"displayName"`: The long format name of the response plan. The display name can't
-  contain spaces.
-- `"engagements"`: The Amazon Resource Name (ARN) for the contacts and escalation plans
-  that the response plan engages during an incident.
+
+- `"displayName"`: The long format name of the response plan. The display name can't contain
+  spaces.
+
+- `"engagements"`: The Amazon Resource Name (ARN) for the contacts and escalation plans that
+  the response plan engages during an incident.
+
 - `"incidentTemplateDedupeString"`: The string Incident Manager uses to prevent duplicate
   incidents from being created by the same incident in the same account.
+
 - `"incidentTemplateImpact"`: Defines the impact to the customers. Providing an impact
   overwrites the impact provided by a response plan.
 
@@ -1503,14 +1524,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"incidentTemplateNotificationTargets"`: The Amazon SNS targets that are notified when
   updates are made to an incident.
-- `"incidentTemplateSummary"`: A brief summary of the incident. This typically contains
-  what has happened, what's currently happening, and next steps.
+
+- `"incidentTemplateSummary"`: A brief summary of the incident. This typically contains what
+  has happened, what's currently happening, and next steps.
+
 - `"incidentTemplateTags"`: Tags to assign to the template. When the `StartIncident` API
   action is called, Incident Manager assigns the tags specified in the template to the
-  incident. To call this action, you must also have permission to call the `TagResource`
-  API action for the incident record resource.
+  incident. To call this action, you must also have permission to call the `TagResource` API
+  action for the incident record resource.
+
 - `"incidentTemplateTitle"`: The short format name of the incident. The title can't contain
   spaces.
+
 - `"integrations"`: Information about third-party services integrated into the response
   plan.
 """
@@ -1561,22 +1586,25 @@ Updates a timeline event. You can update events of type `Custom Event`.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: A token that ensures that a client calls the operation only once with
-  the specified details.
+- `"clientToken"`: A token that ensures that a client calls the operation only once with the
+  specified details.
+
 - `"eventData"`: A short description of the event.
+
 - `"eventReferences"`: Updates all existing references in a `TimelineEvent`. A reference is
   an Amazon Web Services resource involved or associated with the incident. To specify a
   reference, enter its Amazon Resource Name (ARN). You can also specify a related item
-  associated with that resource. For example, to specify an Amazon DynamoDB (DynamoDB)
-  table as a resource, use its ARN. You can also specify an Amazon CloudWatch metric
-  associated with the DynamoDB table as a related item.
+  associated with that resource. For example, to specify an Amazon DynamoDB (DynamoDB) table
+  as a resource, use its ARN. You can also specify an Amazon CloudWatch metric associated
+  with the DynamoDB table as a related item.
 
   !!! important
       This update action overrides all existing references. If you want to keep existing
-      references, you must specify them in the call. If you don't, this action removes
-      any existing references and enters only new references.
+      references, you must specify them in the call. If you don't, this action removes any
+      existing references and enters only new references.
 
 - `"eventTime"`: The timestamp for when the event occurred.
+
 - `"eventType"`: The type of event. You can update events of type `Custom Event` and `Note`.
 """
 function update_timeline_event end

@@ -8,8 +8,6 @@ using AWS.UUIDs
     create_byte_match_set(change_token, name)
     create_byte_match_set(change_token, name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -27,11 +25,13 @@ AWS WAF to reject those requests.
 To create and configure a `ByteMatchSet`, perform the following steps:
 
 1. Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `CreateByteMatchSet` request.2. Submit a
-   `CreateByteMatchSet` request.3. Use `GetChangeToken` to get the change token that you
-   provide in the `ChangeToken` parameter of an `UpdateByteMatchSet` request.4. Submit an [`update_byte_match_set`](@ref)
-   request to specify the part of the request that you want AWS WAF to inspect (for
-   example, the header or the URI) and the value that you want AWS WAF to watch for.
+   `ChangeToken` parameter of a `CreateByteMatchSet` request.
+2. Submit a `CreateByteMatchSet` request.
+3. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an `UpdateByteMatchSet` request.
+4. Submit an [`update_byte_match_set`](@ref) request to specify the part of the request that
+   you want AWS WAF to inspect (for example, the header or the URI) and the value that you
+   want AWS WAF to watch for.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -79,8 +79,6 @@ end
     create_geo_match_set(change_token, name)
     create_geo_match_set(change_token, name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -90,19 +88,20 @@ end
     use.
 
 Creates an [`geo_match_set`](@ref), which you use to specify which web requests you want to
-allow or block based on the country that the requests originate from. For example, if
-you're receiving a lot of requests from one or more countries and you want to block the
-requests, you can create an `GeoMatchSet` that contains those countries and then configure
-AWS WAF to block the requests.
+allow or block based on the country that the requests originate from. For example, if you're
+receiving a lot of requests from one or more countries and you want to block the requests,
+you can create an `GeoMatchSet` that contains those countries and then configure AWS WAF to
+block the requests.
 
 To create and configure a `GeoMatchSet`, perform the following steps:
 
 1. Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `CreateGeoMatchSet` request.2. Submit a `CreateGeoMatchSet`
-   request.3. Use `GetChangeToken` to get the change token that you provide in the
-   `ChangeToken` parameter of an [`update_geo_match_set`](@ref) request.4. Submit an
-   `UpdateGeoMatchSetSet` request to specify the countries that you want AWS WAF to watch
-   for.
+   `ChangeToken` parameter of a `CreateGeoMatchSet` request.
+2. Submit a `CreateGeoMatchSet` request.
+3. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an [`update_geo_match_set`](@ref) request.
+4. Submit an `UpdateGeoMatchSetSet` request to specify the countries that you want AWS WAF
+   to watch for.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -150,8 +149,6 @@ end
     create_ipset(change_token, name)
     create_ipset(change_token, name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -169,10 +166,12 @@ contains those IP addresses and then configure AWS WAF to block the requests.
 To create and configure an `IPSet`, perform the following steps:
 
 1. Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `CreateIPSet` request.2. Submit a `CreateIPSet` request.3.
-   Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
-   parameter of an [`update_ipset`](@ref) request.4. Submit an `UpdateIPSet` request to
-   specify the IP addresses that you want AWS WAF to watch for.
+   `ChangeToken` parameter of a `CreateIPSet` request.
+2. Submit a `CreateIPSet` request.
+3. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an [`update_ipset`](@ref) request.
+4. Submit an `UpdateIPSet` request to specify the IP addresses that you want AWS WAF to
+   watch for.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -217,8 +216,6 @@ end
 """
     create_rate_based_rule(change_token, metric_name, name, rate_key, rate_limit)
     create_rate_based_rule(change_token, metric_name, name, rate_key, rate_limit, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -266,14 +263,15 @@ without affecting the rest of your site.
 To create and configure a `RateBasedRule`, perform the following steps:
 
 1. Create and update the predicates that you want to include in the rule. For more
-   information, see [`create_byte_match_set`](@ref), [`create_ipset`](@ref), and [`create_sql_injection_match_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `CreateRule` request.3. Submit a `CreateRateBasedRule`
-   request.4. Use `GetChangeToken` to get the change token that you provide in the
-   `ChangeToken` parameter of an [`update_rule`](@ref) request.5. Submit an
-   `UpdateRateBasedRule` request to specify the predicates that you want to include in the
-   rule.6. Create and update a `WebACL` that contains the `RateBasedRule`. For more
-   information, see [`create_web_acl`](@ref).
+   information, see [`create_byte_match_set`](@ref), [`create_ipset`](@ref), and [`create_sql_injection_match_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `CreateRule` request.
+3. Submit a `CreateRateBasedRule` request.
+4. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an [`update_rule`](@ref) request.
+5. Submit an `UpdateRateBasedRule` request to specify the predicates that you want to
+   include in the rule.
+6. Create and update a `WebACL` that contains the `RateBasedRule`. For more information, see [`create_web_acl`](@ref).
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -283,21 +281,25 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 - `change_token`: The `ChangeToken` that you used to submit the `CreateRateBasedRule`
   request. You can also use this value to query the status of the request. For more
   information, see [`get_change_token_status`](@ref).
+
 - `metric_name`: A friendly name or description for the metrics for this `RateBasedRule`.
-  The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length
-  128 and minimum length one. It can't contain whitespace or metric names reserved for
-  AWS WAF, including "All" and "Default_Action." You can't change the name of the metric
-  after you create the `RateBasedRule`.
+  The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128
+  and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF,
+  including "All" and "Default_Action." You can't change the name of the metric after you
+  create the `RateBasedRule`.
+
 - `name`: A friendly name or description of the [`rate_based_rule`](@ref). You can't change
   the name of a `RateBasedRule` after you create it.
+
 - `rate_key`: The field that AWS WAF uses to determine if requests are likely arriving from
-  a single source and thus subject to rate monitoring. The only valid value for `RateKey`
-  is `IP`. `IP` indicates that requests that arrive from the same IP address are subject
-  to the `RateLimit` that is specified in the `RateBasedRule`.
+  a single source and thus subject to rate monitoring. The only valid value for `RateKey` is
+  `IP`. `IP` indicates that requests that arrive from the same IP address are subject to the
+  `RateLimit` that is specified in the `RateBasedRule`.
+
 - `rate_limit`: The maximum number of requests, which have an identical value in the field
-  that is specified by `RateKey`, allowed in a five-minute period. If the number of
-  requests exceeds the `RateLimit` and the other predicates specified in the rule are
-  also met, AWS WAF triggers the action that is specified for this rule.
+  that is specified by `RateKey`, allowed in a five-minute period. If the number of requests
+  exceeds the `RateLimit` and the other predicates specified in the rule are also met, AWS
+  WAF triggers the action that is specified for this rule.
 
 # Optional Parameters
 
@@ -362,8 +364,6 @@ end
     create_regex_match_set(change_token, name)
     create_regex_match_set(change_token, name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -375,19 +375,20 @@ end
 Creates a [`regex_match_set`](@ref). You then use [`update_regex_match_set`](@ref) to
 identify the part of a web request that you want AWS WAF to inspect, such as the values of
 the `User-Agent` header or the query string. For example, you can create a `RegexMatchSet`
-that contains a `RegexMatchTuple` that looks for any requests with `User-Agent` headers
-that match a `RegexPatternSet` with pattern `B[a@]dB[o0]t`. You can then configure AWS WAF
-to reject those requests.
+that contains a `RegexMatchTuple` that looks for any requests with `User-Agent` headers that
+match a `RegexPatternSet` with pattern `B[a@]dB[o0]t`. You can then configure AWS WAF to
+reject those requests.
 
 To create and configure a `RegexMatchSet`, perform the following steps:
 
 1. Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `CreateRegexMatchSet` request.2. Submit a
-   `CreateRegexMatchSet` request.3. Use `GetChangeToken` to get the change token that you
-   provide in the `ChangeToken` parameter of an `UpdateRegexMatchSet` request.4. Submit an [`update_regex_match_set`](@ref)
-   request to specify the part of the request that you want AWS WAF to inspect (for
-   example, the header or the URI) and the value, using a `RegexPatternSet`, that you want
-   AWS WAF to watch for.
+   `ChangeToken` parameter of a `CreateRegexMatchSet` request.
+2. Submit a `CreateRegexMatchSet` request.
+3. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an `UpdateRegexMatchSet` request.
+4. Submit an [`update_regex_match_set`](@ref) request to specify the part of the request
+   that you want AWS WAF to inspect (for example, the header or the URI) and the value,
+   using a `RegexPatternSet`, that you want AWS WAF to watch for.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -435,8 +436,6 @@ end
     create_regex_pattern_set(change_token, name)
     create_regex_pattern_set(change_token, name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -452,11 +451,12 @@ regular expression (regex) pattern that you want AWS WAF to search for, such as
 To create and configure a `RegexPatternSet`, perform the following steps:
 
 1. Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `CreateRegexPatternSet` request.2. Submit a
-   `CreateRegexPatternSet` request.3. Use `GetChangeToken` to get the change token that you
-   provide in the `ChangeToken` parameter of an `UpdateRegexPatternSet` request.4. Submit
-   an [`update_regex_pattern_set`](@ref) request to specify the string that you want AWS
-   WAF to watch for.
+   `ChangeToken` parameter of a `CreateRegexPatternSet` request.
+2. Submit a `CreateRegexPatternSet` request.
+3. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an `UpdateRegexPatternSet` request.
+4. Submit an [`update_regex_pattern_set`](@ref) request to specify the string that you want
+   AWS WAF to watch for.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -504,8 +504,6 @@ end
     create_rule(change_token, metric_name, name)
     create_rule(change_token, metric_name, name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -523,19 +521,21 @@ blocked. For example, suppose that you add the following to a `Rule`:
 - A `ByteMatchSet` that matches `BadBot` in the `User-Agent` header
 
 You then add the `Rule` to a `WebACL` and specify that you want to blocks requests that
-satisfy the `Rule`. For a request to be blocked, it must come from the IP address
-192.0.2.44 *and* the `User-Agent` header in the request must contain the value `BadBot`.
+satisfy the `Rule`. For a request to be blocked, it must come from the IP address 192.0.2.44
+*and* the `User-Agent` header in the request must contain the value `BadBot`.
 
 To create and configure a `Rule`, perform the following steps:
 
 1. Create and update the predicates that you want to include in the `Rule`. For more
-   information, see [`create_byte_match_set`](@ref), [`create_ipset`](@ref), and [`create_sql_injection_match_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `CreateRule` request.3. Submit a `CreateRule` request.4.
-   Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
-   parameter of an [`update_rule`](@ref) request.5. Submit an `UpdateRule` request to
-   specify the predicates that you want to include in the `Rule`.6. Create and update a
-   `WebACL` that contains the `Rule`. For more information, see [`create_web_acl`](@ref).
+   information, see [`create_byte_match_set`](@ref), [`create_ipset`](@ref), and [`create_sql_injection_match_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `CreateRule` request.
+3. Submit a `CreateRule` request.
+4. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an [`update_rule`](@ref) request.
+5. Submit an `UpdateRule` request to specify the predicates that you want to include in the
+   `Rule`.
+6. Create and update a `WebACL` that contains the `Rule`. For more information, see [`create_web_acl`](@ref).
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -543,13 +543,15 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+
 - `metric_name`: A friendly name or description for the metrics for this `Rule`. The name
   can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and
   minimum length one. It can't contain whitespace or metric names reserved for AWS WAF,
   including "All" and "Default_Action." You can't change the name of the metric after you
   create the `Rule`.
-- `name`: A friendly name or description of the [`rule`](@ref). You can't change the name
-  of a `Rule` after you create it.
+
+- `name`: A friendly name or description of the [`rule`](@ref). You can't change the name of
+  a `Rule` after you create it.
 
 # Optional Parameters
 
@@ -599,8 +601,6 @@ end
     create_rule_group(change_token, metric_name, name)
     create_rule_group(change_token, metric_name, name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -625,11 +625,13 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+
 - `metric_name`: A friendly name or description for the metrics for this `RuleGroup`. The
-  name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128
-  and minimum length one. It can't contain whitespace or metric names reserved for AWS
-  WAF, including "All" and "Default_Action." You can't change the name of the metric
-  after you create the `RuleGroup`.
+  name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and
+  minimum length one. It can't contain whitespace or metric names reserved for AWS WAF,
+  including "All" and "Default_Action." You can't change the name of the metric after you
+  create the `RuleGroup`.
+
 - `name`: A friendly name or description of the [`rule_group`](@ref). You can't change
   `Name` after you create a `RuleGroup`.
 
@@ -681,8 +683,6 @@ end
     create_size_constraint_set(change_token, name)
     create_size_constraint_set(change_token, name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -691,21 +691,22 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Creates a `SizeConstraintSet`. You then use [`update_size_constraint_set`](@ref) to
-identify the part of a web request that you want AWS WAF to check for length, such as the
-length of the `User-Agent` header or the length of the query string. For example, you can
-create a `SizeConstraintSet` that matches any requests that have a query string that is
-longer than 100 bytes. You can then configure AWS WAF to reject those requests.
+Creates a `SizeConstraintSet`. You then use [`update_size_constraint_set`](@ref) to identify
+the part of a web request that you want AWS WAF to check for length, such as the length of
+the `User-Agent` header or the length of the query string. For example, you can create a
+`SizeConstraintSet` that matches any requests that have a query string that is longer than
+100 bytes. You can then configure AWS WAF to reject those requests.
 
 To create and configure a `SizeConstraintSet`, perform the following steps:
 
 1. Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `CreateSizeConstraintSet` request.2. Submit a
-   `CreateSizeConstraintSet` request.3. Use `GetChangeToken` to get the change token that
-   you provide in the `ChangeToken` parameter of an `UpdateSizeConstraintSet` request.4.
-   Submit an [`update_size_constraint_set`](@ref) request to specify the part of the
-   request that you want AWS WAF to inspect (for example, the header or the URI) and the
-   value that you want AWS WAF to watch for.
+   `ChangeToken` parameter of a `CreateSizeConstraintSet` request.
+2. Submit a `CreateSizeConstraintSet` request.
+3. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an `UpdateSizeConstraintSet` request.
+4. Submit an [`update_size_constraint_set`](@ref) request to specify the part of the request
+   that you want AWS WAF to inspect (for example, the header or the URI) and the value that
+   you want AWS WAF to watch for.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -753,8 +754,6 @@ end
     create_sql_injection_match_set(change_token, name)
     create_sql_injection_match_set(change_token, name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -770,11 +769,12 @@ searches for character sequences that are likely to be malicious strings.
 To create and configure a `SqlInjectionMatchSet`, perform the following steps:
 
 1. Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `CreateSqlInjectionMatchSet` request.2. Submit a
-   `CreateSqlInjectionMatchSet` request.3. Use `GetChangeToken` to get the change token
-   that you provide in the `ChangeToken` parameter of an [`update_sql_injection_match_set`](@ref)
-   request.4. Submit an [`update_sql_injection_match_set`](@ref) request to specify the
-   parts of web requests in which you want to allow, block, or count malicious SQL code.
+   `ChangeToken` parameter of a `CreateSqlInjectionMatchSet` request.
+2. Submit a `CreateSqlInjectionMatchSet` request.
+3. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an [`update_sql_injection_match_set`](@ref) request.
+4. Submit an [`update_sql_injection_match_set`](@ref) request to specify the parts of web
+   requests in which you want to allow, block, or count malicious SQL code.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -822,8 +822,6 @@ end
     create_web_acl(change_token, default_action, metric_name, name)
     create_web_acl(change_token, default_action, metric_name, name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -836,37 +834,40 @@ Creates a `WebACL`, which contains the `Rules` that identify the CloudFront web 
 that you want to allow, block, or count. AWS WAF evaluates `Rules` in order based on the
 value of `Priority` for each `Rule`.
 
-You also specify a default action, either `ALLOW` or `BLOCK`. If a web request doesn't
-match any of the `Rules` in a `WebACL`, AWS WAF responds to the request with the default
-action.
+You also specify a default action, either `ALLOW` or `BLOCK`. If a web request doesn't match
+any of the `Rules` in a `WebACL`, AWS WAF responds to the request with the default action.
 
 To create and configure a `WebACL`, perform the following steps:
 
 1. Create and update the `ByteMatchSet` objects and other predicates that you want to
-   include in `Rules`. For more information, see [`create_byte_match_set`](@ref), [`update_byte_match_set`](@ref),
-   [`create_ipset`](@ref), [`update_ipset`](@ref), [`create_sql_injection_match_set`](@ref),
-   and [`update_sql_injection_match_set`](@ref).2. Create and update the `Rules` that you
-   want to include in the `WebACL`. For more information, see [`create_rule`](@ref) and [`update_rule`](@ref).3.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `CreateWebACL` request.4. Submit a `CreateWebACL`
-   request.5. Use `GetChangeToken` to get the change token that you provide in the
-   `ChangeToken` parameter of an [`update_web_acl`](@ref) request.6. Submit an [`update_web_acl`](@ref)
-   request to specify the `Rules` that you want to include in the `WebACL`, to specify the
-   default action, and to associate the `WebACL` with a CloudFront distribution.
+   include in `Rules`. For more information, see [`create_byte_match_set`](@ref), [`update_byte_match_set`](@ref), [`create_ipset`](@ref), [`update_ipset`](@ref), [`create_sql_injection_match_set`](@ref),
+   and [`update_sql_injection_match_set`](@ref).
+2. Create and update the `Rules` that you want to include in the `WebACL`. For more
+   information, see [`create_rule`](@ref) and [`update_rule`](@ref).
+3. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `CreateWebACL` request.
+4. Submit a `CreateWebACL` request.
+5. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an [`update_web_acl`](@ref) request.
+6. Submit an [`update_web_acl`](@ref) request to specify the `Rules` that you want to
+   include in the `WebACL`, to specify the default action, and to associate the `WebACL`
+   with a CloudFront distribution.
 
 For more information about how to use the AWS WAF API, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
 
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+
 - `default_action`: The action that you want AWS WAF to take when a request doesn't match
-  the criteria specified in any of the `Rule` objects that are associated with the
-  `WebACL`.
+  the criteria specified in any of the `Rule` objects that are associated with the `WebACL`.
+
 - `metric_name`: A friendly name or description for the metrics for this `WebACL`.The name
   can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and
   minimum length one. It can't contain whitespace or metric names reserved for AWS WAF,
-  including "All" and "Default_Action." You can't change `MetricName` after you create
-  the `WebACL`.
+  including "All" and "Default_Action." You can't change `MetricName` after you create the
+  `WebACL`.
+
 - `name`: A friendly name or description of the [`web_acl`](@ref). You can't change `Name`
   after you create the `WebACL`.
 
@@ -931,30 +932,31 @@ end
 
 Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the specified
 Amazon S3 bucket. Then, in CloudFormation, you create a stack from the template, to create
-the web ACL and its resources in AWS WAFV2. Use this to migrate your AWS WAF Classic web
-ACL to the latest version of AWS WAF.
+the web ACL and its resources in AWS WAFV2. Use this to migrate your AWS WAF Classic web ACL
+to the latest version of AWS WAF.
 
-This is part of a larger migration procedure for web ACLs from AWS WAF Classic to the
-latest version of AWS WAF. For the full procedure, including caveats and manual steps to
-complete the migration and switch over to the new web ACL, see [Migrating your AWS WAF Classic resources to AWS WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-migrating-from-classic.html)
+This is part of a larger migration procedure for web ACLs from AWS WAF Classic to the latest
+version of AWS WAF. For the full procedure, including caveats and manual steps to complete
+the migration and switch over to the new web ACL, see [Migrating your AWS WAF Classic resources to AWS WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-migrating-from-classic.html)
 in the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
 
 # Arguments
 
-- `ignore_unsupported_type`: Indicates whether to exclude entities that can't be migrated
-  or to stop the migration. Set this to true to ignore unsupported entities in the web
-  ACL during the migration. Otherwise, if AWS WAF encounters unsupported entities, it
-  stops the process and throws an exception.
+- `ignore_unsupported_type`: Indicates whether to exclude entities that can't be migrated or
+  to stop the migration. Set this to true to ignore unsupported entities in the web ACL
+  during the migration. Otherwise, if AWS WAF encounters unsupported entities, it stops the
+  process and throws an exception.
+
 - `s3_bucket_name`: The name of the Amazon S3 bucket to store the CloudFormation template
   in. The S3 bucket must be configured as follows for the migration:
 
   - The bucket name must start with `aws-waf-migration-`. For example,
     `aws-waf-migration-my-web-acl`.
-  - The bucket must be in the Region where you are deploying the template. For example,
-    for a web ACL in us-west-2, you must use an Amazon S3 bucket in us-west-2 and you
-    must deploy the template stack to us-west-2.
-  - The bucket policies must permit the migration process to write data. For listings of
-    the bucket policies, see the Examples section.
+  - The bucket must be in the Region where you are deploying the template. For example, for
+    a web ACL in us-west-2, you must use an Amazon S3 bucket in us-west-2 and you must
+    deploy the template stack to us-west-2.
+  - The bucket policies must permit the migration process to write data. For listings of the
+    bucket policies, see the Examples section.
 
 - `web_aclid`: The UUID of the WAF Classic web ACL that you want to migrate to WAF v2.
 """
@@ -1007,8 +1009,6 @@ end
     create_xss_match_set(change_token, name)
     create_xss_match_set(change_token, name, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1018,17 +1018,18 @@ end
     use.
 
 Creates an [`xss_match_set`](@ref), which you use to allow, block, or count requests that
-contain cross-site scripting attacks in the specified part of web requests. AWS WAF
-searches for character sequences that are likely to be malicious strings.
+contain cross-site scripting attacks in the specified part of web requests. AWS WAF searches
+for character sequences that are likely to be malicious strings.
 
 To create and configure an `XssMatchSet`, perform the following steps:
 
 1. Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `CreateXssMatchSet` request.2. Submit a `CreateXssMatchSet`
-   request.3. Use `GetChangeToken` to get the change token that you provide in the
-   `ChangeToken` parameter of an [`update_xss_match_set`](@ref) request.4. Submit an [`update_xss_match_set`](@ref)
-   request to specify the parts of web requests in which you want to allow, block, or count
-   cross-site scripting attacks.
+   `ChangeToken` parameter of a `CreateXssMatchSet` request.
+2. Submit a `CreateXssMatchSet` request.
+3. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an [`update_xss_match_set`](@ref) request.
+4. Submit an [`update_xss_match_set`](@ref) request to specify the parts of web requests in
+   which you want to allow, block, or count cross-site scripting attacks.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -1076,8 +1077,6 @@ end
     delete_byte_match_set(byte_match_set_id, change_token)
     delete_byte_match_set(byte_match_set_id, change_token, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1094,15 +1093,15 @@ If you just want to remove a `ByteMatchSet` from a `Rule`, use [`update_rule`](@
 
 To permanently delete a `ByteMatchSet`, perform the following steps:
 
-1. Update the `ByteMatchSet` to remove filters, if any. For more information, see [`update_byte_match_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `DeleteByteMatchSet` request.3. Submit a
-   `DeleteByteMatchSet` request.
+1. Update the `ByteMatchSet` to remove filters, if any. For more information, see [`update_byte_match_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `DeleteByteMatchSet` request.
+3. Submit a `DeleteByteMatchSet` request.
 
 # Arguments
 
-- `byte_match_set_id`: The `ByteMatchSetId` of the [`byte_match_set`](@ref) that you want
-  to delete. `ByteMatchSetId` is returned by [`create_byte_match_set`](@ref) and by [`list_byte_match_sets`](@ref).
+- `byte_match_set_id`: The `ByteMatchSetId` of the [`byte_match_set`](@ref) that you want to
+  delete. `ByteMatchSetId` is returned by [`create_byte_match_set`](@ref) and by [`list_byte_match_sets`](@ref).
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
 """
 function delete_byte_match_set end
@@ -1144,8 +1143,6 @@ end
     delete_geo_match_set(change_token, geo_match_set_id)
     delete_geo_match_set(change_token, geo_match_set_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1161,10 +1158,10 @@ If you just want to remove a `GeoMatchSet` from a `Rule`, use [`update_rule`](@r
 
 To permanently delete a `GeoMatchSet` from AWS WAF, perform the following steps:
 
-1. Update the `GeoMatchSet` to remove any countries. For more information, see [`update_geo_match_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `DeleteGeoMatchSet` request.3. Submit a `DeleteGeoMatchSet`
-   request.
+1. Update the `GeoMatchSet` to remove any countries. For more information, see [`update_geo_match_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `DeleteGeoMatchSet` request.
+3. Submit a `DeleteGeoMatchSet` request.
 
 # Arguments
 
@@ -1211,8 +1208,6 @@ end
     delete_ipset(change_token, ipset_id)
     delete_ipset(change_token, ipset_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1228,9 +1223,10 @@ If you just want to remove an `IPSet` from a `Rule`, use [`update_rule`](@ref).
 
 To permanently delete an `IPSet` from AWS WAF, perform the following steps:
 
-1. Update the `IPSet` to remove IP address ranges, if any. For more information, see [`update_ipset`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `DeleteIPSet` request.3. Submit a `DeleteIPSet` request.
+1. Update the `IPSet` to remove IP address ranges, if any. For more information, see [`update_ipset`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `DeleteIPSet` request.
+3. Submit a `DeleteIPSet` request.
 
 # Arguments
 
@@ -1274,8 +1270,6 @@ end
 """
     delete_logging_configuration(resource_arn)
     delete_logging_configuration(resource_arn, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -1323,8 +1317,6 @@ end
 """
     delete_permission_policy(resource_arn)
     delete_permission_policy(resource_arn, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -1377,8 +1369,6 @@ end
     delete_rate_based_rule(change_token, rule_id)
     delete_rate_based_rule(change_token, rule_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1395,16 +1385,16 @@ If you just want to remove a rule from a `WebACL`, use [`update_web_acl`](@ref).
 
 To permanently delete a `RateBasedRule` from AWS WAF, perform the following steps:
 
-1. Update the `RateBasedRule` to remove predicates, if any. For more information, see [`update_rate_based_rule`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `DeleteRateBasedRule` request.3. Submit a
-   `DeleteRateBasedRule` request.
+1. Update the `RateBasedRule` to remove predicates, if any. For more information, see [`update_rate_based_rule`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `DeleteRateBasedRule` request.
+3. Submit a `DeleteRateBasedRule` request.
 
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `rule_id`: The `RuleId` of the [`rate_based_rule`](@ref) that you want to delete.
-  `RuleId` is returned by [`create_rate_based_rule`](@ref) and by [`list_rate_based_rules`](@ref).
+- `rule_id`: The `RuleId` of the [`rate_based_rule`](@ref) that you want to delete. `RuleId`
+  is returned by [`create_rate_based_rule`](@ref) and by [`list_rate_based_rules`](@ref).
 """
 function delete_rate_based_rule end
 
@@ -1443,8 +1433,6 @@ end
     delete_regex_match_set(change_token, regex_match_set_id)
     delete_regex_match_set(change_token, regex_match_set_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1461,17 +1449,16 @@ If you just want to remove a `RegexMatchSet` from a `Rule`, use [`update_rule`](
 
 To permanently delete a `RegexMatchSet`, perform the following steps:
 
-1. Update the `RegexMatchSet` to remove filters, if any. For more information, see [`update_regex_match_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `DeleteRegexMatchSet` request.3. Submit a
-   `DeleteRegexMatchSet` request.
+1. Update the `RegexMatchSet` to remove filters, if any. For more information, see [`update_regex_match_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `DeleteRegexMatchSet` request.
+3. Submit a `DeleteRegexMatchSet` request.
 
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `regex_match_set_id`: The `RegexMatchSetId` of the [`regex_match_set`](@ref) that you
-  want to delete. `RegexMatchSetId` is returned by [`create_regex_match_set`](@ref) and
-  by [`list_regex_match_sets`](@ref).
+- `regex_match_set_id`: The `RegexMatchSetId` of the [`regex_match_set`](@ref) that you want
+  to delete. `RegexMatchSetId` is returned by [`create_regex_match_set`](@ref) and by [`list_regex_match_sets`](@ref).
 """
 function delete_regex_match_set end
 
@@ -1513,8 +1500,6 @@ end
 """
     delete_regex_pattern_set(change_token, regex_pattern_set_id)
     delete_regex_pattern_set(change_token, regex_pattern_set_id, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -1575,8 +1560,6 @@ end
     delete_rule(change_token, rule_id)
     delete_rule(change_token, rule_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1592,9 +1575,10 @@ If you just want to remove a `Rule` from a `WebACL`, use [`update_web_acl`](@ref
 
 To permanently delete a `Rule` from AWS WAF, perform the following steps:
 
-1. Update the `Rule` to remove predicates, if any. For more information, see [`update_rule`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `DeleteRule` request.3. Submit a `DeleteRule` request.
+1. Update the `Rule` to remove predicates, if any. For more information, see [`update_rule`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `DeleteRule` request.
+3. Submit a `DeleteRule` request.
 
 # Arguments
 
@@ -1639,8 +1623,6 @@ end
     delete_rule_group(change_token, rule_group_id)
     delete_rule_group(change_token, rule_group_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1656,10 +1638,10 @@ If you just want to remove a `RuleGroup` from a `WebACL`, use [`update_web_acl`]
 
 To permanently delete a `RuleGroup` from AWS WAF, perform the following steps:
 
-1. Update the `RuleGroup` to remove rules, if any. For more information, see [`update_rule_group`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `DeleteRuleGroup` request.3. Submit a `DeleteRuleGroup`
-   request.
+1. Update the `RuleGroup` to remove rules, if any. For more information, see [`update_rule_group`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `DeleteRuleGroup` request.
+3. Submit a `DeleteRuleGroup` request.
 
 # Arguments
 
@@ -1706,8 +1688,6 @@ end
     delete_size_constraint_set(change_token, size_constraint_set_id)
     delete_size_constraint_set(change_token, size_constraint_set_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1724,10 +1704,10 @@ If you just want to remove a `SizeConstraintSet` from a `Rule`, use [`update_rul
 
 To permanently delete a `SizeConstraintSet`, perform the following steps:
 
-1. Update the `SizeConstraintSet` to remove filters, if any. For more information, see [`update_size_constraint_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `DeleteSizeConstraintSet` request.3. Submit a
-   `DeleteSizeConstraintSet` request.
+1. Update the `SizeConstraintSet` to remove filters, if any. For more information, see [`update_size_constraint_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `DeleteSizeConstraintSet` request.
+3. Submit a `DeleteSizeConstraintSet` request.
 
 # Arguments
 
@@ -1778,8 +1758,6 @@ end
     delete_sql_injection_match_set(change_token, sql_injection_match_set_id)
     delete_sql_injection_match_set(change_token, sql_injection_match_set_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1796,10 +1774,10 @@ If you just want to remove a `SqlInjectionMatchSet` from a `Rule`, use [`update_
 
 To permanently delete a `SqlInjectionMatchSet` from AWS WAF, perform the following steps:
 
-1. Update the `SqlInjectionMatchSet` to remove filters, if any. For more information, see [`update_sql_injection_match_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `DeleteSqlInjectionMatchSet` request.3. Submit a
-   `DeleteSqlInjectionMatchSet` request.
+1. Update the `SqlInjectionMatchSet` to remove filters, if any. For more information, see [`update_sql_injection_match_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `DeleteSqlInjectionMatchSet` request.
+3. Submit a `DeleteSqlInjectionMatchSet` request.
 
 # Arguments
 
@@ -1850,8 +1828,6 @@ end
     delete_web_acl(change_token, web_aclid)
     delete_web_acl(change_token, web_aclid, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1865,9 +1841,10 @@ any `Rules`.
 
 To delete a `WebACL`, perform the following steps:
 
-1. Update the `WebACL` to remove `Rules`, if any. For more information, see [`update_web_acl`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `DeleteWebACL` request.3. Submit a `DeleteWebACL` request.
+1. Update the `WebACL` to remove `Rules`, if any. For more information, see [`update_web_acl`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `DeleteWebACL` request.
+3. Submit a `DeleteWebACL` request.
 
 # Arguments
 
@@ -1912,8 +1889,6 @@ end
     delete_xss_match_set(change_token, xss_match_set_id)
     delete_xss_match_set(change_token, xss_match_set_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1929,10 +1904,10 @@ If you just want to remove an `XssMatchSet` from a `Rule`, use [`update_rule`](@
 
 To permanently delete an `XssMatchSet` from AWS WAF, perform the following steps:
 
-1. Update the `XssMatchSet` to remove filters, if any. For more information, see [`update_xss_match_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of a `DeleteXssMatchSet` request.3. Submit a `DeleteXssMatchSet`
-   request.
+1. Update the `XssMatchSet` to remove filters, if any. For more information, see [`update_xss_match_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of a `DeleteXssMatchSet` request.
+3. Submit a `DeleteXssMatchSet` request.
 
 # Arguments
 
@@ -1979,8 +1954,6 @@ end
     get_byte_match_set(byte_match_set_id)
     get_byte_match_set(byte_match_set_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -1993,8 +1966,8 @@ Returns the [`byte_match_set`](@ref) specified by `ByteMatchSetId`.
 
 # Arguments
 
-- `byte_match_set_id`: The `ByteMatchSetId` of the [`byte_match_set`](@ref) that you want
-  to get. `ByteMatchSetId` is returned by [`create_byte_match_set`](@ref) and by [`list_byte_match_sets`](@ref).
+- `byte_match_set_id`: The `ByteMatchSetId` of the [`byte_match_set`](@ref) that you want to
+  get. `ByteMatchSetId` is returned by [`create_byte_match_set`](@ref) and by [`list_byte_match_sets`](@ref).
 """
 function get_byte_match_set end
 
@@ -2028,8 +2001,6 @@ end
     get_change_token()
     get_change_token(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2043,14 +2014,13 @@ the change token in the create, update, or delete request. Change tokens ensure 
 application doesn't submit conflicting requests to AWS WAF.
 
 Each create, update, or delete request must use a unique change token. If your application
-submits a `GetChangeToken` request and then submits a second `GetChangeToken` request
-before submitting a create, update, or delete request, the second `GetChangeToken` request
-returns the same value as the first `GetChangeToken` request.
+submits a `GetChangeToken` request and then submits a second `GetChangeToken` request before
+submitting a create, update, or delete request, the second `GetChangeToken` request returns
+the same value as the first `GetChangeToken` request.
 
-When you use a change token in a create, update, or delete request, the status of the
-change token changes to `PENDING`, which indicates that AWS WAF is propagating the change
-to all AWS WAF servers. Use `GetChangeTokenStatus` to determine the status of your change
-token.
+When you use a change token in a create, update, or delete request, the status of the change
+token changes to `PENDING`, which indicates that AWS WAF is propagating the change to all
+AWS WAF servers. Use `GetChangeTokenStatus` to determine the status of your change token.
 """
 function get_change_token end
 
@@ -2070,8 +2040,6 @@ end
     get_change_token_status(change_token)
     get_change_token_status(change_token, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2083,8 +2051,8 @@ end
 Returns the status of a `ChangeToken` that you got by calling [`get_change_token`](@ref).
 `ChangeTokenStatus` is one of the following values:
 
-- `PROVISIONED`: You requested the change token by calling `GetChangeToken`, but you
-  haven't used it yet in a call to create, update, or delete an AWS WAF object.
+- `PROVISIONED`: You requested the change token by calling `GetChangeToken`, but you haven't
+  used it yet in a call to create, update, or delete an AWS WAF object.
 - `PENDING`: AWS WAF is propagating the create, update, or delete request to all AWS WAF
   servers.
 - `INSYNC`: Propagation is complete.
@@ -2125,8 +2093,6 @@ end
 """
     get_geo_match_set(geo_match_set_id)
     get_geo_match_set(geo_match_set_id, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -2175,8 +2141,6 @@ end
     get_ipset(ipset_id)
     get_ipset(ipset_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2219,8 +2183,6 @@ end
 """
     get_logging_configuration(resource_arn)
     get_logging_configuration(resource_arn, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -2269,8 +2231,6 @@ end
     get_permission_policy(resource_arn)
     get_permission_policy(resource_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2318,8 +2278,6 @@ end
     get_rate_based_rule(rule_id)
     get_rate_based_rule(rule_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2328,13 +2286,13 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`rate_based_rule`](@ref) that is specified by the `RuleId` that you included
-in the `GetRateBasedRule` request.
+Returns the [`rate_based_rule`](@ref) that is specified by the `RuleId` that you included in
+the `GetRateBasedRule` request.
 
 # Arguments
 
-- `rule_id`: The `RuleId` of the [`rate_based_rule`](@ref) that you want to get. `RuleId`
-  is returned by [`create_rate_based_rule`](@ref) and by [`list_rate_based_rules`](@ref).
+- `rule_id`: The `RuleId` of the [`rate_based_rule`](@ref) that you want to get. `RuleId` is
+  returned by [`create_rate_based_rule`](@ref) and by [`list_rate_based_rules`](@ref).
 """
 function get_rate_based_rule end
 
@@ -2361,8 +2319,6 @@ end
 """
     get_rate_based_rule_managed_keys(rule_id)
     get_rate_based_rule_managed_keys(rule_id, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -2416,8 +2372,6 @@ end
     get_regex_match_set(regex_match_set_id)
     get_regex_match_set(regex_match_set_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2430,8 +2384,8 @@ Returns the [`regex_match_set`](@ref) specified by `RegexMatchSetId`.
 
 # Arguments
 
-- `regex_match_set_id`: The `RegexMatchSetId` of the [`regex_match_set`](@ref) that you
-  want to get. `RegexMatchSetId` is returned by [`create_regex_match_set`](@ref) and by [`list_regex_match_sets`](@ref).
+- `regex_match_set_id`: The `RegexMatchSetId` of the [`regex_match_set`](@ref) that you want
+  to get. `RegexMatchSetId` is returned by [`create_regex_match_set`](@ref) and by [`list_regex_match_sets`](@ref).
 """
 function get_regex_match_set end
 
@@ -2467,8 +2421,6 @@ end
     get_regex_pattern_set(regex_pattern_set_id)
     get_regex_pattern_set(regex_pattern_set_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2482,8 +2434,8 @@ Returns the [`regex_pattern_set`](@ref) specified by `RegexPatternSetId`.
 # Arguments
 
 - `regex_pattern_set_id`: The `RegexPatternSetId` of the [`regex_pattern_set`](@ref) that
-  you want to get. `RegexPatternSetId` is returned by [`create_regex_pattern_set`](@ref)
-  and by [`list_regex_pattern_sets`](@ref).
+  you want to get. `RegexPatternSetId` is returned by [`create_regex_pattern_set`](@ref) and
+  by [`list_regex_pattern_sets`](@ref).
 """
 function get_regex_pattern_set end
 
@@ -2518,8 +2470,6 @@ end
 """
     get_rule(rule_id)
     get_rule(rule_id, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -2563,8 +2513,6 @@ end
     get_rule_group(rule_group_id)
     get_rule_group(rule_group_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2573,8 +2521,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`rule_group`](@ref) that is specified by the `RuleGroupId` that you included
-in the `GetRuleGroup` request.
+Returns the [`rule_group`](@ref) that is specified by the `RuleGroupId` that you included in
+the `GetRuleGroup` request.
 
 To view the rules in a rule group, use [`list_activated_rules_in_rule_group`](@ref).
 
@@ -2613,8 +2561,6 @@ end
     get_sampled_requests(max_items, rule_id, time_window, web_acl_id)
     get_sampled_requests(max_items, rule_id, time_window, web_acl_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2638,20 +2584,22 @@ the requests in the sample.
 
 - `max_items`: The number of requests that you want AWS WAF to return from among the first
   5,000 requests that your AWS resource received during the time range. If your resource
-  received fewer requests than the value of `MaxItems`, `GetSampledRequests` returns
-  information about all of them.
+received fewer requests than the value of `MaxItems`, `GetSampledRequests` returns
+information about all of them.
+
 - `rule_id`: `RuleId` is one of three values:
 
   - The `RuleId` of the `Rule` or the `RuleGroupId` of the `RuleGroup` for which you want
     `GetSampledRequests` to return a sample of requests.
-  - `Default_Action`, which causes `GetSampledRequests` to return a sample of the
-    requests that didn't match any of the rules in the specified `WebACL`.
+  - `Default_Action`, which causes `GetSampledRequests` to return a sample of the requests
+    that didn't match any of the rules in the specified `WebACL`.
 
 - `time_window`: The start date and time and the end date and time of the range for which
-  you want `GetSampledRequests` to return a sample of requests. You must specify the
-  times in Coordinated Universal Time (UTC) format. UTC format includes the special
-  designator, `Z`. For example, `"2016-09-27T14:50Z"`. You can specify any time range in
-  the previous three hours.
+  you want `GetSampledRequests` to return a sample of requests. You must specify the times
+  in Coordinated Universal Time (UTC) format. UTC format includes the special designator,
+  `Z`. For example, `"2016-09-27T14:50Z"`. You can specify any time range in the previous
+  three hours.
+
 - `web_acl_id`: The `WebACLId` of the `WebACL` for which you want `GetSampledRequests` to
   return a sample of requests.
 """
@@ -2708,8 +2656,6 @@ end
     get_size_constraint_set(size_constraint_set_id)
     get_size_constraint_set(size_constraint_set_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2761,8 +2707,6 @@ end
 """
     get_sql_injection_match_set(sql_injection_match_set_id)
     get_sql_injection_match_set(sql_injection_match_set_id, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -2816,8 +2760,6 @@ end
     get_web_acl(web_aclid)
     get_web_acl(web_aclid, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2862,8 +2804,6 @@ end
 """
     get_xss_match_set(xss_match_set_id)
     get_xss_match_set(xss_match_set_id, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -2912,8 +2852,6 @@ end
     list_activated_rules_in_rule_group()
     list_activated_rules_in_rule_group(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2930,15 +2868,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Limit"`: Specifies the number of `ActivatedRules` that you want AWS WAF to return for
   this request. If you have more `ActivatedRules` than the number that you specify for
-  `Limit`, the response includes a `NextMarker` value that you can use to get another
-  batch of `ActivatedRules`.
-- `"NextMarker"`: If you specify a value for `Limit` and you have more `ActivatedRules`
-  than the value of `Limit`, AWS WAF returns a `NextMarker` value in the response that
-  allows you to list another group of `ActivatedRules`. For the second and subsequent
+  `Limit`, the response includes a `NextMarker` value that you can use to get another batch
+  of `ActivatedRules`.
+
+- `"NextMarker"`: If you specify a value for `Limit` and you have more `ActivatedRules` than
+  the value of `Limit`, AWS WAF returns a `NextMarker` value in the response that allows you
+  to list another group of `ActivatedRules`. For the second and subsequent
   `ListActivatedRulesInRuleGroup` requests, specify the value of `NextMarker` from the
   previous response to get information about another batch of `ActivatedRules`.
-- `"RuleGroupId"`: The `RuleGroupId` of the [`rule_group`](@ref) for which you want to get
-  a list of [`activated_rule`](@ref) objects.
+
+- `"RuleGroupId"`: The `RuleGroupId` of the [`rule_group`](@ref) for which you want to get a
+  list of [`activated_rule`](@ref) objects.
 """
 function list_activated_rules_in_rule_group end
 
@@ -2967,8 +2907,6 @@ end
     list_byte_match_sets()
     list_byte_match_sets(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -2984,14 +2922,15 @@ Returns an array of [`byte_match_set_summary`](@ref) objects.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Limit"`: Specifies the number of `ByteMatchSet` objects that you want AWS WAF to return
-  for this request. If you have more `ByteMatchSets` objects than the number you specify
-  for `Limit`, the response includes a `NextMarker` value that you can use to get another
-  batch of `ByteMatchSet` objects.
+  for this request. If you have more `ByteMatchSets` objects than the number you specify for
+  `Limit`, the response includes a `NextMarker` value that you can use to get another batch
+  of `ByteMatchSet` objects.
+
 - `"NextMarker"`: If you specify a value for `Limit` and you have more `ByteMatchSets` than
-  the value of `Limit`, AWS WAF returns a `NextMarker` value in the response that allows
-  you to list another group of `ByteMatchSets`. For the second and subsequent
-  `ListByteMatchSets` requests, specify the value of `NextMarker` from the previous
-  response to get information about another batch of `ByteMatchSets`.
+  the value of `Limit`, AWS WAF returns a `NextMarker` value in the response that allows you
+  to list another group of `ByteMatchSets`. For the second and subsequent
+  `ListByteMatchSets` requests, specify the value of `NextMarker` from the previous response
+  to get information about another batch of `ByteMatchSets`.
 """
 function list_byte_match_sets end
 
@@ -3011,8 +2950,6 @@ end
     list_geo_match_sets()
     list_geo_match_sets(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3028,14 +2965,15 @@ Returns an array of [`geo_match_set_summary`](@ref) objects in the response.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Limit"`: Specifies the number of `GeoMatchSet` objects that you want AWS WAF to return
-  for this request. If you have more `GeoMatchSet` objects than the number you specify
-  for `Limit`, the response includes a `NextMarker` value that you can use to get another
-  batch of `GeoMatchSet` objects.
+  for this request. If you have more `GeoMatchSet` objects than the number you specify for
+  `Limit`, the response includes a `NextMarker` value that you can use to get another batch
+  of `GeoMatchSet` objects.
+
 - `"NextMarker"`: If you specify a value for `Limit` and you have more `GeoMatchSet`s than
-  the value of `Limit`, AWS WAF returns a `NextMarker` value in the response that allows
-  you to list another group of `GeoMatchSet` objects. For the second and subsequent
-  `ListGeoMatchSets` requests, specify the value of `NextMarker` from the previous
-  response to get information about another batch of `GeoMatchSet` objects.
+  the value of `Limit`, AWS WAF returns a `NextMarker` value in the response that allows you
+  to list another group of `GeoMatchSet` objects. For the second and subsequent
+  `ListGeoMatchSets` requests, specify the value of `NextMarker` from the previous response
+  to get information about another batch of `GeoMatchSet` objects.
 """
 function list_geo_match_sets end
 
@@ -3054,8 +2992,6 @@ end
 """
     list_ipsets()
     list_ipsets(params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -3096,8 +3032,6 @@ end
     list_logging_configurations()
     list_logging_configurations(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3112,14 +3046,15 @@ Returns an array of [`logging_configuration`](@ref) objects.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: Specifies the number of `LoggingConfigurations` that you want AWS WAF to
-  return for this request. If you have more `LoggingConfigurations` than the number that
-  you specify for `Limit`, the response includes a `NextMarker` value that you can use to
-  get another batch of `LoggingConfigurations`.
+- `"Limit"`: Specifies the number of `LoggingConfigurations` that you want AWS WAF to return
+  for this request. If you have more `LoggingConfigurations` than the number that you
+  specify for `Limit`, the response includes a `NextMarker` value that you can use to get
+  another batch of `LoggingConfigurations`.
+
 - `"NextMarker"`: If you specify a value for `Limit` and you have more
-  `LoggingConfigurations` than the value of `Limit`, AWS WAF returns a `NextMarker` value
-  in the response that allows you to list another group of `LoggingConfigurations`. For
-  the second and subsequent `ListLoggingConfigurations` requests, specify the value of
+  `LoggingConfigurations` than the value of `Limit`, AWS WAF returns a `NextMarker` value in
+  the response that allows you to list another group of `LoggingConfigurations`. For the
+  second and subsequent `ListLoggingConfigurations` requests, specify the value of
   `NextMarker` from the previous response to get information about another batch of
   `ListLoggingConfigurations`.
 """
@@ -3146,8 +3081,6 @@ end
     list_rate_based_rules()
     list_rate_based_rules(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3165,11 +3098,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: Specifies the number of `Rules` that you want AWS WAF to return for this
   request. If you have more `Rules` than the number that you specify for `Limit`, the
   response includes a `NextMarker` value that you can use to get another batch of `Rules`.
+
 - `"NextMarker"`: If you specify a value for `Limit` and you have more `Rules` than the
-  value of `Limit`, AWS WAF returns a `NextMarker` value in the response that allows you
-  to list another group of `Rules`. For the second and subsequent `ListRateBasedRules`
-  requests, specify the value of `NextMarker` from the previous response to get
-  information about another batch of `Rules`.
+  value of `Limit`, AWS WAF returns a `NextMarker` value in the response that allows you to
+  list another group of `Rules`. For the second and subsequent `ListRateBasedRules`
+  requests, specify the value of `NextMarker` from the previous response to get information
+  about another batch of `Rules`.
 """
 function list_rate_based_rules end
 
@@ -3189,8 +3123,6 @@ end
     list_regex_match_sets()
     list_regex_match_sets(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3205,10 +3137,11 @@ Returns an array of [`regex_match_set_summary`](@ref) objects.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: Specifies the number of `RegexMatchSet` objects that you want AWS WAF to
-  return for this request. If you have more `RegexMatchSet` objects than the number you
-  specify for `Limit`, the response includes a `NextMarker` value that you can use to get
-  another batch of `RegexMatchSet` objects.
+- `"Limit"`: Specifies the number of `RegexMatchSet` objects that you want AWS WAF to return
+  for this request. If you have more `RegexMatchSet` objects than the number you specify for
+  `Limit`, the response includes a `NextMarker` value that you can use to get another batch
+  of `RegexMatchSet` objects.
+
 - `"NextMarker"`: If you specify a value for `Limit` and you have more `RegexMatchSet`
   objects than the value of `Limit`, AWS WAF returns a `NextMarker` value in the response
   that allows you to list another group of `ByteMatchSets`. For the second and subsequent
@@ -3233,8 +3166,6 @@ end
     list_regex_pattern_sets()
     list_regex_pattern_sets(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3253,6 +3184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return for this request. If you have more `RegexPatternSet` objects than the number you
   specify for `Limit`, the response includes a `NextMarker` value that you can use to get
   another batch of `RegexPatternSet` objects.
+
 - `"NextMarker"`: If you specify a value for `Limit` and you have more `RegexPatternSet`
   objects than the value of `Limit`, AWS WAF returns a `NextMarker` value in the response
   that allows you to list another group of `RegexPatternSet` objects. For the second and
@@ -3282,8 +3214,6 @@ end
     list_rule_groups()
     list_rule_groups(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3299,14 +3229,15 @@ Returns an array of [`rule_group`](@ref) objects.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Limit"`: Specifies the number of `RuleGroups` that you want AWS WAF to return for this
-  request. If you have more `RuleGroups` than the number that you specify for `Limit`,
-  the response includes a `NextMarker` value that you can use to get another batch of
+  request. If you have more `RuleGroups` than the number that you specify for `Limit`, the
+  response includes a `NextMarker` value that you can use to get another batch of
   `RuleGroups`.
-- `"NextMarker"`: If you specify a value for `Limit` and you have more `RuleGroups` than
-  the value of `Limit`, AWS WAF returns a `NextMarker` value in the response that allows
-  you to list another group of `RuleGroups`. For the second and subsequent
-  `ListRuleGroups` requests, specify the value of `NextMarker` from the previous response
-  to get information about another batch of `RuleGroups`.
+
+- `"NextMarker"`: If you specify a value for `Limit` and you have more `RuleGroups` than the
+  value of `Limit`, AWS WAF returns a `NextMarker` value in the response that allows you to
+  list another group of `RuleGroups`. For the second and subsequent `ListRuleGroups`
+  requests, specify the value of `NextMarker` from the previous response to get information
+  about another batch of `RuleGroups`.
 """
 function list_rule_groups end
 
@@ -3326,8 +3257,6 @@ end
     list_rules()
     list_rules(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3345,11 +3274,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: Specifies the number of `Rules` that you want AWS WAF to return for this
   request. If you have more `Rules` than the number that you specify for `Limit`, the
   response includes a `NextMarker` value that you can use to get another batch of `Rules`.
+
 - `"NextMarker"`: If you specify a value for `Limit` and you have more `Rules` than the
-  value of `Limit`, AWS WAF returns a `NextMarker` value in the response that allows you
-  to list another group of `Rules`. For the second and subsequent `ListRules` requests,
-  specify the value of `NextMarker` from the previous response to get information about
-  another batch of `Rules`.
+  value of `Limit`, AWS WAF returns a `NextMarker` value in the response that allows you to
+  list another group of `Rules`. For the second and subsequent `ListRules` requests, specify
+  the value of `NextMarker` from the previous response to get information about another
+  batch of `Rules`.
 """
 function list_rules end
 
@@ -3367,8 +3297,6 @@ end
     list_size_constraint_sets()
     list_size_constraint_sets(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3384,9 +3312,10 @@ Returns an array of [`size_constraint_set_summary`](@ref) objects.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Limit"`: Specifies the number of `SizeConstraintSet` objects that you want AWS WAF to
-  return for this request. If you have more `SizeConstraintSets` objects than the number
-  you specify for `Limit`, the response includes a `NextMarker` value that you can use to
-  get another batch of `SizeConstraintSet` objects.
+  return for this request. If you have more `SizeConstraintSets` objects than the number you
+  specify for `Limit`, the response includes a `NextMarker` value that you can use to get
+  another batch of `SizeConstraintSet` objects.
+
 - `"NextMarker"`: If you specify a value for `Limit` and you have more `SizeConstraintSets`
   than the value of `Limit`, AWS WAF returns a `NextMarker` value in the response that
   allows you to list another group of `SizeConstraintSets`. For the second and subsequent
@@ -3416,8 +3345,6 @@ end
     list_sql_injection_match_sets()
     list_sql_injection_match_sets(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3432,10 +3359,11 @@ Returns an array of [`sql_injection_match_set`](@ref) objects.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: Specifies the number of [`sql_injection_match_set`](@ref) objects that you
-  want AWS WAF to return for this request. If you have more `SqlInjectionMatchSet`
-  objects than the number you specify for `Limit`, the response includes a `NextMarker`
-  value that you can use to get another batch of `Rules`.
+- `"Limit"`: Specifies the number of [`sql_injection_match_set`](@ref) objects that you want
+  AWS WAF to return for this request. If you have more `SqlInjectionMatchSet` objects than
+  the number you specify for `Limit`, the response includes a `NextMarker` value that you
+  can use to get another batch of `Rules`.
+
 - `"NextMarker"`: If you specify a value for `Limit` and you have more [`sql_injection_match_set`](@ref)
   objects than the value of `Limit`, AWS WAF returns a `NextMarker` value in the response
   that allows you to list another group of `SqlInjectionMatchSets`. For the second and
@@ -3465,8 +3393,6 @@ end
     list_subscribed_rule_groups()
     list_subscribed_rule_groups(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3484,6 +3410,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: Specifies the number of subscribed rule groups that you want AWS WAF to return
   for this request. If you have more objects than the number you specify for `Limit`, the
   response includes a `NextMarker` value that you can use to get another batch of objects.
+
 - `"NextMarker"`: If you specify a value for `Limit` and you have more
   `ByteMatchSets`subscribed rule groups than the value of `Limit`, AWS WAF returns a
   `NextMarker` value in the response that allows you to list another group of subscribed
@@ -3514,8 +3441,6 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3524,10 +3449,10 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Retrieves the tags associated with the specified AWS resource. Tags are key:value pairs
-that you can use to categorize and manage your resources, for purposes like billing. For
-example, you might set the tag key to "customer" and the value to the customer name or ID.
-You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource.
+Retrieves the tags associated with the specified AWS resource. Tags are key:value pairs that
+you can use to categorize and manage your resources, for purposes like billing. For example,
+you might set the tag key to "customer" and the value to the customer name or ID. You can
+specify one or more tags to add to each AWS resource, up to 50 tags for a resource.
 
 Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags
 through the AWS WAF Classic console. You can tag the AWS resources that you manage through
@@ -3576,8 +3501,6 @@ end
     list_web_acls()
     list_web_acls(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3594,13 +3517,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Limit"`: Specifies the number of `WebACL` objects that you want AWS WAF to return for
   this request. If you have more `WebACL` objects than the number that you specify for
-  `Limit`, the response includes a `NextMarker` value that you can use to get another
-  batch of `WebACL` objects.
-- `"NextMarker"`: If you specify a value for `Limit` and you have more `WebACL` objects
-  than the number that you specify for `Limit`, AWS WAF returns a `NextMarker` value in
-  the response that allows you to list another group of `WebACL` objects. For the second
-  and subsequent `ListWebACLs` requests, specify the value of `NextMarker` from the
-  previous response to get information about another batch of `WebACL` objects.
+  `Limit`, the response includes a `NextMarker` value that you can use to get another batch
+  of `WebACL` objects.
+
+- `"NextMarker"`: If you specify a value for `Limit` and you have more `WebACL` objects than
+  the number that you specify for `Limit`, AWS WAF returns a `NextMarker` value in the
+  response that allows you to list another group of `WebACL` objects. For the second and
+  subsequent `ListWebACLs` requests, specify the value of `NextMarker` from the previous
+  response to get information about another batch of `WebACL` objects.
 """
 function list_web_acls end
 
@@ -3620,8 +3544,6 @@ end
     list_xss_match_sets()
     list_xss_match_sets(params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3640,11 +3562,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to return for this request. If you have more `XssMatchSet` objects than the number you
   specify for `Limit`, the response includes a `NextMarker` value that you can use to get
   another batch of `Rules`.
+
 - `"NextMarker"`: If you specify a value for `Limit` and you have more [`xss_match_set`](@ref)
   objects than the value of `Limit`, AWS WAF returns a `NextMarker` value in the response
   that allows you to list another group of `XssMatchSets`. For the second and subsequent
-  `ListXssMatchSets` requests, specify the value of `NextMarker` from the previous
-  response to get information about another batch of `XssMatchSets`.
+  `ListXssMatchSets` requests, specify the value of `NextMarker` from the previous response
+  to get information about another batch of `XssMatchSets`.
 """
 function list_xss_match_sets end
 
@@ -3663,8 +3586,6 @@ end
 """
     put_logging_configuration(logging_configuration)
     put_logging_configuration(logging_configuration, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -3690,9 +3611,9 @@ East (N. Virginia).
 
 2. Associate that firehose to your web ACL using a `PutLoggingConfiguration` request.
 
-When you successfully enable logging using a `PutLoggingConfiguration` request, AWS WAF
-will create a service linked role with the necessary permissions to write logs to the
-Amazon Kinesis Data Firehose. For more information, see [Logging Web ACL Traffic Information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html)
+When you successfully enable logging using a `PutLoggingConfiguration` request, AWS WAF will
+create a service linked role with the necessary permissions to write logs to the Amazon
+Kinesis Data Firehose. For more information, see [Logging Web ACL Traffic Information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html)
 in the *AWS WAF Developer Guide*.
 
 # Arguments
@@ -3702,9 +3623,8 @@ in the *AWS WAF Developer Guide*.
   the web ACL to monitor.
 
   !!! note
-      When specifying `Type` in `RedactedFields`, you must use one of the following
-      values: `URI`, `QUERY_STRING`, `HEADER`, or `METHOD`.
-
+      When specifying `Type` in `RedactedFields`, you must use one of the following values:
+      `URI`, `QUERY_STRING`, `HEADER`, or `METHOD`.
 """
 function put_logging_configuration end
 
@@ -3741,8 +3661,6 @@ end
 """
     put_permission_policy(policy, resource_arn)
     put_permission_policy(policy, resource_arn, params::Dict{String,<:Any})
-
-
 
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
@@ -3816,8 +3734,6 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3875,8 +3791,6 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3884,7 +3798,6 @@ end
     **For the latest version of AWS WAF**, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
-
 
 # Arguments
 
@@ -3928,8 +3841,6 @@ end
     update_byte_match_set(byte_match_set_id, change_token, updates)
     update_byte_match_set(byte_match_set_id, change_token, updates, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -3947,8 +3858,8 @@ For each `ByteMatchTuple` object, you specify the following values:
   value of the `User-Agent` header.
 - The bytes (typically a string that corresponds with ASCII characters) that you want AWS
   WAF to look for. For more information, including how you specify the values for the AWS
-  WAF API and the AWS CLI or SDKs, see `TargetString` in the [`byte_match_tuple`](@ref)
-  data type.
+  WAF API and the AWS CLI or SDKs, see `TargetString` in the [`byte_match_tuple`](@ref) data
+  type.
 - Where to look, such as at the beginning or the end of a query string.
 - Whether to perform any conversions on the request, such as converting it to lowercase,
   before inspecting it for the specified string.
@@ -3959,30 +3870,30 @@ those requests.
 
 To create and configure a `ByteMatchSet`, perform the following steps:
 
-1. Create a `ByteMatchSet.` For more information, see [`create_byte_match_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of an `UpdateByteMatchSet` request.3. Submit an
-   `UpdateByteMatchSet` request to specify the part of the request that you want AWS WAF to
-   inspect (for example, the header or the URI) and the value that you want AWS WAF to
-   watch for.
+1. Create a `ByteMatchSet.` For more information, see [`create_byte_match_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of an `UpdateByteMatchSet` request.
+3. Submit an `UpdateByteMatchSet` request to specify the part of the request that you want
+   AWS WAF to inspect (for example, the header or the URI) and the value that you want AWS
+   WAF to watch for.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
 
 # Arguments
 
-- `byte_match_set_id`: The `ByteMatchSetId` of the [`byte_match_set`](@ref) that you want
-  to update. `ByteMatchSetId` is returned by [`create_byte_match_set`](@ref) and by [`list_byte_match_sets`](@ref).
+- `byte_match_set_id`: The `ByteMatchSetId` of the [`byte_match_set`](@ref) that you want to
+  update. `ByteMatchSetId` is returned by [`create_byte_match_set`](@ref) and by [`list_byte_match_sets`](@ref).
+
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `updates`: An array of `ByteMatchSetUpdate` objects that you want to insert into or
-  delete from a [`byte_match_set`](@ref). For more information, see the applicable data
-  types:
+
+- `updates`: An array of `ByteMatchSetUpdate` objects that you want to insert into or delete
+  from a [`byte_match_set`](@ref). For more information, see the applicable data types:
 
   - [`byte_match_set_update`](@ref): Contains `Action` and `ByteMatchTuple`
   - [`byte_match_tuple`](@ref): Contains `FieldToMatch`, `PositionalConstraint`,
     `TargetString`, and `TextTransformation`
   - [`field_to_match`](@ref): Contains `Data` and `Type`
-
 """
 function update_byte_match_set end
 
@@ -4030,8 +3941,6 @@ end
     update_geo_match_set(change_token, geo_match_set_id, updates)
     update_geo_match_set(change_token, geo_match_set_id, updates, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -4051,10 +3960,11 @@ Inserts or deletes [`geo_match_constraint`](@ref) objects in an `GeoMatchSet`. F
 
 To create and configure an `GeoMatchSet`, perform the following steps:
 
-1. Submit a [`create_geo_match_set`](@ref) request.2. Use [`get_change_token`](@ref) to get
-   the change token that you provide in the `ChangeToken` parameter of an [`update_geo_match_set`](@ref)
-   request.3. Submit an `UpdateGeoMatchSet` request to specify the country that you want
-   AWS WAF to watch for.
+1. Submit a [`create_geo_match_set`](@ref) request.
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of an [`update_geo_match_set`](@ref) request.
+3. Submit an `UpdateGeoMatchSet` request to specify the country that you want AWS WAF to
+   watch for.
 
 When you update an `GeoMatchSet`, you specify the country that you want to add and/or the
 country that you want to delete. If you want to change a country, you delete the existing
@@ -4066,8 +3976,10 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+
 - `geo_match_set_id`: The `GeoMatchSetId` of the [`geo_match_set`](@ref) that you want to
   update. `GeoMatchSetId` is returned by [`create_geo_match_set`](@ref) and by [`list_geo_match_sets`](@ref).
+
 - `updates`: An array of `GeoMatchSetUpdate` objects that you want to insert into or delete
   from an [`geo_match_set`](@ref). For more information, see the applicable data types:
 
@@ -4076,7 +3988,6 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
   You can have only one `Type` and `Value` per `GeoMatchConstraint`. To add multiple
   countries, include multiple `GeoMatchSetUpdate` objects in your request.
-
 """
 function update_geo_match_set end
 
@@ -4124,8 +4035,6 @@ end
     update_ipset(change_token, ipset_id, updates)
     update_ipset(change_token, ipset_id, updates, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -4158,15 +4067,16 @@ IPv6 addresses can be represented using any of the following formats:
 You use an `IPSet` to specify which web requests you want to allow or block based on the IP
 addresses that the requests originated from. For example, if you're receiving a lot of
 requests from one or a small number of IP addresses and you want to block the requests, you
-can create an `IPSet` that specifies those IP addresses, and then configure AWS WAF to
-block the requests.
+can create an `IPSet` that specifies those IP addresses, and then configure AWS WAF to block
+the requests.
 
 To create and configure an `IPSet`, perform the following steps:
 
-1. Submit a [`create_ipset`](@ref) request.2. Use [`get_change_token`](@ref) to get the
-   change token that you provide in the `ChangeToken` parameter of an [`update_ipset`](@ref)
-   request.3. Submit an `UpdateIPSet` request to specify the IP addresses that you want AWS
-   WAF to watch for.
+1. Submit a [`create_ipset`](@ref) request.
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of an [`update_ipset`](@ref) request.
+3. Submit an `UpdateIPSet` request to specify the IP addresses that you want AWS WAF to
+   watch for.
 
 When you update an `IPSet`, you specify the IP addresses that you want to add and/or the IP
 addresses that you want to delete. If you want to change an IP address, you delete the
@@ -4180,8 +4090,10 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+
 - `ipset_id`: The `IPSetId` of the [`ipset`](@ref) that you want to update. `IPSetId` is
   returned by [`create_ipset`](@ref) and by [`list_ipsets`](@ref).
+
 - `updates`: An array of `IPSetUpdate` objects that you want to insert into or delete from
   an [`ipset`](@ref). For more information, see the applicable data types:
 
@@ -4232,8 +4144,6 @@ end
     update_rate_based_rule(change_token, rate_limit, rule_id, updates)
     update_rate_based_rule(change_token, rate_limit, rule_id, updates, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -4250,8 +4160,8 @@ that specifies the web requests that you want to block or count. The `RateLimit`
 the number of requests every five minutes that triggers the rule.
 
 If you add more than one predicate to a `RateBasedRule`, a request must match all the
-predicates and exceed the `RateLimit` to be counted or blocked. For example, suppose you
-add the following to a `RateBasedRule`:
+predicates and exceed the `RateLimit` to be counted or blocked. For example, suppose you add
+the following to a `RateBasedRule`:
 
 - An `IPSet` that matches the IP address `192.0.2.44/32`
 - A `ByteMatchSet` that matches `BadBot` in the `User-Agent` header
@@ -4282,12 +4192,11 @@ without affecting the rest of your site.
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
 - `rate_limit`: The maximum number of requests, which have an identical value in the field
   specified by the `RateKey`, allowed in a five-minute period. If the number of requests
-  exceeds the `RateLimit` and the other predicates specified in the rule are also met,
-  AWS WAF triggers the action that is specified for this rule.
+  exceeds the `RateLimit` and the other predicates specified in the rule are also met, AWS
+  WAF triggers the action that is specified for this rule.
 - `rule_id`: The `RuleId` of the `RateBasedRule` that you want to update. `RuleId` is
   returned by `CreateRateBasedRule` and by [`list_rate_based_rules`](@ref).
-- `updates`: An array of `RuleUpdate` objects that you want to insert into or delete from a
-  [`rate_based_rule`](@ref).
+- `updates`: An array of `RuleUpdate` objects that you want to insert into or delete from a [`rate_based_rule`](@ref).
 """
 function update_rate_based_rule end
 
@@ -4342,8 +4251,6 @@ end
     update_regex_match_set(change_token, regex_match_set_id, updates)
     update_regex_match_set(change_token, regex_match_set_id, updates, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -4370,11 +4277,11 @@ those requests.
 
 To create and configure a `RegexMatchSet`, perform the following steps:
 
-1. Create a `RegexMatchSet.` For more information, see [`create_regex_match_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of an `UpdateRegexMatchSet` request.3. Submit an
-   `UpdateRegexMatchSet` request to specify the part of the request that you want AWS WAF
-   to inspect (for example, the header or the URI) and the identifier of the
+1. Create a `RegexMatchSet.` For more information, see [`create_regex_match_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of an `UpdateRegexMatchSet` request.
+3. Submit an `UpdateRegexMatchSet` request to specify the part of the request that you want
+   AWS WAF to inspect (for example, the header or the URI) and the identifier of the
    `RegexPatternSet` that contain the regular expression patters you want AWS WAF to watch
    for.
 
@@ -4384,9 +4291,8 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `regex_match_set_id`: The `RegexMatchSetId` of the [`regex_match_set`](@ref) that you
-  want to update. `RegexMatchSetId` is returned by [`create_regex_match_set`](@ref) and
-  by [`list_regex_match_sets`](@ref).
+- `regex_match_set_id`: The `RegexMatchSetId` of the [`regex_match_set`](@ref) that you want
+  to update. `RegexMatchSetId` is returned by [`create_regex_match_set`](@ref) and by [`list_regex_match_sets`](@ref).
 - `updates`: An array of `RegexMatchSetUpdate` objects that you want to insert into or
   delete from a [`regex_match_set`](@ref). For more information, see [`regex_match_tuple`](@ref).
 """
@@ -4439,8 +4345,6 @@ end
     update_regex_pattern_set(change_token, regex_pattern_set_id, updates)
     update_regex_pattern_set(change_token, regex_pattern_set_id, updates, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -4466,11 +4370,11 @@ match this `RegexPatternString` to:
 
 To create and configure a `RegexPatternSet`, perform the following steps:
 
-1. Create a `RegexPatternSet.` For more information, see [`create_regex_pattern_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of an `UpdateRegexPatternSet` request.3. Submit an
-   `UpdateRegexPatternSet` request to specify the regular expression pattern that you want
-   AWS WAF to watch for.
+1. Create a `RegexPatternSet.` For more information, see [`create_regex_pattern_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of an `UpdateRegexPatternSet` request.
+3. Submit an `UpdateRegexPatternSet` request to specify the regular expression pattern that
+   you want AWS WAF to watch for.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -4533,8 +4437,6 @@ end
     update_rule(change_token, rule_id, updates)
     update_rule(change_token, rule_id, updates, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -4545,25 +4447,25 @@ end
 
 Inserts or deletes [`predicate`](@ref) objects in a `Rule`. Each `Predicate` object
 identifies a predicate, such as a [`byte_match_set`](@ref) or an [`ipset`](@ref), that
-specifies the web requests that you want to allow, block, or count. If you add more than
-one predicate to a `Rule`, a request must match all of the specifications to be allowed,
+specifies the web requests that you want to allow, block, or count. If you add more than one
+predicate to a `Rule`, a request must match all of the specifications to be allowed,
 blocked, or counted. For example, suppose that you add the following to a `Rule`:
 
 - A `ByteMatchSet` that matches the value `BadBot` in the `User-Agent` header
 - An `IPSet` that matches the IP address `192.0.2.44`
 
 You then add the `Rule` to a `WebACL` and specify that you want to block requests that
-satisfy the `Rule`. For a request to be blocked, the `User-Agent` header in the request
-must contain the value `BadBot` *and* the request must originate from the IP address
-192.0.2.44.
+satisfy the `Rule`. For a request to be blocked, the `User-Agent` header in the request must
+contain the value `BadBot` *and* the request must originate from the IP address 192.0.2.44.
 
 To create and configure a `Rule`, perform the following steps:
 
-1. Create and update the predicates that you want to include in the `Rule`.2. Create the
-   `Rule`. See [`create_rule`](@ref).3. Use `GetChangeToken` to get the change token that
-   you provide in the `ChangeToken` parameter of an [`update_rule`](@ref) request.4. Submit
-   an `UpdateRule` request to add predicates to the `Rule`.5. Create and update a `WebACL`
-   that contains the `Rule`. See [`create_web_acl`](@ref).
+1. Create and update the predicates that you want to include in the `Rule`.
+2. Create the `Rule`. See [`create_rule`](@ref).
+3. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an [`update_rule`](@ref) request.
+4. Submit an `UpdateRule` request to add predicates to the `Rule`.
+5. Create and update a `WebACL` that contains the `Rule`. See [`create_web_acl`](@ref).
 
 If you want to replace one `ByteMatchSet` or `IPSet` with another, you delete the existing
 one and add the new one.
@@ -4574,15 +4476,16 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+
 - `rule_id`: The `RuleId` of the `Rule` that you want to update. `RuleId` is returned by
   `CreateRule` and by [`list_rules`](@ref).
-- `updates`: An array of `RuleUpdate` objects that you want to insert into or delete from a
-  [`rule`](@ref). For more information, see the applicable data types:
+
+- `updates`: An array of `RuleUpdate` objects that you want to insert into or delete from a [`rule`](@ref).
+  For more information, see the applicable data types:
 
   - [`rule_update`](@ref): Contains `Action` and `Predicate`
   - [`predicate`](@ref): Contains `DataId`, `Negated`, and `Type`
   - [`field_to_match`](@ref): Contains `Data` and `Type`
-
 """
 function update_rule end
 
@@ -4626,8 +4529,6 @@ end
     update_rule_group(change_token, rule_group_id, updates)
     update_rule_group(change_token, rule_group_id, updates, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -4644,11 +4545,11 @@ You can have a maximum of ten rules per rule group.
 
 To create and configure a `RuleGroup`, perform the following steps:
 
-1. Create and update the `Rules` that you want to include in the `RuleGroup`. See [`create_rule`](@ref).2.
-   Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
-   parameter of an [`update_rule_group`](@ref) request.3. Submit an `UpdateRuleGroup`
-   request to add `Rules` to the `RuleGroup`.4. Create and update a `WebACL` that contains
-   the `RuleGroup`. See [`create_web_acl`](@ref).
+1. Create and update the `Rules` that you want to include in the `RuleGroup`. See [`create_rule`](@ref).
+2. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an [`update_rule_group`](@ref) request.
+3. Submit an `UpdateRuleGroup` request to add `Rules` to the `RuleGroup`.
+4. Create and update a `WebACL` that contains the `RuleGroup`. See [`create_web_acl`](@ref).
 
 If you want to replace one `Rule` with another, you delete the existing one and add the new
 one.
@@ -4659,8 +4560,10 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+
 - `rule_group_id`: The `RuleGroupId` of the [`rule_group`](@ref) that you want to update.
   `RuleGroupId` is returned by [`create_rule_group`](@ref) and by [`list_rule_groups`](@ref).
+
 - `updates`: An array of `RuleGroupUpdate` objects that you want to insert into or delete
   from a [`rule_group`](@ref).
 
@@ -4714,8 +4617,6 @@ end
     update_size_constraint_set(change_token, size_constraint_set_id, updates)
     update_size_constraint_set(change_token, size_constraint_set_id, updates, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -4729,12 +4630,12 @@ For each `SizeConstraint` object, you specify the following values:
 
 - Whether to insert or delete the object from the array. If you want to change a
   `SizeConstraintSetUpdate` object, you delete the existing object and add a new one.
-- The part of a web request that you want AWS WAF to evaluate, such as the length of a
-  query string or the length of the `User-Agent` header.
-- Whether to perform any transformations on the request, such as converting it to
-  lowercase, before checking its length. Note that transformations of the request body are
-  not supported because the AWS resource forwards only the first `8192` bytes of your
-  request to AWS WAF.
+- The part of a web request that you want AWS WAF to evaluate, such as the length of a query
+  string or the length of the `User-Agent` header.
+- Whether to perform any transformations on the request, such as converting it to lowercase,
+  before checking its length. Note that transformations of the request body are not
+  supported because the AWS resource forwards only the first `8192` bytes of your request to
+  AWS WAF.
 
 You can only specify a single type of TextTransformation.
 - A `ComparisonOperator` used for evaluating the selected part of the request against the
@@ -4748,12 +4649,12 @@ configure AWS WAF to block those requests.
 
 To create and configure a `SizeConstraintSet`, perform the following steps:
 
-1. Create a `SizeConstraintSet.` For more information, see [`create_size_constraint_set`](@ref).2.
-   Use [`get_change_token`](@ref) to get the change token that you provide in the
-   `ChangeToken` parameter of an `UpdateSizeConstraintSet` request.3. Submit an
-   `UpdateSizeConstraintSet` request to specify the part of the request that you want AWS
-   WAF to inspect (for example, the header or the URI) and the value that you want AWS WAF
-   to watch for.
+1. Create a `SizeConstraintSet.` For more information, see [`create_size_constraint_set`](@ref).
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of an `UpdateSizeConstraintSet` request.
+3. Submit an `UpdateSizeConstraintSet` request to specify the part of the request that you
+   want AWS WAF to inspect (for example, the header or the URI) and the value that you want
+   AWS WAF to watch for.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -4761,18 +4662,19 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+
 - `size_constraint_set_id`: The `SizeConstraintSetId` of the [`size_constraint_set`](@ref)
   that you want to update. `SizeConstraintSetId` is returned by [`create_size_constraint_set`](@ref)
   and by [`list_size_constraint_sets`](@ref).
+
 - `updates`: An array of `SizeConstraintSetUpdate` objects that you want to insert into or
-  delete from a [`size_constraint_set`](@ref). For more information, see the applicable
-  data types:
+  delete from a [`size_constraint_set`](@ref). For more information, see the applicable data
+  types:
 
   - [`size_constraint_set_update`](@ref): Contains `Action` and `SizeConstraint`
   - [`size_constraint`](@ref): Contains `FieldToMatch`, `TextTransformation`,
     `ComparisonOperator`, and `Size`
   - [`field_to_match`](@ref): Contains `Data` and `Type`
-
 """
 function update_size_constraint_set end
 
@@ -4823,8 +4725,6 @@ end
     update_sql_injection_match_set(change_token, sql_injection_match_set_id, updates)
     update_sql_injection_match_set(change_token, sql_injection_match_set_id, updates, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -4836,28 +4736,29 @@ end
 Inserts or deletes [`sql_injection_match_tuple`](@ref) objects (filters) in a [`sql_injection_match_set`](@ref).
 For each `SqlInjectionMatchTuple` object, you specify the following values:
 
-- `Action`: Whether to insert the object into or delete the object from the array. To
-  change a `SqlInjectionMatchTuple`, you delete the existing object and add a new one.
-- `FieldToMatch`: The part of web requests that you want AWS WAF to inspect and, if you
-  want AWS WAF to inspect a header or custom query parameter, the name of the header or
+- `Action`: Whether to insert the object into or delete the object from the array. To change
+  a `SqlInjectionMatchTuple`, you delete the existing object and add a new one.
+- `FieldToMatch`: The part of web requests that you want AWS WAF to inspect and, if you want
+  AWS WAF to inspect a header or custom query parameter, the name of the header or
   parameter.
 - `TextTransformation`: Which text transformation, if any, to perform on the web request
   before inspecting the request for snippets of malicious SQL code.
 
 You can only specify a single type of TextTransformation.
 
-You use `SqlInjectionMatchSet` objects to specify which CloudFront requests that you want
-to allow, block, or count. For example, if you're receiving requests that contain snippets
-of SQL code in the query string and you want to block the requests, you can create a
-`SqlInjectionMatchSet` with the applicable settings, and then configure AWS WAF to block
-the requests.
+You use `SqlInjectionMatchSet` objects to specify which CloudFront requests that you want to
+allow, block, or count. For example, if you're receiving requests that contain snippets of
+SQL code in the query string and you want to block the requests, you can create a
+`SqlInjectionMatchSet` with the applicable settings, and then configure AWS WAF to block the
+requests.
 
 To create and configure a `SqlInjectionMatchSet`, perform the following steps:
 
-1. Submit a [`create_sql_injection_match_set`](@ref) request.2. Use [`get_change_token`](@ref)
-   to get the change token that you provide in the `ChangeToken` parameter of an [`update_ipset`](@ref)
-   request.3. Submit an `UpdateSqlInjectionMatchSet` request to specify the parts of web
-   requests that you want AWS WAF to inspect for snippets of SQL code.
+1. Submit a [`create_sql_injection_match_set`](@ref) request.
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of an [`update_ipset`](@ref) request.
+3. Submit an `UpdateSqlInjectionMatchSet` request to specify the parts of web requests that
+   you want AWS WAF to inspect for snippets of SQL code.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -4865,18 +4766,18 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+
 - `sql_injection_match_set_id`: The `SqlInjectionMatchSetId` of the `SqlInjectionMatchSet`
   that you want to update. `SqlInjectionMatchSetId` is returned by [`create_sql_injection_match_set`](@ref)
   and by [`list_sql_injection_match_sets`](@ref).
+
 - `updates`: An array of `SqlInjectionMatchSetUpdate` objects that you want to insert into
   or delete from a [`sql_injection_match_set`](@ref). For more information, see the
   applicable data types:
 
-  - [`sql_injection_match_set_update`](@ref): Contains `Action` and
-    `SqlInjectionMatchTuple`
+  - [`sql_injection_match_set_update`](@ref): Contains `Action` and `SqlInjectionMatchTuple`
   - [`sql_injection_match_tuple`](@ref): Contains `FieldToMatch` and `TextTransformation`
   - [`field_to_match`](@ref): Contains `Data` and `Type`
-
 """
 function update_sql_injection_match_set end
 
@@ -4927,8 +4828,6 @@ end
     update_web_acl(change_token, web_aclid)
     update_web_acl(change_token, web_aclid, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -4941,46 +4840,46 @@ Inserts or deletes [`activated_rule`](@ref) objects in a `WebACL`. Each `Rule` i
 web requests that you want to allow, block, or count. When you update a `WebACL`, you
 specify the following values:
 
-- A default action for the `WebACL`, either `ALLOW` or `BLOCK`. AWS WAF performs the
-  default action if a request doesn't match the criteria in any of the `Rules` in a
-  `WebACL`.
+- A default action for the `WebACL`, either `ALLOW` or `BLOCK`. AWS WAF performs the default
+  action if a request doesn't match the criteria in any of the `Rules` in a `WebACL`.
 - The `Rules` that you want to add or delete. If you want to replace one `Rule` with
   another, you delete the existing `Rule` and add the new one.
 - For each `Rule`, whether you want AWS WAF to allow requests, block requests, or count
   requests that match the conditions in the `Rule`.
-- The order in which you want AWS WAF to evaluate the `Rules` in a `WebACL`. If you add
-  more than one `Rule` to a `WebACL`, AWS WAF evaluates each request against the `Rules` in
-  order based on the value of `Priority`. (The `Rule` that has the lowest value for
-  `Priority` is evaluated first.) When a web request matches all the predicates (such as
-  `ByteMatchSets` and `IPSets`) in a `Rule`, AWS WAF immediately takes the corresponding
-  action, allow or block, and doesn't evaluate the request against the remaining `Rules` in
-  the `WebACL`, if any.
+- The order in which you want AWS WAF to evaluate the `Rules` in a `WebACL`. If you add more
+  than one `Rule` to a `WebACL`, AWS WAF evaluates each request against the `Rules` in order
+  based on the value of `Priority`. (The `Rule` that has the lowest value for `Priority` is
+  evaluated first.) When a web request matches all the predicates (such as `ByteMatchSets`
+  and `IPSets`) in a `Rule`, AWS WAF immediately takes the corresponding action, allow or
+  block, and doesn't evaluate the request against the remaining `Rules` in the `WebACL`, if
+  any.
 
 To create and configure a `WebACL`, perform the following steps:
 
 1. Create and update the predicates that you want to include in `Rules`. For more
-   information, see [`create_byte_match_set`](@ref), [`update_byte_match_set`](@ref), [`create_ipset`](@ref),
-   [`update_ipset`](@ref), [`create_sql_injection_match_set`](@ref), and [`update_sql_injection_match_set`](@ref).2.
-   Create and update the `Rules` that you want to include in the `WebACL`. For more
-   information, see [`create_rule`](@ref) and [`update_rule`](@ref).3. Create a `WebACL`.
-   See [`create_web_acl`](@ref).4. Use `GetChangeToken` to get the change token that you
-   provide in the `ChangeToken` parameter of an [`update_web_acl`](@ref) request.5. Submit
-   an `UpdateWebACL` request to specify the `Rules` that you want to include in the
+   information, see [`create_byte_match_set`](@ref), [`update_byte_match_set`](@ref), [`create_ipset`](@ref), [`update_ipset`](@ref), [`create_sql_injection_match_set`](@ref),
+   and [`update_sql_injection_match_set`](@ref).
+2. Create and update the `Rules` that you want to include in the `WebACL`. For more
+   information, see [`create_rule`](@ref) and [`update_rule`](@ref).
+3. Create a `WebACL`. See [`create_web_acl`](@ref).
+4. Use `GetChangeToken` to get the change token that you provide in the `ChangeToken`
+   parameter of an [`update_web_acl`](@ref) request.
+5. Submit an `UpdateWebACL` request to specify the `Rules` that you want to include in the
    `WebACL`, to specify the default action, and to associate the `WebACL` with a CloudFront
    distribution.
 
-The `ActivatedRule` can be a rule group. If you specify a rule group as your
-`ActivatedRule` , you can exclude specific rules from that rule group.
+The `ActivatedRule` can be a rule group. If you specify a rule group as your `ActivatedRule`
+, you can exclude specific rules from that rule group.
 
 If you already have a rule group associated with a web ACL and want to submit an
 `UpdateWebACL` request to exclude certain rules from that rule group, you must first remove
 the rule group from the web ACL, the re-insert it again, specifying the excluded rules. For
 details, see [`activated_rule\$_excluded_rules`](@ref) .
 
-Be aware that if you try to add a RATE_BASED rule to a web ACL without setting the rule
-type when first creating the rule, the [`update_web_acl`](@ref) request will fail because
-the request tries to add a REGULAR rule (the default rule type) with the specified ID,
-which does not exist.
+Be aware that if you try to add a RATE_BASED rule to a web ACL without setting the rule type
+when first creating the rule, the [`update_web_acl`](@ref) request will fail because the
+request tries to add a REGULAR rule (the default rule type) with the specified ID, which
+does not exist.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -4996,21 +4895,21 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DefaultAction"`: A default action for the web ACL, either ALLOW or BLOCK. AWS WAF
-  performs the default action if a request doesn't match the criteria in any of the rules
-  in a web ACL.
+  performs the default action if a request doesn't match the criteria in any of the rules in
+  a web ACL.
+
 - `"Updates"`: An array of updates to make to the [`web_acl`](@ref).
 
   An array of `WebACLUpdate` objects that you want to insert into or delete from a [`web_acl`](@ref).
   For more information, see the applicable data types:
 
   - [`web_aclupdate`](@ref): Contains `Action` and `ActivatedRule`
-  - [`activated_rule`](@ref): Contains `Action`, `OverrideAction`, `Priority`, `RuleId`,
-    and `Type`. `ActivatedRule|OverrideAction` applies only when updating or adding a
-    `RuleGroup` to a `WebACL`. In this case, you do not use `ActivatedRule|Action`. For
-    all other update requests, `ActivatedRule|Action` is used instead of
+  - [`activated_rule`](@ref): Contains `Action`, `OverrideAction`, `Priority`, `RuleId`, and
+    `Type`. `ActivatedRule|OverrideAction` applies only when updating or adding a
+    `RuleGroup` to a `WebACL`. In this case, you do not use `ActivatedRule|Action`. For all
+    other update requests, `ActivatedRule|Action` is used instead of
     `ActivatedRule|OverrideAction`.
   - [`waf_action`](@ref): Contains `Type`
-
 """
 function update_web_acl end
 
@@ -5049,8 +4948,6 @@ end
     update_xss_match_set(change_token, updates, xss_match_set_id)
     update_xss_match_set(change_token, updates, xss_match_set_id, params::Dict{String,<:Any})
 
-
-
 !!! note
     This is **AWS WAF Classic** documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html)
     in the developer guide.
@@ -5062,10 +4959,10 @@ end
 Inserts or deletes [`xss_match_tuple`](@ref) objects (filters) in an [`xss_match_set`](@ref).
 For each `XssMatchTuple` object, you specify the following values:
 
-- `Action`: Whether to insert the object into or delete the object from the array. To
-  change an `XssMatchTuple`, you delete the existing object and add a new one.
-- `FieldToMatch`: The part of web requests that you want AWS WAF to inspect and, if you
-  want AWS WAF to inspect a header or custom query parameter, the name of the header or
+- `Action`: Whether to insert the object into or delete the object from the array. To change
+  an `XssMatchTuple`, you delete the existing object and add a new one.
+- `FieldToMatch`: The part of web requests that you want AWS WAF to inspect and, if you want
+  AWS WAF to inspect a header or custom query parameter, the name of the header or
   parameter.
 - `TextTransformation`: Which text transformation, if any, to perform on the web request
   before inspecting the request for cross-site scripting attacks.
@@ -5073,17 +4970,18 @@ For each `XssMatchTuple` object, you specify the following values:
 You can only specify a single type of TextTransformation.
 
 You use `XssMatchSet` objects to specify which CloudFront requests that you want to allow,
-block, or count. For example, if you're receiving requests that contain cross-site
-scripting attacks in the request body and you want to block the requests, you can create an
+block, or count. For example, if you're receiving requests that contain cross-site scripting
+attacks in the request body and you want to block the requests, you can create an
 `XssMatchSet` with the applicable settings, and then configure AWS WAF to block the
 requests.
 
 To create and configure an `XssMatchSet`, perform the following steps:
 
-1. Submit a [`create_xss_match_set`](@ref) request.2. Use [`get_change_token`](@ref) to get
-   the change token that you provide in the `ChangeToken` parameter of an [`update_ipset`](@ref)
-   request.3. Submit an `UpdateXssMatchSet` request to specify the parts of web requests
-   that you want AWS WAF to inspect for cross-site scripting attacks.
+1. Submit a [`create_xss_match_set`](@ref) request.
+2. Use [`get_change_token`](@ref) to get the change token that you provide in the
+   `ChangeToken` parameter of an [`update_ipset`](@ref) request.
+3. Submit an `UpdateXssMatchSet` request to specify the parts of web requests that you want
+   AWS WAF to inspect for cross-site scripting attacks.
 
 For more information about how to use the AWS WAF API to allow or block HTTP requests, see
 the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
@@ -5091,6 +4989,7 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 # Arguments
 
 - `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+
 - `updates`: An array of `XssMatchSetUpdate` objects that you want to insert into or delete
   from an [`xss_match_set`](@ref). For more information, see the applicable data types:
 

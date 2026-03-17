@@ -8,17 +8,15 @@ using AWS.UUIDs
     join_storage_session(channel_arn)
     join_storage_session(channel_arn, params::Dict{String,<:Any})
 
-
-
 !!! note
     Before using this API, you must call the `GetSignalingChannelEndpoint` API to request
     the WEBRTC endpoint. You then specify the endpoint and region in your
     `JoinStorageSession` API request.
 
 Join the ongoing one way-video and/or multi-way audio WebRTC session as a video producing
-device for an input channel. If there’s no existing session for the channel, a new
-streaming session needs to be created, and the Amazon Resource Name (ARN) of the signaling
-channel must be provided.
+device for an input channel. If there’s no existing session for the channel, a new streaming
+session needs to be created, and the Amazon Resource Name (ARN) of the signaling channel
+must be provided.
 
 Currently for the `SINGLE_MASTER` type, a video producing device is able to ingest both
 audio and video media into a stream. Only video producing devices can join the session and
@@ -32,8 +30,8 @@ record media.
     - Video track: H.264
     - Audio track: Opus
 
-The resulting ingested video in the Kinesis video stream will have the following
-parameters: H.264 video and AAC audio.
+The resulting ingested video in the Kinesis video stream will have the following parameters:
+H.264 video and AAC audio.
 
 Once a master participant has negotiated a connection through WebRTC, the ingested media
 session will be stored in the Kinesis video stream. Multiple viewers are then able to play

@@ -68,6 +68,7 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"billingGroupArn"`: The ARN of the billing group.
+
 - `"billingGroupName"`: The name of the billing group.
 
   !!! note
@@ -75,6 +76,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       propagate.
 
 - `"thingArn"`: The ARN of the thing to be added to the billing group.
+
 - `"thingName"`: The name of the thing to be added to the billing group.
 """
 function add_thing_to_billing_group end
@@ -115,8 +117,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"overrideDynamicGroups"`: Override dynamic thing groups with static thing groups when 10-
   group limit is reached. If a thing belongs to 10 thing groups, and one or more of those
-  groups are dynamic thing groups, adding a thing to a static group removes the thing
-  from the last dynamic group.
+  groups are dynamic thing groups, adding a thing to a static group removes the thing from
+  the last dynamic group.
 - `"thingArn"`: The ARN of the thing to add to a group.
 - `"thingGroupArn"`: The ARN of the group to which you are adding a thing.
 - `"thingGroupName"`: The name of the group to which you are adding a thing.
@@ -169,6 +171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"comment"`: An optional comment string describing why the job was associated with the
   targets.
+
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
@@ -177,9 +180,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
-      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
-
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
+      information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 """
 function associate_targets_with_job end
 
@@ -260,8 +262,8 @@ end
 
 Attaches the specified policy to the specified principal (certificate or other credential).
 
-**Note:** This action is deprecated and works as expected for backward compatibility, but
-we won't add enhancements. Use [`attach_policy`](@ref) instead.
+**Note:** This action is deprecated and works as expected for backward compatibility, but we
+won't add enhancements. Use [`attach_policy`](@ref) instead.
 
 Requires permission to access the [AttachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -316,8 +318,8 @@ end
     attach_security_profile(security_profile_name, security_profile_target_arn)
     attach_security_profile(security_profile_name, security_profile_target_arn, params::Dict{String,<:Any})
 
-Associates a Device Defender security profile with a thing group or this account. Each
-thing group or account can have up to five security profiles associated with it.
+Associates a Device Defender security profile with a thing group or this account. Each thing
+group or account can have up to five security profiles associated with it.
 
 Requires permission to access the [AttachSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -463,8 +465,8 @@ end
     cancel_audit_task(task_id)
     cancel_audit_task(task_id, params::Dict{String,<:Any})
 
-Cancels an audit that is in progress. The audit can be either scheduled or on demand. If
-the audit isn't in progress, an "InvalidRequestException" occurs.
+Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the
+audit isn't in progress, an "InvalidRequestException" occurs.
 
 Requires permission to access the [CancelAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -505,8 +507,8 @@ Cancels a pending transfer for the specified certificate.
 
 **Note** Only the transfer source account can use this operation to cancel a transfer.
 (Transfer destinations can use [`reject_certificate_transfer`](@ref) instead.) After
-transfer, IoT returns the certificate to the source account in the INACTIVE state. After
-the destination account has accepted the transfer, the transfer cannot be cancelled.
+transfer, IoT returns the certificate to the source account in the INACTIVE state. After the
+destination account has accepted the transfer, the transfer cannot be cancelled.
 
 After a certificate transfer is cancelled, the status of the certificate changes from
 PENDING_TRANSFER to INACTIVE.
@@ -602,13 +604,15 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"comment"`: An optional comment string describing why the job was canceled.
-- `"force"`: (Optional) If `true` job executions with status "IN_PROGRESS" and "QUEUED" are
-  canceled, otherwise only job executions with status "QUEUED" are canceled. The default
-  is `false`.
 
-  Canceling a job which is "IN_PROGRESS", will cause a device which is executing the job
-  to be unable to update the job execution status. Use caution and ensure that each
-  device executing a job which is canceled is able to recover to a valid state.
+- `"force"`: (Optional) If `true` job executions with status "IN_PROGRESS" and "QUEUED" are
+  canceled, otherwise only job executions with status "QUEUED" are canceled. The default is
+  `false`.
+
+  Canceling a job which is "IN_PROGRESS", will cause a device which is executing the job to
+  be unable to update the job execution status. Use caution and ensure that each device
+  executing a job which is canceled is able to recover to a valid state.
+
 - `"reasonCode"`: (Optional)A reason code string that explains why the job was canceled.
 """
 function cancel_job end
@@ -653,23 +657,25 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"expectedVersion"`: (Optional) The expected current version of the job execution. Each
-  time you update the job execution, its version is incremented. If the version of the
-  job execution stored in Jobs does not match, the update is rejected with a
-  VersionMismatch error, and an ErrorResponse that contains the current job execution
-  status data is returned. (This makes it unnecessary to perform a separate
-  DescribeJobExecution request in order to obtain the job execution status data.)
+  time you update the job execution, its version is incremented. If the version of the job
+  execution stored in Jobs does not match, the update is rejected with a VersionMismatch
+  error, and an ErrorResponse that contains the current job execution status data is
+  returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in
+  order to obtain the job execution status data.)
+
 - `"force"`: (Optional) If `true` the job execution will be canceled if it has status
-  IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has
-  status QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do
-  not set `force` to `true`, then an `InvalidStateTransitionException` will be thrown.
-  The default is `false`.
+  IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status
+  QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set
+  `force` to `true`, then an `InvalidStateTransitionException` will be thrown. The default
+  is `false`.
 
   Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable to
-  update the job execution status. Use caution and ensure that the device is able to
-  recover to a valid state.
+  update the job execution status. Use caution and ensure that the device is able to recover
+  to a valid state.
+
 - `"statusDetails"`: A collection of name/value pairs that describe the status of the job
-  execution. If not specified, the statusDetails are unchanged. You can specify at most
-  10 name/value pairs.
+  execution. If not specified, the statusDetails are unchanged. You can specify at most 10
+  name/value pairs.
 """
 function cancel_job_execution end
 
@@ -735,10 +741,10 @@ end
     confirm_topic_rule_destination(confirmation_token)
     confirm_topic_rule_destination(confirmation_token, params::Dict{String,<:Any})
 
-Confirms a topic rule destination. When you create a rule requiring a destination, IoT
-sends a confirmation message to the endpoint or base address you specify. The message
-includes a token which you pass back when calling `ConfirmTopicRuleDestination` to confirm
-that you own or have access to the endpoint.
+Confirms a topic rule destination. When you create a rule requiring a destination, IoT sends
+a confirmation message to the endpoint or base address you specify. The message includes a
+token which you pass back when calling `ConfirmTopicRuleDestination` to confirm that you own
+or have access to the endpoint.
 
 Requires permission to access the [ConfirmTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -788,9 +794,9 @@ action.
 
 - `check_name`:
 - `client_request_token`: Each audit supression must have a unique client request token. If
-  you try to create a new audit suppression with the same token as one that already
-  exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will
-  automatically generate a unique client request.
+  you try to create a new audit suppression with the same token as one that already exists,
+  an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically
+  generate a unique client request.
 - `resource_identifier`:
 
 # Optional Parameters
@@ -867,15 +873,18 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"enableCachingForHttp"`: When `true`, the result from the authorizer’s Lambda function
-  is cached for clients that use persistent HTTP connections. The results are cached for
-  the time specified by the Lambda function in `refreshAfterInSeconds`. This value does
-  not affect authorization of clients that use MQTT connections.
+- `"enableCachingForHttp"`: When `true`, the result from the authorizer’s Lambda function is
+  cached for clients that use persistent HTTP connections. The results are cached for the
+  time specified by the Lambda function in `refreshAfterInSeconds`. This value does not
+  affect authorization of clients that use MQTT connections.
 
   The default value is `false`.
+
 - `"signingDisabled"`: Specifies whether IoT validates the token signature in an
   authorization request.
+
 - `"status"`: The status of the create authorizer request.
+
 - `"tags"`: Metadata which can be used to manage the custom authorizer.
 
   !!! note
@@ -888,6 +897,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tokenKeyName"`: The name of the token key used to extract the token from the HTTP
   headers.
+
 - `"tokenSigningPublicKeys"`: The public keys used to verify the digital signature returned
   by your custom authentication service.
 """
@@ -986,8 +996,8 @@ action.
 
 !!! note
     The CSR must include a public key that is either an RSA key with a length of at least
-    2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For
-    supported certificates, consult [Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms).
+    2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported
+certificates, consult [Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms).
 
 !!! note
     Reusing the same certificate signing request (CSR) results in a distinct certificate.
@@ -1157,13 +1167,15 @@ action.
 
 # Arguments
 
-- `client_request_token`: Each custom metric must have a unique client request token. If
-  you try to create a new custom metric that already exists with a different token, an
-  exception occurs. If you omit this value, Amazon Web Services SDKs will automatically
-  generate a unique client request.
+- `client_request_token`: Each custom metric must have a unique client request token. If you
+  try to create a new custom metric that already exists with a different token, an exception
+  occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a
+  unique client request.
+
 - `metric_name`: The name of the custom metric. This will be used in the metric report
   submitted from the device/thing. The name can't begin with `aws:`. You can't change the
   name after you define it.
+
 - `metric_type`: The type of the custom metric.
 
   !!! important
@@ -1175,9 +1187,9 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"displayName"`: The friendly name in the console for the custom metric. This name
-  doesn't have to be unique. Don't use this name as the metric identifier in the device
-  metric report. You can update the friendly name after you define it.
+- `"displayName"`: The friendly name in the console for the custom metric. This name doesn't
+  have to be unique. Don't use this name as the metric identifier in the device metric
+  report. You can update the friendly name after you define it.
 - `"tags"`: Metadata that can be used to manage the custom metric.
 """
 function create_custom_metric end
@@ -1237,10 +1249,10 @@ action.
 
 # Arguments
 
-- `client_request_token`: Each dimension must have a unique client request token. If you
-  try to create a new dimension with the same token as a dimension that already exists,
-  an exception occurs. If you omit this value, Amazon Web Services SDKs will
-  automatically generate a unique client request.
+- `client_request_token`: Each dimension must have a unique client request token. If you try
+  to create a new dimension with the same token as a dimension that already exists, an
+  exception occurs. If you omit this value, Amazon Web Services SDKs will automatically
+  generate a unique client request.
 - `name`: A unique identifier for the dimension. Choose something that describes the type
   and value to make it easy to remember what it does.
 - `string_values`: Specifies the value or list of values for the dimension. For
@@ -1322,11 +1334,15 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"authorizerConfig"`: An object that specifies the authorization service for a domain.
+
 - `"domainName"`: The name of the domain.
+
 - `"serverCertificateArns"`: The ARNs of the certificates that IoT passes to the device
-  during the TLS handshake. Currently you can specify only one certificate ARN. This
-  value is not required for Amazon Web Services-managed domains.
+  during the TLS handshake. Currently you can specify only one certificate ARN. This value
+  is not required for Amazon Web Services-managed domains.
+
 - `"serverCertificateConfig"`: The server certificate configuration.
+
 - `"serviceType"`: The type of service delivered by the endpoint.
 
   !!! note
@@ -1343,6 +1359,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
 
 - `"tlsConfig"`: An object that specifies the TLS configuration for a domain.
+
 - `"validationCertificateArn"`: The certificate used to validate the server certificate and
   prove domain name ownership. This certificate must be signed by a public certificate
   authority. This value is not required for Amazon Web Services-managed domains.
@@ -1389,6 +1406,7 @@ action.
 
   See [Query Syntax](https://docs.aws.amazon.com/iot/latest/developerguide/query-syntax.html)
   for information about query string syntax.
+
 - `thing_group_name`: The dynamic thing group name to create.
 
 # Optional Parameters
@@ -1407,6 +1425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       version defaults to this value.
 
 - `"tags"`: Metadata which can be used to manage the dynamic thing group.
+
 - `"thingGroupProperties"`: The dynamic thing group properties.
 """
 function create_dynamic_thing_group end
@@ -1542,23 +1561,27 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"abortConfig"`: Allows you to create the criteria to abort a job.
+
 - `"description"`: A short text description of the job.
+
 - `"destinationPackageVersions"`: The package version Amazon Resource Names (ARNs) that are
-  installed on the device when the job successfully completes. The package version must
-  be in either the Published or Deprecated state when the job deploys. For more
-  information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
+  installed on the device when the job successfully completes. The package version must be
+  in either the Published or Deprecated state when the job deploys. For more information,
+  see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
 
   **Note:**The following Length Constraints relates to a single ARN. Up to 25 package
   version ARNs are allowed.
+
 - `"document"`: The job document. Required if you don't specify a value for
   `documentSource`.
-- `"documentParameters"`: Parameters of an Amazon Web Services managed template that you
-  can specify to create the job document.
+
+- `"documentParameters"`: Parameters of an Amazon Web Services managed template that you can
+  specify to create the job document.
 
   !!! note
       `documentParameters` can only be used when creating jobs from Amazon Web Services
-      managed templates. This parameter can't be used with custom job templates or to
-      create jobs from them.
+      managed templates. This parameter can't be used with custom job templates or to create
+      jobs from them.
 
 - `"documentSource"`: An S3 link, or S3 object URL, to the job document. The link is an
   Amazon S3 object URL and is required if you don't specify a value for `document`.
@@ -1567,9 +1590,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `--document-source https://s3.*region-code*.amazonaws.com/example-firmware/device-firmware.1.0`
 
   For more information, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
+
 - `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
+
 - `"jobExecutionsRolloutConfig"`: Allows you to create a staged rollout of the job.
+
 - `"jobTemplateArn"`: The ARN of the job template used to create the job.
+
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
@@ -1578,28 +1605,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
-      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
+      information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 
 - `"presignedUrlConfig"`: Configuration information for pre-signed S3 URLs.
+
 - `"schedulingConfig"`: The configuration that allows you to schedule a job for a future
   date and time in addition to specifying the end behavior for each job execution.
+
 - `"tags"`: Metadata which can be used to manage the job.
+
 - `"targetSelection"`: Specifies whether the job will continue to run (CONTINUOUS), or will
-  be complete after all those things specified as targets have completed the job
-  (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected
-  in a target. For example, a job will run on a thing when the thing is added to a target
-  group, even after the job was completed by all things originally in the group.
+  be complete after all those things specified as targets have completed the job (SNAPSHOT).
+  If continuous, the job may also be run on a thing when a change is detected in a target.
+  For example, a job will run on a thing when the thing is added to a target group, even
+  after the job was completed by all things originally in the group.
 
   !!! note
-      We recommend that you use continuous jobs instead of snapshot jobs for dynamic
-      thing group targets. By using continuous jobs, devices that join the group receive
-      the job execution even after the job has been created.
+      We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing
+      group targets. By using continuous jobs, devices that join the group receive the job
+      execution even after the job has been created.
 
-- `"timeoutConfig"`: Specifies the amount of time each device has to finish its execution
-  of the job. The timer is started when the job execution status is set to `IN_PROGRESS`.
-  If the job execution status is not set to another terminal state before the time
-  expires, it will be automatically set to `TIMED_OUT`.
+- `"timeoutConfig"`: Specifies the amount of time each device has to finish its execution of
+  the job. The timer is started when the job execution status is set to `IN_PROGRESS`. If
+  the job execution status is not set to another terminal state before the time expires, it
+  will be automatically set to `TIMED_OUT`.
 """
 function create_job end
 
@@ -1648,15 +1678,18 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"abortConfig"`:
+
 - `"destinationPackageVersions"`: The package version Amazon Resource Names (ARNs) that are
-  installed on the device when the job successfully completes. The package version must
-  be in either the Published or Deprecated state when the job deploys. For more
-  information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
+  installed on the device when the job successfully completes. The package version must be
+  in either the Published or Deprecated state when the job deploys. For more information,
+  see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
 
   **Note:**The following Length Constraints relates to a single ARN. Up to 25 package
   version ARNs are allowed.
+
 - `"document"`: The job document. Required if you don't specify a value for
   `documentSource`.
+
 - `"documentSource"`: An S3 link, or S3 object URL, to the job document. The link is an
   Amazon S3 object URL and is required if you don't specify a value for `document`.
 
@@ -1664,13 +1697,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `--document-source https://s3.*region-code*.amazonaws.com/example-firmware/device-firmware.1.0`
 
   For more information, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
+
 - `"jobArn"`: The ARN of the job to use as the basis for the job template.
+
 - `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
+
 - `"jobExecutionsRolloutConfig"`:
+
 - `"maintenanceWindows"`: Allows you to configure an optional maintenance window for the
   rollout of a job document to all devices in the target group for a job.
+
 - `"presignedUrlConfig"`:
+
 - `"tags"`: Metadata that can be used to manage the job template.
+
 - `"timeoutConfig"`:
 """
 function create_job_template end
@@ -1708,9 +1748,9 @@ end
     create_keys_and_certificate()
     create_keys_and_certificate(params::Dict{String,<:Any})
 
-Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public
-key. You can also call `CreateKeysAndCertificate` over MQTT from a device, for more
-information, see [Provisioning MQTT API](https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api).
+Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key.
+You can also call `CreateKeysAndCertificate` over MQTT from a device, for more information,
+see [Provisioning MQTT API](https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api).
 
 **Note** This is the only time IoT issues the private key for this certificate, so it is
 important to keep it in a secure location.
@@ -1821,32 +1861,40 @@ action.
 
 - `files`: The files to be streamed by the OTA update.
 - `ota_update_id`: The ID of the OTA update to be created.
-- `role_arn`: The IAM role that grants Amazon Web Services IoT Core access to the Amazon
-  S3, IoT jobs and Amazon Web Services Code Signing resources to create an OTA update job.
+- `role_arn`: The IAM role that grants Amazon Web Services IoT Core access to the Amazon S3,
+  IoT jobs and Amazon Web Services Code Signing resources to create an OTA update job.
 - `targets`: The devices targeted to receive OTA updates.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"additionalParameters"`: A list of additional OTA update parameters, which are name-
-  value pairs. They won't be sent to devices as a part of the Job document.
+- `"additionalParameters"`: A list of additional OTA update parameters, which are name-value
+  pairs. They won't be sent to devices as a part of the Job document.
+
 - `"awsJobAbortConfig"`: The criteria that determine when and how a job abort takes place.
+
 - `"awsJobExecutionsRolloutConfig"`: Configuration for the rollout of OTA updates.
+
 - `"awsJobPresignedUrlConfig"`: Configuration information for pre-signed URLs.
+
 - `"awsJobTimeoutConfig"`: Specifies the amount of time each device has to finish its
   execution of the job. A timer is started when the job execution status is set to
-  `IN_PROGRESS`. If the job execution status is not set to another terminal state before
-  the timer expires, it will be automatically set to `TIMED_OUT`.
+  `IN_PROGRESS`. If the job execution status is not set to another terminal state before the
+  timer expires, it will be automatically set to `TIMED_OUT`.
+
 - `"description"`: The description of the OTA update.
+
 - `"protocols"`: The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol.
+
 - `"tags"`: Metadata which can be used to manage updates.
+
 - `"targetSelection"`: Specifies whether the update will continue to run (CONTINUOUS), or
   will be complete after all the things specified as targets have completed the update
-  (SNAPSHOT). If continuous, the update may also be run on a thing when a change is
-  detected in a target. For example, an update will run on a thing when the thing is
-  added to a target group, even after the update was completed by all things originally
-  in the group. Valid values: CONTINUOUS | SNAPSHOT.
+  (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected
+  in a target. For example, an update will run on a thing when the thing is added to a
+  target group, even after the update was completed by all things originally in the group.
+  Valid values: CONTINUOUS | SNAPSHOT.
 """
 function create_otaupdate end
 
@@ -1906,8 +1954,8 @@ actions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request
-  is required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
 - `"description"`: A summary of the package being created. This can be used to outline the
   package's contents or purpose.
 - `"tags"`: Metadata that can be used to manage the package.
@@ -1959,16 +2007,19 @@ actions.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"attributes"`: Metadata that can be used to define a package version’s configuration.
-  For example, the S3 file location, configuration options that are being sent to the
-  device or fleet.
+- `"attributes"`: Metadata that can be used to define a package version’s configuration. For
+  example, the S3 file location, configuration options that are being sent to the device or
+  fleet.
 
   The combined size of all the attributes on a package version is limited to 3KB.
+
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request
-  is required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+
 - `"description"`: A summary of the package version being created. This can be used to
   outline the package's contents or purpose.
+
 - `"tags"`: Metadata that can be used to manage the package version.
 """
 function create_package_version end
@@ -2033,7 +2084,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       "key1=value1&amp;key2=value2..."
 
       For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
-
 """
 function create_policy end
 
@@ -2071,13 +2121,13 @@ end
     create_policy_version(policy_document, policy_name, params::Dict{String,<:Any})
 
 Creates a new version of the specified IoT policy. To update a policy, create a new policy
-version. A managed policy can have up to five versions. If the policy has five versions,
-you must use [`delete_policy_version`](@ref) to delete an existing version before you
-create a new one.
+version. A managed policy can have up to five versions. If the policy has five versions, you
+must use [`delete_policy_version`](@ref) to delete an existing version before you create a
+new one.
 
-Optionally, you can set the new version as the policy's default version. The default
-version is the operative version (that is, the version that is in effect for the
-certificates to which the policy is attached).
+Optionally, you can set the new version as the policy's default version. The default version
+is the operative version (that is, the version that is in effect for the certificates to
+which the policy is attached).
 
 Requires permission to access the [CreatePolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -2188,10 +2238,12 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of the provisioning template.
+
 - `"enabled"`: True to enable the provisioning template, otherwise false.
+
 - `"preProvisioningHook"`: Creates a pre-provisioning hook template. Only supports template
-  of type `FLEET_PROVISIONING`. For more information about provisioning template types,
-  see [type](https://docs.aws.amazon.com/iot/latest/apireference/API_CreateProvisioningTemplate.html#iot-CreateProvisioningTemplate-request-type).
+  of type `FLEET_PROVISIONING`. For more information about provisioning template types, see [type](https://docs.aws.amazon.com/iot/latest/apireference/API_CreateProvisioningTemplate.html#iot-CreateProvisioningTemplate-request-type).
+
 - `"tags"`: Metadata which can be used to manage the provisioning template.
 
   !!! note
@@ -2203,8 +2255,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
 
 - `"type"`: The type you define in a provisioning template. You can create a template with
-  only one type. You can't change the template type after its creation. The default value
-  is `FLEET_PROVISIONING`. For more information about provisioning template, see: [Provisioning template](https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html).
+  only one type. You can't change the template type after its creation. The default value is
+  `FLEET_PROVISIONING`. For more information about provisioning template, see: [Provisioning template](https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html).
 """
 function create_provisioning_template end
 
@@ -2315,8 +2367,8 @@ action.
 
 # Arguments
 
-- `role_alias`: The role alias that points to a role ARN. This allows you to change the
-  role without having to update the device.
+- `role_alias`: The role alias that points to a role ARN. This allows you to change the role
+  without having to update the device.
 - `role_arn`: The role ARN.
 
 # Optional Parameters
@@ -2326,8 +2378,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"credentialDurationSeconds"`: How long (in seconds) the credentials will be valid. The
   default value is 3,600 seconds.
 
-  This value must be less than or equal to the maximum session duration of the IAM role
-  that the role alias references.
+  This value must be less than or equal to the maximum session duration of the IAM role that
+  the role alias references.
+
 - `"tags"`: Metadata which can be used to manage the role alias.
 
   !!! note
@@ -2337,7 +2390,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       "key1=value1&amp;key2=value2..."
 
       For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
-
 """
 function create_role_alias end
 
@@ -2383,21 +2435,21 @@ action.
   `BIWEEKLY` or `MONTHLY`. The start time of each audit is determined by the system.
 - `scheduled_audit_name`: The name you want to give to the scheduled audit. (Max. 128 chars)
 - `target_check_names`: Which checks are performed during the scheduled audit. Checks must
-  be enabled for your account. (Use `DescribeAccountAuditConfiguration` to see the list
-  of all checks, including those that are enabled or use
-  `UpdateAccountAuditConfiguration` to select which checks are enabled.)
+  be enabled for your account. (Use `DescribeAccountAuditConfiguration` to see the list of
+  all checks, including those that are enabled or use `UpdateAccountAuditConfiguration` to
+  select which checks are enabled.)
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"dayOfMonth"`: The day of the month on which the scheduled audit takes place. This can
-  be "1" through "31" or "LAST". This field is required if the "frequency" parameter is
-  set to `MONTHLY`. If days 29 to 31 are specified, and the month doesn't have that many
-  days, the audit takes place on the `LAST` day of the month.
-- `"dayOfWeek"`: The day of the week on which the scheduled audit takes place, either
-  `SUN`, `MON`, `TUE`, `WED`, `THU`, `FRI`, or `SAT`. This field is required if the
-  `frequency` parameter is set to `WEEKLY` or `BIWEEKLY`.
+- `"dayOfMonth"`: The day of the month on which the scheduled audit takes place. This can be
+  "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to
+  `MONTHLY`. If days 29 to 31 are specified, and the month doesn't have that many days, the
+  audit takes place on the `LAST` day of the month.
+- `"dayOfWeek"`: The day of the week on which the scheduled audit takes place, either `SUN`,
+  `MON`, `TUE`, `WED`, `THU`, `FRI`, or `SAT`. This field is required if the `frequency`
+  parameter is set to `WEEKLY` or `BIWEEKLY`.
 - `"tags"`: Metadata that can be used to manage the scheduled audit.
 """
 function create_scheduled_audit end
@@ -2462,18 +2514,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instead.*
 
   A list of metrics whose data is retained (stored). By default, data is retained for any
-  metric used in the profile's `behaviors`, but it is also retained for any metric
-  specified here. Can be used with custom metrics; cannot be used with dimensions.
+  metric used in the profile's `behaviors`, but it is also retained for any metric specified
+  here. Can be used with custom metrics; cannot be used with dimensions.
+
 - `"additionalMetricsToRetainV2"`: A list of metrics whose data is retained (stored). By
-  default, data is retained for any metric used in the profile's `behaviors`, but it is
-  also retained for any metric specified here. Can be used with custom metrics; cannot be
-  used with dimensions.
+  default, data is retained for any metric used in the profile's `behaviors`, but it is also
+  retained for any metric specified here. Can be used with custom metrics; cannot be used
+  with dimensions.
+
 - `"alertTargets"`: Specifies the destinations to which alerts are sent. (Alerts are always
   sent to the console.) Alerts are generated when a device (thing) violates a behavior.
+
 - `"behaviors"`: Specifies the behaviors that, when violated by a device (thing), cause an
   alert.
+
 - `"metricsExportConfig"`: Specifies the MQTT topic and role ARN required for metric export.
+
 - `"securityProfileDescription"`: A description of the security profile.
+
 - `"tags"`: Metadata that can be used to manage the security profile.
 """
 function create_security_profile end
@@ -2591,7 +2649,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pairs in a JSON document. For example:
 
   `{\\"attributes\\":{\\"string1\\":\\"string2\\"}}`
+
 - `"billingGroupName"`: The name of the billing group the thing will be added to.
+
 - `"thingTypeName"`: The name of the thing type associated with the new thing.
 """
 function create_thing end
@@ -2692,9 +2752,9 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"tags"`: Metadata which can be used to manage the thing type.
-- `"thingTypeProperties"`: The ThingTypeProperties for the thing type to create. It
-  contains information about the new thing type including a description, and a list of
-  searchable thing attribute names.
+- `"thingTypeProperties"`: The ThingTypeProperties for the thing type to create. It contains
+  information about the new thing type including a description, and a list of searchable
+  thing attribute names.
 """
 function create_thing_type end
 
@@ -2727,8 +2787,8 @@ end
     create_topic_rule(rule_name, topic_rule_payload)
     create_topic_rule(rule_name, topic_rule_payload, params::Dict{String,<:Any})
 
-Creates a rule. Creating rules is an administrator-level action. Any user who has
-permission to create rules will be able to access data processed by the rule.
+Creates a rule. Creating rules is an administrator-level action. Any user who has permission
+to create rules will be able to access data processed by the rule.
 
 Requires permission to access the [CreateTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -2747,11 +2807,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       For URI Request parameters use format: ...key1=value1&amp;key2=value2...
 
-      For the CLI command-line parameter use format: --tags
-      "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: --tags "key1=value1&amp;key2=value2..."
 
       For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
-
 """
 function create_topic_rule end
 
@@ -2837,8 +2895,8 @@ end
     delete_account_audit_configuration()
     delete_account_audit_configuration(params::Dict{String,<:Any})
 
-Restores the default settings for Device Defender audits for this account. Any
-configuration data you entered is deleted and all audit checks are reset to disabled.
+Restores the default settings for Device Defender audits for this account. Any configuration
+data you entered is deleted and all audit checks are reset to disabled.
 
 Requires permission to access the [DeleteAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -3164,8 +3222,8 @@ action.
 
 !!! note
     Before you can delete a custom metric, you must first remove the custom metric from all
-    security profiles it's a part of. The security profile associated with the custom
-    metric can be found using the [ListSecurityProfiles](https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html)
+    security profiles it's a part of. The security profile associated with the custom metric
+    can be found using the [ListSecurityProfiles](https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html)
     API with `metricName` set to your custom metric name.
 
 # Arguments
@@ -3388,22 +3446,22 @@ action.
 - `job_id`: The ID of the job to be deleted.
 
   After a job deletion is completed, you may reuse this jobId when you create a new job.
-  However, this is not recommended, and you must ensure that your devices are not using
-  the jobId to refer to the deleted job.
+  However, this is not recommended, and you must ensure that your devices are not using the
+  jobId to refer to the deleted job.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"force"`: (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise,
-  you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or
-  an exception will occur. The default is false.
+  you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an
+  exception will occur. The default is false.
 
   !!! note
-      Deleting a job which is "IN_PROGRESS", will cause a device which is executing the
-      job to be unable to access job information or update the job execution status. Use
-      caution and ensure that each device executing a job which is deleted is able to
-      recover to a valid state.
+      Deleting a job which is "IN_PROGRESS", will cause a device which is executing the job
+      to be unable to access job information or update the job execution status. Use caution
+      and ensure that each device executing a job which is deleted is able to recover to a
+      valid state.
 
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
 
@@ -3413,9 +3471,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
-      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
-
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
+      information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 """
 function delete_job end
 
@@ -3451,9 +3508,11 @@ action.
 - `execution_number`: The ID of the job execution to be deleted. The `executionNumber`
   refers to the execution of a particular job on a particular device.
 
-  Note that once a job execution is deleted, the `executionNumber` may be reused by IoT,
-  so be sure you get and use the correct value here.
+  Note that once a job execution is deleted, the `executionNumber` may be reused by IoT, so
+  be sure you get and use the correct value here.
+
 - `job_id`: The ID of the job whose execution on a particular device will be deleted.
+
 - `thing_name`: The name of the thing whose job execution will be deleted.
 
 # Optional Parameters
@@ -3461,14 +3520,14 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"force"`: (Optional) When true, you can delete a job execution which is "IN_PROGRESS".
-  Otherwise, you can only delete a job execution which is in a terminal state
-  ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will
-  occur. The default is false.
+  Otherwise, you can only delete a job execution which is in a terminal state ("SUCCEEDED",
+  "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is
+  false.
 
   !!! note
-      Deleting a job execution which is "IN_PROGRESS", will cause the device to be unable
-      to access job information or update the job execution status. Use caution and
-      ensure that the device is able to recover to a valid state.
+      Deleting a job execution which is "IN_PROGRESS", will cause the device to be unable to
+      access job information or update the job execution status. Use caution and ensure that
+      the device is able to recover to a valid state.
 
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
 
@@ -3478,9 +3537,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
-      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
-
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
+      information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 """
 function delete_job_execution end
 
@@ -3606,11 +3664,11 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"deleteStream"`: When true, the stream created by the OTAUpdate process is deleted when
-  the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied
-  by the user.
+  the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by
+  the user.
 - `"forceDeleteAWSJob"`: When true, deletes the IoT job created by the OTAUpdate process
-  even if it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state
-  ("COMPLETED" or "CANCELED") an exception will occur. The default is false.
+  even if it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state ("COMPLETED"
+  or "CANCELED") an exception will occur. The default is false.
 """
 function delete_otaupdate end
 
@@ -3657,8 +3715,8 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request
-  is required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
 """
 function delete_package end
 
@@ -3707,8 +3765,8 @@ from the software package using the [`update_package`](@ref) action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request
-  is required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
 """
 function delete_package_version end
 
@@ -3750,15 +3808,15 @@ Deletes the specified policy.
 A policy cannot be deleted if it has non-default versions or it is attached to any
 certificate.
 
-To delete a policy, use the [`delete_policy_version`](@ref) action to delete all non-
-default versions of the policy; use the [`detach_policy`](@ref) action to detach the policy
-from any certificate; and then use the DeletePolicy action to delete the policy.
+To delete a policy, use the [`delete_policy_version`](@ref) action to delete all non-default
+versions of the policy; use the [`detach_policy`](@ref) action to detach the policy from any
+certificate; and then use the DeletePolicy action to delete the policy.
 
 When a policy is deleted using DeletePolicy, its default version is deleted with it.
 
 !!! note
-    Because of the distributed nature of Amazon Web Services, it can take up to five
-    minutes after a policy is detached before it's ready to be deleted.
+    Because of the distributed nature of Amazon Web Services, it can take up to five minutes
+    after a policy is detached before it's ready to be deleted.
 
 Requires permission to access the [DeletePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -3796,8 +3854,8 @@ end
     delete_policy_version(policy_name, policy_version_id)
     delete_policy_version(policy_name, policy_version_id, params::Dict{String,<:Any})
 
-Deletes the specified version of the specified policy. You cannot delete the default
-version of a policy using this action. To delete the default version of a policy, use [`delete_policy`](@ref).
+Deletes the specified version of the specified policy. You cannot delete the default version
+of a policy using this action. To delete the default version of a policy, use [`delete_policy`](@ref).
 To find out which version of a policy is marked as the default version, use
 ListPolicyVersions.
 
@@ -4134,8 +4192,8 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"expectedVersion"`: The expected version of the thing record in the registry. If the
-  version of the record in the registry does not match the expected version specified in
-  the request, the `DeleteThing` request is rejected with a `VersionConflictException`.
+  version of the record in the registry does not match the expected version specified in the
+  request, the `DeleteThing` request is rejected with a `VersionConflictException`.
 """
 function delete_thing end
 
@@ -4212,11 +4270,11 @@ end
     delete_thing_type(thing_type_name)
     delete_thing_type(thing_type_name, params::Dict{String,<:Any})
 
-Deletes the specified thing type. You cannot delete a thing type if it has things
-associated with it. To delete a thing type, first mark it as deprecated by calling [`deprecate_thing_type`](@ref),
-then remove any associated things by calling [`update_thing`](@ref) to change the thing
-type on any associated thing, and finally use [`delete_thing_type`](@ref) to delete the
-thing type.
+Deletes the specified thing type. You cannot delete a thing type if it has things associated
+with it. To delete a thing type, first mark it as deprecated by calling [`deprecate_thing_type`](@ref),
+then remove any associated things by calling [`update_thing`](@ref) to change the thing type
+on any associated thing, and finally use [`delete_thing_type`](@ref) to delete the thing
+type.
 
 Requires permission to access the [DeleteThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -4429,8 +4487,8 @@ end
     describe_account_audit_configuration()
     describe_account_audit_configuration(params::Dict{String,<:Any})
 
-Gets information about the Device Defender audit settings for this account. Settings
-include how audit notifications are sent and which audit checks are enabled or disabled.
+Gets information about the Device Defender audit settings for this account. Settings include
+how audit notifications are sent and which audit checks are enabled or disabled.
 
 Requires permission to access the [DescribeAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -5035,9 +5093,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `iot:Jobs` - Returns an IoT device management Jobs API endpoint.
 
-  We strongly recommend that customers use the newer `iot:Data-ATS` endpoint type to
-  avoid issues related to the widespread distrust of Symantec certificate authorities.
-  ATS Signed Certificates are more secure and are trusted by most popular browsers.
+  We strongly recommend that customers use the newer `iot:Data-ATS` endpoint type to avoid
+  issues related to the widespread distrust of Symantec certificate authorities. ATS Signed
+  Certificates are more secure and are trusted by most popular browsers.
 """
 function describe_endpoint end
 
@@ -5768,8 +5826,8 @@ end
 Detaches a policy from the specified target.
 
 !!! note
-    Because of the distributed nature of Amazon Web Services, it can take up to five
-    minutes after a policy is detached before it's ready to be deleted.
+    Because of the distributed nature of Amazon Web Services, it can take up to five minutes
+    after a policy is detached before it's ready to be deleted.
 
 Requires permission to access the [DetachPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -5814,8 +5872,8 @@ end
 
 Removes the specified policy from the specified certificate.
 
-**Note:** This action is deprecated and works as expected for backward compatibility, but
-we won't add enhancements. Use [`detach_policy`](@ref) instead.
+**Note:** This action is deprecated and works as expected for backward compatibility, but we
+won't add enhancements. Use [`detach_policy`](@ref) instead.
 
 Requires permission to access the [DetachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -5823,6 +5881,7 @@ action.
 # Arguments
 
 - `policy_name`: The name of the policy to detach.
+
 - `x-amzn-iot-principal`: The principal.
 
   Valid principals are CertificateArn
@@ -5940,8 +5999,8 @@ action.
 
 - `thing_name`: The name of the thing.
 - `x-amzn-principal`: If the principal is a certificate, this value must be ARN of the
-  certificate. If the principal is an Amazon Cognito identity, this value must be the ID
-  of the Amazon Cognito identity.
+  certificate. If the principal is an Amazon Cognito identity, this value must be the ID of
+  the Amazon Cognito identity.
 """
 function detach_thing_principal end
 
@@ -6514,12 +6573,12 @@ end
 
 Groups the aggregated values that match the query into percentile groupings. The default
 percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you
-call `GetPercentiles`. This function returns a value for each percentile group specified
-(or the default percentile groupings). The percentile group "1" contains the aggregated
-field value that occurs in approximately one percent of the values that match the query.
-The percentile group "5" contains the aggregated field value that occurs in approximately
-five percent of the values that match the query, and so on. The result is an approximation,
-the more values that match the query, the more accurate the percentile values.
+call `GetPercentiles`. This function returns a value for each percentile group specified (or
+the default percentile groupings). The percentile group "1" contains the aggregated field
+value that occurs in approximately one percent of the values that match the query. The
+percentile group "5" contains the aggregated field value that occurs in approximately five
+percent of the values that match the query, and so on. The result is an approximation, the
+more values that match the query, the more accurate the percentile values.
 
 Requires permission to access the [GetPercentiles](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -6569,8 +6628,7 @@ end
     get_policy(policy_name)
     get_policy(policy_name, params::Dict{String,<:Any})
 
-Gets information about the specified policy with the policy document of the default
-version.
+Gets information about the specified policy with the policy document of the default version.
 
 Requires permission to access the [GetPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -6885,9 +6943,8 @@ action.
 # Arguments
 
 - `target`: The group or principal for which the policies will be listed. Valid principals
-  are CertificateArn (arn:aws:iot:*region*:*accountId*:cert/*certificateId*),
-  thingGroupArn (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and CognitoId
-  (*region*:*id*).
+  are CertificateArn (arn:aws:iot:*region*:*accountId*:cert/*certificateId*), thingGroupArn
+  (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and CognitoId (*region*:*id*).
 
 # Optional Parameters
 
@@ -6943,10 +7000,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 - `"nextToken"`: The token for the next set of results.
 - `"resourceIdentifier"`: Information identifying the noncompliant resource.
-- `"startTime"`: A filter to limit results to those found after the specified time. You
-  must specify either the startTime and endTime or the taskId, but not both.
-- `"taskId"`: A filter to limit results to the audit with the specified ID. You must
-  specify either the taskId or the startTime and endTime, but not both.
+- `"startTime"`: A filter to limit results to those found after the specified time. You must
+  specify either the startTime and endTime or the taskId, but not both.
+- `"taskId"`: A filter to limit results to the audit with the specified ID. You must specify
+  either the taskId or the startTime and endTime, but not both.
 """
 function list_audit_findings end
 
@@ -6981,8 +7038,8 @@ action.
 
 - `finding_id`: Specify this filter to limit results to those that were applied to a
   specific audit finding.
-- `task_id`: Specify this filter to limit results to actions for a specific audit
-  mitigation actions task.
+- `task_id`: Specify this filter to limit results to actions for a specific audit mitigation
+  actions task.
 
 # Optional Parameters
 
@@ -7279,8 +7336,8 @@ end
 
 Lists the CA certificates registered for your Amazon Web Services account.
 
-The results are paginated with a default page size of 25. You can use the returned marker
-to retrieve additional results.
+The results are paginated with a default page size of 25. You can use the returned marker to
+retrieve additional results.
 
 Requires permission to access the [ListCACertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -7361,8 +7418,8 @@ end
 
 Lists the certificates registered in your Amazon Web Services account.
 
-The results are paginated with a default page size of 25. You can use the returned marker
-to retrieve additional results.
+The results are paginated with a default page size of 25. You can use the returned marker to
+retrieve additional results.
 
 Requires permission to access the [ListCertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -7407,8 +7464,8 @@ action.
 
 # Arguments
 
-- `ca_certificate_id`: The ID of the CA certificate. This operation will list all
-  registered device certificate that were signed by this CA certificate.
+- `ca_certificate_id`: The ID of the CA certificate. This operation will list all registered
+  device certificate that were signed by this CA certificate.
 
 # Optional Parameters
 
@@ -7499,8 +7556,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are returned.
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 - `"nextToken"`: The token for the next set of results.
-- `"startTime"`: A filter to limit results to those found after the specified time. You
-  must specify either the startTime and endTime or the taskId, but not both.
+- `"startTime"`: A filter to limit results to those found after the specified time. You must
+  specify either the startTime and endTime or the taskId, but not both.
 - `"taskId"`: The unique identifier of the task.
 - `"thingName"`: The name of the thing whose mitigation actions are listed.
 - `"violationId"`: The unique identifier of the violation.
@@ -7791,7 +7848,9 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"jobId"`: The unique identifier you assigned to this job when it was created.
+
 - `"maxResults"`: The maximum number of results to be returned per request.
+
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
@@ -7800,10 +7859,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
-      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
+      information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 
 - `"nextToken"`: The token to retrieve the next set of results.
+
 - `"status"`: An optional filter that lets you search for jobs that have the specified
   status.
 """
@@ -7884,6 +7944,7 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return per request.
+
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
@@ -7892,24 +7953,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
-      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
+      information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 
 - `"nextToken"`: The token to retrieve the next set of results.
+
 - `"status"`: An optional filter that lets you search for jobs that have the specified
   status.
+
 - `"targetSelection"`: Specifies whether the job will continue to run (CONTINUOUS), or will
-  be complete after all those things specified as targets have completed the job
-  (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected
-  in a target. For example, a job will run on a thing when the thing is added to a target
-  group, even after the job was completed by all things originally in the group.
+  be complete after all those things specified as targets have completed the job (SNAPSHOT).
+  If continuous, the job may also be run on a thing when a change is detected in a target.
+  For example, a job will run on a thing when the thing is added to a target group, even
+  after the job was completed by all things originally in the group.
 
   !!! note
-      We recommend that you use continuous jobs instead of snapshot jobs for dynamic
-      thing group targets. By using continuous jobs, devices that join the group receive
-      the job execution even after the job has been created.
+      We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing
+      group targets. By using continuous jobs, devices that join the group receive the job
+      execution even after the job has been created.
 
 - `"thingGroupId"`: A filter that limits the returned jobs to those for the specified group.
+
 - `"thingGroupName"`: A filter that limits the returned jobs to those for the specified
   group.
 """
@@ -7939,9 +8003,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: Maximum number of entries that can be returned.
 - `"nextToken"`: The token to retrieve the next set of results.
-- `"templateName"`: An optional parameter for template name. If specified, only the
-  versions of the managed job templates that have the specified template name will be
-  returned.
+- `"templateName"`: An optional parameter for template name. If specified, only the versions
+  of the managed job templates that have the specified template name will be returned.
 """
 function list_managed_job_templates end
 
@@ -8269,8 +8332,8 @@ end
 
 Lists the principals associated with the specified policy.
 
-**Note:** This action is deprecated and works as expected for backward compatibility, but
-we won't add enhancements. Use [`list_targets_for_policy`](@ref) instead.
+**Note:** This action is deprecated and works as expected for backward compatibility, but we
+won't add enhancements. Use [`list_targets_for_policy`](@ref) instead.
 
 Requires permission to access the [ListPolicyPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -8373,8 +8436,8 @@ end
 Lists the policies attached to the specified principal. If you use an Cognito identity, the
 ID must be in [AmazonCognito Identity format](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax).
 
-**Note:** This action is deprecated and works as expected for backward compatibility, but
-we won't add enhancements. Use [`list_attached_policies`](@ref) instead.
+**Note:** This action is deprecated and works as expected for backward compatibility, but we
+won't add enhancements. Use [`list_attached_policies`](@ref) instead.
 
 Requires permission to access the [ListPrincipalPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -8726,8 +8789,8 @@ end
     list_security_profiles()
     list_security_profiles(params::Dict{String,<:Any})
 
-Lists the Device Defender security profiles you've created. You can filter security
-profiles by dimension or custom metric.
+Lists the Device Defender security profiles you've created. You can filter security profiles
+by dimension or custom metric.
 
 Requires permission to access the [ListSecurityProfiles](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -8739,8 +8802,8 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"dimensionName"`: A filter to limit results to the security profiles that use the
-  defined dimension. Cannot be used with `metricName`
+- `"dimensionName"`: A filter to limit results to the security profiles that use the defined
+  dimension. Cannot be used with `metricName`
 - `"maxResults"`: The maximum number of results to return at one time.
 - `"metricName"`: The name of the custom metric. Cannot be used with `dimensionName`.
 - `"nextToken"`: The token for the next set of results.
@@ -8776,8 +8839,8 @@ action.
 
 # Arguments
 
-- `security_profile_target_arn`: The ARN of the target (thing group) whose attached
-  security profiles you want to get.
+- `security_profile_target_arn`: The ARN of the target (thing group) whose attached security
+  profiles you want to get.
 
 # Optional Parameters
 
@@ -9288,16 +9351,21 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"attributeName"`: The attribute name used to search for things.
+
 - `"attributeValue"`: The attribute value used to search for things.
+
 - `"maxResults"`: The maximum number of results to return in this operation.
+
 - `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
   response; otherwise **null** to receive the first set of results.
+
 - `"thingTypeName"`: The name of the thing type used to search for things.
+
 - `"usePrefixAttributeValue"`: When `true`, the action returns the thing resources with
   attribute values that start with the `attributeValue` provided.
 
-  When `false`, or not present, the action returns only the thing resources with
-  attribute values that match the entire `attributeValue` provided.
+  When `false`, or not present, the action returns only the thing resources with attribute
+  values that match the entire `attributeValue` provided.
 """
 function list_things end
 
@@ -9587,8 +9655,8 @@ end
     put_verification_state_on_violation(verification_state, violation_id)
     put_verification_state_on_violation(verification_state, violation_id, params::Dict{String,<:Any})
 
-Set a verification state and provide a description of that verification state on a
-violation (detect alarm).
+Set a verification state and provide a description of that verification state on a violation
+(detect alarm).
 
 # Arguments
 
@@ -9657,17 +9725,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"allowAutoRegistration"`: Allows this CA certificate to be used for auto registration of
   device certificates.
+
 - `"certificateMode"`: Describes the certificate mode in which the Certificate Authority
   (CA) will be registered. If the `verificationCertificate` field is not provided, set
   `certificateMode` to be `SNI_ONLY`. If the `verificationCertificate` field is provided,
-  set `certificateMode` to be `DEFAULT`. When `certificateMode` is not provided, it
-  defaults to `DEFAULT`. All the device certificates that are registered using this CA
-  will be registered in the same certificate mode as the CA. For more information about
-  certificate mode for device certificates, see [certificate mode](https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode).
+  set `certificateMode` to be `DEFAULT`. When `certificateMode` is not provided, it defaults
+  to `DEFAULT`. All the device certificates that are registered using this CA will be
+  registered in the same certificate mode as the CA. For more information about certificate
+  mode for device certificates, see [certificate mode](https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode).
+
 - `"registrationConfig"`: Information about the registration configuration.
+
 - `"setAsActive"`: A boolean value that specifies if the CA certificate is set to active.
 
   Valid values: `ACTIVE | INACTIVE`
+
 - `"tags"`: Metadata which can be used to manage the CA certificate.
 
   !!! note
@@ -9680,8 +9752,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"verificationCertificate"`: The private key verification certificate. If
   `certificateMode` is `SNI_ONLY`, the `verificationCertificate` field must be empty. If
-  `certificateMode` is `DEFAULT` or not provided, the `verificationCertificate` field
-  must not be empty.
+  `certificateMode` is `DEFAULT` or not provided, the `verificationCertificate` field must
+  not be empty.
 """
 function register_cacertificate end
 
@@ -9718,9 +9790,9 @@ end
     register_certificate(certificate_pem, params::Dict{String,<:Any})
 
 Registers a device certificate with IoT in the same [certificate mode](https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode)
-as the signing CA. If you have more than one CA certificate that has the same subject
-field, you must specify the CA certificate that was used to sign the device certificate
-being registered.
+as the signing CA. If you have more than one CA certificate that has the same subject field,
+you must specify the CA certificate that was used to sign the device certificate being
+registered.
 
 Requires permission to access the [RegisterCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -9735,9 +9807,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"caCertificatePem"`: The CA certificate used to sign the device certificate being
   registered.
+
 - `"setAsActive"`: A boolean value that specifies if the certificate is set to active.
 
   Valid values: `ACTIVE | INACTIVE`
+
 - `"status"`: The status of the register certificate request. Valid values that you can use
   include `ACTIVE`, `INACTIVE`, and `REVOKED`.
 """
@@ -9822,8 +9896,8 @@ end
     register_thing(template_body)
     register_thing(template_body, params::Dict{String,<:Any})
 
-Provisions a thing in the device registry. RegisterThing calls other IoT control plane
-APIs. These calls might exceed your account level [IoT Throttling Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot)
+Provisions a thing in the device registry. RegisterThing calls other IoT control plane APIs.
+These calls might exceed your account level [IoT Throttling Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot)
 and cause throttle errors. Please contact [Amazon Web Services Customer Support](https://console.aws.amazon.com/support/home)
 to raise your throttling limits if necessary.
 
@@ -10084,9 +10158,9 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"indexName"`: The search index name.
-- `"maxResults"`: The maximum number of results to return per page at one time. This
-  maximum number cannot exceed 100. The response might contain fewer results but will
-  never contain more. You can use [`nextToken`](https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken)
+- `"maxResults"`: The maximum number of results to return per page at one time. This maximum
+  number cannot exceed 100. The response might contain fewer results but will never contain
+  more. You can use [`nextToken`](https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken)
   to retrieve the next set of results until `nextToken` returns `NULL`.
 - `"nextToken"`: The token used to get the next set of results, or `null` if there are no
   additional results.
@@ -10357,12 +10431,12 @@ action.
 - `audit_check_to_actions_mapping`: For an audit check, specifies which mitigation actions
   to apply. Those actions must be defined in your Amazon Web Services accounts.
 - `client_request_token`: Each audit mitigation task must have a unique client request
-  token. If you try to start a new task with the same token as a task that already
-  exists, an exception occurs. If you omit this value, a unique client request token is
-  generated automatically.
+  token. If you try to start a new task with the same token as a task that already exists,
+  an exception occurs. If you omit this value, a unique client request token is generated
+  automatically.
 - `target`: Specifies the audit findings to which the mitigation actions are applied. You
-  can apply them to a type of audit check, to all findings from an audit, or to a
-  specific set of findings.
+  can apply them to a type of audit check, to all findings from an audit, or to a specific
+  set of findings.
 - `task_id`: A unique identifier for the task. You can use this identifier to check the
   status of the task or to cancel it.
 """
@@ -10428,9 +10502,9 @@ action.
 
 - `actions`: The actions to be performed when a device has unexpected behavior.
 - `client_request_token`: Each mitigation action task must have a unique client request
-  token. If you try to create a new task with the same token as a task that already
-  exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will
-  automatically generate a unique client request.
+  token. If you try to create a new task with the same token as a task that already exists,
+  an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically
+  generate a unique client request.
 - `target`: Specifies the ML Detect findings to which the mitigation actions are applied.
 - `task_id`: The unique identifier of the task.
 
@@ -10708,8 +10782,8 @@ action.
 
 # Arguments
 
-- `auth_infos`: A list of authorization info objects. Simulating authorization will create
-  a response for each `authInfo` object in the list.
+- `auth_infos`: A list of authorization info objects. Simulating authorization will create a
+  response for each `authInfo` object in the list.
 
 # Optional Parameters
 
@@ -10757,9 +10831,9 @@ end
     test_invoke_authorizer(authorizer_name)
     test_invoke_authorizer(authorizer_name, params::Dict{String,<:Any})
 
-Tests a custom authorization behavior by invoking a specified custom authorizer. Use this
-to test and debug the custom authorization behavior of devices that connect to the IoT
-device gateway.
+Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to
+test and debug the custom authorization behavior of devices that connect to the IoT device
+gateway.
 
 Requires permission to access the [TestInvokeAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -10938,19 +11012,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this account. Use `DescribeAccountAuditConfiguration` to see the list of all checks,
   including those that are currently enabled.
 
-  Some data collection might start immediately when certain checks are enabled. When a
-  check is disabled, any data collected so far in relation to the check is deleted.
+  Some data collection might start immediately when certain checks are enabled. When a check
+  is disabled, any data collected so far in relation to the check is deleted.
 
-  You cannot disable a check if it's used by any scheduled audit. You must first delete
-  the check from the scheduled audit or delete the scheduled audit itself.
+  You cannot disable a check if it's used by any scheduled audit. You must first delete the
+  check from the scheduled audit or delete the scheduled audit itself.
 
   On the first call to `UpdateAccountAuditConfiguration`, this parameter is required and
   must specify at least one enabled check.
+
 - `"auditNotificationTargetConfigurations"`: Information about the targets to which audit
   notifications are sent.
+
 - `"roleArn"`: The Amazon Resource Name (ARN) of the role that grants permission to IoT to
-  access information about your devices, policies, certificates, and other items as
-  required when performing an audit.
+  access information about your devices, policies, certificates, and other items as required
+  when performing an audit.
 """
 function update_account_audit_configuration end
 
@@ -11055,9 +11131,9 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"authorizerFunctionArn"`: The ARN of the authorizer's Lambda function.
-- `"enableCachingForHttp"`: When `true`, the result from the authorizer’s Lambda function
-  is cached for the time specified in `refreshAfterInSeconds`. The cached result is used
-  while the device reuses the same HTTP connection.
+- `"enableCachingForHttp"`: When `true`, the result from the authorizer’s Lambda function is
+  cached for the time specified in `refreshAfterInSeconds`. The cached result is used while
+  the device reuses the same HTTP connection.
 - `"status"`: The status of the update authorizer request.
 - `"tokenKeyName"`: The key used to extract the token from the HTTP headers.
 - `"tokenSigningPublicKeys"`: The public keys used to verify the token signature.
@@ -11167,10 +11243,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"newAutoRegistrationStatus"`: The new value for the auto registration status. Valid
   values are: "ENABLE" or "DISABLE".
+
 - `"newStatus"`: The updated status of the CA certificate.
 
   **Note:** The status value REGISTER_INACTIVE is deprecated and should not be used.
+
 - `"registrationConfig"`: Information about the registration configuration.
+
 - `"removeAutoRegistration"`: If true, removes auto registration.
 """
 function update_cacertificate end
@@ -11212,18 +11291,19 @@ action.
 Certificates must be in the ACTIVE state to authenticate devices that use a certificate to
 connect to IoT.
 
-Within a few minutes of updating a certificate from the ACTIVE state to any other state,
-IoT disconnects all devices that used that certificate to connect. Devices cannot use a
+Within a few minutes of updating a certificate from the ACTIVE state to any other state, IoT
+disconnects all devices that used that certificate to connect. Devices cannot use a
 certificate that is not in the ACTIVE state to reconnect.
 
 # Arguments
 
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
   contains the certificate ID.)
+
 - `new_status`: The new status.
 
-  **Note:** Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION will result in
-  an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used
+  **Note:** Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION will result in an
+  exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used
   internally by IoT. They are not intended for developer use.
 
   **Note:** The status value REGISTER_INACTIVE is deprecated and should not be used.
@@ -11475,18 +11555,19 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"expectedVersion"`: The expected version of the dynamic thing group to update.
+
 - `"indexName"`: The dynamic thing group index to update.
 
   !!! note
       Currently one index is supported: `AWS_Things`.
 
 - `"queryString"`: The dynamic thing group search query string to update.
+
 - `"queryVersion"`: The dynamic thing group query version to update.
 
   !!! note
       Currently one query version is supported: "2017-09-30". If not specified, the query
       version defaults to this value.
-
 """
 function update_dynamic_thing_group end
 
@@ -11674,9 +11755,13 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"abortConfig"`: Allows you to create criteria to abort a job.
+
 - `"description"`: A short text description of the job.
+
 - `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
+
 - `"jobExecutionsRolloutConfig"`: Allows you to create a staged rollout of the job.
+
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
@@ -11685,14 +11770,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `\$aws/things/*THING_NAME*/jobs/*JOB_ID*/notify-namespace-*NAMESPACE_ID*/`
 
   !!! note
-      The `namespaceId` feature is only supported by IoT Greengrass at this time. For
-      more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+      The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
+      information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 
 - `"presignedUrlConfig"`: Configuration information for pre-signed S3 URLs.
-- `"timeoutConfig"`: Specifies the amount of time each device has to finish its execution
-  of the job. The timer is started when the job execution status is set to `IN_PROGRESS`.
-  If the job execution status is not set to another terminal state before the time
-  expires, it will be automatically set to `TIMED_OUT`.
+
+- `"timeoutConfig"`: Specifies the amount of time each device has to finish its execution of
+  the job. The timer is started when the job execution status is set to `IN_PROGRESS`. If
+  the job execution status is not set to another terminal state before the time expires, it
+  will be automatically set to `TIMED_OUT`.
 """
 function update_job end
 
@@ -11782,18 +11868,21 @@ actions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request
-  is required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+
 - `"defaultVersionName"`: The name of the default package version.
 
-  **Note:** You cannot name a `defaultVersion` and set `unsetDefaultVersion` equal to
-  `true` at the same time.
+  **Note:** You cannot name a `defaultVersion` and set `unsetDefaultVersion` equal to `true`
+  at the same time.
+
 - `"description"`: The package description.
+
 - `"unsetDefaultVersion"`: Indicates whether you want to remove the named default package
   version from the software package. Set as `true` to remove the default package version.
 
-  **Note:** You cannot name a `defaultVersion` and set `unsetDefaultVersion` equal to
-  `true` at the same time.
+  **Note:** You cannot name a `defaultVersion` and set `unsetDefaultVersion` equal to `true`
+  at the same time.
 """
 function update_package end
 
@@ -11838,8 +11927,8 @@ actions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request
-  is required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
 - `"versionUpdateByJobsConfig"`: Configuration to manage job's package version reporting.
   This updates the thing's reserved named shadow that the job targets.
 """
@@ -11890,16 +11979,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"action"`: The status that the package version should be assigned. For more information,
   see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
-- `"attributes"`: Metadata that can be used to define a package version’s configuration.
-  For example, the Amazon S3 file location, configuration options that are being sent to
-  the device or fleet.
+
+- `"attributes"`: Metadata that can be used to define a package version’s configuration. For
+  example, the Amazon S3 file location, configuration options that are being sent to the
+  device or fleet.
 
   **Note:** Attributes can be updated only when the package version is in a draft state.
 
   The combined size of all the attributes on a package version is limited to 3KB.
+
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request
-  is required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+
 - `"description"`: The package version description.
 """
 function update_package_version end
@@ -12006,8 +12098,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"credentialDurationSeconds"`: The number of seconds the credential will be valid.
 
-  This value must be less than or equal to the maximum session duration of the IAM role
-  that the role alias references.
+  This value must be less than or equal to the maximum session duration of the IAM role that
+  the role alias references.
+
 - `"roleArn"`: The role ARN.
 """
 function update_role_alias end
@@ -12053,19 +12146,19 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"dayOfMonth"`: The day of the month on which the scheduled audit takes place. This can
-  be `1` through `31` or `LAST`. This field is required if the `frequency` parameter is
-  set to `MONTHLY`. If days 29-31 are specified, and the month does not have that many
-  days, the audit takes place on the "LAST" day of the month.
+- `"dayOfMonth"`: The day of the month on which the scheduled audit takes place. This can be
+  `1` through `31` or `LAST`. This field is required if the `frequency` parameter is set to
+  `MONTHLY`. If days 29-31 are specified, and the month does not have that many days, the
+  audit takes place on the "LAST" day of the month.
 - `"dayOfWeek"`: The day of the week on which the scheduled audit takes place. This can be
-  one of `SUN`, `MON`, `TUE`, `WED`, `THU`, `FRI`, or `SAT`. This field is required if
-  the "frequency" parameter is set to `WEEKLY` or `BIWEEKLY`.
+  one of `SUN`, `MON`, `TUE`, `WED`, `THU`, `FRI`, or `SAT`. This field is required if the
+  "frequency" parameter is set to `WEEKLY` or `BIWEEKLY`.
 - `"frequency"`: How often the scheduled audit takes place, either `DAILY`, `WEEKLY`,
   `BIWEEKLY`, or `MONTHLY`. The start time of each audit is determined by the system.
 - `"targetCheckNames"`: Which checks are performed during the scheduled audit. Checks must
-  be enabled for your account. (Use `DescribeAccountAuditConfiguration` to see the list
-  of all checks, including those that are enabled or use
-  `UpdateAccountAuditConfiguration` to select which checks are enabled.)
+  be enabled for your account. (Use `DescribeAccountAuditConfiguration` to see the list of
+  all checks, including those that are enabled or use `UpdateAccountAuditConfiguration` to
+  select which checks are enabled.)
 """
 function update_scheduled_audit end
 
@@ -12115,29 +12208,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instead.*
 
   A list of metrics whose data is retained (stored). By default, data is retained for any
-  metric used in the profile's `behaviors`, but it is also retained for any metric
-  specified here. Can be used with custom metrics; cannot be used with dimensions.
+  metric used in the profile's `behaviors`, but it is also retained for any metric specified
+  here. Can be used with custom metrics; cannot be used with dimensions.
+
 - `"additionalMetricsToRetainV2"`: A list of metrics whose data is retained (stored). By
-  default, data is retained for any metric used in the profile's behaviors, but it is
-  also retained for any metric specified here. Can be used with custom metrics; cannot be
-  used with dimensions.
+  default, data is retained for any metric used in the profile's behaviors, but it is also
+  retained for any metric specified here. Can be used with custom metrics; cannot be used
+  with dimensions.
+
 - `"alertTargets"`: Where the alerts are sent. (Alerts are always sent to the console.)
+
 - `"behaviors"`: Specifies the behaviors that, when violated by a device (thing), cause an
   alert.
+
 - `"deleteAdditionalMetricsToRetain"`: If true, delete all `additionalMetricsToRetain`
-  defined for this security profile. If any `additionalMetricsToRetain` are defined in
-  the current invocation, an exception occurs.
+  defined for this security profile. If any `additionalMetricsToRetain` are defined in the
+  current invocation, an exception occurs.
+
 - `"deleteAlertTargets"`: If true, delete all `alertTargets` defined for this security
-  profile. If any `alertTargets` are defined in the current invocation, an exception
-  occurs.
-- `"deleteBehaviors"`: If true, delete all `behaviors` defined for this security profile.
-  If any `behaviors` are defined in the current invocation, an exception occurs.
+  profile. If any `alertTargets` are defined in the current invocation, an exception occurs.
+
+- `"deleteBehaviors"`: If true, delete all `behaviors` defined for this security profile. If
+  any `behaviors` are defined in the current invocation, an exception occurs.
+
 - `"deleteMetricsExportConfig"`: Set the value as true to delete metrics export related
   configurations.
+
 - `"expectedVersion"`: The expected version of the security profile. A new version is
   generated whenever the security profile is updated. If you specify a value that is
   different from the actual version, a `VersionConflictException` is thrown.
+
 - `"metricsExportConfig"`: Specifies the MQTT topic and role ARN required for metric export.
+
 - `"securityProfileDescription"`: A description of the security profile.
 """
 function update_security_profile end
@@ -12240,11 +12342,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `{\\"attributes\\":{\\"name1\\":\\"value2\\"}}`
 
   This data is used to add new attributes or update existing attributes.
+
 - `"expectedVersion"`: The expected version of the thing record in the registry. If the
-  version of the record in the registry does not match the expected version specified in
-  the request, the `UpdateThing` request is rejected with a `VersionConflictException`.
+  version of the record in the registry does not match the expected version specified in the
+  request, the `UpdateThing` request is rejected with a `VersionConflictException`.
+
 - `"removeThingType"`: Remove a thing type association. If **true**, the association is
   removed.
+
 - `"thingTypeName"`: The name of the thing type.
 """
 function update_thing end
@@ -12343,8 +12448,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"overrideDynamicGroups"`: Override dynamic thing groups with static thing groups when 10-
   group limit is reached. If a thing belongs to 10 thing groups, and one or more of those
-  groups are dynamic thing groups, adding a thing to a static group removes the thing
-  from the last dynamic group.
+  groups are dynamic thing groups, adding a thing to a static group removes the thing from
+  the last dynamic group.
 - `"thingGroupsToAdd"`: The groups to which the thing will be added.
 - `"thingGroupsToRemove"`: The groups from which the thing will be removed.
 - `"thingName"`: The thing whose group memberships will be updated.
@@ -12385,12 +12490,13 @@ action.
 # Arguments
 
 - `arn`: The ARN of the topic rule destination.
+
 - `status`: The status of the topic rule destination. Valid values are:
 
   ### IN_PROGRESS
 
-  A topic rule destination was created but has not been confirmed. You can set `status`
-  to `IN_PROGRESS` by calling `UpdateTopicRuleDestination`. Calling
+  A topic rule destination was created but has not been confirmed. You can set `status` to
+  `IN_PROGRESS` by calling `UpdateTopicRuleDestination`. Calling
   `UpdateTopicRuleDestination` causes a new confirmation challenge to be sent to your
   confirmation endpoint.
 

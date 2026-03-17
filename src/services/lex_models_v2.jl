@@ -129,8 +129,8 @@ Update a batch of custom vocabulary items for a given bot locale's custom vocabu
 - `bot_id`: The identifier of the bot associated with this custom vocabulary
 - `bot_version`: The identifier of the version of the bot associated with this custom
   vocabulary.
-- `custom_vocabulary_item_list`: A list of custom vocabulary items with updated fields.
-  Each entry must contain a phrase and can optionally contain a displayAs and/or a weight.
+- `custom_vocabulary_item_list`: A list of custom vocabulary items with updated fields. Each
+  entry must contain a phrase and can optionally contain a displayAs and/or a weight.
 - `locale_id`: The identifier of the language and locale where this custom vocabulary is
   used. The string must match one of the supported locales. For more information, see [Supported Languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
@@ -190,8 +190,8 @@ into multiple locales. At runtime the locale is used to choose a specific build 
 - `bot_version`: The version of the bot to build. This can only be the draft version of the
   bot.
 - `locale_id`: The identifier of the language and locale that the bot will be used in. The
-  string must match one of the supported locales. All of the intents, slot types, and
-  slots used in the bot must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
+  string must match one of the supported locales. All of the intents, slot types, and slots
+  used in the bot must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
 function build_bot_locale end
 
@@ -232,8 +232,10 @@ Creates an Amazon Lex conversational bot.
 
 - `bot_name`: The name of the bot. The bot name must be unique in the account that creates
   the bot.
+
 - `data_privacy`: Provides information on additional privacy protections Amazon Lex should
   use with the bot's data.
+
 - `idle_session_ttlin_seconds`: The time, in seconds, that Amazon Lex should keep
   information about a user's conversation with the bot.
 
@@ -242,6 +244,7 @@ Creates an Amazon Lex conversational bot.
   before the timeout.
 
   You can specify between 60 (1 minute) and 86,400 (24 hours) seconds.
+
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM role that has permission to access
   the bot.
 
@@ -251,14 +254,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"botMembers"`: The list of bot members in a network to be created.
 - `"botTags"`: A list of tags to add to the bot. You can only add tags when you create a
-  bot. You can't use the [`update_bot`](@ref) operation to update tags. To update tags,
-  use the [`tag_resource`](@ref) operation.
+  bot. You can't use the [`update_bot`](@ref) operation to update tags. To update tags, use
+  the [`tag_resource`](@ref) operation.
 - `"botType"`: The type of a bot to create.
 - `"description"`: A description of the bot. It appears in lists to help you identify a
   particular bot.
 - `"testBotAliasTags"`: A list of tags to add to the test alias for a bot. You can only add
-  tags when you create a bot. You can't use the [`update_alias`](@ref) operation to
-  update tags. To update tags on the test alias, use the [`tag_resource`](@ref) operation.
+  tags when you create a bot. You can't use the [`update_alias`](@ref) operation to update
+  tags. To update tags on the test alias, use the [`tag_resource`](@ref) operation.
 """
 function create_bot end
 
@@ -336,15 +339,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"botVersion"`: The version of the bot that this alias points to. You can use the [UpdateBotAlias](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_UpdateBotAlias.html)
   operation to change the bot version associated with the alias.
 - `"conversationLogSettings"`: Specifies whether Amazon Lex logs text and audio for a
-  conversation with the bot. When you enable conversation logs, text logs store text
-  input, transcripts of audio input, and associated metadata in Amazon CloudWatch Logs.
-  Audio logs store audio input in Amazon S3.
+  conversation with the bot. When you enable conversation logs, text logs store text input,
+  transcripts of audio input, and associated metadata in Amazon CloudWatch Logs. Audio logs
+  store audio input in Amazon S3.
 - `"description"`: A description of the alias. Use this description to help identify the
   alias.
 - `"sentimentAnalysisSettings"`:
-- `"tags"`: A list of tags to add to the bot alias. You can only add tags when you create
-  an alias, you can't use the [`update_bot_alias`](@ref) operation to update the tags on
-  a bot alias. To update tags, use the [`tag_resource`](@ref) operation.
+- `"tags"`: A list of tags to add to the bot alias. You can only add tags when you create an
+  alias, you can't use the [`update_bot_alias`](@ref) operation to update the tags on a bot
+  alias. To update tags, use the [`tag_resource`](@ref) operation.
 """
 function create_bot_alias end
 
@@ -382,26 +385,29 @@ end
     create_bot_locale(bot_id, bot_version, locale_id, nlu_intent_confidence_threshold, params::Dict{String,<:Any})
 
 Creates a locale in the bot. The locale contains the intents and slot types that the bot
-uses in conversations with users in the specified language and locale. You must add a
-locale to a bot before you can add intents and slot types to the bot.
+uses in conversations with users in the specified language and locale. You must add a locale
+to a bot before you can add intents and slot types to the bot.
 
 # Arguments
 
 - `bot_id`: The identifier of the bot to create the locale for.
-- `bot_version`: The version of the bot to create the locale for. This can only be the
-  draft version of the bot.
+
+- `bot_version`: The version of the bot to create the locale for. This can only be the draft
+  version of the bot.
+
 - `locale_id`: The identifier of the language and locale that the bot will be used in. The
-  string must match one of the supported locales. All of the intents, slot types, and
-  slots used in the bot must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
+  string must match one of the supported locales. All of the intents, slot types, and slots
+  used in the bot must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
+
 - `nlu_intent_confidence_threshold`: Determines the threshold where Amazon Lex will insert
   the `AMAZON.FallbackIntent`, `AMAZON.KendraSearchIntent`, or both when returning
   alternative intents. `AMAZON.FallbackIntent` and `AMAZON.KendraSearchIntent` are only
   inserted if they are configured for the bot.
 
   For example, suppose a bot is configured with the confidence threshold of 0.80 and the
-  `AMAZON.FallbackIntent`. Amazon Lex returns three alternative intents with the
-  following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The
-  response from the [`recognize_text`](@ref) operation would be:
+  `AMAZON.FallbackIntent`. Amazon Lex returns three alternative intents with the following
+  confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the [`recognize_text`](@ref)
+  operation would be:
 
   - AMAZON.FallbackIntent
   - IntentA
@@ -412,8 +418,8 @@ locale to a bot before you can add intents and slot types to the bot.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`: A description of the bot locale. Use this to help identify the bot
-  locale in lists.
+- `"description"`: A description of the bot locale. Use this to help identify the bot locale
+  in lists.
 - `"generativeAISettings"`:
 - `"voiceSettings"`: The Amazon Polly voice ID that Amazon Lex uses for voice interaction
   with the user.
@@ -514,18 +520,18 @@ end
     create_bot_version(bot_id, bot_version_locale_specification, params::Dict{String,<:Any})
 
 Creates an immutable version of the bot. When you create the first version of a bot, Amazon
-Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1.
-The version number will always represent the total number of versions created of the bot,
-not the current number of versions. If a bot version is deleted, that bot version number
-will not be reused.
+Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1. The
+version number will always represent the total number of versions created of the bot, not
+the current number of versions. If a bot version is deleted, that bot version number will
+not be reused.
 
 # Arguments
 
 - `bot_id`: The identifier of the bot to create the version for.
 - `bot_version_locale_specification`: Specifies the locales that Amazon Lex adds to this
-  version. You can choose the `Draft` version or any other previously published version
-  for each locale. When you specify a source version, the locale data is copied from the
-  source version to the new version.
+  version. You can choose the `Draft` version or any other previously published version for
+  each locale. When you specify a source version, the locale data is copied from the source
+  version to the new version.
 
 # Optional Parameters
 
@@ -575,11 +581,11 @@ end
     create_export(file_format, resource_specification)
     create_export(file_format, resource_specification, params::Dict{String,<:Any})
 
-Creates a zip archive containing the contents of a bot or a bot locale. The archive
-contains a directory structure that contains JSON files that define the bot.
+Creates a zip archive containing the contents of a bot or a bot locale. The archive contains
+a directory structure that contains JSON files that define the bot.
 
-You can create an archive that contains the complete definition of a bot, or you can
-specify that the archive contain only the definition of a single bot locale.
+You can create an archive that contains the complete definition of a bot, or you can specify
+that the archive contain only the definition of a single bot locale.
 
 For more information about exporting bots, and about the structure of the export archive,
 see [Importing and exporting bots](https://docs.aws.amazon.com/lexv2/latest/dg/importing-exporting.html)
@@ -595,8 +601,8 @@ see [Importing and exporting bots](https://docs.aws.amazon.com/lexv2/latest/dg/i
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filePassword"`: An password to use to encrypt the exported archive. Using a password is
-  optional, but you should encrypt the archive to protect the data in transit between
-  Amazon Lex and your local computer.
+  optional, but you should encrypt the archive to protect the data in transit between Amazon
+  Lex and your local computer.
 """
 function create_export end
 
@@ -644,8 +650,8 @@ end
 
 Creates an intent.
 
-To define the interaction between the user and your bot, you define one or more intents.
-For example, for a pizza ordering bot you would create an `OrderPizza` intent.
+To define the interaction between the user and your bot, you define one or more intents. For
+example, for a pizza ordering bot you would create an `OrderPizza` intent.
 
 When you create an intent, you must provide a name. You can optionally provide the
 following:
@@ -662,8 +668,8 @@ following:
   order your pizza?"
 - A conclusion statement to send to the user after the intent is fulfilled. For example, "I
   ordered your pizza."
-- A follow-up prompt that asks the user for additional activity. For example, "Do you want
-  a drink with your pizza?"
+- A follow-up prompt that asks the user for additional activity. For example, "Do you want a
+  drink with your pizza?"
 
 # Arguments
 
@@ -681,67 +687,78 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: A description of the intent. Use the description to help identify the
   intent in lists.
+
 - `"dialogCodeHook"`: Specifies that Amazon Lex invokes the alias Lambda function for each
   user input. You can invoke this Lambda function to personalize user interaction.
 
   For example, suppose that your bot determines that the user's name is John. You Lambda
-  function might retrieve John's information from a backend database and prepopulate some
-  of the values. For example, if you find that John is gluten intolerant, you might set
-  the corresponding intent slot, `glutenIntolerant` to `true`. You might find John's
-  phone number and set the corresponding session attribute.
+  function might retrieve John's information from a backend database and prepopulate some of
+  the values. For example, if you find that John is gluten intolerant, you might set the
+  corresponding intent slot, `glutenIntolerant` to `true`. You might find John's phone
+  number and set the corresponding session attribute.
+
 - `"fulfillmentCodeHook"`: Specifies that Amazon Lex invokes the alias Lambda function when
   the intent is ready for fulfillment. You can invoke this function to complete the bot's
   transaction with the user.
 
   For example, in a pizza ordering bot, the Lambda function can look up the closest pizza
   restaurant to the customer's location and then place an order on the customer's behalf.
+
 - `"initialResponseSetting"`: Configuration settings for the response that is sent to the
   user at the beginning of a conversation, before eliciting slot values.
-- `"inputContexts"`: A list of contexts that must be active for this intent to be
-  considered by Amazon Lex.
 
-  When an intent has an input context list, Amazon Lex only considers using the intent in
-  an interaction with the user when the specified contexts are included in the active
-  context list for the session. If the contexts are not active, then Amazon Lex will not
-  use the intent.
+- `"inputContexts"`: A list of contexts that must be active for this intent to be considered
+  by Amazon Lex.
 
-  A context can be automatically activated using the `outputContexts` property or it can
-  be set at runtime.
+  When an intent has an input context list, Amazon Lex only considers using the intent in an
+  interaction with the user when the specified contexts are included in the active context
+  list for the session. If the contexts are not active, then Amazon Lex will not use the
+  intent.
+
+  A context can be automatically activated using the `outputContexts` property or it can be
+  set at runtime.
 
   For example, if there are two intents with different input contexts that respond to the
   same utterances, only the intent with the active context will respond.
 
-  An intent may have up to 5 input contexts. If an intent has multiple input contexts,
-  all of the contexts must be active to consider the intent.
+  An intent may have up to 5 input contexts. If an intent has multiple input contexts, all
+  of the contexts must be active to consider the intent.
+
 - `"intentClosingSetting"`: Sets the response that Amazon Lex sends to the user when the
   intent is closed.
+
 - `"intentConfirmationSetting"`: Provides prompts that Amazon Lex sends to the user to
   confirm the completion of an intent. If the user answers "no," the settings contain a
   statement that is sent to the user to end the intent.
+
 - `"kendraConfiguration"`: Configuration information required to use the
   `AMAZON.KendraSearchIntent` intent to connect to an Amazon Kendra index. The
   `AMAZON.KendraSearchIntent` intent is called when Amazon Lex can't determine another
   intent to invoke.
+
 - `"outputContexts"`: A lists of contexts that the intent activates when it is fulfilled.
 
-  You can use an output context to indicate the intents that Amazon Lex should consider
-  for the next turn of the conversation with a customer.
+  You can use an output context to indicate the intents that Amazon Lex should consider for
+  the next turn of the conversation with a customer.
 
-  When you use the `outputContextsList` property, all of the contexts specified in the
-  list are activated when the intent is fulfilled. You can set up to 10 output contexts.
-  You can also set the number of conversation turns that the context should be active, or
-  the length of time that the context should be active.
-- `"parentIntentSignature"`: A unique identifier for the built-in intent to base this
-  intent on.
+  When you use the `outputContextsList` property, all of the contexts specified in the list
+  are activated when the intent is fulfilled. You can set up to 10 output contexts. You can
+  also set the number of conversation turns that the context should be active, or the length
+  of time that the context should be active.
+
+- `"parentIntentSignature"`: A unique identifier for the built-in intent to base this intent
+  on.
+
 - `"qnAIntentConfiguration"`: Specifies the configuration of the built-in
   `Amazon.QnAIntent`. The `AMAZON.QnAIntent` intent is called when Amazon Lex can't
   determine another intent to invoke. If you specify this field, you can't specify the
   `kendraConfiguration` field.
+
 - `"sampleUtterances"`: An array of strings that a user might say to signal the intent. For
   example, "I want a pizza", or "I want a {PizzaSize} pizza".
 
-  In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where
-  they should be displayed in the utterance shown to the user..
+  In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where they
+  should be displayed in the utterance shown to the user..
 """
 function create_intent end
 
@@ -793,6 +810,7 @@ Creates a new resource policy with the specified policy statements.
   syntax. For more information about the contents of a JSON policy document, see [IAM JSON policy reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html).
 
   If the policy isn't valid, Amazon Lex returns a validation exception.
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that the resource
   policy is attached to.
 """
@@ -829,9 +847,9 @@ end
     create_resource_policy_statement(action, effect, principal, resource_arn, statement_id)
     create_resource_policy_statement(action, effect, principal, resource_arn, statement_id, params::Dict{String,<:Any})
 
-Adds a new resource policy statement to a bot or bot alias. If a resource policy exists,
-the statement is added to the current resource policy. If a policy doesn't exist, a new
-policy is created.
+Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the
+statement is added to the current resource policy. If a policy doesn't exist, a new policy
+is created.
 
 You can't create a resource policy statement that allows cross-account access.
 
@@ -854,16 +872,17 @@ in order to call the API.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"condition"`: Specifies a condition when the policy is in effect. If the principal of
-  the policy is a service principal, you must provide two condition blocks, one with a
+- `"condition"`: Specifies a condition when the policy is in effect. If the principal of the
+  policy is a service principal, you must provide two condition blocks, one with a
   SourceAccount global condition key and one with a SourceArn global condition key.
 
   For more information, see [IAM JSON policy elements: Condition](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html).
+
 - `"expectedRevisionId"`: The identifier of the revision of the policy to edit. If this
   revision ID doesn't match the current revision ID, Amazon Lex throws an exception.
 
-  If you don't specify a revision, Amazon Lex overwrites the contents of the policy with
-  the new values.
+  If you don't specify a revision, Amazon Lex overwrites the contents of the policy with the
+  new values.
 """
 function create_resource_policy_statement end
 
@@ -933,31 +952,35 @@ user.
 - `bot_version`: The version of the bot associated with the slot.
 - `intent_id`: The identifier of the intent that contains the slot.
 - `locale_id`: The identifier of the language and locale that the slot will be used in. The
-  string must match one of the supported locales. All of the bots, intents, slot types
-  used by the slot must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
+  string must match one of the supported locales. All of the bots, intents, slot types used
+  by the slot must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 - `slot_name`: The name of the slot. Slot names must be unique within the bot that contains
   the slot.
-- `value_elicitation_setting`: Specifies prompts that Amazon Lex sends to the user to
-  elicit a response that provides the value for the slot.
+- `value_elicitation_setting`: Specifies prompts that Amazon Lex sends to the user to elicit
+  a response that provides the value for the slot.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: A description of the slot. Use this to help identify the slot in lists.
+
 - `"multipleValuesSetting"`: Indicates whether the slot returns multiple values in one
   response. Multi-value slots are only available in the `en-US` locale. If you set this
   value to `true` in any other locale, Amazon Lex throws a `ValidationException`.
 
   If the `multipleValuesSetting` is not set, the default value is `false`.
+
 - `"obfuscationSetting"`: Determines how slot values are used in Amazon CloudWatch logs. If
-  the value of the `obfuscationSetting` parameter is `DefaultObfuscation`, slot values
-  are obfuscated in the log output. If the value is `None`, the actual value is present
-  in the log output.
+  the value of the `obfuscationSetting` parameter is `DefaultObfuscation`, slot values are
+  obfuscated in the log output. If the value is `None`, the actual value is present in the
+  log output.
 
   The default is to obfuscate values in the CloudWatch logs.
+
 - `"slotTypeId"`: The unique identifier for the slot type associated with this slot. The
   slot type determines the values that can be entered into the slot.
+
 - `"subSlotSetting"`: Specifications for the constituent sub slots and the expression for
   the composite slot.
 """
@@ -1024,9 +1047,9 @@ values, the values that a slot of this type can assume.
 
 - `bot_id`: The identifier of the bot associated with this slot type.
 - `bot_version`: The identifier of the bot version associated with this slot type.
-- `locale_id`: The identifier of the language and locale that the slot type will be used
-  in. The string must match one of the supported locales. All of the bots, intents, and
-  slots used by the slot type must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
+- `locale_id`: The identifier of the language and locale that the slot type will be used in.
+  The string must match one of the supported locales. All of the bots, intents, and slots
+  used by the slot type must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 - `slot_type_name`: The name for the slot. A slot type name must be unique within the
   intent.
 
@@ -1035,25 +1058,30 @@ values, the values that a slot of this type can assume.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"compositeSlotTypeSetting"`: Specifications for a composite slot type.
+
 - `"description"`: A description of the slot type. Use the description to help identify the
   slot type in lists.
+
 - `"externalSourceSetting"`: Sets the type of external information used to create the slot
   type.
+
 - `"parentSlotTypeSignature"`: The built-in slot type used as a parent of this slot type.
-  When you define a parent slot type, the new slot type has the configuration of the
-  parent slot type.
+  When you define a parent slot type, the new slot type has the configuration of the parent
+  slot type.
 
   Only `AMAZON.AlphaNumeric` is supported.
+
 - `"slotTypeValues"`: A list of `SlotTypeValue` objects that defines the values that the
   slot type can take. Each value can have a list of synonyms, additional values that help
   train the machine learning model about the values that it resolves for a slot.
+
 - `"valueSelectionSetting"`: Determines the strategy that Amazon Lex uses to select a value
   from the list of possible values. The field can be set to one of the following values:
 
-  - `ORIGINAL_VALUE` - Returns the value entered by the user, if the user value is
-    similar to the slot value.
-  - `TOP_RESOLUTION` - If there is a resolution list for the slot, return the first value
-    in the resolution list. If there is no resolution list, return null.
+  - `ORIGINAL_VALUE` - Returns the value entered by the user, if the user value is similar
+    to the slot value.
+  - `TOP_RESOLUTION` - If there is a resolution list for the slot, return the first value in
+    the resolution list. If there is no resolution list, return null.
 
   If you don't specify the `valueSelectionSetting` parameter, the default is
   `ORIGINAL_VALUE`.
@@ -1172,9 +1200,9 @@ use the [`delete_bot_version`](@ref) operation.
 When you delete a bot, all of the resources contained in the bot are also deleted. Deleting
 a bot removes all locales, intents, slot, and slot types defined for the bot.
 
-If a bot has an alias, the [`delete_bot`](@ref) operation returns a
-`ResourceInUseException` exception. If you want to delete the bot and the alias, set the
-`skipResourceInUseCheck` parameter to `true`.
+If a bot has an alias, the [`delete_bot`](@ref) operation returns a `ResourceInUseException`
+exception. If you want to delete the bot and the alias, set the `skipResourceInUseCheck`
+parameter to `true`.
 
 # Arguments
 
@@ -1186,9 +1214,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"skipResourceInUseCheck"`: By default, Amazon Lex checks if any other resource, such as
   an alias or bot network, is using the bot version before it is deleted and throws a
-  `ResourceInUseException` exception if the bot is being used by another resource. Set
-  this parameter to `true` to skip this check and remove the bot even if it is being used
-  by another resource.
+  `ResourceInUseException` exception if the bot is being used by another resource. Set this
+  parameter to `true` to skip this check and remove the bot even if it is being used by
+  another resource.
 """
 function delete_bot end
 
@@ -1225,11 +1253,11 @@ Deletes the specified bot alias.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"skipResourceInUseCheck"`: By default, Amazon Lex checks if any other resource, such as
-  a bot network, is using the bot alias before it is deleted and throws a
+- `"skipResourceInUseCheck"`: By default, Amazon Lex checks if any other resource, such as a
+  bot network, is using the bot alias before it is deleted and throws a
   `ResourceInUseException` exception if the alias is being used by another resource. Set
-  this parameter to `true` to skip this check and remove the alias even if it is being
-  used by another resource.
+  this parameter to `true` to skip this check and remove the alias even if it is being used
+  by another resource.
 """
 function delete_bot_alias end
 
@@ -1265,8 +1293,8 @@ end
 
 Removes a locale from a bot.
 
-When you delete a locale, all intents, slots, and slot types defined for the locale are
-also deleted.
+When you delete a locale, all intents, slots, and slot types defined for the locale are also
+deleted.
 
 # Arguments
 
@@ -1361,9 +1389,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"skipResourceInUseCheck"`: By default, Amazon Lex checks if any other resource, such as
   an alias or bot network, is using the bot version before it is deleted and throws a
-  `ResourceInUseException` exception if the version is being used by another resource.
-  Set this parameter to `true` to skip this check and remove the version even if it is
-  being used by another resource.
+  `ResourceInUseException` exception if the version is being used by another resource. Set
+  this parameter to `true` to skip this check and remove the version even if it is being
+  used by another resource.
 """
 function delete_bot_version end
 
@@ -1629,8 +1657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   statement from. If this revision ID doesn't match the current revision ID, Amazon Lex
   throws an exception.
 
-  If you don't specify a revision, Amazon Lex removes the current contents of the
-  statement.
+  If you don't specify a revision, Amazon Lex removes the current contents of the statement.
 """
 function delete_resource_policy_statement end
 
@@ -1671,8 +1698,8 @@ Deletes the specified slot from an intent.
 - `bot_id`: The identifier of the bot associated with the slot to delete.
 - `bot_version`: The version of the bot associated with the slot to delete.
 - `intent_id`: The identifier of the intent associated with the slot.
-- `locale_id`: The identifier of the language and locale that the slot will be deleted
-  from. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
+- `locale_id`: The identifier of the language and locale that the slot will be deleted from.
+  The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 - `slot_id`: The identifier of the slot to delete.
 """
 function delete_slot end
@@ -1717,8 +1744,8 @@ end
 
 Deletes a slot type from a bot locale.
 
-If a slot is using the slot type, Amazon Lex throws a `ResourceInUseException` exception.
-To avoid the exception, set the `skipResourceInUseCheck` parameter to `true`.
+If a slot is using the slot type, Amazon Lex throws a `ResourceInUseException` exception. To
+avoid the exception, set the `skipResourceInUseCheck` parameter to `true`.
 
 # Arguments
 
@@ -1732,10 +1759,10 @@ To avoid the exception, set the `skipResourceInUseCheck` parameter to `true`.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"skipResourceInUseCheck"`: By default, the [`delete_slot_type`](@ref) operations throws
-  a `ResourceInUseException` exception if you try to delete a slot type used by a slot.
-  Set the `skipResourceInUseCheck` parameter to `true` to skip this check and remove the
-  slot type even if a slot uses it.
+- `"skipResourceInUseCheck"`: By default, the [`delete_slot_type`](@ref) operations throws a
+  `ResourceInUseException` exception if you try to delete a slot type used by a slot. Set
+  the `skipResourceInUseCheck` parameter to `true` to skip this check and remove the slot
+  type even if a slot uses it.
 """
 function delete_slot_type end
 
@@ -1832,8 +1859,7 @@ days.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"localeId"`: The identifier of the language and locale where the utterances were
-  collected. The string must match one of the supported locales. For more information,
-  see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
+  collected. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 - `"sessionId"`: The unique identifier of the session with the user. The ID is returned in
   the response from the [RecognizeText](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_runtime_RecognizeText.html)
   and [RecognizeUtterance](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_runtime_RecognizeUtterance.html)
@@ -1941,8 +1967,8 @@ Describes the settings that a bot has for a specific locale.
 
 - `bot_id`: The identifier of the bot associated with the locale.
 - `bot_version`: The version of the bot associated with the locale.
-- `locale_id`: The unique identifier of the locale to describe. The string must match one
-  of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
+- `locale_id`: The unique identifier of the locale to describe. The string must match one of
+  the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
 function describe_bot_locale end
 
@@ -1988,8 +2014,7 @@ recommendation.
 - `bot_recommendation_id`: The identifier of the bot recommendation to describe.
 - `bot_version`: The version of the bot associated with the bot recommendation.
 - `locale_id`: The identifier of the language and locale of the bot recommendation to
-  describe. The string must match one of the supported locales. For more information, see
-  [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
+  describe. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
 function describe_bot_recommendation end
 
@@ -2363,8 +2388,8 @@ Gets metadata information about a slot.
 - `bot_id`: The identifier of the bot associated with the slot.
 - `bot_version`: The version of the bot associated with the slot.
 - `intent_id`: The identifier of the intent that contains the slot.
-- `locale_id`: The identifier of the language and locale of the slot to describe. The
-  string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
+- `locale_id`: The identifier of the language and locale of the slot to describe. The string
+  must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 - `slot_id`: The unique identifier for the slot.
 """
 function describe_slot end
@@ -2710,8 +2735,8 @@ Utterances statistics are not generated under the following conditions:
 
 # Arguments
 
-- `aggregation_duration`: The time window for aggregating the utterance information. You
-  can specify a time between one hour and two weeks.
+- `aggregation_duration`: The time window for aggregating the utterance information. You can
+  specify a time between one hour and two weeks.
 - `bot_id`: The unique identifier of the bot associated with this request.
 - `locale_id`: The identifier of the language and locale where the utterances were
   collected. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
@@ -2728,16 +2753,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to only those that match the filter specification. You can only specify one
   filter and one string to filter on.
 - `"maxResults"`: The maximum number of utterances to return in each page of results. If
-  there are fewer results than the maximum page size, only the actual number of results
-  are returned. If you don't specify the `maxResults` parameter, 1,000 results are
-  returned.
+  there are fewer results than the maximum page size, only the actual number of results are
+  returned. If you don't specify the `maxResults` parameter, 1,000 results are returned.
 - `"nextToken"`: If the response from the [`list_aggregated_utterances`](@ref) operation
-  contains more results that specified in the `maxResults` parameter, a token is returned
-  in the response. Use that token in the `nextToken` parameter to return the next page of
+  contains more results that specified in the `maxResults` parameter, a token is returned in
+  the response. Use that token in the `nextToken` parameter to return the next page of
   results.
 - `"sortBy"`: Specifies sorting parameters for the list of utterances. You can sort by the
-  hit count, the missed count, or the number of distinct sessions the utterance appeared
-  in.
+  hit count, the missed count, or the number of distinct sessions the utterance appeared in.
 """
 function list_aggregated_utterances end
 
@@ -2844,12 +2867,10 @@ Gets a list of aliases for the specified bot.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of aliases to return in each page of results. If there
-  are fewer results than the max page size, only the actual number of results are
-  returned.
-- `"nextToken"`: If the response from the [`list_bot_aliases`](@ref) operation contains
-  more results than specified in the `maxResults` parameter, a token is returned in the
-  response. Use that token in the `nextToken` parameter to return the next page of
-  results.
+  are fewer results than the max page size, only the actual number of results are returned.
+- `"nextToken"`: If the response from the [`list_bot_aliases`](@ref) operation contains more
+  results than specified in the `maxResults` parameter, a token is returned in the response.
+  Use that token in the `nextToken` parameter to return the next page of results.
 """
 function list_bot_aliases end
 
@@ -2890,15 +2911,13 @@ Gets a list of locales for the specified bot.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: Provides the specification for a filter used to limit the response to only
-  those locales that match the filter specification. You can only specify one filter and
-  one value to filter on.
+  those locales that match the filter specification. You can only specify one filter and one
+  value to filter on.
 - `"maxResults"`: The maximum number of aliases to return in each page of results. If there
-  are fewer results than the max page size, only the actual number of results are
-  returned.
-- `"nextToken"`: If the response from the [`list_bot_locales`](@ref) operation contains
-  more results than specified in the `maxResults` parameter, a token is returned in the
-  response. Use that token as the `nextToken` parameter to return the next page of
-  results.
+  are fewer results than the max page size, only the actual number of results are returned.
+- `"nextToken"`: If the response from the [`list_bot_locales`](@ref) operation contains more
+  results than specified in the `maxResults` parameter, a token is returned in the response.
+  Use that token as the `nextToken` parameter to return the next page of results.
 - `"sortBy"`: Specifies sorting parameters for the list of locales. You can sort by locale
   name in ascending or descending order.
 """
@@ -2950,8 +2969,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If there are fewer results than the max page size, only the actual number of
   results are returned.
 - `"nextToken"`: If the response from the ListBotRecommendation operation contains more
-  results than specified in the maxResults parameter, a token is returned in the
-  response. Use that token in the nextToken parameter to return the next page of results.
+  results than specified in the maxResults parameter, a token is returned in the response.
+  Use that token in the nextToken parameter to return the next page of results.
 """
 function list_bot_recommendations end
 
@@ -3033,8 +3052,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: If the total number of results is greater than the number specified in the
-  `maxResults`, the response returns a token in the `nextToken` field. Use this token
-  when making a request to return the next batch of results.
+  `maxResults`, the response returns a token in the `nextToken` field. Use this token when
+  making a request to return the next batch of results.
 - `"sortBy"`: An object containing information about the attribute and the method by which
   to sort the results
 """
@@ -3136,13 +3155,11 @@ version.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of versions to return in each page of results. If
-  there are fewer results than the max page size, only the actual number of results are
-  returned.
+- `"maxResults"`: The maximum number of versions to return in each page of results. If there
+  are fewer results than the max page size, only the actual number of results are returned.
 - `"nextToken"`: If the response to the [`list_bot_version`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the
-  response. Use that token in the `nextToken` parameter to return the next page of
-  results.
+  results than specified in the `maxResults` parameter, a token is returned in the response.
+  Use that token in the `nextToken` parameter to return the next page of results.
 - `"sortBy"`: Specifies sorting parameters for the list of versions. You can specify that
   the list be sorted by version name in either ascending or descending order.
 """
@@ -3179,19 +3196,20 @@ Gets a list of available bots.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filters"`: Provides the specification of a filter used to limit the bots in the
-  response to only those that match the filter specification. You can only specify one
-  filter and one string to filter on.
-- `"maxResults"`: The maximum number of bots to return in each page of results. If there
-  are fewer results than the maximum page size, only the actual number of results are
-  returned.
-- `"nextToken"`: If the response from the [`list_bots`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the
-  response.
+- `"filters"`: Provides the specification of a filter used to limit the bots in the response
+  to only those that match the filter specification. You can only specify one filter and one
+  string to filter on.
 
-  Use the returned token in the `nextToken` parameter of a `ListBots` request to return
-  the next page of results. For a complete set of results, call the [`list_bots`](@ref)
+- `"maxResults"`: The maximum number of bots to return in each page of results. If there are
+  fewer results than the maximum page size, only the actual number of results are returned.
+
+- `"nextToken"`: If the response from the [`list_bots`](@ref) operation contains more
+  results than specified in the `maxResults` parameter, a token is returned in the response.
+
+  Use the returned token in the `nextToken` parameter of a `ListBots` request to return the
+  next page of results. For a complete set of results, call the [`list_bots`](@ref)
   operation until the `nextToken` returned in the response is null.
+
 - `"sortBy"`: Specifies sorting parameters for the list of bots. You can specify that the
   list be sorted by bot name in ascending or descending order.
 """
@@ -3231,15 +3249,14 @@ operation. For more information, see [CreateIntent](https://docs.aws.amazon.com/
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of built-in intents to return in each page of results.
-  If there are fewer results than the max page size, only the actual number of results
-  are returned.
-- `"nextToken"`: If the response from the [`list_built_in_intents`](@ref) operation
-  contains more results than specified in the `maxResults` parameter, a token is returned
-  in the response. Use that token in the `nextToken` parameter to return the next page of
-  results.
-- `"sortBy"`: Specifies sorting parameters for the list of built-in intents. You can
-  specify that the list be sorted by the built-in intent signature in either ascending or
-  descending order.
+  If there are fewer results than the max page size, only the actual number of results are
+  returned.
+- `"nextToken"`: If the response from the [`list_built_in_intents`](@ref) operation contains
+  more results than specified in the `maxResults` parameter, a token is returned in the
+  response. Use that token in the `nextToken` parameter to return the next page of results.
+- `"sortBy"`: Specifies sorting parameters for the list of built-in intents. You can specify
+  that the list be sorted by the built-in intent signature in either ascending or descending
+  order.
 """
 function list_built_in_intents end
 
@@ -3285,8 +3302,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If there are fewer results than the max page size, only the actual number of
   results are returned.
 - `"nextToken"`: If the response from the [`list_built_in_slot_types`](@ref) operation
-  contains more results than specified in the `maxResults` parameter, a token is returned
-  in the response. Use that token in the `nextToken` parameter to return the next page of
+  contains more results than specified in the `maxResults` parameter, a token is returned in
+  the response. Use that token in the `nextToken` parameter to return the next page of
   results.
 - `"sortBy"`: Determines the sort order for the response from the [`list_built_in_slot_types`](@ref)
   operation. You can choose to sort by the slot type signature in either ascending or
@@ -3381,23 +3398,27 @@ for 7 days.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"botId"`: The unique identifier that Amazon Lex assigned to the bot.
+
 - `"botVersion"`: The version of the bot to list exports for.
+
 - `"filters"`: Provides the specification of a filter used to limit the exports in the
   response to only those that match the filter specification. You can only specify one
   filter and one string to filter on.
+
 - `"localeId"`: Specifies the resources that should be exported. If you don't specify a
   resource type in the `filters` parameter, both bot locales and custom vocabularies are
   exported.
-- `"maxResults"`: The maximum number of exports to return in each page of results. If there
-  are fewer results than the max page size, only the actual number of results are
-  returned.
-- `"nextToken"`: If the response from the [`list_exports`](@ref) operation contains more
-  results that specified in the `maxResults` parameter, a token is returned in the
-  response.
 
-  Use the returned token in the `nextToken` parameter of a `ListExports` request to
-  return the next page of results. For a complete set of results, call the [`list_exports`](@ref)
+- `"maxResults"`: The maximum number of exports to return in each page of results. If there
+  are fewer results than the max page size, only the actual number of results are returned.
+
+- `"nextToken"`: If the response from the [`list_exports`](@ref) operation contains more
+  results that specified in the `maxResults` parameter, a token is returned in the response.
+
+  Use the returned token in the `nextToken` parameter of a `ListExports` request to return
+  the next page of results. For a complete set of results, call the [`list_exports`](@ref)
   operation until the `nextToken` returned in the response is null.
+
 - `"sortBy"`: Determines the field that the list of exports is sorted by. You can sort by
   the `LastUpdatedDateTime` field in ascending or descending order.
 """
@@ -3429,23 +3450,27 @@ for 7 days.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"botId"`: The unique identifier that Amazon Lex assigned to the bot.
-- `"botVersion"`: The version of the bot to list imports for.
-- `"filters"`: Provides the specification of a filter used to limit the bots in the
-  response to only those that match the filter specification. You can only specify one
-  filter and one string to filter on.
-- `"localeId"`: Specifies the locale that should be present in the list. If you don't
-  specify a resource type in the `filters` parameter, the list contains both bot locales
-  and custom vocabularies.
-- `"maxResults"`: The maximum number of imports to return in each page of results. If there
-  are fewer results than the max page size, only the actual number of results are
-  returned.
-- `"nextToken"`: If the response from the [`list_imports`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the
-  response.
 
-  Use the returned token in the `nextToken` parameter of a `ListImports` request to
-  return the next page of results. For a complete set of results, call the [`list_imports`](@ref)
+- `"botVersion"`: The version of the bot to list imports for.
+
+- `"filters"`: Provides the specification of a filter used to limit the bots in the response
+  to only those that match the filter specification. You can only specify one filter and one
+  string to filter on.
+
+- `"localeId"`: Specifies the locale that should be present in the list. If you don't
+  specify a resource type in the `filters` parameter, the list contains both bot locales and
+  custom vocabularies.
+
+- `"maxResults"`: The maximum number of imports to return in each page of results. If there
+  are fewer results than the max page size, only the actual number of results are returned.
+
+- `"nextToken"`: If the response from the [`list_imports`](@ref) operation contains more
+  results than specified in the `maxResults` parameter, a token is returned in the response.
+
+  Use the returned token in the `nextToken` parameter of a `ListImports` request to return
+  the next page of results. For a complete set of results, call the [`list_imports`](@ref)
   operation until the `nextToken` returned in the response is null.
+
 - `"sortBy"`: Determines the field that the list of imports is sorted by. You can sort by
   the `LastUpdatedDateTime` field in ascending or descending order.
 """
@@ -3482,8 +3507,8 @@ Retrieves summary metrics for the intents in your bot. The following fields are 
 Of the optional fields, you can organize the results in the following ways:
 
 - Use the `filters` field to filter the results, the `groupBy` field to specify categories
-  by which to group the results, and the `binBy` field to specify time intervals by which
-  to group the results.
+  by which to group the results, and the `binBy` field to specify time intervals by which to
+  group the results.
 - Use the `maxResults` field to limit the number of results to return in a single response
   and the `nextToken` field to return the next batch of results if the response does not
   return the full set of results.
@@ -3508,25 +3533,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"binBy"`: A list of objects, each of which contains specifications for organizing the
   results by time.
+
 - `"filters"`: A list of objects, each of which describes a condition by which you want to
   filter the results.
+
 - `"groupBy"`: A list of objects, each of which specifies how to group the results. You can
   group by the following criteria:
 
   - `IntentName` – The name of the intent.
-  - `IntentEndState` – The final state of the intent. The possible end states are
-    detailed in [Key definitions](https://docs.aws.amazon.com/analytics-key-definitions-intents)
-    in the user guide.
+  - `IntentEndState` – The final state of the intent. The possible end states are detailed
+    in [Key definitions](https://docs.aws.amazon.com/analytics-key-definitions-intents) in
+    the user guide.
 
 - `"maxResults"`: The maximum number of results to return in each page of results. If there
   are fewer results than the maximum page size, only the actual number of results are
   returned.
+
 - `"nextToken"`: If the response from the ListIntentMetrics operation contains more results
   than specified in the maxResults parameter, a token is returned in the response.
 
-  Use the returned token in the nextToken parameter of a ListIntentMetrics request to
-  return the next page of results. For a complete set of results, call the
-  ListIntentMetrics operation until the nextToken returned in the response is null.
+  Use the returned token in the nextToken parameter of a ListIntentMetrics request to return
+  the next page of results. For a complete set of results, call the ListIntentMetrics
+  operation until the nextToken returned in the response is null.
 """
 function list_intent_metrics end
 
@@ -3586,20 +3614,22 @@ bot. The following fields are required:
 
 - `startDateTime` and `endDateTime` – Define a time range for which you want to retrieve
   results.
-- `intentPath` – Define an order of intents for which you want to retrieve metrics.
-  Separate intents in the path with a forward slash. For example, populate the `intentPath`
-  field with `/BookCar/BookHotel` to see details about how many times users invoked the
-  `BookCar` and `BookHotel` intents in that order.
+- `intentPath` – Define an order of intents for which you want to retrieve metrics. Separate
+  intents in the path with a forward slash. For example, populate the `intentPath` field
+  with `/BookCar/BookHotel` to see details about how many times users invoked the `BookCar`
+  and `BookHotel` intents in that order.
 
 Use the optional `filters` field to filter the results.
 
 # Arguments
 
 - `bot_id`: The identifier for the bot for which you want to retrieve intent path metrics.
+
 - `end_date_time`: The date and time that marks the end of the range of time for which you
   want to see intent path metrics.
-- `intent_path`: The intent path for which you want to retrieve metrics. Use a forward
-  slash to separate intents in the path. For example:
+
+- `intent_path`: The intent path for which you want to retrieve metrics. Use a forward slash
+  to separate intents in the path. For example:
 
   - /BookCar
   - /BookCar/BookHotel
@@ -3612,8 +3642,8 @@ Use the optional `filters` field to filter the results.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filters"`: A list of objects, each describes a condition by which you want to filter
-  the results.
+- `"filters"`: A list of objects, each describes a condition by which you want to filter the
+  results.
 """
 function list_intent_paths end
 
@@ -3682,8 +3712,8 @@ are required:
 Of the optional fields, you can organize the results in the following ways:
 
 - Use the `filters` field to filter the results, the `groupBy` field to specify categories
-  by which to group the results, and the `binBy` field to specify time intervals by which
-  to group the results.
+  by which to group the results, and the `binBy` field to specify time intervals by which to
+  group the results.
 - Use the `maxResults` field to limit the number of results to return in a single response
   and the `nextToken` field to return the next batch of results if the response does not
   return the full set of results.
@@ -3708,8 +3738,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"binBy"`: A list of objects, each of which contains specifications for organizing the
   results by time.
+
 - `"filters"`: A list of objects, each of which describes a condition by which you want to
   filter the results.
+
 - `"groupBy"`: A list of objects, each of which specifies how to group the results. You can
   group by the following criteria:
 
@@ -3719,12 +3751,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in each page of results. If there
   are fewer results than the maximum page size, only the actual number of results are
   returned.
-- `"nextToken"`: If the response from the ListIntentStageMetrics operation contains more
-  results than specified in the maxResults parameter, a token is returned in the
-  response.
 
-  Use the returned token in the nextToken parameter of a ListIntentStageMetrics request
-  to return the next page of results. For a complete set of results, call the
+- `"nextToken"`: If the response from the ListIntentStageMetrics operation contains more
+  results than specified in the maxResults parameter, a token is returned in the response.
+
+  Use the returned token in the nextToken parameter of a ListIntentStageMetrics request to
+  return the next page of results. For a complete set of results, call the
   ListIntentStageMetrics operation until the nextToken returned in the response is null.
 """
 function list_intent_stage_metrics end
@@ -3796,16 +3828,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Provides the specification of a filter used to limit the intents in the
   response to only those that match the filter specification. You can only specify one
   filter and only one string to filter on.
-- `"maxResults"`: The maximum number of intents to return in each page of results. If there
-  are fewer results than the max page size, only the actual number of results are
-  returned.
-- `"nextToken"`: If the response from the [`list_intents`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the
-  response.
 
-  Use the returned token in the `nextToken` parameter of a `ListIntents` request to
-  return the next page of results. For a complete set of results, call the [`list_intents`](@ref)
+- `"maxResults"`: The maximum number of intents to return in each page of results. If there
+  are fewer results than the max page size, only the actual number of results are returned.
+
+- `"nextToken"`: If the response from the [`list_intents`](@ref) operation contains more
+  results than specified in the `maxResults` parameter, a token is returned in the response.
+
+  Use the returned token in the `nextToken` parameter of a `ListIntents` request to return
+  the next page of results. For a complete set of results, call the [`list_intents`](@ref)
   operation until the `nextToken` returned in the response is null.
+
 - `"sortBy"`: Determines the sort order for the response from the [`list_intents`](@ref)
   operation. You can choose to sort by the intent name or last updated date in either
   ascending or descending order.
@@ -3862,8 +3895,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If there are fewer results than the max page size, only the actual number of
   results are returned.
 - `"nextToken"`: If the response from the ListRecommendedIntents operation contains more
-  results than specified in the maxResults parameter, a token is returned in the
-  response. Use that token in the nextToken parameter to return the next page of results.
+  results than specified in the maxResults parameter, a token is returned in the response.
+  Use that token in the nextToken parameter to return the next page of results.
 """
 function list_recommended_intents end
 
@@ -3903,13 +3936,13 @@ end
     list_session_analytics_data(bot_id, end_date_time, start_date_time)
     list_session_analytics_data(bot_id, end_date_time, start_date_time, params::Dict{String,<:Any})
 
-Retrieves a list of metadata for individual user sessions with your bot. The
-`startDateTime` and `endDateTime` fields are required. These fields define a time range for
-which you want to retrieve results. Of the optional fields, you can organize the results in
-the following ways:
+Retrieves a list of metadata for individual user sessions with your bot. The `startDateTime`
+and `endDateTime` fields are required. These fields define a time range for which you want
+to retrieve results. Of the optional fields, you can organize the results in the following
+ways:
 
-- Use the `filters` field to filter the results and the `sortBy` field to specify the
-  values by which to sort the results.
+- Use the `filters` field to filter the results and the `sortBy` field to specify the values
+  by which to sort the results.
 - Use the `maxResults` field to limit the number of results to return in a single response
   and the `nextToken` field to return the next batch of results if the response does not
   return the full set of results.
@@ -3928,16 +3961,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filters"`: A list of objects, each of which describes a condition by which you want to
   filter the results.
+
 - `"maxResults"`: The maximum number of results to return in each page of results. If there
   are fewer results than the maximum page size, only the actual number of results are
   returned.
-- `"nextToken"`: If the response from the ListSessionAnalyticsData operation contains more
-  results than specified in the maxResults parameter, a token is returned in the
-  response.
 
-  Use the returned token in the nextToken parameter of a ListSessionAnalyticsData request
-  to return the next page of results. For a complete set of results, call the
+- `"nextToken"`: If the response from the ListSessionAnalyticsData operation contains more
+  results than specified in the maxResults parameter, a token is returned in the response.
+
+  Use the returned token in the nextToken parameter of a ListSessionAnalyticsData request to
+  return the next page of results. For a complete set of results, call the
   ListSessionAnalyticsData operation until the nextToken returned in the response is null.
+
 - `"sortBy"`: An object specifying the measure and method by which to sort the session
   analytics data.
 """
@@ -3997,8 +4032,8 @@ required:
 Of the optional fields, you can organize the results in the following ways:
 
 - Use the `filters` field to filter the results, the `groupBy` field to specify categories
-  by which to group the results, and the `binBy` field to specify time intervals by which
-  to group the results.
+  by which to group the results, and the `binBy` field to specify time intervals by which to
+  group the results.
 - Use the `maxResults` field to limit the number of results to return in a single response
   and the `nextToken` field to return the next batch of results if the response does not
   return the full set of results.
@@ -4023,8 +4058,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"binBy"`: A list of objects, each of which contains specifications for organizing the
   results by time.
+
 - `"filters"`: A list of objects, each of which describes a condition by which you want to
   filter the results.
+
 - `"groupBy"`: A list of objects, each of which specifies how to group the results. You can
   group by the following criteria:
 
@@ -4036,9 +4073,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in each page of results. If there
   are fewer results than the maximum page size, only the actual number of results are
   returned.
-- `"nextToken"`: If the response from the ListSessionMetrics operation contains more
-  results than specified in the maxResults parameter, a token is returned in the
-  response.
+
+- `"nextToken"`: If the response from the ListSessionMetrics operation contains more results
+  than specified in the maxResults parameter, a token is returned in the response.
 
   Use the returned token in the nextToken parameter of a ListSessionMetrics request to
   return the next page of results. For a complete set of results, call the
@@ -4117,9 +4154,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   there are fewer results than the max page size, only the actual number of results are
   returned.
 - `"nextToken"`: If the response from the [`list_slot_types`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the
-  response. Use that token in the `nextToken` parameter to return the next page of
-  results.
+  results than specified in the `maxResults` parameter, a token is returned in the response.
+  Use that token in the `nextToken` parameter to return the next page of results.
 - `"sortBy"`: Determines the sort order for the response from the [`list_slot_types`](@ref)
   operation. You can choose to sort by the slot type name or last updated date in either
   ascending or descending order.
@@ -4175,12 +4211,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to only those that match the filter specification. You can only specify one
   filter and only one string to filter on.
 - `"maxResults"`: The maximum number of slots to return in each page of results. If there
-  are fewer results than the max page size, only the actual number of results are
-  returned.
+  are fewer results than the max page size, only the actual number of results are returned.
 - `"nextToken"`: If the response from the [`list_slots`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the
-  response. Use that token in the `nextToken` parameter to return the next page of
-  results.
+  results than specified in the `maxResults` parameter, a token is returned in the response.
+  Use that token in the `nextToken` parameter to return the next page of results.
 - `"sortBy"`: Determines the sort order for the response from the [`list_slots`](@ref)
   operation. You can choose to sort by the slot name or last updated date in either
   ascending or descending order.
@@ -4223,8 +4257,8 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Gets a list of tags associated with a resource. Only bots, bot aliases, and bot channels
-can have tags associated with them.
+Gets a list of tags associated with a resource. Only bots, bot aliases, and bot channels can
+have tags associated with them.
 
 # Arguments
 
@@ -4273,12 +4307,12 @@ Gets a list of test execution result items.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of test execution result items to return in each page.
-  If there are fewer results than the max page size, only the actual number of results
-  are returned.
+  If there are fewer results than the max page size, only the actual number of results are
+  returned.
 - `"nextToken"`: If the response from the [`list_test_execution_result_items`](@ref)
-  operation contains more results than specified in the `maxResults` parameter, a token
-  is returned in the response. Use that token in the `nextToken` parameter to return the
-  next page of results.
+  operation contains more results than specified in the `maxResults` parameter, a token is
+  returned in the response. Use that token in the `nextToken` parameter to return the next
+  page of results.
 """
 function list_test_execution_result_items end
 
@@ -4321,12 +4355,11 @@ The list of test set executions.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of test executions to return in each page. If there
-  are fewer results than the max page size, only the actual number of results are
-  returned.
-- `"nextToken"`: If the response from the ListTestExecutions operation contains more
-  results than specified in the maxResults parameter, a token is returned in the
-  response. Use that token in the nextToken parameter to return the next page of results.
+- `"maxResults"`: The maximum number of test executions to return in each page. If there are
+  fewer results than the max page size, only the actual number of results are returned.
+- `"nextToken"`: If the response from the ListTestExecutions operation contains more results
+  than specified in the maxResults parameter, a token is returned in the response. Use that
+  token in the nextToken parameter to return the next page of results.
 - `"sortBy"`: The sort order of the test set executions.
 """
 function list_test_executions end
@@ -4364,11 +4397,10 @@ The list of test set records.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of test set records to return in each page. If there
-  are fewer records than the max page size, only the actual number of records are
-  returned.
-- `"nextToken"`: If the response from the ListTestSetRecords operation contains more
-  results than specified in the maxResults parameter, a token is returned in the
-  response. Use that token in the nextToken parameter to return the next page of results.
+  are fewer records than the max page size, only the actual number of records are returned.
+- `"nextToken"`: If the response from the ListTestSetRecords operation contains more results
+  than specified in the maxResults parameter, a token is returned in the response. Use that
+  token in the nextToken parameter to return the next page of results.
 """
 function list_test_set_records end
 
@@ -4407,11 +4439,11 @@ The list of the test sets
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of test sets to return in each page. If there are
-  fewer results than the max page size, only the actual number of results are returned.
+- `"maxResults"`: The maximum number of test sets to return in each page. If there are fewer
+  results than the max page size, only the actual number of results are returned.
 - `"nextToken"`: If the response from the ListTestSets operation contains more results than
-  specified in the maxResults parameter, a token is returned in the response. Use that
-  token in the nextToken parameter to return the next page of results.
+  specified in the maxResults parameter, a token is returned in the response. Use that token
+  in the nextToken parameter to return the next page of results.
 - `"sortBy"`: The sort order for the list of test sets.
 """
 function list_test_sets end
@@ -4434,8 +4466,6 @@ end
     list_utterance_analytics_data(bot_id, end_date_time, start_date_time)
     list_utterance_analytics_data(bot_id, end_date_time, start_date_time, params::Dict{String,<:Any})
 
-
-
 !!! note
     To use this API operation, your IAM role must have permissions to perform the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html)
     operation, which provides access to utterance-related analytics. See [Viewing utterance statistics](https://docs.aws.amazon.com/lexv2/latest/dg/monitoring-utterances.html)
@@ -4449,8 +4479,8 @@ fields are required:
 
 Of the optional fields, you can organize the results in the following ways:
 
-- Use the `filters` field to filter the results and the `sortBy` field to specify the
-  values by which to sort the results.
+- Use the `filters` field to filter the results and the `sortBy` field to specify the values
+  by which to sort the results.
 - Use the `maxResults` field to limit the number of results to return in a single response
   and the `nextToken` field to return the next batch of results if the response does not
   return the full set of results.
@@ -4469,17 +4499,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filters"`: A list of objects, each of which describes a condition by which you want to
   filter the results.
+
 - `"maxResults"`: The maximum number of results to return in each page of results. If there
   are fewer results than the maximum page size, only the actual number of results are
   returned.
-- `"nextToken"`: If the response from the ListUtteranceAnalyticsData operation contains
-  more results than specified in the maxResults parameter, a token is returned in the
-  response.
 
-  Use the returned token in the nextToken parameter of a ListUtteranceAnalyticsData
-  request to return the next page of results. For a complete set of results, call the
-  ListUtteranceAnalyticsData operation until the nextToken returned in the response is
-  null.
+- `"nextToken"`: If the response from the ListUtteranceAnalyticsData operation contains more
+  results than specified in the maxResults parameter, a token is returned in the response.
+
+  Use the returned token in the nextToken parameter of a ListUtteranceAnalyticsData request
+  to return the next page of results. For a complete set of results, call the
+  ListUtteranceAnalyticsData operation until the nextToken returned in the response is null.
+
 - `"sortBy"`: An object specifying the measure and method by which to sort the utterance
   analytics data.
 """
@@ -4525,15 +4556,12 @@ end
     list_utterance_metrics(bot_id, end_date_time, metrics, start_date_time)
     list_utterance_metrics(bot_id, end_date_time, metrics, start_date_time, params::Dict{String,<:Any})
 
-
-
 !!! note
     To use this API operation, your IAM role must have permissions to perform the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html)
     operation, which provides access to utterance-related analytics. See [Viewing utterance statistics](https://docs.aws.amazon.com/lexv2/latest/dg/monitoring-utterances.html)
     for the IAM policy to apply to the IAM role.
 
-Retrieves summary metrics for the utterances in your bot. The following fields are
-required:
+Retrieves summary metrics for the utterances in your bot. The following fields are required:
 
 - `metrics` – A list of [AnalyticsUtteranceMetric](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_AnalyticsUtteranceMetric.html)
   objects. In each object, use the `name` field to specify the metric to calculate, the
@@ -4546,8 +4574,8 @@ required:
 Of the optional fields, you can organize the results in the following ways:
 
 - Use the `filters` field to filter the results, the `groupBy` field to specify categories
-  by which to group the results, and the `binBy` field to specify time intervals by which
-  to group the results.
+  by which to group the results, and the `binBy` field to specify time intervals by which to
+  group the results.
 - Use the `maxResults` field to limit the number of results to return in a single response
   and the `nextToken` field to return the next batch of results if the response does not
   return the full set of results.
@@ -4577,8 +4605,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"binBy"`: A list of objects, each of which contains specifications for organizing the
   results by time.
+
 - `"filters"`: A list of objects, each of which describes a condition by which you want to
   filter the results.
+
 - `"groupBy"`: A list of objects, each of which specifies how to group the results. You can
   group by the following criteria:
 
@@ -4589,9 +4619,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in each page of results. If there
   are fewer results than the maximum page size, only the actual number of results are
   returned.
+
 - `"nextToken"`: If the response from the ListUtteranceMetrics operation contains more
-  results than specified in the maxResults parameter, a token is returned in the
-  response.
+  results than specified in the maxResults parameter, a token is returned in the response.
 
   Use the returned token in the nextToken parameter of a ListUtteranceMetrics request to
   return the next page of results. For a complete set of results, call the
@@ -4671,8 +4701,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If there are fewer results than the max page size, only the actual number of
   results are returned.
 - `"nextIndex"`: If the response from the SearchAssociatedTranscriptsRequest operation
-  contains more results than specified in the maxResults parameter, an index is returned
-  in the response. Use that index in the nextIndex parameter to return the next page of
+  contains more results than specified in the maxResults parameter, an index is returned in
+  the response. Use that index in the nextIndex parameter to return the next page of
   results.
 - `"searchOrder"`: How SearchResults are ordered. Valid values are Ascending or Descending.
   The default is Descending.
@@ -4724,8 +4754,8 @@ Use this to provide your transcript data, and to start the bot recommendation pr
 
 - `bot_id`: The unique identifier of the bot containing the bot recommendation.
 - `bot_version`: The version of the bot containing the bot recommendation.
-- `locale_id`: The identifier of the language and locale of the bot recommendation to
-  start. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html)
+- `locale_id`: The identifier of the language and locale of the bot recommendation to start.
+  The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html)
 - `transcript_source_setting`: The object representing the Amazon S3 bucket containing the
   transcript, as well as the associated metadata.
 
@@ -4794,8 +4824,8 @@ bot locale configuration. You can then modify and import this configuration.
 - `bot_version`: The version of the bot for which to generate intents and slot types.
 - `generation_input_prompt`: The prompt to generate intents and slot types for the bot
   locale. Your description should be both *detailed* and *precise* to help generate
-  appropriate and sufficient intents for your bot. Include a list of actions to improve
-  the intent creation process.
+  appropriate and sufficient intents for your bot. Include a list of actions to improve the
+  intent creation process.
 - `locale_id`: The locale of the bot for which to generate intents and slot types.
 """
 function start_bot_resource_generation end
@@ -4848,8 +4878,7 @@ uploaded to an S3 bucket.
 
 # Arguments
 
-- `import_id`: The unique identifier for the import. It is included in the response from
-  the [CreateUploadUrl](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateUploadUrl.html)
+- `import_id`: The unique identifier for the import. It is included in the response from the [CreateUploadUrl](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateUploadUrl.html)
   operation.
 - `merge_strategy`: The strategy to use when there is a name conflict between the imported
   resource and an existing resource. When the merge strategy is `FailOnConflict` existing
@@ -4862,8 +4891,8 @@ uploaded to an S3 bucket.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filePassword"`: The password used to encrypt the zip archive that contains the resource
-  definition. You should always encrypt the zip archive to protect it during transit
-  between your site and Amazon Lex.
+  definition. You should always encrypt the zip archive to protect it during transit between
+  your site and Amazon Lex.
 """
 function start_import end
 
@@ -4986,8 +5015,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The test set description for the test set generation request.
 - `"testSetTags"`: A list of tags to add to the test set. You can only add tags when you
-  import/generate a new test set. You can't use the [`update_test_set`](@ref) operation
-  to update tags. To update tags, use the [`tag_resource`](@ref) operation.
+  import/generate a new test set. You can't use the [`update_test_set`](@ref) operation to
+  update tags. To update tags, use the [`tag_resource`](@ref) operation.
 """
 function start_test_set_generation end
 
@@ -5093,8 +5122,8 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds the specified tags to the specified resource. If a tag key already exists, the
-existing value is replaced with the new value.
+Adds the specified tags to the specified resource. If a tag key already exists, the existing
+value is replaced with the new value.
 
 # Arguments
 
@@ -5139,8 +5168,8 @@ Removes tags from a bot, bot alias, or bot channel.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to remove the tags from.
-- `tag_keys`: A list of tag keys to remove from the resource. If a tag key does not exist
-  on the resource, it is ignored.
+- `tag_keys`: A list of tag keys to remove from the resource. If a tag key does not exist on
+  the resource, it is ignored.
 """
 function untag_resource end
 
@@ -5181,10 +5210,13 @@ Updates the configuration of an existing bot.
 
 - `bot_id`: The unique identifier of the bot to update. This identifier is returned by the [CreateBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateBot.html)
   operation.
+
 - `bot_name`: The new name of the bot. The name must be unique in the account that creates
   the bot.
+
 - `data_privacy`: Provides information on additional privacy protections Amazon Lex should
   use with the bot's data.
+
 - `idle_session_ttlin_seconds`: The time, in seconds, that Amazon Lex should keep
   information about a user's conversation with the bot.
 
@@ -5193,6 +5225,7 @@ Updates the configuration of an existing bot.
   before the timeout.
 
   You can specify between 60 (1 minute) and 86,400 (24 hours) seconds.
+
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM role that has permissions to access
   the bot.
 
@@ -5588,6 +5621,7 @@ doesn't exist, Amazon Lex returns an exception.
   syntax. For more information about the contents of a JSON policy document, see [IAM JSON policy reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html).
 
   If the policy isn't valid, Amazon Lex returns a validation exception.
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that the resource
   policy is attached to.
 
@@ -5598,8 +5632,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"expectedRevisionId"`: The identifier of the revision of the policy to update. If this
   revision ID doesn't match the current revision ID, Amazon Lex throws an exception.
 
-  If you don't specify a revision, Amazon Lex overwrites the contents of the policy with
-  the new values.
+  If you don't specify a revision, Amazon Lex overwrites the contents of the policy with the
+  new values.
 """
 function update_resource_policy end
 
@@ -5653,14 +5687,18 @@ Updates the settings for a slot.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The new description for the slot.
+
 - `"multipleValuesSetting"`: Determines whether the slot accepts multiple values in one
   response. Multiple value slots are only available in the en-US locale. If you set this
   value to `true` in any other locale, Amazon Lex throws a `ValidationException`.
 
   If the `multipleValuesSetting` is not set, the default value is `false`.
+
 - `"obfuscationSetting"`: New settings that determine how slot values are formatted in
   Amazon CloudWatch logs.
+
 - `"slotTypeId"`: The unique identifier of the new slot type to associate with this slot.
+
 - `"subSlotSetting"`: Specifications for the constituent sub slots and the expression for
   the composite slot.
 """

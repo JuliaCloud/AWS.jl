@@ -41,8 +41,8 @@ handled as follows:
 # Arguments
 
 - `acceptance_type`: Player response to the proposed match.
-- `player_ids`: A unique identifier for a player delivering the response. This parameter
-  can include one or multiple player IDs.
+- `player_ids`: A unique identifier for a player delivering the response. This parameter can
+  include one or multiple player IDs.
 - `ticket_id`: A unique identifier for a matchmaking ticket. The ticket must be in status
   `REQUIRES_ACCEPTANCE`; otherwise this request will fail.
 """
@@ -92,8 +92,7 @@ end
     claim_game_server(game_server_group_name)
     claim_game_server(game_server_group_name, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Locates an available game server and temporarily reserves it to host gameplay and players.
 This operation is called from a game client or client service (such as a matchmaker) to
@@ -101,11 +100,11 @@ request hosting resources for a new game session. In response, Amazon GameLift F
 locates an available game server, places it in `CLAIMED` status for 60 seconds, and returns
 connection information that players can use to connect to the game server.
 
-To claim a game server, identify a game server group. You can also specify a game server
-ID, although this approach bypasses Amazon GameLift FleetIQ placement optimization.
-Optionally, include game data to pass to the game server at the start of a game session,
-such as a game map or player information. Add filter options to further restrict how a game
-server is chosen, such as only allowing game servers on `ACTIVE` instances to be claimed.
+To claim a game server, identify a game server group. You can also specify a game server ID,
+although this approach bypasses Amazon GameLift FleetIQ placement optimization. Optionally,
+include game data to pass to the game server at the start of a game session, such as a game
+map or player information. Add filter options to further restrict how a game server is
+chosen, such as only allowing game servers on `ACTIVE` instances to be claimed.
 
 When a game server is successfully claimed, connection information is returned. A claimed
 game server's utilization status remains `AVAILABLE` while the claim status is set to
@@ -128,9 +127,8 @@ If you try to claim a specific game server, this request will fail in the follow
 # Arguments
 
 - `game_server_group_name`: A unique identifier for the game server group where the game
-  server is running. If you are not specifying a game server to claim, this value
-  identifies where you want Amazon GameLift FleetIQ to look for an available game server
-  to claim.
+  server is running. If you are not specifying a game server to claim, this value identifies
+  where you want Amazon GameLift FleetIQ to look for an available game server to claim.
 
 # Optional Parameters
 
@@ -182,11 +180,10 @@ end
 
 Creates an alias for a fleet. In most situations, you can use an alias ID in place of a
 fleet ID. An alias provides a level of abstraction for a fleet that is useful when
-redirecting player traffic from one fleet to another, such as when updating your game
-build.
+redirecting player traffic from one fleet to another, such as when updating your game build.
 
-Amazon GameLift supports two types of routing strategies for aliases: simple and terminal.
-A simple alias points to an active fleet. A terminal alias is used to display messaging or
+Amazon GameLift supports two types of routing strategies for aliases: simple and terminal. A
+simple alias points to an active fleet. A terminal alias is used to display messaging or
 link to a URL instead of routing players to an active fleet. For example, you might use a
 terminal alias when a game version is no longer supported and you want to direct players to
 an upgrade site.
@@ -212,9 +209,9 @@ reassign an alias to another fleet by calling `UpdateAlias`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A human-readable description of the alias.
-- `"Tags"`: A list of labels to assign to the new alias resource. Tags are developer-
-  defined key-value pairs. Tagging Amazon Web Services resources are useful for resource
-  management, access management and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `"Tags"`: A list of labels to assign to the new alias resource. Tags are developer-defined
+  key-value pairs. Tagging Amazon Web Services resources are useful for resource management,
+  access management and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference*.
 """
 function create_alias end
@@ -254,33 +251,33 @@ end
     create_build()
     create_build(params::Dict{String,<:Any})
 
-Creates a new Amazon GameLift build resource for your game server binary files. Combine
-game server binaries into a zip file for use with Amazon GameLift.
+Creates a new Amazon GameLift build resource for your game server binary files. Combine game
+server binaries into a zip file for use with Amazon GameLift.
 
 !!! important
-    When setting up a new game build for Amazon GameLift, we recommend using the CLI
-    command **[upload-build](https://docs.aws.amazon.com/cli/latest/reference/gamelift/upload-build.html)**.
+    When setting up a new game build for Amazon GameLift, we recommend using the CLI command
+    **[upload-build](https://docs.aws.amazon.com/cli/latest/reference/gamelift/upload-build.html)**.
     This helper command combines two tasks: (1) it uploads your build files from a file
     directory to an Amazon GameLift Amazon S3 location, and (2) it creates a new build
     resource.
 
 You can use the [`create_build`](@ref) operation in the following scenarios:
 
-- Create a new game build with build files that are in an Amazon S3 location under an
-  Amazon Web Services account that you control. To use this option, you give Amazon
-  GameLift access to the Amazon S3 bucket. With permissions in place, specify a build name,
-  operating system, and the Amazon S3 storage location of your game build.
+- Create a new game build with build files that are in an Amazon S3 location under an Amazon
+  Web Services account that you control. To use this option, you give Amazon GameLift access
+  to the Amazon S3 bucket. With permissions in place, specify a build name, operating
+  system, and the Amazon S3 storage location of your game build.
 - Upload your build files to a Amazon GameLift Amazon S3 location. To use this option,
-  specify a build name and operating system. This operation creates a new build resource
-  and also returns an Amazon S3 location with temporary access credentials. Use the
-  credentials to manually upload your build files to the specified Amazon S3 location. For
-  more information, see [Uploading Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/UploadingObjects.html)
+  specify a build name and operating system. This operation creates a new build resource and
+  also returns an Amazon S3 location with temporary access credentials. Use the credentials
+  to manually upload your build files to the specified Amazon S3 location. For more
+  information, see [Uploading Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/UploadingObjects.html)
   in the *Amazon S3 Developer Guide*. After you upload build files to the Amazon GameLift
   Amazon S3 location, you can't update them.
 
-If successful, this operation creates a new build resource with a unique build ID and
-places it in `INITIALIZED` status. A build must be in `READY` status before you can create
-fleets with it.
+If successful, this operation creates a new build resource with a unique build ID and places
+it in `INITIALIZED` status. A build must be in `READY` status before you can create fleets
+with it.
 
 **Learn more**
 
@@ -296,40 +293,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Name"`: A descriptive label associated with a build. Build names don't need to be
   unique. You can change this value later.
+
 - `"OperatingSystem"`: The operating system that your game server binaries run on. This
   value determines the type of fleet resources that you use for this build. If your game
-  build contains multiple executables, they all must run on the same operating system.
-  You must specify a valid operating system in this request. There is no default value.
-  You can't change a build's operating system later.
+  build contains multiple executables, they all must run on the same operating system. You
+  must specify a valid operating system in this request. There is no default value. You
+  can't change a build's operating system later.
 
   !!! note
-      Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in
-      the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game
-      servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first
-      update the game server build to server SDK 5.x, and then deploy to AL2023
-      instances. See [Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+      Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/).
+      For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first
+      update the game server build to server SDK 5.x, and then deploy to AL2023 instances.
+      See [Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
 
 - `"ServerSdkVersion"`: A server SDK version you used when integrating your game server
   build with Amazon GameLift. For more information see [Integrate games with custom game servers](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-custom-intro.html).
   By default Amazon GameLift sets this value to `4.0.2`.
+
 - `"StorageLocation"`: Information indicating where your game build files are stored. Use
   this parameter only when creating a build with files stored in an Amazon S3 bucket that
-  you own. The storage location must specify an Amazon S3 bucket name and key. The
-  location must also specify a role ARN that you set up to allow Amazon GameLift to
-  access your Amazon S3 bucket. The S3 bucket and your new build must be in the same
-  Region.
+  you own. The storage location must specify an Amazon S3 bucket name and key. The location
+  must also specify a role ARN that you set up to allow Amazon GameLift to access your
+  Amazon S3 bucket. The S3 bucket and your new build must be in the same Region.
 
-  If a `StorageLocation` is specified, the size of your file can be found in your Amazon
-  S3 bucket. Amazon GameLift will report a `SizeOnDisk` of 0.
-- `"Tags"`: A list of labels to assign to the new build resource. Tags are developer
-  defined key-value pairs. Tagging Amazon Web Services resources are useful for resource
-  management, access management and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  in the *Amazon Web Services General Reference*. Once the resource is created, you can
-  use [TagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html),
-  [UntagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html),
+  If a `StorageLocation` is specified, the size of your file can be found in your Amazon S3
+  bucket. Amazon GameLift will report a `SizeOnDisk` of 0.
+
+- `"Tags"`: A list of labels to assign to the new build resource. Tags are developer defined
+  key-value pairs. Tagging Amazon Web Services resources are useful for resource management,
+  access management and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  in the *Amazon Web Services General Reference*. Once the resource is created, you can use [TagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html),
   and [ListTagsForResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html)
   to add, remove, and view tags. The maximum tag limit may be lower than stated. See the
   Amazon Web Services General Reference for actual tagging limits.
+
 - `"Version"`: Version information associated with a build or script. Version strings don't
   need to be unique. You can change this value later.
 """
@@ -354,10 +351,10 @@ end
 **This operation is used with the Amazon GameLift containers feature, which is currently in
 public preview.**
 
-Creates a `ContainerGroupDefinition` resource that describes a set of containers for
-hosting your game server with Amazon GameLift managed EC2 hosting. An Amazon GameLift
-container group is similar to a container "task" and "pod". Each container group can have
-one or more containers.
+Creates a `ContainerGroupDefinition` resource that describes a set of containers for hosting
+your game server with Amazon GameLift managed EC2 hosting. An Amazon GameLift container
+group is similar to a container "task" and "pod". Each container group can have one or more
+containers.
 
 Use container group definitions when you create a container fleet. Container group
 definitions determine how Amazon GameLift deploys your containers to each instance in a
@@ -365,9 +362,9 @@ container fleet.
 
 You can create two types of container groups, based on scheduling strategy:
 
-- A **replica container group** manages the containers that run your game server
-  application and supporting software. Replica container groups might be replicated
-  multiple times on each fleet instance, depending on instance resources.
+- A **replica container group** manages the containers that run your game server application
+  and supporting software. Replica container groups might be replicated multiple times on
+  each fleet instance, depending on instance resources.
 - A **daemon container group** manages containers that run other software, such as
   background services, logging, or test processes. You might use a daemon container group
   for processes that need to run only once per fleet instance, or processes that need to
@@ -375,8 +372,8 @@ You can create two types of container groups, based on scheduling strategy:
 
 To create a container group definition, specify a group name, a list of container
 definitions, and maximum total CPU and memory requirements for the container group. Specify
-an operating system and scheduling strategy or use the default values. When using the
-Amazon Web Services CLI tool, you can pass in your container definitions as a JSON file.
+an operating system and scheduling strategy or use the default values. When using the Amazon
+Web Services CLI tool, you can pass in your container definitions as a JSON file.
 
 !!! note
     This operation requires Identity and Access Management (IAM) permissions to access
@@ -399,24 +396,25 @@ create a new one.
   definition identifies the container image and specifies configuration settings for the
   container. See the [Container fleet design guide](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-design-fleet.html)
   for container guidelines.
+
 - `name`: A descriptive identifier for the container group definition. The name value must
   be unique in an Amazon Web Services Region.
+
 - `operating_system`: The platform that is used by containers in the container group
   definition. All containers in a group must run on the same operating system.
 
   !!! note
-      Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in
-      the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game
-      servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first
-      update the game server build to server SDK 5.x, and then deploy to AL2023
-      instances. See [Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+      Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/).
+      For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first
+      update the game server build to server SDK 5.x, and then deploy to AL2023 instances.
+      See [Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
 
-- `total_cpu_limit`: The maximum amount of CPU units to allocate to the container group.
-  Set this parameter to an integer value in CPU units (1 vCPU is equal to 1024 CPU
-  units). All containers in the group share this memory. If you specify CPU limits for
-  individual containers, set this parameter based on the following guidelines. The value
-  must be equal to or greater than the sum of the CPU limits for all containers in the
-  group.
+- `total_cpu_limit`: The maximum amount of CPU units to allocate to the container group. Set
+  this parameter to an integer value in CPU units (1 vCPU is equal to 1024 CPU units). All
+  containers in the group share this memory. If you specify CPU limits for individual
+  containers, set this parameter based on the following guidelines. The value must be equal
+  to or greater than the sum of the CPU limits for all containers in the group.
+
 - `total_memory_limit`: The maximum amount of memory (in MiB) to allocate to the container
   group. All containers in the group share this memory. If you specify memory limits for
   individual containers, set this parameter based on the following guidelines. The value
@@ -428,8 +426,8 @@ create a new one.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"SchedulingStrategy"`: The method for deploying the container group across fleet
-  instances. A replica container group might have multiple copies on each fleet instance.
-  A daemon container group has one copy per fleet instance. Default value is `REPLICA`.
+  instances. A replica container group might have multiple copies on each fleet instance. A
+  daemon container group has one copy per fleet instance. Default value is `REPLICA`.
 - `"Tags"`: A list of labels to assign to the container group definition resource. Tags are
   developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for
   resource management, access management and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
@@ -492,11 +490,11 @@ end
     create_fleet(name)
     create_fleet(name, params::Dict{String,<:Any})
 
-**This operation has been expanded to use with the Amazon GameLift containers feature,
-which is currently in public preview.**
+**This operation has been expanded to use with the Amazon GameLift containers feature, which
+is currently in public preview.**
 
-Creates a fleet of compute resources to host your game servers. Use this operation to set
-up the following types of fleets based on compute type:
+Creates a fleet of compute resources to host your game servers. Use this operation to set up
+the following types of fleets based on compute type:
 
 **Managed EC2 fleet**
 
@@ -553,8 +551,8 @@ on/off for each location.
 **Anywhere fleet**
 
 An Anywhere fleet represents compute resources that are not owned or managed by Amazon
-GameLift. You might create an Anywhere fleet with your local machine for testing, or use
-one to host game servers with on-premises hardware or other game hosting solutions.
+GameLift. You might create an Anywhere fleet with your local machine for testing, or use one
+to host game servers with on-premises hardware or other game hosting solutions.
 
 To create an Anywhere fleet, provide these required parameters:
 
@@ -562,8 +560,8 @@ To create an Anywhere fleet, provide these required parameters:
 - `Locations` specifying a custom location
 - `Name`
 
-If successful, this operation creates a new fleet resource and places it in `ACTIVE`
-status. You can register computes with a fleet in `ACTIVE` status.
+If successful, this operation creates a new fleet resource and places it in `ACTIVE` status.
+You can register computes with a fleet in `ACTIVE` status.
 
 **Learn more**
 
@@ -577,42 +575,44 @@ status. You can register computes with a fleet in `ACTIVE` status.
 
 # Arguments
 
-- `name`: A descriptive label that is associated with a fleet. Fleet names do not need to
-  be unique.
+- `name`: A descriptive label that is associated with a fleet. Fleet names do not need to be
+  unique.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AnywhereConfiguration"`: Amazon GameLift Anywhere configuration options.
+
 - `"BuildId"`: The unique identifier for a custom game server build to be deployed to a
-  fleet with compute type `EC2`. You can use either the build ID or ARN. The build must
-  be uploaded to Amazon GameLift and in `READY` status. This fleet property can't be
-  changed after the fleet is created.
+  fleet with compute type `EC2`. You can use either the build ID or ARN. The build must be
+  uploaded to Amazon GameLift and in `READY` status. This fleet property can't be changed
+  after the fleet is created.
+
 - `"CertificateConfiguration"`: Prompts Amazon GameLift to generate a TLS/SSL certificate
   for the fleet. Amazon GameLift uses the certificates to encrypt traffic between game
   clients and the game servers running on Amazon GameLift. By default, the
-  `CertificateConfiguration` is `DISABLED`. You can't change this property after you
-  create the fleet.
+  `CertificateConfiguration` is `DISABLED`. You can't change this property after you create
+  the fleet.
 
-  Certificate Manager (ACM) certificates expire after 13 months. Certificate expiration
-  can cause fleets to fail, preventing players from connecting to instances in the fleet.
-  We recommend you replace fleets before 13 months, consider using fleet aliases for a
-  smooth transition.
+  Certificate Manager (ACM) certificates expire after 13 months. Certificate expiration can
+  cause fleets to fail, preventing players from connecting to instances in the fleet. We
+  recommend you replace fleets before 13 months, consider using fleet aliases for a smooth
+  transition.
 
   !!! note
-      ACM isn't available in all Amazon Web Services regions. A fleet creation request
-      with certificate generation enabled in an unsupported Region, fails with a 4xx
-      error. For more information about the supported Regions, see [Supported Regions](https://docs.aws.amazon.com/acm/latest/userguide/acm-regions.html)
+      ACM isn't available in all Amazon Web Services regions. A fleet creation request with
+      certificate generation enabled in an unsupported Region, fails with a 4xx error. For
+      more information about the supported Regions, see [Supported Regions](https://docs.aws.amazon.com/acm/latest/userguide/acm-regions.html)
       in the *Certificate Manager User Guide*.
 
 - `"ComputeType"`: The type of compute resource used to host your game servers.
 
   - `EC2` – The game server build is deployed to Amazon EC2 instances for cloud hosting.
     This is the default setting.
-  - `CONTAINER` – Container images with your game server build and supporting software
-    are deployed to Amazon EC2 instances for cloud hosting. With this compute type, you
-    must specify the `ContainerGroupsConfiguration` parameter.
+  - `CONTAINER` – Container images with your game server build and supporting software are
+    deployed to Amazon EC2 instances for cloud hosting. With this compute type, you must
+    specify the `ContainerGroupsConfiguration` parameter.
   - `ANYWHERE` – Game servers or container images with your game server and supporting
     software are deployed to compute resources that are provided and managed by you. With
     this compute type, you can also set the `AnywhereConfiguration` parameter.
@@ -620,101 +620,115 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ContainerGroupsConfiguration"`: The container groups to deploy to instances in the
   container fleet and other fleet-level configuration settings. Use the [`create_container_group_definition`](@ref)
   action to create container groups. A container fleet must have exactly one replica
-  container group, and can optionally have one daemon container group. You can't change
-  this property after you create the fleet.
+  container group, and can optionally have one daemon container group. You can't change this
+  property after you create the fleet.
+
 - `"Description"`: A description for the fleet.
+
 - `"EC2InboundPermissions"`: The IP address ranges and port settings that allow inbound
   traffic to access game server processes and other processes on this fleet. Set this
-  parameter for EC2 and container fleets. You can leave this parameter empty when
-  creating the fleet, but you must call [`update_fleet_port_settings`](@ref) to set it
-  before players can connect to game sessions. As a best practice, we recommend opening
-  ports for remote access only when you need them and closing them when you're finished.
-  For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges.
+  parameter for EC2 and container fleets. You can leave this parameter empty when creating
+  the fleet, but you must call [`update_fleet_port_settings`](@ref) to set it before players
+  can connect to game sessions. As a best practice, we recommend opening ports for remote
+  access only when you need them and closing them when you're finished. For Realtime Servers
+  fleets, Amazon GameLift automatically sets TCP and UDP ranges.
 
   To manage inbound access for a container fleet, set this parameter to the same port
-  numbers that you set for the fleet's connection port range. During the life of the
-  fleet, update this parameter to control which connection ports are open to inbound
-  traffic.
+  numbers that you set for the fleet's connection port range. During the life of the fleet,
+  update this parameter to control which connection ports are open to inbound traffic.
+
 - `"EC2InstanceType"`: The Amazon GameLift-supported Amazon EC2 instance type to use with
   EC2 and container fleets. Instance type determines the computing resources that will be
-  used to host your game servers, including CPU, memory, storage, and networking
-  capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/)
+  used to host your game servers, including CPU, memory, storage, and networking capacity.
+  See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/)
   for detailed descriptions of Amazon EC2 instance types.
+
 - `"FleetType"`: Indicates whether to use On-Demand or Spot instances for this fleet. By
   default, this property is set to `ON_DEMAND`. Learn more about when to use [On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot).
   This fleet property can't be changed after the fleet is created.
+
 - `"InstanceRoleArn"`: A unique identifier for an IAM role with access permissions to other
   Amazon Web Services services. Any application that runs on an instance in the fleet--
   including install scripts, server processes, and other processes--can use these
-  permissions to interact with Amazon Web Services resources that you own or have access
-  to. For more information about using the role with your game server builds, see [Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
+  permissions to interact with Amazon Web Services resources that you own or have access to.
+  For more information about using the role with your game server builds, see [Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
   This fleet property can't be changed after the fleet is created.
+
 - `"InstanceRoleCredentialsProvider"`: Prompts Amazon GameLift to generate a shared
   credentials file for the IAM role that's defined in `InstanceRoleArn`. The shared
   credentials file is stored on each fleet instance and refreshed as needed. Use shared
-  credentials for applications that are deployed along with the game server executable,
-  if the game server is integrated with server SDK version 5.x. For more information
-  about using shared credentials, see [Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
-- `"Locations"`: A set of remote locations to deploy additional instances to and manage as
-  a multi-location fleet. Use this parameter when creating a fleet in Amazon Web Services
+  credentials for applications that are deployed along with the game server executable, if
+  the game server is integrated with server SDK version 5.x. For more information about
+  using shared credentials, see [Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
+
+- `"Locations"`: A set of remote locations to deploy additional instances to and manage as a
+  multi-location fleet. Use this parameter when creating a fleet in Amazon Web Services
   Regions that support multiple locations. You can add any Amazon Web Services Region or
-  Local Zone that's supported by Amazon GameLift. Provide a list of one or more Amazon
-  Web Services Region codes, such as `us-west-2`, or Local Zone names. When using this
-  parameter, Amazon GameLift requires you to include your home location in the request.
-  For a list of supported Regions and Local Zones, see [Amazon GameLift service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
+  Local Zone that's supported by Amazon GameLift. Provide a list of one or more Amazon Web
+  Services Region codes, such as `us-west-2`, or Local Zone names. When using this
+  parameter, Amazon GameLift requires you to include your home location in the request. For
+  a list of supported Regions and Local Zones, see [Amazon GameLift service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
   for managed hosting.
+
 - `"LogPaths"`: **This parameter is no longer used.** To specify where Amazon GameLift
   should store log files once a server process shuts down, use the Amazon GameLift server
-  API `ProcessReady()` and specify one or more directory paths in `logParameters`. For
-  more information, see [Initialize the server process](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-initialize)
+  API `ProcessReady()` and specify one or more directory paths in `logParameters`. For more
+  information, see [Initialize the server process](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-initialize)
   in the *Amazon GameLift Developer Guide*.
+
 - `"MetricGroups"`: The name of an Amazon Web Services CloudWatch metric group to add this
   fleet to. A metric group is used to aggregate the metrics for multiple fleets. You can
   specify an existing metric group name or set a new name to create a new metric group. A
   fleet can be included in only one metric group at a time.
+
 - `"NewGameSessionProtectionPolicy"`: The status of termination protection for active game
   sessions on the fleet. By default, this property is set to `NoProtection`. You can also
   set game session protection for an individual game session by calling [UpdateGameSession](gamelift/latest/apireference/API_UpdateGameSession.html).
 
-
-  - **NoProtection** - Game sessions can be terminated during active gameplay as a result
-    of a scale-down event.
+  - **NoProtection** - Game sessions can be terminated during active gameplay as a result of
+    a scale-down event.
   - **FullProtection** - Game sessions in `ACTIVE` status cannot be terminated during a
     scale-down event.
 
 - `"PeerVpcAwsAccountId"`: Used when peering your Amazon GameLift fleet with a VPC, the
-  unique identifier for the Amazon Web Services account that owns the VPC. You can find
-  your account ID in the Amazon Web Services Management Console under account settings.
+  unique identifier for the Amazon Web Services account that owns the VPC. You can find your
+  account ID in the Amazon Web Services Management Console under account settings.
+
 - `"PeerVpcId"`: A unique identifier for a VPC with resources to be accessed by your Amazon
-  GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID,
-  use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services
+  GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use
+  the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services
   Management Console. Learn more about VPC peering in [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
+
 - `"ResourceCreationLimitPolicy"`: A policy that limits the number of game sessions that an
   individual player can create on instances in this fleet within a specified span of time.
+
 - `"RuntimeConfiguration"`: Instructions for how to launch and run server processes on the
   fleet. Set runtime configuration for EC2 fleets and container fleets. For an Anywhere
   fleets, set this parameter only if the fleet is running the Amazon GameLift Agent. The
   runtime configuration defines one or more server process configurations. Each server
-  process identifies a game executable or Realtime script file and the number of
-  processes to run concurrently.
+  process identifies a game executable or Realtime script file and the number of processes
+  to run concurrently.
 
   !!! note
       This parameter replaces the parameters `ServerLaunchPath` and
       `ServerLaunchParameters`, which are still supported for backward compatibility.
 
 - `"ScriptId"`: The unique identifier for a Realtime configuration script to be deployed to
-  a fleet with compute type `EC2`. You can use either the script ID or ARN. Scripts must
-  be uploaded to Amazon GameLift prior to creating the fleet. This fleet property can't
-  be changed after the fleet is created.
+  a fleet with compute type `EC2`. You can use either the script ID or ARN. Scripts must be
+  uploaded to Amazon GameLift prior to creating the fleet. This fleet property can't be
+  changed after the fleet is created.
+
 - `"ServerLaunchParameters"`: **This parameter is no longer used.** Specify server launch
   parameters using the `RuntimeConfiguration` parameter. Requests that use this parameter
   instead continue to be valid.
+
 - `"ServerLaunchPath"`: **This parameter is no longer used.** Specify a server launch path
   using the `RuntimeConfiguration` parameter. Requests that use this parameter instead
   continue to be valid.
-- `"Tags"`: A list of labels to assign to the new fleet resource. Tags are developer-
-  defined key-value pairs. Tagging Amazon Web Services resources are useful for resource
-  management, access management and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+
+- `"Tags"`: A list of labels to assign to the new fleet resource. Tags are developer-defined
+  key-value pairs. Tagging Amazon Web Services resources are useful for resource management,
+  access management and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference*.
 """
 function create_fleet end
@@ -743,8 +757,8 @@ end
     create_fleet_locations(fleet_id, locations)
     create_fleet_locations(fleet_id, locations, params::Dict{String,<:Any})
 
-**This operation has been expanded to use with the Amazon GameLift containers feature,
-which is currently in public preview.**
+**This operation has been expanded to use with the Amazon GameLift containers feature, which
+is currently in public preview.**
 
 Adds remote locations to an EC2 or container fleet and begins populating the new locations
 with instances. The new instances conform to the fleet's instance type, auto-scaling, and
@@ -759,9 +773,8 @@ To add fleet locations, specify the fleet to be updated and provide a list of on
 locations.
 
 If successful, this operation returns the list of added locations with their status set to
-`NEW`. Amazon GameLift initiates the process of starting an instance in each added
-location. You can track the status of each new location by monitoring location creation
-events using [DescribeFleetEvents](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetEvents.html).
+`NEW`. Amazon GameLift initiates the process of starting an instance in each added location.
+You can track the status of each new location by monitoring location creation events using [DescribeFleetEvents](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetEvents.html).
 
 **Learn more**
 
@@ -817,14 +830,13 @@ end
     create_game_server_group(game_server_group_name, instance_definitions, launch_template, max_size, min_size, role_arn)
     create_game_server_group(game_server_group_name, instance_definitions, launch_template, max_size, min_size, role_arn, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Creates a Amazon GameLift FleetIQ game server group for managing game hosting on a
 collection of Amazon Elastic Compute Cloud instances for game hosting. This operation
 creates the game server group, creates an Auto Scaling group in your Amazon Web Services
-account, and establishes a link between the two groups. You can view the status of your
-game server groups in the Amazon GameLift console. Game server group metrics and events are
+account, and establishes a link between the two groups. You can view the status of your game
+server groups in the Amazon GameLift console. Game server group metrics and events are
 emitted to Amazon CloudWatch.
 
 Before creating a new game server group, you must have the following:
@@ -847,8 +859,8 @@ Once the game server group and corresponding Auto Scaling group are created, you
 access to change the Auto Scaling group's configuration as needed. Several properties that
 are set when creating a game server group, including maximum/minimum size and auto-scaling
 policy settings, must be updated directly in the Auto Scaling group. Keep in mind that some
-Auto Scaling group properties are periodically updated by Amazon GameLift FleetIQ as part
-of its balancing activities to optimize for availability and cost.
+Auto Scaling group properties are periodically updated by Amazon GameLift FleetIQ as part of
+its balancing activities to optimize for availability and cost.
 
 **Learn more**
 
@@ -860,40 +872,41 @@ of its balancing activities to optimize for availability and cost.
   to generate unique ARN identifiers for the Amazon EC2 Auto Scaling group and the Amazon
   GameLift FleetIQ game server group. The name must be unique per Region per Amazon Web
   Services account.
-- `instance_definitions`: The Amazon EC2 instance types and sizes to use in the Auto
-  Scaling group. The instance definitions must specify at least two different instance
-  types that are supported by Amazon GameLift FleetIQ. For more information on instance
-  types, see [EC2 Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)
+
+- `instance_definitions`: The Amazon EC2 instance types and sizes to use in the Auto Scaling
+  group. The instance definitions must specify at least two different instance types that
+  are supported by Amazon GameLift FleetIQ. For more information on instance types, see [EC2 Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)
   in the *Amazon Elastic Compute Cloud User Guide*. You can optionally specify capacity
-  weighting for each instance type. If no weight value is specified for an instance type,
-  it is set to the default value "1". For more information about capacity weighting, see [Instance Weighting for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html)
+  weighting for each instance type. If no weight value is specified for an instance type, it
+  is set to the default value "1". For more information about capacity weighting, see [Instance Weighting for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html)
   in the Amazon EC2 Auto Scaling User Guide.
-- `launch_template`: The Amazon EC2 launch template that contains configuration settings
-  and game server code to be deployed to all instances in the game server group. You can
-  specify the template using either the template name or ID. For help with creating a
-  launch template, see [Creating a Launch Template for an Auto Scaling Group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html)
+
+- `launch_template`: The Amazon EC2 launch template that contains configuration settings and
+  game server code to be deployed to all instances in the game server group. You can specify
+  the template using either the template name or ID. For help with creating a launch
+  template, see [Creating a Launch Template for an Auto Scaling Group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html)
   in the *Amazon Elastic Compute Cloud Auto Scaling User Guide*. After the Auto Scaling
   group is created, update this value directly in the Auto Scaling group using the Amazon
   Web Services console or APIs.
 
   !!! note
-      If you specify network interfaces in your launch template, you must explicitly set
-      the property `AssociatePublicIpAddress` to "true". If no network interface is
-      specified in the launch template, Amazon GameLift FleetIQ uses your account's
-      default VPC.
+      If you specify network interfaces in your launch template, you must explicitly set the
+      property `AssociatePublicIpAddress` to "true". If no network interface is specified in
+      the launch template, Amazon GameLift FleetIQ uses your account's default VPC.
 
 - `max_size`: The maximum number of instances allowed in the Amazon EC2 Auto Scaling group.
-  During automatic scaling events, Amazon GameLift FleetIQ and EC2 do not scale up the
-  group above this maximum. After the Auto Scaling group is created, update this value
-  directly in the Auto Scaling group using the Amazon Web Services console or APIs.
+  During automatic scaling events, Amazon GameLift FleetIQ and EC2 do not scale up the group
+  above this maximum. After the Auto Scaling group is created, update this value directly in
+  the Auto Scaling group using the Amazon Web Services console or APIs.
+
 - `min_size`: The minimum number of instances allowed in the Amazon EC2 Auto Scaling group.
-  During automatic scaling events, Amazon GameLift FleetIQ and Amazon EC2 do not scale
-  down the group below this minimum. In production, this value should be set to at least
-  1. After the Auto Scaling group is created, update this value directly in the Auto
-     Scaling group using the Amazon Web Services console or APIs.
+  During automatic scaling events, Amazon GameLift FleetIQ and Amazon EC2 do not scale down
+  the group below this minimum. In production, this value should be set to at least 1. After
+  the Auto Scaling group is created, update this value directly in the Auto Scaling group
+  using the Amazon Web Services console or APIs.
+
 - `role_arn`: The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-  for an IAM role that allows Amazon GameLift to access your Amazon EC2 Auto Scaling
-  groups.
+  for an IAM role that allows Amazon GameLift to access your Amazon EC2 Auto Scaling groups.
 
 # Optional Parameters
 
@@ -903,44 +916,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Scaling group that is optimized for game hosting. The scaling policy uses the metric
   `"PercentUtilizedGameServers"` to maintain a buffer of idle game servers that can
   immediately accommodate new games and players. After the Auto Scaling group is created,
-  update this value directly in the Auto Scaling group using the Amazon Web Services
-  console or APIs.
+  update this value directly in the Auto Scaling group using the Amazon Web Services console
+  or APIs.
+
 - `"BalancingStrategy"`: Indicates how Amazon GameLift FleetIQ balances the use of Spot
   Instances and On-Demand Instances in the game server group. Method options include the
   following:
 
-  - `SPOT_ONLY` - Only Spot Instances are used in the game server group. If Spot
-    Instances are unavailable or not viable for game hosting, the game server group
-    provides no hosting capacity until Spot Instances can again be used. Until then, no
-    new instances are started, and the existing nonviable Spot Instances are terminated
-    (after current gameplay ends) and are not replaced.
+  - `SPOT_ONLY` - Only Spot Instances are used in the game server group. If Spot Instances
+    are unavailable or not viable for game hosting, the game server group provides no
+    hosting capacity until Spot Instances can again be used. Until then, no new instances
+    are started, and the existing nonviable Spot Instances are terminated (after current
+    gameplay ends) and are not replaced.
   - `SPOT_PREFERRED` - (default value) Spot Instances are used whenever available in the
-    game server group. If Spot Instances are unavailable, the game server group continues
-    to provide hosting capacity by falling back to On-Demand Instances. Existing
-    nonviable Spot Instances are terminated (after current gameplay ends) and are
-    replaced with new On-Demand Instances.
-  - `ON_DEMAND_ONLY` - Only On-Demand Instances are used in the game server group. No
-    Spot Instances are used, even when available, while this balancing strategy is in
-    force.
+    game server group. If Spot Instances are unavailable, the game server group continues to
+    provide hosting capacity by falling back to On-Demand Instances. Existing nonviable Spot
+    Instances are terminated (after current gameplay ends) and are replaced with new On-
+    Demand Instances.
+  - `ON_DEMAND_ONLY` - Only On-Demand Instances are used in the game server group. No Spot
+    Instances are used, even when available, while this balancing strategy is in force.
 
-- `"GameServerProtectionPolicy"`: A flag that indicates whether instances in the game
-  server group are protected from early termination. Unprotected instances that have
-  active game servers running might be terminated during a scale-down event, causing
-  players to be dropped from the game. Protected instances cannot be terminated while
-  there are active game servers running except in the event of a forced game server group
-  deletion (see ). An exception to this is with Spot Instances, which can be terminated
-  by Amazon Web Services regardless of protection status. This property is set to
-  `NO_PROTECTION` by default.
+- `"GameServerProtectionPolicy"`: A flag that indicates whether instances in the game server
+  group are protected from early termination. Unprotected instances that have active game
+  servers running might be terminated during a scale-down event, causing players to be
+  dropped from the game. Protected instances cannot be terminated while there are active
+  game servers running except in the event of a forced game server group deletion (see ). An
+  exception to this is with Spot Instances, which can be terminated by Amazon Web Services
+  regardless of protection status. This property is set to `NO_PROTECTION` by default.
+
 - `"Tags"`: A list of labels to assign to the new game server group resource. Tags are
   developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for
   resource management, access management, and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference*.
-- `"VpcSubnets"`: A list of virtual private cloud (VPC) subnets to use with instances in
-  the game server group. By default, all Amazon GameLift FleetIQ-supported Availability
-  Zones are used. You can use this parameter to specify VPCs that you've set up. This
-  property cannot be updated after the game server group is created, and the
-  corresponding Auto Scaling group will always use the property value that is set with
-  this request, even if the Auto Scaling group is updated directly.
+
+- `"VpcSubnets"`: A list of virtual private cloud (VPC) subnets to use with instances in the
+  game server group. By default, all Amazon GameLift FleetIQ-supported Availability Zones
+  are used. You can use this parameter to specify VPCs that you've set up. This property
+  cannot be updated after the game server group is created, and the corresponding Auto
+  Scaling group will always use the property value that is set with this request, even if
+  the Auto Scaling group is updated directly.
 """
 function create_game_server_group end
 
@@ -1014,8 +1028,8 @@ set of game session configuration settings. The target fleet must be in `ACTIVE`
 
 You can use this operation in the following ways:
 
-- To create a game session on an instance in a fleet's home Region, provide a fleet or
-  alias ID along with your game session configuration.
+- To create a game session on an instance in a fleet's home Region, provide a fleet or alias
+  ID along with your game session configuration.
 - To create a game session on an instance in a fleet's remote location, provide a fleet or
   alias ID and a location name, along with your game session configuration.
 - To create a game session on an instance in an Anywhere fleet, specify the fleet's custom
@@ -1051,6 +1065,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AliasId"`: A unique identifier for the alias associated with the fleet to create a game
   session in. You can use either the alias ID or ARN value. Each request must reference
   either a fleet ID or alias ID, but not both.
+
 - `"CreatorId"`: A unique identifier for a player or entity creating the game session.
 
   If you add a resource creation limit policy to a fleet, the [`create_game_session`](@ref)
@@ -1058,40 +1073,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creation requests with the same `CreatorId` in a specified time period.
 
   If you your fleet doesn't have a resource creation limit policy and you provide a
-  `CreatorId` in your `CreateGameSession` requests, Amazon GameLift limits requests to
-  one request per `CreatorId` per second.
+  `CreatorId` in your `CreateGameSession` requests, Amazon GameLift limits requests to one
+  request per `CreatorId` per second.
 
   To not limit `CreateGameSession` requests with the same `CreatorId`, don't provide a
   `CreatorId` in your `CreateGameSession` request.
+
 - `"FleetId"`: A unique identifier for the fleet to create a game session in. You can use
-  either the fleet ID or ARN value. Each request must reference either a fleet ID or
-  alias ID, but not both.
-- `"GameProperties"`: A set of key-value pairs that can store custom data in a game
-  session. For example: `{"Key": "difficulty", "Value": "novice"}`. For an example, see [Create a game session with custom properties](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-create).
-- `"GameSessionData"`: A set of custom game session properties, formatted as a single
-  string value. This data is passed to a game server process with a request to start a
-  new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
+  either the fleet ID or ARN value. Each request must reference either a fleet ID or alias
+  ID, but not both.
+
+- `"GameProperties"`: A set of key-value pairs that can store custom data in a game session.
+  For example: `{"Key": "difficulty", "Value": "novice"}`. For an example, see [Create a game session with custom properties](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-create).
+
+- `"GameSessionData"`: A set of custom game session properties, formatted as a single string
+  value. This data is passed to a game server process with a request to start a new game
+  session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
+
 - `"GameSessionId"`: *This parameter is deprecated. Use `IdempotencyToken` instead.*
 
   Custom string that uniquely identifies a request for a new game session. Maximum token
   length is 48 characters. If provided, this string is included in the new game session's
   ID.
-- `"IdempotencyToken"`: Custom string that uniquely identifies the new game session
-  request. This is useful for ensuring that game session requests with the same
-  idempotency token are processed only once. Subsequent requests with the same string
-  return the original `GameSession` object, with an updated status. Maximum token length
-  is 48 characters. If provided, this string is included in the new game session's ID. A
-  game session ARN has the following format:
+
+- `"IdempotencyToken"`: Custom string that uniquely identifies the new game session request.
+  This is useful for ensuring that game session requests with the same idempotency token are
+  processed only once. Subsequent requests with the same string return the original
+  `GameSession` object, with an updated status. Maximum token length is 48 characters. If
+  provided, this string is included in the new game session's ID. A game session ARN has the
+  following format:
   `arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;`.
-  Idempotency tokens remain in use for 30 days after a game session has ended; game
-  session objects are retained for this time period and then deleted.
+  Idempotency tokens remain in use for 30 days after a game session has ended; game session
+  objects are retained for this time period and then deleted.
+
 - `"Location"`: A fleet's remote location to place the new game session in. If this
-  parameter is not set, the new game session is placed in the fleet's home Region.
-  Specify a remote location with an Amazon Web Services Region code such as `us-west-2`.
-  When using an Anywhere fleet, this parameter is required and must be set to the
-  Anywhere fleet's custom location.
-- `"Name"`: A descriptive label that is associated with a game session. Session names do
-  not need to be unique.
+  parameter is not set, the new game session is placed in the fleet's home Region. Specify a
+  remote location with an Amazon Web Services Region code such as `us-west-2`. When using an
+  Anywhere fleet, this parameter is required and must be set to the Anywhere fleet's custom
+  location.
+
+- `"Name"`: A descriptive label that is associated with a game session. Session names do not
+  need to be unique.
 """
 function create_game_session end
 
@@ -1140,17 +1162,17 @@ Web Services Regions. If the queue includes multi-location fleets, the queue is 
 place game sessions in all of a fleet's remote locations. You can opt to filter out
 individual locations if needed.
 
-The queue configuration also determines how FleetIQ selects the best available placement
-for a new game session. Before searching for an available game server, FleetIQ first
-prioritizes the queue's destinations and locations, with the best placement locations on
-top. You can set up the queue to use the FleetIQ default prioritization or provide an
-alternate set of priorities.
+The queue configuration also determines how FleetIQ selects the best available placement for
+a new game session. Before searching for an available game server, FleetIQ first prioritizes
+the queue's destinations and locations, with the best placement locations on top. You can
+set up the queue to use the FleetIQ default prioritization or provide an alternate set of
+priorities.
 
 To create a new queue, provide a name, timeout value, and a list of destinations.
 Optionally, specify a sort configuration and/or a filter, and define a set of latency cap
-policies. You can also include the ARN for an Amazon Simple Notification Service (SNS)
-topic to receive notifications of game session placement activity. Notifications using SNS
-or CloudWatch events is the preferred way to track placement activity.
+policies. You can also include the ARN for an Amazon Simple Notification Service (SNS) topic
+to receive notifications of game session placement activity. Notifications using SNS or
+CloudWatch events is the preferred way to track placement activity.
 
 If successful, a new `GameSessionQueue` object is returned with an assigned queue ARN. New
 game session requests, which are submitted to queue with [StartGameSessionPlacement](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StartGameSessionPlacement.html)
@@ -1182,32 +1204,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CustomEventData"`: Information to be added to all events that are related to this game
   session queue.
+
 - `"Destinations"`: A list of fleets and/or fleet aliases that can be used to fulfill game
-  session placement requests in the queue. Destinations are identified by either a fleet
-  ARN or a fleet alias ARN, and are listed in order of placement preference.
+  session placement requests in the queue. Destinations are identified by either a fleet ARN
+  or a fleet alias ARN, and are listed in order of placement preference.
+
 - `"FilterConfiguration"`: A list of locations where a queue is allowed to place new game
-  sessions. Locations are specified in the form of Amazon Web Services Region codes, such
-  as `us-west-2`. If this parameter is not set, game sessions can be placed in any queue
+  sessions. Locations are specified in the form of Amazon Web Services Region codes, such as
+  `us-west-2`. If this parameter is not set, game sessions can be placed in any queue
   location.
+
 - `"NotificationTarget"`: An SNS topic ARN that is set up to receive game session placement
   notifications. See [Setting up notifications for game session placement](https://docs.aws.amazon.com/gamelift/latest/developerguide/queue-notification.html).
+
 - `"PlayerLatencyPolicies"`: A set of policies that act as a sliding cap on player latency.
   FleetIQ works to deliver low latency for most players in a game session. These policies
-  ensure that no individual player can be placed into a game with unreasonably high
-  latency. Use multiple policies to gradually relax latency requirements a step at a
-  time. Multiple policies are applied based on their maximum allowed latency, starting
-  with the lowest value.
+  ensure that no individual player can be placed into a game with unreasonably high latency.
+  Use multiple policies to gradually relax latency requirements a step at a time. Multiple
+  policies are applied based on their maximum allowed latency, starting with the lowest
+  value.
+
 - `"PriorityConfiguration"`: Custom settings to use when prioritizing destinations and
   locations for game session placements. This configuration replaces the FleetIQ default
-  prioritization process. Priority types that are not explicitly named will be
-  automatically applied at the end of the prioritization process.
+  prioritization process. Priority types that are not explicitly named will be automatically
+  applied at the end of the prioritization process.
+
 - `"Tags"`: A list of labels to assign to the new game session queue resource. Tags are
   developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for
   resource management, access management and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference*.
+
 - `"TimeoutInSeconds"`: The maximum time, in seconds, that a new game session placement
-  request remains in the queue. When a request exceeds this time, the game session
-  placement changes to a `TIMED_OUT` status. By default, this property is set to `600`.
+  request remains in the queue. When a request exceeds this time, the game session placement
+  changes to a `TIMED_OUT` status. By default, this property is set to `600`.
 """
 function create_game_session_queue end
 
@@ -1308,13 +1337,12 @@ matchmaking notifications. Provide the topic ARN in the matchmaking configuratio
 
 - `acceptance_required`: A flag that determines whether a match that was created with this
   configuration must be accepted by the matched players. To require acceptance, set to
-  `TRUE`. With this option enabled, matchmaking tickets use the status
-  `REQUIRES_ACCEPTANCE` to indicate when a completed potential match is waiting for
-  player acceptance.
+  `TRUE`. With this option enabled, matchmaking tickets use the status `REQUIRES_ACCEPTANCE`
+  to indicate when a completed potential match is waiting for player acceptance.
 - `name`: A unique identifier for the matchmaking configuration. This name is used to
   identify the configuration associated with a matchmaking request or ticket.
-- `request_timeout_seconds`: The maximum duration, in seconds, that a matchmaking ticket
-  can remain in process before timing out. Requests that fail due to timing out can be
+- `request_timeout_seconds`: The maximum duration, in seconds, that a matchmaking ticket can
+  remain in process before timing out. Requests that fail due to timing out can be
   resubmitted as needed.
 - `rule_set_name`: A unique identifier for the matchmaking rule set to use with this
   configuration. You can use either the rule set name or ARN value. A matchmaking
@@ -1326,52 +1354,60 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AcceptanceTimeoutSeconds"`: The length of time (in seconds) to wait for players to
   accept a proposed match, if acceptance is required.
+
 - `"AdditionalPlayerCount"`: The number of player slots in a match to keep open for future
   players. For example, if the configuration's rule set specifies a match for a single 10-
-  person team, and the additional player count is set to 2, 10 players will be selected
-  for the match and 2 more player slots will be open for future players. This parameter
-  is not used if `FlexMatchMode` is set to `STANDALONE`.
+  person team, and the additional player count is set to 2, 10 players will be selected for
+  the match and 2 more player slots will be open for future players. This parameter is not
+  used if `FlexMatchMode` is set to `STANDALONE`.
+
 - `"BackfillMode"`: The method used to backfill game sessions that are created with this
   matchmaking configuration. Specify `MANUAL` when your game manages backfill requests
   manually or does not use the match backfill feature. Specify `AUTOMATIC` to have Amazon
   GameLift create a backfill request whenever a game session has one or more open slots.
   Learn more about manual and automatic backfill in [Backfill Existing Games with FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html).
   Automatic backfill is not available when `FlexMatchMode` is set to `STANDALONE`.
+
 - `"CustomEventData"`: Information to be added to all events related to this matchmaking
   configuration.
+
 - `"Description"`: A human-readable description of the matchmaking configuration.
+
 - `"FlexMatchMode"`: Indicates whether this matchmaking configuration is being used with
   Amazon GameLift hosting or as a standalone matchmaking solution.
 
   - **STANDALONE** - FlexMatch forms matches and returns match information, including
     players and team assignments, in a [MatchmakingSucceeded](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-events.html#match-events-matchmakingsucceeded)
     event.
-  - **WITH_QUEUE** - FlexMatch forms matches and uses the specified Amazon GameLift queue
-    to start a game session for the match.
+  - **WITH_QUEUE** - FlexMatch forms matches and uses the specified Amazon GameLift queue to
+    start a game session for the match.
 
-- `"GameProperties"`: A set of key-value pairs that can store custom data in a game
-  session. For example: `{"Key": "difficulty", "Value": "novice"}`. This information is
-  added to the new `GameSession` object that is created for a successful match. This
-  parameter is not used if `FlexMatchMode` is set to `STANDALONE`.
-- `"GameSessionData"`: A set of custom game session properties, formatted as a single
-  string value. This data is passed to a game server process with a request to start a
-  new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
-  This information is added to the new `GameSession` object that is created for a
-  successful match. This parameter is not used if `FlexMatchMode` is set to `STANDALONE`.
+- `"GameProperties"`: A set of key-value pairs that can store custom data in a game session.
+  For example: `{"Key": "difficulty", "Value": "novice"}`. This information is added to the
+  new `GameSession` object that is created for a successful match. This parameter is not
+  used if `FlexMatchMode` is set to `STANDALONE`.
+
+- `"GameSessionData"`: A set of custom game session properties, formatted as a single string
+  value. This data is passed to a game server process with a request to start a new game
+  session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
+  This information is added to the new `GameSession` object that is created for a successful
+  match. This parameter is not used if `FlexMatchMode` is set to `STANDALONE`.
+
 - `"GameSessionQueueArns"`: The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-  that is assigned to a Amazon GameLift game session queue resource and uniquely
-  identifies it. ARNs are unique across all Regions. Format is
+  that is assigned to a Amazon GameLift game session queue resource and uniquely identifies
+  it. ARNs are unique across all Regions. Format is
   `arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;`. Queues can be
-  located in any Region. Queues are used to start new Amazon GameLift-hosted game
-  sessions for matches that are created with this matchmaking configuration. If
-  `FlexMatchMode` is set to `STANDALONE`, do not set this parameter.
+  located in any Region. Queues are used to start new Amazon GameLift-hosted game sessions
+  for matches that are created with this matchmaking configuration. If `FlexMatchMode` is
+  set to `STANDALONE`, do not set this parameter.
+
 - `"NotificationTarget"`: An SNS topic ARN that is set up to receive matchmaking
   notifications. See [Setting up notifications for matchmaking](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-notification.html)
   for more information.
+
 - `"Tags"`: A list of labels to assign to the new matchmaking configuration resource. Tags
   are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful
-  for resource management, access management and cost allocation. For more information,
-  see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for resource management, access management and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference*.
 """
 function create_matchmaking_configuration end
@@ -1431,12 +1467,12 @@ Creates a new rule set for FlexMatch matchmaking. A rule set describes the type 
 create, such as the number and size of teams. It also sets the parameters for acceptable
 player matches, such as minimum skill level or character type.
 
-To create a matchmaking rule set, provide unique rule set name and the rule set body in
-JSON format. Rule sets must be defined in the same Region as the matchmaking configuration
-they are used with.
+To create a matchmaking rule set, provide unique rule set name and the rule set body in JSON
+format. Rule sets must be defined in the same Region as the matchmaking configuration they
+are used with.
 
-Since matchmaking rule sets cannot be edited, it is a good idea to check the rule set
-syntax using [ValidateMatchmakingRuleSet](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ValidateMatchmakingRuleSet.html)
+Since matchmaking rule sets cannot be edited, it is a good idea to check the rule set syntax
+using [ValidateMatchmakingRuleSet](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ValidateMatchmakingRuleSet.html)
 before creating a new rule set.
 
 **Learn more**
@@ -1509,9 +1545,9 @@ player data.
 
 If successful, a slot is reserved in the game session for the player and a new
 `PlayerSessions` object is returned with a player session ID. The player references the
-player session ID when sending a connection request to the game session, and the game
-server can use it to validate the player reservation with the Amazon GameLift service.
-Player sessions cannot be updated.
+player session ID when sending a connection request to the game session, and the game server
+can use it to validate the player reservation with the Amazon GameLift service. Player
+sessions cannot be updated.
 
 The maximum number of players per game session is 200. It is not adjustable.
 
@@ -1577,9 +1613,9 @@ provide a set of player data for each player ID.
 
 If successful, a slot is reserved in the game session for each player, and new
 `PlayerSession` objects are returned with player session IDs. Each player references their
-player session ID when sending a connection request to the game session, and the game
-server can use it to validate the player reservation with the Amazon GameLift service.
-Player sessions cannot be updated.
+player session ID when sending a connection request to the game session, and the game server
+can use it to validate the player reservation with the Amazon GameLift service. Player
+sessions cannot be updated.
 
 The maximum number of players per game session is 200. It is not adjustable.
 
@@ -1641,9 +1677,9 @@ end
     create_script(params::Dict{String,<:Any})
 
 Creates a new script record for your Realtime Servers script. Realtime scripts are
-JavaScript that provide configuration settings and optional custom game logic for your
-game. The script is deployed when you create a Realtime Servers fleet to host your game
-sessions. Script logic is executed during an active game session.
+JavaScript that provide configuration settings and optional custom game logic for your game.
+The script is deployed when you create a Realtime Servers fleet to host your game sessions.
+Script logic is executed during an active game session.
 
 To create a new script record, specify a script name and provide the script file(s). The
 script files and all dependencies must be zipped into a single file. You can pull the zip
@@ -1656,10 +1692,10 @@ file from either of these locations:
   your S3 bucket.
 
 If the call is successful, a new script record is created with a unique script ID. If the
-script file is provided as a local file, the file is uploaded to an Amazon GameLift-owned
-S3 bucket and the script record's storage location reflects this location. If the script
-file is provided as an S3 bucket, Amazon GameLift accesses the file at this storage
-location as needed for deployment.
+script file is provided as a local file, the file is uploaded to an Amazon GameLift-owned S3
+bucket and the script record's storage location reflects this location. If the script file
+is provided as an S3 bucket, Amazon GameLift accesses the file at this storage location as
+needed for deployment.
 
 **Learn more**
 
@@ -1675,35 +1711,36 @@ location as needed for deployment.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Name"`: A descriptive label that is associated with a script. Script names don't need
-  to be unique. You can use [UpdateScript](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html)
+- `"Name"`: A descriptive label that is associated with a script. Script names don't need to
+  be unique. You can use [UpdateScript](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html)
   to change this value later.
+
 - `"StorageLocation"`: The location of the Amazon S3 bucket where a zipped file containing
   your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket
-  name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to
-  access the Amazon S3 storage location. The S3 bucket must be in the same Region where
-  you want to create a new script. By default, Amazon GameLift uploads the latest version
-  of the zip file; if you have S3 object versioning turned on, you can use the
-  `ObjectVersion` parameter to specify an earlier version.
+  name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access
+  the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to
+  create a new script. By default, Amazon GameLift uploads the latest version of the zip
+  file; if you have S3 object versioning turned on, you can use the `ObjectVersion`
+  parameter to specify an earlier version.
+
 - `"Tags"`: A list of labels to assign to the new script resource. Tags are developer-
   defined key-value pairs. Tagging Amazon Web Services resources are useful for resource
   management, access management and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  in the *Amazon Web Services General Reference*. Once the resource is created, you can
-  use [TagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html),
-  [UntagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html),
+  in the *Amazon Web Services General Reference*. Once the resource is created, you can use [TagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html),
   and [ListTagsForResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html)
   to add, remove, and view tags. The maximum tag limit may be lower than stated. See the
   Amazon Web Services General Reference for actual tagging limits.
+
 - `"Version"`: Version information associated with a build or script. Version strings don't
   need to be unique. You can use [UpdateScript](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html)
   to change this value later.
+
 - `"ZipFile"`: A data object containing your Realtime scripts and dependencies as a zip
   file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB.
 
-  When using the Amazon Web Services CLI tool to create a script, this parameter is set
-  to the zip file name. It must be prepended with the string "fileb://" to indicate that
-  the file data is a binary object. For example:
-  `--zip-file fileb://myRealtimeScript.zip`.
+  When using the Amazon Web Services CLI tool to create a script, this parameter is set to
+  the zip file name. It must be prepended with the string "fileb://" to indicate that the
+  file data is a binary object. For example: `--zip-file fileb://myRealtimeScript.zip`.
 """
 function create_script end
 
@@ -1723,23 +1760,22 @@ end
     create_vpc_peering_authorization(game_lift_aws_account_id, peer_vpc_id)
     create_vpc_peering_authorization(game_lift_aws_account_id, peer_vpc_id, params::Dict{String,<:Any})
 
-Requests authorization to create or delete a peer connection between the VPC for your
-Amazon GameLift fleet and a virtual private cloud (VPC) in your Amazon Web Services
-account. VPC peering enables the game servers on your fleet to communicate directly with
-other Amazon Web Services resources. After you've received authorization, use [CreateVpcPeeringConnection](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateVpcPeeringConnection.html)
+Requests authorization to create or delete a peer connection between the VPC for your Amazon
+GameLift fleet and a virtual private cloud (VPC) in your Amazon Web Services account. VPC
+peering enables the game servers on your fleet to communicate directly with other Amazon Web
+Services resources. After you've received authorization, use [CreateVpcPeeringConnection](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateVpcPeeringConnection.html)
 to establish the peering connection. For more information, see [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
 
-You can peer with VPCs that are owned by any Amazon Web Services account you have access
-to, including the account that you use to manage your Amazon GameLift fleets. You cannot
-peer with VPCs that are in different Regions.
+You can peer with VPCs that are owned by any Amazon Web Services account you have access to,
+including the account that you use to manage your Amazon GameLift fleets. You cannot peer
+with VPCs that are in different Regions.
 
 To request authorization to create a connection, call this operation from the Amazon Web
 Services account with the VPC that you want to peer to your Amazon GameLift fleet. For
-example, to enable your game servers to retrieve data from a DynamoDB table, use the
-account that manages that DynamoDB resource. Identify the following values: (1) The ID of
-the VPC that you want to peer with, and (2) the ID of the Amazon Web Services account that
-you use to manage Amazon GameLift. If successful, VPC peering is authorized for the
-specified VPC.
+example, to enable your game servers to retrieve data from a DynamoDB table, use the account
+that manages that DynamoDB resource. Identify the following values: (1) The ID of the VPC
+that you want to peer with, and (2) the ID of the Amazon Web Services account that you use
+to manage Amazon GameLift. If successful, VPC peering is authorized for the specified VPC.
 
 To request authorization to delete a connection, call this operation from the Amazon Web
 Services account with the VPC that is peered with your Amazon GameLift fleet. Identify the
@@ -1756,11 +1792,11 @@ delete the peering connection while the authorization is valid.
 # Arguments
 
 - `game_lift_aws_account_id`: A unique identifier for the Amazon Web Services account that
-  you use to manage your Amazon GameLift fleet. You can find your Account ID in the
-  Amazon Web Services Management Console under account settings.
+  you use to manage your Amazon GameLift fleet. You can find your Account ID in the Amazon
+  Web Services Management Console under account settings.
 - `peer_vpc_id`: A unique identifier for a VPC with resources to be accessed by your Amazon
-  GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID,
-  use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services
+  GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use
+  the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services
   Management Console. Learn more about VPC peering in [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
 """
 function create_vpc_peering_authorization end
@@ -1807,14 +1843,14 @@ end
 Establishes a VPC peering connection between a virtual private cloud (VPC) in an Amazon Web
 Services account with the VPC for your Amazon GameLift fleet. VPC peering enables the game
 servers on your fleet to communicate directly with other Amazon Web Services resources. You
-can peer with VPCs in any Amazon Web Services account that you have access to, including
-the account that you use to manage your Amazon GameLift fleets. You cannot peer with VPCs
-that are in different Regions. For more information, see [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
+can peer with VPCs in any Amazon Web Services account that you have access to, including the
+account that you use to manage your Amazon GameLift fleets. You cannot peer with VPCs that
+are in different Regions. For more information, see [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
 
 Before calling this operation to establish the peering connection, you first need to use [CreateVpcPeeringAuthorization](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateVpcPeeringAuthorization.html)
 and identify the VPC you want to peer with. Once the authorization for the specified VPC is
-issued, you have 24 hours to establish the connection. These two operations handle all
-tasks necessary to peer the two VPCs, including acceptance, updating routing tables, etc.
+issued, you have 24 hours to establish the connection. These two operations handle all tasks
+necessary to peer the two VPCs, including acceptance, updating routing tables, etc.
 
 To establish the connection, call this operation from the Amazon Web Services account that
 is used to manage the Amazon GameLift fleets. Identify the following values: (1) The ID of
@@ -1834,11 +1870,11 @@ can use continuous polling to track the request's status using [DescribeVpcPeeri
 - `fleet_id`: A unique identifier for the fleet. You can use either the fleet ID or ARN
   value. This tells Amazon GameLift which GameLift VPC to peer with.
 - `peer_vpc_aws_account_id`: A unique identifier for the Amazon Web Services account with
-  the VPC that you want to peer your Amazon GameLift fleet with. You can find your
-  Account ID in the Amazon Web Services Management Console under account settings.
+  the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account
+  ID in the Amazon Web Services Management Console under account settings.
 - `peer_vpc_id`: A unique identifier for a VPC with resources to be accessed by your Amazon
-  GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID,
-  use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services
+  GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use
+  the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services
   Management Console. Learn more about VPC peering in [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
 """
 function create_vpc_peering_connection end
@@ -1890,8 +1926,8 @@ end
     delete_alias(alias_id)
     delete_alias(alias_id, params::Dict{String,<:Any})
 
-Deletes an alias. This operation removes all record of the alias. Game clients attempting
-to access a server process using the deleted alias receive an error. To delete an alias,
+Deletes an alias. This operation removes all record of the alias. Game clients attempting to
+access a server process using the deleted alias receive an error. To delete an alias,
 specify the alias ID to be deleted.
 
 **Related actions**
@@ -2128,20 +2164,19 @@ end
     delete_game_server_group(game_server_group_name)
     delete_game_server_group(game_server_group_name, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Terminates a game server group and permanently deletes the game server group record. You
 have several options for how these resources are impacted when deleting the game server
-group. Depending on the type of delete operation selected, this operation might affect
-these resources:
+group. Depending on the type of delete operation selected, this operation might affect these
+resources:
 
 - The game server group
 - The corresponding Auto Scaling group
 - All game servers that are currently running in the group
 
-To delete a game server group, identify the game server group to delete and specify the
-type of delete operation to initiate. Game server groups can only be deleted if they are in
+To delete a game server group, identify the game server group to delete and specify the type
+of delete operation to initiate. Game server groups can only be deleted if they are in
 `ACTIVE` or `ERROR` status.
 
 If the delete request is successful, a series of operations are kicked off. The game server
@@ -2167,13 +2202,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DeleteOption"`: The type of delete to perform. Options include the following:
 
-  - `SAFE_DELETE` – (default) Terminates the game server group and Amazon EC2 Auto
-    Scaling group only when it has no game servers that are in `UTILIZED` status.
+  - `SAFE_DELETE` – (default) Terminates the game server group and Amazon EC2 Auto Scaling
+    group only when it has no game servers that are in `UTILIZED` status.
   - `FORCE_DELETE` – Terminates the game server group, including all active game servers
     regardless of their utilization status, and the Amazon EC2 Auto Scaling group.
-  - `RETAIN` – Does a safe delete of the game server group but retains the Amazon EC2
-    Auto Scaling group as is.
-
+  - `RETAIN` – Does a safe delete of the game server group but retains the Amazon EC2 Auto
+    Scaling group as is.
 """
 function delete_game_server_group end
 
@@ -2247,8 +2281,8 @@ end
 
 Deletes a custom location.
 
-Before deleting a custom location, review any fleets currently using the custom location
-and deregister the location if it is in use. For more information, see [DeregisterCompute](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DeregisterCompute.html).
+Before deleting a custom location, review any fleets currently using the custom location and
+deregister the location if it is in use. For more information, see [DeregisterCompute](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DeregisterCompute.html).
 
 # Arguments
 
@@ -2285,8 +2319,8 @@ end
     delete_matchmaking_configuration(name, params::Dict{String,<:Any})
 
 Permanently removes a FlexMatch matchmaking configuration. To delete, specify the
-configuration name. A matchmaking configuration cannot be deleted if it is being used in
-any active matchmaking tickets.
+configuration name. A matchmaking configuration cannot be deleted if it is being used in any
+active matchmaking tickets.
 
 # Arguments
 
@@ -2321,9 +2355,8 @@ end
     delete_matchmaking_rule_set(name)
     delete_matchmaking_rule_set(name, params::Dict{String,<:Any})
 
-Deletes an existing matchmaking rule set. To delete the rule set, provide the rule set
-name. Rule sets cannot be deleted if they are currently being used by a matchmaking
-configuration.
+Deletes an existing matchmaking rule set. To delete the rule set, provide the rule set name.
+Rule sets cannot be deleted if they are currently being used by a matchmaking configuration.
 
 **Learn more**
 
@@ -2374,8 +2407,8 @@ This operation suspends all policies for the fleet.
 
 - `fleet_id`: A unique identifier for the fleet to be deleted. You can use either the fleet
   ID or ARN value.
-- `name`: A descriptive label that is associated with a fleet's scaling policy. Policy
-  names do not need to be unique.
+- `name`: A descriptive label that is associated with a fleet's scaling policy. Policy names
+  do not need to be unique.
 """
 function delete_scaling_policy end
 
@@ -2430,8 +2463,8 @@ into an error state and be unable to host game sessions.
 
 # Arguments
 
-- `script_id`: A unique identifier for the Realtime script to delete. You can use either
-  the script ID or ARN value.
+- `script_id`: A unique identifier for the Realtime script to delete. You can use either the
+  script ID or ARN value.
 """
 function delete_script end
 
@@ -2473,11 +2506,11 @@ existing VPC peering connection, use [DeleteVpcPeeringConnection](https://docs.a
 # Arguments
 
 - `game_lift_aws_account_id`: A unique identifier for the Amazon Web Services account that
-  you use to manage your Amazon GameLift fleet. You can find your Account ID in the
-  Amazon Web Services Management Console under account settings.
+  you use to manage your Amazon GameLift fleet. You can find your Account ID in the Amazon
+  Web Services Management Console under account settings.
 - `peer_vpc_id`: A unique identifier for a VPC with resources to be accessed by your Amazon
-  GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID,
-  use the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services
+  GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use
+  the [VPC Dashboard](https://console.aws.amazon.com/vpc/) in the Amazon Web Services
   Management Console. Learn more about VPC peering in [VPC Peering with Amazon GameLift Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html).
 """
 function delete_vpc_peering_authorization end
@@ -2580,15 +2613,15 @@ end
     deregister_compute(compute_name, fleet_id)
     deregister_compute(compute_name, fleet_id, params::Dict{String,<:Any})
 
-**This operation has been expanded to use with the Amazon GameLift containers feature,
-which is currently in public preview.**
+**This operation has been expanded to use with the Amazon GameLift containers feature, which
+is currently in public preview.**
 
 Removes a compute resource from an Amazon GameLift Anywhere fleet or container fleet.
 Deregistered computes can no longer host game sessions through Amazon GameLift.
 
 For an Anywhere fleet or a container fleet that's running the Amazon GameLift Agent, the
-Agent handles all compute registry tasks for you. For an Anywhere fleet that doesn't use
-the Agent, call this operation to deregister fleet computes.
+Agent handles all compute registry tasks for you. For an Anywhere fleet that doesn't use the
+Agent, call this operation to deregister fleet computes.
 
 To deregister a compute, call this operation from the compute that's being deregistered and
 specify the compute name and the fleet ID.
@@ -2600,8 +2633,9 @@ specify the compute name and the fleet ID.
   compute name (for example,
   `a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9`) or the compute
   ARN.
-- `fleet_id`: A unique identifier for the fleet the compute resource is currently
-  registered to.
+
+- `fleet_id`: A unique identifier for the fleet the compute resource is currently registered
+  to.
 """
 function deregister_compute end
 
@@ -2640,8 +2674,7 @@ end
     deregister_game_server(game_server_group_name, game_server_id)
     deregister_game_server(game_server_group_name, game_server_id, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Removes the game server from a game server group. As a result of this operation, the
 deregistered game server can no longer be claimed and will not be returned in a list of
@@ -2787,8 +2820,8 @@ end
     describe_compute(compute_name, fleet_id)
     describe_compute(compute_name, fleet_id, params::Dict{String,<:Any})
 
-**This operation has been expanded to use with the Amazon GameLift containers feature,
-which is currently in public preview.**
+**This operation has been expanded to use with the Amazon GameLift containers feature, which
+is currently in public preview.**
 
 Retrieves properties for a compute resource in an Amazon GameLift fleet. To get a list of
 all computes in a fleet, call [`list_compute`](@ref).
@@ -2807,10 +2840,11 @@ on the fleet's compute type, the result includes the following information:
 # Arguments
 
 - `compute_name`: The unique identifier of the compute resource to retrieve properties for.
-  For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet
-  instance, use the instance ID. For a container fleet, use the compute name (for
-  example, `a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9`) or
-  the compute ARN.
+  For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance,
+  use the instance ID. For a container fleet, use the compute name (for example,
+  `a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9`) or the compute
+  ARN.
+
 - `fleet_id`: A unique identifier for the fleet that the compute belongs to. You can use
   either the fleet ID or ARN value.
 """
@@ -2857,8 +2891,8 @@ public preview.**
 Retrieves the properties of a container group definition, including all container
 definitions in the group.
 
-To retrieve a container group definition, provide a resource identifier. If successful,
-this operation returns the complete properties of the container group definition.
+To retrieve a container group definition, provide a resource identifier. If successful, this
+operation returns the complete properties of the container group definition.
 
 **Learn more**
 
@@ -2900,28 +2934,28 @@ end
 Retrieves the instance limits and current utilization for an Amazon Web Services Region or
 location. Instance limits control the number of instances, per instance type, per location,
 that your Amazon Web Services account can use. Learn more at [Amazon EC2 Instance Types](http://aws.amazon.com/ec2/instance-types/).
-The information returned includes the maximum number of instances allowed and your
-account's current usage across all fleets. This information can affect your ability to
-scale your Amazon GameLift fleets. You can request a limit increase for your account by
-using the **Service limits** page in the Amazon GameLift console.
+The information returned includes the maximum number of instances allowed and your account's
+current usage across all fleets. This information can affect your ability to scale your
+Amazon GameLift fleets. You can request a limit increase for your account by using the
+**Service limits** page in the Amazon GameLift console.
 
 Instance limits differ based on whether the instances are deployed in a fleet's home Region
 or in a remote location. For remote locations, limits also differ based on the combination
 of home Region and remote location. All requests must specify an Amazon Web Services Region
-(either explicitly or as your default settings). To get the limit for a remote location,
-you must also specify the location. For example, the following requests all return
-different results:
+(either explicitly or as your default settings). To get the limit for a remote location, you
+must also specify the location. For example, the following requests all return different
+results:
 
 - Request specifies the Region `ap-northeast-1` with no location. The result is limits and
   usage data on all instance types that are deployed in `us-east-2`, by all of the fleets
   that reside in `ap-northeast-1`.
 - Request specifies the Region `us-east-1` with location `ca-central-1`. The result is
-  limits and usage data on all instance types that are deployed in `ca-central-1`, by all
-  of the fleets that reside in `us-east-2`. These limits do not affect fleets in any other
+  limits and usage data on all instance types that are deployed in `ca-central-1`, by all of
+  the fleets that reside in `us-east-2`. These limits do not affect fleets in any other
   Regions that deploy instances to `ca-central-1`.
 - Request specifies the Region `eu-west-1` with location `ca-central-1`. The result is
-  limits and usage data on all instance types that are deployed in `ca-central-1`, by all
-  of the fleets that reside in `eu-west-1`.
+  limits and usage data on all instance types that are deployed in `ca-central-1`, by all of
+  the fleets that reside in `eu-west-1`.
 
 This operation can be used in the following ways:
 
@@ -2929,12 +2963,12 @@ This operation can be used in the following ways:
   Services Region by fleets that reside in the same Region: Specify the Region only.
   Optionally, specify a single instance type to retrieve information for.
 - To get limit and usage data for all instance types that are deployed to a remote location
-  by fleets that reside in different Amazon Web Services Region: Provide both the Amazon
-  Web Services Region and the remote location. Optionally, specify a single instance type
-  to retrieve information for.
+  by fleets that reside in different Amazon Web Services Region: Provide both the Amazon Web
+  Services Region and the remote location. Optionally, specify a single instance type to
+  retrieve information for.
 
-If successful, an `EC2InstanceLimits` object is returned with limits and usage data for
-each requested instance type.
+If successful, an `EC2InstanceLimits` object is returned with limits and usage data for each
+requested instance type.
 
 **Learn more**
 
@@ -2945,11 +2979,11 @@ each requested instance type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"EC2InstanceType"`: Name of an Amazon EC2 instance type that is supported in Amazon
-  GameLift. A fleet instance type determines the computing resources of each instance in
-  the fleet, including CPU, memory, storage, and networking capacity. Do not specify a
-  value for this parameter to retrieve limits for all instance types.
-- `"Location"`: The name of a remote location to request instance limits for, in the form
-  of an Amazon Web Services Region code such as `us-west-2`.
+  GameLift. A fleet instance type determines the computing resources of each instance in the
+  fleet, including CPU, memory, storage, and networking capacity. Do not specify a value for
+  this parameter to retrieve limits for all instance types.
+- `"Location"`: The name of a remote location to request instance limits for, in the form of
+  an Amazon Web Services Region code such as `us-west-2`.
 """
 function describe_ec2_instance_limits end
 
@@ -2974,12 +3008,11 @@ end
     describe_fleet_attributes()
     describe_fleet_attributes(params::Dict{String,<:Any})
 
-**This operation has been expanded to use with the Amazon GameLift containers feature,
-which is currently in public preview.**
+**This operation has been expanded to use with the Amazon GameLift containers feature, which
+is currently in public preview.**
 
-Retrieves core fleet-wide properties for fleets in an Amazon Web Services Region.
-Properties include the computing hardware and deployment configuration for instances in the
-fleet.
+Retrieves core fleet-wide properties for fleets in an Amazon Web Services Region. Properties
+include the computing hardware and deployment configuration for instances in the fleet.
 
 You can use this operation in the following ways:
 
@@ -2994,8 +3027,8 @@ fleet identifier is not found.
 
 !!! note
     Some API operations limit the number of fleet IDs that allowed in one request. If a
-    request exceeds this limit, the request fails and the error message contains the
-    maximum allowed number.
+    request exceeds this limit, the request fails and the error message contains the maximum
+    allowed number.
 
 **Learn more**
 
@@ -3008,8 +3041,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FleetIds"`: A list of unique fleet identifiers to retrieve attributes for. You can use
   either the fleet ID or ARN value. To retrieve attributes for all current fleets, do not
   include this parameter.
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages. This parameter is ignored when the request
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages. This parameter is ignored when the request
   specifies one or a list of fleet IDs.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
@@ -3039,19 +3072,19 @@ end
     describe_fleet_capacity()
     describe_fleet_capacity(params::Dict{String,<:Any})
 
-**This operation has been expanded to use with the Amazon GameLift containers feature,
-which is currently in public preview.**
+**This operation has been expanded to use with the Amazon GameLift containers feature, which
+is currently in public preview.**
 
-Retrieves the resource capacity settings for one or more fleets. For a container fleet,
-this operation also returns counts for replica container groups.
+Retrieves the resource capacity settings for one or more fleets. For a container fleet, this
+operation also returns counts for replica container groups.
 
 With multi-location fleets, this operation retrieves data for the fleet's home Region only.
 To retrieve capacity for remote locations, see [`describe_fleet_location_capacity`](@ref).
 
 This operation can be used in the following ways:
 
-- To get capacity data for one or more specific fleets, provide a list of fleet IDs or
-  fleet ARNs.
+- To get capacity data for one or more specific fleets, provide a list of fleet IDs or fleet
+  ARNs.
 - To get capacity data for all fleets, do not provide a fleet identifier.
 
 When requesting multiple fleets, use the pagination parameters to retrieve results as a set
@@ -3077,10 +3110,10 @@ Region. Capacity values are returned only for fleets that currently exist.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FleetIds"`: A unique identifier for the fleet to retrieve capacity information for. You
-  can use either the fleet ID or ARN value. Leave this parameter empty to retrieve
-  capacity information for all fleets.
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages. This parameter is ignored when the request
+  can use either the fleet ID or ARN value. Leave this parameter empty to retrieve capacity
+  information for all fleets.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages. This parameter is ignored when the request
   specifies one or a list of fleet IDs.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
@@ -3110,10 +3143,10 @@ end
     describe_fleet_events(fleet_id)
     describe_fleet_events(fleet_id, params::Dict{String,<:Any})
 
-Retrieves entries from a fleet's event log. Fleet events are initiated by changes in
-status, such as during fleet creation and termination, changes in capacity, etc. If a fleet
-has multiple locations, events are also initiated by changes to status and capacity in
-remote locations.
+Retrieves entries from a fleet's event log. Fleet events are initiated by changes in status,
+such as during fleet creation and termination, changes in capacity, etc. If a fleet has
+multiple locations, events are also initiated by changes to status and capacity in remote
+locations.
 
 You can specify a time range to limit the result set. Use the pagination parameters to
 retrieve results as a set of sequential pages.
@@ -3133,11 +3166,11 @@ If successful, a collection of event log entries matching the request are return
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"EndTime"`: The most recent date to retrieve event logs for. If no end time is
-  specified, this call returns entries from the specified start time up to the present.
-  Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"EndTime"`: The most recent date to retrieve event logs for. If no end time is specified,
+  this call returns entries from the specified start time up to the present. Format is a
+  number expressed in Unix time as milliseconds (ex: "1469498468.057").
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
@@ -3184,12 +3217,12 @@ This operation can be used in the following ways:
 - To get data for all locations, provide a fleet identifier only. Location data is returned
   in no particular order.
 
-When requesting attributes for multiple locations, use the pagination parameters to
-retrieve results as a set of sequential pages.
+When requesting attributes for multiple locations, use the pagination parameters to retrieve
+results as a set of sequential pages.
 
-If successful, a `LocationAttributes` object is returned for each requested location. If
-the fleet does not have a requested location, no information is returned. This operation
-does not return the home Region. To get information on a fleet's home Region, call
+If successful, a `LocationAttributes` object is returned for each requested location. If the
+fleet does not have a requested location, no information is returned. This operation does
+not return the home Region. To get information on a fleet's home Region, call
 `DescribeFleetAttributes`.
 
 **Learn more**
@@ -3208,10 +3241,10 @@ for managed hosting
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages. This limit is not currently enforced.
-- `"Locations"`: A list of fleet locations to retrieve information for. Specify locations
-  in the form of an Amazon Web Services Region code, such as `us-west-2`.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages. This limit is not currently enforced.
+- `"Locations"`: A list of fleet locations to retrieve information for. Specify locations in
+  the form of an Amazon Web Services Region code, such as `us-west-2`.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
@@ -3271,8 +3304,8 @@ for managed hosting
 
 - `fleet_id`: A unique identifier for the fleet to request location capacity for. You can
   use either the fleet ID or ARN value.
-- `location`: The fleet location to retrieve capacity information for. Specify a location
-  in the form of an Amazon Web Services Region code, such as `us-west-2`.
+- `location`: The fleet location to retrieve capacity information for. Specify a location in
+  the form of an Amazon Web Services Region code, such as `us-west-2`.
 """
 function describe_fleet_location_capacity end
 
@@ -3331,10 +3364,10 @@ for managed hosting
 
 # Arguments
 
-- `fleet_id`: A unique identifier for the fleet to request location utilization for. You
-  can use either the fleet ID or ARN value.
-- `location`: The fleet location to retrieve utilization information for. Specify a
-  location in the form of an Amazon Web Services Region code, such as `us-west-2`.
+- `fleet_id`: A unique identifier for the fleet to request location utilization for. You can
+  use either the fleet ID or ARN value.
+- `location`: The fleet location to retrieve utilization information for. Specify a location
+  in the form of an Amazon Web Services Region code, such as `us-west-2`.
 """
 function describe_fleet_location_utilization end
 
@@ -3375,15 +3408,15 @@ end
 
 Retrieves a fleet's inbound connection permissions. Connection permissions specify IP
 addresses and port settings that incoming traffic can use to access server processes in the
-fleet. Game server processes that are running in the fleet must use a port that falls
-within this range. To connect to game server processes on a container fleet, the port
-settings should include one or more of the fleet's connection ports.
+fleet. Game server processes that are running in the fleet must use a port that falls within
+this range. To connect to game server processes on a container fleet, the port settings
+should include one or more of the fleet's connection ports.
 
 Use this operation in the following ways:
 
 - To retrieve the port settings for a fleet, identify the fleet's unique identifier.
-- To check the status of recent updates to a fleet remote location, specify the fleet ID
-  and a location. Port setting updates can take time to propagate across all locations.
+- To check the status of recent updates to a fleet remote location, specify the fleet ID and
+  a location. Port setting updates can take time to propagate across all locations.
 
 If successful, a set of `IpPermission` objects is returned for the requested fleet ID. When
 specifying a location, this operation returns a pending status. If the requested fleet has
@@ -3456,8 +3489,8 @@ home Region.
 
 !!! note
     Some API operations may limit the number of fleet IDs allowed in one request. If a
-    request exceeds this limit, the request fails and the error message includes the
-    maximum allowed.
+    request exceeds this limit, the request fails and the error message includes the maximum
+    allowed.
 
 **Learn more**
 
@@ -3472,8 +3505,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FleetIds"`: A unique identifier for the fleet to retrieve utilization data for. You can
   use either the fleet ID or ARN value. To retrieve attributes for all current fleets, do
   not include this parameter.
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages. This parameter is ignored when the request
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages. This parameter is ignored when the request
   specifies one or a list of fleet IDs.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
@@ -3503,11 +3536,10 @@ end
     describe_game_server(game_server_group_name, game_server_id)
     describe_game_server(game_server_group_name, game_server_id, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
-Retrieves information for a registered game server. Information includes game server
-status, health check info, and the instance that the game server is running on.
+Retrieves information for a registered game server. Information includes game server status,
+health check info, and the instance that the game server is running on.
 
 To retrieve game server information, specify the game server ID. If successful, the
 requested game server object is returned.
@@ -3565,16 +3597,15 @@ end
     describe_game_server_group(game_server_group_name)
     describe_game_server_group(game_server_group_name, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
-Retrieves information on a game server group. This operation returns only properties
-related to Amazon GameLift FleetIQ. To view or update properties for the corresponding Auto
-Scaling group, such as launch template, auto scaling policies, and maximum/minimum group
-size, access the Auto Scaling group directly.
+Retrieves information on a game server group. This operation returns only properties related
+to Amazon GameLift FleetIQ. To view or update properties for the corresponding Auto Scaling
+group, such as launch template, auto scaling policies, and maximum/minimum group size,
+access the Auto Scaling group directly.
 
-To get attributes for a game server group, provide a group name or ARN value. If
-successful, a `GameServerGroup` object is returned.
+To get attributes for a game server group, provide a group name or ARN value. If successful,
+a `GameServerGroup` object is returned.
 
 **Learn more**
 
@@ -3621,21 +3652,20 @@ end
     describe_game_server_instances(game_server_group_name)
     describe_game_server_instances(game_server_group_name, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Retrieves status information about the Amazon EC2 instances associated with a Amazon
 GameLift FleetIQ game server group. Use this operation to detect when instances are active
 or not available to host new game servers.
 
-To request status for all instances in the game server group, provide a game server group
-ID only. To request status for specific instances, provide the game server group ID and one
-or more instance IDs. Use the pagination parameters to retrieve results in sequential
-segments. If successful, a collection of `GameServerInstance` objects is returned.
+To request status for all instances in the game server group, provide a game server group ID
+only. To request status for specific instances, provide the game server group ID and one or
+more instance IDs. Use the pagination parameters to retrieve results in sequential segments.
+If successful, a collection of `GameServerInstance` objects is returned.
 
 This operation is not designed to be called with every game server claim request; this
-practice can cause you to exceed your API limit, which results in errors. Instead, as a
-best practice, cache the results and refresh your cache no more than once every 10 seconds.
+practice can cause you to exceed your API limit, which results in errors. Instead, as a best
+practice, cache the results and refresh your cache no more than once every 10 seconds.
 
 **Learn more**
 
@@ -3653,8 +3683,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceIds"`: The Amazon EC2 instance IDs that you want to retrieve status on. Amazon
   EC2 instance IDs use a 17-character format, for example: `i-1234567890abcdef0`. To
   retrieve all instances in the game server group, leave this parameter empty.
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
@@ -3701,9 +3731,9 @@ optionally filter the results by current game session status.
 
 This operation can be used in the following ways:
 
-- To retrieve details for all game sessions that are currently running on all locations in
-  a fleet, provide a fleet or alias ID, with an optional status filter. This approach
-  returns details from the fleet's home Region and all remote locations.
+- To retrieve details for all game sessions that are currently running on all locations in a
+  fleet, provide a fleet or alias ID, with an optional status filter. This approach returns
+  details from the fleet's home Region and all remote locations.
 - To retrieve details for all game sessions that are currently running on a specific fleet
   location, provide a fleet or alias ID and a location name, with optional status filter.
   The location can be the fleet's home Region or any remote location.
@@ -3728,20 +3758,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AliasId"`: A unique identifier for the alias associated with the fleet to retrieve all
   game sessions for. You can use either the alias ID or ARN value.
-- `"FleetId"`: A unique identifier for the fleet to retrieve all game sessions active on
-  the fleet. You can use either the fleet ID or ARN value.
+- `"FleetId"`: A unique identifier for the fleet to retrieve all game sessions active on the
+  fleet. You can use either the fleet ID or ARN value.
 - `"GameSessionId"`: A unique identifier for the game session to retrieve.
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
 - `"Location"`: A fleet location to get game session details for. You can specify a fleet's
-  home Region or a remote location. Use the Amazon Web Services Region code format, such
-  as `us-west-2`.
+  home Region or a remote location. Use the Amazon Web Services Region code format, such as
+  `us-west-2`.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
-- `"StatusFilter"`: Game session status to filter results on. Possible game session
-  statuses include `ACTIVE`, `TERMINATED`, `ACTIVATING` and `TERMINATING` (the last two
-  are transitory).
+- `"StatusFilter"`: Game session status to filter results on. Possible game session statuses
+  include `ACTIVE`, `TERMINATED`, `ACTIVATING` and `TERMINATING` (the last two are
+  transitory).
 """
 function describe_game_session_details end
 
@@ -3814,9 +3844,9 @@ end
     describe_game_session_queues(params::Dict{String,<:Any})
 
 Retrieves the properties for one or more game session queues. When requesting multiple
-queues, use the pagination parameters to retrieve results as a set of sequential pages.
-When specifying a list of queues, objects are returned only for queues that currently exist
-in the Region.
+queues, use the pagination parameters to retrieve results as a set of sequential pages. When
+specifying a list of queues, objects are returned only for queues that currently exist in
+the Region.
 
 **Learn more**
 
@@ -3826,10 +3856,10 @@ in the Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages. You can request up to 50 results.
-- `"Names"`: A list of queue names to retrieve information for. You can use either the
-  queue ID or ARN value. To request settings for all queues, leave this parameter empty.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages. You can request up to 50 results.
+- `"Names"`: A list of queue names to retrieve information for. You can use either the queue
+  ID or ARN value. To request settings for all queues, leave this parameter empty.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
@@ -3866,11 +3896,11 @@ This operation can be used in the following ways:
   provide a fleet or alias ID, with an optional status filter. This approach returns all
   game sessions in the fleet's home Region and all remote locations.
 - To retrieve all game sessions that are currently running on a specific fleet location,
-  provide a fleet or alias ID and a location name, with optional status filter. The
-  location can be the fleet's home Region or any remote location.
+  provide a fleet or alias ID and a location name, with optional status filter. The location
+  can be the fleet's home Region or any remote location.
 - To retrieve a specific game session, provide the game session ID. This approach looks for
-  the game session ID in all fleets that reside in the Amazon Web Services Region defined
-  in the request.
+  the game session ID in all fleets that reside in the Amazon Web Services Region defined in
+  the request.
 
 Use the pagination parameters to retrieve results as a set of sequential pages.
 
@@ -3900,8 +3930,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FleetId"`: A unique identifier for the fleet to retrieve game sessions for. You can use
   either the fleet ID or ARN value.
 - `"GameSessionId"`: A unique identifier for the game session to retrieve.
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
 - `"Location"`: A fleet location to get game sessions for. You can specify a fleet's home
   Region or a remote location. Use the Amazon Web Services Region code format, such as
   `us-west-2`.
@@ -3935,25 +3965,25 @@ end
     describe_instances(fleet_id)
     describe_instances(fleet_id, params::Dict{String,<:Any})
 
-Retrieves information about the EC2 instances in an Amazon GameLift managed fleet,
-including instance ID, connection data, and status. You can use this operation with a multi-
-location fleet to get location-specific instance information. As an alternative, use the
-operations [`list_compute`](@ref) and [`describe_compute`](@ref) to retrieve information
-for compute resources, including EC2 and Anywhere fleets.
+Retrieves information about the EC2 instances in an Amazon GameLift managed fleet, including
+instance ID, connection data, and status. You can use this operation with a multi-location
+fleet to get location-specific instance information. As an alternative, use the operations [`list_compute`](@ref)
+and [`describe_compute`](@ref) to retrieve information for compute resources, including EC2
+and Anywhere fleets.
 
 You can call this operation in the following ways:
 
 - To get information on all instances in a fleet's home Region, specify the fleet ID.
-- To get information on all instances in a fleet's remote location, specify the fleet ID
-  and location name.
+- To get information on all instances in a fleet's remote location, specify the fleet ID and
+  location name.
 - To get information on a specific instance in a fleet, specify the fleet ID and instance
   ID.
 
 Use the pagination parameters to retrieve results as a set of sequential pages.
 
-If successful, this operation returns `Instance` objects for each requested instance,
-listed in no particular order. If you call this operation for an Anywhere fleet, you
-receive an InvalidRequestException.
+If successful, this operation returns `Instance` objects for each requested instance, listed
+in no particular order. If you call this operation for an Anywhere fleet, you receive an
+InvalidRequestException.
 
 **Learn more**
 
@@ -3974,10 +4004,10 @@ receive an InvalidRequestException.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"InstanceId"`: A unique identifier for an instance to retrieve. Specify an instance ID
-  or leave blank to retrieve all instances in the fleet.
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"InstanceId"`: A unique identifier for an instance to retrieve. Specify an instance ID or
+  leave blank to retrieve all instances in the fleet.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
 - `"Location"`: The name of a location to retrieve instance information for, in the form of
   an Amazon Web Services Region code such as `us-west-2`.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
@@ -4020,8 +4050,8 @@ To request matchmaking tickets, provide a list of up to 10 ticket IDs. If the re
 successful, a ticket object is returned for each requested ID that currently exists.
 
 This operation is not designed to be continually called to track matchmaking ticket status.
-This practice can cause you to exceed your API limit, which results in errors. Instead, as
-a best practice, set up an Amazon Simple Notification Service to receive notifications, and
+This practice can cause you to exceed your API limit, which results in errors. Instead, as a
+best practice, set up an Amazon Simple Notification Service to receive notifications, and
 provide the topic ARN in the matchmaking configuration. **Learn more**
 
 [Add FlexMatch to a game client](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-client.html)
@@ -4067,8 +4097,8 @@ Retrieves the details of FlexMatch matchmaking configurations.
 
 This operation offers the following options: (1) retrieve all matchmaking configurations,
 (2) retrieve configurations for a specified list, or (3) retrieve all configurations that
-use a specified rule set name. When requesting multiple items, use the pagination
-parameters to retrieve results as a set of sequential pages.
+use a specified rule set name. When requesting multiple items, use the pagination parameters
+to retrieve results as a set of sequential pages.
 
 If successful, a configuration is returned for each requested name. When specifying a list
 of names, only configurations that currently exist are returned.
@@ -4081,8 +4111,8 @@ of names, only configurations that currently exist are returned.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages. This parameter is limited to 10.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages. This parameter is limited to 10.
 - `"Names"`: A unique identifier for the matchmaking configuration(s) to retrieve. You can
   use either the configuration name or ARN value. To request all existing configurations,
   leave this parameter empty.
@@ -4090,8 +4120,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 - `"RuleSetName"`: A unique identifier for the matchmaking rule set. You can use either the
-  rule set name or ARN value. Use this parameter to retrieve all matchmaking
-  configurations that use this rule set.
+  rule set name or ARN value. Use this parameter to retrieve all matchmaking configurations
+  that use this rule set.
 """
 function describe_matchmaking_configurations end
 
@@ -4120,8 +4150,8 @@ end
     describe_matchmaking_rule_sets()
     describe_matchmaking_rule_sets(params::Dict{String,<:Any})
 
-Retrieves the details for FlexMatch matchmaking rule sets. You can request all existing
-rule sets for the Region, or provide a list of one or more rule set names. When requesting
+Retrieves the details for FlexMatch matchmaking rule sets. You can request all existing rule
+sets for the Region, or provide a list of one or more rule set names. When requesting
 multiple items, use the pagination parameters to retrieve results as a set of sequential
 pages. If successful, a rule set is returned for each requested name.
 
@@ -4133,8 +4163,8 @@ pages. If successful, a rule set is returned for each requested name.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
 - `"Names"`: A list of one or more matchmaking rule set names to retrieve details for.
   (Note: The rule set name is different from the optional "name" field in the rule set
   body.) You can use either the rule set name or ARN value.
@@ -4195,29 +4225,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"GameSessionId"`: A unique identifier for the game session to retrieve player sessions
   for.
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages. If a player session ID is specified, this
+
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages. If a player session ID is specified, this
   parameter is ignored.
+
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
-  beginning of the result set, do not specify a value. If a player session ID is
-  specified, this parameter is ignored.
+  beginning of the result set, do not specify a value. If a player session ID is specified,
+  this parameter is ignored.
+
 - `"PlayerId"`: A unique identifier for a player to retrieve player sessions for.
+
 - `"PlayerSessionId"`: A unique identifier for a player session to retrieve.
+
 - `"PlayerSessionStatusFilter"`: Player session status to filter results on. Note that when
   a PlayerSessionId or PlayerId is provided in a DescribePlayerSessions request, then the
   PlayerSessionStatusFilter has no effect on the response.
 
   Possible player session statuses include the following:
 
-  - **RESERVED** -- The player session request has been received, but the player has not
-    yet connected to the server process and/or been validated.
+  - **RESERVED** -- The player session request has been received, but the player has not yet
+    connected to the server process and/or been validated.
   - **ACTIVE** -- The player has been validated by the server process and is currently
     connected.
   - **COMPLETED** -- The player connection has been dropped.
   - **TIMEDOUT** -- A player session request was received, but the player did not connect
     and/or was not validated within the timeout limit (60 seconds).
-
 """
 function describe_player_sessions end
 
@@ -4313,13 +4347,16 @@ status of the scaling policies, which remains ACTIVE.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
+
 - `"Location"`: The fleet location. If you don't specify this value, the response contains
   the scaling policies of every location in the fleet.
+
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
+
 - `"StatusFilter"`: Scaling policy status to filter results on. A scaling policy is only in
   force when in an `ACTIVE` status.
 
@@ -4331,7 +4368,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - **DELETED** -- The scaling policy has been deleted.
   - **ERROR** -- An error occurred in creating the policy. It should be removed and
     recreated.
-
 """
 function describe_scaling_policies end
 
@@ -4449,11 +4485,11 @@ end
 Retrieves information on VPC peering connections. Use this operation to get peering
 information for all fleets or for one specific fleet ID.
 
-To retrieve connection information, call this operation from the Amazon Web Services
-account that is used to manage the Amazon GameLift fleets. Specify a fleet ID or leave the
-parameter empty to retrieve all connection records. If successful, the retrieved
-information includes both active and pending connections. Active connections identify the
-IpV4 CIDR block that the VPC uses to connect.
+To retrieve connection information, call this operation from the Amazon Web Services account
+that is used to manage the Amazon GameLift fleets. Specify a fleet ID or leave the parameter
+empty to retrieve all connection records. If successful, the retrieved information includes
+both active and pending connections. Active connections identify the IpV4 CIDR block that
+the VPC uses to connect.
 
 **Related actions**
 
@@ -4493,8 +4529,8 @@ end
     get_compute_access(compute_name, fleet_id)
     get_compute_access(compute_name, fleet_id, params::Dict{String,<:Any})
 
-**This operation has been expanded to use with the Amazon GameLift containers feature,
-which is currently in public preview.**
+**This operation has been expanded to use with the Amazon GameLift containers feature, which
+is currently in public preview.**
 
 Requests authorization to remotely connect to a hosting resource in a Amazon GameLift
 managed fleet. This operation is not used with Amazon GameLift Anywhere fleets
@@ -4512,8 +4548,8 @@ in the *Amazon EC2 Systems Manager User Guide*.
 **Container fleets**
 
 With a container fleet (where compute type is `CONTAINER`), use these credentials and the
-target value with SSM to connect to the fleet instance where the container is running.
-After you're connected to the instance, use Docker commands to interact with the container.
+target value with SSM to connect to the fleet instance where the container is running. After
+you're connected to the instance, use Docker commands to interact with the container.
 
 **Learn more**
 
@@ -4523,10 +4559,9 @@ After you're connected to the instance, use Docker commands to interact with the
 # Arguments
 
 - `compute_name`: A unique identifier for the compute resource that you want to connect to.
-  For an EC2 fleet compute, use the instance ID. For a container fleet, use the compute
-  name (for example,
-  `a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9`) or the compute
-  ARN.
+  For an EC2 fleet compute, use the instance ID. For a container fleet, use the compute name
+  (for example, `a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9`) or
+  the compute ARN.
 - `fleet_id`: A unique identifier for the fleet that holds the compute resource that you
   want to connect to. You can use either the fleet ID or ARN value.
 """
@@ -4568,19 +4603,19 @@ end
     get_compute_auth_token(compute_name, fleet_id, params::Dict{String,<:Any})
 
 Requests an authentication token from Amazon GameLift for a compute resource in an Amazon
-GameLift Anywhere fleet or container fleet. Game servers that are running on the compute
-use this token to communicate with the Amazon GameLift service, such as when calling the
-Amazon GameLift server SDK action `InitSDK()`. Authentication tokens are valid for a
-limited time span, so you need to request a fresh token before the current token expires.
+GameLift Anywhere fleet or container fleet. Game servers that are running on the compute use
+this token to communicate with the Amazon GameLift service, such as when calling the Amazon
+GameLift server SDK action `InitSDK()`. Authentication tokens are valid for a limited time
+span, so you need to request a fresh token before the current token expires.
 
 Use this operation based on the fleet compute type:
 
 - For `EC2` fleets, auth token retrieval and refresh is handled automatically. All game
   servers that are running on all fleet instances have access to a valid auth token.
 - For `ANYWHERE` and `CONTAINER` fleets, if you're using the Amazon GameLift Agent, auth
-  token retrieval and refresh is handled automatically for any container or Anywhere
-  compute where the Agent is running. If you're not using the Agent, create a mechanism to
-  retrieve and refresh auth tokens for computes that are running game server processes.
+  token retrieval and refresh is handled automatically for any container or Anywhere compute
+  where the Agent is running. If you're not using the Agent, create a mechanism to retrieve
+  and refresh auth tokens for computes that are running game server processes.
 
 **Learn more**
 
@@ -4594,8 +4629,9 @@ Use this operation based on the fleet compute type:
 - `compute_name`: The name of the compute resource you are requesting the authentication
   token for. For an Anywhere fleet compute, use the registered compute name. For an EC2
   fleet instance, use the instance ID. For a container fleet, use the compute name (for
-  example, `a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9`) or
-  the compute ARN.
+  example, `a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9`) or the
+  compute ARN.
+
 - `fleet_id`: A unique identifier for the fleet that the compute is registered to.
 """
 function get_compute_auth_token end
@@ -4683,9 +4719,9 @@ end
     get_instance_access(fleet_id, instance_id, params::Dict{String,<:Any})
 
 Requests authorization to remotely connect to an instance in an Amazon GameLift managed
-fleet. Use this operation to connect to instances with game servers that use Amazon
-GameLift server SDK 4.x or earlier. To connect to instances with game servers that use
-server SDK 5.x or later, call [`get_compute_access`](@ref).
+fleet. Use this operation to connect to instances with game servers that use Amazon GameLift
+server SDK 4.x or earlier. To connect to instances with game servers that use server SDK 5.x
+or later, call [`get_compute_access`](@ref).
 
 To request access to an instance, specify IDs for the instance and the fleet it belongs to.
 You can retrieve instance IDs for a fleet by calling [DescribeInstances](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeInstances.html)
@@ -4696,8 +4732,8 @@ credentials match the operating system of the instance, as follows:
 
 - For a Windows instance: returns a user name and secret (password) for use with a Windows
   Remote Desktop client.
-- For a Linux instance: returns a user name and secret (RSA private key) for use with an
-  SSH client. You must save the secret to a `.pem` file. If you're using the CLI, see the
+- For a Linux instance: returns a user name and secret (RSA private key) for use with an SSH
+  client. You must save the secret to a `.pem` file. If you're using the CLI, see the
   example [Get credentials for a Linux instance](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess.html#API_GetInstanceAccess_Examples)
   for tips on automatically saving the secret to a `.pem` file.
 
@@ -4761,9 +4797,9 @@ end
     list_aliases()
     list_aliases(params::Dict{String,<:Any})
 
-Retrieves all aliases for this Amazon Web Services account. You can filter the result set
-by alias name and/or routing strategy type. Use the pagination parameters to retrieve
-results in sequential pages.
+Retrieves all aliases for this Amazon Web Services account. You can filter the result set by
+alias name and/or routing strategy type. Use the pagination parameters to retrieve results
+in sequential pages.
 
 !!! note
     Returned aliases are not listed in any particular order.
@@ -4776,13 +4812,16 @@ results in sequential pages.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
-- `"Name"`: A descriptive label that is associated with an alias. Alias names do not need
-  to be unique.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
+
+- `"Name"`: A descriptive label that is associated with an alias. Alias names do not need to
+  be unique.
+
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
+
 - `"RoutingStrategyType"`: The routing type to filter results on. Use this parameter to
   retrieve only aliases with a certain routing type. To retrieve all aliases, leave this
   parameter empty.
@@ -4791,11 +4830,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - **SIMPLE** -- The alias resolves to one specific fleet. Use this type when routing to
     active fleets.
-  - **TERMINAL** -- The alias does not resolve to a fleet but instead can be used to
-    display a message to the user. A terminal alias throws a
-    TerminalRoutingStrategyException with the [RoutingStrategy](https://docs.aws.amazon.com/gamelift/latest/apireference/API_RoutingStrategy.html)
+  - **TERMINAL** -- The alias does not resolve to a fleet but instead can be used to display
+    a message to the user. A terminal alias throws a TerminalRoutingStrategyException with
+    the [RoutingStrategy](https://docs.aws.amazon.com/gamelift/latest/apireference/API_RoutingStrategy.html)
     message embedded.
-
 """
 function list_aliases end
 
@@ -4832,11 +4870,13 @@ parameter. Use the pagination parameters to retrieve results in a set of sequent
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
+
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, don't specify a value.
+
 - `"Status"`: Build status to filter results by. To retrieve all builds, leave this
   parameter empty.
 
@@ -4847,9 +4887,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     created, the build status is set to this value.
   - **READY** -- The game build has been successfully uploaded. You can now create new
     fleets for this build.
-  - **FAILED** -- The game build upload failed. You cannot create new fleets for this
-    build.
-
+  - **FAILED** -- The game build upload failed. You cannot create new fleets for this build.
 """
 function list_builds end
 
@@ -4869,8 +4907,8 @@ end
     list_compute(fleet_id)
     list_compute(fleet_id, params::Dict{String,<:Any})
 
-**This operation has been expanded to use with the Amazon GameLift containers feature,
-which is currently in public preview.**
+**This operation has been expanded to use with the Amazon GameLift containers feature, which
+is currently in public preview.**
 
 Retrieves information on the compute resources in an Amazon GameLift fleet.
 
@@ -4882,8 +4920,8 @@ You can filter the result set by location.
 If successful, this operation returns information on all computes in the requested fleet.
 Depending on the fleet's compute type, the result includes the following information:
 
-- For `EC2` fleets, this operation returns information about the EC2 instance. Compute
-  names are instance IDs.
+- For `EC2` fleets, this operation returns information about the EC2 instance. Compute names
+  are instance IDs.
 - For `ANYWHERE` fleets, this operation returns the compute names and details provided when
   the compute was registered with `RegisterCompute`. The `GameLiftServiceSdkEndpoint` or
   `GameLiftAgentEndpoint` is included.
@@ -4899,12 +4937,12 @@ Depending on the fleet's compute type, the result includes the following informa
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
 - `"Location"`: The name of a location to retrieve compute resources for. For an Amazon
   GameLift Anywhere fleet, use a custom location. For a multi-location EC2 or container
-  fleet, provide a Amazon Web Services Region or Local Zone code (for example:
-  `us-west-2` or `us-west-2-lax-1`).
+  fleet, provide a Amazon Web Services Region or Local Zone code (for example: `us-west-2`
+  or `us-west-2-lax-1`).
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
@@ -4940,10 +4978,10 @@ end
 **This operation is used with the Amazon GameLift containers feature, which is currently in
 public preview.**
 
-Retrieves all container group definitions for the Amazon Web Services account and Amazon
-Web Services Region that are currently in use. You can filter the result set by the
-container groups' scheduling strategy. Use the pagination parameters to retrieve results in
-a set of sequential pages.
+Retrieves all container group definitions for the Amazon Web Services account and Amazon Web
+Services Region that are currently in use. You can filter the result set by the container
+groups' scheduling strategy. Use the pagination parameters to retrieve results in a set of
+sequential pages.
 
 !!! note
     This operation returns the list of container group definitions in no particular order.
@@ -4956,18 +4994,19 @@ a set of sequential pages.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
+
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
+
 - `"SchedulingStrategy"`: The type of container group definitions to retrieve.
 
-  - `DAEMON` -- Daemon container groups run background processes and are deployed once
-    per fleet instance.
+  - `DAEMON` -- Daemon container groups run background processes and are deployed once per
+    fleet instance.
   - `REPLICA` -- Replica container groups run your game server application and supporting
     software. Replica groups might be deployed multiple times per fleet instance.
-
 """
 function list_container_group_definitions end
 
@@ -4996,28 +5035,27 @@ end
     list_fleets()
     list_fleets(params::Dict{String,<:Any})
 
-**This operation has been expanded to use with the Amazon GameLift containers feature,
-which is currently in public preview.**
+**This operation has been expanded to use with the Amazon GameLift containers feature, which
+is currently in public preview.**
 
 Retrieves a collection of fleet resources in an Amazon Web Services Region. You can filter
 the result set to find only those fleets that are deployed with a specific build or script.
-For fleets that have multiple locations, this operation retrieves fleets based on their
-home Region only.
+For fleets that have multiple locations, this operation retrieves fleets based on their home
+Region only.
 
 You can use operation in the following ways:
 
 - To get a list of all fleets in a Region, don't provide a build or script identifier.
-- To get a list of all fleets where a specific game build is deployed, provide the build
-  ID.
-- To get a list of all Realtime Servers fleets with a specific configuration script,
-  provide the script ID.
+- To get a list of all fleets where a specific game build is deployed, provide the build ID.
+- To get a list of all Realtime Servers fleets with a specific configuration script, provide
+  the script ID.
 - To get a list of all fleets with a specific container group definition, provide the
   `ContainerGroupDefinition` ID.
 
 Use the pagination parameters to retrieve results as a set of sequential pages.
 
-If successful, this operation returns a list of fleet IDs that match the request
-parameters. A NextToken value is also returned if there are more result pages to retrieve.
+If successful, this operation returns a list of fleet IDs that match the request parameters.
+A NextToken value is also returned if there are more result pages to retrieve.
 
 !!! note
     Fleet IDs are returned in no particular order.
@@ -5031,14 +5069,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ContainerGroupDefinitionName"`: The container group definition name to request fleets
   for. Use this parameter to return only fleets that are deployed with the specified
   container group definition.
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 - `"ScriptId"`: A unique identifier for the Realtime script to request fleets for. Use this
-  parameter to return only fleets using a specified script. Use either the script ID or
-  ARN value.
+  parameter to return only fleets using a specified script. Use either the script ID or ARN
+  value.
 """
 function list_fleets end
 
@@ -5091,12 +5129,11 @@ end
     list_game_servers(game_server_group_name)
     list_game_servers(game_server_group_name, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Retrieves information on all game servers that are currently active in a specified game
-server group. You can opt to sort the list by game server age. Use the pagination
-parameters to retrieve results in a set of sequential segments.
+server group. You can opt to sort the list by game server age. Use the pagination parameters
+to retrieve results in a set of sequential segments.
 
 **Learn more**
 
@@ -5111,15 +5148,15 @@ parameters to retrieve results in a set of sequential segments.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
 - `"SortOrder"`: Indicates how to sort the returned data based on game server registration
-  timestamp. Use `ASCENDING` to retrieve oldest game servers first, or use `DESCENDING`
-  to retrieve newest game servers first. If this parameter is left empty, game servers
-  are returned in no particular order.
+  timestamp. Use `ASCENDING` to retrieve oldest game servers first, or use `DESCENDING` to
+  retrieve newest game servers first. If this parameter is left empty, game servers are
+  returned in no particular order.
 """
 function list_game_servers end
 
@@ -5164,8 +5201,8 @@ Lists all custom and Amazon Web Services locations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters the list for `AWS` or `CUSTOM` locations.
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
@@ -5203,8 +5240,8 @@ Services account in use.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages.
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages.
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, don't specify a value.
@@ -5247,10 +5284,10 @@ in the *Amazon Web Services General Reference*
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-  that uniquely identifies the Amazon GameLift resource that you want to retrieve tags
-  for. Amazon GameLift includes resource ARNs in the data object for the resource. You
-  can retrieve the ARN by calling a `List` or [`describe`](@ref) operation for the
-  resource type.
+  that uniquely identifies the Amazon GameLift resource that you want to retrieve tags for.
+  Amazon GameLift includes resource ARNs in the data object for the resource. You can
+  retrieve the ARN by calling a `List` or [`describe`](@ref) operation for the resource
+  type.
 """
 function list_tags_for_resource end
 
@@ -5286,8 +5323,8 @@ end
 
 Creates or updates a scaling policy for a fleet. Scaling policies are used to automatically
 scale a fleet's hosting capacity to meet player demand. An active scaling policy instructs
-Amazon GameLift to track a fleet metric and automatically change the fleet's capacity when
-a certain threshold is reached. There are two types of scaling policies: target-based and
+Amazon GameLift to track a fleet metric and automatically change the fleet's capacity when a
+certain threshold is reached. There are two types of scaling policies: target-based and
 rule-based. Use a target-based policy to quickly and efficiently manage fleet scaling; this
 option is the most commonly used. Use rule-based policies when you need to exert fine-
 grained control over auto-scaling.
@@ -5324,27 +5361,26 @@ are restarted.
 
 **Rule-based policy**
 
-A rule-based policy tracks specified fleet metric, sets a threshold value, and specifies
-the type of action to initiate when triggered. With a rule-based policy, you can select
-from several available fleet metrics. Each policy specifies whether to scale up or scale
-down (and by how much), so you need one policy for each type of action.
+A rule-based policy tracks specified fleet metric, sets a threshold value, and specifies the
+type of action to initiate when triggered. With a rule-based policy, you can select from
+several available fleet metrics. Each policy specifies whether to scale up or scale down
+(and by how much), so you need one policy for each type of action.
 
-For example, a policy may make the following statement: "If the percentage of idle
-instances is greater than 20% for more than 15 minutes, then reduce the fleet capacity by
-10%."
+For example, a policy may make the following statement: "If the percentage of idle instances
+is greater than 20% for more than 15 minutes, then reduce the fleet capacity by 10%."
 
 A policy's rule statement has the following structure:
 
-If `[MetricName]` is `[ComparisonOperator]` `[Threshold]` for `[EvaluationPeriods]`
-minutes, then `[ScalingAdjustmentType]` to/by `[ScalingAdjustment]`.
+If `[MetricName]` is `[ComparisonOperator]` `[Threshold]` for `[EvaluationPeriods]` minutes,
+then `[ScalingAdjustmentType]` to/by `[ScalingAdjustment]`.
 
 To implement the example, the rule statement would look like this:
 
 If `[PercentIdleInstances]` is `[GreaterThanThreshold]` `[20]` for `[15]` minutes, then
 `[PercentChangeInCapacity]` to/by `[10]`.
 
-To create or update a scaling policy, specify a unique combination of name and fleet ID,
-and set the policy type to "RuleBased". Specify the parameter values for a policy rule
+To create or update a scaling policy, specify a unique combination of name and fleet ID, and
+set the policy type to "RuleBased". Specify the parameter values for a policy rule
 statement. On a successful request, the policy name is returned. Scaling policies are
 automatically in force as soon as they're successfully created. If the fleet's auto-scaling
 actions are temporarily suspended, the new policy will be in force once the fleet actions
@@ -5353,11 +5389,11 @@ are restarted.
 # Arguments
 
 - `fleet_id`: A unique identifier for the fleet to apply this policy to. You can use either
-  the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR
-  or DELETING.
+  the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR or
+  DELETING.
+
 - `metric_name`: Name of the Amazon GameLift-defined metric that is used to trigger a
   scaling adjustment. For detailed descriptions of fleet metrics, see [Monitor Amazon GameLift with Amazon CloudWatch](https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html).
-
 
   - **ActivatingGameSessions** -- Game sessions in the process of being created.
   - **ActiveGameSessions** -- Game sessions that are currently running.
@@ -5368,22 +5404,21 @@ are restarted.
   - **AvailablePlayerSessions** -- Empty player slots in currently active game sessions.
     This includes game sessions that are not currently accepting players. Reserved player
     slots are not included.
-  - **CurrentPlayerSessions** -- Player slots in active game sessions that are being used
-    by a player or are reserved for a player.
+  - **CurrentPlayerSessions** -- Player slots in active game sessions that are being used by
+    a player or are reserved for a player.
   - **IdleInstances** -- Active instances that are currently hosting zero game sessions.
   - **PercentAvailableGameSessions** -- Unused percentage of the total number of game
-    sessions that a fleet could host simultaneously, given current capacity. Use this
-    metric for a target-based scaling policy.
-  - **PercentIdleInstances** -- Percentage of the total number of active instances that
-    are hosting zero game sessions.
+    sessions that a fleet could host simultaneously, given current capacity. Use this metric
+    for a target-based scaling policy.
+  - **PercentIdleInstances** -- Percentage of the total number of active instances that are
+    hosting zero game sessions.
   - **QueueDepth** -- Pending game session placement requests, in any queue, where the
     current fleet is the top-priority destination.
   - **WaitTime** -- Current wait time for pending game session placement requests, in any
     queue, where the current fleet is the top-priority destination.
 
-- `name`: A descriptive label that is associated with a fleet's scaling policy. Policy
-  names do not need to be unique. A fleet can have only one scaling policy with the same
-  name.
+- `name`: A descriptive label that is associated with a fleet's scaling policy. Policy names
+  do not need to be unique. A fleet can have only one scaling policy with the same name.
 
 # Optional Parameters
 
@@ -5391,25 +5426,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ComparisonOperator"`: Comparison operator to use when measuring the metric against the
   threshold value.
+
 - `"EvaluationPeriods"`: Length of time (in minutes) the metric must be at or beyond the
   threshold before a scaling event is triggered.
+
 - `"PolicyType"`: The type of scaling policy to create. For a target-based policy, set the
   parameter *MetricName* to 'PercentAvailableGameSessions' and specify a
-  *TargetConfiguration*. For a rule-based policy set the following parameters:
-  *MetricName*, *ComparisonOperator*, *Threshold*, *EvaluationPeriods*,
-  *ScalingAdjustmentType*, and *ScalingAdjustment*.
+  *TargetConfiguration*. For a rule-based policy set the following parameters: *MetricName*,
+  *ComparisonOperator*, *Threshold*, *EvaluationPeriods*, *ScalingAdjustmentType*, and
+  *ScalingAdjustment*.
+
 - `"ScalingAdjustment"`: Amount of adjustment to make, based on the scaling adjustment type.
+
 - `"ScalingAdjustmentType"`: The type of adjustment to make to a fleet's instance count:
 
-  - **ChangeInCapacity** -- add (or subtract) the scaling adjustment value from the
-    current instance count. Positive values scale up while negative values scale down.
+  - **ChangeInCapacity** -- add (or subtract) the scaling adjustment value from the current
+    instance count. Positive values scale up while negative values scale down.
   - **ExactCapacity** -- set the instance count to the scaling adjustment value.
   - **PercentChangeInCapacity** -- increase or reduce the current instance count by the
-    scaling adjustment, read as a percentage. Positive values scale up while negative
-    values scale down; for example, a value of "-10" scales the fleet down by 10%.
+    scaling adjustment, read as a percentage. Positive values scale up while negative values
+    scale down; for example, a value of "-10" scales the fleet down by 10%.
 
 - `"TargetConfiguration"`: An object that contains settings for a target-based scaling
   policy.
+
 - `"Threshold"`: Metric value used to trigger a scaling event.
 """
 function put_scaling_policy end
@@ -5452,20 +5492,20 @@ end
     register_compute(compute_name, fleet_id)
     register_compute(compute_name, fleet_id, params::Dict{String,<:Any})
 
-**This operation has been expanded to use with the Amazon GameLift containers feature,
-which is currently in public preview.**
+**This operation has been expanded to use with the Amazon GameLift containers feature, which
+is currently in public preview.**
 
 Registers a compute resource in an Amazon GameLift fleet. Register computes with an Amazon
 GameLift Anywhere fleet or a container fleet.
 
 For an Anywhere fleet or a container fleet that's running the Amazon GameLift Agent, the
-Agent handles all compute registry tasks for you. For an Anywhere fleet that doesn't use
-the Agent, call this operation to register fleet computes.
+Agent handles all compute registry tasks for you. For an Anywhere fleet that doesn't use the
+Agent, call this operation to register fleet computes.
 
-To register a compute, give the compute a name (must be unique within the fleet) and
-specify the compute resource's DNS name or IP address. Provide a fleet ID and a fleet
-location to associate with the compute being registered. You can optionally include the
-path to a TLS certificate on the compute resource.
+To register a compute, give the compute a name (must be unique within the fleet) and specify
+the compute resource's DNS name or IP address. Provide a fleet ID and a fleet location to
+associate with the compute being registered. You can optionally include the path to a TLS
+certificate on the compute resource.
 
 If successful, this operation returns compute details, including an Amazon GameLift SDK
 endpoint or Agent endpoint. Game server processes running on the compute can use this
@@ -5538,21 +5578,20 @@ end
     register_game_server(game_server_group_name, game_server_id, instance_id)
     register_game_server(game_server_group_name, game_server_id, instance_id, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
-Creates a new game server resource and notifies Amazon GameLift FleetIQ that the game
-server is ready to host gameplay and players. This operation is called by a game server
-process that is running on an instance in a game server group. Registering game servers
-enables Amazon GameLift FleetIQ to track available game servers and enables game clients
-and services to claim a game server for a new game session.
+Creates a new game server resource and notifies Amazon GameLift FleetIQ that the game server
+is ready to host gameplay and players. This operation is called by a game server process
+that is running on an instance in a game server group. Registering game servers enables
+Amazon GameLift FleetIQ to track available game servers and enables game clients and
+services to claim a game server for a new game session.
 
-To register a game server, identify the game server group and instance where the game
-server is running, and provide a unique identifier for the game server. You can also
-include connection and game server data.
+To register a game server, identify the game server group and instance where the game server
+is running, and provide a unique identifier for the game server. You can also include
+connection and game server data.
 
-Once a game server is successfully registered, it is put in status `AVAILABLE`. A request
-to register a game server may fail if the instance it is running on is in the process of
+Once a game server is successfully registered, it is put in status `AVAILABLE`. A request to
+register a game server may fail if the instance it is running on is in the process of
 shutting down as part of instance balancing or scale-down activity.
 
 **Learn more**
@@ -5564,19 +5603,18 @@ shutting down as part of instance balancing or scale-down activity.
 - `game_server_group_name`: A unique identifier for the game server group where the game
   server is running.
 - `game_server_id`: A custom string that uniquely identifies the game server to register.
-  Game server IDs are developer-defined and must be unique across all game server groups
-  in your Amazon Web Services account.
+  Game server IDs are developer-defined and must be unique across all game server groups in
+  your Amazon Web Services account.
 - `instance_id`: The unique identifier for the instance where the game server is running.
-  This ID is available in the instance metadata. EC2 instance IDs use a 17-character
-  format, for example: `i-1234567890abcdef0`.
+  This ID is available in the instance metadata. EC2 instance IDs use a 17-character format,
+  for example: `i-1234567890abcdef0`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConnectionInfo"`: Information that is needed to make inbound client connections to the
-  game server. This might include the IP address and port, DNS name, and other
-  information.
+  game server. This might include the IP address and port, DNS name, and other information.
 - `"GameServerData"`: A set of custom game server properties, formatted as a single string
   value. This data is passed to a game client or service when it requests information on
   game servers.
@@ -5630,8 +5668,8 @@ end
     request_upload_credentials(build_id)
     request_upload_credentials(build_id, params::Dict{String,<:Any})
 
-Retrieves a fresh set of credentials for use when uploading a new set of game build files
-to Amazon GameLift's Amazon S3. This is done as part of the build creation process; see [CreateBuild](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateBuild.html).
+Retrieves a fresh set of credentials for use when uploading a new set of game build files to
+Amazon GameLift's Amazon S3. This is done as part of the build creation process; see [CreateBuild](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateBuild.html).
 
 To request new credentials, specify the build ID as returned with an initial `CreateBuild`
 request. If successful, a new set of credentials are returned, along with the S3 storage
@@ -5682,8 +5720,7 @@ Attempts to retrieve a fleet ID that is associated with an alias. Specify a uniq
 identifier.
 
 If the alias has a `SIMPLE` routing strategy, Amazon GameLift returns a fleet ID. If the
-alias has a `TERMINAL` routing strategy, the result is a
-`TerminalRoutingStrategyException`.
+alias has a `TERMINAL` routing strategy, the result is a `TerminalRoutingStrategyException`.
 
 **Related actions**
 
@@ -5722,8 +5759,7 @@ end
     resume_game_server_group(game_server_group_name, resume_actions)
     resume_game_server_group(game_server_group_name, resume_actions, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Reinstates activity on a game server group after it has been suspended. A game server group
 might be suspended by the [SuspendGameServerGroup](gamelift/latest/apireference/API_SuspendGameServerGroup.html)
@@ -5788,17 +5824,17 @@ end
     search_game_sessions()
     search_game_sessions(params::Dict{String,<:Any})
 
-Retrieves all active game sessions that match a set of search criteria and sorts them into
-a specified order.
+Retrieves all active game sessions that match a set of search criteria and sorts them into a
+specified order.
 
 This operation is not designed to continually track game session status because that
 practice can cause you to exceed your API limit and generate errors. Instead, configure an
 Amazon Simple Notification Service (Amazon SNS) topic to receive notifications from a
 matchmaker or a game session placement queue.
 
-When searching for game sessions, you specify exactly where you want to search and provide
-a search filter expression, a sort expression, or both. A search request can search only
-one fleet, but it can search all of a fleet's locations.
+When searching for game sessions, you specify exactly where you want to search and provide a
+search filter expression, a sort expression, or both. A search request can search only one
+fleet, but it can search all of a fleet's locations.
 
 This operation can be used in the following ways:
 
@@ -5816,18 +5852,17 @@ request. Search finds game sessions that are in `ACTIVE` status only. To retriev
 information on game sessions in other statuses, use [DescribeGameSessions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeGameSessions.html)
 .
 
-To set search and sort criteria, create a filter expression using the following game
-session attributes. For game session search examples, see the Examples section of this
-topic.
+To set search and sort criteria, create a filter expression using the following game session
+attributes. For game session search examples, see the Examples section of this topic.
 
 - **gameSessionId** -- A unique identifier for the game session. You can use either a
   `GameSessionId` or `GameSessionArn` value.
 - **gameSessionName** -- Name assigned to a game session. Game session names do not need to
   be unique to a game session.
-- **gameSessionProperties** -- A set of key-value pairs that can store custom data in a
-  game session. For example: `{"Key": "difficulty", "Value": "novice"}`. The filter
-  expression must specify the [`game_property`](@ref) -- a `Key` and a string `Value` to
-  search for the game sessions.
+- **gameSessionProperties** -- A set of key-value pairs that can store custom data in a game
+  session. For example: `{"Key": "difficulty", "Value": "novice"}`. The filter expression
+  must specify the [`game_property`](@ref) -- a `Key` and a string `Value` to search for the
+  game sessions.
 
 For example, to search for the above key-value pair, specify the following search filter:
 `gameSessionProperties.difficulty = "novice"`. All game property values are searched as
@@ -5841,14 +5876,14 @@ For examples of searching game sessions, see the ones below, and also see [Searc
   value changes rapidly as players join the session or drop out.
 - **hasAvailablePlayerSessions** -- Boolean value indicating whether a game session has
   reached its maximum number of players. It is highly recommended that all search requests
-  include this filter attribute to optimize search performance and return only sessions
-  that players can join.
+  include this filter attribute to optimize search performance and return only sessions that
+  players can join.
 
 !!! note
-    Returned values for `playerSessionCount` and `hasAvailablePlayerSessions` change
-    quickly as players join sessions and others drop out. Results should be considered a
-    snapshot in time. Be sure to refresh search results often, and handle sessions that
-    fill up before a player can join.
+    Returned values for `playerSessionCount` and `hasAvailablePlayerSessions` change quickly
+    as players join sessions and others drop out. Results should be considered a snapshot in
+    time. Be sure to refresh search results often, and handle sessions that fill up before a
+    player can join.
 
 [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
 
@@ -5859,12 +5894,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AliasId"`: A unique identifier for the alias associated with the fleet to search for
   active game sessions. You can use either the alias ID or ARN value. Each request must
   reference either a fleet ID or alias ID, but not both.
+
 - `"FilterExpression"`: String containing the search criteria for the session search. If no
   filter expression is included, the request returns results for all game sessions in the
   fleet that are in `ACTIVE` status.
 
-  A filter expression can contain one or multiple conditions. Each condition consists of
-  the following:
+  A filter expression can contain one or multiple conditions. Each condition consists of the
+  following:
 
   - **Operand** -- Name of a game session attribute. Valid values are `gameSessionName`,
     `gameSessionId`, `gameSessionProperties`, `maximumSessions`, `creationTimeMillis`,
@@ -5872,36 +5908,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - **Comparator** -- Valid comparators are: `=`, `&lt;&gt;`, `&lt;`, `&gt;`, `&lt;=`,
     `&gt;=`.
   - **Value** -- Value to be searched for. Values may be numbers, boolean values
-    (true/false) or strings depending on the operand. String values are case sensitive
-    and must be enclosed in single quotes. Special characters must be escaped. Boolean
-    and string values can only be used with the comparators `=` and `&lt;&gt;`. For
-    example, the following filter expression searches on `gameSessionName`:
+    (true/false) or strings depending on the operand. String values are case sensitive and
+    must be enclosed in single quotes. Special characters must be escaped. Boolean and
+    string values can only be used with the comparators `=` and `&lt;&gt;`. For example, the
+    following filter expression searches on `gameSessionName`:
     "`FilterExpression": "gameSessionName = 'Matt\\\\'s Awesome Game 1'"`.
 
-  To chain multiple conditions in a single expression, use the logical keywords `AND`,
-  `OR`, and `NOT` and parentheses as needed. For example: `x AND y AND NOT z`,
-  `NOT (x OR y)`.
+  To chain multiple conditions in a single expression, use the logical keywords `AND`, `OR`,
+  and `NOT` and parentheses as needed. For example: `x AND y AND NOT z`, `NOT (x OR y)`.
 
   Session search evaluates conditions from left to right using the following precedence
   rules:
 
-  1. `=`, `&lt;&gt;`, `&lt;`, `&gt;`, `&lt;=`, `&gt;=`2. Parentheses3. NOT4. AND5. OR
+  1. `=`, `&lt;&gt;`, `&lt;`, `&gt;`, `&lt;=`, `&gt;=`
+  2. Parentheses
+  3. NOT
+  4. AND
+  5. OR
 
-  For example, this filter expression retrieves game sessions hosting at least ten
-  players that have an open player slot:
+  For example, this filter expression retrieves game sessions hosting at least ten players
+  that have an open player slot:
   `"maximumSessions&gt;=10 AND hasAvailablePlayerSessions=true"`.
-- `"FleetId"`: A unique identifier for the fleet to search for active game sessions. You
-  can use either the fleet ID or ARN value. Each request must reference either a fleet ID
-  or alias ID, but not both.
-- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken`
-  to get results as a set of sequential pages. The maximum number of results returned is
-  20, even if this value is not set or is set higher than 20.
-- `"Location"`: A fleet location to search for game sessions. You can specify a fleet's
-  home Region or a remote location. Use the Amazon Web Services Region code format, such
-  as `us-west-2`.
+
+- `"FleetId"`: A unique identifier for the fleet to search for active game sessions. You can
+  use either the fleet ID or ARN value. Each request must reference either a fleet ID or
+  alias ID, but not both.
+
+- `"Limit"`: The maximum number of results to return. Use this parameter with `NextToken` to
+  get results as a set of sequential pages. The maximum number of results returned is 20,
+  even if this value is not set or is set higher than 20.
+
+- `"Location"`: A fleet location to search for game sessions. You can specify a fleet's home
+  Region or a remote location. Use the Amazon Web Services Region code format, such as
+  `us-west-2`.
+
 - `"NextToken"`: A token that indicates the start of the next sequential page of results.
   Use the token that is returned with a previous call to this operation. To start at the
   beginning of the result set, do not specify a value.
+
 - `"SortExpression"`: Instructions on how to sort the search results. If no sort expression
   is included, the request returns results in random order. A sort expression consists of
   the following elements:
@@ -6025,8 +6069,8 @@ players.
 To place a new game session request, specify the following:
 
 - The queue name and a set of game session properties and settings
-- A unique ID (such as a UUID) for the placement. You use this ID to track the status of
-  the placement request
+- A unique ID (such as a UUID) for the placement. You use this ID to track the status of the
+  placement request
 - (Optional) A set of player data and a unique player ID for each player that you are
   joining to the new game session (player data is optional, but if you include it, you must
   also provide a unique ID for each player)
@@ -6041,8 +6085,8 @@ out, you can resubmit the request or retry it with a different queue.
 
 # Arguments
 
-- `game_session_queue_name`: Name of the queue to use to place the new game session. You
-  can use either the queue name or ARN value.
+- `game_session_queue_name`: Name of the queue to use to place the new game session. You can
+  use either the queue name or ARN value.
 - `maximum_player_session_count`: The maximum number of players that can be connected
   simultaneously to the game session.
 - `placement_id`: A unique identifier to assign to the new game session placement. This
@@ -6055,17 +6099,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DesiredPlayerSessions"`: Set of information on each player to create a player session
   for.
-- `"GameProperties"`: A set of key-value pairs that can store custom data in a game
-  session. For example: `{"Key": "difficulty", "Value": "novice"}`.
-- `"GameSessionData"`: A set of custom game session properties, formatted as a single
-  string value. This data is passed to a game server process in the `GameSession` object
-  with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
+- `"GameProperties"`: A set of key-value pairs that can store custom data in a game session.
+  For example: `{"Key": "difficulty", "Value": "novice"}`.
+- `"GameSessionData"`: A set of custom game session properties, formatted as a single string
+  value. This data is passed to a game server process in the `GameSession` object with a
+  request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
 - `"GameSessionName"`: A descriptive label that is associated with a game session. Session
   names do not need to be unique.
-- `"PlayerLatencies"`: A set of values, expressed in milliseconds, that indicates the
-  amount of latency that a player experiences when connected to Amazon Web Services
-  Regions. This information is used to try to place the new game session where it can
-  offer the best possible gameplay experience for the players.
+- `"PlayerLatencies"`: A set of values, expressed in milliseconds, that indicates the amount
+  of latency that a player experiences when connected to Amazon Web Services Regions. This
+  information is used to try to place the new game session where it can offer the best
+  possible gameplay experience for the players.
 """
 function start_game_session_placement end
 
@@ -6125,12 +6169,11 @@ match requirements.
 
 When using FlexMatch with Amazon GameLift managed hosting, you can request a backfill match
 from a client service by calling this operation with a `GameSessions` ID. You also have the
-option of making backfill requests directly from your game server. In response to a
-request, FlexMatch creates player sessions for the new players, updates the `GameSession`
-resource, and sends updated matchmaking data to the game server. You can request a backfill
-match at any point after a game session is started. Each game session can have only one
-active backfill request at a time; a subsequent request automatically replaces the earlier
-request.
+option of making backfill requests directly from your game server. In response to a request,
+FlexMatch creates player sessions for the new players, updates the `GameSession` resource,
+and sends updated matchmaking data to the game server. You can request a backfill match at
+any point after a game session is started. Each game session can have only one active
+backfill request at a time; a subsequent request automatically replaces the earlier request.
 
 When using FlexMatch as a standalone component, request a backfill match by calling this
 operation without a game session identifier. As with newly formed matches, matchmaking
@@ -6159,16 +6202,17 @@ Only game sessions created by FlexMatch are supported for match backfill.
 - `configuration_name`: Name of the matchmaker to use for this request. You can use either
   the configuration name or ARN value. The ARN of the matchmaker that was used with the
   original game session is listed in the `GameSession` object, `MatchmakerData` property.
+
 - `players`: Match information on all players that are currently assigned to the game
   session. This information is used by the matchmaker to find new players and add them to
   the existing game.
 
   You can include up to 199 `Players` in a `StartMatchBackfill` request.
 
-  - PlayerID, PlayerAttributes, Team -- This information is maintained in the
-    `GameSession` object, `MatchmakerData` property, for all players who are currently
-    assigned to the game session. The matchmaker data is in JSON syntax, formatted as a
-    string. For more details, see [Match Data](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data).
+  - PlayerID, PlayerAttributes, Team -- This information is maintained in the `GameSession`
+    object, `MatchmakerData` property, for all players who are currently assigned to the
+    game session. The matchmaker data is in JSON syntax, formatted as a string. For more
+    details, see [Match Data](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data).
 
   The backfill request must specify the team membership for every player. Do not specify
   team if you are not using backfill.
@@ -6235,8 +6279,8 @@ finding additional players as needed to fill the match.
 
 To start matchmaking, provide a unique ticket ID, specify a matchmaking configuration, and
 include the players to be matched. You must also include any player attributes that are
-required by the matchmaking configuration's rule set. If successful, a matchmaking ticket
-is returned with status set to `QUEUED`.
+required by the matchmaking configuration's rule set. If successful, a matchmaking ticket is
+returned with status set to `QUEUED`.
 
 Track matchmaking events to respond as needed and acquire game session connection
 information for successfully completed matches. Ticket status updates are tracked using
@@ -6256,6 +6300,7 @@ matchmaking configuration.
 - `configuration_name`: Name of the matchmaking configuration to use for this request.
   Matchmaking configurations must exist in the same Region as this request. You can use
   either the configuration name or ARN value.
+
 - `players`: Information on each player to be matched. This information must include a
   player ID, and may contain player attributes and latency data to be used in the
   matchmaking process. After a successful match, `Player` objects contain the name of the
@@ -6310,9 +6355,9 @@ end
     stop_fleet_actions(actions, fleet_id)
     stop_fleet_actions(actions, fleet_id, params::Dict{String,<:Any})
 
-Suspends certain types of activity in a fleet location. Currently, this operation is used
-to stop auto-scaling activity. For multi-location fleets, fleet actions are managed
-separately for each location.
+Suspends certain types of activity in a fleet location. Currently, this operation is used to
+stop auto-scaling activity. For multi-location fleets, fleet actions are managed separately
+for each location.
 
 Stopping fleet actions has several potential purposes. It allows you to temporarily stop
 auto-scaling activity but retain your scaling policies for use in the future. For multi-
@@ -6323,8 +6368,8 @@ This operation can be used in the following ways:
 
 - To stop actions on instances in the fleet's home Region, provide a fleet ID and the type
   of actions to suspend.
-- To stop actions on instances in one of the fleet's remote locations, provide a fleet ID,
-  a location name, and the type of actions to suspend.
+- To stop actions on instances in one of the fleet's remote locations, provide a fleet ID, a
+  location name, and the type of actions to suspend.
 
 If successful, Amazon GameLift no longer initiates scaling events except in response to
 manual changes using [UpdateFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetCapacity.html).
@@ -6344,8 +6389,8 @@ To restart fleet actions again, call [StartFleetActions](https://docs.aws.amazon
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Location"`: The fleet location to stop fleet actions for. Specify a location in the
-  form of an Amazon Web Services Region code, such as `us-west-2`.
+- `"Location"`: The fleet location to stop fleet actions for. Specify a location in the form
+  of an Amazon Web Services Region code, such as `us-west-2`.
 """
 function stop_fleet_actions end
 
@@ -6472,20 +6517,19 @@ end
     suspend_game_server_group(game_server_group_name, suspend_actions)
     suspend_game_server_group(game_server_group_name, suspend_actions, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Temporarily stops activity on a game server group without terminating instances or the game
 server group. You can restart activity by calling [ResumeGameServerGroup](gamelift/latest/apireference/API_ResumeGameServerGroup.html).
 You can suspend the following activity:
 
-- **Instance type replacement** - This activity evaluates the current game hosting
-  viability of all Spot instance types that are defined for the game server group. It
-  updates the Auto Scaling group to remove nonviable Spot Instance types, which have a
-  higher chance of game server interruptions. It then balances capacity across the
-  remaining viable Spot Instance types. When this activity is suspended, the Auto Scaling
-  group continues with its current balance, regardless of viability. Instance protection,
-  utilization metrics, and capacity scaling activities continue to be active.
+- **Instance type replacement** - This activity evaluates the current game hosting viability
+  of all Spot instance types that are defined for the game server group. It updates the Auto
+  Scaling group to remove nonviable Spot Instance types, which have a higher chance of game
+  server interruptions. It then balances capacity across the remaining viable Spot Instance
+  types. When this activity is suspended, the Auto Scaling group continues with its current
+  balance, regardless of viability. Instance protection, utilization metrics, and capacity
+  scaling activities continue to be active.
 
 To suspend activity, specify a game server group ARN and the type of activity to be
 suspended. If successful, a `GameServerGroup` object is returned showing that the activity
@@ -6543,14 +6587,14 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Assigns a tag to an Amazon GameLift resource. You can use tags to organize resources,
-create IAM permissions policies to manage access to groups of resources, customize Amazon
-Web Services cost breakdowns, and more. This operation handles the permissions necessary to
+Assigns a tag to an Amazon GameLift resource. You can use tags to organize resources, create
+IAM permissions policies to manage access to groups of resources, customize Amazon Web
+Services cost breakdowns, and more. This operation handles the permissions necessary to
 manage tags for Amazon GameLift resources that support tagging.
 
 To add a tag to a resource, specify the unique ARN value for the resource and provide a tag
-list containing one or more tags. The operation succeeds even if the list includes tags
-that are already assigned to the resource.
+list containing one or more tags. The operation succeeds even if the list includes tags that
+are already assigned to the resource.
 
 **Learn more**
 
@@ -6570,9 +6614,10 @@ in the *Amazon Web Services General Reference*
   Amazon GameLift includes resource ARNs in the data object for the resource. You can
   retrieve the ARN by calling a `List` or [`describe`](@ref) operation for the resource
   type.
+
 - `tags`: A list of one or more tags to assign to the specified Amazon GameLift resource.
-  Tags are developer-defined and structured as key-value pairs. The maximum tag limit may
-  be lower than stated. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  Tags are developer-defined and structured as key-value pairs. The maximum tag limit may be
+  lower than stated. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for tagging limits.
 """
 function tag_resource end
@@ -6614,9 +6659,9 @@ Removes a tag assigned to a Amazon GameLift resource. You can use resource tags 
 Amazon Web Services resources for a range of purposes. This operation handles the
 permissions necessary to manage tags for Amazon GameLift resources that support tagging.
 
-To remove a tag from a resource, specify the unique ARN value for the resource and provide
-a string list containing one or more tags to remove. This operation succeeds even if the
-list includes tags that aren't assigned to the resource.
+To remove a tag from a resource, specify the unique ARN value for the resource and provide a
+string list containing one or more tags to remove. This operation succeeds even if the list
+includes tags that aren't assigned to the resource.
 
 **Learn more**
 
@@ -6632,10 +6677,11 @@ in the *Amazon Web Services General Reference*
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-  that uniquely identifies the Amazon GameLift resource that you want to remove tags
-  from. Amazon GameLift includes resource ARNs in the data object for the resource. You
-  can retrieve the ARN by calling a `List` or [`describe`](@ref) operation for the
-  resource type.
+  that uniquely identifies the Amazon GameLift resource that you want to remove tags from.
+  Amazon GameLift includes resource ARNs in the data object for the resource. You can
+  retrieve the ARN by calling a `List` or [`describe`](@ref) operation for the resource
+  type.
+
 - `tag_keys`: A list of one or more tag keys to remove from the specified Amazon GameLift
   resource.
 """
@@ -6694,8 +6740,8 @@ routing strategy. If successful, the updated alias record is returned.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A human-readable description of the alias.
-- `"Name"`: A descriptive label that is associated with an alias. Alias names do not need
-  to be unique.
+- `"Name"`: A descriptive label that is associated with an alias. Alias names do not need to
+  be unique.
 - `"RoutingStrategy"`: The routing configuration, including routing type and fleet target,
   for the alias.
 """
@@ -6799,24 +6845,28 @@ change. If successful, Amazon GameLift returns the identifiers for the updated f
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AnywhereConfiguration"`: Amazon GameLift Anywhere configuration options.
+
 - `"Description"`: A human-readable description of a fleet.
+
 - `"MetricGroups"`: The name of a metric group to add this fleet to. Use a metric group in
   Amazon CloudWatch to aggregate the metrics from multiple fleets. Provide an existing
-  metric group name, or create a new metric group by providing a new name. A fleet can
-  only be in one metric group at a time.
+  metric group name, or create a new metric group by providing a new name. A fleet can only
+  be in one metric group at a time.
+
 - `"Name"`: A descriptive label that is associated with a fleet. Fleet names do not need to
   be unique.
-- `"NewGameSessionProtectionPolicy"`: The game session protection policy to apply to all
-  new game sessions created in this fleet. Game sessions that already exist are not
-  affected. You can set protection for individual game sessions using [UpdateGameSession](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateGameSession.html)
+
+- `"NewGameSessionProtectionPolicy"`: The game session protection policy to apply to all new
+  game sessions created in this fleet. Game sessions that already exist are not affected.
+  You can set protection for individual game sessions using [UpdateGameSession](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateGameSession.html)
   .
 
   - **NoProtection** -- The game session can be terminated during a scale-down event.
   - **FullProtection** -- If the game session is in an `ACTIVE` status, it cannot be
     terminated during a scale-down event.
 
-- `"ResourceCreationLimitPolicy"`: Policy settings that limit the number of game sessions
-  an individual player can create over a span of time.
+- `"ResourceCreationLimitPolicy"`: Policy settings that limit the number of game sessions an
+  individual player can create over a span of time.
 """
 function update_fleet_attributes end
 
@@ -6848,8 +6898,8 @@ end
     update_fleet_capacity(fleet_id)
     update_fleet_capacity(fleet_id, params::Dict{String,<:Any})
 
-**This operation has been expanded to use with the Amazon GameLift containers feature,
-which is currently in public preview.**
+**This operation has been expanded to use with the Amazon GameLift containers feature, which
+is currently in public preview.**
 
 Updates capacity settings for a managed EC2 fleet or container fleet. For these fleets, you
 adjust capacity by changing the number of instances in the fleet. Fleet capacity determines
@@ -6872,14 +6922,14 @@ the `Location` parameter. The fleet must be in `ACTIVE` status.
 To update capacity for a fleet's remote location, set the `Location` parameter to the
 location to update. The location must be in `ACTIVE` status.
 
-If successful, Amazon GameLift updates the capacity settings and returns the identifiers
-for the updated fleet and/or location. If a requested change to desired capacity exceeds
-the instance type's limit, the `LimitExceeded` exception occurs.
+If successful, Amazon GameLift updates the capacity settings and returns the identifiers for
+the updated fleet and/or location. If a requested change to desired capacity exceeds the
+instance type's limit, the `LimitExceeded` exception occurs.
 
-Updates often prompt an immediate change in fleet capacity, such as when current capacity
-is different than the new desired capacity or outside the new limits. In this scenario,
-Amazon GameLift automatically initiates steps to add or remove instances in the fleet
-location. You can track a fleet's current capacity by calling [DescribeFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html)
+Updates often prompt an immediate change in fleet capacity, such as when current capacity is
+different than the new desired capacity or outside the new limits. In this scenario, Amazon
+GameLift automatically initiates steps to add or remove instances in the fleet location. You
+can track a fleet's current capacity by calling [DescribeFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html)
 or [DescribeFleetLocationCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html).
 
 **Learn more**
@@ -6888,8 +6938,8 @@ or [DescribeFleetLocationCapacity](https://docs.aws.amazon.com/gamelift/latest/a
 
 # Arguments
 
-- `fleet_id`: A unique identifier for the fleet to update capacity settings for. You can
-  use either the fleet ID or ARN value.
+- `fleet_id`: A unique identifier for the fleet to update capacity settings for. You can use
+  either the fleet ID or ARN value.
 
 # Optional Parameters
 
@@ -6941,8 +6991,8 @@ List the permissions you want to add in `InboundPermissionAuthorizations`, and p
 you want to remove in `InboundPermissionRevocations`. Permissions to be removed must match
 existing fleet permissions.
 
-For a container fleet, inbound permissions must specify port numbers that are defined in
-the fleet's connection port settings.
+For a container fleet, inbound permissions must specify port numbers that are defined in the
+fleet's connection port settings.
 
 If successful, the fleet ID for the updated fleet is returned. For fleets with remote
 locations, port setting updates can take time to propagate across all locations. You can
@@ -6997,8 +7047,7 @@ end
     update_game_server(game_server_group_name, game_server_id)
     update_game_server(game_server_group_name, game_server_id, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Updates information about a registered game server to help Amazon GameLift FleetIQ track
 game server availability. This operation is called by a game server process that is running
@@ -7009,13 +7058,13 @@ all three types of updates in the same request:
 
 - To update the game server's utilization status from `AVAILABLE` (when the game server is
   available to be claimed) to `UTILIZED` (when the game server is currently hosting games).
-  Identify the game server and game server group and specify the new utilization status.
-  You can't change the status from to `UTILIZED` to `AVAILABLE` .
+  Identify the game server and game server group and specify the new utilization status. You
+  can't change the status from to `UTILIZED` to `AVAILABLE` .
 - To report health status, identify the game server and game server group and set health
-  check to `HEALTHY`. If a game server does not report health status for a certain length
-  of time, the game server is no longer considered healthy. As a result, it will be
-  eventually deregistered from the game server group to avoid affecting utilization
-  metrics. The best practice is to report health every 60 seconds.
+  check to `HEALTHY`. If a game server does not report health status for a certain length of
+  time, the game server is no longer considered healthy. As a result, it will be eventually
+  deregistered from the game server group to avoid affecting utilization metrics. The best
+  practice is to report health every 60 seconds.
 - To change game server metadata, provide updated game server data.
 
 Once a game server is successfully updated, the relevant statuses and timestamps are
@@ -7086,8 +7135,7 @@ end
     update_game_server_group(game_server_group_name)
     update_game_server_group(game_server_group_name, params::Dict{String,<:Any})
 
-**This operation is used with the Amazon GameLift FleetIQ solution and game server
-groups.**
+**This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Updates Amazon GameLift FleetIQ-specific properties for a game server group. Many Auto
 Scaling group properties are updated on the Auto Scaling group directly, including the
@@ -7115,40 +7163,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instances and On-Demand Instances in the game server group. Method options include the
   following:
 
-  - `SPOT_ONLY` - Only Spot Instances are used in the game server group. If Spot
-    Instances are unavailable or not viable for game hosting, the game server group
-    provides no hosting capacity until Spot Instances can again be used. Until then, no
-    new instances are started, and the existing nonviable Spot Instances are terminated
-    (after current gameplay ends) and are not replaced.
+  - `SPOT_ONLY` - Only Spot Instances are used in the game server group. If Spot Instances
+    are unavailable or not viable for game hosting, the game server group provides no
+    hosting capacity until Spot Instances can again be used. Until then, no new instances
+    are started, and the existing nonviable Spot Instances are terminated (after current
+    gameplay ends) and are not replaced.
   - `SPOT_PREFERRED` - (default value) Spot Instances are used whenever available in the
-    game server group. If Spot Instances are unavailable, the game server group continues
-    to provide hosting capacity by falling back to On-Demand Instances. Existing
-    nonviable Spot Instances are terminated (after current gameplay ends) and are
-    replaced with new On-Demand Instances.
-  - `ON_DEMAND_ONLY` - Only On-Demand Instances are used in the game server group. No
-    Spot Instances are used, even when available, while this balancing strategy is in
-    force.
+    game server group. If Spot Instances are unavailable, the game server group continues to
+    provide hosting capacity by falling back to On-Demand Instances. Existing nonviable Spot
+    Instances are terminated (after current gameplay ends) and are replaced with new On-
+    Demand Instances.
+  - `ON_DEMAND_ONLY` - Only On-Demand Instances are used in the game server group. No Spot
+    Instances are used, even when available, while this balancing strategy is in force.
 
-- `"GameServerProtectionPolicy"`: A flag that indicates whether instances in the game
-  server group are protected from early termination. Unprotected instances that have
-  active game servers running might be terminated during a scale-down event, causing
-  players to be dropped from the game. Protected instances cannot be terminated while
-  there are active game servers running except in the event of a forced game server group
-  deletion (see ). An exception to this is with Spot Instances, which can be terminated
-  by Amazon Web Services regardless of protection status. This property is set to
-  `NO_PROTECTION` by default.
+- `"GameServerProtectionPolicy"`: A flag that indicates whether instances in the game server
+  group are protected from early termination. Unprotected instances that have active game
+  servers running might be terminated during a scale-down event, causing players to be
+  dropped from the game. Protected instances cannot be terminated while there are active
+  game servers running except in the event of a forced game server group deletion (see ). An
+  exception to this is with Spot Instances, which can be terminated by Amazon Web Services
+  regardless of protection status. This property is set to `NO_PROTECTION` by default.
+
 - `"InstanceDefinitions"`: An updated list of Amazon EC2 instance types to use in the Auto
-  Scaling group. The instance definitions must specify at least two different instance
-  types that are supported by Amazon GameLift FleetIQ. This updated list replaces the
-  entire current list of instance definitions for the game server group. For more
-  information on instance types, see [EC2 Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)
+  Scaling group. The instance definitions must specify at least two different instance types
+  that are supported by Amazon GameLift FleetIQ. This updated list replaces the entire
+  current list of instance definitions for the game server group. For more information on
+  instance types, see [EC2 Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)
   in the *Amazon EC2 User Guide*. You can optionally specify capacity weighting for each
   instance type. If no weight value is specified for an instance type, it is set to the
   default value "1". For more information about capacity weighting, see [Instance Weighting for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html)
   in the Amazon EC2 Auto Scaling User Guide.
+
 - `"RoleArn"`: The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-  for an IAM role that allows Amazon GameLift to access your Amazon EC2 Auto Scaling
-  groups.
+  for an IAM role that allows Amazon GameLift to access your Amazon EC2 Auto Scaling groups.
 """
 function update_game_server_group end
 
@@ -7202,23 +7249,25 @@ If successful, the updated `GameSession` object is returned.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"GameProperties"`: A set of key-value pairs that can store custom data in a game
-  session. For example: `{"Key": "difficulty", "Value": "novice"}`. You can use this
-  parameter to modify game properties in an active game session. This action adds new
-  properties and modifies existing properties. There is no way to delete properties. For
-  an example, see [Update the value of a game property](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-update).
+- `"GameProperties"`: A set of key-value pairs that can store custom data in a game session.
+  For example: `{"Key": "difficulty", "Value": "novice"}`. You can use this parameter to
+  modify game properties in an active game session. This action adds new properties and
+  modifies existing properties. There is no way to delete properties. For an example, see [Update the value of a game property](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-update).
+
 - `"MaximumPlayerSessionCount"`: The maximum number of players that can be connected
   simultaneously to the game session.
-- `"Name"`: A descriptive label that is associated with a game session. Session names do
-  not need to be unique.
+
+- `"Name"`: A descriptive label that is associated with a game session. Session names do not
+  need to be unique.
+
 - `"PlayerSessionCreationPolicy"`: A policy that determines whether the game session is
   accepting new players.
+
 - `"ProtectionPolicy"`: Game session protection policy to apply to this game session only.
 
   - **NoProtection** -- The game session can be terminated during a scale-down event.
   - **FullProtection** -- If the game session is in an `ACTIVE` status, it cannot be
     terminated during a scale-down event.
-
 """
 function update_game_session end
 
@@ -7272,31 +7321,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CustomEventData"`: Information to be added to all events that are related to this game
   session queue.
+
 - `"Destinations"`: A list of fleets and/or fleet aliases that can be used to fulfill game
-  session placement requests in the queue. Destinations are identified by either a fleet
-  ARN or a fleet alias ARN, and are listed in order of placement preference. When
-  updating this list, provide a complete list of destinations.
+  session placement requests in the queue. Destinations are identified by either a fleet ARN
+  or a fleet alias ARN, and are listed in order of placement preference. When updating this
+  list, provide a complete list of destinations.
+
 - `"FilterConfiguration"`: A list of locations where a queue is allowed to place new game
-  sessions. Locations are specified in the form of Amazon Web Services Region codes, such
-  as `us-west-2`. If this parameter is not set, game sessions can be placed in any queue
+  sessions. Locations are specified in the form of Amazon Web Services Region codes, such as
+  `us-west-2`. If this parameter is not set, game sessions can be placed in any queue
   location. To remove an existing filter configuration, pass in an empty set.
+
 - `"NotificationTarget"`: An SNS topic ARN that is set up to receive game session placement
   notifications. See [Setting up notifications for game session placement](https://docs.aws.amazon.com/gamelift/latest/developerguide/queue-notification.html).
+
 - `"PlayerLatencyPolicies"`: A set of policies that act as a sliding cap on player latency.
   FleetIQ works to deliver low latency for most players in a game session. These policies
-  ensure that no individual player can be placed into a game with unreasonably high
-  latency. Use multiple policies to gradually relax latency requirements a step at a
-  time. Multiple policies are applied based on their maximum allowed latency, starting
-  with the lowest value. When updating policies, provide a complete collection of
-  policies.
+  ensure that no individual player can be placed into a game with unreasonably high latency.
+  Use multiple policies to gradually relax latency requirements a step at a time. Multiple
+  policies are applied based on their maximum allowed latency, starting with the lowest
+  value. When updating policies, provide a complete collection of policies.
+
 - `"PriorityConfiguration"`: Custom settings to use when prioritizing destinations and
   locations for game session placements. This configuration replaces the FleetIQ default
-  prioritization process. Priority types that are not explicitly named will be
-  automatically applied at the end of the prioritization process. To remove an existing
-  priority configuration, pass in an empty set.
+  prioritization process. Priority types that are not explicitly named will be automatically
+  applied at the end of the prioritization process. To remove an existing priority
+  configuration, pass in an empty set.
+
 - `"TimeoutInSeconds"`: The maximum time, in seconds, that a new game session placement
-  request remains in the queue. When a request exceeds this time, the game session
-  placement changes to a `TIMED_OUT` status. By default, this property is set to `600`.
+  request remains in the queue. When a request exceeds this time, the game session placement
+  changes to a `TIMED_OUT` status. By default, this property is set to `600`.
 """
 function update_game_session_queue end
 
@@ -7324,9 +7378,9 @@ end
     update_matchmaking_configuration(name)
     update_matchmaking_configuration(name, params::Dict{String,<:Any})
 
-Updates settings for a FlexMatch matchmaking configuration. These changes affect all
-matches and game sessions that are created after the update. To update settings, specify
-the configuration name to be updated and provide the new settings.
+Updates settings for a FlexMatch matchmaking configuration. These changes affect all matches
+and game sessions that are created after the update. To update settings, specify the
+configuration name to be updated and provide the new settings.
 
 **Learn more**
 
@@ -7342,57 +7396,67 @@ the configuration name to be updated and provide the new settings.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AcceptanceRequired"`: A flag that indicates whether a match that was created with this
-  configuration must be accepted by the matched players. To require acceptance, set to
-  TRUE. With this option enabled, matchmaking tickets use the status
-  `REQUIRES_ACCEPTANCE` to indicate when a completed potential match is waiting for
-  player acceptance.
+  configuration must be accepted by the matched players. To require acceptance, set to TRUE.
+  With this option enabled, matchmaking tickets use the status `REQUIRES_ACCEPTANCE` to
+  indicate when a completed potential match is waiting for player acceptance.
+
 - `"AcceptanceTimeoutSeconds"`: The length of time (in seconds) to wait for players to
   accept a proposed match, if acceptance is required.
+
 - `"AdditionalPlayerCount"`: The number of player slots in a match to keep open for future
   players. For example, if the configuration's rule set specifies a match for a single 10-
-  person team, and the additional player count is set to 2, 10 players will be selected
-  for the match and 2 more player slots will be open for future players. This parameter
-  is not used if `FlexMatchMode` is set to `STANDALONE`.
+  person team, and the additional player count is set to 2, 10 players will be selected for
+  the match and 2 more player slots will be open for future players. This parameter is not
+  used if `FlexMatchMode` is set to `STANDALONE`.
+
 - `"BackfillMode"`: The method that is used to backfill game sessions created with this
   matchmaking configuration. Specify MANUAL when your game manages backfill requests
   manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift
-  create a match backfill request whenever a game session has one or more open slots.
-  Learn more about manual and automatic backfill in [Backfill Existing Games with FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html).
+  create a match backfill request whenever a game session has one or more open slots. Learn
+  more about manual and automatic backfill in [Backfill Existing Games with FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html).
   Automatic backfill is not available when `FlexMatchMode` is set to `STANDALONE`.
+
 - `"CustomEventData"`: Information to add to all events related to the matchmaking
   configuration.
+
 - `"Description"`: A description for the matchmaking configuration.
+
 - `"FlexMatchMode"`: Indicates whether this matchmaking configuration is being used with
   Amazon GameLift hosting or as a standalone matchmaking solution.
 
   - **STANDALONE** - FlexMatch forms matches and returns match information, including
     players and team assignments, in a [MatchmakingSucceeded](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-events.html#match-events-matchmakingsucceeded)
     event.
-  - **WITH_QUEUE** - FlexMatch forms matches and uses the specified Amazon GameLift queue
-    to start a game session for the match.
+  - **WITH_QUEUE** - FlexMatch forms matches and uses the specified Amazon GameLift queue to
+    start a game session for the match.
 
-- `"GameProperties"`: A set of key-value pairs that can store custom data in a game
-  session. For example: `{"Key": "difficulty", "Value": "novice"}`. This information is
-  added to the new `GameSession` object that is created for a successful match. This
+- `"GameProperties"`: A set of key-value pairs that can store custom data in a game session.
+  For example: `{"Key": "difficulty", "Value": "novice"}`. This information is added to the
+  new `GameSession` object that is created for a successful match. This parameter is not
+  used if `FlexMatchMode` is set to `STANDALONE`.
+
+- `"GameSessionData"`: A set of custom game session properties, formatted as a single string
+  value. This data is passed to a game server process with a request to start a new game
+  session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
+  This information is added to the game session that is created for a successful match. This
   parameter is not used if `FlexMatchMode` is set to `STANDALONE`.
-- `"GameSessionData"`: A set of custom game session properties, formatted as a single
-  string value. This data is passed to a game server process with a request to start a
-  new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
-  This information is added to the game session that is created for a successful match.
-  This parameter is not used if `FlexMatchMode` is set to `STANDALONE`.
+
 - `"GameSessionQueueArns"`: The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-  that is assigned to a Amazon GameLift game session queue resource and uniquely
-  identifies it. ARNs are unique across all Regions. Format is
+  that is assigned to a Amazon GameLift game session queue resource and uniquely identifies
+  it. ARNs are unique across all Regions. Format is
   `arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;`. Queues can be
-  located in any Region. Queues are used to start new Amazon GameLift-hosted game
-  sessions for matches that are created with this matchmaking configuration. If
-  `FlexMatchMode` is set to `STANDALONE`, do not set this parameter.
+  located in any Region. Queues are used to start new Amazon GameLift-hosted game sessions
+  for matches that are created with this matchmaking configuration. If `FlexMatchMode` is
+  set to `STANDALONE`, do not set this parameter.
+
 - `"NotificationTarget"`: An SNS topic ARN that is set up to receive matchmaking
   notifications. See [Setting up notifications for matchmaking](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-notification.html)
   for more information.
-- `"RequestTimeoutSeconds"`: The maximum duration, in seconds, that a matchmaking ticket
-  can remain in process before timing out. Requests that fail due to timing out can be
+
+- `"RequestTimeoutSeconds"`: The maximum duration, in seconds, that a matchmaking ticket can
+  remain in process before timing out. Requests that fail due to timing out can be
   resubmitted as needed.
+
 - `"RuleSetName"`: A unique identifier for the matchmaking rule set to use with this
   configuration. You can use either the rule set name or ARN value. A matchmaking
   configuration can only use rule sets that are defined in the same Region.
@@ -7447,12 +7511,12 @@ fleet's runtime configuration never affects existing server processes.
 
 # Arguments
 
-- `fleet_id`: A unique identifier for the fleet to update runtime configuration for. You
-  can use either the fleet ID or ARN value.
+- `fleet_id`: A unique identifier for the fleet to update runtime configuration for. You can
+  use either the fleet ID or ARN value.
 - `runtime_configuration`: Instructions for launching server processes on fleet computes.
-  Server processes run either a custom game build executable or a Realtime Servers
-  script. The runtime configuration lists the types of server processes to run, how to
-  launch them, and the number of processes to run concurrently.
+  Server processes run either a custom game build executable or a Realtime Servers script.
+  The runtime configuration lists the types of server processes to run, how to launch them,
+  and the number of processes to run concurrently.
 """
 function update_runtime_configuration end
 
@@ -7504,9 +7568,9 @@ To update script content, provide an updated zip file by pointing to either a lo
 an Amazon S3 bucket location. You can use either method regardless of how the original
 script was uploaded. Use the *Version* parameter to track updates to the script.
 
-If the call is successful, the updated metadata is stored in the script record and a
-revised script is uploaded to the Amazon GameLift service. Once the script is updated and
-acquired by a fleet instance, the new version is used for all new game sessions.
+If the call is successful, the updated metadata is stored in the script record and a revised
+script is uploaded to the Amazon GameLift service. Once the script is updated and acquired
+by a fleet instance, the new version is used for all new game sessions.
 
 **Learn more**
 
@@ -7518,31 +7582,33 @@ acquired by a fleet instance, the new version is used for all new game sessions.
 
 # Arguments
 
-- `script_id`: A unique identifier for the Realtime script to update. You can use either
-  the script ID or ARN value.
+- `script_id`: A unique identifier for the Realtime script to update. You can use either the
+  script ID or ARN value.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Name"`: A descriptive label that is associated with a script. Script names don't need
-  to be unique.
+- `"Name"`: A descriptive label that is associated with a script. Script names don't need to
+  be unique.
+
 - `"StorageLocation"`: The location of the Amazon S3 bucket where a zipped file containing
   your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket
-  name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to
-  access the Amazon S3 storage location. The S3 bucket must be in the same Region where
-  you want to create a new script. By default, Amazon GameLift uploads the latest version
-  of the zip file; if you have S3 object versioning turned on, you can use the
-  `ObjectVersion` parameter to specify an earlier version.
+  name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access
+  the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to
+  create a new script. By default, Amazon GameLift uploads the latest version of the zip
+  file; if you have S3 object versioning turned on, you can use the `ObjectVersion`
+  parameter to specify an earlier version.
+
 - `"Version"`: Version information associated with a build or script. Version strings don't
   need to be unique.
+
 - `"ZipFile"`: A data object containing your Realtime scripts and dependencies as a zip
   file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB.
 
-  When using the Amazon Web Services CLI tool to create a script, this parameter is set
-  to the zip file name. It must be prepended with the string "fileb://" to indicate that
-  the file data is a binary object. For example:
-  `--zip-file fileb://myRealtimeScript.zip`.
+  When using the Amazon Web Services CLI tool to create a script, this parameter is set to
+  the zip file name. It must be prepended with the string "fileb://" to indicate that the
+  file data is a binary object. For example: `--zip-file fileb://myRealtimeScript.zip`.
 """
 function update_script end
 

@@ -16,8 +16,8 @@ canceled.
 
 # Arguments
 
-- `request_token`: The `RequestToken` of the `ProgressEvent` object returned by the
-  resource operation request.
+- `request_token`: The `RequestToken` of the `ProgressEvent` object returned by the resource
+  operation request.
 """
 function cancel_resource_request end
 
@@ -77,17 +77,17 @@ using the `RequestToken` of the `ProgressEvent` type returned by `CreateResource
   For more information about the properties of a specific resource, refer to the related
   topic for the resource in the [Resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
   in the *CloudFormation Users Guide*.
+
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientToken"`: A unique identifier to ensure the idempotency of the resource request.
-  As a best practice, specify this token to ensure idempotency, so that Amazon Web
-  Services Cloud Control API can accurately distinguish between request retries and new
-  resource requests. You might retry a resource request to ensure that it was
-  successfully received.
+- `"ClientToken"`: A unique identifier to ensure the idempotency of the resource request. As
+  a best practice, specify this token to ensure idempotency, so that Amazon Web Services
+  Cloud Control API can accurately distinguish between request retries and new resource
+  requests. You might retry a resource request to ensure that it was successfully received.
 
   A client token is valid for 36 hours once used. After that, a resource request with the
   same client token is treated as a new request.
@@ -96,10 +96,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Ensuring resource operation requests are unique](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   role for Cloud Control API to use when performing this resource operation. The role
-  specified must have the permissions required for this operation. The necessary
-  permissions for each event handler are defined in the
+  specified must have the permissions required for this operation. The necessary permissions
+  for each event handler are defined in the
   `[handlers](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers)`
   section of the [resource type definition schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html).
 
@@ -108,6 +109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Specifying credentials](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `"TypeVersionId"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
@@ -170,8 +172,8 @@ using the `RequestToken` of the `ProgressEvent` returned by `DeleteResource`.
 
   You can specify the primary identifier, or any secondary identifier defined for the
   resource type in its resource schema. You can only specify one identifier. Primary
-  identifiers can be specified as a string or JSON; secondary identifiers must be
-  specified as JSON.
+  identifiers can be specified as a string or JSON; secondary identifiers must be specified
+  as JSON.
 
   For compound primary identifiers (that is, one that consists of multiple resource
   properties strung together), to specify the primary identifier as a string, list the
@@ -180,17 +182,17 @@ using the `RequestToken` of the `ProgressEvent` returned by `DeleteResource`.
 
   For more information, see [Identifying resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientToken"`: A unique identifier to ensure the idempotency of the resource request.
-  As a best practice, specify this token to ensure idempotency, so that Amazon Web
-  Services Cloud Control API can accurately distinguish between request retries and new
-  resource requests. You might retry a resource request to ensure that it was
-  successfully received.
+- `"ClientToken"`: A unique identifier to ensure the idempotency of the resource request. As
+  a best practice, specify this token to ensure idempotency, so that Amazon Web Services
+  Cloud Control API can accurately distinguish between request retries and new resource
+  requests. You might retry a resource request to ensure that it was successfully received.
 
   A client token is valid for 36 hours once used. After that, a resource request with the
   same client token is treated as a new request.
@@ -199,10 +201,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Ensuring resource operation requests are unique](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   role for Cloud Control API to use when performing this resource operation. The role
-  specified must have the permissions required for this operation. The necessary
-  permissions for each event handler are defined in the
+  specified must have the permissions required for this operation. The necessary permissions
+  for each event handler are defined in the
   `[handlers](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers)`
   section of the [resource type definition schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html).
 
@@ -211,6 +214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Specifying credentials](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `"TypeVersionId"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
@@ -262,9 +266,9 @@ end
 
 Returns information about the current state of the specified resource. For details, see [Reading a resource's current state](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-read.html).
 
-You can use this action to return information about an existing resource in your account
-and Amazon Web Services Region, whether those resources were provisioned using Cloud
-Control API.
+You can use this action to return information about an existing resource in your account and
+Amazon Web Services Region, whether those resources were provisioned using Cloud Control
+API.
 
 # Arguments
 
@@ -272,8 +276,8 @@ Control API.
 
   You can specify the primary identifier, or any secondary identifier defined for the
   resource type in its resource schema. You can only specify one identifier. Primary
-  identifiers can be specified as a string or JSON; secondary identifiers must be
-  specified as JSON.
+  identifiers can be specified as a string or JSON; secondary identifiers must be specified
+  as JSON.
 
   For compound primary identifiers (that is, one that consists of multiple resource
   properties strung together), to specify the primary identifier as a string, list the
@@ -282,6 +286,7 @@ Control API.
 
   For more information, see [Identifying resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
@@ -290,8 +295,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   role for Cloud Control API to use when performing this resource operation. The role
-  specified must have the permissions required for this operation. The necessary
-  permissions for each event handler are defined in the
+  specified must have the permissions required for this operation. The necessary permissions
+  for each event handler are defined in the
   `[handlers](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers)`
   section of the [resource type definition schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html).
 
@@ -300,6 +305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Specifying credentials](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `"TypeVersionId"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
@@ -349,8 +355,8 @@ in the *Amazon Web Services Cloud Control API User Guide*.
 - `request_token`: A unique token used to track the progress of the resource operation
   request.
 
-  Request tokens are included in the `ProgressEvent` type returned by a resource
-  operation request.
+  Request tokens are included in the `ProgressEvent` type returned by a resource operation
+  request.
 """
 function get_resource_request_status end
 
@@ -401,11 +407,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 
   The default is `20`.
+
 - `"NextToken"`: If the previous paginated request didn't return all of the remaining
-  results, the response object's `NextToken` parameter value is set to a token. To
-  retrieve the next set of results, call this action again and assign that token to the
-  request object's `NextToken` parameter. If there are no remaining results, the previous
-  response object's `NextToken` parameter is set to `null`.
+  results, the response object's `NextToken` parameter value is set to a token. To retrieve
+  the next set of results, call this action again and assign that token to the request
+  object's `NextToken` parameter. If there are no remaining results, the previous response
+  object's `NextToken` parameter is set to `null`.
+
 - `"ResourceRequestStatusFilter"`: The filter criteria to apply to the requests returned.
 """
 function list_resource_requests end
@@ -447,16 +455,19 @@ API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Reserved.
+
 - `"NextToken"`: If the previous paginated request didn't return all of the remaining
-  results, the response object's `NextToken` parameter value is set to a token. To
-  retrieve the next set of results, call this action again and assign that token to the
-  request object's `NextToken` parameter. If there are no remaining results, the previous
-  response object's `NextToken` parameter is set to `null`.
+  results, the response object's `NextToken` parameter value is set to a token. To retrieve
+  the next set of results, call this action again and assign that token to the request
+  object's `NextToken` parameter. If there are no remaining results, the previous response
+  object's `NextToken` parameter is set to `null`.
+
 - `"ResourceModel"`: The resource model to use to select the resources to return.
+
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   role for Cloud Control API to use when performing this resource operation. The role
-  specified must have the permissions required for this operation. The necessary
-  permissions for each event handler are defined in the
+  specified must have the permissions required for this operation. The necessary permissions
+  for each event handler are defined in the
   `[handlers](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers)`
   section of the [resource type definition schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html).
 
@@ -465,6 +476,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Specifying credentials](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `"TypeVersionId"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
@@ -501,8 +513,8 @@ end
 
 Updates the specified property values in the resource.
 
-You specify your resource property updates as a list of patch operations contained in a
-JSON patch document that adheres to the [*RFC 6902 - JavaScript Object Notation (JSON) Patch*](https://datatracker.ietf.org/doc/html/rfc6902)
+You specify your resource property updates as a list of patch operations contained in a JSON
+patch document that adheres to the [*RFC 6902 - JavaScript Object Notation (JSON) Patch*](https://datatracker.ietf.org/doc/html/rfc6902)
 standard.
 
 For details on how Cloud Control API performs resource update operations, see [Updating a resource](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-update.html)
@@ -512,8 +524,8 @@ After you have initiated a resource update request, you can monitor the progress
 request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html)
 using the `RequestToken` of the `ProgressEvent` returned by `UpdateResource`.
 
-For more information about the properties of a specific resource, refer to the related
-topic for the resource in the [Resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
+For more information about the properties of a specific resource, refer to the related topic
+for the resource in the [Resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
 in the *CloudFormation Users Guide*.
 
 # Arguments
@@ -522,8 +534,8 @@ in the *CloudFormation Users Guide*.
 
   You can specify the primary identifier, or any secondary identifier defined for the
   resource type in its resource schema. You can only specify one identifier. Primary
-  identifiers can be specified as a string or JSON; secondary identifiers must be
-  specified as JSON.
+  identifiers can be specified as a string or JSON; secondary identifiers must be specified
+  as JSON.
 
   For compound primary identifiers (that is, one that consists of multiple resource
   properties strung together), to specify the primary identifier as a string, list the
@@ -532,21 +544,22 @@ in the *CloudFormation Users Guide*.
 
   For more information, see [Identifying resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `patch_document`: A JavaScript Object Notation (JSON) document listing the patch
   operations that represent the updates to apply to the current resource properties. For
   details, see [Composing the patch document](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-update.html#resource-operations-update-patch)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientToken"`: A unique identifier to ensure the idempotency of the resource request.
-  As a best practice, specify this token to ensure idempotency, so that Amazon Web
-  Services Cloud Control API can accurately distinguish between request retries and new
-  resource requests. You might retry a resource request to ensure that it was
-  successfully received.
+- `"ClientToken"`: A unique identifier to ensure the idempotency of the resource request. As
+  a best practice, specify this token to ensure idempotency, so that Amazon Web Services
+  Cloud Control API can accurately distinguish between request retries and new resource
+  requests. You might retry a resource request to ensure that it was successfully received.
 
   A client token is valid for 36 hours once used. After that, a resource request with the
   same client token is treated as a new request.
@@ -555,10 +568,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Ensuring resource operation requests are unique](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   role for Cloud Control API to use when performing this resource operation. The role
-  specified must have the permissions required for this operation. The necessary
-  permissions for each event handler are defined in the
+  specified must have the permissions required for this operation. The necessary permissions
+  for each event handler are defined in the
   `[handlers](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-handlers)`
   section of the [resource type definition schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html).
 
@@ -567,6 +581,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Specifying credentials](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-permissions)
   in the *Amazon Web Services Cloud Control API User Guide*.
+
 - `"TypeVersionId"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.

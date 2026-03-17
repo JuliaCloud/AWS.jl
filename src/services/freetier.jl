@@ -14,8 +14,8 @@ Returns a list of all Free Tier usage objects that match your filters.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filter"`: An expression that specifies the conditions that you want each
-  `FreeTierUsage` object to meet.
+- `"filter"`: An expression that specifies the conditions that you want each `FreeTierUsage`
+  object to meet.
 - `"maxResults"`: The maximum number of results to return in the response. `MaxResults`
   means that there can be up to the specified number of values, but there might be fewer
   results based on your filters.

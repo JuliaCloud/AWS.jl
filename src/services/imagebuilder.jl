@@ -8,13 +8,13 @@ using AWS.UUIDs
     cancel_image_creation(client_token, image_build_version_arn)
     cancel_image_creation(client_token, image_build_version_arn, params::Dict{String,<:Any})
 
-CancelImageCreation cancels the creation of Image. This operation can only be used on
-images in a non-terminal state.
+CancelImageCreation cancels the creation of Image. This operation can only be used on images
+in a non-terminal state.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `image_build_version_arn`: The Amazon Resource Name (ARN) of the image that you want to
   cancel creation for.
@@ -67,8 +67,8 @@ Cancel a specific image lifecycle policy runtime instance.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `lifecycle_execution_id`: Identifies the specific runtime instance of the image lifecycle
   to cancel.
@@ -122,27 +122,30 @@ The component is based on a YAML document that you specify using exactly one of 
 following methods:
 
 - Inline, using the `data` property in the request body.
-- A URL that points to a YAML document file stored in Amazon S3, using the `uri` property
-  in the request body.
+- A URL that points to a YAML document file stored in Amazon S3, using the `uri` property in
+  the request body.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
+
 - `name`: The name of the component.
+
 - `platform`: The operating system platform of the component.
+
 - `semantic_version`: The semantic version of the component. This version follows the
   semantic version syntax.
 
   !!! note
       The semantic version has four nodes:
-      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for
-      the first three, and can filter on all of them.
+      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+      first three, and can filter on all of them.
 
-      **Assignment:** For the first three nodes you can assign any positive integer
-      value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node.
-      Image Builder automatically assigns the build number to the fourth node.
+      **Assignment:** For the first three nodes you can assign any positive integer value,
+      including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image
+      Builder automatically assigns the build number to the fourth node.
 
       **Patterns:** You can use any numeric pattern that adheres to the assignment
       requirements for the nodes that you can assign. For example, you might choose a
@@ -153,17 +156,23 @@ following methods:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"changeDescription"`: The change description of the component. Describes what change has
-  been made in this version, or what makes this version different from other versions of
-  the component.
+  been made in this version, or what makes this version different from other versions of the
+  component.
+
 - `"data"`: Component `data` contains inline YAML document content for the component.
   Alternatively, you can specify the `uri` of a YAML document file stored in Amazon S3.
   However, you cannot specify both properties.
+
 - `"description"`: Describes the contents of the component.
+
 - `"kmsKeyId"`: The ID of the KMS key that is used to encrypt this component.
+
 - `"supportedOsVersions"`: The operating system (OS) version supported by the component. If
   the OS information is available, a prefix match is performed against the base image OS
   version during image recipe creation.
+
 - `"tags"`: The tags that apply to the component.
+
 - `"uri"`: The `uri` of a YAML component document file. This must be an S3 URL
   (`s3://bucket/key`), and the requester must have permission to access the S3 bucket it
   points to. If you use Amazon S3, you can specify component content up to your service
@@ -232,26 +241,31 @@ and assessed.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
+
 - `components`: Components for build and test that are included in the container recipe.
-  Recipes require a minimum of one build component, and can have a maximum of 20 build
-  and test components in any combination.
+  Recipes require a minimum of one build component, and can have a maximum of 20 build and
+  test components in any combination.
+
 - `container_type`: The type of container to create.
+
 - `name`: The name of the container recipe.
+
 - `parent_image`: The base image for the container recipe.
-- `semantic_version`: The semantic version of the container recipe. This version follows
-  the semantic version syntax.
+
+- `semantic_version`: The semantic version of the container recipe. This version follows the
+  semantic version syntax.
 
   !!! note
       The semantic version has four nodes:
-      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for
-      the first three, and can filter on all of them.
+      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+      first three, and can filter on all of them.
 
-      **Assignment:** For the first three nodes you can assign any positive integer
-      value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node.
-      Image Builder automatically assigns the build number to the fourth node.
+      **Assignment:** For the first three nodes you can assign any positive integer value,
+      including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image
+      Builder automatically assigns the build number to the fourth node.
 
       **Patterns:** You can use any numeric pattern that adheres to the assignment
       requirements for the nodes that you can assign. For example, you might choose a
@@ -266,8 +280,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the container recipe.
 - `"dockerfileTemplateData"`: The Dockerfile template used to build your image as an inline
   data blob.
-- `"dockerfileTemplateUri"`: The Amazon S3 URI for the Dockerfile that will be used to
-  build your container image.
+- `"dockerfileTemplateUri"`: The Amazon S3 URI for the Dockerfile that will be used to build
+  your container image.
 - `"imageOsVersionOverride"`: Specifies the operating system version for the base image.
 - `"instanceConfiguration"`: A group of options that can be used to configure an instance
   for building and testing container images.
@@ -349,8 +363,8 @@ the outputs of your pipeline.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `distributions`: The distributions of the distribution configuration.
 - `name`: The name of the distribution configuration.
@@ -414,8 +428,8 @@ recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `infrastructure_configuration_arn`: The Amazon Resource Name (ARN) of the infrastructure
   configuration that defines the environment in which your image will be built and tested.
@@ -429,11 +443,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"distributionConfigurationArn"`: The Amazon Resource Name (ARN) of the distribution
   configuration that defines and configures the outputs of your pipeline.
 - `"enhancedImageMetadataEnabled"`: Collects additional information about the image being
-  created, including the operating system (OS) version and package list. This information
-  is used to enhance the overall experience of using EC2 Image Builder. Enabled by
-  default.
-- `"executionRole"`: The name or Amazon Resource Name (ARN) for the IAM role you create
-  that grants Image Builder access to perform workflow actions.
+  created, including the operating system (OS) version and package list. This information is
+  used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
+- `"executionRole"`: The name or Amazon Resource Name (ARN) for the IAM role you create that
+  grants Image Builder access to perform workflow actions.
 - `"imageRecipeArn"`: The Amazon Resource Name (ARN) of the image recipe that defines how
   images are configured, tested, and assessed.
 - `"imageScanningConfiguration"`: Contains settings for vulnerability scans.
@@ -493,8 +506,8 @@ distribution of images.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `infrastructure_configuration_arn`: The Amazon Resource Name (ARN) of the infrastructure
   configuration that will be used to build images created by this image pipeline.
@@ -508,14 +521,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used to configure images created by this container pipeline.
 - `"description"`: The description of the image pipeline.
 - `"distributionConfigurationArn"`: The Amazon Resource Name (ARN) of the distribution
-  configuration that will be used to configure and distribute images created by this
-  image pipeline.
+  configuration that will be used to configure and distribute images created by this image
+  pipeline.
 - `"enhancedImageMetadataEnabled"`: Collects additional information about the image being
-  created, including the operating system (OS) version and package list. This information
-  is used to enhance the overall experience of using EC2 Image Builder. Enabled by
-  default.
-- `"executionRole"`: The name or Amazon Resource Name (ARN) for the IAM role you create
-  that grants Image Builder access to perform workflow actions.
+  created, including the operating system (OS) version and package list. This information is
+  used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
+- `"executionRole"`: The name or Amazon Resource Name (ARN) for the IAM role you create that
+  grants Image Builder access to perform workflow actions.
 - `"imageRecipeArn"`: The Amazon Resource Name (ARN) of the image recipe that will be used
   to configure images created by this image pipeline.
 - `"imageScanningConfiguration"`: Contains settings for vulnerability scans.
@@ -581,28 +593,32 @@ assessed.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
+
 - `components`: The components included in the image recipe.
+
 - `name`: The name of the image recipe.
-- `parent_image`: The base image of the image recipe. The value of the string can be the
-  ARN of the base image or an AMI ID. The format for the ARN follows this example:
+
+- `parent_image`: The base image of the image recipe. The value of the string can be the ARN
+  of the base image or an AMI ID. The format for the ARN follows this example:
   `arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/x.x.x`.
   You can provide the specific version that you want to use, or you can use a wildcard in
   all of the fields. If you enter an AMI ID for the string value, you must have access to
   the AMI, and the AMI must be in the same Region in which you are using Image Builder.
+
 - `semantic_version`: The semantic version of the image recipe. This version follows the
   semantic version syntax.
 
   !!! note
       The semantic version has four nodes:
-      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for
-      the first three, and can filter on all of them.
+      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+      first three, and can filter on all of them.
 
-      **Assignment:** For the first three nodes you can assign any positive integer
-      value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node.
-      Image Builder automatically assigns the build number to the fourth node.
+      **Assignment:** For the first three nodes you can assign any positive integer value,
+      including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image
+      Builder automatically assigns the build number to the fourth node.
 
       **Patterns:** You can use any numeric pattern that adheres to the assignment
       requirements for the nodes that you can assign. For example, you might choose a
@@ -683,8 +699,8 @@ environment in which your image will be built and tested.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `instance_profile_name`: The instance profile to associate with the instance used to
   customize your Amazon EC2 AMI.
@@ -695,17 +711,24 @@ environment in which your image will be built and tested.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of the infrastructure configuration.
+
 - `"instanceMetadataOptions"`: The instance metadata options that you can set for the HTTP
   requests that pipeline builds use to launch EC2 build and test instances.
-- `"instanceTypes"`: The instance types of the infrastructure configuration. You can
-  specify one or more instance types to use for this build. The service will pick one of
-  these instance types based on availability.
+
+- `"instanceTypes"`: The instance types of the infrastructure configuration. You can specify
+  one or more instance types to use for this build. The service will pick one of these
+  instance types based on availability.
+
 - `"keyPair"`: The key pair of the infrastructure configuration. You can use this to log on
   to and debug the instance used to create your image.
+
 - `"logging"`: The logging configuration of the infrastructure configuration.
+
 - `"resourceTags"`: The tags attached to the resource created by Image Builder.
+
 - `"securityGroupIds"`: The security group IDs to associate with the instance used to
   customize your Amazon EC2 AMI.
+
 - `"snsTopicArn"`: The Amazon Resource Name (ARN) for the SNS topic to which we send image
   build event notifications.
 
@@ -716,7 +739,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"subnetId"`: The subnet ID in which to place the instance used to customize your Amazon
   EC2 AMI.
+
 - `"tags"`: The tags of the infrastructure configuration.
+
 - `"terminateInstanceOnFailure"`: The terminate instance on failure setting of the
   infrastructure configuration. Set to false if you want Image Builder to retain the
   instance used to configure your AMI if the build or test phase of your workflow fails.
@@ -776,8 +801,8 @@ Create a lifecycle policy resource.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `execution_role`: The name or Amazon Resource Name (ARN) for the IAM role you create that
   grants Image Builder access to run lifecycle actions.
@@ -862,21 +887,23 @@ Create a new workflow or a new version of an existing workflow.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
+
 - `name`: The name of the workflow to create.
+
 - `semantic_version`: The semantic version of this workflow resource. The semantic version
   syntax adheres to the following rules.
 
   !!! note
       The semantic version has four nodes:
-      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for
-      the first three, and can filter on all of them.
+      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+      first three, and can filter on all of them.
 
-      **Assignment:** For the first three nodes you can assign any positive integer
-      value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node.
-      Image Builder automatically assigns the build number to the fourth node.
+      **Assignment:** For the first three nodes you can assign any positive integer value,
+      including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image
+      Builder automatically assigns the build number to the fourth node.
 
       **Patterns:** You can use any numeric pattern that adheres to the assignment
       requirements for the nodes that you can assign. For example, you might choose a
@@ -891,12 +918,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"changeDescription"`: Describes what change has been made in this version of the
   workflow, or what makes this version different from other versions of the workflow.
+
 - `"data"`: Contains the UTF-8 encoded YAML document content for the workflow.
   Alternatively, you can specify the `uri` of a YAML document file stored in Amazon S3.
   However, you cannot specify both properties.
+
 - `"description"`: Describes the workflow.
+
 - `"kmsKeyId"`: The ID of the KMS key that is used to encrypt this workflow resource.
+
 - `"tags"`: Tags that apply to the workflow resource.
+
 - `"uri"`: The `uri` of a YAML component document file. This must be an S3 URL
   (`s3://bucket/key`), and the requester must have permission to access the S3 bucket it
   points to. If you use Amazon S3, you can specify component content up to your service
@@ -1283,8 +1315,8 @@ Delete the specified lifecycle policy resource.
 
 # Arguments
 
-- `lifecycle_policy_arn`: The Amazon Resource Name (ARN) of the lifecycle policy resource
-  to delete.
+- `lifecycle_policy_arn`: The Amazon Resource Name (ARN) of the lifecycle policy resource to
+  delete.
 """
 function delete_lifecycle_policy end
 
@@ -1842,8 +1874,8 @@ end
     get_lifecycle_execution(lifecycle_execution_id)
     get_lifecycle_execution(lifecycle_execution_id, params::Dict{String,<:Any})
 
-Get the runtime information that was logged for a specific runtime instance of the
-lifecycle policy.
+Get the runtime information that was logged for a specific runtime instance of the lifecycle
+policy.
 
 # Arguments
 
@@ -1935,8 +1967,8 @@ Get a workflow resource object.
 
 # Arguments
 
-- `workflow_build_version_arn`: The Amazon Resource Name (ARN) of the workflow resource
-  that you want to get.
+- `workflow_build_version_arn`: The Amazon Resource Name (ARN) of the workflow resource that
+  you want to get.
 """
 function get_workflow end
 
@@ -2069,22 +2101,26 @@ Imports a component and transforms its data into a component document.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
+
 - `format`: The format of the resource that you want to import as a component.
+
 - `name`: The name of the component.
+
 - `platform`: The platform of the component.
+
 - `semantic_version`: The semantic version of the component. This version follows the
   semantic version syntax.
 
   !!! note
       The semantic version has four nodes:
-      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for
-      the first three, and can filter on all of them.
+      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+      first three, and can filter on all of them.
 
-      **Filtering:** With semantic versioning, you have the flexibility to use wildcards
-      (x) to specify the most recent versions or nodes when selecting the base image or
+      **Filtering:** With semantic versioning, you have the flexibility to use wildcards (x)
+      to specify the most recent versions or nodes when selecting the base image or
       components for your recipe. When you use a wildcard in any node, all nodes to the
       right of the first wildcard must also be wildcards.
 
@@ -2095,9 +2131,9 @@ Imports a component and transforms its data into a component document.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"changeDescription"`: The change description of the component. This description
-  indicates the change that has been made in this version, or what makes this version
-  different from other versions of the component.
+- `"changeDescription"`: The change description of the component. This description indicates
+  the change that has been made in this version, or what makes this version different from
+  other versions of the component.
 - `"data"`: The data of the component. Used to specify the data inline. Either `data` or
   `uri` can be used to specify the data within the component.
 - `"description"`: The description of the component. Describes the contents of the
@@ -2105,9 +2141,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"kmsKeyId"`: The ID of the KMS key that should be used to encrypt this component.
 - `"tags"`: The tags of the component.
 - `"uri"`: The uri of the component. Must be an Amazon S3 URL and the requester must have
-  permission to access the Amazon S3 bucket. If you use Amazon S3, you can specify
-  component content up to your service quota. Either `data` or `uri` can be used to
-  specify the data within the component.
+  permission to access the Amazon S3 bucket. If you use Amazon S3, you can specify component
+  content up to your service quota. Either `data` or `uri` can be used to specify the data
+  within the component.
 """
 function import_component end
 
@@ -2183,30 +2219,33 @@ as the base image for your Image Builder recipe.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
+
 - `name`: The name of the base image that is created by the import process.
+
 - `platform`: The operating system platform for the imported VM.
+
 - `semantic_version`: The semantic version to attach to the base image that was created
   during the import process. This version follows the semantic version syntax.
 
   !!! note
       The semantic version has four nodes:
-      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for
-      the first three, and can filter on all of them.
+      &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+      first three, and can filter on all of them.
 
-      **Assignment:** For the first three nodes you can assign any positive integer
-      value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node.
-      Image Builder automatically assigns the build number to the fourth node.
+      **Assignment:** For the first three nodes you can assign any positive integer value,
+      including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image
+      Builder automatically assigns the build number to the fourth node.
 
       **Patterns:** You can use any numeric pattern that adheres to the assignment
       requirements for the nodes that you can assign. For example, you might choose a
       software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
 
 - `vm_import_task_id`: The `importTaskId` (API) or `ImportTaskId` (CLI) from the Amazon EC2
-  VM import process. Image Builder retrieves information from the import process to pull
-  in the AMI that is created from the VM source as the base image for your recipe.
+  VM import process. Image Builder retrieves information from the import process to pull in
+  the AMI that is created from the VM source as the base image for your recipe.
 
 # Optional Parameters
 
@@ -2283,9 +2322,9 @@ Returns the list of component build versions for the specified semantic version.
     first three, and can filter on all of them.
 
     **Filtering:** With semantic versioning, you have the flexibility to use wildcards (x)
-    to specify the most recent versions or nodes when selecting the base image or
-    components for your recipe. When you use a wildcard in any node, all nodes to the right
-    of the first wildcard must also be wildcards.
+    to specify the most recent versions or nodes when selecting the base image or components
+    for your recipe. When you use a wildcard in any node, all nodes to the right of the
+    first wildcard must also be wildcards.
 
 # Arguments
 
@@ -2348,15 +2387,16 @@ appear in the ListComponents API Results.
     first three, and can filter on all of them.
 
     **Filtering:** With semantic versioning, you have the flexibility to use wildcards (x)
-    to specify the most recent versions or nodes when selecting the base image or
-    components for your recipe. When you use a wildcard in any node, all nodes to the right
-    of the first wildcard must also be wildcards.
+    to specify the most recent versions or nodes when selecting the base image or components
+    for your recipe. When you use a wildcard in any node, all nodes to the right of the
+    first wildcard must also be wildcards.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"byName"`: Returns the list of components for the specified name.
+
 - `"filters"`: Use the following filters to streamline results:
 
   - `description`
@@ -2367,12 +2407,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `version`
 
 - `"maxResults"`: The maximum items to return in a request.
+
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
+
 - `"owner"`: Filters results based on the type of owner for the component. By default, this
   request returns a list of components that your account owns. To see results for other
-  types of owners, you can specify components that Amazon manages, third party
-  components, or components that other accounts have shared with you.
+  types of owners, you can specify components that Amazon manages, third party components,
+  or components that other accounts have shared with you.
 """
 function list_components end
 
@@ -2412,8 +2454,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `platform`
 
 - `"maxResults"`: The maximum items to return in a request.
+
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
+
 - `"owner"`: Returns container recipes belonging to the specified owner, that have been
   shared with you. You can omit this field to return container recipes belonging to your
   account.
@@ -2505,6 +2549,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `version`
 
 - `"maxResults"`: The maximum items to return in a request.
+
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -2615,6 +2660,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `version`
 
 - `"maxResults"`: The maximum items to return in a request.
+
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -2670,6 +2716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `status`
 
 - `"maxResults"`: The maximum items to return in a request.
+
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -2713,8 +2760,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `platform`
 
 - `"maxResults"`: The maximum items to return in a request.
+
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
+
 - `"owner"`: The owner defines which image recipes you want to list. By default, this
   request will only show image recipes owned by your account. You can use this field to
   specify if you want to view image recipes owned by yourself, by Amazon, or those image
@@ -2800,8 +2849,8 @@ Returns a list of image scan findings for your account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filters"`: An array of name value pairs that you can use to filter your results. You
-  can use the following filters to streamline results:
+- `"filters"`: An array of name value pairs that you can use to filter your results. You can
+  use the following filters to streamline results:
 
   - `imageBuildVersionArn`
   - `imagePipelineArn`
@@ -2809,7 +2858,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `severity`
 
   If you don't request a filter, then all findings in your account are listed.
+
 - `"maxResults"`: The maximum items to return in a request.
+
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -2848,6 +2899,7 @@ minutes to appear in the ListImages API Results.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"byName"`: Requests a list of images with a specific recipe name.
+
 - `"filters"`: Use the following filters to streamline results:
 
   - `name`
@@ -2857,13 +2909,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `version`
 
 - `"includeDeprecated"`: Includes deprecated images in the response list.
+
 - `"maxResults"`: The maximum items to return in a request.
+
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
+
 - `"owner"`: The owner defines which images you want to list. By default, this request will
-  only show images owned by your account. You can use this field to specify if you want
-  to view images owned by yourself, by Amazon, or those images that have been shared with
-  you by other customers.
+  only show images owned by your account. You can use this field to specify if you want to
+  view images owned by yourself, by Amazon, or those images that have been shared with you
+  by other customers.
 """
 function list_images end
 
@@ -2942,15 +2997,17 @@ actions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum items to return in a request.
+
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
+
 - `"parentResourceId"`: You can leave this empty to get a list of Image Builder resources
   that were identified for lifecycle actions.
 
   To get a list of associated resources that are impacted for an individual resource (the
   parent), specify its Amazon Resource Name (ARN). Associated resources are produced from
-  your image and distributed when you run a build, such as AMIs or container images
-  stored in ECR repositories.
+  your image and distributed when you run a build, such as AMIs or container images stored
+  in ECR repositories.
 """
 function list_lifecycle_execution_resources end
 
@@ -3258,8 +3315,8 @@ end
     list_workflow_step_executions(workflow_execution_id)
     list_workflow_step_executions(workflow_execution_id, params::Dict{String,<:Any})
 
-Returns runtime data for each step in a runtime instance of the workflow that you specify
-in the request.
+Returns runtime data for each step in a runtime instance of the workflow that you specify in
+the request.
 
 # Arguments
 
@@ -3402,9 +3459,9 @@ end
 
 Applies a policy to a container image. We recommend that you call the RAM API
 CreateResourceShare
-(https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to
-share resources. If you call the Image Builder API `PutContainerImagePolicy`, you must also
-call the RAM API PromoteResourceShareCreatedFromPolicy
+(https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share
+resources. If you call the Image Builder API `PutContainerImagePolicy`, you must also call
+the RAM API PromoteResourceShareCreatedFromPolicy
 (https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
 in order for the resource to be visible to all principals with whom the resource is shared.
 
@@ -3559,8 +3616,8 @@ Pauses or resumes image creation when the associated workflow runs a `WaitForAct
 
 - `action`: The action for the image creation process to take while a workflow
   `WaitForAction` step waits for an asynchronous action to complete.
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `image_build_version_arn`: The Amazon Resource Name (ARN) of the image build version to
   send action for.
@@ -3631,8 +3688,8 @@ Manually triggers a pipeline to create an image.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `image_pipeline_arn`: The Amazon Resource Name (ARN) of the image pipeline that you want
   to manually invoke.
@@ -3685,8 +3742,8 @@ resources.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `resource_arn`: The ARN of the Image Builder resource that is updated. The state update
   might also impact associated resources.
@@ -3833,8 +3890,8 @@ the outputs of your pipeline.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `distribution_configuration_arn`: The Amazon Resource Name (ARN) of the distribution
   configuration that you want to update.
@@ -3908,8 +3965,8 @@ distribution of images. You must specify exactly one recipe for your image, usin
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `image_pipeline_arn`: The Amazon Resource Name (ARN) of the image pipeline that you want
   to update.
@@ -3925,14 +3982,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update.
 - `"description"`: The description of the image pipeline.
 - `"distributionConfigurationArn"`: The Amazon Resource Name (ARN) of the distribution
-  configuration that Image Builder uses to configure and distribute images that this
-  image pipeline has updated.
+  configuration that Image Builder uses to configure and distribute images that this image
+  pipeline has updated.
 - `"enhancedImageMetadataEnabled"`: Collects additional information about the image being
-  created, including the operating system (OS) version and package list. This information
-  is used to enhance the overall experience of using EC2 Image Builder. Enabled by
-  default.
-- `"executionRole"`: The name or Amazon Resource Name (ARN) for the IAM role you create
-  that grants Image Builder access to perform workflow actions.
+  created, including the operating system (OS) version and package list. This information is
+  used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
+- `"executionRole"`: The name or Amazon Resource Name (ARN) for the IAM role you create that
+  grants Image Builder access to perform workflow actions.
 - `"imageRecipeArn"`: The Amazon Resource Name (ARN) of the image recipe that will be used
   to configure images updated by this image pipeline.
 - `"imageScanningConfiguration"`: Contains settings for vulnerability scans.
@@ -3997,8 +4053,8 @@ environment in which your image will be built and tested.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `infrastructure_configuration_arn`: The Amazon Resource Name (ARN) of the infrastructure
   configuration that you want to update.
@@ -4010,6 +4066,7 @@ environment in which your image will be built and tested.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of the infrastructure configuration.
+
 - `"instanceMetadataOptions"`: The instance metadata options that you can set for the HTTP
   requests that pipeline builds use to launch EC2 build and test instances. For more
   information about instance metadata options, see one of the following links:
@@ -4019,15 +4076,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - [Configure the instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/configuring-instance-metadata-options.html)
     in the *<i>Amazon EC2 Windows Guide* </i> for Windows instances.
 
-- `"instanceTypes"`: The instance types of the infrastructure configuration. You can
-  specify one or more instance types to use for this build. The service will pick one of
-  these instance types based on availability.
+- `"instanceTypes"`: The instance types of the infrastructure configuration. You can specify
+  one or more instance types to use for this build. The service will pick one of these
+  instance types based on availability.
+
 - `"keyPair"`: The key pair of the infrastructure configuration. You can use this to log on
   to and debug the instance used to create your image.
+
 - `"logging"`: The logging configuration of the infrastructure configuration.
+
 - `"resourceTags"`: The tags attached to the resource created by Image Builder.
+
 - `"securityGroupIds"`: The security group IDs to associate with the instance used to
   customize your Amazon EC2 AMI.
+
 - `"snsTopicArn"`: The Amazon Resource Name (ARN) for the SNS topic to which we send image
   build event notifications.
 
@@ -4038,6 +4100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"subnetId"`: The subnet ID to place the instance used to customize your Amazon EC2 AMI
   in.
+
 - `"terminateInstanceOnFailure"`: The terminate instance on failure setting of the
   infrastructure configuration. Set to false if you want Image Builder to retain the
   instance used to configure your AMI if the build or test phase of your workflow fails.
@@ -4097,8 +4160,8 @@ Update the specified lifecycle policy.
 
 # Arguments
 
-- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
-  the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 - `execution_role`: The name or Amazon Resource Name (ARN) of the IAM role that Image
   Builder uses to update the lifecycle policy.

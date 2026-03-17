@@ -212,16 +212,15 @@ end
     enable_baseline(baseline_identifier, baseline_version, target_identifier)
     enable_baseline(baseline_identifier, baseline_version, target_identifier, params::Dict{String,<:Any})
 
-Enable (apply) a `Baseline` to a Target. This API starts an asynchronous operation to
-deploy resources specified by the `Baseline` to the specified Target. For usage examples,
-see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+Enable (apply) a `Baseline` to a Target. This API starts an asynchronous operation to deploy
+resources specified by the `Baseline` to the specified Target. For usage examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
 - `baseline_identifier`: The ARN of the baseline to be enabled.
 - `baseline_version`: The specific version to be enabled of the specified baseline.
-- `target_identifier`: The ARN of the target on which the baseline will be enabled. Only
-  OUs are supported as targets.
+- `target_identifier`: The ARN of the target on which the baseline will be enabled. Only OUs
+  are supported as targets.
 
 # Optional Parameters
 
@@ -396,8 +395,8 @@ A status message is displayed in case of operation failure. For usage examples, 
 
 # Arguments
 
-- `operation_identifier`: The operation ID returned from mutating asynchronous APIs
-  (Enable, Disable, Update, Reset).
+- `operation_identifier`: The operation ID returned from mutating asynchronous APIs (Enable,
+  Disable, Update, Reset).
 """
 function get_baseline_operation end
 
@@ -438,8 +437,8 @@ end
     get_control_operation(operation_identifier, params::Dict{String,<:Any})
 
 Returns the status of a particular `EnableControl` or [`disable_control`](@ref) operation.
-Displays a message in case of error. Details for an operation are available for 90 days.
-For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+Displays a message in case of error. Details for an operation are available for 90 days. For
+usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -742,8 +741,8 @@ examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filter"`: A filter applied on the [`list_enabled_baseline`](@ref) operation. Allowed
-  filters are `baselineIdentifiers` and `targetIdentifiers`. The filter can be applied
-  for either, or both.
+  filters are `baselineIdentifiers` and `targetIdentifiers`. The filter can be applied for
+  either, or both.
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
@@ -856,8 +855,8 @@ end
     list_landing_zones()
     list_landing_zones(params::Dict{String,<:Any})
 
-Returns the landing zone ARN for the landing zone deployed in your managed account. This
-API also creates an ARN for existing accounts that do not yet have a landing zone ARN.
+Returns the landing zone ARN for the landing zone deployed in your managed account. This API
+also creates an ARN for existing accounts that do not yet have a landing zone ARN.
 
 Returns one landing zone ARN.
 
@@ -1229,9 +1228,9 @@ end
     update_landing_zone(landing_zone_identifier, manifest, version)
     update_landing_zone(landing_zone_identifier, manifest, version, params::Dict{String,<:Any})
 
-This API call updates the landing zone. It starts an asynchronous operation that updates
-the landing zone based on the new landing zone version, or on the changed parameters
-specified in the updated manifest file.
+This API call updates the landing zone. It starts an asynchronous operation that updates the
+landing zone based on the new landing zone version, or on the changed parameters specified
+in the updated manifest file.
 
 # Arguments
 

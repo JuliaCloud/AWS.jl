@@ -61,34 +61,45 @@ Creates an application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"architecture"`: The CPU architecture of an application.
-- `"autoStartConfiguration"`: The configuration for an application to automatically start
-  on job submission.
+
+- `"autoStartConfiguration"`: The configuration for an application to automatically start on
+  job submission.
+
 - `"autoStopConfiguration"`: The configuration for an application to automatically stop
   after a certain amount of time being idle.
+
 - `"imageConfiguration"`: The image configuration for all worker types. You can either set
-  this parameter or `imageConfiguration` for each worker type in
-  `workerTypeSpecifications`.
+  this parameter or `imageConfiguration` for each worker type in `workerTypeSpecifications`.
+
 - `"initialCapacity"`: The capacity to initialize when the application is created.
+
 - `"interactiveConfiguration"`: The interactive configuration object that enables the
   interactive use cases to use when running an application.
+
 - `"maximumCapacity"`: The maximum capacity to allocate when the application is created.
   This is cumulative across all workers at any given point in time, not just when an
   application is created. No new resources will be created once any one of the defined
   limits is hit.
+
 - `"monitoringConfiguration"`: The configuration setting for monitoring.
+
 - `"name"`: The name of the application.
+
 - `"networkConfiguration"`: The network configuration for customer VPC connectivity.
+
 - `"runtimeConfiguration"`: The [Configuration](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html)
   specifications to use when creating an application. Each configuration consists of a
-  classification and properties. This configuration is applied to all the job runs
-  submitted under the application.
+  classification and properties. This configuration is applied to all the job runs submitted
+  under the application.
+
 - `"tags"`: The tags assigned to the application.
+
 - `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
-  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for
-  a Spark or Hive application. Valid worker types include `Driver` and `Executor` for
-  Spark applications and `HiveDriver` and `TezTask` for Hive applications. You can either
-  set image details in this parameter for each worker type, or in `imageConfiguration`
-  for all worker types.
+  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for a
+  Spark or Hive application. Valid worker types include `Driver` and `Executor` for Spark
+  applications and `HiveDriver` and `TezTask` for Hive applications. You can either set
+  image details in this parameter for each worker type, or in `imageConfiguration` for all
+  worker types.
 """
 function create_application end
 
@@ -582,8 +593,8 @@ end
     stop_application(application_id)
     stop_application(application_id, params::Dict{String,<:Any})
 
-Stops a specified application and releases initial capacity if configured. All scheduled
-and running jobs must be completed or cancelled before stopping an application.
+Stops a specified application and releases initial capacity if configured. All scheduled and
+running jobs must be completed or cancelled before stopping an application.
 
 # Arguments
 
@@ -718,34 +729,45 @@ order to be updated.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"architecture"`: The CPU architecture of an application.
-- `"autoStartConfiguration"`: The configuration for an application to automatically start
-  on job submission.
+
+- `"autoStartConfiguration"`: The configuration for an application to automatically start on
+  job submission.
+
 - `"autoStopConfiguration"`: The configuration for an application to automatically stop
   after a certain amount of time being idle.
+
 - `"imageConfiguration"`: The image configuration to be used for all worker types. You can
   either set this parameter or `imageConfiguration` for each worker type in
   `WorkerTypeSpecificationInput`.
+
 - `"initialCapacity"`: The capacity to initialize when the application is updated.
+
 - `"interactiveConfiguration"`: The interactive configuration object that contains new
   interactive use cases when the application is updated.
+
 - `"maximumCapacity"`: The maximum capacity to allocate when the application is updated.
   This is cumulative across all workers at any given point in time during the lifespan of
   the application. No new resources will be created once any one of the defined limits is
   hit.
+
 - `"monitoringConfiguration"`: The configuration setting for monitoring.
+
 - `"networkConfiguration"`:
+
 - `"releaseLabel"`: The Amazon EMR release label for the application. You can change the
   release label to use a different release of Amazon EMR.
+
 - `"runtimeConfiguration"`: The [Configuration](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html)
   specifications to use when updating an application. Each configuration consists of a
   classification and properties. This configuration is applied across all the job runs
   submitted under the application.
+
 - `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
-  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for
-  a Spark or Hive application. Valid worker types include `Driver` and `Executor` for
-  Spark applications and `HiveDriver` and `TezTask` for Hive applications. You can either
-  set image details in this parameter for each worker type, or in `imageConfiguration`
-  for all worker types.
+  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for a
+  Spark or Hive application. Valid worker types include `Driver` and `Executor` for Spark
+  applications and `HiveDriver` and `TezTask` for Hive applications. You can either set
+  image details in this parameter for each worker type, or in `imageConfiguration` for all
+  worker types.
 """
 function update_application end
 

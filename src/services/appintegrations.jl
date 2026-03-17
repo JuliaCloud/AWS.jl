@@ -212,9 +212,9 @@ end
     create_event_integration(event_bridge_bus, event_filter, name, params::Dict{String,<:Any})
 
 Creates an EventIntegration, given a specified name, description, and a reference to an
-Amazon EventBridge bus in your account and a partner event source that pushes events to
-that bus. No objects are created in the your account, only metadata that is persisted on
-the EventIntegration control plane.
+Amazon EventBridge bus in your account and a partner event source that pushes events to that
+bus. No objects are created in the your account, only metadata that is persisted on the
+EventIntegration control plane.
 
 # Arguments
 

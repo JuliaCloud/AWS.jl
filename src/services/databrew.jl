@@ -26,14 +26,14 @@ The request will complete successfully, but with partial failures, if:
 - The version fails to be deleted.
 
 The `LATEST_WORKING` version will only be deleted if the recipe has no other versions. If
-you try to delete `LATEST_WORKING` while other versions exist (or if they can't be
-deleted), then `LATEST_WORKING` will be listed as partial failure in the response.
+you try to delete `LATEST_WORKING` while other versions exist (or if they can't be deleted),
+then `LATEST_WORKING` will be listed as partial failure in the response.
 
 # Arguments
 
-- `recipe_versions`: An array of version identifiers, for the recipe versions to be
-  deleted. You can specify numeric versions (`X.Y`) or `LATEST_WORKING`.
-  `LATEST_PUBLISHED` is not supported.
+- `recipe_versions`: An array of version identifiers, for the recipe versions to be deleted.
+  You can specify numeric versions (`X.Y`) or `LATEST_WORKING`. `LATEST_PUBLISHED` is not
+  supported.
 - `name`: The name of the recipe whose versions are to be deleted.
 """
 function batch_delete_recipe_version end
@@ -137,11 +137,13 @@ Creates a new job to analyze a dataset and create its data profile.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Configuration"`: Configuration for profile jobs. Used to select columns, do
-  evaluations, and override default parameters of evaluations. When configuration is
-  null, the profile job will run with default settings.
+- `"Configuration"`: Configuration for profile jobs. Used to select columns, do evaluations,
+  and override default parameters of evaluations. When configuration is null, the profile
+  job will run with default settings.
+
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
+
 - `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
 
   - `SSE-KMS` - `SSE-KMS` - Server-side encryption with KMS-managed keys.
@@ -151,14 +153,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on which the profile job will be executed. If a JobSample value is not provided, the
   default value will be used. The default value is CUSTOM_ROWS for the mode parameter and
   20000 for the size parameter.
-- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If
-  logging is enabled, CloudWatch writes one log stream for each job run.
+
+- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If logging
+  is enabled, CloudWatch writes one log stream for each job run.
+
 - `"MaxCapacity"`: The maximum number of nodes that DataBrew can use when the job processes
   data.
+
 - `"MaxRetries"`: The maximum number of times to retry the job after a job run fails.
+
 - `"Tags"`: Metadata tags to apply to this job.
+
 - `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of `TIMEOUT`.
+
 - `"ValidationConfigurations"`: List of validation configurations that are applied to the
   profile job.
 """
@@ -355,26 +363,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DataCatalogOutputs"`: One or more artifacts that represent the Glue Data Catalog output
   from running the job.
+
 - `"DatabaseOutputs"`: Represents a list of JDBC database output objects which defines the
   output destination for a DataBrew recipe job to write to.
+
 - `"DatasetName"`: The name of the dataset that this job processes.
+
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
+
 - `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
 
   - `SSE-KMS` - Server-side encryption with keys managed by KMS.
   - `SSE-S3` - Server-side encryption with keys managed by Amazon S3.
 
-- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If
-  logging is enabled, CloudWatch writes one log stream for each job run.
+- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If logging
+  is enabled, CloudWatch writes one log stream for each job run.
+
 - `"MaxCapacity"`: The maximum number of nodes that DataBrew can consume when the job
   processes data.
+
 - `"MaxRetries"`: The maximum number of times to retry the job after a job run fails.
+
 - `"Outputs"`: One or more artifacts that represent the output from running the job.
+
 - `"ProjectName"`: Either the name of an existing project, or a combination of a recipe and
   a dataset to associate with the recipe.
+
 - `"RecipeReference"`:
+
 - `"Tags"`: Metadata tags to apply to this job.
+
 - `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of `TIMEOUT`.
 """
@@ -476,16 +495,16 @@ end
     create_schedule(cron_expression, name)
     create_schedule(cron_expression, name, params::Dict{String,<:Any})
 
-Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date
-and time, or at regular intervals.
+Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and
+time, or at regular intervals.
 
 # Arguments
 
 - `cron_expression`: The date or dates and time or times when the jobs are to be run. For
   more information, see [Cron expressions](https://docs.aws.amazon.com/databrew/latest/dg/jobs.cron.html)
   in the *Glue DataBrew Developer Guide*.
-- `name`: A unique name for the schedule. Valid characters are alphanumeric (A-Z, a-z, 0-
-  9), hyphen (-), period (.), and space.
+- `name`: A unique name for the schedule. Valid characters are alphanumeric (A-Z, a-z, 0-9),
+  hyphen (-), period (.), and space.
 
 # Optional Parameters
 
@@ -1038,8 +1057,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   those jobs that act on the specified dataset.
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: A token generated by DataBrew that specifies where to continue pagination
-  if a previous request was truncated. To get the next set of pages, pass in the
-  NextToken value from the response object of the previous page call.
+  if a previous request was truncated. To get the next set of pages, pass in the NextToken
+  value from the response object of the previous page call.
 - `"projectName"`: The name of a project. Using this parameter indicates to return only
   those jobs that are associated with the specified project.
 """
@@ -1138,10 +1157,12 @@ Lists all of the DataBrew recipes that are defined.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return in this request.
+
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
-- `"recipeVersion"`: Return only those recipes with a version identifier of
-  `LATEST_WORKING` or `LATEST_PUBLISHED`. If `RecipeVersion` is omitted, `ListRecipes`
-  returns all of the `LATEST_PUBLISHED` recipe versions.
+
+- `"recipeVersion"`: Return only those recipes with a version identifier of `LATEST_WORKING`
+  or `LATEST_PUBLISHED`. If `RecipeVersion` is omitted, `ListRecipes` returns all of the
+  `LATEST_PUBLISHED` recipe versions.
 
   Valid values: `LATEST_WORKING` | `LATEST_PUBLISHED`
 """
@@ -1174,11 +1195,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: A token generated by DataBrew that specifies where to continue pagination
-  if a previous request was truncated. To get the next set of pages, pass in the
-  NextToken value from the response object of the previous page call.
+  if a previous request was truncated. To get the next set of pages, pass in the NextToken
+  value from the response object of the previous page call.
 - `"targetArn"`: The Amazon Resource Name (ARN) of a resource (dataset). Using this
-  parameter indicates to return only those rulesets that are associated with the
-  specified resource.
+  parameter indicates to return only those rulesets that are associated with the specified
+  resource.
 """
 function list_rulesets end
 
@@ -1323,8 +1344,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Preview"`: If true, the result of the recipe step will be returned, but not applied.
 - `"RecipeStep"`:
 - `"StepIndex"`: The index from which to preview a step. This index is used to preview the
-  result of steps that have already been applied, so that the resulting view frame is
-  from earlier in the view frame stack.
+  result of steps that have already been applied, so that the resulting view frame is from
+  earlier in the view frame stack.
 - `"ViewFrame"`:
 """
 function send_project_session_action end
@@ -1472,8 +1493,8 @@ schedule.
 # Arguments
 
 - `resource_arn`: The DataBrew resource to which tags should be added. The value for this
-  parameter is an Amazon Resource Name (ARN). For DataBrew, you can tag a dataset, a job,
-  a project, or a recipe.
+  parameter is an Amazon Resource Name (ARN). For DataBrew, you can tag a dataset, a job, a
+  project, or a recipe.
 - `tags`: One or more tags to be assigned to the resource.
 """
 function tag_resource end
@@ -1511,8 +1532,8 @@ Removes metadata tags from a DataBrew resource.
 
 # Arguments
 
-- `resource_arn`: A DataBrew resource from which you want to remove a tag or tags. The
-  value for this parameter is an Amazon Resource Name (ARN).
+- `resource_arn`: A DataBrew resource from which you want to remove a tag or tags. The value
+  for this parameter is an Amazon Resource Name (ARN).
 - `tag_keys`: The tag keys (names) of one or more tags to be removed.
 """
 function untag_resource end
@@ -1608,11 +1629,13 @@ Modifies the definition of an existing profile job.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Configuration"`: Configuration for profile jobs. Used to select columns, do
-  evaluations, and override default parameters of evaluations. When configuration is
-  null, the profile job will run with default settings.
+- `"Configuration"`: Configuration for profile jobs. Used to select columns, do evaluations,
+  and override default parameters of evaluations. When configuration is null, the profile
+  job will run with default settings.
+
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
+
 - `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
 
   - `SSE-KMS` - Server-side encryption with keys managed by KMS.
@@ -1622,13 +1645,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on which the Profile job will be executed. If a JobSample value is not provided for
   profile jobs, the default value will be used. The default value is CUSTOM_ROWS for the
   mode parameter and 20000 for the size parameter.
-- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If
-  logging is enabled, CloudWatch writes one log stream for each job run.
+
+- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If logging
+  is enabled, CloudWatch writes one log stream for each job run.
+
 - `"MaxCapacity"`: The maximum number of compute nodes that DataBrew can use when the job
   processes data.
+
 - `"MaxRetries"`: The maximum number of times to retry the job after a job run fails.
+
 - `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of `TIMEOUT`.
+
 - `"ValidationConfigurations"`: List of validation configurations that are applied to the
   profile job.
 """
@@ -1768,21 +1796,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DataCatalogOutputs"`: One or more artifacts that represent the Glue Data Catalog output
   from running the job.
+
 - `"DatabaseOutputs"`: Represents a list of JDBC database output objects which defines the
   output destination for a DataBrew recipe job to write into.
+
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
+
 - `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
 
   - `SSE-KMS` - Server-side encryption with keys managed by KMS.
   - `SSE-S3` - Server-side encryption with keys managed by Amazon S3.
 
-- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If
-  logging is enabled, CloudWatch writes one log stream for each job run.
+- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If logging
+  is enabled, CloudWatch writes one log stream for each job run.
+
 - `"MaxCapacity"`: The maximum number of nodes that DataBrew can consume when the job
   processes data.
+
 - `"MaxRetries"`: The maximum number of times to retry the job after a job run fails.
+
 - `"Outputs"`: One or more artifacts that represent the output from running the job.
+
 - `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of `TIMEOUT`.
 """

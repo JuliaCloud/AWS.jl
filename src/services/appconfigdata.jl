@@ -8,9 +8,9 @@ using AWS.UUIDs
     get_latest_configuration(configuration_token)
     get_latest_configuration(configuration_token, params::Dict{String,<:Any})
 
-Retrieves the latest deployed configuration. This API may return empty configuration data
-if the client already has the latest version. For more information about this API action
-and to view example CLI commands that show how to use it with the [`start_configuration_session`](@ref)
+Retrieves the latest deployed configuration. This API may return empty configuration data if
+the client already has the latest version. For more information about this API action and to
+view example CLI commands that show how to use it with the [`start_configuration_session`](@ref)
 API action, see [Retrieving the configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration)
 in the *AppConfig User Guide*.
 
@@ -25,9 +25,9 @@ in the *AppConfig User Guide*.
 
 # Arguments
 
-- `configuration_token`: Token describing the current state of the configuration session.
-  To obtain a token, first call the [`start_configuration_session`](@ref) API. Note that
-  every call to `GetLatestConfiguration` will return a new `ConfigurationToken`
+- `configuration_token`: Token describing the current state of the configuration session. To
+  obtain a token, first call the [`start_configuration_session`](@ref) API. Note that every
+  call to `GetLatestConfiguration` will return a new `ConfigurationToken`
   (`NextPollConfigurationToken` in the response) and *must* be provided to subsequent
   `GetLatestConfiguration` API calls.
 
@@ -35,7 +35,6 @@ in the *AppConfig User Guide*.
       This token should only be used once. To support long poll use cases, the token is
       valid for up to 24 hours. If a `GetLatestConfiguration` call uses an expired token,
       the system returns `BadRequestException`.
-
 """
 function get_latest_configuration end
 
@@ -91,9 +90,9 @@ in the *AppConfig User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"RequiredMinimumPollIntervalInSeconds"`: Sets a constraint on a session. If you specify
-  a value of, for example, 60 seconds, then the client that established the session can't
-  call [`get_latest_configuration`](@ref) more frequently than every 60 seconds.
+- `"RequiredMinimumPollIntervalInSeconds"`: Sets a constraint on a session. If you specify a
+  value of, for example, 60 seconds, then the client that established the session can't call [`get_latest_configuration`](@ref)
+  more frequently than every 60 seconds.
 """
 function start_configuration_session end
 

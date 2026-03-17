@@ -8,13 +8,12 @@ using AWS.UUIDs
     create_batch_load_task(data_source_configuration, report_configuration, target_database_name, target_table_name)
     create_batch_load_task(data_source_configuration, report_configuration, target_database_name, target_table_name, params::Dict{String,<:Any})
 
-Creates a new Timestream batch load task. A batch load task processes data from a CSV
-source in an S3 location and writes to a Timestream table. A mapping from source to target
-is defined in a batch load task. Errors and events are written to a report at an S3
-location. For the report, if the KMS key is not specified, the report will be encrypted
-with an S3 managed key when `SSE_S3` is the option. Otherwise an error is thrown. For more
-information, see [Amazon Web Services managed keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
-[Service quotas apply](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html).
+Creates a new Timestream batch load task. A batch load task processes data from a CSV source
+in an S3 location and writes to a Timestream table. A mapping from source to target is
+defined in a batch load task. Errors and events are written to a report at an S3 location.
+For the report, if the KMS key is not specified, the report will be encrypted with an S3
+managed key when `SSE_S3` is the option. Otherwise an error is thrown. For more information,
+see [Amazon Web Services managed keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk). [Service quotas apply](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html).
 For details, see [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.create-batch-load.html).
 
 # Arguments
@@ -90,8 +89,7 @@ end
 
 Creates a new Timestream database. If the KMS key is not specified, the database will be
 encrypted with a Timestream managed KMS key located in your account. For more information,
-see [Amazon Web Services managed keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
-[Service quotas apply](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html).
+see [Amazon Web Services managed keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk). [Service quotas apply](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html).
 For details, see [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.create-db.html).
 
 # Arguments
@@ -137,11 +135,11 @@ end
     create_table(database_name, table_name)
     create_table(database_name, table_name, params::Dict{String,<:Any})
 
-Adds a new table to an existing database in your account. In an Amazon Web Services
-account, table names must be at least unique within each Region if they are in the same
-database. You might have identical table names in the same Region if the tables are in
-separate databases. While creating the table, you must specify the table name, database
-name, and the retention properties. [Service quotas apply](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html).
+Adds a new table to an existing database in your account. In an Amazon Web Services account,
+table names must be at least unique within each Region if they are in the same database. You
+might have identical table names in the same Region if the tables are in separate databases.
+While creating the table, you must specify the table name, database name, and the retention
+properties. [Service quotas apply](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html).
 See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.create-table.html)
 for details.
 
@@ -198,12 +196,12 @@ end
     delete_database(database_name)
     delete_database(database_name, params::Dict{String,<:Any})
 
-Deletes a given Timestream database. *This is an irreversible operation. After a database
-is deleted, the time-series data from its tables cannot be recovered.*
+Deletes a given Timestream database. *This is an irreversible operation. After a database is
+deleted, the time-series data from its tables cannot be recovered.*
 
 !!! note
-    All tables in the database must be deleted first, or a ValidationException error will
-    be thrown.
+    All tables in the database must be deleted first, or a ValidationException error will be
+    thrown.
 
     Due to the nature of distributed retries, the operation can return either success or a
     ResourceNotFoundException. Clients should consider them equivalent.
@@ -297,8 +295,8 @@ end
     describe_batch_load_task(task_id)
     describe_batch_load_task(task_id, params::Dict{String,<:Any})
 
-Returns information about the batch load task, including configurations, mappings,
-progress, and other details. [Service quotas apply](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html).
+Returns information about the batch load task, including configurations, mappings, progress,
+and other details. [Service quotas apply](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html).
 See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.describe-batch-load.html)
 for details.
 
@@ -453,8 +451,8 @@ end
     list_batch_load_tasks()
     list_batch_load_tasks(params::Dict{String,<:Any})
 
-Provides a list of batch load tasks, along with the name, status, when the task is
-resumable until, and other details. See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.list-batch-load-tasks.html)
+Provides a list of batch load tasks, along with the name, status, when the task is resumable
+until, and other details. See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.list-batch-load-tasks.html)
 for details.
 
 # Optional Parameters
@@ -462,9 +460,9 @@ for details.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The total number of items to return in the output. If the total number of
-  items available is more than the value specified, a NextToken is provided in the
-  output. To resume pagination, provide the NextToken value as argument of a subsequent
-  API invocation.
+  items available is more than the value specified, a NextToken is provided in the output.
+  To resume pagination, provide the NextToken value as argument of a subsequent API
+  invocation.
 - `"NextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
 - `"TaskStatus"`: Status of the batch load task.
@@ -498,9 +496,9 @@ for details.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The total number of items to return in the output. If the total number of
-  items available is more than the value specified, a NextToken is provided in the
-  output. To resume pagination, provide the NextToken value as argument of a subsequent
-  API invocation.
+  items available is more than the value specified, a NextToken is provided in the output.
+  To resume pagination, provide the NextToken value as argument of a subsequent API
+  invocation.
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
@@ -534,9 +532,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DatabaseName"`: The name of the Timestream database.
 - `"MaxResults"`: The total number of items to return in the output. If the total number of
-  items available is more than the value specified, a NextToken is provided in the
-  output. To resume pagination, provide the NextToken value as argument of a subsequent
-  API invocation.
+  items available is more than the value specified, a NextToken is provided in the output.
+  To resume pagination, provide the NextToken value as argument of a subsequent API
+  invocation.
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
@@ -721,9 +719,9 @@ end
     update_database(database_name, kms_key_id)
     update_database(database_name, kms_key_id, params::Dict{String,<:Any})
 
-Modifies the KMS key for an existing database. While updating the database, you must
-specify the database name and the identifier of the new KMS key to be used (`KmsKeyId`). If
-there are any concurrent `UpdateDatabase` requests, first writer wins.
+Modifies the KMS key for an existing database. While updating the database, you must specify
+the database name and the identifier of the new KMS key to be used (`KmsKeyId`). If there
+are any concurrent `UpdateDatabase` requests, first writer wins.
 
 See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.update-db.html)
 for details.
@@ -731,18 +729,17 @@ for details.
 # Arguments
 
 - `database_name`: The name of the database.
+
 - `kms_key_id`: The identifier of the new KMS key (`KmsKeyId`) to be used to encrypt the
-  data stored in the database. If the `KmsKeyId` currently registered with the database
-  is the same as the `KmsKeyId` in the request, there will not be any update.
+  data stored in the database. If the `KmsKeyId` currently registered with the database is
+  the same as the `KmsKeyId` in the request, there will not be any update.
 
   You can specify the `KmsKeyId` using any of the following:
 
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
-  - Key ARN:
-    `arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
+  - Key ARN: `arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias`
-
 """
 function update_database end
 
@@ -783,10 +780,10 @@ end
 
 Modifies the retention duration of the memory store and magnetic store for your Timestream
 table. Note that the change in retention duration takes effect immediately. For example, if
-the retention period of the memory store was initially set to 2 hours and then changed to
-24 hours, the memory store will be capable of holding 24 hours of data, but will be
-populated with 24 hours of data 22 hours after this change was made. Timestream does not
-retrieve data from the magnetic store to populate the memory store.
+the retention period of the memory store was initially set to 2 hours and then changed to 24
+hours, the memory store will be capable of holding 24 hours of data, but will be populated
+with 24 hours of data 22 hours after this change was made. Timestream does not retrieve data
+from the magnetic store to populate the memory store.
 
 See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.update-table.html)
 for details.
@@ -845,12 +842,12 @@ end
 
 Enables you to write your time-series data into Timestream. You can specify a single data
 point or a batch of data points to be inserted into the system. Timestream offers you a
-flexible schema that auto detects the column names and data types for your Timestream
-tables based on the dimension names and data types of the data points you specify when
-invoking writes into the database.
+flexible schema that auto detects the column names and data types for your Timestream tables
+based on the dimension names and data types of the data points you specify when invoking
+writes into the database.
 
-Timestream supports eventual consistency read semantics. This means that when you query
-data immediately after writing a batch of data into Timestream, the query results might not
+Timestream supports eventual consistency read semantics. This means that when you query data
+immediately after writing a batch of data into Timestream, the query results might not
 reflect the results of a recently completed write operation. The results may also include
 some stale data. If you repeat the query request after a short time, the results should
 return the latest data. [Service quotas apply](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html).
@@ -861,20 +858,20 @@ for details.
 **Upserts**
 
 You can use the `Version` parameter in a `WriteRecords` request to update data points.
-Timestream tracks a version number with each record. `Version` defaults to `1` when it's
-not specified for the record in the request. Timestream updates an existing record’s
-measure value along with its `Version` when it receives a write request with a higher
-`Version` number for that record. When it receives an update request where the measure
-value is the same as that of the existing record, Timestream still updates `Version`, if it
-is greater than the existing value of `Version`. You can update a data point as many times
-as desired, as long as the value of `Version` continuously increases.
+Timestream tracks a version number with each record. `Version` defaults to `1` when it's not
+specified for the record in the request. Timestream updates an existing record’s measure
+value along with its `Version` when it receives a write request with a higher `Version`
+number for that record. When it receives an update request where the measure value is the
+same as that of the existing record, Timestream still updates `Version`, if it is greater
+than the existing value of `Version`. You can update a data point as many times as desired,
+as long as the value of `Version` continuously increases.
 
 For example, suppose you write a new record without indicating `Version` in the request.
-Timestream stores this record, and set `Version` to `1`. Now, suppose you try to update
-this record with a `WriteRecords` request of the same record with a different measure value
-but, like before, do not provide `Version`. In this case, Timestream will reject this
-update with a `RejectedRecordsException` since the updated record’s version is not greater
-than the existing value of Version.
+Timestream stores this record, and set `Version` to `1`. Now, suppose you try to update this
+record with a `WriteRecords` request of the same record with a different measure value but,
+like before, do not provide `Version`. In this case, Timestream will reject this update with
+a `RejectedRecordsException` since the updated record’s version is not greater than the
+existing value of Version.
 
 However, if you were to resend the update request with `Version` set to `2`, Timestream
 would then succeed in updating the record’s value, and the `Version` would be set to `2`.
@@ -895,11 +892,11 @@ or the update requests would receive a `RejectedRecordsException`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CommonAttributes"`: A record that contains the common measure, dimension, time, and
-  version attributes shared across all the records in the request. The measure and
-  dimension attributes specified will be merged with the measure and dimension attributes
-  in the records object when the data is written into Timestream. Dimensions may not
-  overlap, or a `ValidationException` will be thrown. In other words, a record must
-  contain dimensions with unique names.
+  version attributes shared across all the records in the request. The measure and dimension
+  attributes specified will be merged with the measure and dimension attributes in the
+  records object when the data is written into Timestream. Dimensions may not overlap, or a
+  `ValidationException` will be thrown. In other words, a record must contain dimensions
+  with unique names.
 """
 function write_records end
 

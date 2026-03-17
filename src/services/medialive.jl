@@ -270,8 +270,8 @@ Creates a new channel
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"cdiInputSpecification"`: Specification of CDI inputs for this channel
-- `"channelClass"`: The class for this channel. STANDARD for a channel with two pipelines
-  or SINGLE_PIPELINE for a channel with one pipeline.
+- `"channelClass"`: The class for this channel. STANDARD for a channel with two pipelines or
+  SINGLE_PIPELINE for a channel with one pipeline.
 - `"destinations"`:
 - `"encoderSettings"`:
 - `"inputAttachments"`: List of input attachments for channel.
@@ -282,8 +282,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"requestId"`: Unique request ID to be specified. This is needed to prevent retries from
   creating multiple resources.
 - `"reserved"`: Deprecated field that's only usable by whitelisted customers.
-- `"roleArn"`: An optional Amazon Resource Name (ARN) of the role to assume when running
-  the Channel.
+- `"roleArn"`: An optional Amazon Resource Name (ARN) of the role to assume when running the
+  Channel.
 - `"tags"`: A collection of key-value pairs.
 - `"vpc"`: Settings for the VPC outputs
 """
@@ -591,18 +591,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputSecurityGroups"`: A list of security groups referenced by IDs to attach to the
   input.
 - `"mediaConnectFlows"`: A list of the MediaConnect Flows that you want to use in this
-  input. You can specify as few as one
-  Flow and presently, as many as two. The only requirement is when you have more than one
-  is that each Flow is in a
-  separate Availability Zone as this ensures your EML input is redundant to AZ issues.
+  input. You can specify as few as one Flow and presently, as many as two. The only
+  requirement is when you have more than one is that each Flow is in a separate Availability
+  Zone as this ensures your EML input is redundant to AZ issues.
 - `"name"`: Name of the input.
-- `"requestId"`: Unique identifier of the request to ensure the request is handled
-  exactly once in case of retries.
+- `"requestId"`: Unique identifier of the request to ensure the request is handled exactly
+  once in case of retries.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the role this input assumes during and
   after creation.
-- `"sources"`: The source URLs for a PULL-type input. Every PULL type input needs
-  exactly two source URLs for redundancy.
-  Only specify sources for PULL type Inputs. Leave Destinations empty.
+- `"sources"`: The source URLs for a PULL-type input. Every PULL type input needs exactly
+  two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave
+  Destinations empty.
 - `"srtSettings"`: The settings associated with an SRT input.
 - `"tags"`: A collection of key-value pairs.
 - `"type"`:
@@ -682,8 +681,7 @@ Create a new multiplex.
   exactly two.
 - `multiplex_settings`: Configuration for a multiplex event.
 - `name`: Name of multiplex.
-- `request_id`: Unique request ID. This prevents retries from creating multiple
-  resources.
+- `request_id`: Unique request ID. This prevents retries from creating multiple resources.
 
 # Optional Parameters
 
@@ -753,8 +751,7 @@ Create a new program in the multiplex.
 - `multiplex_id`: ID of the multiplex where the program is to be created.
 - `multiplex_program_settings`: The settings for this multiplex program.
 - `program_name`: Name of multiplex program.
-- `request_id`: Unique request ID. This prevents retries from creating multiple
-  resources.
+- `request_id`: Unique request ID. This prevents retries from creating multiple resources.
 """
 function create_multiplex_program end
 
@@ -819,8 +816,8 @@ Create a partner input
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"requestId"`: Unique identifier of the request to ensure the request is handled
-  exactly once in case of retries.
+- `"requestId"`: Unique identifier of the request to ensure the request is handled exactly
+  once in case of retries.
 - `"tags"`: A collection of key-value pairs.
 """
 function create_partner_input end
@@ -997,8 +994,8 @@ Deletes a cloudwatch alarm template.
 
 # Arguments
 
-- `identifier`: A cloudwatch alarm template's identifier. Can be either be its id or
-  current name.
+- `identifier`: A cloudwatch alarm template's identifier. Can be either be its id or current
+  name.
 """
 function delete_cloud_watch_alarm_template end
 
@@ -1903,8 +1900,8 @@ Retrieves the specified cloudwatch alarm template.
 
 # Arguments
 
-- `identifier`: A cloudwatch alarm template's identifier. Can be either be its id or
-  current name.
+- `identifier`: A cloudwatch alarm template's identifier. Can be either be its id or current
+  name.
 """
 function get_cloud_watch_alarm_template end
 
@@ -2254,8 +2251,8 @@ Lists eventbridge rule templates.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"groupIdentifier"`: An eventbridge rule template group's identifier. Can be either be
-  its id or current name.
+- `"groupIdentifier"`: An eventbridge rule template group's identifier. Can be either be its
+  id or current name.
 - `"maxResults"`:
 - `"nextToken"`: A token used to retrieve the next set of results in paginated list
   responses.
@@ -2292,8 +2289,8 @@ end
     list_input_device_transfers(transfer_type, params::Dict{String,<:Any})
 
 List input devices that are currently being transferred. List input devices that you are
-transferring from your AWS account or input devices that another AWS account is
-transferring to you.
+transferring from your AWS account or input devices that another AWS account is transferring
+to you.
 
 # Arguments
 
@@ -2695,8 +2692,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"requestId"`: Unique request ID to be specified. This is needed to prevent retries from
   creating multiple resources.
 - `"start"`: Requested reservation start time (UTC) in ISO-8601 format. The specified time
-  must be between the first day of the current month and one year from now. If no value
-  is given, the default is now.
+  must be between the first day of the current month and one year from now. If no value is
+  given, the default is now.
 - `"tags"`: A collection of key-value pairs
 """
 function purchase_offering end
@@ -2752,9 +2749,9 @@ status will change to connected.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"force"`: Force a reboot of an input device. If the device is streaming, it will stop
-  streaming and begin rebooting within a few seconds of sending the command. If the
-  device was streaming prior to the reboot, the device will resume streaming when the
-  reboot completes.
+  streaming and begin rebooting within a few seconds of sending the command. If the device
+  was streaming prior to the reboot, the device will resume streaming when the reboot
+  completes.
 """
 function reboot_input_device end
 
@@ -2985,9 +2982,9 @@ Start a maintenance window for the specified input device. Starting a maintenanc
 will give the device up to two hours to install software. If the device was streaming prior
 to the maintenance, it will resume streaming when the software is fully installed. Devices
 automatically install updates while they are powered on and their MediaLive channels are
-stopped. A maintenance window allows you to update a device without having to stop
-MediaLive channels that use the device. The device must remain powered on and connected to
-the internet for the duration of the maintenance.
+stopped. A maintenance window allows you to update a device without having to stop MediaLive
+channels that use the device. The device must remain powered on and connected to the
+internet for the duration of the maintenance.
 
 # Arguments
 
@@ -3122,8 +3119,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"eventBridgeRuleTemplateGroupIdentifiers"`:
 - `"forceRediscovery"`: If true, will force a rediscovery of a signal map if an unchanged
   discoveryEntryPointArn is provided.
-- `"name"`: A resource's name. Names must be unique within the scope of a resource type in
-  a specific region.
+- `"name"`: A resource's name. Names must be unique within the scope of a resource type in a
+  specific region.
 """
 function start_update_signal_map end
 
@@ -3266,8 +3263,8 @@ end
     transfer_input_device(input_device_id)
     transfer_input_device(input_device_id, params::Dict{String,<:Any})
 
-Start an input device transfer to another AWS account. After you make the request, the
-other account must accept or reject the transfer.
+Start an input device transfer to another AWS account. After you make the request, the other
+account must accept or reject the transfer.
 
 # Arguments
 
@@ -3366,9 +3363,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"logLevel"`: The log level to write to CloudWatch Logs.
 - `"maintenance"`: Maintenance settings for this channel.
 - `"name"`: The name of the channel.
-- `"roleArn"`: An optional Amazon Resource Name (ARN) of the role to assume when running
-  the Channel. If you do not specify this on an update call but the role was previously
-  set that role will be removed.
+- `"roleArn"`: An optional Amazon Resource Name (ARN) of the role to assume when running the
+  Channel. If you do not specify this on an update call but the role was previously set that
+  role will be removed.
 """
 function update_channel end
 
@@ -3451,8 +3448,8 @@ Updates the specified cloudwatch alarm template.
 
 # Arguments
 
-- `identifier`: A cloudwatch alarm template's identifier. Can be either be its id or
-  current name.
+- `identifier`: A cloudwatch alarm template's identifier. Can be either be its id or current
+  name.
 
 # Optional Parameters
 
@@ -3468,8 +3465,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   id or current name.
 - `"metricName"`: The name of the metric associated with the alarm. Must be compatible with
   targetResourceType.
-- `"name"`: A resource's name. Names must be unique within the scope of a resource type in
-  a specific region.
+- `"name"`: A resource's name. Names must be unique within the scope of a resource type in a
+  specific region.
 - `"period"`: The period, in seconds, over which the specified statistic is applied.
 - `"statistic"`:
 - `"targetResourceType"`:
@@ -3565,10 +3562,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A resource's optional description.
 - `"eventTargets"`:
 - `"eventType"`:
-- `"groupIdentifier"`: An eventbridge rule template group's identifier. Can be either be
-  its id or current name.
-- `"name"`: A resource's name. Names must be unique within the scope of a resource type in
-  a specific region.
+- `"groupIdentifier"`: An eventbridge rule template group's identifier. Can be either be its
+  id or current name.
+- `"name"`: A resource's name. Names must be unique within the scope of a resource type in a
+  specific region.
 """
 function update_event_bridge_rule_template end
 
@@ -3660,16 +3657,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputSecurityGroups"`: A list of security groups referenced by IDs to attach to the
   input.
 - `"mediaConnectFlows"`: A list of the MediaConnect Flow ARNs that you want to use as the
-  source of the input. You can specify as few as one
-  Flow and presently, as many as two. The only requirement is when you have more than one
-  is that each Flow is in a
-  separate Availability Zone as this ensures your EML input is redundant to AZ issues.
+  source of the input. You can specify as few as one Flow and presently, as many as two. The
+  only requirement is when you have more than one is that each Flow is in a separate
+  Availability Zone as this ensures your EML input is redundant to AZ issues.
 - `"name"`: Name of the input.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the role this input assumes during and
   after creation.
-- `"sources"`: The source URLs for a PULL-type input. Every PULL type input needs
-  exactly two source URLs for redundancy.
-  Only specify sources for PULL type Inputs. Leave Destinations empty.
+- `"sources"`: The source URLs for a PULL-type input. Every PULL type input needs exactly
+  two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave
+  Destinations empty.
 - `"srtSettings"`: The settings associated with an SRT input.
 """
 function update_input end

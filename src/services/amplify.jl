@@ -18,62 +18,79 @@ Creates a new Amplify app.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"accessToken"`: The personal access token for a GitHub repository for an Amplify app.
-  The personal access token is used to authorize access to a GitHub repository using the
-  Amplify GitHub App. The token is not stored.
+- `"accessToken"`: The personal access token for a GitHub repository for an Amplify app. The
+  personal access token is used to authorize access to a GitHub repository using the Amplify
+  GitHub App. The token is not stored.
 
   Use `accessToken` for GitHub repositories only. To authorize access to a repository
   provider such as Bitbucket or CodeCommit, use `oauthToken`.
 
   You must specify either `accessToken` or `oauthToken` when you create a new app.
 
-  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work
-  with CI/CD. However, we strongly recommend that you migrate these apps to use the
-  GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
+  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with
+  CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App.
+  For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
   in the *Amplify User Guide* .
+
 - `"autoBranchCreationConfig"`: The automated branch creation configuration for an Amplify
   app.
-- `"autoBranchCreationPatterns"`: The automated branch creation glob patterns for an
-  Amplify app.
+
+- `"autoBranchCreationPatterns"`: The automated branch creation glob patterns for an Amplify
+  app.
+
 - `"basicAuthCredentials"`: The credentials for basic authorization for an Amplify app. You
   must base64-encode the authorization credentials and provide them in the format
   `user:password`.
+
 - `"buildSpec"`: The build specification (build spec) for an Amplify app.
+
 - `"cacheConfig"`: The cache configuration for the Amplify app.
+
 - `"customHeaders"`: The custom HTTP headers for an Amplify app.
+
 - `"customRules"`: The custom rewrite and redirect rules for an Amplify app.
+
 - `"description"`: The description of the Amplify app.
+
 - `"enableAutoBranchCreation"`: Enables automated branch creation for an Amplify app.
+
 - `"enableBasicAuth"`: Enables basic authorization for an Amplify app. This will apply to
   all branches that are part of this app.
+
 - `"enableBranchAutoBuild"`: Enables the auto building of branches for an Amplify app.
+
 - `"enableBranchAutoDeletion"`: Automatically disconnects a branch in the Amplify console
   when you delete a branch from your Git repository.
+
 - `"environmentVariables"`: The environment variables map for an Amplify app.
 
   For a list of the environment variables that are accessible to Amplify by default, see [Amplify Environment variables](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-console-environment-variables.html)
   in the *Amplify Hosting User Guide*.
+
 - `"iamServiceRoleArn"`: The AWS Identity and Access Management (IAM) service role for an
   Amplify app.
+
 - `"oauthToken"`: The OAuth token for a third-party source control system for an Amplify
   app. The OAuth token is used to create a webhook and a read-only deploy key using SSH
   cloning. The OAuth token is not stored.
 
   Use `oauthToken` for repository providers other than GitHub, such as Bitbucket or
-  CodeCommit. To authorize access to GitHub as your repository provider, use
-  `accessToken`.
+  CodeCommit. To authorize access to GitHub as your repository provider, use `accessToken`.
 
   You must specify either `oauthToken` or `accessToken` when you create a new app.
 
-  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work
-  with CI/CD. However, we strongly recommend that you migrate these apps to use the
-  GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
+  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with
+  CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App.
+  For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
   in the *Amplify User Guide* .
-- `"platform"`: The platform for the Amplify app. For a static app, set the platform type
-  to `WEB`. For a dynamic server-side rendered (SSR) app, set the platform type to
-  `WEB_COMPUTE`. For an app requiring Amplify Hosting's original SSR support only, set
-  the platform type to `WEB_DYNAMIC`.
+
+- `"platform"`: The platform for the Amplify app. For a static app, set the platform type to
+  `WEB`. For a dynamic server-side rendered (SSR) app, set the platform type to
+  `WEB_COMPUTE`. For an app requiring Amplify Hosting's original SSR support only, set the
+  platform type to `WEB_DYNAMIC`.
+
 - `"repository"`: The Git repository for the Amplify app.
+
 - `"tags"`: The tag for an Amplify app.
 """
 function create_app end
@@ -108,8 +125,8 @@ Creates a new backend environment for an Amplify app.
 
 This API is available only to Amplify Gen 1 applications where the backend is created using
 Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to
-Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you
-provision the app's backend infrastructure using Typescript code.
+Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision
+the app's backend infrastructure using Typescript code.
 
 # Arguments
 
@@ -176,31 +193,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This field is available to Amplify Gen 2 apps only. When you deploy an application with
   Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+
 - `"backendEnvironmentArn"`: The Amazon Resource Name (ARN) for a backend environment that
   is part of a Gen 1 Amplify app.
 
   This field is available to Amplify Gen 1 apps only where the backend is created using
   Amplify Studio or the Amplify command line interface (CLI).
+
 - `"basicAuthCredentials"`: The basic authorization credentials for the branch. You must
   base64-encode the authorization credentials and provide them in the format
   `user:password`.
+
 - `"buildSpec"`: The build specification (build spec) for the branch.
+
 - `"description"`: The description for the branch.
+
 - `"displayName"`: The display name for a branch. This is used as the default domain prefix.
+
 - `"enableAutoBuild"`: Enables auto building for the branch.
+
 - `"enableBasicAuth"`: Enables basic authorization for the branch.
+
 - `"enableNotification"`: Enables notifications for the branch.
+
 - `"enablePerformanceMode"`: Enables performance mode for the branch.
 
-  Performance mode optimizes for faster hosting performance by keeping content cached at
-  the edge for a longer interval. When performance mode is enabled, hosting configuration
-  or code changes can take up to 10 minutes to roll out.
+  Performance mode optimizes for faster hosting performance by keeping content cached at the
+  edge for a longer interval. When performance mode is enabled, hosting configuration or
+  code changes can take up to 10 minutes to roll out.
+
 - `"enablePullRequestPreview"`: Enables pull request previews for this branch.
+
 - `"environmentVariables"`: The environment variables for the branch.
+
 - `"framework"`: The framework for the branch.
+
 - `"pullRequestEnvironmentName"`: The Amplify environment name for the pull request.
+
 - `"stage"`: Describes the current stage for the branch.
+
 - `"tags"`: The tag for the branch.
+
 - `"ttl"`: The content Time To Live (TTL) for the website in seconds.
 """
 function create_branch end
@@ -255,9 +288,9 @@ associated `Job` will fail.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"fileMap"`: An optional file map that contains the file name as the key and the file
-  content md5 hash as the value. If this argument is provided, the service will generate
-  a unique upload URL per file. Otherwise, the service will only generate a single upload
-  URL for the zipped files.
+  content md5 hash as the value. If this argument is provided, the service will generate a
+  unique upload URL per file. Otherwise, the service will only generate a single upload URL
+  for the zipped files.
 """
 function create_deployment end
 
@@ -308,8 +341,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creation.
 - `"autoSubDomainIAMRole"`: The required AWS Identity and Access Management (IAM) service
   role for the Amazon Resource Name (ARN) for automatically creating subdomains.
-- `"certificateSettings"`: The type of SSL/TLS certificate to use for your custom domain.
-  If you don't specify a certificate type, Amplify uses the default certificate that it
+- `"certificateSettings"`: The type of SSL/TLS certificate to use for your custom domain. If
+  you don't specify a certificate type, Amplify uses the default certificate that it
   provisions and manages for you.
 - `"enableAutoSubDomain"`: Enables the automated creation of subdomains for branches.
 """
@@ -439,8 +472,8 @@ Deletes a backend environment for an Amplify app.
 
 This API is available only to Amplify Gen 1 applications where the backend is created using
 Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to
-Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you
-provision the app's backend infrastructure using Typescript code.
+Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision
+the app's backend infrastructure using Typescript code.
 
 # Arguments
 
@@ -753,8 +786,8 @@ Returns a backend environment for an Amplify app.
 
 This API is available only to Amplify Gen 1 applications where the backend is created using
 Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to
-Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you
-provision the app's backend infrastructure using Typescript code.
+Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision
+the app's backend infrastructure using Typescript code.
 
 # Arguments
 
@@ -986,9 +1019,9 @@ Returns a list of artifacts for a specified app, branch, and job.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of records to list in a single response.
-- `"nextToken"`: A pagination token. Set to null to start listing artifacts from start. If
-  a non-null pagination token is returned in a result, pass its value in here to list
-  more artifacts.
+- `"nextToken"`: A pagination token. Set to null to start listing artifacts from start. If a
+  non-null pagination token is returned in a result, pass its value in here to list more
+  artifacts.
 """
 function list_artifacts end
 
@@ -1027,8 +1060,8 @@ Lists the backend environments for an Amplify app.
 
 This API is available only to Amplify Gen 1 applications where the backend is created using
 Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to
-Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you
-provision the app's backend infrastructure using Typescript code.
+Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision
+the app's backend infrastructure using Typescript code.
 
 # Arguments
 
@@ -1041,8 +1074,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"environmentName"`: The name of the backend environment
 - `"maxResults"`: The maximum number of records to list in a single response.
 - `"nextToken"`: A pagination token. Set to null to start listing backend environments from
-  the start. If a non-null pagination token is returned in a result, pass its value in
-  here to list more backend environments.
+  the start. If a non-null pagination token is returned in a result, pass its value in here
+  to list more backend environments.
 """
 function list_backend_environments end
 
@@ -1127,8 +1160,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of records to list in a single response.
 - `"nextToken"`: A pagination token. Set to null to start listing apps from the start. If
-  non-null, a pagination token is returned in a result. Pass its value in here to list
-  more projects.
+  non-null, a pagination token is returned in a result. Pass its value in here to list more
+  projects.
 """
 function list_domain_associations end
 
@@ -1169,9 +1202,9 @@ Lists the jobs for a branch of an Amplify app.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of records to list in a single response.
-- `"nextToken"`: A pagination token. Set to null to start listing steps from the start. If
-  a non-null pagination token is returned in a result, pass its value in here to list
-  more steps.
+- `"nextToken"`: A pagination token. Set to null to start listing steps from the start. If a
+  non-null pagination token is returned in a result, pass its value in here to list more
+  steps.
 """
 function list_jobs end
 
@@ -1252,8 +1285,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of records to list in a single response.
 - `"nextToken"`: A pagination token. Set to null to start listing webhooks from the start.
-  If non-null,the pagination token is returned in a result. Pass its value in here to
-  list more webhooks.
+  If non-null,the pagination token is returned in a result. Pass its value in here to list
+  more webhooks.
 """
 function list_webhooks end
 
@@ -1282,8 +1315,8 @@ end
     start_deployment(app_id, branch_name)
     start_deployment(app_id, branch_name, params::Dict{String,<:Any})
 
-Starts a deployment for a manually deployed app. Manually deployed apps are not connected
-to a repository.
+Starts a deployment for a manually deployed app. Manually deployed apps are not connected to
+a repository.
 
 The maximum duration between the `CreateDeployment` call and the `StartDeployment` call
 cannot exceed 8 hours. If the duration exceeds 8 hours, the `StartDeployment` call and the
@@ -1340,7 +1373,9 @@ Starts a new job for a branch of an Amplify app.
 # Arguments
 
 - `app_id`: The unique ID for an Amplify app.
+
 - `branch_name`: The name of the branch to use for the job.
+
 - `job_type`: Describes the type for the job. The job type `RELEASE` starts a new job with
   the latest change from the specified branch. This value is available only for apps that
   are connected to a repository.
@@ -1522,40 +1557,56 @@ Updates an existing Amplify app.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"accessToken"`: The personal access token for a GitHub repository for an Amplify app.
-  The personal access token is used to authorize access to a GitHub repository using the
-  Amplify GitHub App. The token is not stored.
+- `"accessToken"`: The personal access token for a GitHub repository for an Amplify app. The
+  personal access token is used to authorize access to a GitHub repository using the Amplify
+  GitHub App. The token is not stored.
 
   Use `accessToken` for GitHub repositories only. To authorize access to a repository
   provider such as Bitbucket or CodeCommit, use `oauthToken`.
 
   You must specify either `accessToken` or `oauthToken` when you update an app.
 
-  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work
-  with CI/CD. However, we strongly recommend that you migrate these apps to use the
-  GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
+  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with
+  CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App.
+  For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
   in the *Amplify User Guide* .
+
 - `"autoBranchCreationConfig"`: The automated branch creation configuration for an Amplify
   app.
+
 - `"autoBranchCreationPatterns"`: Describes the automated branch creation glob patterns for
   an Amplify app.
-- `"basicAuthCredentials"`: The basic authorization credentials for an Amplify app. You
-  must base64-encode the authorization credentials and provide them in the format
+
+- `"basicAuthCredentials"`: The basic authorization credentials for an Amplify app. You must
+  base64-encode the authorization credentials and provide them in the format
   `user:password`.
+
 - `"buildSpec"`: The build specification (build spec) for an Amplify app.
+
 - `"cacheConfig"`: The cache configuration for the Amplify app.
+
 - `"customHeaders"`: The custom HTTP headers for an Amplify app.
+
 - `"customRules"`: The custom redirect and rewrite rules for an Amplify app.
+
 - `"description"`: The description for an Amplify app.
+
 - `"enableAutoBranchCreation"`: Enables automated branch creation for an Amplify app.
+
 - `"enableBasicAuth"`: Enables basic authorization for an Amplify app.
+
 - `"enableBranchAutoBuild"`: Enables branch auto-building for an Amplify app.
+
 - `"enableBranchAutoDeletion"`: Automatically disconnects a branch in the Amplify console
   when you delete a branch from your Git repository.
+
 - `"environmentVariables"`: The environment variables for an Amplify app.
+
 - `"iamServiceRoleArn"`: The AWS Identity and Access Management (IAM) service role for an
   Amplify app.
+
 - `"name"`: The name for an Amplify app.
+
 - `"oauthToken"`: The OAuth token for a third-party source control system for an Amplify
   app. The OAuth token is used to create a webhook and a read-only deploy key using SSH
   cloning. The OAuth token is not stored.
@@ -1567,14 +1618,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You must specify either `oauthToken` or `accessToken` when you update an app.
 
-  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work
-  with CI/CD. However, we strongly recommend that you migrate these apps to use the
-  GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
+  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with
+  CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App.
+  For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
   in the *Amplify User Guide* .
-- `"platform"`: The platform for the Amplify app. For a static app, set the platform type
-  to `WEB`. For a dynamic server-side rendered (SSR) app, set the platform type to
-  `WEB_COMPUTE`. For an app requiring Amplify Hosting's original SSR support only, set
-  the platform type to `WEB_DYNAMIC`.
+
+- `"platform"`: The platform for the Amplify app. For a static app, set the platform type to
+  `WEB`. For a dynamic server-side rendered (SSR) app, set the platform type to
+  `WEB_COMPUTE`. For an app requiring Amplify Hosting's original SSR support only, set the
+  platform type to `WEB_DYNAMIC`.
+
 - `"repository"`: The name of the Git repository for an Amplify app.
 """
 function update_app end
@@ -1617,30 +1670,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This field is available to Amplify Gen 2 apps only. When you deploy an application with
   Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+
 - `"backendEnvironmentArn"`: The Amazon Resource Name (ARN) for a backend environment that
   is part of a Gen 1 Amplify app.
 
   This field is available to Amplify Gen 1 apps only where the backend is created using
   Amplify Studio or the Amplify command line interface (CLI).
+
 - `"basicAuthCredentials"`: The basic authorization credentials for the branch. You must
   base64-encode the authorization credentials and provide them in the format
   `user:password`.
+
 - `"buildSpec"`: The build specification (build spec) for the branch.
+
 - `"description"`: The description for the branch.
+
 - `"displayName"`: The display name for a branch. This is used as the default domain prefix.
+
 - `"enableAutoBuild"`: Enables auto building for the branch.
+
 - `"enableBasicAuth"`: Enables basic authorization for the branch.
+
 - `"enableNotification"`: Enables notifications for the branch.
+
 - `"enablePerformanceMode"`: Enables performance mode for the branch.
 
-  Performance mode optimizes for faster hosting performance by keeping content cached at
-  the edge for a longer interval. When performance mode is enabled, hosting configuration
-  or code changes can take up to 10 minutes to roll out.
+  Performance mode optimizes for faster hosting performance by keeping content cached at the
+  edge for a longer interval. When performance mode is enabled, hosting configuration or
+  code changes can take up to 10 minutes to roll out.
+
 - `"enablePullRequestPreview"`: Enables pull request previews for this branch.
+
 - `"environmentVariables"`: The environment variables for the branch.
+
 - `"framework"`: The framework for the branch.
+
 - `"pullRequestEnvironmentName"`: The Amplify environment name for the pull request.
+
 - `"stage"`: Describes the current stage for the branch.
+
 - `"ttl"`: The content Time to Live (TTL) for the website in seconds.
 """
 function update_branch end

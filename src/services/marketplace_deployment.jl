@@ -66,8 +66,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"expirationDate"`: The date when deployment parameters expire and are scheduled for
   deletion.
 - `"tags"`: A map of key-value pairs, where each pair represents a tag saved to the
-  resource. Tags will only be applied for create operations, and they'll be ignored if
-  the resource already exists.
+  resource. Tags will only be applied for create operations, and they'll be ignored if the
+  resource already exists.
 """
 function put_deployment_parameter end
 

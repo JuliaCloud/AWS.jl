@@ -233,8 +233,8 @@ Cancels a pending configuration change on an Amazon OpenSearch Service domain.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"DryRun"`: When set to `True`, returns the list of change IDs and properties that will
-  be cancelled without actually cancelling the change.
+- `"DryRun"`: When set to `True`, returns the list of change IDs and properties that will be
+  cancelled without actually cancelling the change.
 """
 function cancel_domain_config_change end
 
@@ -267,8 +267,8 @@ end
     cancel_service_software_update(domain_name)
     cancel_service_software_update(domain_name, params::Dict{String,<:Any})
 
-Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You
-can only perform this operation before the `AutomatedUpdateDate` and when the domain's
+Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can
+only perform this operation before the `AutomatedUpdateDate` and when the domain's
 `UpdateStatus` is `PENDING_UPDATE`. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
 
 # Arguments
@@ -322,60 +322,77 @@ Creates an Amazon OpenSearch Service domain. For more information, see [Creating
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AIMLOptions"`: Options for all machine learning features for the specified domain.
+
 - `"AccessPolicies"`: Identity and Access Management (IAM) policy document specifying the
   access policies for the new domain.
+
 - `"AdvancedOptions"`: Key-value pairs to specify advanced configuration options. The
   following key-value pairs are supported:
 
-  - `"rest.action.multi.allow_explicit_index": "true" | "false"` - Note the use of a
-    string rather than a boolean. Specifies whether explicit references to indexes are
-    allowed inside the body of HTTP requests. If you want to configure access policies
-    for domain sub-resources, such as specific indexes and domain APIs, you must disable
-    this property. Default is true.
-  - `"indices.fielddata.cache.size": "80"` - Note the use of a string rather than a
-    boolean. Specifies the percentage of heap space allocated to field data. Default is
-    unbounded.
-  - `"indices.query.bool.max_clause_count": "1024"` - Note the use of a string rather
-    than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean
-    query. Default is 1,024. Queries with more than the permitted number of clauses
-    result in a `TooManyClauses` error.
-  - `"override_main_response_version": "true" | "false"` - Note the use of a string
-    rather than a boolean. Specifies whether the domain reports its version as 7.10 to
-    allow Elasticsearch OSS clients and plugins to continue working with it. Default is
-    false when creating a domain and true when upgrading a domain.
+  - `"rest.action.multi.allow_explicit_index": "true" | "false"` - Note the use of a string
+    rather than a boolean. Specifies whether explicit references to indexes are allowed
+    inside the body of HTTP requests. If you want to configure access policies for domain
+    sub-resources, such as specific indexes and domain APIs, you must disable this property.
+    Default is true.
+  - `"indices.fielddata.cache.size": "80"` - Note the use of a string rather than a boolean.
+    Specifies the percentage of heap space allocated to field data. Default is unbounded.
+  - `"indices.query.bool.max_clause_count": "1024"` - Note the use of a string rather than a
+    boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query.
+    Default is 1,024. Queries with more than the permitted number of clauses result in a
+    `TooManyClauses` error.
+  - `"override_main_response_version": "true" | "false"` - Note the use of a string rather
+    than a boolean. Specifies whether the domain reports its version as 7.10 to allow
+    Elasticsearch OSS clients and plugins to continue working with it. Default is false when
+    creating a domain and true when upgrading a domain.
 
   For more information, see [Advanced cluster parameters](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options).
+
 - `"AdvancedSecurityOptions"`: Options for fine-grained access control.
+
 - `"AutoTuneOptions"`: Options for Auto-Tune.
+
 - `"ClusterConfig"`: Container for the cluster configuration of a domain.
+
 - `"CognitoOptions"`: Key-value pairs to configure Amazon Cognito authentication. For more
   information, see [Configuring Amazon Cognito authentication for OpenSearch Dashboards](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html).
+
 - `"DomainEndpointOptions"`: Additional options for the domain endpoint, such as whether to
   require HTTPS for all traffic.
+
 - `"EBSOptions"`: Container for the parameters required to enable EBS-based storage for an
   OpenSearch Service domain.
+
 - `"EncryptionAtRestOptions"`: Key-value pairs to enable encryption at rest.
+
 - `"EngineVersion"`: String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the
   engine version for the OpenSearch Service domain. For example, `OpenSearch_1.0` or
   `Elasticsearch_7.9`. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomains).
+
 - `"IPAddressType"`: Specify either dual stack or IPv4 as your IP address type. Dual stack
   allows you to share domain resources across IPv4 and IPv6 address types, and is the
-  recommended option. If you set your IP address type to dual stack, you can't change
-  your address type later.
+  recommended option. If you set your IP address type to dual stack, you can't change your
+  address type later.
+
 - `"LogPublishingOptions"`: Key-value pairs to configure log publishing.
+
 - `"NodeToNodeEncryptionOptions"`: Enables node-to-node encryption.
+
 - `"OffPeakWindowOptions"`: Specifies a daily 10-hour time block during which OpenSearch
   Service can perform configuration changes on the domain, including service software
-  updates and Auto-Tune enhancements that require a blue/green deployment. If no options
-  are specified, the default start time of 10:00 P.M. local time (for the Region that the
-  domain is created in) is used.
+  updates and Auto-Tune enhancements that require a blue/green deployment. If no options are
+  specified, the default start time of 10:00 P.M. local time (for the Region that the domain
+  is created in) is used.
+
 - `"SnapshotOptions"`: DEPRECATED. Container for the parameters required to configure
   automated snapshots of domain indexes.
+
 - `"SoftwareUpdateOptions"`: Software update options for the domain.
+
 - `"TagList"`: List of tags to add to the domain upon creation.
+
 - `"VPCOptions"`: Container for the values required to configure VPC access domains. If you
-  don't specify these values, OpenSearch Service creates the domain with a public
-  endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
+  don't specify these values, OpenSearch Service creates the domain with a public endpoint.
+  For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
 """
 function create_domain end
 
@@ -409,8 +426,8 @@ end
     create_outbound_connection(connection_alias, local_domain_info, remote_domain_info)
     create_outbound_connection(connection_alias, local_domain_info, remote_domain_info, params::Dict{String,<:Any})
 
-Creates a new cross-cluster search connection from a source Amazon OpenSearch Service
-domain to a destination domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
+Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain
+to a destination domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
 
 # Arguments
 
@@ -476,8 +493,7 @@ end
     create_package(package_name, package_source, package_type)
     create_package(package_name, package_source, package_type, params::Dict{String,<:Any})
 
-Creates a package for use with Amazon OpenSearch Service domains. For more information, see
-[Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+Creates a package for use with Amazon OpenSearch Service domains. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
 
 # Arguments
 
@@ -749,8 +765,8 @@ Deletes an Amazon OpenSearch Service package. For more information, see [Custom 
 
 # Arguments
 
-- `package_id`: The internal ID of the package you want to delete. Use `DescribePackages`
-  to find this value.
+- `package_id`: The internal ID of the package you want to delete. Use `DescribePackages` to
+  find this value.
 """
 function delete_package end
 
@@ -1113,9 +1129,8 @@ domain. For more information, see [Determining whether a change will cause a blu
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"dryRunId"`: The unique identifier of the dry run.
-- `"loadDryRunConfig"`: Whether to include the configuration of the dry run in the
-  response. The configuration specifies the updates that you're planning to make on the
-  domain.
+- `"loadDryRunConfig"`: Whether to include the configuration of the dry run in the response.
+  The configuration specifies the updates that you're planning to make on the domain.
 """
 function describe_dry_run_progress end
 
@@ -1249,8 +1264,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: List of filter names and values that you can use for requests.
 - `"MaxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"NextToken"`: If your initial [`describe_outbound_connections`](@ref) operation returns
-  a `nextToken`, you can include the returned `nextToken` in subsequent [`describe_outbound_connections`](@ref)
+- `"NextToken"`: If your initial [`describe_outbound_connections`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`describe_outbound_connections`](@ref)
   operations, which returns results in the next page.
 """
 function describe_outbound_connections end
@@ -1701,8 +1716,8 @@ end
     get_upgrade_status(domain_name)
     get_upgrade_status(domain_name, params::Dict{String,<:Any})
 
-Returns the most recent status of the last upgrade or upgrade eligibility check performed
-on an Amazon OpenSearch Service domain.
+Returns the most recent status of the last upgrade or upgrade eligibility check performed on
+an Amazon OpenSearch Service domain.
 
 # Arguments
 
@@ -2004,8 +2019,8 @@ end
     list_scheduled_actions(domain_name)
     list_scheduled_actions(domain_name, params::Dict{String,<:Any})
 
-Retrieves a list of configuration changes that are scheduled for a domain. These changes
-can be [service software updates](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html)
+Retrieves a list of configuration changes that are scheduled for a domain. These changes can
+be [service software updates](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html)
 or [blue/green Auto-Tune enhancements](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
 
 # Arguments
@@ -2053,8 +2068,7 @@ end
     list_tags(arn)
     list_tags(arn, params::Dict{String,<:Any})
 
-Returns all resource tags for an Amazon OpenSearch Service domain. For more information,
-see [Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
+Returns all resource tags for an Amazon OpenSearch Service domain. For more information, see [Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
 
 # Arguments
 
@@ -2097,8 +2111,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
 - `"nextToken"`: If your initial [`list_versions`](@ref) operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent [`list_versions`](@ref)
-  operations, which returns results in the next page.
+  you can include the returned `nextToken` in subsequent [`list_versions`](@ref) operations,
+  which returns results in the next page.
 """
 function list_versions end
 
@@ -2398,8 +2412,8 @@ end
     revoke_vpc_endpoint_access(account, domain_name)
     revoke_vpc_endpoint_access(account, domain_name, params::Dict{String,<:Any})
 
-Revokes access to an Amazon OpenSearch Service domain that was provided through an
-interface VPC endpoint.
+Revokes access to an Amazon OpenSearch Service domain that was provided through an interface
+VPC endpoint.
 
 # Arguments
 
@@ -2500,18 +2514,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DesiredStartTime"`: The Epoch timestamp when you want the service software update to
   start. You only need to specify this parameter if you set `ScheduleAt` to `TIMESTAMP`.
+
 - `"ScheduleAt"`: When to start the service software update.
 
   - `NOW` - Immediately schedules the update to happen in the current hour if there's
     capacity available.
   - `TIMESTAMP` - Lets you specify a custom date and time to apply the update. If you
     specify this value, you must also provide a value for `DesiredStartTime`.
-  - `OFF_PEAK_WINDOW` - Marks the update to be picked up during an upcoming off-peak
-    window. There's no guarantee that the update will happen during the next immediate
-    window. Depending on capacity, it might happen in subsequent days.
+  - `OFF_PEAK_WINDOW` - Marks the update to be picked up during an upcoming off-peak window.
+    There's no guarantee that the update will happen during the next immediate window.
+    Depending on capacity, it might happen in subsequent days.
 
-  Default: `NOW` if you don't specify a value for `DesiredStartTime`, and `TIMESTAMP` if
-  you do.
+  Default: `NOW` if you don't specify a value for `DesiredStartTime`, and `TIMESTAMP` if you
+  do.
 """
 function start_service_software_update end
 
@@ -2612,57 +2627,73 @@ Modifies the cluster configuration of the specified Amazon OpenSearch Service do
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AIMLOptions"`: Options for all machine learning features for the specified domain.
-- `"AccessPolicies"`: Identity and Access Management (IAM) access policy as a JSON-
-  formatted string.
+
+- `"AccessPolicies"`: Identity and Access Management (IAM) access policy as a JSON-formatted
+  string.
+
 - `"AdvancedOptions"`: Key-value pairs to specify advanced configuration options. The
   following key-value pairs are supported:
 
-  - `"rest.action.multi.allow_explicit_index": "true" | "false"` - Note the use of a
-    string rather than a boolean. Specifies whether explicit references to indexes are
-    allowed inside the body of HTTP requests. If you want to configure access policies
-    for domain sub-resources, such as specific indexes and domain APIs, you must disable
-    this property. Default is true.
-  - `"indices.fielddata.cache.size": "80"` - Note the use of a string rather than a
-    boolean. Specifies the percentage of heap space allocated to field data. Default is
-    unbounded.
-  - `"indices.query.bool.max_clause_count": "1024"` - Note the use of a string rather
-    than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean
-    query. Default is 1,024. Queries with more than the permitted number of clauses
-    result in a `TooManyClauses` error.
+  - `"rest.action.multi.allow_explicit_index": "true" | "false"` - Note the use of a string
+    rather than a boolean. Specifies whether explicit references to indexes are allowed
+    inside the body of HTTP requests. If you want to configure access policies for domain
+    sub-resources, such as specific indexes and domain APIs, you must disable this property.
+    Default is true.
+  - `"indices.fielddata.cache.size": "80"` - Note the use of a string rather than a boolean.
+    Specifies the percentage of heap space allocated to field data. Default is unbounded.
+  - `"indices.query.bool.max_clause_count": "1024"` - Note the use of a string rather than a
+    boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query.
+    Default is 1,024. Queries with more than the permitted number of clauses result in a
+    `TooManyClauses` error.
 
   For more information, see [Advanced cluster parameters](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options).
+
 - `"AdvancedSecurityOptions"`: Options for fine-grained access control.
+
 - `"AutoTuneOptions"`: Options for Auto-Tune.
-- `"ClusterConfig"`: Changes that you want to make to the cluster configuration, such as
-  the instance type and number of EC2 instances.
+
+- `"ClusterConfig"`: Changes that you want to make to the cluster configuration, such as the
+  instance type and number of EC2 instances.
+
 - `"CognitoOptions"`: Key-value pairs to configure Amazon Cognito authentication for
   OpenSearch Dashboards.
+
 - `"DomainEndpointOptions"`: Additional options for the domain endpoint, such as whether to
   require HTTPS for all traffic.
+
 - `"DryRun"`: This flag, when set to True, specifies whether the `UpdateDomain` request
   should return the results of a dry run analysis without actually applying the change. A
   dry run determines what type of deployment the update will cause.
+
 - `"DryRunMode"`: The type of dry run to perform.
 
-  - `Basic` only returns the type of deployment (blue/green or dynamic) that the update
-    will cause.
+  - `Basic` only returns the type of deployment (blue/green or dynamic) that the update will
+    cause.
   - `Verbose` runs an additional check to validate the changes you're making. For more
     information, see [Validating a domain update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#validation-check).
 
 - `"EBSOptions"`: The type and size of the EBS volume to attach to instances in the domain.
+
 - `"EncryptionAtRestOptions"`: Encryption at rest options for the domain.
+
 - `"IPAddressType"`: Specify either dual stack or IPv4 as your IP address type. Dual stack
   allows you to share domain resources across IPv4 and IPv6 address types, and is the
   recommended option. If your IP address type is currently set to dual stack, you can't
   change it.
+
 - `"LogPublishingOptions"`: Options to publish OpenSearch logs to Amazon CloudWatch Logs.
+
 - `"NodeToNodeEncryptionOptions"`: Node-to-node encryption options for the domain.
+
 - `"OffPeakWindowOptions"`: Off-peak window options for the domain.
+
 - `"SnapshotOptions"`: Option to set the time, in UTC format, for the daily automated
   snapshot. Default value is `0` hours.
+
 - `"SoftwareUpdateOptions"`: Service software update options for the domain.
-- `"VPCOptions"`: Options to specify the subnets and security groups for a VPC endpoint.
-  For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
+
+- `"VPCOptions"`: Options to specify the subnets and security groups for a VPC endpoint. For
+  more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
 """
 function update_domain_config end
 
@@ -2695,8 +2726,7 @@ end
     update_package(package_id, package_source)
     update_package(package_id, package_source, params::Dict{String,<:Any})
 
-Updates a package for use with Amazon OpenSearch Service domains. For more information, see
-[Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+Updates a package for use with Amazon OpenSearch Service domains. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
 
 # Arguments
 
@@ -2761,19 +2791,22 @@ or a [blue/green Auto-Tune enhancement](https://docs.aws.amazon.com/opensearch-s
 - `action_id`: The unique identifier of the action to reschedule. To retrieve this ID, send
   a [ListScheduledActions](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_ListScheduledActions.html)
   request.
+
 - `action_type`: The type of action to reschedule. Can be one of `SERVICE_SOFTWARE_UPDATE`,
   `JVM_HEAP_SIZE_TUNING`, or `JVM_YOUNG_GEN_TUNING`. To retrieve this value, send a [ListScheduledActions](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_ListScheduledActions.html)
   request.
+
 - `domain_name`: The name of the domain to reschedule an action for.
+
 - `schedule_at`: When to schedule the action.
 
   - `NOW` - Immediately schedules the update to happen in the current hour if there's
     capacity available.
   - `TIMESTAMP` - Lets you specify a custom date and time to apply the update. If you
     specify this value, you must also provide a value for `DesiredStartTime`.
-  - `OFF_PEAK_WINDOW` - Marks the action to be picked up during an upcoming off-peak
-    window. There's no guarantee that the change will be implemented during the next
-    immediate window. Depending on capacity, it might happen in subsequent days.
+  - `OFF_PEAK_WINDOW` - Marks the action to be picked up during an upcoming off-peak window.
+    There's no guarantee that the change will be implemented during the next immediate
+    window. Depending on capacity, it might happen in subsequent days.
 
 # Optional Parameters
 
@@ -2887,17 +2920,17 @@ eligibility check to a compatible version of OpenSearch or Elasticsearch.
 # Arguments
 
 - `domain_name`: Name of the OpenSearch Service domain that you want to upgrade.
-- `target_version`: OpenSearch or Elasticsearch version to which you want to upgrade, in
-  the format Opensearch_X.Y or Elasticsearch_X.Y.
+- `target_version`: OpenSearch or Elasticsearch version to which you want to upgrade, in the
+  format Opensearch_X.Y or Elasticsearch_X.Y.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AdvancedOptions"`: Only supports the `override_main_response_version` parameter and not
-  other advanced options. You can only include this option when upgrading to an
-  OpenSearch version. Specifies whether the domain reports its version as 7.10 so that it
-  continues to work with Elasticsearch OSS clients and plugins.
+  other advanced options. You can only include this option when upgrading to an OpenSearch
+  version. Specifies whether the domain reports its version as 7.10 so that it continues to
+  work with Elasticsearch OSS clients and plugins.
 - `"PerformCheckOnly"`: When true, indicates that an upgrade eligibility check needs to be
   performed. Does not actually perform the upgrade.
 """

@@ -8,9 +8,9 @@ using AWS.UUIDs
     batch_delete_evaluation_job(job_identifiers)
     batch_delete_evaluation_job(job_identifiers, params::Dict{String,<:Any})
 
-Creates a batch deletion job. A model evaluation job can only be deleted if it has
-following status `FAILED`, `COMPLETED`, and `STOPPED`. You can request up to 25 model
-evaluation jobs be deleted in a single request.
+Creates a batch deletion job. A model evaluation job can only be deleted if it has following
+status `FAILED`, `COMPLETED`, and `STOPPED`. You can request up to 25 model evaluation jobs
+be deleted in a single request.
 
 # Arguments
 
@@ -56,30 +56,32 @@ creating a model evaluation job see, [Model evaluation](https://docs.aws.amazon.
 
 # Arguments
 
-- `evaluation_config`: Specifies whether the model evaluation job is automatic or uses
-  human worker.
+- `evaluation_config`: Specifies whether the model evaluation job is automatic or uses human
+  worker.
+
 - `inference_config`: Specify the models you want to use in your model evaluation job.
-  Automatic model evaluation jobs support a single model, and model evaluation job that
-  use human workers support two models.
+  Automatic model evaluation jobs support a single model, and model evaluation job that use
+  human workers support two models.
+
 - `job_name`: The name of the model evaluation job. Model evaluation job names must unique
   with your AWS account, and your account's AWS region.
+
 - `output_data_config`: An object that defines where the results of model evaluation job
   will be saved in Amazon S3.
+
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can
-  assume to perform tasks on your behalf. The service role must have Amazon Bedrock as
-  the service principal, and provide access to any Amazon S3 buckets specified in the
+  assume to perform tasks on your behalf. The service role must have Amazon Bedrock as the
+  service principal, and provide access to any Amazon S3 buckets specified in the
   `EvaluationConfig` object. To pass this role to Amazon Bedrock, the caller of this API
-  must have the `iam:PassRole` permission. To learn more about the required permissions,
-  see [Required permissions](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-security.html).
+  must have the `iam:PassRole` permission. To learn more about the required permissions, see [Required permissions](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-security.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request,
-  Amazon Bedrock ignores the request, but does not return an error. For more information,
-  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"customerEncryptionKeyId"`: Specify your customer managed key ARN that will be used to
   encrypt your model evaluation job.
 - `"jobDescription"`: A description of the model evaluation job.
@@ -159,12 +161,11 @@ protection.
   application. These topics will be blocked if detected in user queries or model responses.
 - **Word filters** - Configure filters to block undesirable words, phrases, and profanity.
   Such words can include offensive terms, competitor names etc.
-- **Sensitive information filters** - Block or mask sensitive information such as
-  personally identifiable information (PII) or custom regex in user inputs and model
-  responses.
+- **Sensitive information filters** - Block or mask sensitive information such as personally
+  identifiable information (PII) or custom regex in user inputs and model responses.
 
-In addition to the above policies, you can also configure the messages to be returned to
-the user if a user input or model response is in violation of the policies defined in the
+In addition to the above policies, you can also configure the messages to be returned to the
+user if a user input or model response is in violation of the policies defined in the
 guardrail.
 
 For more information, see [Guardrails for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html)
@@ -181,13 +182,13 @@ in the *Amazon Bedrock User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than once. If this token matches a previous request, Amazon
-  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than once. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon S3 User Guide*.
 - `"contentPolicyConfig"`: The content filter policies to configure for the guardrail.
-- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used
-  to create a guardrail.
+- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used to
+  create a guardrail.
 - `"description"`: A description of the guardrail.
 - `"kmsKeyId"`: The ARN of the KMS key that you use to encrypt the guardrail.
 - `"sensitiveInformationPolicyConfig"`: The sensitive information policy to configure for
@@ -262,9 +263,9 @@ version.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than once. If this token matches a previous request, Amazon
-  Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than once. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon S3 User Guide*.
 - `"description"`: A description of the guardrail version.
 """
@@ -316,10 +317,9 @@ in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/us
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request,
-  Amazon Bedrock ignores the request, but does not return an error. For more information,
-  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"modelKmsKeyId"`: The ARN of the KMS key that you use to encrypt the model copy.
 - `"targetModelTags"`: Tags to associate with the target model. For more information, see [Tag resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html)
   in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
@@ -390,26 +390,31 @@ in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/us
 # Arguments
 
 - `base_model_identifier`: Name of the base model.
+
 - `custom_model_name`: A name for the resulting custom model.
+
 - `hyper_parameters`: Parameters related to tuning the model. For details on the format for
   different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
+
 - `job_name`: A name for the fine-tuning job.
+
 - `output_data_config`: S3 location for the output data.
+
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can
-  assume to perform tasks on your behalf. For example, during model training, Amazon
-  Bedrock needs your permission to read input data from an S3 bucket, write model
-  artifacts to an S3 bucket. To pass this role to Amazon Bedrock, the caller of this API
-  must have the `iam:PassRole` permission.
+  assume to perform tasks on your behalf. For example, during model training, Amazon Bedrock
+  needs your permission to read input data from an S3 bucket, write model artifacts to an S3
+  bucket. To pass this role to Amazon Bedrock, the caller of this API must have the
+  `iam:PassRole` permission.
+
 - `training_data_config`: Information about the training dataset.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request,
-  Amazon Bedrock ignores the request, but does not return an error. For more information,
-  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"customModelKmsKeyId"`: The custom model is encrypted at rest using this key.
 - `"customModelTags"`: Tags to attach to the resulting custom model.
 - `"customizationType"`: The customization type.
@@ -501,10 +506,9 @@ such as Amazon SageMaker. For more information, see [Import a customized model](
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request,
-  Amazon Bedrock ignores the request, but does not return an error. For more information,
-  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"importedModelKmsKeyId"`: The imported model is encrypted at rest using this key.
 - `"importedModelTags"`: Tags to attach to the imported model.
 - `"jobTags"`: Tags to attach to this import job.
@@ -580,17 +584,16 @@ The response returns a `jobArn` that you can use to stop or get details about th
   job.
 - `output_data_config`: Details about the location of the output of the batch inference job.
 - `role_arn`: The Amazon Resource Name (ARN) of the service role with permissions to carry
-  out and manage batch inference. You can use the console to create a default service
-  role or follow the steps at [Create a service role for batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html).
+  out and manage batch inference. You can use the console to create a default service role
+  or follow the steps at [Create a service role for batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request,
-  Amazon Bedrock ignores the request, but does not return an error. For more information,
-  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"tags"`: Any tags to associate with the batch inference job. For more information, see [Tagging Amazon Bedrock resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
 - `"timeoutDurationInHours"`: The number of hours after which to force the batch inference
   job to time out.
@@ -667,29 +670,31 @@ in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/us
   Provisioned Throughput. For a list of models for which you can purchase Provisioned
   Throughput, see [Amazon Bedrock model IDs for purchasing Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#prov-throughput-models)
   in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+
 - `model_units`: Number of model units to allocate. A model unit delivers a specific
-  throughput level for the specified model. The throughput level of a model unit
-  specifies the total number of input and output tokens that it can process and generate
-  within a span of one minute. By default, your account has no model units for purchasing
-  Provisioned Throughputs with commitment. You must first visit the [Amazon Web Services support center](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase)
+  throughput level for the specified model. The throughput level of a model unit specifies
+  the total number of input and output tokens that it can process and generate within a span
+  of one minute. By default, your account has no model units for purchasing Provisioned
+  Throughputs with commitment. You must first visit the [Amazon Web Services support center](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase)
   to request MUs.
 
   For model unit quotas, see [Provisioned Throughput quotas](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html#prov-thru-quotas)
   in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
-  For more information about what an MU specifies, contact your Amazon Web Services
-  account manager.
+  For more information about what an MU specifies, contact your Amazon Web Services account
+  manager.
+
 - `provisioned_model_name`: The name for this Provisioned Throughput.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
-  request completes no more than one time. If this token matches a previous request,
-  Amazon Bedrock ignores the request, but does not return an error. For more information,
-  see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the Amazon S3 User Guide.
+
 - `"commitmentDuration"`: The commitment duration requested for the Provisioned Throughput.
   Billing occurs hourly and is discounted for longer commitment terms. To request a no-
   commit Provisioned Throughput, omit this field.
@@ -697,6 +702,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Custom models support all levels of commitment. To see which base models support no
   commitment, see [Supported regions and models for Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/pt-supported.html)
   in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html)
+
 - `"tags"`: Tags to associate with this Provisioned Throughput.
 """
 function create_provisioned_model_throughput end
@@ -987,8 +993,8 @@ end
     get_evaluation_job(job_identifier)
     get_evaluation_job(job_identifier, params::Dict{String,<:Any})
 
-Retrieves the properties associated with a model evaluation job, including the status of
-the job. For more information, see [Model evaluation](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation.html).
+Retrieves the properties associated with a model evaluation job, including the status of the
+job. For more information, see [Model evaluation](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation.html).
 
 # Arguments
 
@@ -1062,8 +1068,8 @@ end
     get_guardrail(guardrail_identifier)
     get_guardrail(guardrail_identifier, params::Dict{String,<:Any})
 
-Gets details about a guardrail. If you don't specify a version, the response returns
-details for the `DRAFT` version.
+Gets details about a guardrail. If you don't specify a version, the response returns details
+for the `DRAFT` version.
 
 # Arguments
 
@@ -1425,8 +1431,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the `nextToken` field when making another request to return the next batch of results.
 - `"nameContains"`: Return custom models only if the job name contains these characters.
 - `"nextToken"`: If the total number of results is greater than the `maxResults` value
-  provided in the request, enter the token returned in the `nextToken` field in the
-  response in this field to return the next batch of results.
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 - `"sortBy"`: The field to sort by in the returned list of models.
 - `"sortOrder"`: The sort order of the results.
 """
@@ -1460,8 +1466,8 @@ Lists model evaluation jobs.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"creationTimeAfter"`: A filter that includes model evaluation jobs created after the
-  time specified.
+- `"creationTimeAfter"`: A filter that includes model evaluation jobs created after the time
+  specified.
 - `"creationTimeBefore"`: A filter that includes model evaluation jobs created prior to the
   time specified.
 - `"maxResults"`: The maximum number of results to return.
@@ -1496,8 +1502,8 @@ end
     list_foundation_models()
     list_foundation_models(params::Dict{String,<:Any})
 
-Lists Amazon Bedrock foundation models that you can use. You can filter the results with
-the request parameters. For more information, see [Foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/foundation-models.html)
+Lists Amazon Bedrock foundation models that you can use. You can filter the results with the
+request parameters. For more information, see [Foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/foundation-models.html)
 in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Optional Parameters
@@ -1541,10 +1547,9 @@ Lists details about all the guardrails in an account. To list the `DRAFT` versio
 your guardrails, don't specify the `guardrailIdentifier` field. To list all versions of a
 guardrail, specify the ARN of the guardrail in the `guardrailIdentifier` field.
 
-You can set the maximum number of results to return in a response in the `maxResults`
-field. If there are more results than the number you set, the response returns a
-`nextToken` that you can send in another `ListGuardrails` request to see the next batch of
-results.
+You can set the maximum number of results to return in a response in the `maxResults` field.
+If there are more results than the number you set, the response returns a `nextToken` that
+you can send in another `ListGuardrails` request to see the next batch of results.
 
 # Optional Parameters
 
@@ -1592,8 +1597,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the `nextToken` field when making another request to return the next batch of results.
 - `"nameContains"`: Return imported models only if the model name contains these characters.
 - `"nextToken"`: If the total number of results is greater than the `maxResults` value
-  provided in the request, enter the token returned in the `nextToken` field in the
-  response in this field to return the next batch of results.
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 - `"sortBy"`: The field to sort by in the returned list of imported models.
 - `"sortOrder"`: Specifies whetehr to sort the results in ascending or descending order.
 """
@@ -1631,8 +1636,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number of results is greater than this value, use the token returned in the response in
   the `nextToken` field when making another request to return the next batch of results.
 - `"nextToken"`: If the total number of results is greater than the `maxResults` value
-  provided in the request, enter the token returned in the `nextToken` field in the
-  response in this field to return the next batch of results.
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 """
 function list_inference_profiles end
 
@@ -1658,8 +1663,8 @@ end
     list_model_copy_jobs()
     list_model_copy_jobs(params::Dict{String,<:Any})
 
-Returns a list of model copy jobs that you have submitted. You can filter the jobs to
-return based on one or more criteria. For more information, see [Copy models to be used in other regions](https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html)
+Returns a list of model copy jobs that you have submitted. You can filter the jobs to return
+based on one or more criteria. For more information, see [Copy models to be used in other regions](https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html)
 in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Optional Parameters
@@ -1672,8 +1677,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number of results is greater than this value, use the token returned in the response in
   the `nextToken` field when making another request to return the next batch of results.
 - `"nextToken"`: If the total number of results is greater than the `maxResults` value
-  provided in the request, enter the token returned in the `nextToken` field in the
-  response in this field to return the next batch of results.
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 - `"outputModelNameContains"`: Filters for model copy jobs in which the name of the copied
   model contains the string that you specify.
 - `"sortBy"`: The field to sort by in the returned list of model copy jobs.
@@ -1727,8 +1732,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nameContains"`: Return customization jobs only if the job name contains these
   characters.
 - `"nextToken"`: If the total number of results is greater than the `maxResults` value
-  provided in the request, enter the token returned in the `nextToken` field in the
-  response in this field to return the next batch of results.
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 - `"sortBy"`: The field to sort by in the returned list of jobs.
 - `"sortOrder"`: The sort order of the results.
 - `"statusEquals"`: Return customization jobs with the specified status.
@@ -1775,8 +1780,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the `nextToken` field when making another request to return the next batch of results.
 - `"nameContains"`: Return imported jobs only if the job name contains these characters.
 - `"nextToken"`: If the total number of results is greater than the `maxResults` value
-  provided in the request, enter the token returned in the `nextToken` field in the
-  response in this field to return the next batch of results.
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 - `"sortBy"`: The field to sort by in the returned list of imported jobs.
 - `"sortOrder"`: Specifies whether to sort the results in ascending or descending order.
 - `"statusEquals"`: Return imported jobs with the specified status.
@@ -1816,16 +1821,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request to return the next batch of results.
 - `"nameContains"`: Specify a string to filter for batch inference jobs whose names contain
   the string.
-- `"nextToken"`: If there were more results than the value you specified in the
-  `maxResults` field in a previous `ListModelInvocationJobs` request, the response would
-  have returned a `nextToken` value. To see the next batch of results, send the
-  `nextToken` value in another request.
+- `"nextToken"`: If there were more results than the value you specified in the `maxResults`
+  field in a previous `ListModelInvocationJobs` request, the response would have returned a
+  `nextToken` value. To see the next batch of results, send the `nextToken` value in another
+  request.
 - `"sortBy"`: An attribute by which to sort the results.
 - `"sortOrder"`: Specifies whether to sort the results by ascending or descending order.
-- `"statusEquals"`: Specify a status to filter for batch inference jobs whose statuses
-  match the string you specify.
-- `"submitTimeAfter"`: Specify a time to filter for batch inference jobs that were
-  submitted after the time you specify.
+- `"statusEquals"`: Specify a status to filter for batch inference jobs whose statuses match
+  the string you specify.
+- `"submitTimeAfter"`: Specify a time to filter for batch inference jobs that were submitted
+  after the time you specify.
 - `"submitTimeBefore"`: Specify a time to filter for batch inference jobs that were
   submitted before the time you specify.
 """
@@ -1867,16 +1872,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified time.
 - `"creationTimeBefore"`: A filter that returns Provisioned Throughputs created before the
   specified time.
-- `"maxResults"`: THe maximum number of results to return in the response. If there are
-  more results than the number you specified, the response returns a `nextToken` value.
-  To see the next batch of results, send the `nextToken` value in another list request.
+- `"maxResults"`: THe maximum number of results to return in the response. If there are more
+  results than the number you specified, the response returns a `nextToken` value. To see
+  the next batch of results, send the `nextToken` value in another list request.
 - `"modelArnEquals"`: A filter that returns Provisioned Throughputs whose model Amazon
   Resource Name (ARN) is equal to the value that you specify.
-- `"nameContains"`: A filter that returns Provisioned Throughputs if their name contains
-  the expression that you specify.
-- `"nextToken"`: If there are more results than the number you specified in the
-  `maxResults` field, the response returns a `nextToken` value. To see the next batch of
-  results, specify the `nextToken` value in this field.
+- `"nameContains"`: A filter that returns Provisioned Throughputs if their name contains the
+  expression that you specify.
+- `"nextToken"`: If there are more results than the number you specified in the `maxResults`
+  field, the response returns a `nextToken` value. To see the next batch of results, specify
+  the `nextToken` value in this field.
 - `"sortBy"`: The field by which to sort the returned list of Provisioned Throughputs.
 - `"sortOrder"`: The sort order of the results.
 - `"statusEquals"`: A filter that returns Provisioned Throughputs if their statuses matches
@@ -2069,8 +2074,8 @@ end
     stop_model_invocation_job(job_identifier)
     stop_model_invocation_job(job_identifier, params::Dict{String,<:Any})
 
-Stops a batch inference job. You're only charged for tokens that were already processed.
-For more information, see [Stop a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-manage.html#batch-inference-stop).
+Stops a batch inference job. You're only charged for tokens that were already processed. For
+more information, see [Stop a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-manage.html#batch-inference-stop).
 
 # Arguments
 
@@ -2205,8 +2210,8 @@ Updates a guardrail with the values you specify.
 - Specify messages for when the guardrail successfully blocks a prompt or a model response
   in the `blockedInputMessaging` and `blockedOutputsMessaging` fields.
 - Specify topics for the guardrail to deny in the `topicPolicyConfig` object. Each [GuardrailTopicConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailTopicConfig.html)
-  object in the `topicsConfig` list pertains to one topic.   - Give a `name` and
-  `description` so that the guardrail can properly identify the topic.
+  object in the `topicsConfig` list pertains to one topic.
+  - Give a `name` and `description` so that the guardrail can properly identify the topic.
   - Specify `DENY` in the `type` field.
   - (Optional) Provide up to five prompts that you would categorize as belonging to the
     topic in the `examples` list.
@@ -2215,7 +2220,7 @@ Updates a guardrail with the values you specify.
   object in the `filtersConfig` list pertains to a harmful category. For more information,
   see [Content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-content-filters).
   For more information about the fields in a content filter, see [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html).
-    - Specify the category in the `type` field.
+  - Specify the category in the `type` field.
   - Specify the strength of the filter for prompts in the `inputStrength` field and for
     model responses in the `strength` field of the [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html).
 - (Optional) For security, include the ARN of a KMS key in the `kmsKeyId` field.
@@ -2234,8 +2239,8 @@ Updates a guardrail with the values you specify.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"contentPolicyConfig"`: The content policy to configure for the guardrail.
-- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used
-  to update a guardrail.
+- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used to
+  update a guardrail.
 - `"description"`: A description of the guardrail.
 - `"kmsKeyId"`: The ARN of the KMS key with which to encrypt the guardrail.
 - `"sensitiveInformationPolicyConfig"`: The sensitive information policy to configure for
@@ -2296,8 +2301,7 @@ end
     update_provisioned_model_throughput(provisioned_model_id)
     update_provisioned_model_throughput(provisioned_model_id, params::Dict{String,<:Any})
 
-Updates the name or associated model for a Provisioned Throughput. For more information,
-see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html)
+Updates the name or associated model for a Provisioned Throughput. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html)
 in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
@@ -2309,16 +2313,15 @@ in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/us
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"desiredModelId"`: The Amazon Resource Name (ARN) of the new model to associate with
-  this Provisioned Throughput. You can't specify this field if this Provisioned
-  Throughput is associated with a base model.
+- `"desiredModelId"`: The Amazon Resource Name (ARN) of the new model to associate with this
+  Provisioned Throughput. You can't specify this field if this Provisioned Throughput is
+  associated with a base model.
 
-  If this Provisioned Throughput is associated with a custom model, you can specify one
-  of the following options:
+  If this Provisioned Throughput is associated with a custom model, you can specify one of
+  the following options:
 
   - The base model from which the custom model was customized.
-  - Another custom model that was customized from the same base model as the custom
-    model.
+  - Another custom model that was customized from the same base model as the custom model.
 
 - `"desiredProvisionedModelName"`: The new name for this Provisioned Throughput.
 """

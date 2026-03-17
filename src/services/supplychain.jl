@@ -8,9 +8,8 @@ using AWS.UUIDs
     create_bill_of_materials_import_job(instance_id, s3uri)
     create_bill_of_materials_import_job(instance_id, s3uri, params::Dict{String,<:Any})
 
-CreateBillOfMaterialsImportJob creates an import job for the Product Bill Of Materials
-(BOM) entity. For information on the product_bom entity, see the AWS Supply Chain User
-Guide.
+CreateBillOfMaterialsImportJob creates an import job for the Product Bill Of Materials (BOM)
+entity. For information on the product_bom entity, see the AWS Supply Chain User Guide.
 
 The CSV file must be located in an Amazon S3 location accessible to AWS Supply Chain. It is
 recommended to use the same Amazon S3 bucket created during your AWS Supply Chain instance
@@ -113,8 +112,7 @@ GMT everyday. The updated transactional data is available in data lake after ing
 
 # Arguments
 
-- `data`: The data payload of the event. For more information on the data schema to use,
-  see [Data entities supported in AWS Supply Chain](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+- `data`: The data payload of the event. For more information on the data schema to use, see [Data entities supported in AWS Supply Chain](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
 - `event_group_id`: Event identifier (for example, orderId for InboundOrder) used for data
   sharing or partitioning.
 - `event_type`: The data event type.

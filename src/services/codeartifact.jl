@@ -8,8 +8,8 @@ using AWS.UUIDs
     associate_external_connection(domain, external-connection, repository)
     associate_external_connection(domain, external-connection, repository, params::Dict{String,<:Any})
 
-Adds an existing external connection to a repository. One external connection is allowed
-per repository.
+Adds an existing external connection to a repository. One external connection is allowed per
+repository.
 
 !!! note
     A repository can have one or more upstream repositories, or an external connection.
@@ -17,6 +17,7 @@ per repository.
 # Arguments
 
 - `domain`: The name of the domain that contains the repository.
+
 - `external-connection`: The name of the external connection to add to the repository. The
   following values are supported:
 
@@ -37,8 +38,8 @@ per repository.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 """
 function associate_external_connection end
 
@@ -112,13 +113,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"allowOverwrite"`: Set to true to overwrite a package version that already exists in the
   destination repository. If set to false and the package version already exists in the
-  destination repository, the package version is returned in the `failedVersions` field
-  of the response with an `ALREADY_EXISTS` error code.
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+  destination repository, the package version is returned in the `failedVersions` field of
+  the response with an `ALREADY_EXISTS` error code.
+
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"includeFromUpstream"`: Set to true to copy packages from repositories that are upstream
   from the source repository to the destination repository. The default setting is false.
   For more information, see [Working with upstream repositories](https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html).
+
 - `"namespace"`: The namespace of the package versions to be copied. The package component
   that specifies its namespace depends on its type. For example:
 
@@ -136,9 +140,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     component, package versions of those formats do not have a namespace.
 
 - `"versionRevisions"`: A list of key-value pairs. The keys are package versions and the
-  values are package version revisions. A [`copy_package_version`](@ref) operation
-  succeeds if the specified versions in the source repository match the specified package
-  version revision.
+  values are package version revisions. A [`copy_package_version`](@ref) operation succeeds
+  if the specified versions in the source repository match the specified package version
+  revision.
 
   !!! note
       You must specify `versions` or `versionRevisions`. You cannot specify both.
@@ -147,7 +151,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You must specify `versions` or `versionRevisions`. You cannot specify both.
-
 """
 function copy_package_versions end
 
@@ -214,26 +217,26 @@ owned by different Amazon Web Services accounts. An asset is stored only once in
 even if it's in multiple repositories.
 
 Although you can have multiple domains, we recommend a single production domain that
-contains all published artifacts so that your development teams can find and share
-packages. You can use a second pre-production domain to test changes to the production
-domain configuration.
+contains all published artifacts so that your development teams can find and share packages.
+You can use a second pre-production domain to test changes to the production domain
+configuration.
 
 # Arguments
 
 - `domain`: The name of the domain to create. All domain names in an Amazon Web Services
-  Region that are in the same Amazon Web Services account must be unique. The domain name
-  is used as the prefix in DNS hostnames. Do not use sensitive information in a domain
-  name because it is publicly discoverable.
+  Region that are in the same Amazon Web Services account must be unique. The domain name is
+  used as the prefix in DNS hostnames. Do not use sensitive information in a domain name
+  because it is publicly discoverable.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"encryptionKey"`: The encryption key for the domain. This is used to encrypt content
-  stored in a domain. An encryption key can be a key ID, a key Amazon Resource Name
-  (ARN), a key alias, or a key alias ARN. To specify an `encryptionKey`, your IAM role
-  must have `kms:DescribeKey` and `kms:CreateGrant` permissions on the encryption key
-  that is used. For more information, see [DescribeKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestSyntax)
+  stored in a domain. An encryption key can be a key ID, a key Amazon Resource Name (ARN), a
+  key alias, or a key alias ARN. To specify an `encryptionKey`, your IAM role must have
+  `kms:DescribeKey` and `kms:CreateGrant` permissions on the encryption key that is used.
+  For more information, see [DescribeKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestSyntax)
   in the *Key Management Service API Reference* and [Key Management Service API Permissions Reference](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html)
   in the *Key Management Service Developer Guide*.
 
@@ -288,8 +291,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"contactInfo"`: The contact information for the created package group.
 - `"description"`: A description of the package group.
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 - `"tags"`: One or more tag key-value pairs for the package group.
 """
 function create_package_group end
@@ -343,12 +346,12 @@ Creates a repository.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: A description of the created repository.
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 - `"tags"`: One or more tag key-value pairs for the repository.
-- `"upstreams"`: A list of upstream repositories to associate with the repository. The
-  order of the upstream repositories in the list determines their priority order when
-  CodeArtifact looks for a requested package version. For more information, see [Working with upstream repositories](https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html).
+- `"upstreams"`: A list of upstream repositories to associate with the repository. The order
+  of the upstream repositories in the list determines their priority order when CodeArtifact
+  looks for a requested package version. For more information, see [Working with upstream repositories](https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html).
 """
 function create_repository end
 
@@ -400,8 +403,8 @@ delete a domain with repositories, first delete its repositories.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 """
 function delete_domain end
 
@@ -441,8 +444,8 @@ Deletes the resource policy set on a domain.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 - `"policy-revision"`: The current revision of the resource policy to be deleted. This
   revision is used for optimistic locking, which prevents others from overwriting your
   changes to the domain's resource policy.
@@ -477,8 +480,8 @@ end
     delete_package(domain, format, package, repository)
     delete_package(domain, format, package, repository, params::Dict{String,<:Any})
 
-Deletes a package and all associated package versions. A deleted package cannot be
-restored. To delete one or more package versions, use the [DeletePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DeletePackageVersions.html)
+Deletes a package and all associated package versions. A deleted package cannot be restored.
+To delete one or more package versions, use the [DeletePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DeletePackageVersions.html)
 API.
 
 # Arguments
@@ -492,8 +495,9 @@ API.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"namespace"`: The namespace of the package to delete. The package component that
   specifies its namespace depends on its type. For example:
 
@@ -509,7 +513,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a generic package is its `namespace`.
   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
     component, package versions of those formats do not have a namespace.
-
 """
 function delete_package end
 
@@ -577,8 +580,8 @@ those settings could change.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 """
 function delete_package_group end
 
@@ -620,9 +623,9 @@ end
     delete_package_versions(domain, format, package, repository, versions, params::Dict{String,<:Any})
 
 Deletes one or more versions of a package. A deleted package version cannot be restored in
-your repository. If you want to remove a package version from your repository and be able
-to restore it later, set its status to `Archived`. Archived packages cannot be downloaded
-from a repository and don't show up with list package APIs (for example, [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)),
+your repository. If you want to remove a package version from your repository and be able to
+restore it later, set its status to `Archived`. Archived packages cannot be downloaded from
+a repository and don't show up with list package APIs (for example, [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)),
 but you can restore them using [UpdatePackageVersionsStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html).
 
 # Arguments
@@ -637,9 +640,11 @@ but you can restore them using [UpdatePackageVersionsStatus](https://docs.aws.am
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"expectedStatus"`: The expected status of the package version to delete.
+
 - `"namespace"`: The namespace of the package versions to be deleted. The package component
   that specifies its namespace depends on its type. For example:
 
@@ -655,7 +660,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a generic package is its `namespace`.
   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
     component, package versions of those formats do not have a namespace.
-
 """
 function delete_package_versions end
 
@@ -727,8 +731,8 @@ Deletes a repository.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 """
 function delete_repository end
 
@@ -769,9 +773,9 @@ end
     delete_repository_permissions_policy(domain, repository)
     delete_repository_permissions_policy(domain, repository, params::Dict{String,<:Any})
 
-Deletes the resource policy that is set on a repository. After a resource policy is
-deleted, the permissions allowed and denied by the deleted policy are removed. The effect
-of deleting a resource policy might not be immediate.
+Deletes the resource policy that is set on a repository. After a resource policy is deleted,
+the permissions allowed and denied by the deleted policy are removed. The effect of deleting
+a resource policy might not be immediate.
 
 !!! important
     Use `DeleteRepositoryPermissionsPolicy` with caution. After a policy is deleted, Amazon
@@ -780,17 +784,17 @@ of deleting a resource policy might not be immediate.
 
 # Arguments
 
-- `domain`: The name of the domain that contains the repository associated with the
-  resource policy to be deleted.
-- `repository`: The name of the repository that is associated with the resource policy to
-  be deleted
+- `domain`: The name of the domain that contains the repository associated with the resource
+  policy to be deleted.
+- `repository`: The name of the repository that is associated with the resource policy to be
+  deleted
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 - `"policy-revision"`: The revision of the repository's resource policy to be deleted. This
   revision is used for optimistic locking, which prevents others from accidentally
   overwriting your changes to the repository's resource policy.
@@ -845,8 +849,8 @@ object that contains information about the requested domain.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 """
 function describe_domain end
 
@@ -890,8 +894,9 @@ object that contains information about the requested package.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"namespace"`: The namespace of the requested package. The package component that
   specifies its namespace depends on its type. For example:
 
@@ -907,7 +912,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a generic package is its `namespace`.
   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
     component, package versions of those formats do not have a namespace.
-
 """
 function describe_package end
 
@@ -972,8 +976,8 @@ object that contains information about the requested package group.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 """
 function describe_package_group end
 
@@ -1030,14 +1034,14 @@ object that contains information about the requested package version.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"namespace"`: The namespace of the requested package version. The package component that
   specifies its namespace depends on its type. For example:
 
   !!! note
-      The namespace is required when requesting package versions of the following
-      formats:
+      The namespace is required when requesting package versions of the following formats:
 
       - Maven
       - Swift
@@ -1048,7 +1052,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a generic package is its `namespace`.
   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
     component, package versions of those formats do not have a namespace.
-
 """
 function describe_package_version end
 
@@ -1121,8 +1124,8 @@ requested repository.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 """
 function describe_repository end
 
@@ -1178,8 +1181,8 @@ Removes an existing external connection from a repository.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 """
 function disassociate_external_connection end
 
@@ -1255,15 +1258,16 @@ To view information about a disposed package version, use [DescribePackageVersio
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"expectedStatus"`: The expected status of the package version to dispose.
-- `"namespace"`: The namespace of the package versions to be disposed. The package
-  component that specifies its namespace depends on its type. For example:
+
+- `"namespace"`: The namespace of the package versions to be disposed. The package component
+  that specifies its namespace depends on its type. For example:
 
   !!! note
       The namespace is required when disposing package versions of the following formats:
-
 
       - Maven
       - Swift
@@ -1339,8 +1343,8 @@ end
 Returns the most closely associated package group to the specified package. This API does
 not require that the package exist in any repository in the domain. As such,
 `GetAssociatedPackageGroup` can be used to see which package group's origin configuration
-applies to a package before that package is in a repository. This can be helpful to check
-if public packages are blocked without ingesting them.
+applies to a package before that package is in a repository. This can be helpful to check if
+public packages are blocked without ingesting them.
 
 For information package group association and matching, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html)
 in the *CodeArtifact User Guide*.
@@ -1356,15 +1360,16 @@ in the *CodeArtifact User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"namespace"`: The namespace of the package from which to get the associated package
   group. The package component that specifies its namespace depends on its type. For
   example:
 
   !!! note
-      The namespace is required when getting associated package groups from packages of
-      the following formats:
+      The namespace is required when getting associated package groups from packages of the
+      following formats:
 
       - Maven
       - Swift
@@ -1375,7 +1380,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a generic package is its `namespace`.
   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
     component, package versions of those formats do not have a namespace.
-
 """
 function get_associated_package_group end
 
@@ -1419,16 +1423,15 @@ end
     get_authorization_token(domain)
     get_authorization_token(domain, params::Dict{String,<:Any})
 
-Generates a temporary authorization token for accessing repositories in the domain. This
-API requires the `codeartifact:GetAuthorizationToken` and `sts:GetServiceBearerToken`
+Generates a temporary authorization token for accessing repositories in the domain. This API
+requires the `codeartifact:GetAuthorizationToken` and `sts:GetServiceBearerToken`
 permissions. For more information about authorization tokens, see [CodeArtifact authentication and tokens](https://docs.aws.amazon.com/codeartifact/latest/ug/tokens-authentication.html).
 
 !!! note
     CodeArtifact authorization tokens are valid for a period of 12 hours when created with
     the `login` command. You can call `login` periodically to refresh the token. When you
-    create an authorization token with the `GetAuthorizationToken` API, you can set a
-    custom authorization period, up to a maximum of 12 hours, with the `durationSeconds`
-    parameter.
+    create an authorization token with the `GetAuthorizationToken` API, you can set a custom
+    authorization period, up to a maximum of 12 hours, with the `durationSeconds` parameter.
 
     The authorization period begins after `login` or `GetAuthorizationToken` is called. If
     `login` or `GetAuthorizationToken` is called while assuming a role, the token lifetime
@@ -1448,12 +1451,12 @@ permissions. For more information about authorization tokens, see [CodeArtifact 
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
-- `"duration"`: The time, in seconds, that the generated authorization token is valid.
-  Valid values are `0` and any number between `900` (15 minutes) and `43200` (12 hours).
-  A value of `0` will set the expiration of the authorization token to the same
-  expiration of the user's role's temporary credentials.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+- `"duration"`: The time, in seconds, that the generated authorization token is valid. Valid
+  values are `0` and any number between `900` (15 minutes) and `43200` (12 hours). A value
+  of `0` will set the expiration of the authorization token to the same expiration of the
+  user's role's temporary credentials.
 """
 function get_authorization_token end
 
@@ -1498,8 +1501,8 @@ Returns the resource policy attached to the specified domain.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 """
 function get_domain_permissions_policy end
 
@@ -1540,8 +1543,8 @@ the package version.
 - `asset`: The name of the requested asset.
 - `domain`: The name of the domain that contains the repository that contains the package
   version with the requested asset.
-- `format`: A format that specifies the type of the package version with the requested
-  asset file.
+- `format`: A format that specifies the type of the package version with the requested asset
+  file.
 - `package`: The name of the package that contains the requested asset.
 - `repository`: The repository that contains the package version with the requested asset.
 - `version`: A string that contains the package version (for example, `3.5.2`).
@@ -1550,8 +1553,9 @@ the package version.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"namespace"`: The namespace of the package version with the requested asset file. The
   package component that specifies its namespace depends on its type. For example:
 
@@ -1653,8 +1657,9 @@ Markdown or reStructuredText.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"namespace"`: The namespace of the package version with the requested readme file. The
   package component that specifies its namespace depends on its type. For example:
 
@@ -1671,7 +1676,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a generic package is its `namespace`.
   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
     component, package versions of those formats do not have a namespace.
-
 """
 function get_package_version_readme end
 
@@ -1755,8 +1759,8 @@ endpoint for each package format:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain that contains the repository. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain that contains the repository. It does not include dashes or spaces.
 """
 function get_repository_endpoint end
 
@@ -1815,8 +1819,8 @@ Returns the resource policy that is set on a repository.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 """
 function get_repository_permissions_policy end
 
@@ -1874,8 +1878,8 @@ in the *CodeArtifact User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 - `"max-results"`: The maximum number of results to return per page.
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -1945,8 +1949,8 @@ in the *CodeArtifact User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 - `"max-results"`: The maximum number of results to return per page.
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -2038,8 +2042,8 @@ Returns a list of package groups in the requested domain.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 - `"max-results"`: The maximum number of results to return per page.
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -2091,9 +2095,11 @@ objects for assets in a package version.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"max-results"`: The maximum number of results to return per page.
+
 - `"namespace"`: The namespace of the package version that contains the requested package
   version assets. The package component that specifies its namespace depends on its type.
   For example:
@@ -2175,8 +2181,8 @@ end
     list_package_version_dependencies(domain, format, package, repository, version, params::Dict{String,<:Any})
 
 Returns the direct dependencies for a package version. The dependencies are returned as [PackageDependency](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html)
-objects. CodeArtifact extracts the dependencies for a package version from the metadata
-file for the package format (for example, the `package.json` file for npm packages and the
+objects. CodeArtifact extracts the dependencies for a package version from the metadata file
+for the package format (for example, the `package.json` file for npm packages and the
 `pom.xml` file for Maven). Any package version dependencies that are not listed in the
 configuration file are not returned.
 
@@ -2193,8 +2199,9 @@ configuration file are not returned.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"namespace"`: The namespace of the package version with the requested dependencies. The
   package component that specifies its namespace depends on its type. For example:
 
@@ -2288,9 +2295,11 @@ with no `--status` parameter.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"max-results"`: The maximum number of results to return per page.
+
 - `"namespace"`: The namespace of the package that contains the requested package versions.
   The package component that specifies its namespace depends on its type. For example:
 
@@ -2309,9 +2318,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+
 - `"originType"`: The `originType` used to filter package versions. Only package versions
   with the provided `originType` will be returned.
+
 - `"sortBy"`: How to sort the requested list of package versions.
+
 - `"status"`: A string that filters the requested package versions by status.
 """
 function list_package_versions end
@@ -2378,15 +2390,18 @@ objects for packages in a repository that match the request parameters.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"format"`: The format used to filter requested packages. Only packages from the provided
   format will be returned.
+
 - `"max-results"`: The maximum number of results to return per page.
+
 - `"namespace"`: The namespace prefix used to filter requested packages. Only packages with
   a namespace that starts with the provided string value are returned. Note that although
-  this option is called `--namespace` and not `--namespace-prefix`, it has prefix-
-  matching behavior.
+  this option is called `--namespace` and not `--namespace-prefix`, it has prefix-matching
+  behavior.
 
   Each package format uses namespace as follows:
 
@@ -2398,14 +2413,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+
 - `"package-prefix"`: A prefix used to filter requested packages. Only packages with names
   that start with `packagePrefix` are returned.
+
 - `"publish"`: The value of the `Publish` package origin control restriction used to filter
   requested packages. Only packages with the provided restriction are returned. For more
   information, see [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html).
+
 - `"upstream"`: The value of the `Upstream` package origin control restriction used to
-  filter requested packages. Only packages with the provided restriction are returned.
-  For more information, see [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html).
+  filter requested packages. Only packages with the provided restriction are returned. For
+  more information, see [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html).
 """
 function list_packages end
 
@@ -2498,8 +2516,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"administrator-account"`: Filter the list of repositories to only include those that are
   managed by the Amazon Web Services account ID.
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 - `"max-results"`: The maximum number of results to return per page.
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -2551,8 +2569,8 @@ in the *CodeArtifact User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 - `"max-results"`: The maximum number of results to return per page.
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -2654,22 +2672,29 @@ Once a package version’s status is set to `Published`, it cannot change back t
 
 - `asset`: The name of the asset to publish. Asset names can include Unicode letters and
   numbers, and the following special characters: `~ ! @ ^ &amp; ( ) - ` _ + [ ] { } ; , . ``
+
 - `asset_content`: The content of the asset to publish.
+
 - `domain`: The name of the domain that contains the repository that contains the package
   version to publish.
-- `format`: A format that specifies the type of the package version with the requested
-  asset file.
+
+- `format`: A format that specifies the type of the package version with the requested asset
+  file.
 
   The only supported value is `generic`.
+
 - `package`: The name of the package version to publish.
+
 - `repository`: The name of the repository that the package version will be published to.
+
 - `version`: The package version to publish (for example, `3.5.2`).
+
 - `x-amz-content-sha256`: The SHA256 hash of the `assetContent` to publish. This value must
   be calculated by the caller and provided with the request (see [Publishing a generic package](https://docs.aws.amazon.com/codeartifact/latest/ug/using-generic.html#publishing-generic-packages)
   in the *CodeArtifact User Guide*).
 
-  This value is used as an integrity check to verify that the `assetContent` has not
-  changed after it was originally sent.
+  This value is used as an integrity check to verify that the `assetContent` has not changed
+  after it was originally sent.
 
 # Optional Parameters
 
@@ -2677,7 +2702,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"domain-owner"`: The 12-digit account number of the AWS account that owns the domain. It
   does not include dashes or spaces.
+
 - `"namespace"`: The namespace of the package version to publish.
+
 - `"unfinished"`: Specifies whether the package version should remain in the `unfinished`
   state. If omitted, the package version status will be set to `Published` (see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status)
   in the *CodeArtifact User Guide*).
@@ -2775,8 +2802,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainOwner"`: The 12-digit account number of the Amazon Web Services account that owns
   the domain. It does not include dashes or spaces.
 - `"policyRevision"`: The current revision of the resource policy to be set. This revision
-  is used for optimistic locking, which prevents others from overwriting your changes to
-  the domain's resource policy.
+  is used for optimistic locking, which prevents others from overwriting your changes to the
+  domain's resource policy.
 """
 function put_domain_permissions_policy end
 
@@ -2835,9 +2862,13 @@ repository before connecting any package managers or publishers to the repositor
 # Arguments
 
 - `domain`: The name of the domain that contains the repository that contains the package.
+
 - `format`: A format that specifies the type of the package to be updated.
+
 - `package`: The name of the package to be updated.
+
 - `repository`: The name of the repository that contains the package.
+
 - `restrictions`: A [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html)
   object that contains information about the `upstream` and `publish` package origin
   restrictions. The `upstream` restriction determines if new package versions can be
@@ -2851,8 +2882,9 @@ repository before connecting any package managers or publishers to the repositor
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"namespace"`: The namespace of the package to be updated. The package component that
   specifies its namespace depends on its type. For example:
 
@@ -2861,7 +2893,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a generic package is its `namespace`.
   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
     component, package versions of those formats do not have a namespace.
-
 """
 function put_package_origin_configuration end
 
@@ -2940,11 +2971,11 @@ resource policy.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
-- `"policyRevision"`: Sets the revision of the resource policy that specifies permissions
-  to access the repository. This revision is used for optimistic locking, which prevents
-  others from overwriting your changes to the repository's resource policy.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+- `"policyRevision"`: Sets the revision of the resource policy that specifies permissions to
+  access the repository. This revision is used for optimistic locking, which prevents others
+  from overwriting your changes to the repository's resource policy.
 """
 function put_repository_permissions_policy end
 
@@ -3101,8 +3132,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"contactInfo"`: Contact information which you want to update the requested package group
   with.
 - `"description"`: The description you want to update the requested package group with.
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 """
 function update_package_group end
 
@@ -3164,8 +3195,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"addAllowedRepositories"`: The repository name and restrictions to add to the allowed
   repository list of the specified package group.
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
 - `"removeAllowedRepositories"`: The repository name and restrictions to remove from the
   allowed repository list of the specified package group.
 - `"restrictions"`: The origin configuration settings that determine how package versions
@@ -3223,18 +3254,20 @@ Updates the status of one or more versions of a package. Using
 - `repository`: The repository that contains the package versions with the status you want
   to update.
 - `target_status`: The status you want to change the package version status to.
-- `versions`: An array of strings that specify the versions of the package with the
-  statuses to update.
+- `versions`: An array of strings that specify the versions of the package with the statuses
+  to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+
 - `"expectedStatus"`: The package version’s expected status before it is updated. If
-  `expectedStatus` is provided, the package version's status is updated only if its
-  status at the time `UpdatePackageVersionsStatus` is called matches `expectedStatus`.
+  `expectedStatus` is provided, the package version's status is updated only if its status
+  at the time `UpdatePackageVersionsStatus` is called matches `expectedStatus`.
+
 - `"namespace"`: The namespace of the package version to be updated. The package component
   that specifies its namespace depends on its type. For example:
 
@@ -3323,11 +3356,11 @@ Update the properties of a repository.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: An updated repository description.
-- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that
-  owns the domain. It does not include dashes or spaces.
-- `"upstreams"`: A list of upstream repositories to associate with the repository. The
-  order of the upstream repositories in the list determines their priority order when
-  CodeArtifact looks for a requested package version. For more information, see [Working with upstream repositories](https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html).
+- `"domain-owner"`: The 12-digit account number of the Amazon Web Services account that owns
+  the domain. It does not include dashes or spaces.
+- `"upstreams"`: A list of upstream repositories to associate with the repository. The order
+  of the upstream repositories in the list determines their priority order when CodeArtifact
+  looks for a requested package version. For more information, see [Working with upstream repositories](https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html).
 """
 function update_repository end
 

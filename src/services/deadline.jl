@@ -543,8 +543,8 @@ Copies a job template to an Amazon S3 bucket.
 - `farm_id`: The farm ID to copy.
 - `job_id`: The job ID to copy.
 - `queue_id`: The queue ID to copy.
-- `target_s3_location`: The Amazon S3 bucket name and key where you would like to add a
-  copy of the job template.
+- `target_s3_location`: The Amazon S3 bucket name and key where you would like to add a copy
+  of the job template.
 """
 function copy_job_template end
 
@@ -594,29 +594,33 @@ Creates a budget to set spending thresholds for your rendering activity.
 # Arguments
 
 - `actions`: The budget actions to specify what happens when the budget runs out.
+
 - `approximate_dollar_limit`: The dollar limit based on consumed usage.
+
 - `display_name`: The display name of the budget.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `farm_id`: The farm ID to include in this budget.
+
 - `schedule`: The schedule to associate with this budget.
+
 - `usage_tracking_resource`: The queue ID provided to this budget to track usage.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
+
 - `"description"`: The description of the budget.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
-
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 """
 function create_budget end
 
@@ -691,22 +695,24 @@ for large projects.
 - `display_name`: The display name of the farm.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
+
 - `"description"`: The description of the farm.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"kmsKeyArn"`: The ARN of the KMS key to use on the farm.
+
 - `"tags"`: The tags to add to your farm. Each tag consists of a tag key and a tag value.
   Tag keys and values are both required, but tag values can be empty strings.
 """
@@ -758,29 +764,34 @@ managed by Deadline Cloud.
 
 - `configuration`: The configuration settings for the fleet. Customer managed fleets are
   self-managed. Service managed Amazon EC2 fleets are managed by Deadline Cloud.
+
 - `display_name`: The display name of the fleet.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `farm_id`: The farm ID of the farm to connect to the fleet.
+
 - `max_worker_count`: The maximum number of workers for the fleet.
+
 - `role_arn`: The IAM role ARN for the role that the fleet's workers will use.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
+
 - `"description"`: The description of the fleet.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"minWorkerCount"`: The minimum number of workers for the fleet.
+
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
 """
@@ -860,8 +871,8 @@ run work on available workers. For more information, see [Deadline Cloud jobs](h
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
 - `"attachments"`: The attachments for the job. Attach files required for the job to run to
   a render job.
 - `"maxFailedTasksCount"`: The number of task failures before the job stops running and is
@@ -930,8 +941,8 @@ end
     create_license_endpoint(security_group_ids, subnet_ids, vpc_id)
     create_license_endpoint(security_group_ids, subnet_ids, vpc_id, params::Dict{String,<:Any})
 
-Creates a license endpoint to integrate your various licensed software used for rendering
-on Deadline Cloud.
+Creates a license endpoint to integrate your various licensed software used for rendering on
+Deadline Cloud.
 
 # Arguments
 
@@ -943,8 +954,8 @@ on Deadline Cloud.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
 """
@@ -1004,18 +1015,20 @@ steps that make up the job, and then download the job's results.
 
 # Arguments
 
-- `display_name`: The name that you give the monitor that is displayed in the Deadline
-  Cloud console.
+- `display_name`: The name that you give the monitor that is displayed in the Deadline Cloud
+  console.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `identity_center_instance_arn`: The Amazon Resource Name (ARN) of the IAM Identity Center
   instance that authenticates monitor users.
+
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that the monitor uses to
   connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity
   Center uses this role to access Deadline Cloud resources.
+
 - `subdomain`: The subdomain to use when creating the monitor URL. The full URL of the
   monitor is subdomain.Region.deadlinecloud.amazonaws.com.
 
@@ -1023,8 +1036,8 @@ steps that make up the job, and then download the job's results.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
 """
 function create_monitor end
 
@@ -1091,8 +1104,8 @@ specify where to pull resources and indicate where to output completed jobs.
 - `display_name`: The display name of the queue.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `farm_id`: The farm ID of the farm to connect to the queue.
 
@@ -1100,23 +1113,30 @@ specify where to pull resources and indicate where to output completed jobs.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
+
 - `"allowedStorageProfileIds"`: The storage profile IDs to include in the queue.
+
 - `"defaultBudgetAction"`: The default action to take on a queue if a budget isn't
   configured.
+
 - `"description"`: The description of the queue.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
-- `"jobAttachmentSettings"`: The job attachment settings for the queue. These are the
-  Amazon S3 bucket name and the Amazon S3 prefix.
+- `"jobAttachmentSettings"`: The job attachment settings for the queue. These are the Amazon
+  S3 bucket name and the Amazon S3 prefix.
+
 - `"jobRunAsUser"`: The jobs in the queue run as the specified POSIX user.
+
 - `"requiredFileSystemLocationNames"`: The file system location name to include in the
   queue.
+
 - `"roleArn"`: The IAM role ARN that workers will use while running jobs for this queue.
+
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
 """
@@ -1179,8 +1199,8 @@ Creates an environment for a queue that defines how jobs in the queue run.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
 """
 function create_queue_environment end
 
@@ -1293,18 +1313,19 @@ of resources used on a farm.
 - `display_name`: The display name of the storage profile.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `farm_id`: The farm ID of the farm to connect to the storage profile.
+
 - `os_family`: The type of operating system (OS) for the storage profile.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
 - `"fileSystemLocations"`: File system paths to include in the storage profile.
 """
 function create_storage_profile end
@@ -1369,8 +1390,8 @@ exclude.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
 - `"hostProperties"`: The IP address and host name of the worker.
 """
 function create_worker end
@@ -1489,8 +1510,8 @@ Deletes a fleet.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
 """
 function delete_fleet end
 
@@ -2929,14 +2950,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The display names of a list of fleets.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
   `NextToken` to get results as a set of sequential pages.
+
 - `"nextToken"`: The token for the next set of results, or `null` to start from the
   beginning.
+
 - `"principalId"`: The principal ID of the members to include in the fleet.
+
 - `"status"`: The status of the fleet.
 """
 function list_fleets end
@@ -3339,15 +3363,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
   `NextToken` to get results as a set of sequential pages.
+
 - `"nextToken"`: The token for the next set of results, or `null` to start from the
   beginning.
+
 - `"principalId"`: The principal IDs to include in the list of queues.
+
 - `"status"`: The status of the queues listed.
 
   - `ACTIVE`–The queues are active.
   - `SCHEDULING`–The queues are scheduling.
   - `SCHEDULING_BLOCKED`–The queue scheduling is blocked for these queues.
-
 """
 function list_queues end
 
@@ -3958,9 +3984,9 @@ Searches for jobs.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among
-  a group of search strings in a resource. <p>You can use two groupings per search each
-  within parenthesis `()`.</p>
+- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among a
+  group of search strings in a resource. <p>You can use two groupings per search each within
+  parenthesis `()`.</p>
 - `"pageSize"`: Specifies the number of items per page for the resource.
 - `"sortExpressions"`: The search terms for a resource.
 """
@@ -4016,9 +4042,9 @@ Searches for steps.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among
-  a group of search strings in a resource. <p>You can use two groupings per search each
-  within parenthesis `()`.</p>
+- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among a
+  group of search strings in a resource. <p>You can use two groupings per search each within
+  parenthesis `()`.</p>
 - `"jobId"`: The job ID to use in the step search.
 - `"pageSize"`: Specifies the number of items per page for the resource.
 - `"sortExpressions"`: The search terms for a resource.
@@ -4075,9 +4101,9 @@ Searches for tasks.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among
-  a group of search strings in a resource. <p>You can use two groupings per search each
-  within parenthesis `()`.</p>
+- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among a
+  group of search strings in a resource. <p>You can use two groupings per search each within
+  parenthesis `()`.</p>
 - `"jobId"`: The job ID for the task search.
 - `"pageSize"`: Specifies the number of items per page for the resource.
 - `"sortExpressions"`: The search terms for a resource.
@@ -4134,9 +4160,9 @@ Searches for workers.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among
-  a group of search strings in a resource. <p>You can use two groupings per search each
-  within parenthesis `()`.</p>
+- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among a
+  group of search strings in a resource. <p>You can use two groupings per search each within
+  parenthesis `()`.</p>
 - `"pageSize"`: Specifies the number of items per page for the resource.
 - `"sortExpressions"`: The search terms for a resource.
 """
@@ -4180,9 +4206,9 @@ end
     start_sessions_statistics_aggregation(end_time, farm_id, group_by, resource_ids, start_time, statistics)
     start_sessions_statistics_aggregation(end_time, farm_id, group_by, resource_ids, start_time, statistics, params::Dict{String,<:Any})
 
-Starts an asynchronous request for getting aggregated statistics about queues and farms.
-Get the statistics using the [`get_sessions_statistics_aggregation`](@ref) operation. You
-can only have one running aggregation for your Deadline Cloud farm. Call the [`get_sessions_statistics_aggregation`](@ref)
+Starts an asynchronous request for getting aggregated statistics about queues and farms. Get
+the statistics using the [`get_sessions_statistics_aggregation`](@ref) operation. You can
+only have one running aggregation for your Deadline Cloud farm. Call the [`get_sessions_statistics_aggregation`](@ref)
 operation and check the `status` field to see if an aggregation is running. Statistics are
 available for 1 hour after you call the [`start_sessions_statistics_aggregation`](@ref)
 operation.
@@ -4358,32 +4384,36 @@ Updates a budget that sets spending thresholds for rendering activity.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
+
 - `"actionsToAdd"`: The budget actions to add. Budget actions specify what happens when the
   budget runs out.
+
 - `"actionsToRemove"`: The budget actions to remove from the budget.
+
 - `"approximateDollarLimit"`: The dollar limit to update on the budget. Based on consumed
   usage.
+
 - `"description"`: The description of the budget to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"displayName"`: The display name of the budget to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"schedule"`: The schedule to update.
+
 - `"status"`: Updates the status of the budget.
 
   - `ACTIVE`–The budget is being evaluated.
   - `INACTIVE`–The budget is inactive. This can include Expired, Canceled, or deleted
     Deleted statuses.
-
 """
 function update_budget end
 
@@ -4433,15 +4463,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the farm to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"displayName"`: The display name of the farm to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
-
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 """
 function update_farm end
 
@@ -4481,23 +4510,27 @@ Updates a fleet.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
+
 - `"configuration"`: The fleet configuration to update.
+
 - `"description"`: The description of the fleet to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"displayName"`: The display name of the fleet to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"maxWorkerCount"`: The maximum number of workers in the fleet.
+
 - `"minWorkerCount"`: The minimum number of workers in the fleet.
+
 - `"roleArn"`: The IAM role ARN that the fleet's workers assume while running jobs.
 """
 function update_fleet end
@@ -4537,8 +4570,7 @@ end
 
 Updates a job.
 
-When you change the status of the job to `ARCHIVED`, the job can't be scheduled or
-archived.
+When you change the status of the job to `ARCHIVED`, the job can't be scheduled or archived.
 
 !!! important
     An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
@@ -4554,19 +4586,23 @@ archived.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
+
 - `"lifecycleStatus"`: The status of a job in its lifecycle. When you change the status of
   the job to `ARCHIVED`, the job can't be scheduled or archived.
 
   !!! important
-      An archived jobs and its steps and tasks are deleted after 120 days. The job can't
-      be recovered.
+      An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
+      recovered.
 
 - `"maxFailedTasksCount"`: The number of task failures before the job stops running and is
   marked as `FAILED`.
+
 - `"maxRetriesPerTask"`: The maximum number of retries for a job.
+
 - `"priority"`: The job priority to update.
+
 - `"targetTaskRunStatus"`: The task status to update the job's tasks to.
 """
 function update_job end
@@ -4621,10 +4657,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The new value to use for the monitor's display name.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"roleArn"`: The Amazon Resource Name (ARN) of the new IAM role to use with the monitor.
+
 - `"subdomain"`: The new value of the subdomain to use when forming the monitor URL.
 """
 function update_monitor end
@@ -4668,28 +4705,36 @@ Updates a queue.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: The idempotency token to update in the queue.
+
 - `"allowedStorageProfileIdsToAdd"`: The storage profile IDs to add.
+
 - `"allowedStorageProfileIdsToRemove"`: The storage profile ID to remove.
+
 - `"defaultBudgetAction"`: The default action to take for a queue update if a budget isn't
   configured.
+
 - `"description"`: The description of the queue to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"displayName"`: The display name of the queue to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"jobAttachmentSettings"`: The job attachment settings to update for the queue.
+
 - `"jobRunAsUser"`: Update the jobs in the queue to run as a specified POSIX user.
+
 - `"requiredFileSystemLocationNamesToAdd"`: The required file system location names to add
   to the queue.
+
 - `"requiredFileSystemLocationNamesToRemove"`: The required file system location names to
   remove from the queue.
+
 - `"roleArn"`: The IAM role ARN that's used to run jobs from this queue.
 """
 function update_queue end
@@ -4739,8 +4784,8 @@ Updates the queue environment.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
 - `"priority"`: The priority to update.
 - `"template"`: The template to update.
 - `"templateType"`: The template type to update.
@@ -4841,8 +4886,8 @@ Updates a session.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
 """
 function update_session end
 
@@ -4911,8 +4956,8 @@ Updates a step.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
 """
 function update_step end
 
@@ -4978,16 +5023,19 @@ Updates a storage profile.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
+
 - `"displayName"`: The display name of the storage profile to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying
-      it on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"fileSystemLocationsToAdd"`: The file system location names to add.
+
 - `"fileSystemLocationsToRemove"`: The file system location names to remove.
+
 - `"osFamily"`: The OS system to update.
 """
 function update_storage_profile end
@@ -5042,8 +5090,8 @@ Updates a task.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
-  the same request.
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
 """
 function update_task end
 

@@ -8,8 +8,8 @@ using AWS.UUIDs
     cancel_legal_hold(cancel_description, legal_hold_id)
     cancel_legal_hold(cancel_description, legal_hold_id, params::Dict{String,<:Any})
 
-Removes the specified legal hold on a recovery point. This action can only be performed by
-a user with sufficient permissions.
+Removes the specified legal hold on a recovery point. This action can only be performed by a
+user with sufficient permissions.
 
 # Arguments
 
@@ -59,23 +59,24 @@ end
     create_backup_plan(backup_plan)
     create_backup_plan(backup_plan, params::Dict{String,<:Any})
 
-Creates a backup plan using a backup plan name and backup rules. A backup plan is a
-document that contains information that Backup uses to schedule tasks that create recovery
-points for resources.
+Creates a backup plan using a backup plan name and backup rules. A backup plan is a document
+that contains information that Backup uses to schedule tasks that create recovery points for
+resources.
 
 If you call `CreateBackupPlan` with a plan that already exists, you receive an
 `AlreadyExistsException` exception.
 
 # Arguments
 
-- `backup_plan`: The body of a backup plan. Includes a `BackupPlanName` and one or more
-  sets of `Rules`.
+- `backup_plan`: The body of a backup plan. Includes a `BackupPlanName` and one or more sets
+  of `Rules`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BackupPlanTags"`: The tags to assign to the backup plan.
+
 - `"CreatorRequestId"`: Identifies the request and allows failed requests to be retried
   without the risk of running the operation twice. If the request includes a
   `CreatorRequestId` that matches an existing backup plan, that plan is returned. This
@@ -128,8 +129,8 @@ examples, see [Assigning resources programmatically](https://docs.aws.amazon.com
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CreatorRequestId"`: A unique string that identifies the request and allows failed
-  requests to be retried without the risk of running the operation twice. This parameter
-  is optional.
+  requests to be retried without the risk of running the operation twice. This parameter is
+  optional.
 
   If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
 """
@@ -170,8 +171,8 @@ end
     create_backup_vault(backup_vault_name)
     create_backup_vault(backup_vault_name, params::Dict{String,<:Any})
 
-Creates a logical container where backups are stored. A `CreateBackupVault` request
-includes a name, optionally one or more resource tags, an encryption key, and a request ID.
+Creates a logical container where backups are stored. A `CreateBackupVault` request includes
+a name, optionally one or more resource tags, an encryption key, and a request ID.
 
 !!! note
     Do not include sensitive data, such as passport numbers, in the name of a backup vault.
@@ -179,22 +180,24 @@ includes a name, optionally one or more resource tags, an encryption key, and a 
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created. They consist of letters,
-  numbers, and hyphens.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created. They consist of letters, numbers, and
+  hyphens.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BackupVaultTags"`: The tags to assign to the backup vault.
+
 - `"CreatorRequestId"`: A unique string that identifies the request and allows failed
-  requests to be retried without the risk of running the operation twice. This parameter
-  is optional.
+  requests to be retried without the risk of running the operation twice. This parameter is
+  optional.
 
   If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
-- `"EncryptionKeyArn"`: The server-side encryption key that is used to protect your
-  backups; for example,
+
+- `"EncryptionKeyArn"`: The server-side encryption key that is used to protect your backups;
+  for example,
   `arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
 """
 function create_backup_vault end
@@ -238,15 +241,15 @@ policies and which resources are not yet in compliance.
 - `framework_controls`: The controls that make up the framework. Each control in the list
   has a name, input parameters, and scope.
 - `framework_name`: The unique name of the framework. The name must be between 1 and 256
-  characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-
-  9), and underscores (_).
+  characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9),
+  and underscores (_).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"FrameworkDescription"`: An optional description of the framework with a maximum of
-  1,024 characters.
+- `"FrameworkDescription"`: An optional description of the framework with a maximum of 1,024
+  characters.
 - `"FrameworkTags"`: The tags to assign to the framework.
 - `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to `CreateFrameworkInput`. Retrying a successful request with
@@ -314,13 +317,13 @@ are on the recovery point.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"IdempotencyToken"`: This is a user-chosen string used to distinguish between otherwise
-  identical calls. Retrying a successful request with the same idempotency token results
-  in a success message with no action taken.
+  identical calls. Retrying a successful request with the same idempotency token results in
+  a success message with no action taken.
 - `"RecoveryPointSelection"`: The criteria to assign a set of resources, such as resource
   types or backup vaults.
 - `"Tags"`: Optional tags to include. A tag is a key-value pair you can use to manage,
-  filter, and search for your resources. Allowed characters include UTF-8 letters,
-  numbers, spaces, and the following characters: + - = . _ : /.
+  filter, and search for your resources. Allowed characters include UTF-8 letters, numbers,
+  spaces, and the following characters: + - = . _ : /.
 """
 function create_legal_hold end
 
@@ -373,10 +376,12 @@ number of retention days, and optionally can include tags and a creator request 
 
 - `max_retention_days`: The maximum retention period that the vault retains its recovery
   points.
+
 - `min_retention_days`: This setting specifies the minimum retention period that the vault
   retains its recovery points.
 
   The minimum value accepted is 7 days.
+
 - `backup_vault_name`: The name of a logical container where backups are stored. Logically
   air-gapped backup vaults are identified by names that are unique to the account used to
   create them and the Region where they are created.
@@ -386,10 +391,11 @@ number of retention days, and optionally can include tags and a creator request 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BackupVaultTags"`: The tags to assign to the vault.
+
 - `"CreatorRequestId"`: The ID of the creation request.
 
-  This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric
-  or '-_.' characters.
+  This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or
+  '-_.' characters.
 """
 function create_logically_air_gapped_backup_vault end
 
@@ -450,11 +456,13 @@ If you call `CreateReportPlan` with a plan that already exists, you receive an
 - `report_delivery_channel`: A structure that contains information about where and how to
   deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the
   formats of your reports.
-- `report_plan_name`: The unique name of the report plan. The name must be between 1 and
-  256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers
-  (0-9), and underscores (_).
-- `report_setting`: Identifies the report template for the report. Reports are built using
-  a report template. The report templates are:
+
+- `report_plan_name`: The unique name of the report plan. The name must be between 1 and 256
+  characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9),
+  and underscores (_).
+
+- `report_setting`: Identifies the report template for the report. Reports are built using a
+  report template. The report templates are:
 
   `RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT`
 
@@ -467,8 +475,8 @@ If you call `CreateReportPlan` with a plan that already exists, you receive an
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
-  otherwise identical calls to `CreateReportPlanInput`. Retrying a successful request
-  with the same idempotency token results in a success message with no action taken.
+  otherwise identical calls to `CreateReportPlanInput`. Retrying a successful request with
+  the same idempotency token results in a success message with no action taken.
 - `"ReportPlanDescription"`: An optional description of the report plan with a maximum of
   1,024 characters.
 - `"ReportPlanTags"`: The tags to assign to the report plan.
@@ -534,9 +542,8 @@ finish the procedure using CreateRestoreTestingSelection.
 # Arguments
 
 - `restore_testing_plan`: A restore testing plan must contain a unique
-  `RestoreTestingPlanName` string you create and must contain a `ScheduleExpression`
-  cron. You may optionally include a `StartWindowHours` integer and a `CreatorRequestId`
-  string.
+  `RestoreTestingPlanName` string you create and must contain a `ScheduleExpression` cron.
+  You may optionally include a `StartWindowHours` integer and a `CreatorRequestId` string.
 
   The `RestoreTestingPlanName` is a unique string that is the name of the restore testing
   plan. This cannot be changed after creation, and it must consist of only alphanumeric
@@ -548,8 +555,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CreatorRequestId"`: This is a unique string that identifies the request and allows
   failed requests to be retriedwithout the risk of running the operation twice. This
-  parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-
-  _.' characters.
+  parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.'
+  characters.
 - `"Tags"`: The tags to assign to the restore testing plan.
 """
 function create_restore_testing_plan end
@@ -611,6 +618,7 @@ are included.
 
 - `restore_testing_plan_name`: Input the restore testing plan name that was returned from
   the related CreateRestoreTestingPlan request.
+
 - `restore_testing_selection`: This consists of `RestoreTestingSelectionName`,
   `ProtectedResourceType`, and one of the following:
 
@@ -619,17 +627,17 @@ are included.
 
   Each protected resource type can have one single value.
 
-  A restore testing selection can include a wildcard value ("*") for
-  `ProtectedResourceArns` along with `ProtectedResourceConditions`. Alternatively, you
-  can include up to 30 specific protected resource ARNs in `ProtectedResourceArns`.
+  A restore testing selection can include a wildcard value ("*") for `ProtectedResourceArns`
+  along with `ProtectedResourceConditions`. Alternatively, you can include up to 30 specific
+  protected resource ARNs in `ProtectedResourceArns`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CreatorRequestId"`: This is an optional unique string that identifies the request and
-  allows failed requests to be retried without the risk of running the operation twice.
-  If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+  allows failed requests to be retried without the risk of running the operation twice. If
+  used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
 """
 function create_restore_testing_selection end
 
@@ -757,8 +765,8 @@ Deletes the backup vault identified by its name. A vault can be deleted only if 
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 """
 function delete_backup_vault end
 
@@ -796,9 +804,9 @@ Deletes the policy document that manages permissions on a backup vault.
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created. They consist of lowercase
-  letters, numbers, and hyphens.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created. They consist of lowercase letters,
+  numbers, and hyphens.
 """
 function delete_backup_vault_access_policy end
 
@@ -878,8 +886,8 @@ Deletes event notifications for the specified backup vault.
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Region where they are created.
 """
 function delete_backup_vault_notifications end
 
@@ -965,8 +973,8 @@ will not be successful and will enter an `EXPIRED` state.
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 - `recovery_point_arn`: An Amazon Resource Name (ARN) that uniquely identifies a recovery
   point; for example,
   `arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45`.
@@ -1169,8 +1177,8 @@ Returns metadata about a backup vault specified by its name.
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 
 # Optional Parameters
 
@@ -1354,8 +1362,8 @@ lifecycle.
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 - `recovery_point_arn`: An Amazon Resource Name (ARN) that uniquely identifies a recovery
   point; for example,
   `arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45`.
@@ -1398,10 +1406,10 @@ end
     describe_region_settings()
     describe_region_settings(params::Dict{String,<:Any})
 
-Returns the current service opt-in settings for the Region. If service opt-in is enabled
-for a service, Backup tries to protect that service's resources in this Region, when the
-resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup
-does not try to protect that service's resources in this Region.
+Returns the current service opt-in settings for the Region. If service opt-in is enabled for
+a service, Backup tries to protect that service's resources in this Region, when the
+resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does
+not try to protect that service's resources in this Region.
 """
 function describe_region_settings end
 
@@ -1432,8 +1440,7 @@ Returns the details associated with creating a report as specified by its `Repor
 # Arguments
 
 - `report_job_id`: The identifier of the report job. A unique, randomly generated, Unicode,
-  UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be
-  edited.
+  UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
 """
 function describe_report_job end
 
@@ -1586,14 +1593,14 @@ end
     disassociate_recovery_point_from_parent(backup_vault_name, recovery_point_arn)
     disassociate_recovery_point_from_parent(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
 
-This action to a specific child (nested) recovery point removes the relationship between
-the specified recovery point and its parent (composite) recovery point.
+This action to a specific child (nested) recovery point removes the relationship between the
+specified recovery point and its parent (composite) recovery point.
 
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where the child (nested) recovery
-  point is stored. Backup vaults are identified by names that are unique to the account
-  used to create them and the Amazon Web Services Region where they are created.
+  point is stored. Backup vaults are identified by names that are unique to the account used
+  to create them and the Amazon Web Services Region where they are created.
 - `recovery_point_arn`: The Amazon Resource Name (ARN) that uniquely identifies the child
   (nested) recovery point; for example,
   `arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.`
@@ -1667,8 +1674,8 @@ end
     get_backup_plan(backup_plan_id)
     get_backup_plan(backup_plan_id, params::Dict{String,<:Any})
 
-Returns `BackupPlan` details for the specified `BackupPlanId`. The details are the body of
-a backup plan in JSON format, in addition to plan metadata.
+Returns `BackupPlan` details for the specified `BackupPlanId`. The details are the body of a
+backup plan in JSON format, in addition to plan metadata.
 
 # Arguments
 
@@ -1678,8 +1685,8 @@ a backup plan in JSON format, in addition to plan metadata.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"versionId"`: Unique, randomly generated, Unicode, UTF-8 encoded strings that are at
-  most 1,024 bytes long. Version IDs cannot be edited.
+- `"versionId"`: Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
+  1,024 bytes long. Version IDs cannot be edited.
 """
 function get_backup_plan end
 
@@ -1837,8 +1844,8 @@ Returns the access policy document that is associated with the named backup vaul
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 """
 function get_backup_vault_access_policy end
 
@@ -1876,8 +1883,8 @@ Returns event notifications for the specified backup vault.
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 """
 function get_backup_vault_notifications end
 
@@ -1951,8 +1958,8 @@ Returns a set of metadata key-value pairs that were used to create the backup.
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 - `recovery_point_arn`: An Amazon Resource Name (ARN) that uniquely identifies a recovery
   point; for example,
   `arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45`.
@@ -2032,16 +2039,16 @@ end
     get_restore_testing_inferred_metadata(backup_vault_name, recovery_point_arn)
     get_restore_testing_inferred_metadata(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
 
-This request returns the minimal required set of metadata needed to start a restore job
-with secure default settings. `BackupVaultName` and `RecoveryPointArn` are required
-parameters. `BackupVaultAccountId` is an optional parameter.
+This request returns the minimal required set of metadata needed to start a restore job with
+secure default settings. `BackupVaultName` and `RecoveryPointArn` are required parameters.
+`BackupVaultAccountId` is an optional parameter.
 
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web ServicesRegion where they are created. They consist of letters, numbers,
-  and hyphens.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web ServicesRegion where they are created. They consist of letters, numbers, and
+  hyphens.
 - `recovery_point_arn`: An Amazon Resource Name (ARN) that uniquely identifies a recovery
   point; for example,
   `arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45`.
@@ -2096,8 +2103,8 @@ end
     get_restore_testing_plan(restore_testing_plan_name)
     get_restore_testing_plan(restore_testing_plan_name, params::Dict{String,<:Any})
 
-Returns `RestoreTestingPlan` details for the specified `RestoreTestingPlanName`. The
-details are the body of a restore testing plan in JSON format, in addition to plan metadata.
+Returns `RestoreTestingPlan` details for the specified `RestoreTestingPlanName`. The details
+are the body of a restore testing plan in JSON format, in addition to plan metadata.
 
 # Arguments
 
@@ -2218,14 +2225,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AccountId"`: Returns the job count for the specified account.
 
-  If the request is sent from a member account or an account not part of Amazon Web
-  Services Organizations, jobs within requestor's account will be returned.
+  If the request is sent from a member account or an account not part of Amazon Web Services
+  Organizations, jobs within requestor's account will be returned.
 
   Root, admin, and delegated administrator accounts can use the value ANY to return job
   counts from every account in the organization.
 
   `AGGREGATE_ALL` aggregates job counts from all accounts within the authenticated
   organization, then returns the sum.
+
 - `"AggregationPeriod"`: The period for the returned results.
 
   - `ONE_DAY` - The daily job count for the prior 14 days.
@@ -2235,19 +2243,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of items to be returned.
 
   The value is an integer. Range of accepted values is from 1 to 500.
+
 - `"MessageCategory"`: This parameter returns the job count for the specified message
   category.
 
-  Example accepted strings include `AccessDenied`, `Success`, and `InvalidParameters`.
-  See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html)
+  Example accepted strings include `AccessDenied`, `Success`, and `InvalidParameters`. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html)
   for a list of accepted MessageCategory strings.
 
   The the value ANY returns count of all message categories.
 
   `AGGREGATE_ALL` aggregates job counts for all message categories and returns the sum.
+
 - `"NextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return `MaxResults` number of resources, `NextToken` allows you
-  to return more items in your list starting at the location pointed to by the next token.
+  if a request is made to return `MaxResults` number of resources, `NextToken` allows you to
+  return more items in your list starting at the location pointed to by the next token.
+
 - `"ResourceType"`: Returns the job count for the specified resource type. Use request
   `GetSupportedResourceTypes` to obtain strings for supported resource types.
 
@@ -2255,20 +2265,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `AGGREGATE_ALL` aggregates job counts for all resource types and returns the sum.
 
-  The type of Amazon Web Services resource to be backed up; for example, an Amazon
-  Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service
-  (Amazon RDS) database.
+  The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic
+  Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS)
+  database.
+
 - `"State"`: This parameter returns the job count for jobs with the specified state.
 
   The the value ANY returns count of all states.
 
   `AGGREGATE_ALL` aggregates job counts for all states and returns the sum.
 
-  `Completed with issues` is a status found only in the Backup console. For API, this
-  status refers to jobs with a state of `COMPLETED` and a `MessageCategory` with a value
-  other than `SUCCESS`; that is, the status is completed but comes with a status message.
-  To obtain the job count for `Completed with issues`, run two GET requests, and subtract
-  the second, smaller number:
+  `Completed with issues` is a status found only in the Backup console. For API, this status
+  refers to jobs with a state of `COMPLETED` and a `MessageCategory` with a value other than
+  `SUCCESS`; that is, the status is completed but comes with a status message. To obtain the
+  job count for `Completed with issues`, run two GET requests, and subtract the second,
+  smaller number:
 
   GET /audit/backup-job-summaries?AggregationPeriod=FOURTEEN_DAYS&amp;State=COMPLETED
 
@@ -2312,18 +2323,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountId"`: The account ID to list the jobs from. Returns only backup jobs associated
   with the specified account ID.
 
-  If used from an Organizations management account, passing `*` returns all jobs across
-  the organization.
+  If used from an Organizations management account, passing `*` returns all jobs across the
+  organization.
+
 - `"backupVaultName"`: Returns only backup jobs that will be stored in the specified backup
-  vault. Backup vaults are identified by names that are unique to the account used to
-  create them and the Amazon Web Services Region where they are created.
+  vault. Backup vaults are identified by names that are unique to the account used to create
+  them and the Amazon Web Services Region where they are created.
+
 - `"completeAfter"`: Returns only backup jobs completed after a date expressed in Unix
   format and Coordinated Universal Time (UTC).
+
 - `"completeBefore"`: Returns only backup jobs completed before a date expressed in Unix
   format and Coordinated Universal Time (UTC).
+
 - `"createdAfter"`: Returns only backup jobs that were created after the specified date.
+
 - `"createdBefore"`: Returns only backup jobs that were created before the specified date.
+
 - `"maxResults"`: The maximum number of items to be returned.
+
 - `"messageCategory"`: This is an optional parameter that can be used to filter out jobs
   with a MessageCategory which matches the value you input.
 
@@ -2335,12 +2353,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The wildcard () returns count of all message categories.
 
   `AGGREGATE_ALL` aggregates job counts for all message categories and returns the sum.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
+
 - `"parentJobId"`: This is a filter to list child (nested) jobs based on parent job ID.
+
 - `"resourceArn"`: Returns only backup jobs that match the specified resource Amazon
   Resource Name (ARN).
+
 - `"resourceType"`: Returns only backup jobs for the specified resources:
 
   - `Aurora` for Amazon Aurora
@@ -2363,9 +2385,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"state"`: Returns only backup jobs that are in the specified state.
 
-  `Completed with issues` is a status found only in the Backup console. For API, this
-  status refers to jobs with a state of `COMPLETED` and a `MessageCategory` with a value
-  other than `SUCCESS`; that is, the status is completed but comes with a status message.
+  `Completed with issues` is a status found only in the Backup console. For API, this status
+  refers to jobs with a state of `COMPLETED` and a `MessageCategory` with a value other than
+  `SUCCESS`; that is, the status is completed but comes with a status message.
 
   To obtain the job count for `Completed with issues`, run two GET requests, and subtract
   the second, smaller number:
@@ -2405,9 +2427,9 @@ Lists the backup plan templates.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to return.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
 """
 function list_backup_plan_templates end
 
@@ -2448,9 +2470,9 @@ backup plan IDs, creation and deletion dates, plan names, and version IDs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
 """
 function list_backup_plan_versions end
 
@@ -2492,9 +2514,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeDeleted"`: A Boolean value with a default value of `FALSE` that returns deleted
   backup plans when set to `TRUE`.
 - `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
 """
 function list_backup_plans end
 
@@ -2532,9 +2554,9 @@ plan.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
 """
 function list_backup_selections end
 
@@ -2574,9 +2596,9 @@ Returns a list of recovery point storage containers along with information about
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
 - `"shared"`: This parameter will sort the list of vaults by shared vaults.
 - `"vaultType"`: This parameter will sort the list of vaults by vault type.
 """
@@ -2617,14 +2639,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AccountId"`: Returns the job count for the specified account.
 
-  If the request is sent from a member account or an account not part of Amazon Web
-  Services Organizations, jobs within requestor's account will be returned.
+  If the request is sent from a member account or an account not part of Amazon Web Services
+  Organizations, jobs within requestor's account will be returned.
 
   Root, admin, and delegated administrator accounts can use the value ANY to return job
   counts from every account in the organization.
 
   `AGGREGATE_ALL` aggregates job counts from all accounts within the authenticated
   organization, then returns the sum.
+
 - `"AggregationPeriod"`: The period for the returned results.
 
   - `ONE_DAY` - The daily job count for the prior 14 days.
@@ -2634,19 +2657,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: This parameter sets the maximum number of items to be returned.
 
   The value is an integer. Range of accepted values is from 1 to 500.
+
 - `"MessageCategory"`: This parameter returns the job count for the specified message
   category.
 
-  Example accepted strings include `AccessDenied`, `Success`, and `InvalidParameters`.
-  See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html)
+  Example accepted strings include `AccessDenied`, `Success`, and `InvalidParameters`. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html)
   for a list of accepted MessageCategory strings.
 
   The the value ANY returns count of all message categories.
 
   `AGGREGATE_ALL` aggregates job counts for all message categories and returns the sum.
+
 - `"NextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return `MaxResults` number of resources, `NextToken` allows you
-  to return more items in your list starting at the location pointed to by the next token.
+  if a request is made to return `MaxResults` number of resources, `NextToken` allows you to
+  return more items in your list starting at the location pointed to by the next token.
+
 - `"ResourceType"`: Returns the job count for the specified resource type. Use request
   `GetSupportedResourceTypes` to obtain strings for supported resource types.
 
@@ -2654,9 +2679,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `AGGREGATE_ALL` aggregates job counts for all resource types and returns the sum.
 
-  The type of Amazon Web Services resource to be backed up; for example, an Amazon
-  Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service
-  (Amazon RDS) database.
+  The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic
+  Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS)
+  database.
+
 - `"State"`: This parameter returns the job count for jobs with the specified state.
 
   The the value ANY returns count of all states.
@@ -2698,16 +2724,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accountId"`: The account ID to list the jobs from. Returns only copy jobs associated
   with the specified account ID.
+
 - `"completeAfter"`: Returns only copy jobs completed after a date expressed in Unix format
   and Coordinated Universal Time (UTC).
+
 - `"completeBefore"`: Returns only copy jobs completed before a date expressed in Unix
   format and Coordinated Universal Time (UTC).
+
 - `"createdAfter"`: Returns only copy jobs that were created after the specified date.
+
 - `"createdBefore"`: Returns only copy jobs that were created before the specified date.
+
 - `"destinationVaultArn"`: An Amazon Resource Name (ARN) that uniquely identifies a source
   backup vault to copy from; for example,
   `arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault`.
+
 - `"maxResults"`: The maximum number of items to be returned.
+
 - `"messageCategory"`: This is an optional parameter that can be used to filter out jobs
   with a MessageCategory which matches the value you input.
 
@@ -2720,12 +2753,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The the value ANY returns count of all message categories.
 
   `AGGREGATE_ALL` aggregates job counts for all message categories and returns the sum.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return MaxResults number of items, NextToken allows you to return
-  more items in your list starting at the location pointed to by the next token.
+
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return MaxResults number of items, NextToken allows you to return more
+  items in your list starting at the location pointed to by the next token.
+
 - `"parentJobId"`: This is a filter to list child (nested) jobs based on parent job ID.
+
 - `"resourceArn"`: Returns only copy jobs that match the specified resource Amazon Resource
   Name (ARN).
+
 - `"resourceType"`: Returns only backup jobs for the specified resources:
 
   - `Aurora` for Amazon Aurora
@@ -2812,8 +2849,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of resource list items to be returned.
 - `"nextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return `MaxResults` number of resources, `NextToken` allows you
-  to return more items in your list starting at the location pointed to by the next token.
+  if a request is made to return `MaxResults` number of resources, `NextToken` allows you to
+  return more items in your list starting at the location pointed to by the next token.
 """
 function list_legal_holds end
 
@@ -2847,9 +2884,9 @@ resource was saved, an Amazon Resource Name (ARN) of the resource, and a resourc
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
 """
 function list_protected_resources end
 
@@ -2885,9 +2922,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"backupVaultAccountId"`: The list of protected resources by backup vault within the
   vault(s) you specify by account ID.
 - `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
 """
 function list_protected_resources_by_backup_vault end
 
@@ -2925,34 +2962,40 @@ Returns detailed information about the recovery points stored in a backup vault.
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 
   !!! note
-      Backup vault name might not be available when a supported service creates the
-      backup.
+      Backup vault name might not be available when a supported service creates the backup.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"backupPlanId"`: Returns only recovery points that match the specified backup plan ID.
+
 - `"backupVaultAccountId"`: This parameter will sort the list of recovery points by account
   ID.
+
 - `"createdAfter"`: Returns only recovery points that were created after the specified
   timestamp.
+
 - `"createdBefore"`: Returns only recovery points that were created before the specified
   timestamp.
+
 - `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
+
 - `"parentRecoveryPointArn"`: This returns only recovery points that match the specified
   parent (composite) recovery point Amazon Resource Name (ARN).
+
 - `"resourceArn"`: Returns only recovery points that match the specified resource Amazon
   Resource Name (ARN).
-- `"resourceType"`: Returns only recovery points that match the specified resource type(s):
 
+- `"resourceType"`: Returns only recovery points that match the specified resource type(s):
 
   - `Aurora` for Amazon Aurora
   - `CloudFormation` for CloudFormation
@@ -2971,7 +3014,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `Storage Gateway` for Storage Gateway
   - `Timestream` for Amazon Timestream
   - `VirtualMachine` for VMware virtual machines
-
 """
 function list_recovery_points_by_backup_vault end
 
@@ -3016,8 +3058,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of resource list items to be returned.
 - `"nextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return `MaxResults` number of resources, `NextToken` allows you
-  to return more items in your list starting at the location pointed to by the next token.
+  if a request is made to return `MaxResults` number of resources, `NextToken` allows you to
+  return more items in your list starting at the location pointed to by the next token.
 """
 function list_recovery_points_by_legal_hold end
 
@@ -3054,8 +3096,7 @@ The information about the recovery points of the type specified by a resource Am
 Resource Name (ARN).
 
 !!! note
-    For Amazon EFS and Amazon EC2, this action only lists recovery points created by
-    Backup.
+    For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
 
 # Arguments
 
@@ -3071,18 +3112,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If this is set to `TRUE`, the response will contain recovery points associated with the
   selected resources that are managed by Backup.
 
-  If this is set to `FALSE`, the response will contain all recovery points associated
-  with the selected resource.
+  If this is set to `FALSE`, the response will contain all recovery points associated with
+  the selected resource.
 
   Type: Boolean
+
 - `"maxResults"`: The maximum number of items to be returned.
 
   !!! note
       Amazon RDS requires a value of at least 20.
 
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
 """
 function list_recovery_points_by_resource end
 
@@ -3124,14 +3166,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CreationAfter"`: Returns only report jobs that were created after the date and time
   specified in Unix format and Coordinated Universal Time (UTC). For example, the value
   1516925490 represents Friday, January 26, 2018 12:11:30 AM.
+
 - `"CreationBefore"`: Returns only report jobs that were created before the date and time
   specified in Unix format and Coordinated Universal Time (UTC). For example, the value
   1516925490 represents Friday, January 26, 2018 12:11:30 AM.
+
 - `"MaxResults"`: The number of desired results from 1 to 1000. Optional. If unspecified,
   the query will return 1 MB of data.
+
 - `"NextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
+
 - `"ReportPlanName"`: Returns only report jobs with the specified report plan name.
+
 - `"Status"`: Returns only report jobs that are in the specified status. The statuses are:
 
   `CREATED | RUNNING | COMPLETED | FAILED`
@@ -3196,9 +3243,9 @@ end
     list_restore_job_summaries()
     list_restore_job_summaries(params::Dict{String,<:Any})
 
-This request obtains a summary of restore jobs created or running within the the most
-recent 30 days. You can include parameters AccountID, State, ResourceType,
-AggregationPeriod, MaxResults, or NextToken to filter results.
+This request obtains a summary of restore jobs created or running within the the most recent
+30 days. You can include parameters AccountID, State, ResourceType, AggregationPeriod,
+MaxResults, or NextToken to filter results.
 
 This request returns a summary that contains Region, Account, State, RestourceType,
 MessageCategory, StartTime, EndTime, and Count of included jobs.
@@ -3209,14 +3256,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AccountId"`: Returns the job count for the specified account.
 
-  If the request is sent from a member account or an account not part of Amazon Web
-  Services Organizations, jobs within requestor's account will be returned.
+  If the request is sent from a member account or an account not part of Amazon Web Services
+  Organizations, jobs within requestor's account will be returned.
 
   Root, admin, and delegated administrator accounts can use the value ANY to return job
   counts from every account in the organization.
 
   `AGGREGATE_ALL` aggregates job counts from all accounts within the authenticated
   organization, then returns the sum.
+
 - `"AggregationPeriod"`: The period for the returned results.
 
   - `ONE_DAY` - The daily job count for the prior 14 days.
@@ -3226,9 +3274,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: This parameter sets the maximum number of items to be returned.
 
   The value is an integer. Range of accepted values is from 1 to 500.
+
 - `"NextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return `MaxResults` number of resources, `NextToken` allows you
-  to return more items in your list starting at the location pointed to by the next token.
+  if a request is made to return `MaxResults` number of resources, `NextToken` allows you to
+  return more items in your list starting at the location pointed to by the next token.
+
 - `"ResourceType"`: Returns the job count for the specified resource type. Use request
   `GetSupportedResourceTypes` to obtain strings for supported resource types.
 
@@ -3236,9 +3286,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `AGGREGATE_ALL` aggregates job counts for all resource types and returns the sum.
 
-  The type of Amazon Web Services resource to be backed up; for example, an Amazon
-  Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service
-  (Amazon RDS) database.
+  The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic
+  Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS)
+  database.
+
 - `"State"`: This parameter returns the job count for jobs with the specified state.
 
   The the value ANY returns count of all states.
@@ -3281,16 +3332,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accountId"`: The account ID to list the jobs from. Returns only restore jobs associated
   with the specified account ID.
+
 - `"completeAfter"`: Returns only copy jobs completed after a date expressed in Unix format
   and Coordinated Universal Time (UTC).
+
 - `"completeBefore"`: Returns only copy jobs completed before a date expressed in Unix
   format and Coordinated Universal Time (UTC).
+
 - `"createdAfter"`: Returns only restore jobs that were created after the specified date.
+
 - `"createdBefore"`: Returns only restore jobs that were created before the specified date.
+
 - `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
+
 - `"resourceType"`: Include this parameter to return only restore jobs for the specified
   resources:
 
@@ -3312,8 +3370,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `Timestream` for Amazon Timestream
   - `VirtualMachine` for VMware virtual machines
 
-- `"restoreTestingPlanArn"`: This returns only restore testing jobs that match the
-  specified resource Amazon Resource Name (ARN).
+- `"restoreTestingPlanArn"`: This returns only restore testing jobs that match the specified
+  resource Amazon Resource Name (ARN).
+
 - `"status"`: Returns only restore jobs associated with the specified job status.
 """
 function list_restore_jobs end
@@ -3355,11 +3414,11 @@ You must include `ResourceArn`. You can optionally include `NextToken`, `ByStatu
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request ismade to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
-- `"recoveryPointCreationDateAfter"`: Returns only restore jobs of recovery points that
-  were created after the specified date.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request ismade to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
+- `"recoveryPointCreationDateAfter"`: Returns only restore jobs of recovery points that were
+  created after the specified date.
 - `"recoveryPointCreationDateBefore"`: Returns only restore jobs of recovery points that
   were created before the specified date.
 - `"status"`: Returns only restore jobs associated with the specified job status.
@@ -3402,9 +3461,9 @@ Returns a list of restore testing plans.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to be returned.
-- `"NextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the nexttoken.
+- `"NextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the nexttoken.
 """
 function list_restore_testing_plans end
 
@@ -3446,9 +3505,9 @@ Returns a list of restore testing selections. Can be filtered by `MaxResults` an
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to be returned.
-- `"NextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the nexttoken.
+- `"NextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the nexttoken.
 """
 function list_restore_testing_selections end
 
@@ -3495,9 +3554,9 @@ backup vault.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return `MaxResults` number of items, `NextToken` allows you to
-  return more items in your list starting at the location pointed to by the next token.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if a
+  request is made to return `MaxResults` number of items, `NextToken` allows you to return
+  more items in your list starting at the location pointed to by the next token.
 """
 function list_tags end
 
@@ -3534,8 +3593,8 @@ vault. Requires a backup vault name and an access policy document in JSON format
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 
 # Optional Parameters
 
@@ -3597,8 +3656,8 @@ For more information, see [Backup Vault Lock](https://docs.aws.amazon.com/aws-ba
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ChangeableForDays"`: The Backup Vault Lock configuration that specifies the number of
-  days before the lock date. For example, setting `ChangeableForDays` to 30 on Jan. 1,
-  2022 at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC.
+  days before the lock date. For example, setting `ChangeableForDays` to 30 on Jan. 1, 2022
+  at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC.
 
   Backup enforces a 72-hour cooling-off period before Vault Lock takes effect and becomes
   immutable. Therefore, you must set `ChangeableForDays` to 3 or greater.
@@ -3611,38 +3670,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If this parameter is not specified, you can delete Vault Lock from the vault using
   `DeleteBackupVaultLockConfiguration` or change the Vault Lock configuration using
   `PutBackupVaultLockConfiguration` at any time.
+
 - `"MaxRetentionDays"`: The Backup Vault Lock configuration that specifies the maximum
   retention period that the vault retains its recovery points. This setting can be useful
   if, for example, your organization's policies require you to destroy certain data after
   retaining it for four years (1460 days).
 
-  If this parameter is not included, Vault Lock does not enforce a maximum retention
-  period on the recovery points in the vault. If this parameter is included without a
-  value, Vault Lock will not enforce a maximum retention period.
+  If this parameter is not included, Vault Lock does not enforce a maximum retention period
+  on the recovery points in the vault. If this parameter is included without a value, Vault
+  Lock will not enforce a maximum retention period.
 
-  If this parameter is specified, any backup or copy job to the vault must have a
-  lifecycle policy with a retention period equal to or shorter than the maximum retention
-  period. If the job's retention period is longer than that maximum retention period,
-  then the vault fails the backup or copy job, and you should either modify your
-  lifecycle settings or use a different vault. The longest maximum retention period you
-  can specify is 36500 days (approximately 100 years). Recovery points already saved in
-  the vault prior to Vault Lock are not affected.
+  If this parameter is specified, any backup or copy job to the vault must have a lifecycle
+  policy with a retention period equal to or shorter than the maximum retention period. If
+  the job's retention period is longer than that maximum retention period, then the vault
+  fails the backup or copy job, and you should either modify your lifecycle settings or use
+  a different vault. The longest maximum retention period you can specify is 36500 days
+  (approximately 100 years). Recovery points already saved in the vault prior to Vault Lock
+  are not affected.
+
 - `"MinRetentionDays"`: The Backup Vault Lock configuration that specifies the minimum
   retention period that the vault retains its recovery points. This setting can be useful
   if, for example, your organization's policies require you to retain certain data for at
   least seven years (2555 days).
 
-  This parameter is required when a vault lock is created through CloudFormation;
-  otherwise, this parameter is optional. If this parameter is not specified, Vault Lock
-  will not enforce a minimum retention period.
+  This parameter is required when a vault lock is created through CloudFormation; otherwise,
+  this parameter is optional. If this parameter is not specified, Vault Lock will not
+  enforce a minimum retention period.
 
-  If this parameter is specified, any backup or copy job to the vault must have a
-  lifecycle policy with a retention period equal to or longer than the minimum retention
-  period. If the job's retention period is shorter than that minimum retention period,
-  then the vault fails that backup or copy job, and you should either modify your
-  lifecycle settings or use a different vault. The shortest minimum retention period you
-  can specify is 1 day. Recovery points already saved in the vault prior to Vault Lock
-  are not affected.
+  If this parameter is specified, any backup or copy job to the vault must have a lifecycle
+  policy with a retention period equal to or longer than the minimum retention period. If
+  the job's retention period is shorter than that minimum retention period, then the vault
+  fails that backup or copy job, and you should either modify your lifecycle settings or use
+  a different vault. The shortest minimum retention period you can specify is 1 day.
+  Recovery points already saved in the vault prior to Vault Lock are not affected.
 """
 function put_backup_vault_lock_configuration end
 
@@ -3692,15 +3752,16 @@ Turns on notifications on a backup vault for the specified topic and events.
   - `S3_BACKUP_OBJECT_FAILED` | `S3_RESTORE_OBJECT_FAILED`
 
   !!! note
-      The list below includes both supported events and deprecated events that are no
-      longer in use (for reference). Deprecated events do not return statuses or
-      notifications. Refer to the list above for the supported events.
+      The list below includes both supported events and deprecated events that are no longer
+      in use (for reference). Deprecated events do not return statuses or notifications.
+      Refer to the list above for the supported events.
 
 - `snstopic_arn`: The Amazon Resource Name (ARN) that specifies the topic for a backup
   vault’s events; for example, `arn:aws:sns:us-west-2:111122223333:MyVaultTopic`.
+
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 """
 function put_backup_vault_notifications end
 
@@ -3807,8 +3868,8 @@ Starts an on-demand backup job for the specified resource.
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 - `iam_role_arn`: Specifies the IAM role ARN used to create the target recovery point; for
   example, `arn:aws:iam::123456789012:role/S3Access`.
 - `resource_arn`: An Amazon Resource Name (ARN) that uniquely identifies a resource. The
@@ -3821,45 +3882,50 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BackupOptions"`: The backup option for a selected resource. This option is only
   available for Windows Volume Shadow Copy Service (VSS) backup jobs.
 
-  Valid values: Set to `"WindowsVSS":"enabled"` to enable the `WindowsVSS` backup option
-  and create a Windows VSS backup. Set to `"WindowsVSS""disabled"` to create a regular
-  backup. The `WindowsVSS` option is not enabled by default.
+  Valid values: Set to `"WindowsVSS":"enabled"` to enable the `WindowsVSS` backup option and
+  create a Windows VSS backup. Set to `"WindowsVSS""disabled"` to create a regular backup.
+  The `WindowsVSS` option is not enabled by default.
+
 - `"CompleteWindowMinutes"`: A value in minutes during which a successfully started backup
   must complete, or else Backup will cancel the job. This value is optional. This value
-  begins counting down from when the backup was scheduled. It does not add additional
-  time for `StartWindowMinutes`, or if the backup started later than scheduled.
+  begins counting down from when the backup was scheduled. It does not add additional time
+  for `StartWindowMinutes`, or if the backup started later than scheduled.
 
   Like `StartWindowMinutes`, this parameter has a maximum value of 100 years (52,560,000
   minutes).
+
 - `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
-  otherwise identical calls to `StartBackupJob`. Retrying a successful request with the
-  same idempotency token results in a success message with no action taken.
+  otherwise identical calls to `StartBackupJob`. Retrying a successful request with the same
+  idempotency token results in a success message with no action taken.
+
 - `"Lifecycle"`: The lifecycle defines when a protected resource is transitioned to cold
   storage and when it expires. Backup will transition and expire backups automatically
   according to the lifecycle that you define.
 
   Backups transitioned to cold storage must be stored in cold storage for a minimum of 90
-  days. Therefore, the “retention” setting must be 90 days greater than the “transition
-  to cold after days” setting. The “transition to cold after days” setting cannot be
-  changed after a backup has been transitioned to cold.
+  days. Therefore, the “retention” setting must be 90 days greater than the “transition to
+  cold after days” setting. The “transition to cold after days” setting cannot be changed
+  after a backup has been transitioned to cold.
 
   Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource)
   table. Backup ignores this expression for other resource types.
 
   This parameter has a maximum value of 100 years (36,500 days).
+
 - `"RecoveryPointTags"`: The tags to assign to the resources.
+
 - `"StartWindowMinutes"`: A value in minutes after a backup is scheduled before a job will
-  be canceled if it doesn't start successfully. This value is optional, and the default
-  is 8 hours. If this value is included, it must be at least 60 minutes to avoid errors.
+  be canceled if it doesn't start successfully. This value is optional, and the default is 8
+  hours. If this value is included, it must be at least 60 minutes to avoid errors.
 
   This parameter has a maximum value of 100 years (52,560,000 minutes).
 
   During the start window, the backup job status remains in `CREATED` status until it has
-  successfully begun or until the start window time has run out. If within the start
-  window time Backup receives an error that allows the job to be retried, Backup will
-  automatically retry to begin the job at least every 10 minutes until the backup
-  successfully begins (the job status changes to `RUNNING`) or until the job status
-  changes to `EXPIRED` (which is expected to occur when the start window time is over).
+  successfully begun or until the start window time has run out. If within the start window
+  time Backup receives an error that allows the job to be retried, Backup will automatically
+  retry to begin the job at least every 10 minutes until the backup successfully begins (the
+  job status changes to `RUNNING`) or until the job status changes to `EXPIRED` (which is
+  expected to occur when the start window time is over).
 """
 function start_backup_job end
 
@@ -3923,9 +3989,9 @@ Does not support continuous backups.
   `arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault`.
 - `iam_role_arn`: Specifies the IAM role ARN used to copy the target recovery point; for
   example, `arn:aws:iam::123456789012:role/S3Access`.
-- `recovery_point_arn`: An ARN that uniquely identifies a recovery point to use for the
-  copy job; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-
-  9EB0-435A-A80B-108B488B0D45.
+- `recovery_point_arn`: An ARN that uniquely identifies a recovery point to use for the copy
+  job; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-
+  A80B-108B488B0D45.
 - `source_backup_vault_name`: The name of a logical source container where backups are
   stored. Backup vaults are identified by names that are unique to the account used to
   create them and the Amazon Web Services Region where they are created.
@@ -3935,8 +4001,8 @@ Does not support continuous backups.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
-  otherwise identical calls to `StartCopyJob`. Retrying a successful request with the
-  same idempotency token results in a success message with no action taken.
+  otherwise identical calls to `StartCopyJob`. Retrying a successful request with the same
+  idempotency token results in a success message with no action taken.
 - `"Lifecycle"`:
 """
 function start_copy_job end
@@ -4005,8 +4071,8 @@ Starts an on-demand report job for the specified report plan.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
-  otherwise identical calls to `StartReportJobInput`. Retrying a successful request with
-  the same idempotency token results in a success message with no action taken.
+  otherwise identical calls to `StartReportJobInput`. Retrying a successful request with the
+  same idempotency token results in a success message with no action taken.
 """
 function start_report_job end
 
@@ -4051,10 +4117,9 @@ Recovers the saved resource identified by an Amazon Resource Name (ARN).
 - `metadata`: A set of metadata key-value pairs.
 
   You can get configuration metadata about a resource at the time it was backed up by
-  calling `GetRecoveryPointRestoreMetadata`. However, values in addition to those
-  provided by `GetRecoveryPointRestoreMetadata` might be required to restore a resource.
-  For example, you might need to provide a new resource name if the original already
-  exists.
+  calling `GetRecoveryPointRestoreMetadata`. However, values in addition to those provided
+  by `GetRecoveryPointRestoreMetadata` might be required to restore a resource. For example,
+  you might need to provide a new resource name if the original already exists.
 
   For more information about the metadata for each resource, see the following:
 
@@ -4085,11 +4150,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `True`, tags included in the backup will be copied to the restored resource.
 
   This can only be applied to backups created through Backup.
+
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that Backup uses to create
   the target resource; for example: `arn:aws:iam::123456789012:role/S3Access`.
+
 - `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to `StartRestoreJob`. Retrying a successful request with the
   same idempotency token results in a success message with no action taken.
+
 - `"ResourceType"`: Starts a job to restore a recovery point for one of the following
   resources:
 
@@ -4108,7 +4176,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `S3` - Amazon Simple Storage Service
   - `Timestream` - Amazon Timestream
   - `VirtualMachine` - Virtual machines
-
 """
 function start_restore_job end
 
@@ -4153,8 +4220,8 @@ end
 
 Attempts to cancel a job to create a one-time backup of a resource.
 
-This action is not supported for the following services: Amazon FSx for Windows File
-Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP, Amazon FSx for OpenZFS, Amazon
+This action is not supported for the following services: Amazon FSx for Windows File Server,
+Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP, Amazon FSx for OpenZFS, Amazon
 DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora, and Amazon Neptune.
 
 # Arguments
@@ -4198,16 +4265,16 @@ DocumentDB. Amazon EBS, Amazon FSx, Neptune, and Amazon RDS.
 
 # Arguments
 
-- `tags`: Key-value pairs that are used to help organize your resources. You can assign
-  your own metadata to the resources you create. For clarity, this is the structure to
-  assign tags: `[{"Key":"string","Value":"string"}]`.
+- `tags`: Key-value pairs that are used to help organize your resources. You can assign your
+  own metadata to the resources you create. For clarity, this is the structure to assign
+  tags: `[{"Key":"string","Value":"string"}]`.
+
 - `resource_arn`: An ARN that uniquely identifies a resource. The format of the ARN depends
   on the type of the tagged resource.
 
   ARNs that do not include `backup` are incompatible with tagging. `TagResource` and
   `UntagResource` with invalid ARNs will result in an error. Acceptable ARN content can
-  include `arn:aws:backup:us-east`. Invalid ARN content may look like
-  `arn:aws:ec2:us-east`.
+  include `arn:aws:backup:us-east`. Invalid ARN content may look like `arn:aws:ec2:us-east`.
 """
 function tag_resource end
 
@@ -4249,13 +4316,13 @@ DocumentDB. Amazon EBS, Amazon FSx, Neptune, and Amazon RDS.
 # Arguments
 
 - `tag_key_list`: The keys to identify which key-value tags to remove from a resource.
+
 - `resource_arn`: An ARN that uniquely identifies a resource. The format of the ARN depends
   on the type of the tagged resource.
 
   ARNs that do not include `backup` are incompatible with tagging. `TagResource` and
   `UntagResource` with invalid ARNs will result in an error. Acceptable ARN content can
-  include `arn:aws:backup:us-east`. Invalid ARN content may look like
-  `arn:aws:ec2:us-east`.
+  include `arn:aws:backup:us-east`. Invalid ARN content may look like `arn:aws:ec2:us-east`.
 """
 function untag_resource end
 
@@ -4296,8 +4363,8 @@ Updates the specified backup plan. The new version is uniquely identified by its
 
 # Arguments
 
-- `backup_plan`: The body of a backup plan. Includes a `BackupPlanName` and one or more
-  sets of `Rules`.
+- `backup_plan`: The body of a backup plan. Includes a `BackupPlanName` and one or more sets
+  of `Rules`.
 - `backup_plan_id`: The ID of the backup plan.
 """
 function update_backup_plan end
@@ -4340,8 +4407,8 @@ Updates the specified framework.
 # Arguments
 
 - `framework_name`: The unique name of a framework. This name is between 1 and 256
-  characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-
-  9), and underscores (_).
+  characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9),
+  and underscores (_).
 
 # Optional Parameters
 
@@ -4389,8 +4456,8 @@ end
     update_global_settings()
     update_global_settings(params::Dict{String,<:Any})
 
-Updates whether the Amazon Web Services account is opted in to cross-account backup.
-Returns an error if the account is not an Organizations management account. Use the
+Updates whether the Amazon Web Services account is opted in to cross-account backup. Returns
+an error if the account is not an Organizations management account. Use the
 `DescribeGlobalSettings` API to determine the current settings.
 
 # Optional Parameters
@@ -4448,8 +4515,8 @@ This operation does not support continuous backups.
 # Arguments
 
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
-  vaults are identified by names that are unique to the account used to create them and
-  the Amazon Web Services Region where they are created.
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web Services Region where they are created.
 - `recovery_point_arn`: An Amazon Resource Name (ARN) that uniquely identifies a recovery
   point; for example,
   `arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45`.
@@ -4463,9 +4530,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   according to the lifecycle that you define.
 
   Backups transitioned to cold storage must be stored in cold storage for a minimum of 90
-  days. Therefore, the “retention” setting must be 90 days greater than the “transition
-  to cold after days” setting. The “transition to cold after days” setting cannot be
-  changed after a backup has been transitioned to cold.
+  days. Therefore, the “retention” setting must be 90 days greater than the “transition to
+  cold after days” setting. The “transition to cold after days” setting cannot be changed
+  after a backup has been transitioned to cold.
 """
 function update_recovery_point_lifecycle end
 
@@ -4510,15 +4577,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceTypeManagementPreference"`: Enables or disables full Backup management of
   backups for a resource type. To enable full Backup management for DynamoDB along with [Backup's advanced DynamoDB backup features](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html),
   follow the procedure to [enable advanced DynamoDB backup programmatically](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli).
+
 - `"ResourceTypeOptInPreference"`: Updates the list of services along with the opt-in
   preferences for the Region.
 
-  If resource assignments are only based on tags, then service opt-in settings are
-  applied. If a resource type is explicitly assigned to a backup plan, such as Amazon S3,
-  Amazon EC2, or Amazon RDS, it will be included in the backup even if the opt-in is not
-  enabled for that particular service. If both a resource type and tags are specified in
-  a resource assignment, the resource type specified in the backup plan takes priority
-  over the tag condition. Service opt-in settings are disregarded in this situation.
+  If resource assignments are only based on tags, then service opt-in settings are applied.
+  If a resource type is explicitly assigned to a backup plan, such as Amazon S3, Amazon EC2,
+  or Amazon RDS, it will be included in the backup even if the opt-in is not enabled for
+  that particular service. If both a resource type and tags are specified in a resource
+  assignment, the resource type specified in the backup plan takes priority over the tag
+  condition. Service opt-in settings are disregarded in this situation.
 """
 function update_region_settings end
 
@@ -4549,20 +4617,23 @@ Updates the specified report plan.
 # Arguments
 
 - `report_plan_name`: The unique name of the report plan. This name is between 1 and 256
-  characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-
-  9), and underscores (_).
+  characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9),
+  and underscores (_).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
-  otherwise identical calls to `UpdateReportPlanInput`. Retrying a successful request
-  with the same idempotency token results in a success message with no action taken.
+  otherwise identical calls to `UpdateReportPlanInput`. Retrying a successful request with
+  the same idempotency token results in a success message with no action taken.
+
 - `"ReportDeliveryChannel"`: The information about where to deliver your reports,
   specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports.
-- `"ReportPlanDescription"`: An optional description of the report plan with a maximum
-  1,024 characters.
+
+- `"ReportPlanDescription"`: An optional description of the report plan with a maximum 1,024
+  characters.
+
 - `"ReportSetting"`: The report template for the report. Reports are built using a report
   template. The report templates are:
 

@@ -127,23 +127,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: `false`.
 - `"insecureIngest"`: Whether the channel allows insecure RTMP and SRT ingest. Default:
   `false`.
-- `"latencyMode"`: Channel latency mode. Use `NORMAL` to broadcast and deliver live video
-  up to Full HD. Use `LOW` for near-real-time interaction with viewers. Default: `LOW`.
+- `"latencyMode"`: Channel latency mode. Use `NORMAL` to broadcast and deliver live video up
+  to Full HD. Use `LOW` for near-real-time interaction with viewers. Default: `LOW`.
 - `"name"`: Channel name.
 - `"playbackRestrictionPolicyArn"`: Playback-restriction-policy ARN. A valid ARN value here
   both specifies the ARN and enables playback restriction. Default: "" (empty string, no
   playback restriction policy is applied).
 - `"preset"`: Optional transcode preset for the channel. This is selectable only for
   `ADVANCED_HD` and `ADVANCED_SD` channel types. For those channel types, the default
-  `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For other channel types (`BASIC` and
-  `STANDARD`), `preset` is the empty string (`""`).
+  `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For other channel types (`BASIC` and `STANDARD`),
+  `preset` is the empty string (`""`).
 - `"recordingConfigurationArn"`: Recording-configuration ARN. A valid ARN value here both
   specifies the ARN and enables recording. Default: "" (empty string, recording is
   disabled).
 - `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits
-  and requirements"; Amazon IVS has no service-specific constraints beyond what is
-  documented there.
+  for more information, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
+  there.
 - `"type"`: Channel type, which determines the allowable resolution and bitrate. *If you
   exceed the allowable input resolution or bitrate, the stream probably will disconnect
   immediately.* Default: `STANDARD`. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
@@ -185,13 +185,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"allowedOrigins"`: A list of origin sites that control CORS restriction. Allowed values
   are the same as valid values of the Origin header defined at [https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin).
   Default: All origins (an empty array).
-- `"enableStrictOriginEnforcement"`: Whether channel playback is constrained by origin
-  site. Default: `false`.
+- `"enableStrictOriginEnforcement"`: Whether channel playback is constrained by origin site.
+  Default: `false`.
 - `"name"`: Playback-restriction-policy name. The value does not need to be unique.
 - `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits
-  and requirements"; Amazon IVS has no service-specific constraints beyond what is
-  documented there.
+  for more information, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
+  there.
 """
 function create_playback_restriction_policy end
 
@@ -224,11 +224,11 @@ end
 
 Creates a new recording configuration, used to enable recording to Amazon S3.
 
-**Known issue:** In the us-east-1 region, if you use the Amazon Web Services CLI to create
-a recording configuration, it returns success even if the S3 bucket is in a different
-region. In this case, the `state` of the recording configuration is `CREATE_FAILED`
-(instead of `ACTIVE`). (In other regions, the CLI correctly returns failure if the bucket
-is in a different region.)
+**Known issue:** In the us-east-1 region, if you use the Amazon Web Services CLI to create a
+recording configuration, it returns success even if the S3 bucket is in a different region.
+In this case, the `state` of the recording configuration is `CREATE_FAILED` (instead of
+`ACTIVE`). (In other regions, the CLI correctly returns failure if the bucket is in a
+different region.)
 
 **Workaround:** Ensure that your S3 bucket is in the same region as the recording
 configuration. If you create a recording configuration in a different region as your S3
@@ -245,18 +245,18 @@ correct region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"name"`: Recording-configuration name. The value does not need to be unique.
-- `"recordingReconnectWindowSeconds"`: If a broadcast disconnects and then reconnects
-  within the specified interval, the multiple streams will be considered a single
-  broadcast and merged together. Default: 0.
+- `"recordingReconnectWindowSeconds"`: If a broadcast disconnects and then reconnects within
+  the specified interval, the multiple streams will be considered a single broadcast and
+  merged together. Default: 0.
 - `"renditionConfiguration"`: Object that describes which renditions should be recorded for
   a stream.
 - `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits
-  and requirements"; Amazon IVS has no service-specific constraints beyond what is
-  documented there.
-- `"thumbnailConfiguration"`: A complex type that allows you to enable/disable the
-  recording of thumbnails for a live session and modify the interval at which thumbnails
-  are generated for the live session.
+  for more information, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
+  there.
+- `"thumbnailConfiguration"`: A complex type that allows you to enable/disable the recording
+  of thumbnails for a live session and modify the interval at which thumbnails are generated
+  for the live session.
 """
 function create_recording_configuration end
 
@@ -312,9 +312,9 @@ and then CreateStreamKey.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits
-  and requirements"; Amazon IVS has no service-specific constraints beyond what is
-  documented there.
+  for more information, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
+  there.
 """
 function create_stream_key end
 
@@ -760,8 +760,8 @@ Gets metadata on a specified stream.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"streamId"`: Unique identifier for a live or previously live stream in the specified
-  channel. If no `streamId` is provided, this returns the most recent stream session for
-  the channel, if it exists.
+  channel. If no `streamId` is provided, this returns the most recent stream session for the
+  channel, if it exists.
 """
 function get_stream_session end
 
@@ -809,11 +809,10 @@ in the *Amazon IVS User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"name"`: Playback-key-pair name. The value does not need to be unique.
-- `"tags"`: Any tags provided with the request are added to the playback key pair tags. See
-  [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits
-  and requirements"; Amazon IVS has no service-specific constraints beyond what is
-  documented there.
+- `"tags"`: Any tags provided with the request are added to the playback key pair tags. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for more information, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
+  there.
 """
 function import_playback_key_pair end
 
@@ -900,8 +899,8 @@ in the *Amazon IVS User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: Maximum number of key pairs to return. Default: your service quota or
-  100, whichever is smaller.
+- `"maxResults"`: Maximum number of key pairs to return. Default: your service quota or 100,
+  whichever is smaller.
 - `"nextToken"`: The first key pair to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
@@ -980,8 +979,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: Maximum number of recording configurations to return. Default: your
   service quota or 100, whichever is smaller.
-- `"nextToken"`: The first recording configuration to retrieve. This is used for
-  pagination; see the `nextToken` response field.
+- `"nextToken"`: The first recording configuration to retrieve. This is used for pagination;
+  see the `nextToken` response field.
 """
 function list_recording_configurations end
 
@@ -1230,23 +1229,23 @@ end
     start_viewer_session_revocation(channel_arn, viewer_id, params::Dict{String,<:Any})
 
 Starts the process of revoking the viewer session associated with a specified channel ARN
-and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than
-and including that version. For instructions on associating a viewer ID with a viewer
-session, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html).
+and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and
+including that version. For instructions on associating a viewer ID with a viewer session,
+see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html).
 
 # Arguments
 
 - `channel_arn`: The ARN of the channel associated with the viewer session to revoke.
-- `viewer_id`: The ID of the viewer associated with the viewer session to revoke. Do not
-  use this field for personally identifying, confidential, or sensitive information.
+- `viewer_id`: The ID of the viewer associated with the viewer session to revoke. Do not use
+  this field for personally identifying, confidential, or sensitive information.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"viewerSessionVersionsLessThanOrEqualTo"`: An optional filter on which versions of the
-  viewer session to revoke. All versions less than or equal to the specified version will
-  be revoked. Default: 0.
+  viewer session to revoke. All versions less than or equal to the specified version will be
+  revoked. Default: 0.
 """
 function start_viewer_session_revocation end
 
@@ -1292,8 +1291,8 @@ with [`delete_stream_key`](@ref) to prevent further streaming to a channel.
 
 !!! note
     Many streaming client-software libraries automatically reconnect a dropped RTMPS
-    session, so to stop the stream permanently, you may want to first revoke the
-    `streamKey` attached to the channel.
+    session, so to stop the stream permanently, you may want to first revoke the `streamKey`
+    attached to the channel.
 
 # Arguments
 
@@ -1337,11 +1336,12 @@ Adds or updates tags for the Amazon Web Services resource with the specified ARN
 
 - `resource_arn`: ARN of the resource for which tags are to be added or updated. The ARN
   must be URL-encoded.
+
 - `tags`: Array of tags to be added or updated. Array of maps, each of the form
   `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits
-  and requirements"; Amazon IVS has no service-specific constraints beyond what is
-  documented there.
+  for more information, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
+  there.
 """
 function tag_resource end
 
@@ -1380,11 +1380,12 @@ Removes tags from the resource with the specified ARN.
 
 - `resource_arn`: ARN of the resource for which tags are to be removed. The ARN must be URL-
   encoded.
+
 - `tag_keys`: Array of tags to be removed. Array of maps, each of the form
   `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits
-  and requirements"; Amazon IVS has no service-specific constraints beyond what is
-  documented there.
+  for more information, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
+  there.
 """
 function untag_resource end
 
@@ -1433,19 +1434,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authorized"`: Whether the channel is private (enabled for playback authorization).
 - `"insecureIngest"`: Whether the channel allows insecure RTMP and SRT ingest. Default:
   `false`.
-- `"latencyMode"`: Channel latency mode. Use `NORMAL` to broadcast and deliver live video
-  up to Full HD. Use `LOW` for near-real-time interaction with viewers.
+- `"latencyMode"`: Channel latency mode. Use `NORMAL` to broadcast and deliver live video up
+  to Full HD. Use `LOW` for near-real-time interaction with viewers.
 - `"name"`: Channel name.
 - `"playbackRestrictionPolicyArn"`: Playback-restriction-policy ARN. A valid ARN value here
   both specifies the ARN and enables playback restriction. If this is set to an empty
   string, playback restriction policy is disabled.
 - `"preset"`: Optional transcode preset for the channel. This is selectable only for
   `ADVANCED_HD` and `ADVANCED_SD` channel types. For those channel types, the default
-  `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For other channel types (`BASIC` and
-  `STANDARD`), `preset` is the empty string (`""`).
+  `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For other channel types (`BASIC` and `STANDARD`),
+  `preset` is the empty string (`""`).
 - `"recordingConfigurationArn"`: Recording-configuration ARN. A valid ARN value here both
-  specifies the ARN and enables recording. If this is set to an empty string, recording
-  is disabled.
+  specifies the ARN and enables recording. If this is set to an empty string, recording is
+  disabled.
 - `"type"`: Channel type, which determines the allowable resolution and bitrate. *If you
   exceed the allowable input resolution or bitrate, the stream probably will disconnect
   immediately.* Default: `STANDARD`. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
@@ -1494,8 +1495,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"allowedOrigins"`: A list of origin sites that control CORS restriction. Allowed values
   are the same as valid values of the Origin header defined at [https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin).
   Default: All origins (an empty array).
-- `"enableStrictOriginEnforcement"`: Whether channel playback is constrained by origin
-  site. Default: `false`.
+- `"enableStrictOriginEnforcement"`: Whether channel playback is constrained by origin site.
+  Default: `false`.
 - `"name"`: Playback-restriction-policy name. The value does not need to be unique.
 """
 function update_playback_restriction_policy end

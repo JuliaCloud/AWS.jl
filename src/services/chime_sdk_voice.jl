@@ -72,9 +72,8 @@ Associates phone numbers with the specified Amazon Chime SDK Voice Connector gro
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ForceAssociate"`: If true, associates the provided phone numbers with the provided
-  Amazon Chime SDK Voice Connector Group and removes any previously existing
-  associations. If false, does not associate any phone numbers that have previously
-  existing associations.
+  Amazon Chime SDK Voice Connector Group and removes any previously existing associations.
+  If false, does not associate any phone numbers that have previously existing associations.
 """
 function associate_phone_numbers_with_voice_connector_group end
 
@@ -159,9 +158,9 @@ end
     batch_update_phone_number(update_phone_number_request_items)
     batch_update_phone_number(update_phone_number_request_items, params::Dict{String,<:Any})
 
-Updates phone number product types, calling names, or phone number names. You can update
-one attribute at a time for each `UpdatePhoneNumberRequestItem`. For example, you can
-update the product type, the calling name, or phone name.
+Updates phone number product types, calling names, or phone number names. You can update one
+attribute at a time for each `UpdatePhoneNumberRequestItem`. For example, you can update the
+product type, the calling name, or phone name.
 
 !!! note
     You cannot have a duplicate `phoneNumberId` in a request.
@@ -210,8 +209,8 @@ end
     create_phone_number_order(e164_phone_numbers, product_type)
     create_phone_number_order(e164_phone_numbers, product_type, params::Dict{String,<:Any})
 
-Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you
-must use the Amazon Chime SDK SIP media application dial-in product type.
+Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must
+use the Amazon Chime SDK SIP media application dial-in product type.
 
 # Arguments
 
@@ -267,8 +266,8 @@ end
     create_proxy_session(capabilities, participant_phone_numbers, voice_connector_id)
     create_proxy_session(capabilities, participant_phone_numbers, voice_connector_id, params::Dict{String,<:Any})
 
-Creates a proxy session for the specified Amazon Chime SDK Voice Connector for the
-specified participant phone numbers.
+Creates a proxy session for the specified Amazon Chime SDK Voice Connector for the specified
+participant phone numbers.
 
 # Arguments
 
@@ -281,8 +280,8 @@ specified participant phone numbers.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ExpiryMinutes"`: The number of minutes allowed for the proxy session.
-- `"GeoMatchLevel"`: The preference for matching the country or area code of the proxy
-  phone number with that of the first participant.
+- `"GeoMatchLevel"`: The preference for matching the country or area code of the proxy phone
+  number with that of the first participant.
 - `"GeoMatchParams"`: The country and area code for the proxy phone number.
 - `"Name"`: The name of the proxy session.
 - `"NumberSelectionBehavior"`: The preference for proxy phone number reuse, or stickiness,
@@ -410,8 +409,8 @@ and it invokes the endpoint of the specified `sipMediaApplicationId`.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ArgumentsMap"`: Context passed to a CreateSipMediaApplication API call. For example,
-  you could pass key-value pairs such as: `"FirstName": "John", "LastName": "Doe"`
+- `"ArgumentsMap"`: Context passed to a CreateSipMediaApplication API call. For example, you
+  could pass key-value pairs such as: `"FirstName": "John", "LastName": "Doe"`
 - `"SipHeaders"`: The SIP headers added to an outbound call leg.
 """
 function create_sip_media_application_call end
@@ -468,12 +467,14 @@ in the *Amazon Chime SDK Administrator Guide*.
 # Arguments
 
 - `name`: The name of the SIP rule.
+
 - `trigger_type`: The type of trigger assigned to the SIP rule in `TriggerValue`, currently
   `RequestUriHostname` or `ToPhoneNumber`.
+
 - `trigger_value`: If `TriggerType` is `RequestUriHostname`, the value can be the outbound
   host name of a Voice Connector. If `TriggerType` is `ToPhoneNumber`, the value can be a
-  customer-owned phone number in the E164 format. The `SipMediaApplication` specified in
-  the `SipRule` is triggered if the request URI in an incoming SIP request matches the
+  customer-owned phone number in the E164 format. The `SipMediaApplication` specified in the
+  `SipRule` is triggered if the request URI in an incoming SIP request matches the
   `RequestUriHostname`, or if the `To` header in the incoming SIP request matches the
   `ToPhoneNumber` value.
 
@@ -483,8 +484,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Disabled"`: Disables or enables a SIP rule. You must disable SIP rules before you can
   delete them.
-- `"TargetApplications"`: List of SIP media applications, with priority and AWS Region.
-  Only one SIP application per AWS Region can be used.
+- `"TargetApplications"`: List of SIP media applications, with priority and AWS Region. Only
+  one SIP application per AWS Region can be used.
 """
 function create_sip_rule end
 
@@ -588,9 +589,9 @@ end
     create_voice_connector_group(name)
     create_voice_connector_group(name, params::Dict{String,<:Any})
 
-Creates an Amazon Chime SDK Voice Connector group under the administrator's AWS account.
-You can associate Amazon Chime SDK Voice Connectors with the Voice Connector group by
-including `VoiceConnectorItems` in the request.
+Creates an Amazon Chime SDK Voice Connector group under the administrator's AWS account. You
+can associate Amazon Chime SDK Voice Connectors with the Voice Connector group by including
+`VoiceConnectorItems` in the request.
 
 You can include Voice Connectors from different AWS Regions in your group. This creates a
 fault tolerant mechanism for fallback in case of availability events.
@@ -638,10 +639,10 @@ end
 Creates a voice profile, which consists of an enrolled user and their latest voice print.
 
 !!! important
-    Before creating any voice profiles, you must provide all notices and obtain all
-    consents from the speaker as required under applicable privacy and biometrics laws, and
-    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
-    the Amazon Chime SDK.
+    Before creating any voice profiles, you must provide all notices and obtain all consents
+    from the speaker as required under applicable privacy and biometrics laws, and as
+    required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
+    Amazon Chime SDK.
 
 For more information about voice profiles and voice analytics, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html)
 in the *Amazon Chime SDK Developer Guide*.
@@ -692,10 +693,10 @@ Creates a voice profile domain, a collection of voice profiles, their voice prin
 encrypted enrollment audio.
 
 !!! important
-    Before creating any voice profiles, you must provide all notices and obtain all
-    consents from the speaker as required under applicable privacy and biometrics laws, and
-    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
-    the Amazon Chime SDK.
+    Before creating any voice profiles, you must provide all notices and obtain all consents
+    from the speaker as required under applicable privacy and biometrics laws, and as
+    required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
+    Amazon Chime SDK.
 
 For more information about voice profile domains, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html)
 in the *Amazon Chime SDK Developer Guide*.
@@ -1228,8 +1229,8 @@ end
     delete_voice_profile(voice_profile_id)
     delete_voice_profile(voice_profile_id, params::Dict{String,<:Any})
 
-Deletes a voice profile, including its voice print and enrollment data. WARNING: This
-action is not reversible.
+Deletes a voice profile, including its voice print and enrollment data. WARNING: This action
+is not reversible.
 
 # Arguments
 
@@ -1417,8 +1418,8 @@ end
     get_phone_number(phone_number_id)
     get_phone_number(phone_number_id, params::Dict{String,<:Any})
 
-Retrieves details for the specified phone number ID, such as associations, capabilities,
-and product type.
+Retrieves details for the specified phone number ID, such as associations, capabilities, and
+product type.
 
 # Arguments
 
@@ -1491,8 +1492,8 @@ end
     get_phone_number_settings()
     get_phone_number_settings(params::Dict{String,<:Any})
 
-Retrieves the phone number settings for the administrator's AWS account, such as the
-default outbound calling name.
+Retrieves the phone number settings for the administrator's AWS account, such as the default
+outbound calling name.
 """
 function get_phone_number_settings end
 
@@ -3223,8 +3224,8 @@ Starts a speaker search task.
 !!! important
     Before starting any speaker search tasks, you must provide all notices and obtain all
     consents from the speaker as required under applicable privacy and biometrics laws, and
-    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
-    the Amazon Chime SDK.
+    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
+    Amazon Chime SDK.
 
 # Arguments
 
@@ -3295,8 +3296,8 @@ in the *Amazon Chime SDK Developer Guide*.
 !!! important
     Before starting any voice tone analysis tasks, you must provide all notices and obtain
     all consents from the speaker as required under applicable privacy and biometrics laws,
-    and as required under the [AWS service terms](https://aws.amazon.com/service-terms/)
-    for the Amazon Chime SDK.
+    and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
+    the Amazon Chime SDK.
 
 # Arguments
 
@@ -3564,8 +3565,8 @@ action.
 For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media Application Dial-
 In product type.
 
-Updates to outbound calling names can take 72 hours to complete. Pending updates to
-outbound calling names must be complete before you can request another update.
+Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound
+calling names must be complete before you can request another update.
 
 # Arguments
 
@@ -3749,8 +3750,8 @@ end
     update_sip_media_application_call(arguments, sip_media_application_id, transaction_id)
     update_sip_media_application_call(arguments, sip_media_application_id, transaction_id, params::Dict{String,<:Any})
 
-Invokes the AWS Lambda function associated with the SIP media application and transaction
-ID in an update request. The Lambda function can then return a new set of actions.
+Invokes the AWS Lambda function associated with the SIP media application and transaction ID
+in an update request. The Lambda function can then return a new set of actions.
 
 # Arguments
 
@@ -3953,8 +3954,8 @@ end
 Updates the specified voice profile’s voice print and refreshes its expiration timestamp.
 
 !!! important
-    As a condition of using this feature, you acknowledge that the collection, use,
-    storage, and retention of your caller’s biometric identifiers and biometric information
+    As a condition of using this feature, you acknowledge that the collection, use, storage,
+    and retention of your caller’s biometric identifiers and biometric information
     (“biometric data”) in the form of a digital voiceprint requires the caller’s informed
     consent via a written release. Such consent is required under various state laws,
     including biometrics laws in Illinois, Texas, Washington and other state privacy laws.

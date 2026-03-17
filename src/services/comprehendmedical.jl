@@ -116,8 +116,8 @@ end
     describe_rx_norm_inference_job(job_id)
     describe_rx_norm_inference_job(job_id, params::Dict{String,<:Any})
 
-Gets the properties associated with an InferRxNorm job. Use this operation to get the
-status of an inference job.
+Gets the properties associated with an InferRxNorm job. Use this operation to get the status
+of an inference job.
 
 # Arguments
 
@@ -230,10 +230,10 @@ information about them such as entity category, location, and confidence score o
 information. Amazon Comprehend Medical only detects medical entities in English language
 texts.
 
-The [`detect_entities_v2`](@ref) operation replaces the [`detect_entities`](@ref)
-operation. This new action uses a different model for determining the entities in your
-medical text and changes the way that some entities are returned in the output. You should
-use the [`detect_entities_v2`](@ref) operation in all new applications.
+The [`detect_entities_v2`](@ref) operation replaces the [`detect_entities`](@ref) operation.
+This new action uses a different model for determining the entities in your medical text and
+changes the way that some entities are returned in the output. You should use the [`detect_entities_v2`](@ref)
+operation in all new applications.
 
 The [`detect_entities_v2`](@ref) operation returns the `Acuity` and `Direction` entities as
 attributes instead of types.
@@ -339,8 +339,8 @@ end
     infer_rx_norm(text, params::Dict{String,<:Any})
 
 InferRxNorm detects medications as entities listed in a patient record and links to the
-normalized concept identifiers in the RxNorm database from the National Library of
-Medicine. Amazon Comprehend Medical only detects medical entities in English language texts.
+normalized concept identifiers in the RxNorm database from the National Library of Medicine.
+Amazon Comprehend Medical only detects medical entities in English language texts.
 
 # Arguments
 
@@ -372,8 +372,8 @@ end
     infer_snomedct(text)
     infer_snomedct(text, params::Dict{String,<:Any})
 
-InferSNOMEDCT detects possible medical concepts as entities and links them to codes from
-the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
+InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the
+Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
 
 # Arguments
 
@@ -590,8 +590,8 @@ operation to track the status of a job.
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
   Management (IAM) role that grants Amazon Comprehend Medical read access to your input
   data. For more information, see [Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
-- `input_data_config`: The input configuration that specifies the format and location of
-  the input data for the job.
+- `input_data_config`: The input configuration that specifies the format and location of the
+  input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
   language. Amazon Comprehend Medical processes files in US English (en).
 - `output_data_config`: The output configuration that specifies where to send the output
@@ -918,8 +918,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend Medical generates one.
 - `"JobName"`: The user generated name the asynchronous InferSNOMEDCT job.
-- `"KMSKey"`: An AWS Key Management Service key used to encrypt your output files. If you
-  do not specify a key, the files are written in plain text.
+- `"KMSKey"`: An AWS Key Management Service key used to encrypt your output files. If you do
+  not specify a key, the files are written in plain text.
 """
 function start_snomedctinference_job end
 

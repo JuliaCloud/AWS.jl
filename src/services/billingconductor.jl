@@ -10,8 +10,8 @@ using AWS.UUIDs
 
 Connects an array of account IDs in a consolidated billing family to a predefined billing
 group. The account IDs must be a part of the consolidated billing family during the current
-month, and not already associated with another billing group. The maximum number of
-accounts that can be associated in one call is 30.
+month, and not already associated with another billing group. The maximum number of accounts
+that can be associated in one call is 30.
 
 # Arguments
 
@@ -292,8 +292,8 @@ fixed charge is either a fee or discount.
   where the custom line item applies to.
 - `charge_details`: A `CustomLineItemChargeDetails` that describes the charge details for a
   custom line item.
-- `description`: The description of the custom line item. This is shown on the Bills page
-  in association with the charge value.
+- `description`: The description of the custom line item. This is shown on the Bills page in
+  association with the charge value.
 - `name`: The name of the custom line item.
 
 # Optional Parameters
@@ -431,20 +431,26 @@ Creates a pricing rule can be associated to a pricing plan, or a set of pricing 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BillingEntity"`: The seller of services provided by Amazon Web Services, their
-  affiliates, or third-party providers selling services via Amazon Web Services
-  Marketplace.
+  affiliates, or third-party providers selling services via Amazon Web Services Marketplace.
+
 - `"Description"`: The pricing rule description.
+
 - `"ModifierPercentage"`: A percentage modifier that's applied on the public pricing rates.
+
 - `"Operation"`: Operation is the specific Amazon Web Services action covered by this line
   item. This describes the specific usage of the line item.
 
   If the `Scope` attribute is set to `SKU`, this attribute indicates which operation the
   `PricingRule` is modifying. For example, a value of `RunInstances:0202` indicates the
   operation of running an Amazon EC2 instance.
+
 - `"Service"`: If the `Scope` attribute is set to `SERVICE` or `SKU`, the attribute
   indicates which service the `PricingRule` is applicable for.
+
 - `"Tags"`: A map that contains tag keys and tag values that are attached to a pricing rule.
+
 - `"Tiering"`: The set of tiering configurations for the pricing rule.
+
 - `"UsageType"`: Usage type is the unit that each service uses to measure the usage of a
   specific type of resource.
 
@@ -452,8 +458,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    the `PricingRule` is modifying. For example, `USW2-BoxUsage:m2.2xlarge` describes
    an`M2 High Memory Double Extra Large` instance in the US West (Oregon) Region.
    <pre>`&lt;/p&gt;`</pre>
-- `"X-Amzn-Client-Token"`: The token that's needed to support idempotency. Idempotency
-  isn't currently supported, but will be implemented in a future update.
+
+- `"X-Amzn-Client-Token"`: The token that's needed to support idempotency. Idempotency isn't
+  currently supported, but will be implemented in a future update.
 """
 function create_pricing_rule end
 
@@ -539,8 +546,8 @@ end
     delete_custom_line_item(arn)
     delete_custom_line_item(arn, params::Dict{String,<:Any})
 
-Deletes the custom line item identified by the given ARN in the current, or previous
-billing period.
+Deletes the custom line item identified by the given ARN in the current, or previous billing
+period.
 
 # Arguments
 
@@ -699,8 +706,8 @@ Disassociates a list of pricing rules from a pricing plan.
 # Arguments
 
 - `arn`: The pricing plan Amazon Resource Name (ARN) to disassociate pricing rules from.
-- `pricing_rule_arns`: A list containing the Amazon Resource Name (ARN) of the pricing
-  rules that will be disassociated.
+- `pricing_rule_arns`: A list containing the Amazon Resource Name (ARN) of the pricing rules
+  that will be disassociated.
 """
 function disassociate_pricing_rules end
 
@@ -741,8 +748,8 @@ end
     get_billing_group_cost_report(arn)
     get_billing_group_cost_report(arn, params::Dict{String,<:Any})
 
-Retrieves the margin summary report, which includes the Amazon Web Services cost and
-charged amount (pro forma cost) by Amazon Web Service for a specific billing group.
+Retrieves the margin summary report, which includes the Amazon Web Services cost and charged
+amount (pro forma cost) by Amazon Web Service for a specific billing group.
 
 # Arguments
 
@@ -755,8 +762,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BillingPeriodRange"`: A time range for which the margin summary is effective. You can
   specify up to 12 months.
 - `"GroupBy"`: A list of strings that specify the attributes that are used to break down
-  costs in the margin summary reports for the billing group. For example, you can view
-  your costs by the Amazon Web Service name or the billing period.
+  costs in the margin summary reports for the billing group. For example, you can view your
+  costs by the Amazon Web Service name or the billing period.
 - `"MaxResults"`: The maximum number of margin summary reports to retrieve.
 - `"NextToken"`: The pagination token used on subsequent calls to get reports.
 """
@@ -800,6 +807,7 @@ linked account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BillingPeriod"`: The preferred billing period to get account associations.
+
 - `"Filters"`: The filter on the account ID of the linked account, or any of the following:
 
   `MONITORED`: linked accounts that are associated to billing groups.
@@ -808,6 +816,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `Billing Group Arn`: linked accounts that are associated to the provided billing group
   Arn.
+
 - `"NextToken"`: The pagination token that's used on subsequent calls to retrieve accounts.
 """
 function list_account_associations end
@@ -888,8 +897,8 @@ don't provide a billing group, the current billing period is used.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BillingPeriod"`: The preferred billing period to get billing groups.
-- `"Filters"`: A `ListBillingGroupsFilter` that specifies the billing group and pricing
-  plan to retrieve billing group information.
+- `"Filters"`: A `ListBillingGroupsFilter` that specifies the billing group and pricing plan
+  to retrieve billing group information.
 - `"MaxResults"`: The maximum number of billing groups to retrieve.
 - `"NextToken"`: The pagination token that's used on subsequent calls to get billing groups.
 """
@@ -1196,8 +1205,8 @@ List the resources that are associated to a custom line item.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BillingPeriod"`: The billing period for which the resource associations will be listed.
-- `"Filters"`: (Optional) A `ListResourcesAssociatedToCustomLineItemFilter` that can
-  specify the types of resources that should be retrieved.
+- `"Filters"`: (Optional) A `ListResourcesAssociatedToCustomLineItemFilter` that can specify
+  the types of resources that should be retrieved.
 - `"MaxResults"`: (Optional) The maximum number of resource associations to be retrieved.
 - `"NextToken"`: (Optional) The pagination token that's returned by a previous request.
 """

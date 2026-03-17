@@ -107,8 +107,8 @@ end
     describe_device(managed_device_id)
     describe_device(managed_device_id, params::Dict{String,<:Any})
 
-Checks device-specific information, such as the device type, software version, IP
-addresses, and lock status.
+Checks device-specific information, such as the device type, software version, IP addresses,
+and lock status.
 
 # Arguments
 

@@ -15,15 +15,15 @@ function lets Step Functions know the existence of your activity and returns an 
 for use in a state machine and when polling from the activity.
 
 !!! note
-    This operation is eventually consistent. The results are best effort and may not
-    reflect very recent updates and changes.
+    This operation is eventually consistent. The results are best effort and may not reflect
+    very recent updates and changes.
 
 !!! note
     `CreateActivity` is an idempotent API. Subsequent requests won’t create a duplicate
-    resource if it was already created. `CreateActivity`'s idempotency check is based on
-    the activity `name`. If a following request has different `tags` values, Step Functions
-    will ignore these differences and treat it as an idempotent request of the previous. In
-    this case, `tags` will not be updated, even if they are different.
+    resource if it was already created. `CreateActivity`'s idempotency check is based on the
+    activity `name`. If a following request has different `tags` values, Step Functions will
+    ignore these differences and treat it as an idempotent request of the previous. In this
+    case, `tags` will not be updated, even if they are different.
 
 # Arguments
 
@@ -37,16 +37,18 @@ for use in a state machine and when polling from the activity.
   - brackets `&lt; &gt; { } [ ]`
   - wildcard characters `? *`
   - special characters `" # % \\ ^ | ~ ` \$ &amp; , ; : /`
-  - control characters (`U+0000-001F`, `U+007F-009F`)
+- control characters (`U+0000-
+    001F`, `U+007F-
+009F`)
 
-  To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, -
-  and _.
+To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"encryptionConfiguration"`: Settings to configure server-side encryption.
+
 - `"tags"`: The list of tags to add to a resource.
 
   An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html)
@@ -81,14 +83,14 @@ end
     create_state_machine(definition, name, role_arn)
     create_state_machine(definition, name, role_arn, params::Dict{String,<:Any})
 
-Creates a state machine. A state machine consists of a collection of states that can do
-work (`Task` states), determine to which states to transition next (`Choice` states), stop
-an execution with an error (`Fail` states), and so on. State machines are specified using a
+Creates a state machine. A state machine consists of a collection of states that can do work
+(`Task` states), determine to which states to transition next (`Choice` states), stop an
+execution with an error (`Fail` states), and so on. State machines are specified using a
 JSON-based, structured language. For more information, see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html)
 in the Step Functions User Guide.
 
-If you set the `publish` parameter of this API action to `true`, it publishes version `1`
-as the first revision of the state machine.
+If you set the `publish` parameter of this API action to `true`, it publishes version `1` as
+the first revision of the state machine.
 
 For additional control over security, you can encrypt your data using a **customer-managed
 key** for Step Functions state machines. You can configure a symmetric KMS key and data key
@@ -96,13 +98,13 @@ reuse period when creating or updating a **State Machine**. The execution histor
 machine definition will be encrypted with the key applied to the State Machine.
 
 !!! note
-    This operation is eventually consistent. The results are best effort and may not
-    reflect very recent updates and changes.
+    This operation is eventually consistent. The results are best effort and may not reflect
+    very recent updates and changes.
 
 !!! note
     `CreateStateMachine` is an idempotent API. Subsequent requests won’t create a duplicate
-    resource if it was already created. `CreateStateMachine`'s idempotency check is based
-    on the state machine `name`, `definition`, `type`, `LoggingConfiguration`,
+    resource if it was already created. `CreateStateMachine`'s idempotency check is based on
+    the state machine `name`, `definition`, `type`, `LoggingConfiguration`,
     `TracingConfiguration`, and `EncryptionConfiguration` The check is also based on the
     `publish` and `versionDescription` parameters. If a following request has a different
     `roleArn` or `tags`, Step Functions will ignore these differences and treat it as an
@@ -112,6 +114,7 @@ machine definition will be encrypted with the key applied to the State Machine.
 # Arguments
 
 - `definition`: The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
+
 - `name`: The name of the state machine.
 
   A name must *not* contain:
@@ -120,10 +123,12 @@ machine definition will be encrypted with the key applied to the State Machine.
   - brackets `&lt; &gt; { } [ ]`
   - wildcard characters `? *`
   - special characters `" # % \\ ^ | ~ ` \$ &amp; , ; : /`
-  - control characters (`U+0000-001F`, `U+007F-009F`)
+- control characters (`U+0000-
+    001F`, `U+007F-
+009F`)
 
-  To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, -
-  and _.
+To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
+
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
 
 # Optional Parameters
@@ -131,6 +136,7 @@ machine definition will be encrypted with the key applied to the State Machine.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"encryptionConfiguration"`: Settings to configure server-side encryption.
+
 - `"loggingConfiguration"`: Defines what execution history events are logged and where they
   are logged.
 
@@ -140,6 +146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"publish"`: Set to `true` to publish the first version of the state machine during
   creation. The default is `false`.
+
 - `"tags"`: Tags to be added when creating a state machine.
 
   An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html)
@@ -147,11 +154,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Tags may only contain Unicode letters, digits, white space, or these symbols:
   `_ . : / = + - @`.
+
 - `"tracingConfiguration"`: Selects whether X-Ray tracing is enabled.
+
 - `"type"`: Determines whether a Standard or Express state machine is created. The default
   is `STANDARD`. You cannot update the `type` of a state machine once it has been created.
-- `"versionDescription"`: Sets description about the state machine version. You can only
-  set the description if the `publish` parameter is set to `true`. Otherwise, if you set
+
+- `"versionDescription"`: Sets description about the state machine version. You can only set
+  the description if the `publish` parameter is set to `true`. Otherwise, if you set
   `versionDescription`, but `publish` to `false`, this API action throws
   `ValidationException`.
 """
@@ -229,10 +239,11 @@ response without creating a duplicate resource.
 - `name`: The name of the state machine alias.
 
   To avoid conflict with version ARNs, don't use an integer in the name of the alias.
+
 - `routing_configuration`: The routing configuration of a state machine alias. The routing
   configuration shifts execution traffic between two state machine versions.
-  `routingConfiguration` contains an array of `RoutingConfig` objects that specify up to
-  two state machine versions. Step Functions then randomly choses which version to run an
+  `routingConfiguration` contains an array of `RoutingConfig` objects that specify up to two
+  state machine versions. Step Functions then randomly choses which version to run an
   execution with based on the weight assigned to each `RoutingConfig`.
 
 # Optional Parameters
@@ -321,13 +332,13 @@ status to `DELETING` and begins the deletion process. A state machine is deleted
 all its executions are completed. On the next state transition, the state machine's
 executions are terminated.
 
-A qualified state machine ARN can either refer to a *Distributed Map state* defined within
-a state machine, a version ARN, or an alias ARN.
+A qualified state machine ARN can either refer to a *Distributed Map state* defined within a
+state machine, a version ARN, or an alias ARN.
 
 The following are some examples of qualified and unqualified state machine ARNs:
 
-- The following qualified state machine ARN refers to a *Distributed Map state* with a
-  label `mapStateLabel` in a state machine named `myStateMachine`.
+- The following qualified state machine ARN refers to a *Distributed Map state* with a label
+  `mapStateLabel` in a state machine named `myStateMachine`.
 
 `arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel`
 
@@ -501,8 +512,8 @@ end
 Describes an activity.
 
 !!! note
-    This operation is eventually consistent. The results are best effort and may not
-    reflect very recent updates and changes.
+    This operation is eventually consistent. The results are best effort and may not reflect
+    very recent updates and changes.
 
 # Arguments
 
@@ -549,8 +560,8 @@ If you specify a version or alias ARN when you call the [`start_execution`](@ref
 action, `DescribeExecution` returns that ARN.
 
 !!! note
-    This operation is eventually consistent. The results are best effort and may not
-    reflect very recent updates and changes.
+    This operation is eventually consistent. The results are best effort and may not reflect
+    very recent updates and changes.
 
 Executions of an `EXPRESS` state machine aren't supported by `DescribeExecution` unless a
 Map Run dispatched them.
@@ -564,9 +575,9 @@ Map Run dispatched them.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
-  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can
-  call DescribeStateMachine API with `includedData = METADATA_ONLY` to get a successful
-  response without the encrypted definition.
+  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
+  DescribeStateMachine API with `includedData = METADATA_ONLY` to get a successful response
+  without the encrypted definition.
 """
 function describe_execution end
 
@@ -642,13 +653,13 @@ end
 Provides information about a state machine's definition, its IAM role Amazon Resource Name
 (ARN), and configuration.
 
-A qualified state machine ARN can either refer to a *Distributed Map state* defined within
-a state machine, a version ARN, or an alias ARN.
+A qualified state machine ARN can either refer to a *Distributed Map state* defined within a
+state machine, a version ARN, or an alias ARN.
 
 The following are some examples of qualified and unqualified state machine ARNs:
 
-- The following qualified state machine ARN refers to a *Distributed Map state* with a
-  label `mapStateLabel` in a state machine named `myStateMachine`.
+- The following qualified state machine ARN refers to a *Distributed Map state* with a label
+  `mapStateLabel` in a state machine named `myStateMachine`.
 
 `arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel`
 
@@ -669,38 +680,36 @@ The following are some examples of qualified and unqualified state machine ARNs:
 
 `arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;`
 
-This API action returns the details for a state machine version if the `stateMachineArn`
-you specify is a state machine version ARN.
+This API action returns the details for a state machine version if the `stateMachineArn` you
+specify is a state machine version ARN.
 
 !!! note
-    This operation is eventually consistent. The results are best effort and may not
-    reflect very recent updates and changes.
+    This operation is eventually consistent. The results are best effort and may not reflect
+    very recent updates and changes.
 
 # Arguments
 
 - `state_machine_arn`: The Amazon Resource Name (ARN) of the state machine for which you
   want the information.
 
-  If you specify a state machine version ARN, this API returns details about that
-  version. The version ARN is a combination of state machine ARN and the version number
-  separated by a colon (:). For example, `stateMachineARN:1`.
+  If you specify a state machine version ARN, this API returns details about that version.
+  The version ARN is a combination of state machine ARN and the version number separated by
+  a colon (:). For example, `stateMachineARN:1`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
-  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can
-  call the API with `includedData = METADATA_ONLY` to get a successful response without
-  the encrypted definition.
+  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
+  the API with `includedData = METADATA_ONLY` to get a successful response without the
+  encrypted definition.
 
   !!! note
       When calling a labelled ARN for an encrypted state machine, the
-      `includedData = METADATA_ONLY` parameter will not apply because Step Functions
-      needs to decrypt the entire state machine definition to get the Distributed Map
-      state’s definition. In this case, the API caller needs to have `kms:Decrypt`
-      permission.
-
+      `includedData = METADATA_ONLY` parameter will not apply because Step Functions needs
+      to decrypt the entire state machine definition to get the Distributed Map state’s
+      definition. In this case, the API caller needs to have `kms:Decrypt` permission.
 """
 function describe_state_machine end
 
@@ -786,13 +795,13 @@ end
     describe_state_machine_for_execution(execution_arn, params::Dict{String,<:Any})
 
 Provides information about a state machine's definition, its execution role ARN, and
-configuration. If a Map Run dispatched the execution, this action returns the Map Run
-Amazon Resource Name (ARN) in the response. The state machine returned is the state machine
+configuration. If a Map Run dispatched the execution, this action returns the Map Run Amazon
+Resource Name (ARN) in the response. The state machine returned is the state machine
 associated with the Map Run.
 
 !!! note
-    This operation is eventually consistent. The results are best effort and may not
-    reflect very recent updates and changes.
+    This operation is eventually consistent. The results are best effort and may not reflect
+    very recent updates and changes.
 
 This API action is not supported by `EXPRESS` state machines.
 
@@ -806,9 +815,9 @@ This API action is not supported by `EXPRESS` state machines.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
-  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can
-  call the API with `includedData = METADATA_ONLY` to get a successful response without
-  the encrypted definition.
+  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
+  the API with `includedData = METADATA_ONLY` to get a successful response without the
+  encrypted definition.
 """
 function describe_state_machine_for_execution end
 
@@ -868,8 +877,8 @@ the poll returns a `taskToken` with a null string.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"workerName"`: You can provide an arbitrary name in order to identify the worker that
-  the task is assigned to. This name is used when it is logged in the execution history.
+- `"workerName"`: You can provide an arbitrary name in order to identify the worker that the
+  task is assigned to. This name is used when it is logged in the execution history.
 """
 function get_activity_task end
 
@@ -923,17 +932,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"includeExecutionData"`: You can select whether execution data (input or output of a
   history event) is returned. The default is `true`.
-- `"maxResults"`: The maximum number of results that are returned per call. You can use
-  `nextToken` to obtain further pages of results. The default is 100 and the maximum
-  allowed page size is 1000. A value of 0 uses the default.
 
-  This is only an upper limit. The actual number of results returned per call might be
-  fewer than the specified maximum.
+- `"maxResults"`: The maximum number of results that are returned per call. You can use
+  `nextToken` to obtain further pages of results. The default is 100 and the maximum allowed
+  page size is 1000. A value of 0 uses the default.
+
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return
-  an *HTTP 400 InvalidToken* error.
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  *HTTP 400 InvalidToken* error.
+
 - `"reverseOrder"`: Lists events in descending order of their `timeStamp`.
 """
 function get_execution_history end
@@ -977,24 +989,25 @@ after 24 hours. Using an expired pagination token will return an *HTTP 400 Inval
 error.
 
 !!! note
-    This operation is eventually consistent. The results are best effort and may not
-    reflect very recent updates and changes.
+    This operation is eventually consistent. The results are best effort and may not reflect
+    very recent updates and changes.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  `nextToken` to obtain further pages of results. The default is 100 and the maximum
-  allowed page size is 1000. A value of 0 uses the default.
+  `nextToken` to obtain further pages of results. The default is 100 and the maximum allowed
+  page size is 1000. A value of 0 uses the default.
 
-  This is only an upper limit. The actual number of results returned per call might be
-  fewer than the specified maximum.
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return
-  an *HTTP 400 InvalidToken* error.
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  *HTTP 400 InvalidToken* error.
 """
 function list_activities end
 
@@ -1014,10 +1027,9 @@ end
     list_executions()
     list_executions(params::Dict{String,<:Any})
 
-Lists all executions of a state machine or a Map Run. You can list all executions related
-to a state machine by specifying a state machine Amazon Resource Name (ARN), or those
-related to a Map Run by specifying a Map Run ARN. Using this API action, you can also list
-all [redriven](https://docs.aws.amazon.com/step-functions/latest/dg/redrive-executions.html)
+Lists all executions of a state machine or a Map Run. You can list all executions related to
+a state machine by specifying a state machine Amazon Resource Name (ARN), or those related
+to a Map Run by specifying a Map Run ARN. Using this API action, you can also list all [redriven](https://docs.aws.amazon.com/step-functions/latest/dg/redrive-executions.html)
 executions.
 
 You can also provide a state machine [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html)
@@ -1033,8 +1045,8 @@ after 24 hours. Using an expired pagination token will return an *HTTP 400 Inval
 error.
 
 !!! note
-    This operation is eventually consistent. The results are best effort and may not
-    reflect very recent updates and changes.
+    This operation is eventually consistent. The results are best effort and may not reflect
+    very recent updates and changes.
 
 This API action is not supported by `EXPRESS` state machines.
 
@@ -1048,19 +1060,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Step Functions Developer Guide*.
 
   You can specify either a `mapRunArn` or a `stateMachineArn`, but not both.
-- `"maxResults"`: The maximum number of results that are returned per call. You can use
-  `nextToken` to obtain further pages of results. The default is 100 and the maximum
-  allowed page size is 1000. A value of 0 uses the default.
 
-  This is only an upper limit. The actual number of results returned per call might be
-  fewer than the specified maximum.
+- `"maxResults"`: The maximum number of results that are returned per call. You can use
+  `nextToken` to obtain further pages of results. The default is 100 and the maximum allowed
+  page size is 1000. A value of 0 uses the default.
+
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return
-  an *HTTP 400 InvalidToken* error.
-- `"redriveFilter"`: Sets a filter to list executions based on whether or not they have
-  been redriven.
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  *HTTP 400 InvalidToken* error.
+
+- `"redriveFilter"`: Sets a filter to list executions based on whether or not they have been
+  redriven.
 
   For a Distributed Map, `redriveFilter` sets a filter to list child workflow executions
   based on whether or not they have been redriven.
@@ -1070,6 +1085,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you provide a state machine ARN in `redriveFilter`, the API returns a validation
   exception.
+
 - `"stateMachineArn"`: The Amazon Resource Name (ARN) of the state machine whose executions
   is listed.
 
@@ -1078,6 +1094,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can also return a list of executions associated with a specific [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html)
   or [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html),
   by specifying an alias ARN or a version ARN in the `stateMachineArn` parameter.
+
 - `"statusFilter"`: If specified, only list the executions whose current execution status
   matches the given filter.
 """
@@ -1099,9 +1116,9 @@ end
     list_map_runs(execution_arn)
     list_map_runs(execution_arn, params::Dict{String,<:Any})
 
-Lists all Map Runs that were started by a given state machine execution. Use this API
-action to obtain Map Run ARNs, and then call `DescribeMapRun` to obtain more information,
-if needed.
+Lists all Map Runs that were started by a given state machine execution. Use this API action
+to obtain Map Run ARNs, and then call `DescribeMapRun` to obtain more information, if
+needed.
 
 # Arguments
 
@@ -1113,16 +1130,17 @@ if needed.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  `nextToken` to obtain further pages of results. The default is 100 and the maximum
-  allowed page size is 1000. A value of 0 uses the default.
+  `nextToken` to obtain further pages of results. The default is 100 and the maximum allowed
+  page size is 1000. A value of 0 uses the default.
 
-  This is only an upper limit. The actual number of results returned per call might be
-  fewer than the specified maximum.
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return
-  an *HTTP 400 InvalidToken* error.
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  *HTTP 400 InvalidToken* error.
 """
 function list_map_runs end
 
@@ -1187,16 +1205,17 @@ error.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  `nextToken` to obtain further pages of results. The default is 100 and the maximum
-  allowed page size is 1000. A value of 0 uses the default.
+  `nextToken` to obtain further pages of results. The default is 100 and the maximum allowed
+  page size is 1000. A value of 0 uses the default.
 
-  This is only an upper limit. The actual number of results returned per call might be
-  fewer than the specified maximum.
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return
-  an *HTTP 400 InvalidToken* error.
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  *HTTP 400 InvalidToken* error.
 """
 function list_state_machine_aliases end
 
@@ -1257,16 +1276,17 @@ error.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  `nextToken` to obtain further pages of results. The default is 100 and the maximum
-  allowed page size is 1000. A value of 0 uses the default.
+  `nextToken` to obtain further pages of results. The default is 100 and the maximum allowed
+  page size is 1000. A value of 0 uses the default.
 
-  This is only an upper limit. The actual number of results returned per call might be
-  fewer than the specified maximum.
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return
-  an *HTTP 400 InvalidToken* error.
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  *HTTP 400 InvalidToken* error.
 """
 function list_state_machine_versions end
 
@@ -1311,24 +1331,25 @@ after 24 hours. Using an expired pagination token will return an *HTTP 400 Inval
 error.
 
 !!! note
-    This operation is eventually consistent. The results are best effort and may not
-    reflect very recent updates and changes.
+    This operation is eventually consistent. The results are best effort and may not reflect
+    very recent updates and changes.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  `nextToken` to obtain further pages of results. The default is 100 and the maximum
-  allowed page size is 1000. A value of 0 uses the default.
+  `nextToken` to obtain further pages of results. The default is 100 and the maximum allowed
+  page size is 1000. A value of 0 uses the default.
 
-  This is only an upper limit. The actual number of results returned per call might be
-  fewer than the specified maximum.
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return
-  an *HTTP 400 InvalidToken* error.
+  pagination token expires after 24 hours. Using an expired pagination token will return an
+  *HTTP 400 InvalidToken* error.
 """
 function list_state_machines end
 
@@ -1392,8 +1413,8 @@ end
 
 Creates a [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html)
 from the current revision of a state machine. Use versions to create immutable snapshots of
-your state machine. You can start executions from versions either directly or with an
-alias. To create an alias, use [`create_state_machine_alias`](@ref).
+your state machine. You can start executions from versions either directly or with an alias.
+To create an alias, use [`create_state_machine_alias`](@ref).
 
 You can publish up to 1000 versions for each state machine. You must manually delete unused
 versions using the [`delete_state_machine_version`](@ref) API action.
@@ -1419,11 +1440,12 @@ published version of the state machine's current revision.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: An optional description of the state machine version.
+
 - `"revisionId"`: Only publish the state machine version if the current state machine's
   revision ID matches the specified ID.
 
-  Use this option to avoid publishing a version if the state machine changed since you
-  last updated it. If the specified revision ID doesn't match the state machine's current
+  Use this option to avoid publishing a version if the state machine changed since you last
+  updated it. If the specified revision ID doesn't match the state machine's current
   revision ID, the API returns `ConflictException`.
 
   !!! note
@@ -1431,7 +1453,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       specify the string `INITIAL` for the `revisionId` parameter. For example, you can
       specify a `revisionID` of `INITIAL` when you create a state machine using the [`create_state_machine`](@ref)
       API action.
-
 """
 function publish_state_machine_version end
 
@@ -1469,10 +1490,10 @@ end
 
 Restarts unsuccessful executions of Standard workflows that didn't complete successfully in
 the last 14 days. These include failed, aborted, or timed out executions. When you [redrive](https://docs.aws.amazon.com/step-functions/latest/dg/redrive-executions.html)
-an execution, it continues the failed execution from the unsuccessful step and uses the
-same input. Step Functions preserves the results and execution history of the successful
-steps, and doesn't rerun these steps when you redrive an execution. Redriven executions use
-the same state machine definition and execution ARN as the original execution attempt.
+an execution, it continues the failed execution from the unsuccessful step and uses the same
+input. Step Functions preserves the results and execution history of the successful steps,
+and doesn't rerun these steps when you redrive an execution. Redriven executions use the
+same state machine definition and execution ARN as the original execution attempt.
 
 For workflows that include an [Inline Map](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-map-state.html)
 or [Parallel](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-parallel-state.html)
@@ -1515,11 +1536,11 @@ You can redrive executions if your original execution meets the following condit
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web
-  Services SDK automatically generates a client token and uses it for the request to
-  ensure idempotency. The API will return idempotent responses for the last 10 client
-  tokens used to successfully redrive the execution. These client tokens are valid for up
-  to 15 minutes after they are first used.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
+  SDK automatically generates a client token and uses it for the request to ensure
+  idempotency. The API will return idempotent responses for the last 10 client tokens used
+  to successfully redrive the execution. These client tokens are valid for up to 15 minutes
+  after they are first used.
 """
 function redrive_execution end
 
@@ -1715,13 +1736,13 @@ end
 
 Starts a state machine execution.
 
-A qualified state machine ARN can either refer to a *Distributed Map state* defined within
-a state machine, a version ARN, or an alias ARN.
+A qualified state machine ARN can either refer to a *Distributed Map state* defined within a
+state machine, a version ARN, or an alias ARN.
 
 The following are some examples of qualified and unqualified state machine ARNs:
 
-- The following qualified state machine ARN refers to a *Distributed Map state* with a
-  label `mapStateLabel` in a state machine named `myStateMachine`.
+- The following qualified state machine ARN refers to a *Distributed Map state* with a label
+  `mapStateLabel` in a state machine named `myStateMachine`.
 
 `arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel`
 
@@ -1771,24 +1792,24 @@ that points to the version.
   `arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;`
 
   Step Functions doesn't associate state machine executions that you start with an
-  unqualified ARN with a version. This is true even if that version uses the same
-  revision that the execution used.
+  unqualified ARN with a version. This is true even if that version uses the same revision
+  that the execution used.
   - **A state machine version ARN** – Refers to a version ARN, which is a combination of
-    state machine ARN and the version number separated by a colon (:). The following is
-    an example of the ARN for version 10.
+    state machine ARN and the version number separated by a colon (:). The following is an
+    example of the ARN for version 10.
 
   `arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;:10`
 
   Step Functions doesn't associate executions that you start with a version ARN with any
   aliases that point to that version.
-  - **A state machine alias ARN** – Refers to an alias ARN, which is a combination of
-    state machine ARN and the alias name separated by a colon (:). The following is an
-    example of the ARN for an alias named `PROD`.
+  - **A state machine alias ARN** – Refers to an alias ARN, which is a combination of state
+    machine ARN and the alias name separated by a colon (:). The following is an example of
+    the ARN for an alias named `PROD`.
 
   `arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;`
 
-  Step Functions associates executions that you start with an alias ARN with that alias
-  and the state machine version used for that execution.
+  Step Functions associates executions that you start with an alias ARN with that alias and
+  the state machine version used for that execution.
 
 # Optional Parameters
 
@@ -1799,11 +1820,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `"input": "{\\"first_name\\" : \\"test\\"}"`
 
   !!! note
-      If you don't include any JSON input data, you still must include the two braces,
-      for example: `"input": "{}"`
+      If you don't include any JSON input data, you still must include the two braces, for
+      example: `"input": "{}"`
 
   Length constraints apply to the payload size, and are expressed as bytes in UTF-8
   encoding.
+
 - `"name"`: Optional name of the execution. This name must be unique for your Amazon Web
   Services account, Region, and state machine for 90 days. For more information, see [Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions)
   in the *Step Functions Developer Guide*.
@@ -1817,12 +1839,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - brackets `&lt; &gt; { } [ ]`
   - wildcard characters `? *`
   - special characters `" # % \\ ^ | ~ ` \$ &amp; , ; : /`
-  - control characters (`U+0000-001F`, `U+007F-009F`)
+- control characters (`U+0000-
+    001F`, `U+007F-
+009F`)
 
-  To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, -
-  and _.
-- `"traceHeader"`: Passes the X-Ray trace header. The trace header can also be passed in
-  the request payload.
+To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
+
+- `"traceHeader"`: Passes the X-Ray trace header. The trace header can also be passed in the
+  request payload.
 """
 function start_execution end
 
@@ -1863,10 +1887,9 @@ for `STANDARD` workflows.
 
 !!! note
     `StartSyncExecution` will return a `200 OK` response, even if your execution fails,
-    because the status code in the API response doesn't reflect function errors. Error
-    codes are reserved for errors that prevent your execution from running, such as
-    permissions errors, limit errors, or issues with your state machine code and
-    configuration.
+    because the status code in the API response doesn't reflect function errors. Error codes
+    are reserved for errors that prevent your execution from running, such as permissions
+    errors, limit errors, or issues with your state machine code and configuration.
 
 !!! note
     This API action isn't logged in CloudTrail.
@@ -1880,22 +1903,25 @@ for `STANDARD` workflows.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
-  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can
-  call the API with `includedData = METADATA_ONLY` to get a successful response without
-  the encrypted definition.
+  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
+  the API with `includedData = METADATA_ONLY` to get a successful response without the
+  encrypted definition.
+
 - `"input"`: The string that contains the JSON input data for the execution, for example:
 
   `"input": "{\\"first_name\\" : \\"test\\"}"`
 
   !!! note
-      If you don't include any JSON input data, you still must include the two braces,
-      for example: `"input": "{}"`
+      If you don't include any JSON input data, you still must include the two braces, for
+      example: `"input": "{}"`
 
   Length constraints apply to the payload size, and are expressed as bytes in UTF-8
   encoding.
+
 - `"name"`: The name of the execution.
-- `"traceHeader"`: Passes the X-Ray trace header. The trace header can also be passed in
-  the request payload.
+
+- `"traceHeader"`: Passes the X-Ray trace header. The trace header can also be passed in the
+  request payload.
 """
 function start_sync_execution end
 
@@ -1995,6 +2021,7 @@ Tags may only contain Unicode letters, digits, white space, or these symbols:
 
 - `resource_arn`: The Amazon Resource Name (ARN) for the Step Functions state machine or
   activity.
+
 - `tags`: The list of tags to add to a resource.
 
   Tags may only contain Unicode letters, digits, white space, or these symbols:
@@ -2036,8 +2063,8 @@ end
     test_state(definition, role_arn, params::Dict{String,<:Any})
 
 Accepts the definition of a single state and executes it. You can test a state without
-creating a state machine or updating an existing state machine. Using this API, you can
-test the following:
+creating a state machine or updating an existing state machine. Using this API, you can test
+the following:
 
 - A state's [input and output processing](https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-input-output-dataflow)
   data flow
@@ -2061,12 +2088,11 @@ The `TestState` API assumes an IAM role which must contain the required IAM perm
 the resources your state is accessing. For information about the permissions a state might
 need, see [IAM permissions to test a state](https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-permissions).
 
-The `TestState` API can run for up to five minutes. If the execution of a state exceeds
-this duration, it fails with the `States.Timeout` error.
+The `TestState` API can run for up to five minutes. If the execution of a state exceeds this
+duration, it fails with the `States.Timeout` error.
 
 `TestState` doesn't support [Activity tasks](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-activities.html),
-`.sync` or `.waitForTaskToken` [service integration patterns](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html),
-[Parallel](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-parallel-state.html),
+`.sync` or `.waitForTaskToken` [service integration patterns](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html), [Parallel](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-parallel-state.html),
 or [Map](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-map-state.html)
 states.
 
@@ -2082,26 +2108,28 @@ states.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"input"`: A string that contains the JSON input data for the state.
+
 - `"inspectionLevel"`: Determines the values to return when a state is tested. You can
   specify one of the following types:
 
-  - `INFO`: Shows the final state output. By default, Step Functions sets
-    `inspectionLevel` to `INFO` if you don't specify a level.
+  - `INFO`: Shows the final state output. By default, Step Functions sets `inspectionLevel`
+    to `INFO` if you don't specify a level.
   - `DEBUG`: Shows the final state output along with the input and output data processing
     result.
-  - `TRACE`: Shows the HTTP request and response for an HTTP Task. This level also shows
-    the final state output along with the input and output data processing result.
+  - `TRACE`: Shows the HTTP request and response for an HTTP Task. This level also shows the
+    final state output along with the input and output data processing result.
 
-  Each of these levels also provide information about the status of the state execution
-  and the next state to transition to.
+  Each of these levels also provide information about the status of the state execution and
+  the next state to transition to.
+
 - `"revealSecrets"`: Specifies whether or not to include secret information in the test
-  result. For HTTP Tasks, a secret includes the data that an EventBridge connection adds
-  to modify the HTTP request headers, query parameters, and body. Step Functions doesn't
-  omit any information included in the state definition or the HTTP response.
+  result. For HTTP Tasks, a secret includes the data that an EventBridge connection adds to
+  modify the HTTP request headers, query parameters, and body. Step Functions doesn't omit
+  any information included in the state definition or the HTTP response.
 
-  If you set `revealSecrets` to `true`, you must make sure that the IAM user that calls
-  the `TestState` API has permission for the `states:RevealSecrets` action. For an
-  example of IAM policy that sets the `states:RevealSecrets` permission, see [IAM permissions to test a state](https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-permissions).
+  If you set `revealSecrets` to `true`, you must make sure that the IAM user that calls the
+  `TestState` API has permission for the `states:RevealSecrets` action. For an example of
+  IAM policy that sets the `states:RevealSecrets` permission, see [IAM permissions to test a state](https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-permissions).
   Without this permission, Step Functions throws an access denied error.
 
   By default, `revealSecrets` is set to `false`.
@@ -2244,13 +2272,13 @@ machine. For example, the qualified state machine ARN
 to a *Distributed Map state* with a label `mapStateLabel` in the state machine named
 `stateMachineName`.
 
-A qualified state machine ARN can either refer to a *Distributed Map state* defined within
-a state machine, a version ARN, or an alias ARN.
+A qualified state machine ARN can either refer to a *Distributed Map state* defined within a
+state machine, a version ARN, or an alias ARN.
 
 The following are some examples of qualified and unqualified state machine ARNs:
 
-- The following qualified state machine ARN refers to a *Distributed Map state* with a
-  label `mapStateLabel` in a state machine named `myStateMachine`.
+- The following qualified state machine ARN refers to a *Distributed Map state* with a label
+  `mapStateLabel` in a state machine named `myStateMachine`.
 
 `arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel`
 
@@ -2293,17 +2321,22 @@ This way, you can opt-in to strict versioning of your state machine.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"definition"`: The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
+
 - `"encryptionConfiguration"`: Settings to configure server-side encryption.
+
 - `"loggingConfiguration"`: Use the `LoggingConfiguration` data type to set CloudWatch Logs
   options.
+
 - `"publish"`: Specifies whether the state machine version is published. The default is
   `false`. To publish a version after updating the state machine, set `publish` to `true`.
+
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role of the state machine.
+
 - `"tracingConfiguration"`: Selects whether X-Ray tracing is enabled.
+
 - `"versionDescription"`: An optional description of the state machine version to publish.
 
-  You can only specify the `versionDescription` parameter if you've set `publish` to
-  `true`.
+  You can only specify the `versionDescription` parameter if you've set `publish` to `true`.
 """
 function update_state_machine end
 
@@ -2371,10 +2404,11 @@ update a state machine alias.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: A description of the state machine alias.
+
 - `"routingConfiguration"`: The routing configuration of the state machine alias.
 
-  An array of `RoutingConfig` objects that specifies up to two state machine versions
-  that the alias starts executions for.
+  An array of `RoutingConfig` objects that specifies up to two state machine versions that
+  the alias starts executions for.
 """
 function update_state_machine_alias end
 
@@ -2414,17 +2448,16 @@ end
 
 Validates the syntax of a state machine definition.
 
-You can validate that a state machine definition is correct without creating a state
-machine resource. Step Functions will implicitly perform the same syntax check when you
-invoke `CreateStateMachine` and `UpdateStateMachine`. State machine definitions are
-specified using a JSON-based, structured language. For more information on Amazon States
-Language see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html)
+You can validate that a state machine definition is correct without creating a state machine
+resource. Step Functions will implicitly perform the same syntax check when you invoke
+`CreateStateMachine` and `UpdateStateMachine`. State machine definitions are specified using
+a JSON-based, structured language. For more information on Amazon States Language see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html)
 (ASL).
 
 Suggested uses for `ValidateStateMachineDefinition`:
 
-- Integrate automated checks into your code review or Continuous Integration (CI) process
-  to validate state machine definitions before starting deployments.
+- Integrate automated checks into your code review or Continuous Integration (CI) process to
+  validate state machine definitions before starting deployments.
 - Run the validation from a Git pre-commit hook to check your state machine definitions
   before committing them to your source repository.
 
@@ -2445,11 +2478,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of diagnostics that are returned per call. The default
   and maximum value is 100. Setting the value to 0 will also use the default of 100.
 
-  If the number of diagnostics returned in the response exceeds `maxResults`, the value
-  of the `truncated` field in the response will be set to `true`.
+  If the number of diagnostics returned in the response exceeds `maxResults`, the value of
+  the `truncated` field in the response will be set to `true`.
+
 - `"severity"`: Minimum level of diagnostics to return. `ERROR` returns only `ERROR`
-  diagnostics, whereas `WARNING` returns both `WARNING` and `ERROR` diagnostics. The
-  default is `ERROR`.
+  diagnostics, whereas `WARNING` returns both `WARNING` and `ERROR` diagnostics. The default
+  is `ERROR`.
+
 - `"type"`: The target type of state machine for this definition. The default is `STANDARD`.
 """
 function validate_state_machine_definition end

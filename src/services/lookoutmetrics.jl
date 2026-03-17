@@ -434,9 +434,9 @@ end
 
 Describes an alert.
 
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
-operation on a resource immediately after creating or modifying it, use retries to allow
-time for the write operation to complete.
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation
+on a resource immediately after creating or modifying it, use retries to allow time for the
+write operation to complete.
 
 # Arguments
 
@@ -527,9 +527,9 @@ end
 
 Describes a detector.
 
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
-operation on a resource immediately after creating or modifying it, use retries to allow
-time for the write operation to complete.
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation
+on a resource immediately after creating or modifying it, use retries to allow time for the
+write operation to complete.
 
 # Arguments
 
@@ -573,9 +573,9 @@ end
 
 Describes a dataset.
 
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
-operation on a resource immediately after creating or modifying it, use retries to allow
-time for the write operation to complete.
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation
+on a resource immediately after creating or modifying it, use retries to allow time for the
+write operation to complete.
 
 # Arguments
 
@@ -865,9 +865,9 @@ end
 
 Lists the alerts attached to a detector.
 
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
-operation on a resource immediately after creating or modifying it, use retries to allow
-time for the write operation to complete.
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation
+on a resource immediately after creating or modifying it, use retries to allow time for the
+write operation to complete.
 
 # Optional Parameters
 
@@ -875,8 +875,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AnomalyDetectorArn"`: The ARN of the alert's detector.
 - `"MaxResults"`: The maximum number of results that will be displayed by the request.
-- `"NextToken"`: If the result of the previous request is truncated, the response includes
-  a `NextToken`. To retrieve the next set of results, use the token in the next request.
+- `"NextToken"`: If the result of the previous request is truncated, the response includes a
+  `NextToken`. To retrieve the next set of results, use the token in the next request.
   Tokens expire after 24 hours.
 """
 function list_alerts end
@@ -905,9 +905,9 @@ end
 
 Lists the detectors in the current AWS Region.
 
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
-operation on a resource immediately after creating or modifying it, use retries to allow
-time for the write operation to complete.
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation
+on a resource immediately after creating or modifying it, use retries to allow time for the
+write operation to complete.
 
 # Optional Parameters
 
@@ -1137,9 +1137,9 @@ end
 
 Lists the datasets in the current AWS Region.
 
-Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
-operation on a resource immediately after creating or modifying it, use retries to allow
-time for the write operation to complete.
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation
+on a resource immediately after creating or modifying it, use retries to allow time for the
+write operation to complete.
 
 # Optional Parameters
 
@@ -1461,9 +1461,9 @@ Updates a dataset.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DimensionFilterList"`: Describes a list of filters for choosing specific dimensions and
-  specific values. Each filter consists of the dimension and one of its values that you
-  want to include. When multiple dimensions or values are specified, the dimensions are
-  joined with an AND operation and the values are joined with an OR operation.
+  specific values. Each filter consists of the dimension and one of its values that you want
+  to include. When multiple dimensions or values are specified, the dimensions are joined
+  with an AND operation and the values are joined with an OR operation.
 - `"DimensionList"`: The dimension list.
 - `"MetricList"`: The metric list.
 - `"MetricSetDescription"`: The dataset's description.

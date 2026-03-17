@@ -133,8 +133,8 @@ end
     associate_website_certificate_authority(certificate, fleet_arn)
     associate_website_certificate_authority(certificate, fleet_arn, params::Dict{String,<:Any})
 
-Imports the root certificate of a certificate authority (CA) used to obtain TLS
-certificates used by associated websites within the company network.
+Imports the root certificate of a certificate authority (CA) used to obtain TLS certificates
+used by associated websites within the company network.
 
 # Arguments
 
@@ -199,8 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DisplayName"`: The fleet name to display.
 - `"OptimizeForEndUserLocation"`: The option to optimize for better performance by routing
-  traffic through the closest AWS Region to users, which may be outside of your home
-  Region.
+  traffic through the closest AWS Region to users, which may be outside of your home Region.
 - `"Tags"`: The tags to add to the resource. A tag is a key-value pair.
 """
 function create_fleet end
@@ -486,8 +485,8 @@ end
     describe_fleet_metadata(fleet_arn)
     describe_fleet_metadata(fleet_arn, params::Dict{String,<:Any})
 
-Provides basic information for the specified fleet, excluding identity provider,
-networking, and device configuration details.
+Provides basic information for the specified fleet, excluding identity provider, networking,
+and device configuration details.
 
 # Arguments
 
@@ -613,8 +612,8 @@ end
     disassociate_domain(domain_name, fleet_arn)
     disassociate_domain(domain_name, fleet_arn, params::Dict{String,<:Any})
 
-Disassociates a domain from Amazon WorkLink. End users lose the ability to access the
-domain with Amazon WorkLink.
+Disassociates a domain from Amazon WorkLink. End users lose the ability to access the domain
+with Amazon WorkLink.
 
 # Arguments
 
@@ -1461,8 +1460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The fleet name to display. The existing DisplayName is unset if null is
   passed.
 - `"OptimizeForEndUserLocation"`: The option to optimize for better performance by routing
-  traffic through the closest AWS Region to users, which may be outside of your home
-  Region.
+  traffic through the closest AWS Region to users, which may be outside of your home Region.
 """
 function update_fleet_metadata end
 

@@ -8,12 +8,10 @@ using AWS.UUIDs
     add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option, current_application_version_id)
     add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option, current_application_version_id, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Adds a CloudWatch log stream to monitor application configuration errors. For more
 information about using CloudWatch log streams with Amazon Kinesis Analytics applications,
@@ -76,15 +74,12 @@ end
     add_application_input(application_name, current_application_version_id, input)
     add_application_input(application_name, current_application_version_id, input, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
-Adds a streaming source to your Amazon Kinesis application. For conceptual information, see
-[Configuring Application Input](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html).
+Adds a streaming source to your Amazon Kinesis application. For conceptual information, see [Configuring Application Input](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html).
 
 You can add a streaming source either when you create an application or you can use this
 operation to add a streaming source after you create an application. For more information,
@@ -156,12 +151,10 @@ end
     add_application_input_processing_configuration(application_name, current_application_version_id, input_id, input_processing_configuration)
     add_application_input_processing_configuration(application_name, current_application_version_id, input_id, input_processing_configuration, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Adds an [InputProcessingConfiguration](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputProcessingConfiguration.html)
 to an application. An input processor preprocesses records on the input stream before the
@@ -234,12 +227,10 @@ end
     add_application_output(application_name, current_application_version_id, output)
     add_application_output(application_name, current_application_version_id, output, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Adds an external destination to your Amazon Kinesis Analytics application.
 
@@ -247,8 +238,8 @@ If you want Amazon Kinesis Analytics to deliver data from an in-application stre
 your application to an external destination (such as an Amazon Kinesis stream, an Amazon
 Kinesis Firehose delivery stream, or an AWS Lambda function), you add the relevant
 configuration to your application using this operation. You can configure one or more
-outputs for your application. Each output configuration maps an in-application stream and
-an external destination.
+outputs for your application. Each output configuration maps an in-application stream and an
+external destination.
 
 You can use one of the output configurations to deliver data from your in-application error
 stream to an external destination so that you can analyze the errors. For more information,
@@ -272,9 +263,9 @@ action.
   operation to get the current application version. If the version specified is not the
   current version, the `ConcurrentModificationException` is returned.
 - `output`: An array of objects, each describing one output configuration. In the output
-  configuration, you specify the name of an in-application stream, a destination (that
-  is, an Amazon Kinesis stream, an Amazon Kinesis Firehose delivery stream, or an AWS
-  Lambda function), and record the formation to use when writing to the destination.
+  configuration, you specify the name of an in-application stream, a destination (that is,
+  an Amazon Kinesis stream, an Amazon Kinesis Firehose delivery stream, or an AWS Lambda
+  function), and record the formation to use when writing to the destination.
 """
 function add_application_output end
 
@@ -325,20 +316,18 @@ end
     add_application_reference_data_source(application_name, current_application_version_id, reference_data_source)
     add_application_reference_data_source(application_name, current_application_version_id, reference_data_source, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Adds a reference data source to an existing application.
 
 Amazon Kinesis Analytics reads reference data (that is, an Amazon S3 object) and creates an
 in-application table within your application. In the request, you provide the source (S3
 bucket name and object key name), name of the in-application table to create, and the
-necessary mapping information that describes how data in Amazon S3 object maps to columns
-in the resulting in-application table.
+necessary mapping information that describes how data in Amazon S3 object maps to columns in
+the resulting in-application table.
 
 For conceptual information, see [Configuring Application Input](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html).
 For the limits on data sources you can add to your application, see [Limits](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/limits.html).
@@ -349,16 +338,18 @@ action.
 # Arguments
 
 - `application_name`: Name of an existing application.
+
 - `current_application_version_id`: Version of the application for which you are adding the
   reference data source. You can use the [DescribeApplication](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html)
   operation to get the current application version. If the version specified is not the
   current version, the `ConcurrentModificationException` is returned.
+
 - `reference_data_source`: The reference data source can be an object in your Amazon S3
   bucket. Amazon Kinesis Analytics reads the object and copies the data into the in-
   application table that is created. You provide an S3 bucket, object key name, and the
-  resulting in-application table that is created. You must also provide an IAM role with
-  the necessary permissions that Amazon Kinesis Analytics can assume to read the object
-  from your S3 bucket on your behalf.
+  resulting in-application table that is created. You must also provide an IAM role with the
+  necessary permissions that Amazon Kinesis Analytics can assume to read the object from
+  your S3 bucket on your behalf.
 """
 function add_application_reference_data_source end
 
@@ -409,15 +400,13 @@ end
     create_application(application_name)
     create_application(application_name, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
-Creates an Amazon Kinesis Analytics application. You can configure each application with
-one streaming source as input, application code to process the input, and up to three
+Creates an Amazon Kinesis Analytics application. You can configure each application with one
+streaming source as input, application code to process the input, and up to three
 destinations where you want Amazon Kinesis Analytics to write the output data from your
 application. For an overview, see [How it Works](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works.html).
 
@@ -427,8 +416,8 @@ for the in-application stream and map each data column in the in-application str
 data element in the streaming source.
 
 Your application code is one or more SQL statements that read input data, transform it, and
-generate output. Your application code can create one or more SQL artifacts like SQL
-streams or pumps.
+generate output. Your application code can create one or more SQL artifacts like SQL streams
+or pumps.
 
 In the output configuration, you can configure the application to write data from in-
 application streams created in your applications to up to three destinations.
@@ -450,55 +439,59 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ApplicationCode"`: One or more SQL statements that read input data, transform it, and
   generate output. For example, you can write a SQL statement that reads data from one in-
-  application stream, generates a running average of the number of advertisement clicks
-  by vendor, and insert resulting rows in another in-application stream using pumps. For
-  more information about the typical pattern, see [Application Code](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-app-code.html).
+  application stream, generates a running average of the number of advertisement clicks by
+  vendor, and insert resulting rows in another in-application stream using pumps. For more
+  information about the typical pattern, see [Application Code](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-app-code.html).
 
-  You can provide such series of SQL statements, where output of one statement can be
-  used as the input for the next statement. You store intermediate results by creating in-
+  You can provide such series of SQL statements, where output of one statement can be used
+  as the input for the next statement. You store intermediate results by creating in-
   application streams and pumps.
 
   Note that the application code must create the streams with names specified in the
   `Outputs`. For example, if your `Outputs` defines output streams named
-  `ExampleOutputStream1` and `ExampleOutputStream2`, then your application code must
-  create these streams.
+  `ExampleOutputStream1` and `ExampleOutputStream2`, then your application code must create
+  these streams.
+
 - `"ApplicationDescription"`: Summary description of the application.
+
 - `"CloudWatchLoggingOptions"`: Use this parameter to configure a CloudWatch log stream to
   monitor application configuration errors. For more information, see [Working with Amazon CloudWatch Logs](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/cloudwatch-logs.html).
+
 - `"Inputs"`: Use this parameter to configure the application input.
 
   You can configure your application to receive input from a single streaming source. In
   this configuration, you map this streaming source to an in-application stream that is
-  created. Your application code can then query the in-application stream like a table
-  (you can think of it as a constantly updating table).
+  created. Your application code can then query the in-application stream like a table (you
+  can think of it as a constantly updating table).
 
-  For the streaming source, you provide its Amazon Resource Name (ARN) and format of data
-  on the stream (for example, JSON, CSV, etc.). You also must provide an IAM role that
-  Amazon Kinesis Analytics can assume to read this stream on your behalf.
+  For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on
+  the stream (for example, JSON, CSV, etc.). You also must provide an IAM role that Amazon
+  Kinesis Analytics can assume to read this stream on your behalf.
 
-  To create the in-application stream, you need to specify a schema to transform your
-  data into a schematized version used in SQL. In the schema, you provide the necessary
-  mapping of the data elements in the streaming source to record columns in the in-app
-  stream.
+  To create the in-application stream, you need to specify a schema to transform your data
+  into a schematized version used in SQL. In the schema, you provide the necessary mapping
+  of the data elements in the streaming source to record columns in the in-app stream.
+
 - `"Outputs"`: You can configure application output to write data from any of the in-
   application streams to up to three destinations.
 
   These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery
   streams, AWS Lambda destinations, or any combination of the three.
 
-  In the configuration, you specify the in-application stream name, the destination
-  stream or Lambda function Amazon Resource Name (ARN), and the format to use when
-  writing data. You must also provide an IAM role that Amazon Kinesis Analytics can
-  assume to write to the destination stream or Lambda function on your behalf.
+  In the configuration, you specify the in-application stream name, the destination stream
+  or Lambda function Amazon Resource Name (ARN), and the format to use when writing data.
+  You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the
+  destination stream or Lambda function on your behalf.
 
   In the output configuration, you also provide the output stream or Lambda function ARN.
-  For stream destinations, you provide the format of data in the stream (for example,
-  JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume
-  to write to the stream or Lambda function on your behalf.
+  For stream destinations, you provide the format of data in the stream (for example, JSON,
+  CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write
+  to the stream or Lambda function on your behalf.
+
 - `"Tags"`: A list of one or more tags to assign to the application. A tag is a key-value
   pair that identifies an application. Note that the maximum number of application tags
-  includes system tags. The maximum number of user-defined application tags is 50. For
-  more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html).
+  includes system tags. The maximum number of user-defined application tags is 50. For more
+  information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html).
 """
 function create_application end
 
@@ -534,12 +527,10 @@ end
     delete_application(application_name, create_timestamp)
     delete_application(application_name, create_timestamp, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Deletes the specified application. Amazon Kinesis Analytics halts application execution and
 deletes the application, including any application artifacts (such as in-application
@@ -596,12 +587,10 @@ end
     delete_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option_id, current_application_version_id)
     delete_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option_id, current_application_version_id, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Deletes a CloudWatch log stream from an application. For more information about using
 CloudWatch log streams with Amazon Kinesis Analytics applications, see [Working with Amazon CloudWatch Logs](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/cloudwatch-logs.html).
@@ -609,8 +598,8 @@ CloudWatch log streams with Amazon Kinesis Analytics applications, see [Working 
 # Arguments
 
 - `application_name`: The Kinesis Analytics application name.
-- `cloud_watch_logging_option_id`: The `CloudWatchLoggingOptionId` of the CloudWatch
-  logging option to delete. You can get the `CloudWatchLoggingOptionId` by using the [DescribeApplication](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html)
+- `cloud_watch_logging_option_id`: The `CloudWatchLoggingOptionId` of the CloudWatch logging
+  option to delete. You can get the `CloudWatchLoggingOptionId` by using the [DescribeApplication](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html)
   operation.
 - `current_application_version_id`: The version ID of the Kinesis Analytics application.
 """
@@ -663,12 +652,10 @@ end
     delete_application_input_processing_configuration(application_name, current_application_version_id, input_id)
     delete_application_input_processing_configuration(application_name, current_application_version_id, input_id, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Deletes an [InputProcessingConfiguration](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputProcessingConfiguration.html)
 from an input.
@@ -730,16 +717,14 @@ end
     delete_application_output(application_name, current_application_version_id, output_id)
     delete_application_output(application_name, current_application_version_id, output_id, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
-Deletes output destination configuration from your application configuration. Amazon
-Kinesis Analytics will no longer write data from the corresponding in-application stream to
-the external output destination.
+Deletes output destination configuration from your application configuration. Amazon Kinesis
+Analytics will no longer write data from the corresponding in-application stream to the
+external output destination.
 
 This operation requires permissions to perform the
 `kinesisanalytics:DeleteApplicationOutput` action.
@@ -747,15 +732,16 @@ This operation requires permissions to perform the
 # Arguments
 
 - `application_name`: Amazon Kinesis Analytics application name.
+
 - `current_application_version_id`: Amazon Kinesis Analytics application version. You can
   use the [DescribeApplication](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html)
   operation to get the current application version. If the version specified is not the
   current version, the `ConcurrentModificationException` is returned.
+
 - `output_id`: The ID of the configuration to delete. Each output configuration that is
   added to the application, either when the application is created or later using the [AddApplicationOutput](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_AddApplicationOutput.html)
   operation, has a unique ID. You need to provide the ID to uniquely identify the output
-  configuration that you want to delete from the application configuration. You can use
-  the [DescribeApplication](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html)
+  configuration that you want to delete from the application configuration. You can use the [DescribeApplication](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html)
   operation to get the specific `OutputId`.
 """
 function delete_application_output end
@@ -807,12 +793,10 @@ end
     delete_application_reference_data_source(application_name, current_application_version_id, reference_id)
     delete_application_reference_data_source(application_name, current_application_version_id, reference_id, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Deletes a reference data source configuration from the specified application configuration.
 
@@ -883,12 +867,10 @@ end
     describe_application(application_name)
     describe_application(application_name, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Returns information about a specific Amazon Kinesis Analytics application.
 
@@ -937,12 +919,10 @@ end
     discover_input_schema()
     discover_input_schema(params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Infers a schema by evaluating sample records on the specified streaming source (Amazon
 Kinesis stream or Amazon Kinesis Firehose delivery stream) or S3 object. In the response,
@@ -968,8 +948,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceARN"`: Amazon Resource Name (ARN) of the streaming source.
 - `"RoleARN"`: ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
   stream on your behalf.
-- `"S3Configuration"`: Specify this parameter to discover a schema from data in an Amazon
-  S3 object.
+- `"S3Configuration"`: Specify this parameter to discover a schema from data in an Amazon S3
+  object.
 """
 function discover_input_schema end
 
@@ -994,12 +974,10 @@ end
     list_applications()
     list_applications(params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Returns a list of Amazon Kinesis Analytics applications in your account. For each
 application, the response includes the application name, Amazon Resource Name (ARN), and
@@ -1018,8 +996,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ExclusiveStartApplicationName"`: Name of the application to start the list with. When
   using pagination to retrieve the list, you don't need to specify this parameter in the
-  first request. However, in subsequent requests, you add the last application name from
-  the previous response to get the next page of applications.
+  first request. However, in subsequent requests, you add the last application name from the
+  previous response to get the next page of applications.
 - `"Limit"`: Maximum number of applications to list.
 """
 function list_applications end
@@ -1042,8 +1020,7 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieves the list of key-value tags assigned to the application. For more information, see
-[Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html).
+Retrieves the list of key-value tags assigned to the application. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html).
 
 # Arguments
 
@@ -1081,12 +1058,10 @@ end
     start_application(application_name, input_configurations)
     start_application(application_name, input_configurations, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Starts the specified Amazon Kinesis Analytics application. After creating an application,
 you must exclusively call this operation to start your application.
@@ -1156,12 +1131,10 @@ end
     stop_application(application_name)
     stop_application(application_name, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Stops the application from processing input data. You can stop an application only if it is
 in the running state. You can use the [DescribeApplication](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html)
@@ -1299,12 +1272,10 @@ end
     update_application(application_name, application_update, current_application_version_id)
     update_application(application_name, application_update, current_application_version_id, params::Dict{String,<:Any})
 
-
-
 !!! note
-    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
-    only supports SQL applications. Version 2 of the API supports SQL and Java
-    applications. For more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
+    This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
+    supports SQL applications. Version 2 of the API supports SQL and Java applications. For
+    more information about version 2, see [Amazon Kinesis Data Analytics API V2 Documentation](/kinesisanalytics/latest/apiv2/Welcome.html).
 
 Updates an existing Amazon Kinesis Analytics application. Using this API, you can update
 application code, input configuration, and output configuration.

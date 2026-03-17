@@ -8,12 +8,12 @@ using AWS.UUIDs
     create_access_token(name)
     create_access_token(name, params::Dict{String,<:Any})
 
-Creates a personal access token (PAT) for the current user. A personal access token (PAT)
-is similar to a password. It is associated with your user identity for use across all
-spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from
-resources that include integrated development environments (IDEs) and Git-based source
-repositories. PATs represent you in Amazon CodeCatalyst and you can manage them in your
-user settings.For more information, see [Managing personal access tokens in Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-tokens-keys.html).
+Creates a personal access token (PAT) for the current user. A personal access token (PAT) is
+similar to a password. It is associated with your user identity for use across all spaces
+and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from resources that
+include integrated development environments (IDEs) and Git-based source repositories. PATs
+represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more
+information, see [Managing personal access tokens in Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-tokens-keys.html).
 
 # Arguments
 
@@ -54,9 +54,8 @@ end
     create_dev_environment(instance_type, persistent_storage, project_name, space_name)
     create_dev_environment(instance_type, persistent_storage, project_name, space_name, params::Dict{String,<:Any})
 
-Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment
-that you can use to quickly work on the code stored in the source repositories of your
-project.
+Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that
+you can use to quickly work on the code stored in the source repositories of your project.
 
 !!! note
     When created in the Amazon CodeCatalyst console, by default a Dev Environment is
@@ -66,16 +65,18 @@ project.
 # Arguments
 
 - `instance_type`: The Amazon EC2 instace type to use for the Dev Environment.
+
 - `persistent_storage`: Information about the amount of storage allocated to the Dev
   Environment.
 
   !!! note
       By default, a Dev Environment is configured to have 16GB of persistent storage when
       created from the Amazon CodeCatalyst console, but there is no default when
-      programmatically creating a Dev Environment. Valid values for persistent storage
-      are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
+      programmatically creating a Dev Environment. Valid values for persistent storage are
+      based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
 
 - `project_name`: The name of the project in the space.
+
 - `space_name`: The name of the space.
 
 # Optional Parameters
@@ -83,10 +84,12 @@ project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"alias"`: The user-defined alias for a Dev Environment.
+
 - `"clientToken"`: A user-specified idempotency token. Idempotency ensures that an API
-  request completes only once. With an idempotent request, if the original request
-  completes successfully, the subsequent retries return the result from the original
-  successful request and have no additional effect.
+  request completes only once. With an idempotent request, if the original request completes
+  successfully, the subsequent retries return the result from the original successful
+  request and have no additional effect.
+
 - `"ides"`: Information about the integrated development environment (IDE) configured for a
   Dev Environment.
 
@@ -97,8 +100,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inactivityTimeoutMinutes"`: The amount of time the Dev Environment will run without any
   activity detected before stopping, in minutes. Only whole integers are allowed. Dev
   Environments consume compute minutes when running.
+
 - `"repositories"`: The source repository that contains the branch to clone into the Dev
   Environment.
+
 - `"vpcConnectionName"`: The name of the connection that will be used to connect to Amazon
   VPC, if any.
 """
@@ -162,9 +167,9 @@ Creates a project in a specified space.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`: The description of the project. This description will be displayed to
-  all users of the project. We recommend providing a brief description of the project and
-  its intended purpose.
+- `"description"`: The description of the project. This description will be displayed to all
+  users of the project. We recommend providing a brief description of the project and its
+  intended purpose.
 """
 function create_project end
 
@@ -253,8 +258,8 @@ end
 Creates a branch in a specified source repository in Amazon CodeCatalyst.
 
 !!! note
-    This API only creates a branch in a source repository hosted in Amazon CodeCatalyst.
-    You cannot use this API to create a branch in a linked repository.
+    This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You
+    cannot use this API to create a branch in a linked repository.
 
 # Arguments
 
@@ -308,8 +313,8 @@ end
     delete_access_token(id)
     delete_access_token(id, params::Dict{String,<:Any})
 
-Deletes a specified personal access token (PAT). A personal access token can only be
-deleted by the user who created it.
+Deletes a specified personal access token (PAT). A personal access token can only be deleted
+by the user who created it.
 
 # Arguments
 
@@ -467,8 +472,8 @@ end
 Deletes a space.
 
 !!! important
-    Deleting a space cannot be undone. Additionally, since space names must be unique
-    across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
+    Deleting a space cannot be undone. Additionally, since space names must be unique across
+    Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
 
 # Arguments
 
@@ -855,9 +860,9 @@ only list PATs associated with your Amazon Web Services Builder ID.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will
-  include a `NextToken` element, which you can use to obtain additional results.
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If the
+  number of results is larger than the number you specified, the response will include a
+  `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -897,9 +902,9 @@ Retrieves a list of active sessions for a Dev Environment in a project.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will
-  include a `NextToken` element, which you can use to obtain additional results.
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If the
+  number of results is larger than the number you specified, the response will include a
+  `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -951,9 +956,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filters"`: Information about filters to apply to narrow the results returned in the
   list.
-- `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will
-  include a `NextToken` element, which you can use to obtain additional results.
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If the
+  number of results is larger than the number you specified, the response will include a
+  `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 - `"projectName"`: The name of the project in the space.
@@ -994,11 +999,10 @@ these events to audit user and system activity in a space. For more information,
 in the *Amazon CodeCatalyst User Guide*.
 
 !!! note
-    ListEventLogs guarantees events for the last 30 days in a given space. You can also
-    view and retrieve a list of management events over the last 90 days for Amazon
-    CodeCatalyst in the CloudTrail console by viewing Event history, or by creating a trail
-    to create and maintain a record of events that extends past 90 days. For more
-    information, see [Working with CloudTrail Event History](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html)
+    ListEventLogs guarantees events for the last 30 days in a given space. You can also view
+    and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst
+    in the CloudTrail console by viewing Event history, or by creating a trail to create and
+    maintain a record of events that extends past 90 days. For more information, see [Working with CloudTrail Event History](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html)
     and [Working with CloudTrail trails](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-getting-started.html).
 
 # Arguments
@@ -1014,9 +1018,9 @@ in the *Amazon CodeCatalyst User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"eventName"`: The name of the event.
-- `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will
-  include a `NextToken` element, which you can use to obtain additional results.
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If the
+  number of results is larger than the number you specified, the response will include a
+  `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -1072,9 +1076,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filters"`: Information about filters to apply to narrow the results returned in the
   list.
-- `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will
-  include a `NextToken` element, which you can use to obtain additional results.
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If the
+  number of results is larger than the number you specified, the response will include a
+  `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -1118,9 +1122,9 @@ Retrieves a list of source repositories in a project.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will
-  include a `NextToken` element, which you can use to obtain additional results.
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If the
+  number of results is larger than the number you specified, the response will include a
+  `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -1168,9 +1172,9 @@ Retrieves a list of branches in a specified source repository.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will
-  include a `NextToken` element, which you can use to obtain additional results.
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If the
+  number of results is larger than the number you specified, the response will include a
+  `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -1250,9 +1254,9 @@ Retrieves a list of workflow runs of a specified workflow.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will
-  include a `NextToken` element, which you can use to obtain additional results.
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If the
+  number of results is larger than the number you specified, the response will include a
+  `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 - `"sortBy"`: Information used to sort the items in the returned list.
@@ -1301,9 +1305,9 @@ Retrieves a list of workflows in a specified project.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will
-  include a `NextToken` element, which you can use to obtain additional results.
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If the
+  number of results is larger than the number you specified, the response will include a
+  `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 - `"sortBy"`: Information used to sort the items in the returned list.
@@ -1460,9 +1464,9 @@ Begins a run of a specified workflow.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A user-specified idempotency token. Idempotency ensures that an API
-  request completes only once. With an idempotent request, if the original request
-  completes successfully, the subsequent retries return the result from the original
-  successful request and have no additional effect.
+  request completes only once. With an idempotent request, if the original request completes
+  successfully, the subsequent retries return the result from the original successful
+  request and have no additional effect.
 """
 function start_workflow_run end
 
@@ -1611,12 +1615,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"alias"`: The user-specified alias for the Dev Environment. Changing this value will not
   cause a restart.
+
 - `"clientToken"`: A user-specified idempotency token. Idempotency ensures that an API
-  request completes only once. With an idempotent request, if the original request
-  completes successfully, the subsequent retries return the result from the original
-  successful request and have no additional effect.
+  request completes only once. With an idempotent request, if the original request completes
+  successfully, the subsequent retries return the result from the original successful
+  request and have no additional effect.
+
 - `"ides"`: Information about the integrated development environment (IDE) configured for a
   Dev Environment.
+
 - `"inactivityTimeoutMinutes"`: The amount of time the Dev Environment will run without any
   activity detected before stopping, in minutes. Only whole integers are allowed. Dev
   Environments consume compute minutes when running.
@@ -1628,7 +1635,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Changing this value will cause a restart of the Dev Environment if it is running.
-
 """
 function update_dev_environment end
 

@@ -121,8 +121,8 @@ The following filter combinations are supported:
 - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `OfferId`
 - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `OfferId` + `Status`
 - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier`
-- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier`
-  + `Status`
+- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier` +
+  `Status`
 - `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceType`
 
 # Optional Parameters
@@ -130,6 +130,7 @@ The following filter combinations are supported:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"catalog"`: The catalog in which the agreement was created.
+
 - `"filters"`: The filter name and value pair used to return a specific list of results.
 
   The following filters are supported:
@@ -138,22 +139,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `ResourceType` – Type of the resource, which is the product (`AmiProduct`,
     `ContainerProduct`, or `SaaSProduct`).
   - `PartyType` – The party type (either `Acceptor` or `Proposer`) of the caller. For
-    agreements where the caller is the proposer, use the `Proposer` filter. For
-    agreements where the caller is the acceptor, use the `Acceptor` filter.
+    agreements where the caller is the proposer, use the `Proposer` filter. For agreements
+    where the caller is the acceptor, use the `Acceptor` filter.
   - `AcceptorAccountId` – The AWS account ID of the party accepting the agreement terms.
-  - `OfferId` – The unique identifier of the offer in which the terms are registered in
-    the agreement token.
+  - `OfferId` – The unique identifier of the offer in which the terms are registered in the
+    agreement token.
   - `Status` – The current status of the agreement. Values include `ACTIVE`, `ARCHIVED`,
     `CANCELLED`, `EXPIRED`, `RENEWED`, `REPLACED`, and `TERMINATED`.
-  - `BeforeEndTime` – A date used to filter agreements with a date before the `endTime`
-    of an agreement.
-  - `AfterEndTime` – A date used to filter agreements with a date after the `endTime` of
+  - `BeforeEndTime` – A date used to filter agreements with a date before the `endTime` of
     an agreement.
+  - `AfterEndTime` – A date used to filter agreements with a date after the `endTime` of an
+    agreement.
   - `AgreementType` – The type of agreement. Values include `PurchaseAgreement` or
     `VendorInsightsAgreement`.
 
 - `"maxResults"`: The maximum number of agreements to return in the response.
+
 - `"nextToken"`: A token to specify where to start pagination.
+
 - `"sort"`: An object that contains the `SortBy` and `SortOrder` attributes.
 """
 function search_agreements end

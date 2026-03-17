@@ -41,8 +41,8 @@ end
     create_replication_job(seed_replication_time, server_id, params::Dict{String,<:Any})
 
 Creates a replication job. The replication job schedules periodic replication runs to
-replicate your server to Amazon Web Services. Each replication run creates an Amazon
-Machine Image (AMI).
+replicate your server to Amazon Web Services. Each replication run creates an Amazon Machine
+Image (AMI).
 
 # Arguments
 
@@ -54,23 +54,30 @@ Machine Image (AMI).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of the replication job.
+
 - `"encrypted"`: Indicates whether the replication job produces encrypted AMIs.
+
 - `"frequency"`: The time between consecutive replication runs, in hours.
-- `"kmsKeyId"`: The ID of the KMS key for replication jobs that produce encrypted AMIs.
-  This value can be any of the following:
+
+- `"kmsKeyId"`: The ID of the KMS key for replication jobs that produce encrypted AMIs. This
+  value can be any of the following:
 
   - KMS key ID
   - KMS key alias
   - ARN referring to the KMS key ID
   - ARN referring to the KMS key alias
 
-  If encrypted is *true* but a KMS key ID is not specified, the customer's default KMS
-  key for Amazon EBS is used.
+  If encrypted is *true* but a KMS key ID is not specified, the customer's default KMS key
+  for Amazon EBS is used.
+
 - `"licenseType"`: The license type to be used for the AMI created by a successful
   replication run.
-- `"numberOfRecentAmisToKeep"`: The maximum number of SMS-created AMIs to retain. The
-  oldest is deleted after the maximum number is reached and a new AMI is created.
+
+- `"numberOfRecentAmisToKeep"`: The maximum number of SMS-created AMIs to retain. The oldest
+  is deleted after the maximum number is reached and a new AMI is created.
+
 - `"roleName"`: The name of the IAM role to be used by the Server Migration Service.
+
 - `"runOnce"`: Indicates whether to run the replication job one time.
 """
 function create_replication_job end
@@ -114,8 +121,8 @@ end
     delete_app()
     delete_app(params::Dict{String,<:Any})
 
-Deletes the specified application. Optionally deletes the launched stack associated with
-the application and all Server Migration Service replication jobs for servers in the
+Deletes the specified application. Optionally deletes the launched stack associated with the
+application and all Server Migration Service replication jobs for servers in the
 application.
 
 # Optional Parameters
@@ -251,8 +258,8 @@ end
 Deletes the specified replication job.
 
 After you delete a replication job, there are no further replication runs. Amazon Web
-Services deletes the contents of the Amazon S3 bucket used to store Server Migration
-Service artifacts. The AMIs created by the replication runs are not deleted.
+Services deletes the contents of the Amazon S3 bucket used to store Server Migration Service
+artifacts. The AMIs created by the replication runs are not deleted.
 
 # Arguments
 
@@ -385,8 +392,8 @@ end
     generate_template()
     generate_template(params::Dict{String,<:Any})
 
-Generates an CloudFormation template based on the current launch configuration and writes
-it to an Amazon S3 object in the customer’s Amazon S3 bucket.
+Generates an CloudFormation template based on the current launch configuration and writes it
+to an Amazon S3 object in the customer’s Amazon S3 bucket.
 
 # Optional Parameters
 
@@ -904,8 +911,8 @@ Creates or updates the replication configuration for the specified application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"appId"`: The ID of the application.
-- `"serverGroupReplicationConfigurations"`: Information about the replication
-  configurations for server groups in the application.
+- `"serverGroupReplicationConfigurations"`: Information about the replication configurations
+  for server groups in the application.
 """
 function put_app_replication_configuration end
 
@@ -975,8 +982,8 @@ end
     start_app_replication()
     start_app_replication(params::Dict{String,<:Any})
 
-Starts replicating the specified application by creating replication jobs for each server
-in the application.
+Starts replicating the specified application by creating replication jobs for each server in
+the application.
 
 # Optional Parameters
 
@@ -1191,24 +1198,31 @@ Updates the specified settings for the specified replication job.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of the replication job.
+
 - `"encrypted"`: When true, the replication job produces encrypted AMIs. For more
   information, `KmsKeyId`.
+
 - `"frequency"`: The time between consecutive replication runs, in hours.
-- `"kmsKeyId"`: The ID of the KMS key for replication jobs that produce encrypted AMIs.
-  This value can be any of the following:
+
+- `"kmsKeyId"`: The ID of the KMS key for replication jobs that produce encrypted AMIs. This
+  value can be any of the following:
 
   - KMS key ID
   - KMS key alias
   - ARN referring to the KMS key ID
   - ARN referring to the KMS key alias
 
-  If encrypted is enabled but a KMS key ID is not specified, the customer's default KMS
-  key for Amazon EBS is used.
+  If encrypted is enabled but a KMS key ID is not specified, the customer's default KMS key
+  for Amazon EBS is used.
+
 - `"licenseType"`: The license type to be used for the AMI created by a successful
   replication run.
+
 - `"nextReplicationRunStartTime"`: The start time of the next replication run.
-- `"numberOfRecentAmisToKeep"`: The maximum number of SMS-created AMIs to retain. The
-  oldest is deleted after the maximum number is reached and a new AMI is created.
+
+- `"numberOfRecentAmisToKeep"`: The maximum number of SMS-created AMIs to retain. The oldest
+  is deleted after the maximum number is reached and a new AMI is created.
+
 - `"roleName"`: The name of the IAM role to be used by Server Migration Service.
 """
 function update_replication_job end

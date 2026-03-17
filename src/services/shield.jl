@@ -70,9 +70,9 @@ The role must also trust the service principal `drt.shield.amazonaws.com`. For m
 information, see [IAM JSON policy elements: Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html).
 
 The SRT will have access only to your WAF and Shield resources. By submitting this request,
-you authorize the SRT to inspect your WAF and Shield configuration and create and update
-WAF rules and web ACLs on your behalf. The SRT takes these actions only if explicitly
-authorized by you.
+you authorize the SRT to inspect your WAF and Shield configuration and create and update WAF
+rules and web ACLs on your behalf. The SRT takes these actions only if explicitly authorized
+by you.
 
 You must have the `iam:PassRole` permission to make an `AssociateDRTRole` request. For more
 information, see [Granting a user permissions to pass a role to an Amazon Web Services service](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html).
@@ -129,8 +129,8 @@ in the *WAF Developer Guide*.
 
 - `health_check_arn`: The Amazon Resource Name (ARN) of the health check to associate with
   the protection.
-- `protection_id`: The unique identifier (ID) for the [`protection`](@ref) object to add
-  the health check association to.
+- `protection_id`: The unique identifier (ID) for the [`protection`](@ref) object to add the
+  health check association to.
 """
 function associate_health_check end
 
@@ -194,14 +194,12 @@ proactive engagement, use the calls `DisableProactiveEngagement` and
   Response Team (SRT) can use to contact you for escalations to the SRT and to initiate
   proactive customer support.
 
-  To enable proactive engagement, the contact list must include at least one phone
-  number.
+  To enable proactive engagement, the contact list must include at least one phone number.
 
   !!! note
-      The contacts that you provide here replace any contacts that were already defined.
-      If you already have contacts defined and want to use them, retrieve the list using
+      The contacts that you provide here replace any contacts that were already defined. If
+      you already have contacts defined and want to use them, retrieve the list using
       `DescribeEmergencyContactSettings` and then provide it here.
-
 """
 function associate_proactive_engagement_details end
 
@@ -253,6 +251,7 @@ and [Adding Shield Advanced protection to Amazon Web Services resources](https:/
 # Arguments
 
 - `name`: Friendly name for the `Protection` you are creating.
+
 - `resource_arn`: The ARN (Amazon Resource Name) of the resource to be protected.
 
   The ARN should be in one of the following formats:
@@ -318,8 +317,8 @@ resource grouping improves the accuracy of detection and reduces false positives
 
 # Arguments
 
-- `aggregation`: Defines how Shield combines resource data for the group in order to
-  detect, mitigate, and report events.
+- `aggregation`: Defines how Shield combines resource data for the group in order to detect,
+  mitigate, and report events.
 
   - Sum - Use the total traffic across the group. This is a good choice for most cases.
     Examples include Elastic IP addresses for EC2 instances that scale manually or
@@ -334,6 +333,7 @@ resource grouping improves the accuracy of detection and reduces false positives
 - `pattern`: The criteria to use to choose the protected resources for inclusion in the
   group. You can include all resources that have protections, provide a list of resource
   Amazon Resource Names (ARNs), or include all resources of a specified resource type.
+
 - `protection_group_id`: The name of the protection group. You use this to identify the
   protection group in lists and to manage the protection group, for example to update,
   delete, or describe it.
@@ -343,12 +343,12 @@ resource grouping improves the accuracy of detection and reduces false positives
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Members"`: The Amazon Resource Names (ARNs) of the resources to include in the
-  protection group. You must set this when you set `Pattern` to `ARBITRARY` and you must
-  not set it for any other `Pattern` setting.
+  protection group. You must set this when you set `Pattern` to `ARBITRARY` and you must not
+  set it for any other `Pattern` setting.
 - `"ResourceType"`: The resource type to include in the protection group. All protected
-  resources of this type are included in the protection group. Newly protected resources
-  of this type are automatically added to the group. You must set this when you set
-  `Pattern` to `BY_RESOURCE_TYPE` and you must not set it for any other `Pattern` setting.
+  resources of this type are included in the protection group. Newly protected resources of
+  this type are automatically added to the group. You must set this when you set `Pattern`
+  to `BY_RESOURCE_TYPE` and you must not set it for any other `Pattern` setting.
 - `"Tags"`: One or more tag key-value pairs for the protection group.
 """
 function create_protection_group end
@@ -404,12 +404,12 @@ Activates Shield Advanced for an account.
 
 !!! note
     For accounts that are members of an Organizations organization, Shield Advanced
-    subscriptions are billed against the organization's payer account, regardless of
-    whether the payer account itself is subscribed.
+    subscriptions are billed against the organization's payer account, regardless of whether
+    the payer account itself is subscribed.
 
 When you initially create a subscription, your subscription is set to be automatically
-renewed at the end of the existing subscription period. You can change this by submitting
-an `UpdateSubscription` request.
+renewed at the end of the existing subscription period. You can change this by submitting an
+`UpdateSubscription` request.
 """
 function create_subscription end
 
@@ -824,8 +824,8 @@ end
     disassociate_drtlog_bucket(log_bucket)
     disassociate_drtlog_bucket(log_bucket, params::Dict{String,<:Any})
 
-Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket
-containing the logs that you shared previously.
+Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing
+the logs that you shared previously.
 
 # Arguments
 
@@ -957,8 +957,8 @@ the web ACL that you've associated with the resource. For information about how 
 mitigation works and the requirements for using it, see [Shield Advanced automatic application layer DDoS mitigation](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-advanced-automatic-app-layer-response.html).
 
 !!! note
-    Don't use this action to make changes to automatic mitigation settings when it's
-    already enabled for a resource. Instead, use [`update_application_layer_automatic_response`](@ref).
+    Don't use this action to make changes to automatic mitigation settings when it's already
+    enabled for a resource. Instead, use [`update_application_layer_automatic_response`](@ref).
 
 To use this feature, you must associate a web ACL with the protected resource. The web ACL
 must be created using the latest version of WAF (v2). You can associate the web ACL through
@@ -974,8 +974,9 @@ information about WAF, see [WAF Developer Guide](https://docs.aws.amazon.com/waf
   that it creates on behalf of the protected resource in response to DDoS attacks. You
   specify this as part of the configuration for the automatic application layer DDoS
   mitigation feature, when you enable or update automatic mitigation. Shield Advanced
-  creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that
-  you have associated with the resource.
+  creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you
+  have associated with the resource.
+
 - `resource_arn`: The ARN (Amazon Resource Name) of the protected resource.
 """
 function enable_application_layer_automatic_response end
@@ -1076,29 +1077,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request syntax listing for this call indicates a `number` type, but you can provide the
   time in any valid [timestamp format](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp)
   setting.
+
 - `"MaxResults"`: The greatest number of objects that you want Shield Advanced to return to
   the list request. Shield Advanced might return fewer objects than you indicate in this
-  setting, even if more objects are available. If there are more objects remaining,
-  Shield Advanced will always also return a `NextToken` value in the response.
+  setting, even if more objects are available. If there are more objects remaining, Shield
+  Advanced will always also return a `NextToken` value in the response.
 
   The default setting is 20.
+
 - `"NextToken"`: When you request a list of objects from Shield Advanced, if the response
   does not include all of the remaining available objects, Shield Advanced includes a
   `NextToken` value in the response. You can retrieve the next batch of objects by
-  requesting the list again and providing the token that was returned by the prior call
-  in your request.
+  requesting the list again and providing the token that was returned by the prior call in
+  your request.
 
-  You can indicate the maximum number of objects that you want Shield Advanced to return
-  for a single call with the `MaxResults` setting. Shield Advanced will not return more
-  than `MaxResults` objects, but may return fewer, even if more objects are still
-  available.
+  You can indicate the maximum number of objects that you want Shield Advanced to return for
+  a single call with the `MaxResults` setting. Shield Advanced will not return more than
+  `MaxResults` objects, but may return fewer, even if more objects are still available.
 
   Whenever more objects remain that Shield Advanced has not yet returned to you, the
   response will include a `NextToken` value.
 
   On your first call to a list operation, leave this setting empty.
-- `"ResourceArns"`: The ARNs (Amazon Resource Names) of the resources that were attacked.
-  If you leave this blank, all applicable resources for this account will be included.
+
+- `"ResourceArns"`: The ARNs (Amazon Resource Names) of the resources that were attacked. If
+  you leave this blank, all applicable resources for this account will be included.
+
 - `"StartTime"`: The start of the time period for the attacks. This is a `timestamp` type.
   The request syntax listing for this call indicates a `number` type, but you can provide
   the time in any valid [timestamp format](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp)
@@ -1132,25 +1136,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InclusionFilters"`: Narrows the set of protection groups that the call retrieves. You
   can retrieve a single protection group by its name and you can retrieve all protection
-  groups that are configured with specific pattern or aggregation settings. You can
-  provide up to one criteria per filter type. Shield Advanced returns the protection
-  groups that exactly match all of the search criteria that you provide.
+  groups that are configured with specific pattern or aggregation settings. You can provide
+  up to one criteria per filter type. Shield Advanced returns the protection groups that
+  exactly match all of the search criteria that you provide.
+
 - `"MaxResults"`: The greatest number of objects that you want Shield Advanced to return to
   the list request. Shield Advanced might return fewer objects than you indicate in this
-  setting, even if more objects are available. If there are more objects remaining,
-  Shield Advanced will always also return a `NextToken` value in the response.
+  setting, even if more objects are available. If there are more objects remaining, Shield
+  Advanced will always also return a `NextToken` value in the response.
 
   The default setting is 20.
+
 - `"NextToken"`: When you request a list of objects from Shield Advanced, if the response
   does not include all of the remaining available objects, Shield Advanced includes a
   `NextToken` value in the response. You can retrieve the next batch of objects by
-  requesting the list again and providing the token that was returned by the prior call
-  in your request.
+  requesting the list again and providing the token that was returned by the prior call in
+  your request.
 
-  You can indicate the maximum number of objects that you want Shield Advanced to return
-  for a single call with the `MaxResults` setting. Shield Advanced will not return more
-  than `MaxResults` objects, but may return fewer, even if more objects are still
-  available.
+  You can indicate the maximum number of objects that you want Shield Advanced to return for
+  a single call with the `MaxResults` setting. Shield Advanced will not return more than
+  `MaxResults` objects, but may return fewer, even if more objects are still available.
 
   Whenever more objects remain that Shield Advanced has not yet returned to you, the
   response will include a `NextToken` value.
@@ -1193,22 +1198,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   its protected resource. You can also retrieve all protections for a specific resource
   type. You can provide up to one criteria per filter type. Shield Advanced returns
   protections that exactly match all of the filter criteria that you provide.
+
 - `"MaxResults"`: The greatest number of objects that you want Shield Advanced to return to
   the list request. Shield Advanced might return fewer objects than you indicate in this
-  setting, even if more objects are available. If there are more objects remaining,
-  Shield Advanced will always also return a `NextToken` value in the response.
+  setting, even if more objects are available. If there are more objects remaining, Shield
+  Advanced will always also return a `NextToken` value in the response.
 
   The default setting is 20.
+
 - `"NextToken"`: When you request a list of objects from Shield Advanced, if the response
   does not include all of the remaining available objects, Shield Advanced includes a
   `NextToken` value in the response. You can retrieve the next batch of objects by
-  requesting the list again and providing the token that was returned by the prior call
-  in your request.
+  requesting the list again and providing the token that was returned by the prior call in
+  your request.
 
-  You can indicate the maximum number of objects that you want Shield Advanced to return
-  for a single call with the `MaxResults` setting. Shield Advanced will not return more
-  than `MaxResults` objects, but may return fewer, even if more objects are still
-  available.
+  You can indicate the maximum number of objects that you want Shield Advanced to return for
+  a single call with the `MaxResults` setting. Shield Advanced will not return more than
+  `MaxResults` objects, but may return fewer, even if more objects are still available.
 
   Whenever more objects remain that Shield Advanced has not yet returned to you, the
   response will include a `NextToken` value.
@@ -1247,20 +1253,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The greatest number of objects that you want Shield Advanced to return to
   the list request. Shield Advanced might return fewer objects than you indicate in this
-  setting, even if more objects are available. If there are more objects remaining,
-  Shield Advanced will always also return a `NextToken` value in the response.
+  setting, even if more objects are available. If there are more objects remaining, Shield
+  Advanced will always also return a `NextToken` value in the response.
 
   The default setting is 20.
+
 - `"NextToken"`: When you request a list of objects from Shield Advanced, if the response
   does not include all of the remaining available objects, Shield Advanced includes a
   `NextToken` value in the response. You can retrieve the next batch of objects by
-  requesting the list again and providing the token that was returned by the prior call
-  in your request.
+  requesting the list again and providing the token that was returned by the prior call in
+  your request.
 
-  You can indicate the maximum number of objects that you want Shield Advanced to return
-  for a single call with the `MaxResults` setting. Shield Advanced will not return more
-  than `MaxResults` objects, but may return fewer, even if more objects are still
-  available.
+  You can indicate the maximum number of objects that you want Shield Advanced to return for
+  a single call with the `MaxResults` setting. Shield Advanced will not return more than
+  `MaxResults` objects, but may return fewer, even if more objects are still available.
 
   Whenever more objects remain that Shield Advanced has not yet returned to you, the
   response will include a `NextToken` value.
@@ -1437,8 +1443,9 @@ configuration for the specified resource.
   that it creates on behalf of the protected resource in response to DDoS attacks. You
   specify this as part of the configuration for the automatic application layer DDoS
   mitigation feature, when you enable or update automatic mitigation. Shield Advanced
-  creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that
-  you have associated with the resource.
+  creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you
+  have associated with the resource.
+
 - `resource_arn`: The ARN (Amazon Resource Name) of the resource.
 """
 function update_application_layer_automatic_response end
@@ -1487,11 +1494,11 @@ escalations to the SRT and to initiate proactive customer support.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"EmergencyContactList"`: A list of email addresses and phone numbers that the Shield
-  Response Team (SRT) can use to contact you if you have proactive engagement enabled,
-  for escalations to the SRT and to initiate proactive customer support.
+  Response Team (SRT) can use to contact you if you have proactive engagement enabled, for
+  escalations to the SRT and to initiate proactive customer support.
 
-  If you have proactive engagement enabled, the contact list must include at least one
-  phone number.
+  If you have proactive engagement enabled, the contact list must include at least one phone
+  number.
 """
 function update_emergency_contact_settings end
 
@@ -1526,8 +1533,8 @@ accuracy of detection and reduces false positives.
 
 # Arguments
 
-- `aggregation`: Defines how Shield combines resource data for the group in order to
-  detect, mitigate, and report events.
+- `aggregation`: Defines how Shield combines resource data for the group in order to detect,
+  mitigate, and report events.
 
   - Sum - Use the total traffic across the group. This is a good choice for most cases.
     Examples include Elastic IP addresses for EC2 instances that scale manually or
@@ -1543,6 +1550,7 @@ accuracy of detection and reduces false positives.
 - `pattern`: The criteria to use to choose the protected resources for inclusion in the
   group. You can include all resources that have protections, provide a list of resource
   Amazon Resource Names (ARNs), or include all resources of a specified resource type.
+
 - `protection_group_id`: The name of the protection group. You use this to identify the
   protection group in lists and to manage the protection group, for example to update,
   delete, or describe it.
@@ -1552,8 +1560,8 @@ accuracy of detection and reduces false positives.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Members"`: The Amazon Resource Names (ARNs) of the resources to include in the
-  protection group. You must set this when you set `Pattern` to `ARBITRARY` and you must
-  not set it for any other `Pattern` setting.
+  protection group. You must set this when you set `Pattern` to `ARBITRARY` and you must not
+  set it for any other `Pattern` setting.
 - `"ResourceType"`: The resource type to include in the protection group. All protected
   resources of this type are included in the protection group. You must set this when you
   set `Pattern` to `BY_RESOURCE_TYPE` and you must not set it for any other `Pattern`
@@ -1613,8 +1621,8 @@ to change. Empty parameters are not updated.
 
 !!! note
     For accounts that are members of an Organizations organization, Shield Advanced
-    subscriptions are billed against the organization's payer account, regardless of
-    whether the payer account itself is subscribed.
+    subscriptions are billed against the organization's payer account, regardless of whether
+    the payer account itself is subscribed.
 
 # Optional Parameters
 
@@ -1622,9 +1630,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AutoRenew"`: When you initally create a subscription, `AutoRenew` is set to `ENABLED`.
   If `ENABLED`, the subscription will be automatically renewed at the end of the existing
-  subscription period. You can change this by submitting an `UpdateSubscription` request.
-  If the `UpdateSubscription` request does not included a value for `AutoRenew`, the
-  existing value for `AutoRenew` remains unchanged.
+  subscription period. You can change this by submitting an `UpdateSubscription` request. If
+  the `UpdateSubscription` request does not included a value for `AutoRenew`, the existing
+  value for `AutoRenew` remains unchanged.
 """
 function update_subscription end
 

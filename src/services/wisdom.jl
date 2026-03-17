@@ -22,17 +22,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+
 - `"description"`: The description of the assistant.
+
 - `"serverSideEncryptionConfiguration"`: The configuration information for the customer
   managed key used for encryption.
 
   The customer managed key must have a policy that allows `kms:CreateGrant`,
-  `kms:DescribeKey`, and `kms:Decrypt/kms:GenerateDataKey` permissions to the IAM
-  identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must
-  also allow `kms:Decrypt`, `kms:GenerateDataKey*`, and `kms:DescribeKey` permissions to
-  the `connect.amazonaws.com` service principal.
+  `kms:DescribeKey`, and `kms:Decrypt/kms:GenerateDataKey` permissions to the IAM identity
+  using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow
+  `kms:Decrypt`, `kms:GenerateDataKey*`, and `kms:DescribeKey` permissions to the
+  `connect.amazonaws.com` service principal.
 
   For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_assistant end
@@ -151,8 +154,8 @@ to upload an asset.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 - `name`: The name of the content. Each piece of content in a knowledge base must have a
   unique name. You can retrieve a piece of content using only its knowledge base and its
   name with the [SearchContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_SearchContent.html)
@@ -170,8 +173,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recommendations. For example, when synchronizing data between an external system and
   Wisdom, you can store an external version identifier as metadata to utilize for
   determining drift.
-- `"overrideLinkOutUri"`: The URI you want to use for the article. If the knowledge base
-  has a templateUri, setting this argument overrides it for this piece of content.
+- `"overrideLinkOutUri"`: The URI you want to use for the article. If the knowledge base has
+  a templateUri, setting this argument overrides it for this piece of content.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 - `"title"`: The title of the content. If not set, the title is equal to the name.
 """
@@ -223,24 +226,24 @@ Creates a knowledge base.
 
 !!! note
     When using this API, you cannot reuse [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html)
-    DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If
-    you do, you'll get an `InvalidRequestException` error.
+    DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you
+    do, you'll get an `InvalidRequestException` error.
 
-    For example, you're programmatically managing your external knowledge base, and you
-    want to add or remove one of the fields that is being ingested from Salesforce. Do the
+    For example, you're programmatically managing your external knowledge base, and you want
+    to add or remove one of the fields that is being ingested from Salesforce. Do the
     following:
 
-    1. Call [DeleteKnowledgeBase](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_DeleteKnowledgeBase.html).2.
-       Call [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html).3.
-       Call [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
-       to recreate the DataIntegration or a create different one.4. Call
-       CreateKnowledgeBase.
+    1. Call [DeleteKnowledgeBase](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_DeleteKnowledgeBase.html).
+    2. Call [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html).
+    3. Call [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+       to recreate the DataIntegration or a create different one.
+    4. Call CreateKnowledgeBase.
 
 # Arguments
 
 - `knowledge_base_type`: The type of knowledge base. Only CUSTOM knowledge bases allow you
-  to upload your own content. EXTERNAL knowledge bases support integrations with third-
-  party systems whose content is synchronized automatically.
+  to upload your own content. EXTERNAL knowledge bases support integrations with third-party
+  systems whose content is synchronized automatically.
 - `name`: The name of the knowledge base.
 
 # Optional Parameters
@@ -250,18 +253,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+
 - `"description"`: The description.
+
 - `"renderingConfiguration"`: Information about how to render the content.
+
 - `"serverSideEncryptionConfiguration"`: The configuration information for the customer
   managed key used for encryption.
 
   This KMS key must have a policy that allows `kms:CreateGrant`, `kms:DescribeKey`, and
-  `kms:Decrypt/kms:GenerateDataKey` permissions to the IAM identity using the key to
-  invoke Wisdom.
+  `kms:Decrypt/kms:GenerateDataKey` permissions to the IAM identity using the key to invoke
+  Wisdom.
 
   For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+
 - `"sourceConfiguration"`: The source of the knowledge base content. Only set this argument
   for EXTERNAL knowledge bases.
+
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_knowledge_base end
@@ -317,8 +325,8 @@ Creates a Wisdom quick response.
 
 - `content`: The content of the quick response.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 - `name`: The name of the quick response.
 
 # Optional Parameters
@@ -326,9 +334,11 @@ Creates a Wisdom quick response.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"channels"`: The Amazon Connect channels this quick response applies to.
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+
 - `"contentType"`: The media type of the quick response content.
 
   - Use `application/x.quickresponse;format=plain` for a quick response written in plain
@@ -337,14 +347,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     richtext.
 
 - `"description"`: The description of the quick response.
-- `"groupingConfiguration"`: The configuration information of the user groups that the
-  quick response is accessible to.
+
+- `"groupingConfiguration"`: The configuration information of the user groups that the quick
+  response is accessible to.
+
 - `"isActive"`: Whether the quick response is active.
+
 - `"language"`: The language code value for the language in which the quick response is
-  written. The supported language codes include `de_DE`, `en_US`, `es_ES`, `fr_FR`,
-  `id_ID`, `it_IT`, `ja_JP`, `ko_KR`, `pt_BR`, `zh_CN`, `zh_TW`
-- `"shortcutKey"`: The shortcut key of the quick response. The value should be unique
-  across the knowledge base.
+  written. The supported language codes include `de_DE`, `en_US`, `es_ES`, `fr_FR`, `id_ID`,
+  `it_IT`, `ja_JP`, `ko_KR`, `pt_BR`, `zh_CN`, `zh_TW`
+
+- `"shortcutKey"`: The shortcut key of the quick response. The value should be unique across
+  the knowledge base.
+
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_quick_response end
@@ -489,8 +504,8 @@ Deletes an assistant association.
 
 # Arguments
 
-- `assistant_association_id`: The identifier of the assistant association. Can be either
-  the ID or the ARN. URLs cannot contain the ARN.
+- `assistant_association_id`: The identifier of the assistant association. Can be either the
+  ID or the ARN. URLs cannot contain the ARN.
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
 """
@@ -533,8 +548,8 @@ Deletes the content.
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 """
 function delete_content end
 
@@ -614,8 +629,7 @@ Deletes the knowledge base.
     When you use this API to delete an external knowledge base such as Salesforce or
     ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html)
     DataIntegration. This is because you can't reuse the DataIntegration after it's been
-    associated with an external knowledge base. However, you can delete and recreate it.
-    See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html)
+    associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html)
     and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
     in the *Amazon AppIntegrations API Reference*.
 
@@ -660,8 +674,8 @@ Deletes a quick response.
 # Arguments
 
 - `knowledge_base_id`: The knowledge base from which the quick response is deleted. The
-  identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
-  base if you're storing Wisdom Content resource to it.
+  identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base
+  if you're storing Wisdom Content resource to it.
 - `quick_response_id`: The identifier of the quick response to delete.
 """
 function delete_quick_response end
@@ -736,8 +750,8 @@ Retrieves information about an assistant association.
 
 # Arguments
 
-- `assistant_association_id`: The identifier of the assistant association. Can be either
-  the ID or the ARN. URLs cannot contain the ARN.
+- `assistant_association_id`: The identifier of the assistant association. Can be either the
+  ID or the ARN. URLs cannot contain the ARN.
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
 """
@@ -780,8 +794,8 @@ Retrieves content, including a pre-signed URL to download the content.
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 """
 function get_content end
 
@@ -822,8 +836,8 @@ Retrieves summary information about the content.
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 """
 function get_content_summary end
 
@@ -901,8 +915,8 @@ Retrieves information about the knowledge base.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 """
 function get_knowledge_base end
 
@@ -978,8 +992,8 @@ end
 Retrieves recommendations for the specified session. To avoid retrieving the same
 recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_NotifyRecommendationsReceived.html).
 This API supports long-polling behavior with the `waitTimeSeconds` parameter. Short poll is
-the default behavior and only returns recommendations already available. To perform a
-manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_QueryAssistant.html).
+the default behavior and only returns recommendations already available. To perform a manual
+query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_QueryAssistant.html).
 
 # Arguments
 
@@ -995,8 +1009,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return per page.
 - `"waitTimeSeconds"`: The duration (in seconds) for which the call waits for a
   recommendation to be made available before returning. If a recommendation is available,
-  the call returns sooner than `WaitTimeSeconds`. If no messages are available and the
-  wait time expires, the call returns successfully with an empty list.
+  the call returns sooner than `WaitTimeSeconds`. If no messages are available and the wait
+  time expires, the call returns successfully with an empty list.
 """
 function get_recommendations end
 
@@ -1152,8 +1166,8 @@ Lists the content.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 
 # Optional Parameters
 
@@ -1197,8 +1211,8 @@ Lists information about import jobs.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 
 # Optional Parameters
 
@@ -1278,8 +1292,8 @@ Lists information about quick response.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 
 # Optional Parameters
 
@@ -1411,8 +1425,8 @@ end
     query_assistant(assistant_id, query_text)
     query_assistant(assistant_id, query_text, params::Dict{String,<:Any})
 
-Performs a manual search against the specified assistant. To retrieve recommendations for
-an assistant, use [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html).
+Performs a manual search against the specified assistant. To retrieve recommendations for an
+assistant, use [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html).
 
 # Arguments
 
@@ -1468,8 +1482,8 @@ Removes a URI template from a knowledge base.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 """
 function remove_knowledge_base_template_uri end
 
@@ -1508,8 +1522,8 @@ resource by its name.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 - `search_expression`: The search expression to filter results.
 
 # Optional Parameters
@@ -1562,8 +1576,8 @@ Searches existing Wisdom quick responses in a Wisdom knowledge base.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should be a
-  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot
-  contain the ARN.
+  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain
+  the ARN.
 - `search_expression`: The search expression for querying the quick response.
 
 # Optional Parameters
@@ -1666,9 +1680,8 @@ end
     start_content_upload(content_type, knowledge_base_id)
     start_content_upload(content_type, knowledge_base_id, params::Dict{String,<:Any})
 
-Get a URL to upload content to a knowledge base. To upload content, first make a PUT
-request to the returned URL with your file, making sure to include the required headers.
-Then use [CreateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_CreateContent.html)
+Get a URL to upload content to a knowledge base. To upload content, first make a PUT request
+to the returned URL with your file, making sure to include the required headers. Then use [CreateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_CreateContent.html)
 to finalize the content creation process or [UpdateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_UpdateContent.html)
 to modify an existing resource. You can only upload content to a knowledge base of type
 CUSTOM.
@@ -1677,8 +1690,8 @@ CUSTOM.
 
 - `content_type`: The type of content to upload.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 
 # Optional Parameters
 
@@ -1727,8 +1740,8 @@ calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/la
 to upload an asset that contains the resource data.
 
 - For importing Wisdom quick responses, you need to upload a csv file including the quick
-  responses. For information about how to format the csv file for importing quick
-  responses, see [Import quick responses](https://docs.aws.amazon.com/console/connect/quick-responses/add-data).
+  responses. For information about how to format the csv file for importing quick responses,
+  see [Import quick responses](https://docs.aws.amazon.com/console/connect/quick-responses/add-data).
 
 # Arguments
 
@@ -1737,11 +1750,11 @@ to upload an asset that contains the resource data.
   - For importing quick response resource, set the value to `QUICK_RESPONSES`.
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 
-  - For importing Wisdom quick responses, this should be a `QUICK_RESPONSES` type
-    knowledge base.
+  - For importing Wisdom quick responses, this should be a `QUICK_RESPONSES` type knowledge
+    base.
 
 - `upload_id`: A pointer to the uploaded asset. This value is returned by [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html).
 
@@ -1750,8 +1763,8 @@ to upload an asset that contains the resource data.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: The tags used to organize, track, or control access for this resource.
-- `"externalSourceConfiguration"`: The configuration information of the external source
-  that the resource data are imported from.
+- `"externalSourceConfiguration"`: The configuration information of the external source that
+  the resource data are imported from.
 - `"metadata"`: The metadata fields of the imported Wisdom resources.
 """
 function start_import_job end
@@ -1890,8 +1903,8 @@ Updates information about the content.
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN
 
 # Optional Parameters
 
@@ -1901,16 +1914,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recommendations. For example, when synchronizing data between an external system and
   Wisdom, you can store an external version identifier as metadata to utilize for
   determining drift.
+
 - `"overrideLinkOutUri"`: The URI for the article. If the knowledge base has a templateUri,
   setting this argument overrides it for this piece of content. To remove an existing
   `overrideLinkOurUri`, exclude this argument and set `removeOverrideLinkOutUri` to true.
+
 - `"removeOverrideLinkOutUri"`: Unset the existing `overrideLinkOutUri` if it exists.
+
 - `"revisionId"`: The `revisionId` of the content resource to update, taken from an earlier
   call to `GetContent`, `GetContentSummary`, `SearchContent`, or `ListContents`. If
   included, this argument acts as an optimistic lock to ensure content was not modified
   since it was last read. If it has been modified, this API throws a
   `PreconditionFailedException`.
+
 - `"title"`: The title of the content.
+
 - `"uploadId"`: A pointer to the uploaded asset. This value is returned by [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html).
 """
 function update_content end
@@ -1954,8 +1972,8 @@ Wisdom using ingested content. For example, if you ingest a Salesforce article, 
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 - `template_uri`: The template URI to update.
 """
 function update_knowledge_base_template_uri end
@@ -1998,8 +2016,8 @@ Updates an existing Wisdom quick response.
 # Arguments
 
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-  Can be either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 - `quick_response_id`: The identifier of the quick response.
 
 # Optional Parameters
@@ -2008,27 +2026,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"channels"`: The Amazon Connect contact channels this quick response applies to. The
   supported contact channel types include `Chat`.
+
 - `"content"`: The updated content of the quick response.
+
 - `"contentType"`: The media type of the quick response content.
 
-  - Use `application/x.quickresponse;format=plain` for quick response written in plain
-    text.
+  - Use `application/x.quickresponse;format=plain` for quick response written in plain text.
   - Use `application/x.quickresponse;format=markdown` for quick response written in
     richtext.
 
 - `"description"`: The updated description of the quick response.
+
 - `"groupingConfiguration"`: The updated grouping configuration of the quick response.
+
 - `"isActive"`: Whether the quick response is active.
+
 - `"language"`: The language code value for the language in which the quick response is
-  written. The supported language codes include `de_DE`, `en_US`, `es_ES`, `fr_FR`,
-  `id_ID`, `it_IT`, `ja_JP`, `ko_KR`, `pt_BR`, `zh_CN`, `zh_TW`
+  written. The supported language codes include `de_DE`, `en_US`, `es_ES`, `fr_FR`, `id_ID`,
+  `it_IT`, `ja_JP`, `ko_KR`, `pt_BR`, `zh_CN`, `zh_TW`
+
 - `"name"`: The name of the quick response.
+
 - `"removeDescription"`: Whether to remove the description from the quick response.
-- `"removeGroupingConfiguration"`: Whether to remove the grouping configuration of the
-  quick response.
+
+- `"removeGroupingConfiguration"`: Whether to remove the grouping configuration of the quick
+  response.
+
 - `"removeShortcutKey"`: Whether to remove the shortcut key of the quick response.
-- `"shortcutKey"`: The shortcut key of the quick response. The value should be unique
-  across the knowledge base.
+
+- `"shortcutKey"`: The shortcut key of the quick response. The value should be unique across
+  the knowledge base.
 """
 function update_quick_response end
 

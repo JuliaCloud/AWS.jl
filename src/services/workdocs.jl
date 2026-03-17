@@ -166,8 +166,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ParentId"`: The ID of the parent comment.
 - `"ThreadId"`: The ID of the root comment in the thread.
 - `"Visibility"`: The visibility of the comment. Options are either PRIVATE, where the
-  comment is visible only to the comment author and document owner and co-owners, or
-  PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
+  comment is visible only to the comment author and document owner and co-owners, or PUBLIC,
+  where the comment is visible to document owners, co-owners, and contributors.
 """
 function create_comment end
 
@@ -359,8 +359,8 @@ in the *Amazon WorkDocs Developer Guide*.
 - `endpoint`: The endpoint to receive the notifications. If the protocol is HTTPS, the
   endpoint is a URL that begins with `https`.
 - `organization_id`: The ID of the organization.
-- `protocol`: The protocol to use. The supported value is https, which delivers JSON-
-  encoded messages using HTTPS POST.
+- `protocol`: The protocol to use. The supported value is https, which delivers JSON-encoded
+  messages using HTTPS POST.
 - `subscription_type`: The notification type.
 """
 function create_notification_subscription end
@@ -912,9 +912,8 @@ Deletes the specified user from a Simple AD or Microsoft AD directory.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Authentication"`: Amazon WorkDocs authentication token. Do not set this field when
-  using administrative API actions, as in accessing the API using Amazon Web Services
-  credentials.
+- `"Authentication"`: Amazon WorkDocs authentication token. Do not set this field when using
+  administrative API actions, as in accessing the API using Amazon Web Services credentials.
 """
 function delete_user end
 
@@ -957,8 +956,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes the activities performed before the specified timestamp.
 - `"includeIndirectActivities"`: Includes indirect activities. An indirect activity results
   from a direct activity performed on a parent resource. For example, sharing a parent
-  folder (the direct activity) shares all of the subfolders and documents within the
-  parent folder (the indirect activity).
+  folder (the direct activity) shares all of the subfolders and documents within the parent
+  folder (the indirect activity).
 - `"limit"`: The maximum number of items to return.
 - `"marker"`: The marker for the next set of results.
 - `"organizationId"`: The ID of the organization. This is a mandatory parameter when using
@@ -1059,8 +1058,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services administrator credentials to access the API.
 - `"fields"`: Specify "SOURCE" to include initialized versions and a URL for the source
   document.
-- `"include"`: A comma-separated list of values. Specify "INITIALIZED" to include
-  incomplete versions.
+- `"include"`: A comma-separated list of values. Specify "INITIALIZED" to include incomplete
+  versions.
 - `"limit"`: The maximum number of versions to return with this call.
 - `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
@@ -1098,9 +1097,9 @@ end
 
 Describes the contents of the specified folder, including its documents and subfolders.
 
-By default, Amazon WorkDocs returns the first 100 active document and folder metadata
-items. If there are more results, the response includes a marker that you can use to
-request the next set of results. You can also request initialized documents.
+By default, Amazon WorkDocs returns the first 100 active document and folder metadata items.
+If there are more results, the response includes a marker that you can use to request the
+next set of results. You can also request initialized documents.
 
 # Arguments
 
@@ -1367,28 +1366,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
+
 - `"fields"`: A comma-separated list of values. Specify "STORAGE_METADATA" to include the
   user storage quota and utilization information.
+
 - `"include"`: The state of the users. Specify "ALL" to include inactive users.
+
 - `"limit"`: The maximum number of items to return.
+
 - `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
+
 - `"order"`: The order for the results.
+
 - `"organizationId"`: The ID of the organization.
+
 - `"query"`: A query to filter users by user name. Remember the following about the
   `Userids` and `Query` parameters:
 
-  - If you don't use either parameter, the API returns a paginated list of all users on
-    the site.
+  - If you don't use either parameter, the API returns a paginated list of all users on the
+    site.
   - If you use both parameters, the API ignores the `Query` parameter.
   - The `Userid` parameter only returns user names that match a corresponding user ID.
-  - The `Query` parameter runs a "prefix" search for users by the `GivenName`, `SurName`,
-    or `UserName` fields included in a [CreateUser](https://docs.aws.amazon.com/workdocs/latest/APIReference/API_CreateUser.html)
-    API call. For example, querying on `Ma` returns Márcia Oliveira, María García, and
-    Mateo Jackson. If you use multiple characters, the API only returns data that matches
-    all characters. For example, querying on `Ma J` only returns Mateo Jackson.
+  - The `Query` parameter runs a "prefix" search for users by the `GivenName`, `SurName`, or
+    `UserName` fields included in a [CreateUser](https://docs.aws.amazon.com/workdocs/latest/APIReference/API_CreateUser.html)
+    API call. For example, querying on `Ma` returns Márcia Oliveira, María García, and Mateo
+    Jackson. If you use multiple characters, the API only returns data that matches all
+    characters. For example, querying on `Ma J` only returns Mateo Jackson.
 
 - `"sort"`: The sorting criteria.
+
 - `"userIds"`: The IDs of the users.
 """
 function describe_users end
@@ -1758,8 +1765,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
-- `"ContentCreatedTimestamp"`: The timestamp when the content of the document was
-  originally created.
+- `"ContentCreatedTimestamp"`: The timestamp when the content of the document was originally
+  created.
 - `"ContentModifiedTimestamp"`: The timestamp when the content of the document was modified.
 - `"ContentType"`: The content type of the document.
 - `"DocumentSizeInBytes"`: The size of the document, in bytes.
@@ -1945,8 +1952,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OrganizationId"`: Filters based on the resource owner OrgId. This is a mandatory
   parameter when using Admin SigV4 credentials.
 - `"QueryScopes"`: Filter based on the text field type. A Folder has only a name and no
-  content. A Comment has only content and no name. A Document or Document Version has a
-  name and content
+  content. A Comment has only content and no name. A Document or Document Version has a name
+  and content
 - `"QueryText"`: The String to search for. Searches across different text fields based on
   request parameters. Use double quotes around the query string for exact phrase matches.
 """
@@ -2086,8 +2093,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services administrator credentials to access the API.
 - `"Name"`: The name of the folder.
 - `"ParentFolderId"`: The ID of the parent folder.
-- `"ResourceState"`: The resource state of the folder. Only ACTIVE and RECYCLED are
-  accepted values from the API.
+- `"ResourceState"`: The resource state of the folder. Only ACTIVE and RECYCLED are accepted
+  values from the API.
 """
 function update_folder end
 
@@ -2118,8 +2125,8 @@ end
     update_user(user_id)
     update_user(user_id, params::Dict{String,<:Any})
 
-Updates the specified attributes of the specified user, and grants or revokes
-administrative privileges to the Amazon WorkDocs site.
+Updates the specified attributes of the specified user, and grants or revokes administrative
+privileges to the Amazon WorkDocs site.
 
 # Arguments
 
@@ -2132,8 +2139,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
   Web Services administrator credentials to access the API.
 - `"GivenName"`: The given name of the user.
-- `"GrantPoweruserPrivileges"`: Boolean value to determine whether the user is granted
-  Power user privileges.
+- `"GrantPoweruserPrivileges"`: Boolean value to determine whether the user is granted Power
+  user privileges.
 - `"Locale"`: The locale of the user.
 - `"StorageRule"`: The amount of storage for the user.
 - `"Surname"`: The surname of the user.

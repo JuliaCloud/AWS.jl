@@ -18,8 +18,8 @@ Kinesis Video Streams then returns a stream of chunks in order by fragment numbe
 
 When you put media data (fragments) on a stream, Kinesis Video Streams stores each incoming
 fragment and related metadata in what is called a "chunk." For more information, see [PutMedia](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_dataplane_PutMedia.html).
-The `GetMedia` API returns a stream of these chunks starting from the chunk that you
-specify in the request.
+The `GetMedia` API returns a stream of these chunks starting from the chunk that you specify
+in the request.
 
 The following limits apply when using the `GetMedia` API:
 
@@ -39,11 +39,10 @@ The following limits apply when using the `GetMedia` API:
 
     Both the HTTP status code and the ErrorType header can be utilized to make programmatic
     decisions about whether errors are retry-able and under what conditions, as well as
-    provide information on what actions the client programmer might need to take in order
-    to successfully try again.
+    provide information on what actions the client programmer might need to take in order to
+    successfully try again.
 
-    For more information, see the **Errors** section at the bottom of this topic, as well
-    as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
+    For more information, see the **Errors** section at the bottom of this topic, as well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
 
 # Arguments
 

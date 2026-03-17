@@ -69,11 +69,12 @@ in the Resilience Hub User Guide.
   this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
   information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
+
 - `resource_mappings`: Mappings used to map logical resources from the template to physical
   resources. You can use the mapping type `CFN_STACK` if the application template uses a
   logical stack name. Or you can map individual resources by using the mapping type
-  `RESOURCE`. We recommend using the mapping type `CFN_STACK` if the application is
-  backed by a CloudFormation stack.
+  `RESOURCE`. We recommend using the mapping type `CFN_STACK` if the application is backed
+  by a CloudFormation stack.
 """
 function add_draft_app_version_resource_mappings end
 
@@ -176,10 +177,10 @@ addition, you can also add resources that are located on Amazon Elastic Kubernet
 resources supported per application, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/resiliencehub.html#limits_resiliencehub).
 
 After you create an Resilience Hub application, you publish it so that you can run a
-resiliency assessment on it. You can then use recommendations from the assessment to
-improve resiliency by running another assessment, comparing results, and then iterating the
-process until you achieve your goals for recovery time objective (RTO) and recovery point
-objective (RPO).
+resiliency assessment on it. You can then use recommendations from the assessment to improve
+resiliency by running another assessment, comparing results, and then iterating the process
+until you achieve your goals for recovery time objective (RTO) and recovery point objective
+(RPO).
 
 # Arguments
 
@@ -190,21 +191,21 @@ objective (RPO).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"assessmentSchedule"`: Assessment execution schedule with 'Daily' or 'Disabled' values.
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
 - `"description"`: The optional description for an app.
 - `"eventSubscriptions"`: The list of events you would like to subscribe and get
   notification for. Currently, Resilience Hub supports only **Drift detected** and
   **Scheduled assessment failure** events notification.
-- `"permissionModel"`: Defines the roles and credentials that Resilience Hub would use
-  while creating the application, importing its resources, and running an assessment.
+- `"permissionModel"`: Defines the roles and credentials that Resilience Hub would use while
+  creating the application, importing its resources, and running an assessment.
 - `"policyArn"`: Amazon Resource Name (ARN) of the resiliency policy. The format for this
   ARN is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`.
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
-- `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon
-  Web Services resource. Each tag consists of a key/value pair.
+- `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon Web
+  Services resource. Each tag consists of a key/value pair.
 """
 function create_app end
 
@@ -244,8 +245,8 @@ Creates a new Application Component in the Resilience Hub application.
 
 !!! note
     This API updates the Resilience Hub application draft version. To use this Application
-    Component for running assessments, you must publish the Resilience Hub application
-    using the `PublishAppVersion` API.
+    Component for running assessments, you must publish the Resilience Hub application using
+    the `PublishAppVersion` API.
 
 # Arguments
 
@@ -254,8 +255,8 @@ Creates a new Application Component in the Resilience Hub application.
   information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
 - `name`: Name of the Application Component.
-- `type`: Type of Application Component. For more information about the types of
-  Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html).
+- `type`: Type of Application Component. For more information about the types of Application
+  Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html).
 
 # Optional Parameters
 
@@ -263,9 +264,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"additionalInfo"`: Currently, there is no supported additional information for
   Application Components.
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
 - `"id"`: Identifier of the Application Component.
 """
 function create_app_version_app_component end
@@ -349,9 +350,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"additionalInfo"`: Currently, there is no supported additional information for resources.
 - `"awsAccountId"`: Amazon Web Services account that owns the physical resource.
 - `"awsRegion"`: Amazon Web Services region that owns the physical resource.
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
 - `"resourceName"`: Name of the resource.
 """
 function create_app_version_resource end
@@ -431,9 +432,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"bucketName"`: The name of the Amazon S3 bucket that will contain the recommendation
   template.
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
+
 - `"format"`: The format for the recommendation template.
 
   ### CfnJson
@@ -443,10 +446,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ### CfnYaml
 
   The template is CloudFormation YAML.
-- `"recommendationIds"`: Identifiers for the recommendations used to create a
-  recommendation template.
-- `"recommendationTypes"`: An array of strings that specify the recommendation template
-  type or types.
+
+- `"recommendationIds"`: Identifiers for the recommendations used to create a recommendation
+  template.
+
+- `"recommendationTypes"`: An array of strings that specify the recommendation template type
+  or types.
 
   ### Alarm
 
@@ -459,8 +464,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ### Test
 
   The template is a [`test_recommendation`](@ref) template.
-- `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon
-  Web Services resource. Each tag consists of a key/value pair.
+
+- `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon Web
+  Services resource. Each tag consists of a key/value pair.
 """
 function create_recommendation_template end
 
@@ -531,14 +537,14 @@ Creates a resiliency policy for an application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
 - `"dataLocationConstraint"`: Specifies a high-level geographical location constraint for
   where your resilience policy data can be stored.
 - `"policyDescription"`: The description for the policy.
-- `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon
-  Web Services resource. Each tag consists of a key/value pair.
+- `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon Web
+  Services resource. Each tag consists of a key/value pair.
 """
 function create_resiliency_policy end
 
@@ -603,9 +609,9 @@ Deletes an Resilience Hub application. This is a destructive action that can't b
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
 - `"forceDelete"`: A boolean option to force the deletion of an Resilience Hub application.
 """
 function delete_app end
@@ -642,8 +648,8 @@ end
     delete_app_assessment(assessment_arn)
     delete_app_assessment(assessment_arn, params::Dict{String,<:Any})
 
-Deletes an Resilience Hub application assessment. This is a destructive action that can't
-be undone.
+Deletes an Resilience Hub application assessment. This is a destructive action that can't be
+undone.
 
 # Arguments
 
@@ -656,9 +662,9 @@ be undone.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
 """
 function delete_app_assessment end
 
@@ -716,9 +722,9 @@ application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
 - `"eksSourceClusterNamespace"`: The namespace on your Amazon Elastic Kubernetes Service
   cluster that you want to delete from the Resilience Hub application.
 - `"sourceArn"`: The Amazon Resource Name (ARN) of the imported resource you want to remove
@@ -764,11 +770,11 @@ end
 Deletes an Application Component from the Resilience Hub application.
 
 !!! note
-    - This API updates the Resilience Hub application draft version. To use this
-      Application Component for running assessments, you must publish the Resilience Hub
-      application using the `PublishAppVersion` API.
-    - You will not be able to delete an Application Component if it has resources
-      associated with it.
+    - This API updates the Resilience Hub application draft version. To use this Application
+      Component for running assessments, you must publish the Resilience Hub application
+      using the `PublishAppVersion` API.
+    - You will not be able to delete an Application Component if it has resources associated
+      with it.
 
 # Arguments
 
@@ -782,9 +788,9 @@ Deletes an Application Component from the Resilience Hub application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
 """
 function delete_app_version_app_component end
 
@@ -850,9 +856,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"awsAccountId"`: Amazon Web Services account that owns the physical resource.
 - `"awsRegion"`: Amazon Web Services region that owns the physical resource.
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
 - `"logicalResourceId"`: Logical identifier of the resource.
 - `"physicalResourceId"`: Physical identifier of the resource.
 - `"resourceName"`: Name of the resource.
@@ -904,9 +910,9 @@ Deletes a recommendation template. This is a destructive action that can't be un
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
 """
 function delete_recommendation_template end
 
@@ -956,18 +962,18 @@ Deletes a resiliency policy. This is a destructive action that can't be undone.
 
 # Arguments
 
-- `policy_arn`: Amazon Resource Name (ARN) of the resiliency policy. The format for this
-  ARN is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`.
-  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+- `policy_arn`: Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN
+  is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`. For
+  more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
 """
 function delete_resiliency_policy end
 
@@ -1366,8 +1372,8 @@ end
 Describes the status of importing resources to an application version.
 
 !!! note
-    If you get a 404 error with `ResourceImportStatusNotFoundAppMetadataException`, you
-    must call `importResourcesToDraftAppVersion` after creating the application and before
+    If you get a 404 error with `ResourceImportStatusNotFoundAppMetadataException`, you must
+    call `importResourcesToDraftAppVersion` after creating the application and before
     calling `describeDraftAppVersionResourcesImportStatus` to obtain the status.
 
 # Arguments
@@ -1413,9 +1419,9 @@ policy object includes creation time, data location constraints, the Amazon Reso
 
 # Arguments
 
-- `policy_arn`: Amazon Resource Name (ARN) of the resiliency policy. The format for this
-  ARN is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`.
-  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+- `policy_arn`: Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN
+  is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`. For
+  more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
 """
 function describe_resiliency_policy end
@@ -1563,8 +1569,8 @@ Lists the alarm recommendations for an Resilience Hub application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_alarm_recommendations end
@@ -1720,11 +1726,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"invoker"`: Specifies the entity that invoked a specific assessment, either a `User` or
   the `System`.
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
-- `"reverseOrder"`: The default is to sort by ascending **startTime**. To sort by
-  descending **startTime**, set reverseOrder to `true`.
+- `"reverseOrder"`: The default is to sort by ascending **startTime**. To sort by descending
+  **startTime**, set reverseOrder to `true`.
 """
 function list_app_assessments end
 
@@ -1767,8 +1773,8 @@ Lists the compliances for an Resilience Hub Application Component.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_component_compliances end
@@ -1819,8 +1825,8 @@ Lists the recommendations for an Resilience Hub Application Component.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_component_recommendations end
@@ -1989,8 +1995,8 @@ registry app.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_version_resource_mappings end
@@ -2047,8 +2053,8 @@ Lists all the resources in an Resilience Hub application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"resolutionId"`: The identifier for a specific resolution.
 """
@@ -2106,8 +2112,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"endTime"`: Upper limit of the time range to filter the application versions.
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"startTime"`: Lower limit of the time range to filter the application versions.
 """
@@ -2142,9 +2148,9 @@ end
 Lists your Resilience Hub applications.
 
 !!! note
-    You can filter applications using only one filter at a time or without using any
-    filter. If you try to filter applications using multiple filters, you will get the
-    following error:
+    You can filter applications using only one filter at a time or without using any filter.
+    If you try to filter applications using multiple filters, you will get the following
+    error:
 
     `An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.`
 
@@ -2159,8 +2165,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"fromLastAssessmentTime"`: Indicates the lower limit of the range that is used to filter
   applications based on their last assessment times.
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"name"`: The name for the one of the listed applications.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"reverseOrder"`: The application list is sorted based on the values of
@@ -2201,14 +2207,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"name"`: The name for one of the listed recommendation templates.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"recommendationTemplateArn"`: The Amazon Resource Name (ARN) for a recommendation
   template.
-- `"reverseOrder"`: The default is to sort by ascending **startTime**. To sort by
-  descending **startTime**, set reverseOrder to `true`.
+- `"reverseOrder"`: The default is to sort by ascending **startTime**. To sort by descending
+  **startTime**, set reverseOrder to `true`.
 - `"status"`: Status of the action.
 """
 function list_recommendation_templates end
@@ -2245,8 +2251,8 @@ Lists the resiliency policies for the Resilience Hub applications.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"policyName"`: The name of the policy
 """
@@ -2336,8 +2342,8 @@ applications.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_sop_recommendations end
@@ -2381,8 +2387,8 @@ Lists the suggested resiliency policies for the Resilience Hub applications.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_suggested_resiliency_policies end
@@ -2466,8 +2472,8 @@ Lists the test recommendations for the Resilience Hub application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_test_recommendations end
@@ -2521,8 +2527,8 @@ supported by Resilience Hub.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified `MaxResults` value, a token is included in the response so
-  that the remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"resolutionId"`: The identifier for a specific resolution.
 """
@@ -2616,6 +2622,7 @@ Adds or updates the app template for an Resilience Hub application draft version
   this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
   information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
+
 - `app_template_body`: A JSON string that provides information about your application
   structure. To learn more about the `appTemplateBody` template, see the sample template
   provided in the *Examples* section.
@@ -2631,13 +2638,15 @@ Adds or updates the app template for an Resilience Hub application draft version
   !!! note
       Don't add the resources that you want to exclude.
 
-  Each `resources` array item includes the following fields:   - *`logicalResourceId`*
+  Each `resources` array item includes the following fields:
+    - *`logicalResourceId`*
 
   Logical identifier of the resource.
 
   Type: Object
 
-  Each `logicalResourceId` object includes the following fields:     - `identifier`
+  Each `logicalResourceId` object includes the following fields:
+      - `identifier`
 
   Identifier of the resource.
 
@@ -2659,8 +2668,8 @@ Adds or updates the app template for an Resilience Hub application draft version
   Type: String
       - `eksSourceName`
 
-  Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource
-  belongs to.
+  Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs
+  to.
 
   !!! note
       This parameter accepts values in "eks-cluster/namespace" format.
@@ -2683,8 +2692,8 @@ Adds or updates the app template for an Resilience Hub application draft version
   call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html).
 
   !!! note
-      Currently, this parameter accepts a key-value mapping (in a string format) of only
-      one failover region and one associated account.
+      Currently, this parameter accepts a key-value mapping (in a string format) of only one
+      failover region and one associated account.
 
       Key: `"failover-regions"`
 
@@ -2692,12 +2701,13 @@ Adds or updates the app template for an Resilience Hub application draft version
 
   - **`appComponents`**
 
-  List of Application Components that this resource belongs to. If an Application
-  Component is not part of the Resilience Hub application, it will be added.
+  List of Application Components that this resource belongs to. If an Application Component
+  is not part of the Resilience Hub application, it will be added.
 
   Type: Array
 
-  Each `appComponents` array item includes the following fields:   - `name`
+  Each `appComponents` array item includes the following fields:
+    - `name`
 
   Name of the Application Component.
 
@@ -2720,8 +2730,8 @@ Adds or updates the app template for an Resilience Hub application draft version
   call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html).
 
   !!! note
-      Currently, this parameter accepts a key-value mapping (in a string format) of only
-      one failover region and one associated account.
+      Currently, this parameter accepts a key-value mapping (in a string format) of only one
+      failover region and one associated account.
 
       Key: `"failover-regions"`
 
@@ -2736,20 +2746,22 @@ Adds or updates the app template for an Resilience Hub application draft version
   !!! note
       Don't add the resources that you want to include.
 
-  Each `excludedResources` array item includes the following fields:   -
-  *`logicalResourceIds`*
+  Each `excludedResources` array item includes the following fields:
+    - *`logicalResourceIds`*
 
   Logical identifier of the resource.
 
   Type: Object
 
   !!! note
-      You can configure only one of the following fields:     - `logicalStackName`
+      You can configure only one of the following fields:
+          - `logicalStackName`
           - `resourceGroupName`
           - `terraformSourceName`
           - `eksSourceName`
 
-  Each `logicalResourceIds` object includes the following fields:     - `identifier`
+  Each `logicalResourceIds` object includes the following fields:
+      - `identifier`
 
   Identifier of the resource.
 
@@ -2771,8 +2783,8 @@ Adds or updates the app template for an Resilience Hub application draft version
   Type: String
       - `eksSourceName`
 
-  Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource
-  belongs to.
+  Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs
+  to.
 
   !!! note
       This parameter accepts values in "eks-cluster/namespace" format.
@@ -2788,13 +2800,12 @@ Adds or updates the app template for an Resilience Hub application draft version
   call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html).
 
   !!! note
-      Currently, this parameter accepts a key-value mapping (in a string format) of only
-      one failover region and one associated account.
+      Currently, this parameter accepts a key-value mapping (in a string format) of only one
+      failover region and one associated account.
 
       Key: `"failover-regions"`
 
       Value: `"[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"`
-
 """
 function put_draft_app_version_template end
 
@@ -2898,6 +2909,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"appRegistryAppNames"`: The names of the registered applications you want to remove from
   the resource mappings.
+
 - `"eksSourceNames"`: The names of the Amazon Elastic Kubernetes Service clusters and
   namespaces you want to remove from the resource mappings.
 
@@ -2906,10 +2918,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"logicalStackNames"`: The names of the CloudFormation stacks you want to remove from the
   resource mappings.
+
 - `"resourceGroupNames"`: The names of the resource groups you want to remove from the
   resource mappings.
+
 - `"resourceNames"`: The names of the resources you want to remove from the resource
   mappings.
+
 - `"terraformSourceNames"`: The names of the Terraform sources you want to remove from the
   resource mappings.
 """
@@ -3007,11 +3022,11 @@ Creates a new application assessment for an application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
-  sensitive string of up to 64 ASCII characters. You should not reuse the same client
-  token for other API requests.
-- `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon
-  Web Services resource. Each tag consists of a key/value pair.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
+- `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon Web
+  Services resource. Each tag consists of a key/value pair.
 """
 function start_app_assessment end
 
@@ -3199,8 +3214,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"eventSubscriptions"`: The list of events you would like to subscribe and get
   notification for. Currently, Resilience Hub supports notifications only for **Drift
   detected** and **Scheduled assessment failure** events.
-- `"permissionModel"`: Defines the roles and credentials that Resilience Hub would use
-  while creating an application, importing its resources, and running an assessment.
+- `"permissionModel"`: Defines the roles and credentials that Resilience Hub would use while
+  creating an application, importing its resources, and running an assessment.
 - `"policyArn"`: Amazon Resource Name (ARN) of the resiliency policy. The format for this
   ARN is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`.
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
@@ -3252,18 +3267,17 @@ Updates the Resilience Hub application version.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"additionalInfo"`: Additional configuration parameters for an Resilience Hub
-  application. If you want to implement `additionalInfo` through the Resilience Hub
-  console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html).
+- `"additionalInfo"`: Additional configuration parameters for an Resilience Hub application.
+  If you want to implement `additionalInfo` through the Resilience Hub console rather than
+  using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html).
 
   !!! note
-      Currently, this parameter accepts a key-value mapping (in a string format) of only
-      one failover region and one associated account.
+      Currently, this parameter accepts a key-value mapping (in a string format) of only one
+      failover region and one associated account.
 
       Key: `"failover-regions"`
 
       Value: `"[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"`
-
 """
 function update_app_version end
 
@@ -3297,8 +3311,8 @@ Updates an existing Application Component in the Resilience Hub application.
 
 !!! note
     This API updates the Resilience Hub application draft version. To use this Application
-    Component for running assessments, you must publish the Resilience Hub application
-    using the `PublishAppVersion` API.
+    Component for running assessments, you must publish the Resilience Hub application using
+    the `PublishAppVersion` API.
 
 # Arguments
 
@@ -3375,18 +3389,25 @@ Updates the resource details in the Resilience Hub application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"additionalInfo"`: Currently, there is no supported additional information for resources.
+
 - `"appComponents"`: List of Application Components that this resource belongs to. If an
   Application Component is not part of the Resilience Hub application, it will be added.
+
 - `"awsAccountId"`: Amazon Web Services account that owns the physical resource.
+
 - `"awsRegion"`: Amazon Web Services region that owns the physical resource.
+
 - `"excluded"`: Indicates if a resource is excluded from an Resilience Hub application.
 
   !!! note
       You can exclude only imported resources from an Resilience Hub application.
 
 - `"logicalResourceId"`: Logical identifier of the resource.
+
 - `"physicalResourceId"`: Physical identifier of the resource.
+
 - `"resourceName"`: Name of the resource.
+
 - `"resourceType"`: Type of resource.
 """
 function update_app_version_resource end
@@ -3431,9 +3452,9 @@ Updates a resiliency policy.
 
 # Arguments
 
-- `policy_arn`: Amazon Resource Name (ARN) of the resiliency policy. The format for this
-  ARN is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`.
-  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+- `policy_arn`: Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN
+  is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`. For
+  more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters

@@ -8,13 +8,13 @@ using AWS.UUIDs
     accept_administrator_invitation(administrator_id, detector_id, invitation_id)
     accept_administrator_invitation(administrator_id, detector_id, invitation_id, params::Dict{String,<:Any})
 
-Accepts the invitation to be a member account and get monitored by a GuardDuty
-administrator account that sent the invitation.
+Accepts the invitation to be a member account and get monitored by a GuardDuty administrator
+account that sent the invitation.
 
 # Arguments
 
-- `administrator_id`: The account ID of the GuardDuty administrator account whose
-  invitation you're accepting.
+- `administrator_id`: The account ID of the GuardDuty administrator account whose invitation
+  you're accepting.
 - `detector_id`: The unique ID of the detector of the GuardDuty member account.
 - `invitation_id`: The value that is used to validate the administrator account to the
   member account.
@@ -73,8 +73,8 @@ Accepts the invitation to be monitored by a GuardDuty administrator account.
 - `detector_id`: The unique ID of the detector of the GuardDuty member account.
 - `invitation_id`: The value that is used to validate the administrator account to the
   member account.
-- `master_id`: The account ID of the GuardDuty administrator account whose invitation
-  you're accepting.
+- `master_id`: The account ID of the GuardDuty administrator account whose invitation you're
+  accepting.
 """
 function accept_invitation end
 
@@ -170,8 +170,8 @@ are enabled in a new detector by default.
 
 - When you don't specify any `features`, with an exception to `RUNTIME_MONITORING`, all the
   optional features are enabled by default.
-- When you specify some of the `features`, any feature that is not specified in the API
-  call gets enabled by default, with an exception to `RUNTIME_MONITORING`.
+- When you specify some of the `features`, any feature that is not specified in the API call
+  gets enabled by default, with an exception to `RUNTIME_MONITORING`.
 
 Specifying both EKS Runtime Monitoring (`EKS_RUNTIME_MONITORING`) and Runtime Monitoring
 (`RUNTIME_MONITORING`) will cause an error. You can add only one of these two features
@@ -191,14 +191,18 @@ information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/l
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: The idempotency token for the create request.
+
 - `"dataSources"`: Describes which data sources will be enabled for the detector.
 
   There might be regional differences because some data sources might not be available in
   all the Amazon Web Services Regions where GuardDuty is presently supported. For more
   information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+
 - `"features"`: A list of features that will be configured for the detector.
-- `"findingPublishingFrequency"`: A value that specifies how frequently updated findings
-  are exported.
+
+- `"findingPublishingFrequency"`: A value that specifies how frequently updated findings are
+  exported.
+
 - `"tags"`: The tags to be added to a new detector resource.
 """
 function create_detector end
@@ -242,6 +246,7 @@ per Amazon Web Services account per Region is 100. For more information, see [Qu
 
 - `detector_id`: The ID of the detector belonging to the GuardDuty account that you want to
   create a filter for.
+
 - `finding_criteria`: Represents the criteria to be used in the filter for querying
   findings.
 
@@ -252,17 +257,17 @@ per Amazon Web Services account per Region is 100. For more information, see [Qu
   - region
   - severity
 
-  To filter on the basis of severity, the API and CLI use the following input list for
-  the [FindingCriteria](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_FindingCriteria.html)
-  condition:   - **Low**: `["1", "2", "3"]`
+  To filter on the basis of severity, the API and CLI use the following input list for the [FindingCriteria](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_FindingCriteria.html)
+  condition:
+    - **Low**: `["1", "2", "3"]`
     - **Medium**: `["4", "5", "6"]`
     - **High**: `["7", "8", "9"]`
-   For more information, see [Severity levels for GuardDuty findings](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity).
+  For more information, see [Severity levels for GuardDuty findings](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity).
   - type
   - updatedAt
 
-  Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ
-  depending on whether the value contains milliseconds.
+  Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending
+  on whether the value contains milliseconds.
   - resource.accessKeyDetails.accessKeyId
   - resource.accessKeyDetails.principalId
   - resource.accessKeyDetails.userName
@@ -334,7 +339,8 @@ per Amazon Web Services account per Region is 100. For more information, see [Qu
   - service.ebsVolumeScanDetails.scanId
   - service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name
   - service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity
-  - service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash
+  -
+    service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash
   - resource.ecsClusterDetails.name
   - resource.ecsClusterDetails.taskDetails.containers.image
   - resource.ecsClusterDetails.taskDetails.definitionArn
@@ -364,9 +370,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter.
 - `"clientToken"`: The idempotency token for the create request.
 - `"description"`: The description of the filter. Valid characters include alphanumeric
-  characters, and special characters such as hyphen, period, colon, underscore,
-  parentheses (`{ }`, `[ ]`, and `( )`), forward slash, horizontal tab, vertical tab,
-  newline, form feed, return, and whitespace.
+  characters, and special characters such as hyphen, period, colon, underscore, parentheses
+  (`{ }`, `[ ]`, and `( )`), forward slash, horizontal tab, vertical tab, newline, form
+  feed, return, and whitespace.
 - `"rank"`: Specifies the position of the filter in the list of current filters. Also
   specifies the order in which this filter is applied to the findings.
 - `"tags"`: The tags to be added to a new filter resource.
@@ -429,10 +435,14 @@ this operation.
 
 - `activate`: A Boolean value that indicates whether GuardDuty is to start using the
   uploaded IPSet.
+
 - `detector_id`: The unique ID of the detector of the GuardDuty account that you want to
   create an IPSet for.
+
 - `format`: The format of the file that contains the IPSet.
+
 - `location`: The URI of the file that contains the IPSet.
+
 - `name`: The user-friendly name to identify the IPSet.
 
   Allowed characters are alphanumeric, whitespace, dash (-), and underscores (_).
@@ -510,9 +520,9 @@ GuardDuty Malware Protection apply. For more information, see [Amazon Web Servic
 
 # Arguments
 
-- `protected_resource`: Information about the protected resource that is associated with
-  the created Malware Protection plan. Presently, `S3Bucket` is the only supported
-  protected resource.
+- `protected_resource`: Information about the protected resource that is associated with the
+  created Malware Protection plan. Presently, `S3Bucket` is the only supported protected
+  resource.
 - `role`: IAM role with permissions required to scan and add tags to the associated
   protected resource.
 
@@ -588,8 +598,8 @@ existing auto-enable settings for your organization, see [DescribeOrganizationCo
 If you disassociate a member account that was added by invitation, the member account
 details obtained from this API, including the associated email addresses, will be retained.
 This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html)
-API without the need to invoke the CreateMembers API again. To remove the details
-associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
+API without the need to invoke the CreateMembers API again. To remove the details associated
+with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
 API.
 
 When the member accounts added through Organizations are later disassociated, you
@@ -643,8 +653,8 @@ must exist before you use this operation.
 
 # Arguments
 
-- `destination_properties`: The properties of the publishing destination, including the
-  ARNs for the destination and the KMS key used for encryption.
+- `destination_properties`: The properties of the publishing destination, including the ARNs
+  for the destination and the KMS key used for encryption.
 - `destination_type`: The type of resource for the publishing destination. Currently only
   Amazon S3 buckets are supported.
 - `detector_id`: The ID of the GuardDuty detector associated with the publishing
@@ -1027,9 +1037,9 @@ end
     delete_malware_protection_plan(malware_protection_plan_id)
     delete_malware_protection_plan(malware_protection_plan_id, params::Dict{String,<:Any})
 
-Deletes the Malware Protection plan ID associated with the Malware Protection plan
-resource. Use this API only when you no longer want to protect the resource associated with
-this Malware Protection plan ID.
+Deletes the Malware Protection plan ID associated with the Malware Protection plan resource.
+Use this API only when you no longer want to protect the resource associated with this
+Malware Protection plan ID.
 
 # Arguments
 
@@ -1067,8 +1077,8 @@ end
     delete_members(account_ids, detector_id)
     delete_members(account_ids, detector_id, params::Dict{String,<:Any})
 
-Deletes GuardDuty member accounts (to the current GuardDuty administrator account)
-specified by the account IDs.
+Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified
+by the account IDs.
 
 With `autoEnableOrganizationMembers` configuration for your organization set to `ALL`,
 you'll receive an error if you attempt to disable GuardDuty for a member account in your
@@ -1121,8 +1131,8 @@ Deletes the publishing definition with the specified `destinationId`.
 # Arguments
 
 - `destination_id`: The ID of the publishing destination to delete.
-- `detector_id`: The unique ID of the detector associated with the publishing destination
-  to delete.
+- `detector_id`: The unique ID of the detector associated with the publishing destination to
+  delete.
 """
 function delete_publishing_destination end
 
@@ -1252,8 +1262,7 @@ end
     describe_organization_configuration(detector_id)
     describe_organization_configuration(detector_id, params::Dict{String,<:Any})
 
-Returns information about the account selected as the delegated administrator for
-GuardDuty.
+Returns information about the account selected as the delegated administrator for GuardDuty.
 
 There might be regional differences because some data sources might not be available in all
 the Amazon Web Services Regions where GuardDuty is presently supported. For more
@@ -1312,8 +1321,8 @@ Returns information about the publishing destination specified by the provided
 # Arguments
 
 - `destination_id`: The ID of the publishing destination to retrieve.
-- `detector_id`: The unique ID of the detector associated with the publishing destination
-  to retrieve.
+- `detector_id`: The unique ID of the detector associated with the publishing destination to
+  retrieve.
 """
 function describe_publishing_destination end
 
@@ -1352,8 +1361,8 @@ organization's management account can run this API operation.
 
 # Arguments
 
-- `admin_account_id`: The Amazon Web Services Account ID for the organizations account to
-  be disabled as a GuardDuty delegated administrator.
+- `admin_account_id`: The Amazon Web Services Account ID for the organizations account to be
+  disabled as a GuardDuty delegated administrator.
 """
 function disable_organization_admin_account end
 
@@ -1391,12 +1400,12 @@ end
 
 Disassociates the current GuardDuty member account from its administrator account.
 
-When you disassociate an invited member from a GuardDuty delegated administrator, the
-member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html)
+When you disassociate an invited member from a GuardDuty delegated administrator, the member
+account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html)
 API, including the associated email addresses, are retained. This is done so that the
 delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html)
-API without the need to invoke the CreateMembers API again. To remove the details
-associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
+API without the need to invoke the CreateMembers API again. To remove the details associated
+with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
 API.
 
 With `autoEnableOrganizationMembers` configuration for your organization set to `ALL`,
@@ -1439,12 +1448,12 @@ end
 
 Disassociates the current GuardDuty member account from its administrator account.
 
-When you disassociate an invited member from a GuardDuty delegated administrator, the
-member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html)
+When you disassociate an invited member from a GuardDuty delegated administrator, the member
+account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html)
 API, including the associated email addresses, are retained. This is done so that the
 delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html)
-API without the need to invoke the CreateMembers API again. To remove the details
-associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
+API without the need to invoke the CreateMembers API again. To remove the details associated
+with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
 API.
 
 # Arguments
@@ -1485,23 +1494,23 @@ end
 Disassociates GuardDuty member accounts (from the current administrator account) specified
 by the account IDs.
 
-When you disassociate an invited member from a GuardDuty delegated administrator, the
-member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html)
+When you disassociate an invited member from a GuardDuty delegated administrator, the member
+account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html)
 API, including the associated email addresses, are retained. This is done so that the
 delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html)
-API without the need to invoke the CreateMembers API again. To remove the details
-associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
+API without the need to invoke the CreateMembers API again. To remove the details associated
+with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
 API.
 
 With `autoEnableOrganizationMembers` configuration for your organization set to `ALL`,
-you'll receive an error if you attempt to disassociate a member account before removing
-them from your organization.
+you'll receive an error if you attempt to disassociate a member account before removing them
+from your organization.
 
 If you disassociate a member account that was added by invitation, the member account
 details obtained from this API, including the associated email addresses, will be retained.
 This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html)
-API without the need to invoke the CreateMembers API again. To remove the details
-associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
+API without the need to invoke the CreateMembers API again. To remove the details associated
+with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
 API.
 
 When the member accounts added through Organizations are later disassociated, you
@@ -1636,9 +1645,9 @@ end
     get_coverage_statistics(detector_id, statistics_type, params::Dict{String,<:Any})
 
 Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you
-can retrieve the statistics for all the resources associated with the active member
-accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty
-security agent running on their resources.
+can retrieve the statistics for all the resources associated with the active member accounts
+in your organization who have enabled Runtime Monitoring and have the GuardDuty security
+agent running on their resources.
 
 # Arguments
 
@@ -1821,8 +1830,8 @@ Regions where GuardDuty is currently supported. For more information, see [Regio
 
 # Arguments
 
-- `detector_id`: The ID of the detector that specifies the GuardDuty service whose
-  findings' statistics you want to retrieve.
+- `detector_id`: The ID of the detector that specifies the GuardDuty service whose findings'
+  statistics you want to retrieve.
 - `finding_statistic_types`: The types of finding statistics to retrieve.
 
 # Optional Parameters
@@ -2140,8 +2149,8 @@ end
     get_organization_statistics()
     get_organization_statistics(params::Dict{String,<:Any})
 
-Retrieves how many active member accounts have each feature enabled within GuardDuty. Only
-a delegated GuardDuty administrator of an organization can run this API.
+Retrieves how many active member accounts have each feature enabled within GuardDuty. Only a
+delegated GuardDuty administrator of an organization can run this API.
 
 When you create a new organization, it might take up to 24 hours to generate the statistics
 for the entire organization.
@@ -2255,10 +2264,10 @@ end
     get_usage_statistics(detector_id, usage_criteria, usage_statistics_type)
     get_usage_statistics(detector_id, usage_criteria, usage_statistics_type, params::Dict{String,<:Any})
 
-Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector
-ID. For newly enabled detectors or data sources, the cost returned will include only the
-usage so far under 30 days. This may differ from the cost metrics in the console, which
-project usage over 30 days to provide a monthly cost estimate. For more information, see [Understanding How Usage Costs are Calculated](https://docs.aws.amazon.com/guardduty/latest/ug/monitoring_costs.html#usage-calculations).
+Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID.
+For newly enabled detectors or data sources, the cost returned will include only the usage
+so far under 30 days. This may differ from the cost metrics in the console, which project
+usage over 30 days to provide a monthly cost estimate. For more information, see [Understanding How Usage Costs are Calculated](https://docs.aws.amazon.com/guardduty/latest/ug/monitoring_costs.html#usage-calculations).
 
 # Arguments
 
@@ -2274,10 +2283,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to
-  continue listing results after the first page.
-- `"unit"`: The currency unit you would like to view your usage statistics in. Current
-  valid values are USD.
+  subsequent calls, use the NextToken value returned from the previous request to continue
+  listing results after the first page.
+- `"unit"`: The currency unit you would like to view your usage statistics in. Current valid
+  values are USD.
 """
 function get_usage_statistics end
 
@@ -2338,8 +2347,7 @@ invitation. The invited accounts can either accept or decline the invitation fro
 GuardDuty accounts. Each invited Amazon Web Services account can choose to accept the
 invitation from only one Amazon Web Services account. For more information, see [Managing GuardDuty accounts by invitation](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_invitations.html).
 
-After the invite has been accepted and you choose to disassociate a member account (by
-using [DisassociateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DisassociateMembers.html))
+After the invite has been accepted and you choose to disassociate a member account (by using [DisassociateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DisassociateMembers.html))
 from your account, the details of the member account obtained by invoking [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html),
 including the associated email addresses, will be retained. This is done so that you can
 invoke InviteMembers without the need to invoke [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html)
@@ -2348,8 +2356,8 @@ again. To remove the details associated with a member account, you must also inv
 If you disassociate a member account that was added by invitation, the member account
 details obtained from this API, including the associated email addresses, will be retained.
 This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html)
-API without the need to invoke the CreateMembers API again. To remove the details
-associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
+API without the need to invoke the CreateMembers API again. To remove the details associated
+with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html)
 API.
 
 When the member accounts added through Organizations are later disassociated, you
@@ -2425,8 +2433,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to
-  continue listing results after the first page.
+  subsequent calls, use the NextToken value returned from the previous request to continue
+  listing results after the first page.
 - `"sortCriteria"`: Represents the criteria used to sort the coverage details.
 """
 function list_coverage end
@@ -2600,9 +2608,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - service.additionalInfo.threatListName
   - service.archived
 
-  When this attribute is set to 'true', only archived findings are listed. When it's set
-  to 'false', only unarchived findings are listed. When this attribute is not set, all
-  existing findings are listed.
+  When this attribute is set to 'true', only archived findings are listed. When it's set to
+  'false', only unarchived findings are listed. When this attribute is not set, all existing
+  findings are listed.
   - service.resourceRole
   - severity
   - type
@@ -2612,10 +2620,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items you
   want in the response. The default value is 50. The maximum value is 50.
+
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
   parameter to null on your first call to the list action. For subsequent calls to the
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
+
 - `"sortCriteria"`: Represents the criteria used for sorting findings.
 """
 function list_findings end
@@ -2647,8 +2657,8 @@ end
     list_invitations()
     list_invitations(params::Dict{String,<:Any})
 
-Lists all GuardDuty membership invitations that were sent to the current Amazon Web
-Services account.
+Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services
+account.
 
 # Optional Parameters
 
@@ -2729,8 +2739,8 @@ end
     list_malware_protection_plans()
     list_malware_protection_plans(params::Dict{String,<:Any})
 
-Lists the Malware Protection plan IDs associated with the protected resources in your
-Amazon Web Services account.
+Lists the Malware Protection plan IDs associated with the protected resources in your Amazon
+Web Services account.
 
 # Optional Parameters
 
@@ -2818,8 +2828,8 @@ end
     list_organization_admin_accounts()
     list_organization_admin_accounts(params::Dict{String,<:Any})
 
-Lists the accounts designated as GuardDuty delegated administrators. Only the
-organization's management account can run this API operation.
+Lists the accounts designated as GuardDuty delegated administrators. Only the organization's
+management account can run this API operation.
 
 # Optional Parameters
 
@@ -2828,8 +2838,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the `NextToken` value returned from the previous request to
-  continue listing results after the first page.
+  subsequent calls, use the `NextToken` value returned from the previous request to continue
+  listing results after the first page.
 """
 function list_organization_admin_accounts end
 
@@ -2866,8 +2876,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the `NextToken` value returned from the previous request to
-  continue listing results after the first page.
+  subsequent calls, use the `NextToken` value returned from the previous request to continue
+  listing results after the first page.
 """
 function list_publishing_destinations end
 
@@ -2900,9 +2910,9 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists tags for a resource. Tagging is currently supported for detectors, finding filters,
-IP sets, threat intel sets, and publishing destination, with a limit of 50 tags per
-resource. When invoked, this operation returns all assigned tags for a given resource.
+Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP
+sets, threat intel sets, and publishing destination, with a limit of 50 tags per resource.
+When invoked, this operation returns all assigned tags for a given resource.
 
 # Arguments
 
@@ -3269,8 +3279,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   There might be regional differences because some data sources might not be available in
   all the Amazon Web Services Regions where GuardDuty is presently supported. For more
   information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+
 - `"enable"`: Specifies whether the detector is enabled or not enabled.
+
 - `"features"`: Provides the features that will be updated for the detector.
+
 - `"findingPublishingFrequency"`: An enum value that specifies how frequently findings are
   exported, such as to CloudWatch Events.
 """
@@ -3318,9 +3331,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"action"`: Specifies the action that is to be applied to the findings that match the
   filter.
 - `"description"`: The description of the filter. Valid characters include alphanumeric
-  characters, and special characters such as hyphen, period, colon, underscore,
-  parentheses (`{ }`, `[ ]`, and `( )`), forward slash, horizontal tab, vertical tab,
-  newline, form feed, return, and whitespace.
+  characters, and special characters such as hyphen, period, colon, underscore, parentheses
+  (`{ }`, `[ ]`, and `( )`), forward slash, horizontal tab, vertical tab, newline, form
+  feed, return, and whitespace.
 - `"findingCriteria"`: Represents the criteria to be used in the filter for querying
   findings.
 - `"rank"`: Specifies the position of the filter in the list of current filters. Also
@@ -3416,8 +3429,8 @@ Updates the IPSet specified by the IPSet ID.
 
 # Arguments
 
-- `detector_id`: The detectorID that specifies the GuardDuty service whose IPSet you want
-  to update.
+- `detector_id`: The detectorID that specifies the GuardDuty service whose IPSet you want to
+  update.
 - `ip_set_id`: The unique ID that specifies the IPSet that you want to update.
 
 # Optional Parameters
@@ -3474,8 +3487,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"actions"`: Information about whether the tags will be added to the S3 object after
   scanning.
 - `"protectedResource"`: Information about the protected resource that is associated with
-  the created Malware Protection plan. Presently, `S3Bucket` is the only supported
-  protected resource.
+  the created Malware Protection plan. Presently, `S3Bucket` is the only supported protected
+  resource.
 - `"role"`: IAM role with permissions required to scan and add tags to the associated
   protected resource.
 """
@@ -3642,32 +3655,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoEnable"`: Represents whether or not to automatically enable member accounts in the
   organization.
 
-  Even though this is still supported, we recommend using `AutoEnableOrganizationMembers`
-  to achieve the similar results. You must provide a value for either
+  Even though this is still supported, we recommend using `AutoEnableOrganizationMembers` to
+  achieve the similar results. You must provide a value for either
   `autoEnableOrganizationMembers` or `autoEnable`.
+
 - `"autoEnableOrganizationMembers"`: Indicates the auto-enablement configuration of
-  GuardDuty for the member accounts in the organization. You must provide a value for
-  either `autoEnableOrganizationMembers` or `autoEnable`.
+  GuardDuty for the member accounts in the organization. You must provide a value for either
+  `autoEnableOrganizationMembers` or `autoEnable`.
 
   Use one of the following configuration values for `autoEnableOrganizationMembers`:
 
   - `NEW`: Indicates that when a new account joins the organization, they will have
     GuardDuty enabled automatically.
   - `ALL`: Indicates that all accounts in the organization have GuardDuty enabled
-    automatically. This includes `NEW` accounts that join the organization and accounts
-    that may have been suspended or removed from the organization in GuardDuty.
+    automatically. This includes `NEW` accounts that join the organization and accounts that
+    may have been suspended or removed from the organization in GuardDuty.
 
   It may take up to 24 hours to update the configuration for all the member accounts.
   - `NONE`: Indicates that GuardDuty will not be automatically enabled for any account in
     the organization. The administrator must manage GuardDuty for each account in the
     organization individually.
 
-  When you update the auto-enable setting from `ALL` or `NEW` to `NONE`, this action
-  doesn't disable the corresponding option for your existing accounts. This configuration
-  will apply to the new accounts that join the organization. After you update the auto-
-  enable settings, no new account will have the corresponding option as enabled.
+  When you update the auto-enable setting from `ALL` or `NEW` to `NONE`, this action doesn't
+  disable the corresponding option for your existing accounts. This configuration will apply
+  to the new accounts that join the organization. After you update the auto-enable settings,
+  no new account will have the corresponding option as enabled.
 
 - `"dataSources"`: Describes which data sources will be updated.
+
 - `"features"`: A list of features that will be configured for the organization.
 """
 function update_organization_configuration end

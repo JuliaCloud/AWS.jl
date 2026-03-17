@@ -89,13 +89,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubChannelId"`: The ID of the SubChannel in the request.
 
   !!! note
-      Only required when creating membership in a SubChannel for a moderator in an
-      elastic channel.
+      Only required when creating membership in a SubChannel for a moderator in an elastic
+      channel.
 
-- `"Type"`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are
-  always returned as part of `ListChannelMemberships`. Hidden members are only returned
-  if the type filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden
-  members are not returned. This is only supported by moderators.
+- `"Type"`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are always
+  returned as part of `ListChannelMemberships`. Hidden members are only returned if the type
+  filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are not
+  returned. This is only supported by moderators.
 """
 function batch_create_channel_membership end
 
@@ -158,8 +158,8 @@ You can return one of the following processing responses:
 
 # Arguments
 
-- `callback_id`: The identifier passed to the processor by the service when invoked. Use
-  the identifier to call back the service.
+- `callback_id`: The identifier passed to the processor by the service when invoked. Use the
+  identifier to call back the service.
 - `channel_message`: Stores information about the processed message.
 - `channel_arn`: The ARN of the channel.
 
@@ -249,8 +249,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrators and moderators can add members to restricted channels.
 - `"ModeratorArns"`: The ARNs of the channel moderators in the request.
 - `"Privacy"`: The channel's privacy level: `PUBLIC` or `PRIVATE`. Private channels aren't
-  discoverable by users outside the channel. Public channels are discoverable by anyone
-  in the `AppInstance`.
+  discoverable by users outside the channel. Public channels are discoverable by anyone in
+  the `AppInstance`.
 - `"Tags"`: The tags for the creation request.
 """
 function create_channel end
@@ -378,15 +378,16 @@ end
     create_channel_flow(app_instance_arn, client_request_token, name, processors)
     create_channel_flow(app_instance_arn, client_request_token, name, processors, params::Dict{String,<:Any})
 
-Creates a channel flow, a container for processors. Processors are AWS Lambda functions
-that perform actions on chat messages, such as stripping out profanity. You can associate
-channel flows with channels, and the processors in the channel flow then take action on all
-messages sent to that channel. This is a developer API.
+Creates a channel flow, a container for processors. Processors are AWS Lambda functions that
+perform actions on chat messages, such as stripping out profanity. You can associate channel
+flows with channels, and the processors in the channel flow then take action on all messages
+sent to that channel. This is a developer API.
 
 Channel flows process the following items:
 
-1. New and updated messages2. Persistent and non-persistent messages3. The Standard message
-   type
+1. New and updated messages
+2. Persistent and non-persistent messages
+3. The Standard message type
 
 !!! note
     Channel flows don't process Control or System messages. For more information about the
@@ -461,8 +462,8 @@ end
     create_channel_membership(member_arn, type, channel_arn, x-amz-chime-bearer)
     create_channel_membership(member_arn, type, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Adds a member to a channel. The `InvitedBy` field in `ChannelMembership` is derived from
-the request header. A channel member can:
+Adds a member to a channel. The `InvitedBy` field in `ChannelMembership` is derived from the
+request header. A channel member can:
 
 - List messages
 - Send messages
@@ -472,8 +473,8 @@ the request header. A channel member can:
 
 Privacy settings impact this action as follows:
 
-- Public Channels: You do not need to be a member to list messages, but you must be a
-  member to send messages.
+- Public Channels: You do not need to be a member to list messages, but you must be a member
+  to send messages.
 - Private Channels: You must be a member to list or send messages.
 
 !!! note
@@ -485,9 +486,9 @@ Privacy settings impact this action as follows:
 
 - `member_arn`: The `AppInstanceUserArn` of the member you want to add to the channel.
 - `type`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are always
-  returned as part of `ListChannelMemberships`. Hidden members are only returned if the
-  type filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are
-  not returned. This is only supported by moderators.
+  returned as part of `ListChannelMemberships`. Hidden members are only returned if the type
+  filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are not
+  returned. This is only supported by moderators.
 - `channel_arn`: The ARN of the channel to which you're adding users.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
@@ -499,9 +500,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubChannelId"`: The ID of the SubChannel in the request.
 
   !!! note
-      Only required when creating membership in a SubChannel for a moderator in an
-      elastic channel.
-
+      Only required when creating membership in a SubChannel for a moderator in an elastic
+      channel.
 """
 function create_channel_membership end
 
@@ -567,8 +567,8 @@ Creates a new `ChannelModerator`. A channel moderator can:
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-    `AppInstanceUser` or `AppInstanceBot`of the user that makes the API call as the value
-    in the header.
+    `AppInstanceUser` or `AppInstanceBot`of the user that makes the API call as the value in
+    the header.
 
 # Arguments
 
@@ -812,7 +812,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Only for use by moderators.
-
 """
 function delete_channel_membership end
 
@@ -886,7 +885,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Only required when deleting messages in a SubChannel that the user belongs to.
-
 """
 function delete_channel_message end
 
@@ -1216,7 +1214,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Only required to get a user’s SubChannel membership details.
-
 """
 function describe_channel_membership end
 
@@ -1457,8 +1454,8 @@ end
     disassociate_channel_flow(channel_arn, channel_flow_arn, x-amz-chime-bearer)
     disassociate_channel_flow(channel_arn, channel_flow_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Disassociates a channel flow from all its channels. Once disassociated, all messages to
-that channel stop going through the channel flow processor.
+Disassociates a channel flow from all its channels. Once disassociated, all messages to that
+channel stop going through the channel flow processor.
 
 !!! note
     Only administrators or channel moderators can disassociate a channel flow.
@@ -1522,8 +1519,8 @@ end
     get_channel_membership_preferences(channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Gets the membership preferences of an `AppInstanceUser` or `AppInstanceBot` for the
-specified channel. A user or a bot must be a member of the channel and own the membership
-in order to retrieve membership preferences. Users or bots in the `AppInstanceAdmin` and
+specified channel. A user or a bot must be a member of the channel and own the membership in
+order to retrieve membership preferences. Users or bots in the `AppInstanceAdmin` and
 channel moderator roles can't retrieve preferences for other users or bots. Banned users or
 bots can't retrieve membership preferences for the channel from which they are banned.
 
@@ -1609,7 +1606,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Only required when getting messages in a SubChannel that the user belongs to.
-
 """
 function get_channel_message end
 
@@ -1660,9 +1656,9 @@ end
     get_channel_message_status(channel_arn, message_id, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Gets message status for a specified `messageId`. Use this API to determine the intermediate
-status of messages going through channel flow processing. The API provides an alternative
-to retrieving message status if the event was not received because a client wasn't
-connected to a websocket.
+status of messages going through channel flow processing. The API provides an alternative to
+retrieving message status if the event was not received because a client wasn't connected to
+a websocket.
 
 Messages can have any one of these statuses.
 
@@ -1704,7 +1700,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Only required when getting message status in a SubChannel that the user belongs to.
-
 """
 function get_channel_message_status end
 
@@ -1960,8 +1955,10 @@ API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"max-results"`: The maximum number of channel memberships that you want returned.
+
 - `"next-token"`: The token passed by previous API calls until all requested channel
   memberships are returned.
+
 - `"sub-channel-id"`: The ID of the SubChannel in the request.
 
   !!! note
@@ -1969,8 +1966,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       elastic channel.
 
 - `"type"`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are
-  returned as part of `ListChannelMemberships` if no type is specified. Hidden members
-  are only returned if the type filter in `ListChannelMemberships` equals `HIDDEN`.
+  returned as part of `ListChannelMemberships` if no type is specified. Hidden members are
+  only returned if the type filter in `ListChannelMemberships` equals `HIDDEN`.
 """
 function list_channel_memberships end
 
@@ -2104,17 +2101,21 @@ default, sorted by creation timestamp in descending order.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"max-results"`: The maximum number of messages that you want returned.
+
 - `"next-token"`: The token passed by previous API calls until all requested messages are
   returned.
+
 - `"not-after"`: The final or ending time stamp for your requested messages.
+
 - `"not-before"`: The initial or starting time stamp for your requested messages.
+
 - `"sort-order"`: The order in which you want messages sorted. Default is Descending, based
   on time created.
+
 - `"sub-channel-id"`: The ID of the SubChannel in the request.
 
   !!! note
       Only required when listing the messages in a SubChannel that the user belongs to.
-
 """
 function list_channel_messages end
 
@@ -2371,8 +2372,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"app-instance-user-arn"`: The ARN of the user or bot in the moderated channel.
 - `"max-results"`: The maximum number of channels in the request.
-- `"next-token"`: The token returned from previous API requests until the number of
-  channels moderated by the user is reached.
+- `"next-token"`: The token returned from previous API requests until the number of channels
+  moderated by the user is reached.
 """
 function list_channels_moderated_by_app_instance_user end
 
@@ -2567,10 +2568,10 @@ end
     put_channel_membership_preferences(preferences, channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Sets the membership preferences of an `AppInstanceUser` or `AppInstanceBot` for the
-specified channel. The user or bot must be a member of the channel. Only the user or bot
-who owns the membership can set preferences. Users or bots in the `AppInstanceAdmin` and
-channel moderator roles can't set preferences for other users. Banned users or bots can't
-set membership preferences for the channel from which they are banned.
+specified channel. The user or bot must be a member of the channel. Only the user or bot who
+owns the membership can set preferences. Users or bots in the `AppInstanceAdmin` and channel
+moderator roles can't set preferences for other users. Banned users or bots can't set
+membership preferences for the channel from which they are banned.
 
 !!! note
     The x-amz-chime-bearer request header is mandatory. Use the ARN of an `AppInstanceUser`
@@ -2770,8 +2771,8 @@ or `AppInstanceBot` that makes the API call as the value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"max-results"`: The maximum number of channels that you want returned.
-- `"next-token"`: The token returned from previous API requests until the number of
-  channels is reached.
+- `"next-token"`: The token returned from previous API requests until the number of channels
+  is reached.
 - `"x-amz-chime-bearer"`: The `AppInstanceUserArn` of the user making the API call.
 """
 function search_channels end
@@ -2818,17 +2819,21 @@ Sends a message to a particular channel that the member is a part of.
 # Arguments
 
 - `client_request_token`: The `Idempotency` token for each client request.
+
 - `content`: The content of the channel message.
+
 - `persistence`: Boolean that controls whether the message is persisted on the back end.
   Required.
+
 - `type`: The type of message, `STANDARD` or `CONTROL`.
 
-  `STANDARD` messages can be up to 4KB in size and contain metadata. Metadata is
-  arbitrary, and you can use it in a variety of ways, such as containing a link to an
-  attachment.
+  `STANDARD` messages can be up to 4KB in size and contain metadata. Metadata is arbitrary,
+  and you can use it in a variety of ways, such as containing a link to an attachment.
 
   `CONTROL` messages are limited to 30 bytes and do not contain metadata.
+
 - `channel_arn`: The ARN of the channel.
+
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
 
@@ -2844,8 +2849,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubChannelId"`: The ID of the SubChannel in the request.
 - `"Target"`: The target of a message. Must be a member of the channel, such as another
   user, a bot, or the sender. Only the target and the sender can view targeted messages.
-  Only users who can see targeted messages can take actions on them. However,
-  administrators can delete targeted messages that they can’t see.
+  Only users who can see targeted messages can take actions on them. However, administrators
+  can delete targeted messages that they can’t see.
 """
 function send_channel_message end
 
@@ -3132,12 +3137,13 @@ Updates the content of a message.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ContentType"`: The content type of the channel message.
+
 - `"Metadata"`: The metadata of the message being updated.
+
 - `"SubChannelId"`: The ID of the SubChannel in the request.
 
   !!! note
       Only required when updating messages in a SubChannel that the user belongs to.
-
 """
 function update_channel_message end
 

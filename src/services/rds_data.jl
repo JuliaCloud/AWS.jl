@@ -19,11 +19,11 @@ improvement over individual insert and update operations.
     parameter, changes that result from the call are committed automatically.
 
     There isn't a fixed upper limit on the number of parameter sets. However, the maximum
-    size of the HTTP request submitted through the Data API is 4 MiB. If the request
-    exceeds this limit, the Data API returns an error and doesn't process the request. This
-    4-MiB limit includes the size of the HTTP headers and the JSON notation in the request.
-    Thus, the number of parameter sets that you can include depends on a combination of
-    factors, such as the size of the SQL statement and the size of each parameter set.
+    size of the HTTP request submitted through the Data API is 4 MiB. If the request exceeds
+    this limit, the Data API returns an error and doesn't process the request. This 4-MiB
+    limit includes the size of the HTTP headers and the JSON notation in the request. Thus,
+    the number of parameter sets that you can include depends on a combination of factors,
+    such as the size of the SQL statement and the size of each parameter set.
 
     The response size limit is 1 MiB. If the call returns more than 1 MiB of response data,
     the call is terminated.
@@ -31,10 +31,12 @@ improvement over individual insert and update operations.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+
 - `secret_arn`: The ARN of the secret that enables access to the DB cluster. Enter the
   database user name and password for the credentials in the secret.
 
   For information about creating the secret, see [Create a database secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html).
+
 - `sql`: The SQL statement to run. Don't include a semicolon (;) at the end of the SQL
   statement.
 
@@ -43,10 +45,11 @@ improvement over individual insert and update operations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"database"`: The name of the database.
+
 - `"parameterSets"`: The parameter set for the batch operation.
 
-  The SQL statement is executed as many times as the number of parameter sets provided.
-  To execute a SQL statement with no parameters, use one of the following options:
+  The SQL statement is executed as many times as the number of parameter sets provided. To
+  execute a SQL statement with no parameters, use one of the following options:
 
   - Specify one or more empty parameter sets.
   - Use the [`execute_statement`](@ref) operation instead of the [`batch_execute_statement`](@ref)
@@ -61,8 +64,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Currently, the `schema` parameter isn't supported.
 
 - `"transactionId"`: The identifier of a transaction that was started by using the [`begin_transaction`](@ref)
-  operation. Specify the transaction ID of the transaction that you want to include the
-  SQL statement in.
+  operation. Specify the transaction ID of the transaction that you want to include the SQL
+  statement in.
 
   If the SQL statement is not part of a transaction, don't set this parameter.
 """
@@ -238,8 +241,8 @@ Runs one or more SQL statements.
 
 !!! note
     This operation isn't supported for Aurora PostgreSQL Serverless v2 and provisioned DB
-    clusters, and for Aurora Serverless v1 DB clusters, the operation is deprecated. Use
-    the `BatchExecuteStatement` or [`execute_statement`](@ref) operation.
+    clusters, and for Aurora Serverless v1 DB clusters, the operation is deprecated. Use the
+    `BatchExecuteStatement` or [`execute_statement`](@ref) operation.
 
 # Arguments
 
@@ -248,7 +251,9 @@ Runs one or more SQL statements.
   secret.
 
   For information about creating the secret, see [Create a database secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html).
+
 - `db_cluster_or_instance_arn`: The ARN of the Aurora Serverless DB cluster.
+
 - `sql_statements`: One or more SQL statements to run on the DB cluster.
 
   You can separate SQL statements from each other with a semicolon (;). Any valid SQL
@@ -319,55 +324,59 @@ Runs a SQL statement against a database.
     If a call isn't part of a transaction because it doesn't include the `transactionID`
     parameter, changes that result from the call are committed automatically.
 
-    If the binary response data from the database is more than 1 MB, the call is
-    terminated.
+    If the binary response data from the database is more than 1 MB, the call is terminated.
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+
 - `secret_arn`: The ARN of the secret that enables access to the DB cluster. Enter the
   database user name and password for the credentials in the secret.
 
   For information about creating the secret, see [Create a database secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html).
+
 - `sql`: The SQL statement to run.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"continueAfterTimeout"`: A value that indicates whether to continue running the
-  statement after the call times out. By default, the statement stops running when the
-  call times out.
+- `"continueAfterTimeout"`: A value that indicates whether to continue running the statement
+  after the call times out. By default, the statement stops running when the call times out.
 
   !!! note
-      For DDL statements, we recommend continuing to run the statement after the call
-      times out. When a DDL statement terminates before it is finished running, it can
-      result in errors and possibly corrupted data structures.
+      For DDL statements, we recommend continuing to run the statement after the call times
+      out. When a DDL statement terminates before it is finished running, it can result in
+      errors and possibly corrupted data structures.
 
 - `"database"`: The name of the database.
+
 - `"formatRecordsAs"`: A value that indicates whether to format the result set as a single
-  JSON string. This parameter only applies to `SELECT` statements and is ignored for
-  other types of statements. Allowed values are `NONE` and `JSON`. The default value is
-  `NONE`. The result is returned in the `formattedRecords` field.
+  JSON string. This parameter only applies to `SELECT` statements and is ignored for other
+  types of statements. Allowed values are `NONE` and `JSON`. The default value is `NONE`.
+  The result is returned in the `formattedRecords` field.
 
   For usage information about the JSON format for result sets, see [Using the Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html)
   in the *Amazon Aurora User Guide*.
+
 - `"includeResultMetadata"`: A value that indicates whether to include metadata in the
   results.
+
 - `"parameters"`: The parameters for the SQL statement.
 
   !!! note
       Array parameters are not supported.
 
 - `"resultSetOptions"`: Options that control how the result set is returned.
+
 - `"schema"`: The name of the database schema.
 
   !!! note
       Currently, the `schema` parameter isn't supported.
 
 - `"transactionId"`: The identifier of a transaction that was started by using the [`begin_transaction`](@ref)
-  operation. Specify the transaction ID of the transaction that you want to include the
-  SQL statement in.
+  operation. Specify the transaction ID of the transaction that you want to include the SQL
+  statement in.
 
   If the SQL statement is not part of a transaction, don't set this parameter.
 """
