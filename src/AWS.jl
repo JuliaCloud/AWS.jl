@@ -2,7 +2,7 @@ module AWS
 
 using Compat: Compat
 using Base64
-using Dates
+using Dates: Dates, DateTime, @dateformat_str, now
 using Downloads: Downloads, Downloader, Curl
 using HTTP
 using JSON: JSON
