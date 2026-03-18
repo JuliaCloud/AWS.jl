@@ -79,11 +79,7 @@ function aws_account_number(aws::AWSConfig)
 end
 
 function _update_creds!(aws_config::AWSConfig)
-    response = AWSServices.sts(
-        "GetCallerIdentity";
-        aws_config=aws_config,
-        feature_set=FeatureSet(; use_response_type=true),
-    )
+    response = AWSServices.sts("GetCallerIdentity"; aws_config=aws_config)
     dict = parse(response)["GetCallerIdentityResult"]
     creds = aws_config.credentials
 

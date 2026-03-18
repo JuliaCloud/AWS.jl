@@ -46,8 +46,9 @@
 
     @testset "Fail 2 attempts then succeed" begin
         apply(_incomplete_patch(; data=data, num_attempts_to_fail=2)) do
-            retrieved = S3.get_object(bucket, key; aws_config=config)
+            response = S3.get_object(bucket, key; aws_config=config)
 
+            retrieved = parse(response)
             @test length(retrieved) == n
             @test retrieved == data
         end

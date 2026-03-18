@@ -237,7 +237,6 @@ end
             api_version="api_version",
             request_method="HEAD",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            use_response_type=true,
         )
         apply(Patches._aws_http_request_patch(Patches._response(; status=301))) do
             @test_throws AWSException AWS.submit_request(aws, request)
@@ -250,7 +249,6 @@ end
             api_version="api_version",
             request_method="HEAD",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            use_response_type=true,
         )
 
         response = apply(Patches._aws_http_request_patch()) do
@@ -279,7 +277,6 @@ end
             api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            use_response_type=true,
         )
 
         response = apply(Patches._aws_http_request_patch()) do
@@ -308,7 +305,6 @@ end
             api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            use_response_type=true,
         )
 
         retries = Ref{Int}(0)
@@ -339,7 +335,6 @@ end
             api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            use_response_type=true,
         )
 
         retries = Ref{Int}(0)
@@ -367,7 +362,6 @@ end
             api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            use_response_type=true,
         )
 
         message = "User is not authorized to perform: action on resource with an explicit deny"
@@ -403,7 +397,6 @@ end
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
             response_stream=buf,
-            use_response_type=true,
         )
         message = "User is not authorized to perform: action on resource with an explicit deny"
         # Simulate the HTTP.request behaviour with a HTTP 400 response
@@ -433,7 +426,6 @@ end
             api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            use_response_type=true,
         )
 
         @testset "invalid content type" begin
