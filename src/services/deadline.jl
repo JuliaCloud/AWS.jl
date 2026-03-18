@@ -1630,8 +1630,8 @@ attach farms to the monitor.
 
 # Arguments
 
-- `monitor_id`: The unique identifier of the monitor to delete. This ID is returned by the [`create_monitor`](@ref)
-  operation, and is included in the response to the [`get_monitor`](@ref) operation.
+- `monitor_id`: The unique identifier of the monitor to delete. This ID is returned by the
+  `CreateMonitor` operation, and is included in the response to the `GetMonitor` operation.
 """
 function delete_monitor end
 
@@ -2216,8 +2216,8 @@ Gets information about the specified monitor.
 
 # Arguments
 
-- `monitor_id`: The unique identifier for the monitor. This ID is returned by the [`create_monitor`](@ref)
-  operation.
+- `monitor_id`: The unique identifier for the monitor. This ID is returned by the
+  `CreateMonitor` operation.
 """
 function get_monitor end
 
@@ -2457,17 +2457,17 @@ end
     get_sessions_statistics_aggregation(aggregation_id, farm_id)
     get_sessions_statistics_aggregation(aggregation_id, farm_id, params::Dict{String,<:Any})
 
-Gets a set of statistics for queues or farms. Before you can call the [`get_session_statistics_aggregation`](@ref)
-operation, you must first call the [`start_sessions_statistics_aggregation`](@ref)
+Gets a set of statistics for queues or farms. Before you can call the
+`GetSessionStatisticsAggregation` operation, you must first call the [`start_sessions_statistics_aggregation`](@ref)
 operation. Statistics are available for 1 hour after you call the [`start_sessions_statistics_aggregation`](@ref)
 operation.
 
 # Arguments
 
-- `aggregation_id`: The identifier returned by the [`start_sessions_statistics_aggregation`](@ref)
+- `aggregation_id`: The identifier returned by the `StartSessionsStatisticsAggregation`
   operation that identifies the aggregated statistics.
 - `farm_id`: The identifier of the farm to include in the statistics. This should be the
-  same as the farm ID used in the call to the [`start_sessions_statistics_aggregation`](@ref)
+  same as the farm ID used in the call to the `StartSessionsStatisticsAggregation`
   operation.
 
 # Optional Parameters

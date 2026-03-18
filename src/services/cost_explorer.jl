@@ -699,8 +699,8 @@ level data. All other resource-level data is available at daily granularity.
   account's usage of that service. You can nest `Expression` objects to define any
   combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html).
 
-  The [`get_cost_and_usage_with_resources`](@ref) operation requires that you either group
-  by or filter by a `ResourceId`. It requires the [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)
+  The `GetCostAndUsageWithResources` operation requires that you either group by or filter
+  by a `ResourceId`. It requires the [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)
   `"SERVICE = Amazon Elastic Compute Cloud - Compute"` in the filter.
 
   Valid values for `MatchOptions` for `Dimensions` are `EQUALS` and `CASE_SENSITIVE`.
@@ -883,8 +883,7 @@ forecast time period that you select, based on your past costs.
 - `granularity`: How granular you want the forecast to be. You can get 3 months of `DAILY`
   forecasts or 12 months of `MONTHLY` forecasts.
 
-  The [`get_cost_forecast`](@ref) operation supports only `DAILY` and `MONTHLY`
-  granularities.
+  The `GetCostForecast` operation supports only `DAILY` and `MONTHLY` granularities.
 
 - `metric`: Which metric Cost Explorer uses to create your forecast. For more information
   about blended and unblended rates, see [Why does the "blended" annotation appear on some line items in my bill?](http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/).
@@ -1000,9 +999,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Context"`: The context for the call to `GetDimensionValues`. This can be `RESERVATIONS`
   or `COST_AND_USAGE`. The default value is `COST_AND_USAGE`. If the context is set to
-  `RESERVATIONS`, the resulting dimension values can be used in the [`get_reservation_utilization`](@ref)
-  operation. If the context is set to `COST_AND_USAGE`, the resulting dimension values can
-  be used in the [`get_cost_and_usage`](@ref) operation.
+  `RESERVATIONS`, the resulting dimension values can be used in the
+  `GetReservationUtilization` operation. If the context is set to `COST_AND_USAGE`, the
+  resulting dimension values can be used in the `GetCostAndUsage` operation.
 
   If you set the context to `COST_AND_USAGE`, you can use the following dimensions for
   searching:
@@ -1044,8 +1043,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - SERVICE - The Amazon Web Services service such as Amazon DynamoDB.
   - TENANCY - The tenancy of a resource. Examples are shared or dedicated.
   - USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for
-    the [`get_dimension_values`](@ref) operation includes a unit attribute. Examples include
-    GB and Hrs.
+    the `GetDimensionValues` operation includes a unit attribute. Examples include GB and
+    Hrs.
   - USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2:
     CloudWatch – Alarms. The response for this operation includes a unit attribute.
   - REGION - The Amazon Web Services Region.
@@ -1220,8 +1219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If `GroupBy` is set, `Granularity` can't be set. If `Granularity` isn't set, the response
   object doesn't include `Granularity`, either `MONTHLY` or `DAILY`.
 
-  The [`get_reservation_coverage`](@ref) operation supports only `DAILY` and `MONTHLY`
-  granularities.
+  The `GetReservationCoverage` operation supports only `DAILY` and `MONTHLY` granularities.
 
 - `"GroupBy"`: You can group the data by the following attributes:
 
@@ -1414,7 +1412,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   both `GroupBy` and `Granularity` aren't set, `GetReservationUtilization` defaults to
   `DAILY`.
 
-  The [`get_reservation_utilization`](@ref) operation supports only `DAILY` and `MONTHLY`
+  The `GetReservationUtilization` operation supports only `DAILY` and `MONTHLY`
   granularities.
 
 - `"GroupBy"`: Groups only by `SUBSCRIPTION_ID`. Metadata is included.
@@ -1628,8 +1626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Granularity"`: The granularity of the Amazon Web Services cost data for your Savings
   Plans. `Granularity` can't be set if `GroupBy` is set.
 
-  The [`get_savings_plans_coverage`](@ref) operation supports only `DAILY` and `MONTHLY`
-  granularities.
+  The `GetSavingsPlansCoverage` operation supports only `DAILY` and `MONTHLY` granularities.
 
 - `"GroupBy"`: You can group the data using the attributes `INSTANCE_FAMILY`, `REGION`, or
   `SERVICE`.
@@ -1816,7 +1813,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Granularity"`: The granularity of the Amazon Web Services utillization data for your
   Savings Plans.
 
-  The [`get_savings_plans_utilization`](@ref) operation supports only `DAILY` and `MONTHLY`
+  The `GetSavingsPlansUtilization` operation supports only `DAILY` and `MONTHLY`
   granularities.
 
 - `"SortBy"`: The value that you want to sort the data by.
@@ -2035,8 +2032,7 @@ forecast time period that you select, based on your past usage.
 - `granularity`: How granular you want the forecast to be. You can get 3 months of `DAILY`
   forecasts or 12 months of `MONTHLY` forecasts.
 
-  The [`get_usage_forecast`](@ref) operation supports only `DAILY` and `MONTHLY`
-  granularities.
+  The `GetUsageForecast` operation supports only `DAILY` and `MONTHLY` granularities.
 
 - `metric`: Which metric Cost Explorer uses to create your forecast.
 

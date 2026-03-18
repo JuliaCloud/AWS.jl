@@ -283,15 +283,15 @@ If one or more of the following is true, DynamoDB rejects the entire batch write
   list of operations to be performed (`DeleteRequest` or `PutRequest`). Each element in the
   map consists of the following:
 
-  - `DeleteRequest` - Perform a [`delete_item`](@ref) operation on the specified item. The
-    item to be deleted is identified by a `Key` subelement:
+  - `DeleteRequest` - Perform a `DeleteItem` operation on the specified item. The item to be
+    deleted is identified by a `Key` subelement:
     - `Key` - A map of primary key attribute values that uniquely identify the item. Each
       entry in this map consists of an attribute name and an attribute value. For each
       primary key, you must provide *all* of the key attributes. For example, with a simple
       primary key, you only need to provide a value for the partition key. For a composite
       primary key, you must provide values for *both* the partition key and the sort key.
-  - `PutRequest` - Perform a [`put_item`](@ref) operation on the specified item. The item to
-    be put is identified by an `Item` subelement:
+  - `PutRequest` - Perform a `PutItem` operation on the specified item. The item to be put
+    is identified by an `Item` subelement:
     - `Item` - A map of attributes and their values. Each entry in this map consists of an
       attribute name and an attribute value. Attribute values must not be null; string and
       binary type attributes must have lengths greater than zero; and set type attributes
@@ -620,7 +620,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `MaxReadRequestUnits`, `MaxWriteRequestUnits`, or both.
 
 - `"ProvisionedThroughput"`: Represents the provisioned throughput settings for a specified
-  table or index. The settings can be modified using the [`update_table`](@ref) operation.
+  table or index. The settings can be modified using the `UpdateTable` operation.
 
   If you set BillingMode as `PROVISIONED`, you must specify this property. If you set
   BillingMode as `PAY_PER_REQUEST`, you cannot specify this property.
@@ -878,7 +878,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       `DeleteItem` does not recognize any values other than `NONE` or `ALL_OLD`.
 
 - `"ReturnValuesOnConditionCheckFailure"`: An optional parameter that returns the item
-  attributes for a [`delete_item`](@ref) operation that failed a condition check.
+  attributes for a `DeleteItem` operation that failed a condition check.
 
   There is no additional cost associated with requesting a return value aside from the small
   network and processing overhead of receiving a larger response. No read capacity units are
@@ -1762,7 +1762,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReturnConsumedCapacity"`:
 
 - `"ReturnValuesOnConditionCheckFailure"`: An optional parameter that returns the item
-  attributes for an [`execute_statement`](@ref) operation that failed a condition check.
+  attributes for an `ExecuteStatement` operation that failed a condition check.
 
   There is no additional cost associated with requesting a return value aside from the small
   network and processing overhead of receiving a larger response. No read capacity units are
@@ -2245,7 +2245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExclusiveStartBackupArn"`: `LastEvaluatedBackupArn` is the Amazon Resource Name (ARN) of
   the backup last evaluated when the current page of results was returned, inclusive of the
   current page of results. This value may be specified as the `ExclusiveStartBackupArn` of a
-  new [`list_backups`](@ref) operation in order to fetch the next page of results.
+  new `ListBackups` operation in order to fetch the next page of results.
 
 - `"Limit"`: Maximum number of backups to return at once.
 
@@ -2556,8 +2556,8 @@ in the *Amazon DynamoDB Developer Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ConditionExpression"`: A condition that must be satisfied in order for a conditional [`put_item`](@ref)
-  operation to succeed.
+- `"ConditionExpression"`: A condition that must be satisfied in order for a conditional
+  `PutItem` operation to succeed.
 
   An expression can contain any of the following:
 
@@ -2657,7 +2657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       `PutItem` does not recognize any values other than `NONE` or `ALL_OLD`.
 
 - `"ReturnValuesOnConditionCheckFailure"`: An optional parameter that returns the item
-  attributes for a [`put_item`](@ref) operation that failed a condition check.
+  attributes for a `PutItem` operation that failed a condition check.
 
   There is no additional cost associated with requesting a return value aside from the small
   network and processing overhead of receiving a larger response. No read capacity units are
@@ -2921,8 +2921,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information on expression attribute values, see [Specifying Conditions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html)
   in the *Amazon DynamoDB Developer Guide*.
 
-- `"FilterExpression"`: A string that contains conditions that DynamoDB applies after the [`query`](@ref)
-  operation, but before the data is returned to you. Items that do not satisfy the
+- `"FilterExpression"`: A string that contains conditions that DynamoDB applies after the
+  `Query` operation, but before the data is returned to you. Items that do not satisfy the
   `FilterExpression` criteria are not returned.
 
   A `FilterExpression` does not allow key attributes. You cannot define a filter expression
@@ -3277,7 +3277,7 @@ end
 
 The [`scan`](@ref) operation returns one or more items and item attributes by accessing
 every item in a table or a secondary index. To have DynamoDB return fewer items, you can
-provide a [`filter_expression`](@ref) operation.
+provide a `FilterExpression` operation.
 
 If the total size of scanned items exceeds the maximum dataset size limit of 1 MB, the scan
 completes and results are returned to the user. The `LastEvaluatedKey` value is also
@@ -3411,8 +3411,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information on expression attribute values, see [Condition Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html)
   in the *Amazon DynamoDB Developer Guide*.
 
-- `"FilterExpression"`: A string that contains conditions that DynamoDB applies after the [`scan`](@ref)
-  operation, but before the data is returned to you. Items that do not satisfy the
+- `"FilterExpression"`: A string that contains conditions that DynamoDB applies after the
+  `Scan` operation, but before the data is returned to you. Items that do not satisfy the
   `FilterExpression` criteria are not returned.
 
   !!! note
@@ -3460,7 +3460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a `Segment` value of 0, the second thread specifies 1, and so on.
 
   The value of `LastEvaluatedKey` returned from a parallel `Scan` request must be used as
-  `ExclusiveStartKey` with the same segment ID in a subsequent [`scan`](@ref) operation.
+  `ExclusiveStartKey` with the same segment ID in a subsequent `Scan` operation.
 
   The value for `Segment` must be greater than or equal to 0, and less than the value
   provided for `TotalSegments`.
@@ -3507,14 +3507,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       be `SPECIFIC_ATTRIBUTES`. Any other value for `Select` will return an error.
 
 - `"TotalSegments"`: For a parallel `Scan` request, `TotalSegments` represents the total
-  number of segments into which the [`scan`](@ref) operation will be divided. The value of
+  number of segments into which the `Scan` operation will be divided. The value of
   `TotalSegments` corresponds to the number of application workers that will perform the
   parallel scan. For example, if you want to use four application threads to scan a table or
   an index, specify a `TotalSegments` value of 4.
 
   The value for `TotalSegments` must be greater than or equal to 1, and less than or equal
-  to 1000000. If you specify a `TotalSegments` value of 1, the [`scan`](@ref) operation will
-  be sequential rather than parallel.
+  to 1000000. If you specify a `TotalSegments` value of 1, the `Scan` operation will be
+  sequential rather than parallel.
 
   If you specify `TotalSegments`, you must also specify `Segment`.
 """
@@ -4236,7 +4236,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The values returned are strongly consistent.
 
 - `"ReturnValuesOnConditionCheckFailure"`: An optional parameter that returns the item
-  attributes for an [`update_item`](@ref) operation that failed a condition check.
+  attributes for an `UpdateItem` operation that failed a condition check.
 
   There is no additional cost associated with requesting a return value aside from the small
   network and processing overhead of receiving a larger response. No read capacity units are
@@ -4449,8 +4449,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     index.
   - `Delete` - remove a global secondary index from the table.
 
-  You can create or delete only one global secondary index per [`update_table`](@ref)
-  operation.
+  You can create or delete only one global secondary index per `UpdateTable` operation.
 
   For more information, see [Managing Global Secondary Indexes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html)
   in the *Amazon DynamoDB Developer Guide*.

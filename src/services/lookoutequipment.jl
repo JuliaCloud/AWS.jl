@@ -1825,7 +1825,7 @@ Lists all the tags for a specified resource, including key and value.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource (such as the dataset or
-  model) that is the focus of the [`list_tags_for_resource`](@ref) operation.
+  model) that is the focus of the `ListTagsForResource` operation.
 """
 function list_tags_for_resource end
 

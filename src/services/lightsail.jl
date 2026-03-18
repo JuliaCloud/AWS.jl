@@ -126,8 +126,8 @@ end
 Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to
 the instance with the specified disk name.
 
-The [`attach disk`](@ref) operation supports tag-based access control via resource tags
-applied to the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `attach disk` operation supports tag-based access control via resource tags applied to
+the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -195,8 +195,8 @@ Attaches one or more Lightsail instances to a load balancer.
 After some time, the instances are attached to the load balancer and the health check status
 is available.
 
-The [`attach instances to load balancer`](@ref) operation supports tag-based access control
-via resource tags applied to the resource identified by `load balancer name`. For more
+The `attach instances to load balancer` operation supports tag-based access control via
+resource tags applied to the resource identified by `load balancer name`. For more
 information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
@@ -427,8 +427,8 @@ When copying an *automatic snapshot*, be sure to define the `source region`,
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"restoreDate"`: The date of the source automatic snapshot to copy. Use the [`get auto snapshots`](@ref)
-  operation to identify the dates of the available automatic snapshots.
+- `"restoreDate"`: The date of the source automatic snapshot to copy. Use the
+  `get auto snapshots` operation to identify the dates of the available automatic snapshots.
 
   Constraints:
 
@@ -710,12 +710,13 @@ end
 
 Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from an
 exported Amazon Lightsail snapshot. This operation results in a CloudFormation stack record
-that can be used to track the AWS CloudFormation stack created. Use the [`get cloud formation stack records`](@ref)
-operation to get a list of the CloudFormation stacks created.
+that can be used to track the AWS CloudFormation stack created. Use the
+`get cloud formation stack records` operation to get a list of the CloudFormation stacks
+created.
 
 !!! important
-    Wait until after your new Amazon EC2 instance is created before running the [`create cloud formation stack`](@ref)
-    operation again with the same export snapshot record.
+    Wait until after your new Amazon EC2 instance is created before running the
+    `create cloud formation stack` operation again with the same export snapshot record.
 
 # Arguments
 
@@ -1065,8 +1066,8 @@ end
 Creates a block storage disk that can be attached to an Amazon Lightsail instance in the
 same Availability Zone (`us-east-2a`).
 
-The [`create disk`](@ref) operation supports tag-based access control via request tags. For
-more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create disk` operation supports tag-based access control via request tags. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1074,7 +1075,7 @@ more information, see the [Amazon Lightsail Developer Guide](https://lightsail.a
   (`us-east-2a`). Use the same Availability Zone as the Lightsail instance to which you want
   to attach the disk.
 
-  Use the [`get regions`](@ref) operation to list the Availability Zones where Lightsail is
+  Use the `get regions` operation to list the Availability Zones where Lightsail is
   currently available.
 
 - `disk_name`: The unique Lightsail disk name (`my-disk`).
@@ -1141,9 +1142,9 @@ Creates a block storage disk from a manual or automatic snapshot of a disk. The 
 disk can be attached to an Amazon Lightsail instance in the same Availability Zone
 (`us-east-2a`).
 
-The [`create disk from snapshot`](@ref) operation supports tag-based access control via
-request tags and resource tags applied to the resource identified by `disk snapshot name`.
-For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create disk from snapshot` operation supports tag-based access control via request tags
+and resource tags applied to the resource identified by `disk snapshot name`. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1172,8 +1173,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - This parameter cannot be defined together with the `source disk name` parameter. The
     `disk snapshot name` and `source disk name` parameters are mutually exclusive.
 
-- `"restoreDate"`: The date of the automatic snapshot to use for the new disk. Use the [`get auto snapshots`](@ref)
-  operation to identify the dates of the available automatic snapshots.
+- `"restoreDate"`: The date of the automatic snapshot to use for the new disk. Use the
+  `get auto snapshots` operation to identify the dates of the available automatic snapshots.
 
   Constraints:
 
@@ -1275,8 +1276,8 @@ issuing the snapshot command, and a snapshot of the defined instance's system vo
 created. After the snapshot is available, you can create a block storage disk from the
 snapshot and attach it to a running instance to access the data on the disk.
 
-The [`create disk snapshot`](@ref) operation supports tag-based access control via request
-tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create disk snapshot` operation supports tag-based access control via request tags. For
+more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1449,8 +1450,8 @@ end
 
 Creates a domain resource for the specified domain (example.com).
 
-The [`create domain`](@ref) operation supports tag-based access control via request tags.
-For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create domain` operation supports tag-based access control via request tags. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1498,8 +1499,8 @@ Creates one of the following domain name system (DNS) records in a domain DNS zo
 (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority
 (SOA), service locator (SRV), or text (TXT).
 
-The [`create domain entry`](@ref) operation supports tag-based access control via resource
-tags applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create domain entry` operation supports tag-based access control via resource tags
+applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1591,8 +1592,8 @@ end
 Creates a snapshot of a specific virtual private server, or *instance*. You can use a
 snapshot to create a new instance that is based on that snapshot.
 
-The [`create instance snapshot`](@ref) operation supports tag-based access control via
-request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create instance snapshot` operation supports tag-based access control via request tags.
+For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1651,8 +1652,8 @@ end
 
 Creates one or more Amazon Lightsail instances.
 
-The [`create instances`](@ref) operation supports tag-based access control via request tags.
-For more information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create instances` operation supports tag-based access control via request tags. For
+more information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1662,8 +1663,8 @@ For more information, see the [Lightsail Developer Guide](https://lightsail.aws.
   operation. Be sure to add the `include Availability Zones` parameter to your request.
 
 - `blueprint_id`: The ID for a virtual private server image (`app_wordpress_x_x` or
-  `app_lamp_x_x`). Use the [`get blueprints`](@ref) operation to return a list of available
-  images (or *blueprints*).
+  `app_lamp_x_x`). Use the `get blueprints` operation to return a list of available images
+  (or *blueprints*).
 
   !!! note
       Use active blueprints when creating new instances. Inactive blueprints are listed to
@@ -1766,9 +1767,9 @@ end
 
 Creates one or more new instances from a manual or automatic snapshot of an instance.
 
-The [`create instances from snapshot`](@ref) operation supports tag-based access control via
-request tags and resource tags applied to the resource identified by
-`instance snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create instances from snapshot` operation supports tag-based access control via request
+tags and resource tags applied to the resource identified by `instance snapshot name`. For
+more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1806,8 +1807,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"keyPairName"`: The name for your key pair.
 
-- `"restoreDate"`: The date of the automatic snapshot to use for the new instance. Use the [`get auto snapshots`](@ref)
-  operation to identify the dates of the available automatic snapshots.
+- `"restoreDate"`: The date of the automatic snapshot to use for the new instance. Use the
+  `get auto snapshots` operation to identify the dates of the available automatic snapshots.
 
   Constraints:
 
@@ -1908,8 +1909,8 @@ Creates a custom SSH key pair that you can use with an Amazon Lightsail instance
     action to create a Lightsail default key pair in an Amazon Web Services Region where a
     default key pair does not currently exist.
 
-The [`create key pair`](@ref) operation supports tag-based access control via request tags.
-For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create key pair` operation supports tag-based access control via request tags. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1961,8 +1962,8 @@ When you create a load balancer, you can specify a unique name and port settings
 additional load balancer settings, use the [`update_load_balancer_attribute`](@ref)
 operation.
 
-The [`create load balancer`](@ref) operation supports tag-based access control via request
-tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create load balancer` operation supports tag-based access control via request tags. For
+more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2141,8 +2142,8 @@ end
 
 Creates a new database in Amazon Lightsail.
 
-The [`create relational database`](@ref) operation supports tag-based access control via
-request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create relational database` operation supports tag-based access control via request
+tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2213,13 +2214,13 @@ request tags. For more information, see the [Amazon Lightsail Developer Guide](h
 - `relational_database_blueprint_id`: The blueprint ID for your new database. A blueprint
   describes the major engine version of a database.
 
-  You can get a list of database blueprints IDs by using the [`get relational database blueprints`](@ref)
-  operation.
+  You can get a list of database blueprints IDs by using the
+  `get relational database blueprints` operation.
 
 - `relational_database_bundle_id`: The bundle ID for your new database. A bundle describes
   the performance specifications for your database.
 
-  You can get a list of database bundle IDs by using the [`get relational database bundles`](@ref)
+  You can get a list of database bundle IDs by using the `get relational database bundles`
   operation.
 
 - `relational_database_name`: The name to use for your new Lightsail database resource.
@@ -2236,9 +2237,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"availabilityZone"`: The Availability Zone in which to create your new database. Use the
   `us-east-2a` case-sensitive format.
 
-  You can get a list of Availability Zones by using the [`get regions`](@ref) operation. Be
-  sure to add the `include relational database Availability Zones` parameter to your
-  request.
+  You can get a list of Availability Zones by using the `get regions` operation. Be sure to
+  add the `include relational database Availability Zones` parameter to your request.
 
 - `"masterUserPassword"`: The password for the master user. The password can include any
   printable ASCII character except "/", \"\"\", or "@". It cannot contain spaces.
@@ -2353,8 +2353,8 @@ Creates a new database from an existing database snapshot in Amazon Lightsail.
 You can create a new database from a snapshot in if something goes wrong with your original
 database, or to change it to a different plan, such as a high availability or standard plan.
 
-The [`create relational database from snapshot`](@ref) operation supports tag-based access
-control via request tags and resource tags applied to the resource identified by
+The `create relational database from snapshot` operation supports tag-based access control
+via request tags and resource tags applied to the resource identified by
 relationalDatabaseSnapshotName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
@@ -2373,9 +2373,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"availabilityZone"`: The Availability Zone in which to create your new database. Use the
   `us-east-2a` case-sensitive format.
 
-  You can get a list of Availability Zones by using the [`get regions`](@ref) operation. Be
-  sure to add the `include relational database Availability Zones` parameter to your
-  request.
+  You can get a list of Availability Zones by using the `get regions` operation. Be sure to
+  add the `include relational database Availability Zones` parameter to your request.
 
 - `"publiclyAccessible"`: Specifies the accessibility options for your new database. A value
   of `true` specifies a database that is available to resources outside of your Lightsail
@@ -2385,7 +2384,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"relationalDatabaseBundleId"`: The bundle ID for your new database. A bundle describes
   the performance specifications for your database.
 
-  You can get a list of database bundle IDs by using the [`get relational database bundles`](@ref)
+  You can get a list of database bundle IDs by using the `get relational database bundles`
   operation.
 
   When creating a new database from a snapshot, you cannot choose a bundle that is smaller
@@ -2458,8 +2457,8 @@ end
 Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups,
 to make copies of a database, and to save data before deleting a database.
 
-The [`create relational database snapshot`](@ref) operation supports tag-based access
-control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `create relational database snapshot` operation supports tag-based access control via
+request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2569,8 +2568,8 @@ Deletes an automatic snapshot of an instance or disk. For more information, see 
 
 # Arguments
 
-- `date`: The date of the automatic snapshot to delete in `YYYY-MM-DD` format. Use the [`get auto snapshots`](@ref)
-  operation to get the available automatic snapshots for a resource.
+- `date`: The date of the automatic snapshot to delete in `YYYY-MM-DD` format. Use the
+  `get auto snapshots` operation to get the available automatic snapshots for a resource.
 - `resource_name`: The name of the source instance or disk from which to delete the
   automatic snapshot.
 """
@@ -2917,8 +2916,8 @@ attached to a Lightsail instance).
 !!! note
     The disk may remain in the `deleting` state for several minutes.
 
-The [`delete disk`](@ref) operation supports tag-based access control via resource tags
-applied to the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `delete disk` operation supports tag-based access control via resource tags applied to
+the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2969,9 +2968,8 @@ snapshot. When you delete a snapshot, only the data not needed for any other sna
 removed. So regardless of which prior snapshots have been deleted, all active snapshots will
 have access to all the information needed to restore the disk.
 
-The [`delete disk snapshot`](@ref) operation supports tag-based access control via resource
-tags applied to the resource identified by `disk snapshot name`. For more information, see
-the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `delete disk snapshot` operation supports tag-based access control via resource tags
+applied to the resource identified by `disk snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3045,8 +3043,8 @@ end
 
 Deletes the specified domain recordset and all of its domain records.
 
-The [`delete domain`](@ref) operation supports tag-based access control via resource tags
-applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `delete domain` operation supports tag-based access control via resource tags applied to
+the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3084,8 +3082,8 @@ end
 
 Deletes a specific domain entry.
 
-The [`delete domain entry`](@ref) operation supports tag-based access control via resource
-tags applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `delete domain entry` operation supports tag-based access control via resource tags
+applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3132,8 +3130,8 @@ end
 
 Deletes an Amazon Lightsail instance.
 
-The [`delete instance`](@ref) operation supports tag-based access control via resource tags
-applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `delete instance` operation supports tag-based access control via resource tags applied
+to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3178,9 +3176,9 @@ end
 
 Deletes a specific snapshot of a virtual private server (or *instance*).
 
-The [`delete instance snapshot`](@ref) operation supports tag-based access control via
-resource tags applied to the resource identified by `instance snapshot name`. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `delete instance snapshot` operation supports tag-based access control via resource tags
+applied to the resource identified by `instance snapshot name`. For more information, see
+the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3230,8 +3228,8 @@ actions, as well as the Lightsail default key pair. A new default key pair will 
 created unless you launch an instance without specifying a custom key pair, or you call the [DownloadDefaultKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html)
 API.
 
-The [`delete key pair`](@ref) operation supports tag-based access control via resource tags
-applied to the resource identified by `key pair name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `delete key pair` operation supports tag-based access control via resource tags applied
+to the resource identified by `key pair name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3327,9 +3325,8 @@ Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. O
 balancer is deleted, you will need to create a new load balancer, create a new certificate,
 and verify domain ownership again.
 
-The [`delete load balancer`](@ref) operation supports tag-based access control via resource
-tags applied to the resource identified by `load balancer name`. For more information, see
-the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `delete load balancer` operation supports tag-based access control via resource tags
+applied to the resource identified by `load balancer name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3434,9 +3431,9 @@ end
 
 Deletes a database in Amazon Lightsail.
 
-The [`delete relational database`](@ref) operation supports tag-based access control via
-resource tags applied to the resource identified by relationalDatabaseName. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `delete relational database` operation supports tag-based access control via resource
+tags applied to the resource identified by relationalDatabaseName. For more information, see
+the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3505,9 +3502,9 @@ end
 
 Deletes a database snapshot in Amazon Lightsail.
 
-The [`delete relational database snapshot`](@ref) operation supports tag-based access
-control via resource tags applied to the resource identified by relationalDatabaseName. For
-more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `delete relational database snapshot` operation supports tag-based access control via
+resource tags applied to the resource identified by relationalDatabaseName. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3605,8 +3602,8 @@ Detaches a stopped block storage disk from a Lightsail instance. Make sure to un
 file systems on the device within your operating system before stopping the instance and
 detaching the disk.
 
-The [`detach disk`](@ref) operation supports tag-based access control via resource tags
-applied to the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `detach disk` operation supports tag-based access control via resource tags applied to
+the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3648,9 +3645,9 @@ Detaches the specified instances from a Lightsail load balancer.
 This operation waits until the instances are no longer needed before they are detached from
 the load balancer.
 
-The [`detach instances from load balancer`](@ref) operation supports tag-based access
-control via resource tags applied to the resource identified by `load balancer name`. For
-more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `detach instances from load balancer` operation supports tag-based access control via
+resource tags applied to the resource identified by `load balancer name`. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3856,19 +3853,18 @@ end
 
 Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic
 Compute Cloud (Amazon EC2). This operation results in an export snapshot record that can be
-used with the [`create cloud formation stack`](@ref) operation to create new Amazon EC2
-instances.
+used with the `create cloud formation stack` operation to create new Amazon EC2 instances.
 
 Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs), and the
 instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volume. Exported
 disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the
-same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot. The [`export snapshot`](@ref)
-operation supports tag-based access control via resource tags applied to the resource
-identified by `source snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot. The
+`export snapshot` operation supports tag-based access control via resource tags applied to
+the resource identified by `source snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 !!! note
-    Use the `get instance snapshots` or [`get disk snapshots`](@ref) operations to get a
-    list of snapshots that you can export to Amazon EC2.
+    Use the `get instance snapshots` or `get disk snapshots` operations to get a list of
+    snapshots that you can export to Amazon EC2.
 
 # Arguments
 
@@ -4428,8 +4424,8 @@ end
     get_cloud_formation_stack_records()
     get_cloud_formation_stack_records(params::Dict{String,<:Any})
 
-Returns the CloudFormation stack record created as a result of the [`create cloud formation stack`](@ref)
-operation.
+Returns the CloudFormation stack record created as a result of the
+`create cloud formation stack` operation.
 
 An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported
 Lightsail snapshot.
@@ -5473,8 +5469,7 @@ end
     get_export_snapshot_records()
     get_export_snapshot_records(params::Dict{String,<:Any})
 
-Returns all export snapshot records created as a result of the [`export snapshot`](@ref)
-operation.
+Returns all export snapshot records created as a result of the `export snapshot` operation.
 
 An export snapshot record can be used to create a new Amazon EC2 instance and its related
 resources with the [CreateCloudFormationStack](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateCloudFormationStack.html)
@@ -5553,9 +5548,8 @@ end
 Returns temporary SSH keys you can use to connect to a specific virtual private server, or
 *instance*.
 
-The [`get instance access details`](@ref) operation supports tag-based access control via
-resource tags applied to the resource identified by `instance name`. For more information,
-see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `get instance access details` operation supports tag-based access control via resource
+tags applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -6745,8 +6739,8 @@ Returns a list of log events for a database in Amazon Lightsail.
 
 - `log_stream_name`: The name of the log stream.
 
-  Use the [`get relational database log streams`](@ref) operation to get a list of available
-  log streams.
+  Use the `get relational database log streams` operation to get a list of available log
+  streams.
 
 - `relational_database_name`: The name of your database for which to get log events.
 
@@ -7760,8 +7754,8 @@ end
 
 Restarts a specific instance.
 
-The [`reboot instance`](@ref) operation supports tag-based access control via resource tags
-applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `reboot instance` operation supports tag-based access control via resource tags applied
+to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -7799,9 +7793,9 @@ end
 
 Restarts a specific database in Amazon Lightsail.
 
-The [`reboot relational database`](@ref) operation supports tag-based access control via
-resource tags applied to the resource identified by relationalDatabaseName. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `reboot relational database` operation supports tag-based access control via resource
+tags applied to the resource identified by relationalDatabaseName. For more information, see
+the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8307,15 +8301,15 @@ end
     start_instance(instance_name, params::Dict{String,<:Any})
 
 Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance,
-use the [`reboot instance`](@ref) operation.
+use the `reboot instance` operation.
 
 !!! note
     When you start a stopped instance, Lightsail assigns a new public IP address to the
     instance. To use the same IP address after stopping and starting an instance, create a
     static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip).
 
-The [`start instance`](@ref) operation supports tag-based access control via resource tags
-applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `start instance` operation supports tag-based access control via resource tags applied
+to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8352,11 +8346,11 @@ end
     start_relational_database(relational_database_name, params::Dict{String,<:Any})
 
 Starts a specific database from a stopped state in Amazon Lightsail. To restart a database,
-use the [`reboot relational database`](@ref) operation.
+use the `reboot relational database` operation.
 
-The [`start relational database`](@ref) operation supports tag-based access control via
-resource tags applied to the resource identified by relationalDatabaseName. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `start relational database` operation supports tag-based access control via resource
+tags applied to the resource identified by relationalDatabaseName. For more information, see
+the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8442,8 +8436,8 @@ Stops a specific Amazon Lightsail instance that is currently running.
     instance. To use the same IP address after stopping and starting an instance, create a
     static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip).
 
-The [`stop instance`](@ref) operation supports tag-based access control via resource tags
-applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `stop instance` operation supports tag-based access control via resource tags applied to
+the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8493,9 +8487,8 @@ end
 
 Stops a specific database that is currently running in Amazon Lightsail.
 
-The [`stop relational database`](@ref) operation supports tag-based access control via
-resource tags applied to the resource identified by relationalDatabaseName. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `stop relational database` operation supports tag-based access control via resource tags
+applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8548,9 +8541,8 @@ Adds one or more tags to the specified Amazon Lightsail resource. Each resource 
 maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be
 unique per resource. For more information about tags, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
 
-The [`tag resource`](@ref) operation supports tag-based access control via request tags and
-resource tags applied to the resource identified by `resource name`. For more information,
-see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `tag resource` operation supports tag-based access control via request tags and resource
+tags applied to the resource identified by `resource name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8678,9 +8670,9 @@ end
 Deletes the specified set of tag keys and their values from the specified Amazon Lightsail
 resource.
 
-The [`untag resource`](@ref) operation supports tag-based access control via request tags
-and resource tags applied to the resource identified by `resource name`. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `untag resource` operation supports tag-based access control via request tags and
+resource tags applied to the resource identified by `resource name`. For more information,
+see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -9080,8 +9072,8 @@ end
 
 Updates a domain recordset after it is created.
 
-The [`update domain entry`](@ref) operation supports tag-based access control via resource
-tags applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `update domain entry` operation supports tag-based access control via resource tags
+applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -9203,7 +9195,7 @@ end
 Updates the specified attribute for a load balancer. You can only update one attribute at a
 time.
 
-The [`update load balancer attribute`](@ref) operation supports tag-based access control via
+The `update load balancer attribute` operation supports tag-based access control via
 resource tags applied to the resource identified by `load balancer name`. For more
 information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
@@ -9291,9 +9283,9 @@ Allows the update of one or more attributes of a database in Amazon Lightsail.
 Updates are applied immediately, or in cases where the updates could result in an outage,
 are applied during the database's predefined maintenance window.
 
-The [`update relational database`](@ref) operation supports tag-based access control via
-resource tags applied to the resource identified by relationalDatabaseName. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `update relational database` operation supports tag-based access control via resource
+tags applied to the resource identified by relationalDatabaseName. For more information, see
+the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -9315,8 +9307,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   database.
 
   Disabling backup retention deletes all automated database backups. Before disabling this,
-  you may want to create a snapshot of your database using the [`create relational database snapshot`](@ref)
-  operation.
+  you may want to create a snapshot of your database using the
+  `create relational database snapshot` operation.
 
   Updates are applied during the next maintenance window because this can result in an
   outage.
@@ -9378,8 +9370,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"rotateMasterUserPassword"`: When `true`, the master user password is changed to a new
   strong password generated by Lightsail.
 
-  Use the [`get relational database master user password`](@ref) operation to get the new
-  password.
+  Use the `get relational database master user password` operation to get the new password.
 """
 function update_relational_database end
 
@@ -9423,11 +9414,11 @@ Parameter updates don't cause outages; therefore, their application is not subje
 preferred maintenance window. However, there are two ways in which parameter updates are
 applied: `dynamic` or `pending-reboot`. Parameters marked with a `dynamic` apply type are
 applied immediately. Parameters marked with a `pending-reboot` apply type are applied only
-after the database is rebooted using the [`reboot relational database`](@ref) operation.
+after the database is rebooted using the `reboot relational database` operation.
 
-The [`update relational database parameters`](@ref) operation supports tag-based access
-control via resource tags applied to the resource identified by relationalDatabaseName. For
-more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The `update relational database parameters` operation supports tag-based access control via
+resource tags applied to the resource identified by relationalDatabaseName. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 

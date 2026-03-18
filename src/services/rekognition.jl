@@ -255,8 +255,8 @@ create a project policy.
     already exist.
 
 Copying a model version takes a while to complete. To get the current status, call [`describe_project_versions`](@ref)
-and check the value of `Status` in the [`project_version_description`](@ref) object. The
-copy operation has finished when the value of `Status` is `COPYING_COMPLETED`.
+and check the value of `Status` in the `ProjectVersionDescription` object. The copy
+operation has finished when the value of `Status` is `COPYING_COMPLETED`.
 
 This operation requires permissions to perform the `rekognition:CopyProjectVersion` action.
 
@@ -365,8 +365,8 @@ version.
     Collection names are case-sensitive.
 
 This operation requires permissions to perform the `rekognition:CreateCollection` action. If
-you want to tag your collection, you also require permission to perform the [`rekognition:_tag_resource`](@ref)
-operation.
+you want to tag your collection, you also require permission to perform the
+`rekognition:TagResource` operation.
 
 # Arguments
 
@@ -450,7 +450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatasetSource"`: The source files for the dataset. You can specify the ARN of an
   existing dataset or specify the Amazon S3 bucket location of an Amazon Sagemaker format
   manifest file. If you don't specify `datasetSource`, an empty dataset is created. To add
-  labeled images to the dataset, You can use the console or call [`update_dataset_entries`](@ref).
+  labeled images to the dataset, You can use the console or call `UpdateDatasetEntries`.
 - `"Tags"`: A set of tags (key-value pairs) that you want to attach to the dataset.
 """
 function create_dataset end
@@ -742,8 +742,8 @@ stream processor. For example, you can start processing the source video by call
 with the `Name` field.
 
 This operation requires permissions to perform the `rekognition:CreateStreamProcessor`
-action. If you want to tag your stream processor, you also require permission to perform the [`rekognition:_tag_resource`](@ref)
-operation.
+action. If you want to tag your stream processor, you also require permission to perform the
+`rekognition:TagResource` operation.
 
 # Arguments
 
@@ -753,14 +753,14 @@ operation.
 
 - `name`: An identifier you assign to the stream processor. You can use `Name` to manage the
   stream processor. For example, you can get the current status of the stream processor by
-  calling [`describe_stream_processor`](@ref). `Name` is idempotent. This is required for
-  both face search and label detection stream processors.
+  calling `DescribeStreamProcessor`. `Name` is idempotent. This is required for both face
+  search and label detection stream processors.
 
 - `output`: Kinesis data stream stream or Amazon S3 bucket location to which Amazon
   Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter
-  name is `StreamProcessorOutput`. This must be a [`s3_destination`](@ref) of an Amazon S3
-  bucket that you own for a label detection stream processor or a Kinesis data stream ARN
-  for a face search stream processor.
+  name is `StreamProcessorOutput`. This must be a `S3Destination` of an Amazon S3 bucket
+  that you own for a label detection stream processor or a Kinesis data stream ARN for a
+  face search stream processor.
 
 - `role_arn`: The Amazon Resource Number (ARN) of the IAM role that allows access to the
   stream processor. The IAM role provides Rekognition read permissions for a Kinesis stream.
@@ -1548,8 +1548,8 @@ For each object that the model version detects on an image, the API returns a
 (`CustomLabel`) object in an array (`CustomLabels`). Each `CustomLabel` object provides the
 label name (`Name`), the level of confidence that the image contains the object
 (`Confidence`), and object location information, if it exists, for the label on the image
-(`Geometry`). Note that for the [`detect_custom_labels_labels`](@ref) operation, `Polygons`
-are not returned in the `Geometry` section of the response.
+(`Geometry`). Note that for the `DetectCustomLabelsLabels` operation, `Polygons` are not
+returned in the `Geometry` section of the response.
 
 To filter labels that are returned, specify a value for `MinConfidence`.
 `DetectCustomLabelsLabels` only returns labels with a confidence that's higher than the
@@ -1941,8 +1941,8 @@ For each person detected in the image the API returns an array of body parts (fa
 left-hand, right-hand). For each body part, an array of detected items of PPE is returned,
 including an indicator of whether or not the PPE covers the body part. The API returns the
 confidence it has in each detection (person, PPE, body part and body part coverage). It also
-returns a bounding box ([`bounding_box`](@ref)) for each detected person and each detected
-item of PPE.
+returns a bounding box (`BoundingBox`) for each detected person and each detected item of
+PPE.
 
 You can optionally request a summary of detected PPE items with the
 `SummarizationAttributes` input parameter. The summary provides the following information.
@@ -2002,9 +2002,9 @@ Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, 
 pass it as a reference to an image in an Amazon S3 bucket. For the AWS CLI, passing image
 bytes is not supported. The image must be either a .png or .jpeg formatted file.
 
-The [`detect_text`](@ref) operation returns text in an array of [`text_detection`](@ref)
-elements, `TextDetections`. Each `TextDetection` element provides information about a single
-word or line of text that was detected in the image.
+The [`detect_text`](@ref) operation returns text in an array of `TextDetection` elements,
+`TextDetections`. Each `TextDetection` element provides information about a single word or
+line of text that was detected in the image.
 
 A word is one or more script characters that are not separated by spaces. `DetectText` can
 detect up to 100 words in an image.
@@ -2205,8 +2205,8 @@ This operation requires permissions to perform the `rekognition:GetCelebrityInfo
 
 # Arguments
 
-- `id`: The ID for the celebrity. You get the celebrity ID from a call to the [`recognize_celebrities`](@ref)
-  operation, which recognizes celebrities in an image.
+- `id`: The ID for the celebrity. You get the celebrity ID from a call to the
+  `RecognizeCelebrities` operation, which recognizes celebrities in an image.
 """
 function get_celebrity_info end
 
@@ -2250,11 +2250,11 @@ For more information, see Working With Stored Videos in the Amazon Rekognition D
 Guide.
 
 `GetCelebrityRecognition` returns detected celebrities and the time(s) they are detected in
-an array (`Celebrities`) of [`celebrity_recognition`](@ref) objects. Each
-`CelebrityRecognition` contains information about the celebrity in a [`celebrity_detail`](@ref)
-object and the time, `Timestamp`, the celebrity was detected. This [`celebrity_detail`](@ref)
-object stores information about the detected celebrity's face attributes, a face bounding
-box, known gender, the celebrity's name, and a confidence estimate.
+an array (`Celebrities`) of `CelebrityRecognition` objects. Each `CelebrityRecognition`
+contains information about the celebrity in a `CelebrityDetail` object and the time,
+`Timestamp`, the celebrity was detected. This `CelebrityDetail` object stores information
+about the detected celebrity's face attributes, a face bounding box, known gender, the
+celebrity's name, and a confidence estimate.
 
 !!! note
     `GetCelebrityRecognition` only returns the default facial attributes (`BoundingBox`,
@@ -2343,8 +2343,8 @@ For more information, see Working with Stored Videos in the Amazon Rekognition D
 Guide.
 
 `GetContentModeration` returns detected inappropriate, unwanted, or offensive content
-moderation labels, and the time they are detected, in an array, `ModerationLabels`, of [`content_moderation_detection`](@ref)
-objects.
+moderation labels, and the time they are detected, in an array, `ModerationLabels`, of
+`ContentModerationDetection` objects.
 
 By default, the moderated labels are returned sorted by time, in milliseconds from the start
 of the video. You can also sort them by moderated label by specifying `NAME` for the
@@ -2534,7 +2534,7 @@ check that the status value published to the Amazon SNS topic is `SUCCEEDED`. If
 For more information, see Searching Faces in a Collection in the Amazon Rekognition
 Developer Guide.
 
-The search results are retured in an array, `Persons`, of [`person_match`](@ref) objects.
+The search results are retured in an array, `Persons`, of `PersonMatch` objects.
 Each`PersonMatch` element contains details about the matching faces in the input collection,
 person information (facial attributes, bounding boxes, and person identifer) for the matched
 person, and the time the person was matched in the video.
@@ -2821,11 +2821,11 @@ operation, first check that the status value published to the Amazon SNS topic i
 `SUCCEEDED`. if so, call `GetSegmentDetection` and pass the job identifier (`JobId`) from
 the initial call of `StartSegmentDetection`.
 
-`GetSegmentDetection` returns detected segments in an array (`Segments`) of [`segment_detection`](@ref)
-objects. `Segments` is sorted by the segment types specified in the `SegmentTypes` input
-parameter of `StartSegmentDetection`. Each element of the array includes the detected
-segment, the precentage confidence in the acuracy of the detected segment, the type of the
-segment, and the frame in which the segment was detected.
+`GetSegmentDetection` returns detected segments in an array (`Segments`) of
+`SegmentDetection` objects. `Segments` is sorted by the segment types specified in the
+`SegmentTypes` input parameter of `StartSegmentDetection`. Each element of the array
+includes the detected segment, the precentage confidence in the acuracy of the detected
+segment, the type of the segment, and the frame in which the segment was detected.
 
 Use `SelectedSegmentTypes` to find out the type of segment detection requested in the call
 to `StartSegmentDetection`.
@@ -2990,8 +2990,8 @@ explicitly choose the quality bar. Use `QualityFilter`, to set the quality bar b
     To use quality filtering, you need a collection associated with version 3 of the face
     model or higher. To get the version of the face model associated with a collection, call [`describe_collection`](@ref).
 
-Information about faces detected in an image, but not indexed, is returned in an array of [`unindexed_face`](@ref)
-objects, `UnindexedFaces`. Faces aren't indexed for reasons such as:
+Information about faces detected in an image, but not indexed, is returned in an array of
+`UnindexedFace` objects, `UnindexedFaces`. Faces aren't indexed for reasons such as:
 
 - The number of faces detected exceeds the value of the `max_faces` request parameter.
 - The face is too small compared to the image dimensions.
@@ -3670,7 +3670,7 @@ passing image bytes is not supported. The image must be either a PNG or JPEG for
 For an example, see Recognizing celebrities in an image in the Amazon Rekognition Developer
 Guide.
 
-This operation requires permissions to perform the [`rekognition:_recognize_celebrities`](@ref)
+This operation requires permissions to perform the `rekognition:RecognizeCelebrities`
 operation.
 
 # Arguments
@@ -4014,7 +4014,7 @@ end
 Starts asynchronous recognition of celebrities in a stored video.
 
 Amazon Rekognition Video can detect celebrities in a video must be stored in an Amazon S3
-bucket. Use [`video`](@ref) to specify the bucket name and the filename of the video.
+bucket. Use `Video` to specify the bucket name and the filename of the video.
 `StartCelebrityRecognition` returns a job identifier (`JobId`) which you use to get the
 results of the analysis. When celebrity recognition analysis is finished, Amazon Rekognition
 Video publishes a completion status to the Amazon Simple Notification Service topic that you
@@ -4077,11 +4077,11 @@ end
 Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored
 video. For a list of moderation labels in Amazon Rekognition, see [Using the image and video moderation APIs](https://docs.aws.amazon.com/rekognition/latest/dg/moderation.html#moderation-api).
 
-Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use [`video`](@ref)
-to specify the bucket name and the filename of the video. `StartContentModeration` returns a
-job identifier (`JobId`) which you use to get the results of the analysis. When content
-analysis is finished, Amazon Rekognition Video publishes a completion status to the Amazon
-Simple Notification Service topic that you specify in `NotificationChannel`.
+Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use
+`Video` to specify the bucket name and the filename of the video. `StartContentModeration`
+returns a job identifier (`JobId`) which you use to get the results of the analysis. When
+content analysis is finished, Amazon Rekognition Video publishes a completion status to the
+Amazon Simple Notification Service topic that you specify in `NotificationChannel`.
 
 To get the results of the content analysis, first check that the status value published to
 the Amazon SNS topic is `SUCCEEDED`. If so, call [`get_content_moderation`](@ref) and pass
@@ -4148,14 +4148,14 @@ end
 
 Starts asynchronous detection of faces in a stored video.
 
-Amazon Rekognition Video can detect faces in a video stored in an Amazon S3 bucket. Use [`video`](@ref)
-to specify the bucket name and the filename of the video. `StartFaceDetection` returns a job
-identifier (`JobId`) that you use to get the results of the operation. When face detection
-is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple
-Notification Service topic that you specify in `NotificationChannel`. To get the results of
-the face detection operation, first check that the status value published to the Amazon SNS
-topic is `SUCCEEDED`. If so, call [`get_face_detection`](@ref) and pass the job identifier
-(`JobId`) from the initial call to `StartFaceDetection`.
+Amazon Rekognition Video can detect faces in a video stored in an Amazon S3 bucket. Use
+`Video` to specify the bucket name and the filename of the video. `StartFaceDetection`
+returns a job identifier (`JobId`) that you use to get the results of the operation. When
+face detection is finished, Amazon Rekognition Video publishes a completion status to the
+Amazon Simple Notification Service topic that you specify in `NotificationChannel`. To get
+the results of the face detection operation, first check that the status value published to
+the Amazon SNS topic is `SUCCEEDED`. If so, call [`get_face_detection`](@ref) and pass the
+job identifier (`JobId`) from the initial call to `StartFaceDetection`.
 
 For more information, see Detecting faces in a stored video in the Amazon Rekognition
 Developer Guide.
@@ -4219,14 +4219,14 @@ end
 Starts the asynchronous search for faces in a collection that match the faces of persons
 detected in a stored video.
 
-The video must be stored in an Amazon S3 bucket. Use [`video`](@ref) to specify the bucket
-name and the filename of the video. `StartFaceSearch` returns a job identifier (`JobId`)
-which you use to get the search results once the search has completed. When searching is
-finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple
-Notification Service topic that you specify in `NotificationChannel`. To get the search
-results, first check that the status value published to the Amazon SNS topic is `SUCCEEDED`.
-If so, call [`get_face_search`](@ref) and pass the job identifier (`JobId`) from the initial
-call to `StartFaceSearch`. For more information, see [Searching stored videos for faces](https://docs.aws.amazon.com/rekognition/latest/dg/procedure-person-search-videos.html).
+The video must be stored in an Amazon S3 bucket. Use `Video` to specify the bucket name and
+the filename of the video. `StartFaceSearch` returns a job identifier (`JobId`) which you
+use to get the search results once the search has completed. When searching is finished,
+Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification
+Service topic that you specify in `NotificationChannel`. To get the search results, first
+check that the status value published to the Amazon SNS topic is `SUCCEEDED`. If so, call [`get_face_search`](@ref)
+and pass the job identifier (`JobId`) from the initial call to `StartFaceSearch`. For more
+information, see [Searching stored videos for faces](https://docs.aws.amazon.com/rekognition/latest/dg/procedure-person-search-videos.html).
 
 # Arguments
 
@@ -4295,9 +4295,9 @@ entities. This includes objects like flower, tree, and table; events like weddin
 graduation, and birthday party; concepts like landscape, evening, and nature; and activities
 like a person getting out of a car or a person skiing.
 
-The video must be stored in an Amazon S3 bucket. Use [`video`](@ref) to specify the bucket
-name and the filename of the video. `StartLabelDetection` returns a job identifier (`JobId`)
-which you use to get the results of the operation. When label detection is finished, Amazon
+The video must be stored in an Amazon S3 bucket. Use `Video` to specify the bucket name and
+the filename of the video. `StartLabelDetection` returns a job identifier (`JobId`) which
+you use to get the results of the operation. When label detection is finished, Amazon
 Rekognition Video publishes a completion status to the Amazon Simple Notification Service
 topic that you specify in `NotificationChannel`.
 
@@ -4457,7 +4457,7 @@ end
 Starts the asynchronous tracking of a person's path in a stored video.
 
 Amazon Rekognition Video can track the path of people in a video stored in an Amazon S3
-bucket. Use [`video`](@ref) to specify the bucket name and the filename of the video.
+bucket. Use `Video` to specify the bucket name and the filename of the video.
 `StartPersonTracking` returns a job identifier (`JobId`) which you use to get the results of
 the operation. When label detection is finished, Amazon Rekognition publishes a completion
 status to the Amazon Simple Notification Service topic that you specify in
@@ -4592,17 +4592,16 @@ end
 
 Starts asynchronous detection of segment detection in a stored video.
 
-Amazon Rekognition Video can detect segments in a video stored in an Amazon S3 bucket. Use [`video`](@ref)
-to specify the bucket name and the filename of the video. `StartSegmentDetection` returns a
-job identifier (`JobId`) which you use to get the results of the operation. When segment
-detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon
-Simple Notification Service topic that you specify in `NotificationChannel`.
+Amazon Rekognition Video can detect segments in a video stored in an Amazon S3 bucket. Use
+`Video` to specify the bucket name and the filename of the video. `StartSegmentDetection`
+returns a job identifier (`JobId`) which you use to get the results of the operation. When
+segment detection is finished, Amazon Rekognition Video publishes a completion status to the
+Amazon Simple Notification Service topic that you specify in `NotificationChannel`.
 
-You can use the `Filters` ([`start_segment_detection_filters`](@ref)) input parameter to
-specify the minimum detection confidence returned in the response. Within `Filters`, use
-`ShotFilter` ([`start_shot_detection_filter`](@ref)) to filter detected shots. Use
-`TechnicalCueFilter` ([`start_technical_cue_detection_filter`](@ref)) to filter technical
-cues.
+You can use the `Filters` (`StartSegmentDetectionFilters`) input parameter to specify the
+minimum detection confidence returned in the response. Within `Filters`, use `ShotFilter`
+(`StartShotDetectionFilter`) to filter detected shots. Use `TechnicalCueFilter`
+(`StartTechnicalCueDetectionFilter`) to filter technical cues.
 
 To get the results of the segment detection operation, first check that the status value
 published to the Amazon SNS topic is `SUCCEEDED`. if so, call [`get_segment_detection`](@ref)
@@ -4729,11 +4728,11 @@ end
 
 Starts asynchronous detection of text in a stored video.
 
-Amazon Rekognition Video can detect text in a video stored in an Amazon S3 bucket. Use [`video`](@ref)
-to specify the bucket name and the filename of the video. `StartTextDetection` returns a job
-identifier (`JobId`) which you use to get the results of the operation. When text detection
-is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple
-Notification Service topic that you specify in `NotificationChannel`.
+Amazon Rekognition Video can detect text in a video stored in an Amazon S3 bucket. Use
+`Video` to specify the bucket name and the filename of the video. `StartTextDetection`
+returns a job identifier (`JobId`) which you use to get the results of the operation. When
+text detection is finished, Amazon Rekognition Video publishes a completion status to the
+Amazon Simple Notification Service topic that you specify in `NotificationChannel`.
 
 To get the results of the text detection operation, first check that the status value
 published to the Amazon SNS topic is `SUCCEEDED`. if so, call [`get_text_detection`](@ref)
@@ -4838,7 +4837,7 @@ Stops a running stream processor that was created by [`create_stream_processor`]
 
 # Arguments
 
-- `name`: The name of a stream processor created by [`create_stream_processor`](@ref).
+- `name`: The name of a stream processor created by `CreateStreamProcessor`.
 """
 function stop_stream_processor end
 

@@ -103,8 +103,8 @@ end
     check_capacity(rules, scope, params::Dict{String,<:Any})
 
 Returns the web ACL capacity unit (WCU) requirements for a specified scope and set of rules.
-You can use this to check the capacity requirements for the rules you want to use in a [`rule_group`](@ref)
-or [`web_acl`](@ref).
+You can use this to check the capacity requirements for the rules you want to use in a
+`RuleGroup` or `WebACL`.
 
 WAF uses WCUs to calculate and control the operating resources that are used to run your
 rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to
@@ -116,8 +116,7 @@ in the *WAF Developer Guide*.
 
 # Arguments
 
-- `rules`: An array of [`rule`](@ref) that you're configuring to use in a rule group or web
-  ACL.
+- `rules`: An array of `Rule` that you're configuring to use in a rule group or web ACL.
 
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
   application. A regional application can be an Application Load Balancer (ALB), an Amazon
@@ -231,10 +230,10 @@ end
     create_ipset(addresses, ipaddress_version, name, scope)
     create_ipset(addresses, ipaddress_version, name, scope, params::Dict{String,<:Any})
 
-Creates an [`ipset`](@ref), which you use to identify web requests that originate from
-specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of
-requests from a ranges of IP addresses, you can configure WAF to block them using an IPSet
-that lists those IP addresses.
+Creates an `IPSet`, which you use to identify web requests that originate from specific IP
+addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from
+a ranges of IP addresses, you can configure WAF to block them using an IPSet that lists
+those IP addresses.
 
 # Arguments
 
@@ -342,7 +341,7 @@ end
     create_regex_pattern_set(name, regular_expression_list, scope)
     create_regex_pattern_set(name, regular_expression_list, scope, params::Dict{String,<:Any})
 
-Creates a [`regex_pattern_set`](@ref), which you reference in a [`regex_pattern_set_reference_statement`](@ref),
+Creates a `RegexPatternSet`, which you reference in a `RegexPatternSetReferenceStatement`,
 to have WAF inspect a web request component for the specified patterns.
 
 # Arguments
@@ -416,12 +415,12 @@ end
     create_rule_group(capacity, name, scope, visibility_config)
     create_rule_group(capacity, name, scope, visibility_config, params::Dict{String,<:Any})
 
-Creates a [`rule_group`](@ref) per the specifications provided.
+Creates a `RuleGroup` per the specifications provided.
 
 A rule group defines a collection of rules to inspect and control web requests that you can
-use in a [`web_acl`](@ref). When you create a rule group, you define an immutable capacity
-limit. If you update a rule group, you must stay within the capacity. This allows others to
-reuse the rule group with confidence in its capacity requirements.
+use in a `WebACL`. When you create a rule group, you define an immutable capacity limit. If
+you update a rule group, you must stay within the capacity. This allows others to reuse the
+rule group with confidence in its capacity requirements.
 
 # Arguments
 
@@ -429,7 +428,7 @@ reuse the rule group with confidence in its capacity requirements.
 
   When you create your own rule group, you define this, and you cannot change it after
   creation. When you add or modify the rules in a rule group, WAF enforces this limit. You
-  can check the capacity for a set of rules using [`check_capacity`](@ref).
+  can check the capacity for a set of rules using `CheckCapacity`.
 
   WAF uses WCUs to calculate and control the operating resources that are used to run your
   rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type,
@@ -475,9 +474,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the rule group that helps with identification.
 
-- `"Rules"`: The [`rule`](@ref) statements used to identify the web requests that you want
-  to manage. Each rule includes one top-level statement that WAF uses to identify matching
-  web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The `Rule` statements used to identify the web requests that you want to
+  manage. Each rule includes one top-level statement that WAF uses to identify matching web
+  requests, and parameters that govern how WAF handles them.
 
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
@@ -534,17 +533,17 @@ end
     create_web_acl(default_action, name, scope, visibility_config)
     create_web_acl(default_action, name, scope, visibility_config, params::Dict{String,<:Any})
 
-Creates a [`web_acl`](@ref) per the specifications provided.
+Creates a `WebACL` per the specifications provided.
 
 A web ACL defines a collection of rules to use to inspect and control web requests. Each
 rule has a statement that defines what to look for in web requests and an action that WAF
 applies to requests that match the statement. In the web ACL, you assign a default action to
 take (allow, block) for any request that does not match any of the rules. The rules in a web
-ACL can be a combination of the types [`rule`](@ref), [`rule_group`](@ref), and managed rule
-group. You can associate a web ACL with one or more Amazon Web Services resources to
-protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST
-API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an
-App Runner service, or an Amazon Web Services Verified Access instance.
+ACL can be a combination of the types `Rule`, `RuleGroup`, and managed rule group. You can
+associate a web ACL with one or more Amazon Web Services resources to protect. The resources
+can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application
+Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service,
+or an Amazon Web Services Verified Access instance.
 
 # Arguments
 
@@ -609,9 +608,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the web ACL that helps with identification.
 
-- `"Rules"`: The [`rule`](@ref) statements used to identify the web requests that you want
-  to manage. Each rule includes one top-level statement that WAF uses to identify matching
-  web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The `Rule` statements used to identify the web requests that you want to
+  manage. Each rule includes one top-level statement that WAF uses to identify matching web
+  requests, and parameters that govern how WAF handles them.
 
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 
@@ -737,7 +736,7 @@ end
 
 Deletes all rule groups that are managed by Firewall Manager for the specified web ACL.
 
-You can only use this if `ManagedByFirewallManager` is false in the specified [`web_acl`](@ref).
+You can only use this if `ManagedByFirewallManager` is false in the specified `WebACL`.
 
 # Arguments
 
@@ -790,7 +789,7 @@ end
     delete_ipset(id, lock_token, name, scope)
     delete_ipset(id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Deletes the specified [`ipset`](@ref).
+Deletes the specified `IPSet`.
 
 # Arguments
 
@@ -863,12 +862,12 @@ end
     delete_logging_configuration(resource_arn)
     delete_logging_configuration(resource_arn, params::Dict{String,<:Any})
 
-Deletes the [`logging_configuration`](@ref) from the specified web ACL.
+Deletes the `LoggingConfiguration` from the specified web ACL.
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the web ACL from which you want to
-  delete the [`logging_configuration`](@ref).
+  delete the `LoggingConfiguration`.
 
 # Optional Parameters
 
@@ -964,7 +963,7 @@ end
     delete_regex_pattern_set(id, lock_token, name, scope)
     delete_regex_pattern_set(id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Deletes the specified [`regex_pattern_set`](@ref).
+Deletes the specified `RegexPatternSet`.
 
 # Arguments
 
@@ -1036,7 +1035,7 @@ end
     delete_rule_group(id, lock_token, name, scope)
     delete_rule_group(id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Deletes the specified [`rule_group`](@ref).
+Deletes the specified `RuleGroup`.
 
 # Arguments
 
@@ -1109,9 +1108,9 @@ end
     delete_web_acl(id, lock_token, name, scope)
     delete_web_acl(id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Deletes the specified [`web_acl`](@ref).
+Deletes the specified `WebACL`.
 
-You can only use this if `ManagedByFirewallManager` is false in the specified [`web_acl`](@ref).
+You can only use this if `ManagedByFirewallManager` is false in the specified `WebACL`.
 
 !!! note
     Before deleting any web ACL, first disassociate it from all resources.
@@ -1552,7 +1551,7 @@ end
     get_ipset(id, name, scope)
     get_ipset(id, name, scope, params::Dict{String,<:Any})
 
-Retrieves the specified [`ipset`](@ref).
+Retrieves the specified `IPSet`.
 
 # Arguments
 
@@ -1610,12 +1609,12 @@ end
     get_logging_configuration(resource_arn)
     get_logging_configuration(resource_arn, params::Dict{String,<:Any})
 
-Returns the [`logging_configuration`](@ref) for the specified web ACL.
+Returns the `LoggingConfiguration` for the specified web ACL.
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the web ACL for which you want to get
-  the [`logging_configuration`](@ref).
+  the `LoggingConfiguration`.
 
 # Optional Parameters
 
@@ -1937,7 +1936,7 @@ end
     get_regex_pattern_set(id, name, scope)
     get_regex_pattern_set(id, name, scope, params::Dict{String,<:Any})
 
-Retrieves the specified [`regex_pattern_set`](@ref).
+Retrieves the specified `RegexPatternSet`.
 
 # Arguments
 
@@ -1996,7 +1995,7 @@ end
     get_rule_group()
     get_rule_group(params::Dict{String,<:Any})
 
-Retrieves the specified [`rule_group`](@ref).
+Retrieves the specified `RuleGroup`.
 
 # Optional Parameters
 
@@ -2140,7 +2139,7 @@ end
     get_web_acl(id, name, scope)
     get_web_acl(id, name, scope, params::Dict{String,<:Any})
 
-Retrieves the specified [`web_acl`](@ref).
+Retrieves the specified `WebACL`.
 
 # Arguments
 
@@ -2198,7 +2197,7 @@ end
     get_web_aclfor_resource(resource_arn)
     get_web_aclfor_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieves the [`web_acl`](@ref) for the specified resource.
+Retrieves the `WebACL` for the specified resource.
 
 This call uses `GetWebACL`, to verify that your account has permission to access the
 retrieved web ACL. If you get an error that indicates that your account isn't authorized to
@@ -2459,7 +2458,7 @@ end
     list_ipsets(scope)
     list_ipsets(scope, params::Dict{String,<:Any})
 
-Retrieves an array of [`ipset_summary`](@ref) objects for the IP sets that you manage.
+Retrieves an array of `IPSetSummary` objects for the IP sets that you manage.
 
 # Arguments
 
@@ -2513,7 +2512,7 @@ end
     list_logging_configurations(scope)
     list_logging_configurations(scope, params::Dict{String,<:Any})
 
-Retrieves an array of your [`logging_configuration`](@ref) objects.
+Retrieves an array of your `LoggingConfiguration` objects.
 
 # Arguments
 
@@ -2699,8 +2698,8 @@ end
     list_regex_pattern_sets(scope)
     list_regex_pattern_sets(scope, params::Dict{String,<:Any})
 
-Retrieves an array of [`regex_pattern_set_summary`](@ref) objects for the regex pattern sets
-that you manage.
+Retrieves an array of `RegexPatternSetSummary` objects for the regex pattern sets that you
+manage.
 
 # Arguments
 
@@ -2818,8 +2817,7 @@ end
     list_rule_groups(scope)
     list_rule_groups(scope, params::Dict{String,<:Any})
 
-Retrieves an array of [`rule_group_summary`](@ref) objects for the rule groups that you
-manage.
+Retrieves an array of `RuleGroupSummary` objects for the rule groups that you manage.
 
 # Arguments
 
@@ -2873,11 +2871,11 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieves the [`tag_info_for_resource`](@ref) for the specified resource. Tags are key:value
-pairs that you can use to categorize and manage your resources, for purposes like billing.
-For example, you might set the tag key to "customer" and the value to the customer name or
-ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50
-tags for a resource.
+Retrieves the `TagInfoForResource` for the specified resource. Tags are key:value pairs that
+you can use to categorize and manage your resources, for purposes like billing. For example,
+you might set the tag key to "customer" and the value to the customer name or ID. You can
+specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a
+resource.
 
 You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule
 groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF
@@ -2931,7 +2929,7 @@ end
     list_web_acls(scope)
     list_web_acls(scope, params::Dict{String,<:Any})
 
-Retrieves an array of [`web_aclsummary`](@ref) objects for the web ACLs that you manage.
+Retrieves an array of `WebACLSummary` objects for the web ACLs that you manage.
 
 # Arguments
 
@@ -2985,8 +2983,8 @@ end
     put_logging_configuration(logging_configuration)
     put_logging_configuration(logging_configuration, params::Dict{String,<:Any})
 
-Enables the specified [`logging_configuration`](@ref), to start logging from a web ACL,
-according to the configuration provided.
+Enables the specified `LoggingConfiguration`, to start logging from a web ACL, according to
+the configuration provided.
 
 !!! note
     This operation completely replaces any mutable specifications that you already have for
@@ -3175,8 +3173,8 @@ rule group to perform this operation.
 This action is subject to the following restrictions:
 
 - You can attach only one policy with each `PutPermissionPolicy` request.
-- The ARN in the request must be a valid WAF [`rule_group`](@ref) ARN and the rule group
-  must exist in the same Region.
+- The ARN in the request must be a valid WAF `RuleGroup` ARN and the rule group must exist
+  in the same Region.
 - The user making the request must be the owner of the rule group.
 
 If a rule group has been shared with your account, you can access it through the call
@@ -3199,8 +3197,8 @@ that are shared with you don't appear in your WAF console rule groups listing.
 
   For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html).
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the [`rule_group`](@ref) to which you
-  want to attach the policy.
+- `resource_arn`: The Amazon Resource Name (ARN) of the `RuleGroup` to which you want to
+  attach the policy.
 """
 function put_permission_policy end
 
@@ -3336,7 +3334,7 @@ end
     update_ipset(addresses, id, lock_token, name, scope)
     update_ipset(addresses, id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Updates the specified [`ipset`](@ref).
+Updates the specified `IPSet`.
 
 !!! note
     This operation completely replaces the mutable specifications that you already have for
@@ -3598,7 +3596,7 @@ end
     update_regex_pattern_set(id, lock_token, name, regular_expression_list, scope)
     update_regex_pattern_set(id, lock_token, name, regular_expression_list, scope, params::Dict{String,<:Any})
 
-Updates the specified [`regex_pattern_set`](@ref).
+Updates the specified `RegexPatternSet`.
 
 !!! note
     This operation completely replaces the mutable specifications that you already have for
@@ -3720,7 +3718,7 @@ end
     update_rule_group(id, lock_token, name, scope, visibility_config)
     update_rule_group(id, lock_token, name, scope, visibility_config, params::Dict{String,<:Any})
 
-Updates the specified [`rule_group`](@ref).
+Updates the specified `RuleGroup`.
 
 !!! note
     This operation completely replaces the mutable specifications that you already have for
@@ -3733,9 +3731,9 @@ Updates the specified [`rule_group`](@ref).
     3. Provide the complete rule group specification to this call
 
 A rule group defines a collection of rules to inspect and control web requests that you can
-use in a [`web_acl`](@ref). When you create a rule group, you define an immutable capacity
-limit. If you update a rule group, you must stay within the capacity. This allows others to
-reuse the rule group with confidence in its capacity requirements.
+use in a `WebACL`. When you create a rule group, you define an immutable capacity limit. If
+you update a rule group, you must stay within the capacity. This allows others to reuse the
+rule group with confidence in its capacity requirements.
 
 **Temporary inconsistencies during updates**
 
@@ -3804,9 +3802,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the rule group that helps with identification.
 
-- `"Rules"`: The [`rule`](@ref) statements used to identify the web requests that you want
-  to manage. Each rule includes one top-level statement that WAF uses to identify matching
-  web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The `Rule` statements used to identify the web requests that you want to
+  manage. Each rule includes one top-level statement that WAF uses to identify matching web
+  requests, and parameters that govern how WAF handles them.
 """
 function update_rule_group end
 
@@ -3865,8 +3863,8 @@ end
     update_web_acl(default_action, id, lock_token, name, scope, visibility_config)
     update_web_acl(default_action, id, lock_token, name, scope, visibility_config, params::Dict{String,<:Any})
 
-Updates the specified [`web_acl`](@ref). While updating a web ACL, WAF provides continuous
-coverage to the resources that you have associated with the web ACL.
+Updates the specified `WebACL`. While updating a web ACL, WAF provides continuous coverage
+to the resources that you have associated with the web ACL.
 
 !!! note
     This operation completely replaces the mutable specifications that you already have for
@@ -3882,11 +3880,11 @@ A web ACL defines a collection of rules to use to inspect and control web reques
 rule has a statement that defines what to look for in web requests and an action that WAF
 applies to requests that match the statement. In the web ACL, you assign a default action to
 take (allow, block) for any request that does not match any of the rules. The rules in a web
-ACL can be a combination of the types [`rule`](@ref), [`rule_group`](@ref), and managed rule
-group. You can associate a web ACL with one or more Amazon Web Services resources to
-protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST
-API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an
-App Runner service, or an Amazon Web Services Verified Access instance.
+ACL can be a combination of the types `Rule`, `RuleGroup`, and managed rule group. You can
+associate a web ACL with one or more Amazon Web Services resources to protect. The resources
+can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application
+Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service,
+or an Amazon Web Services Verified Access instance.
 
 **Temporary inconsistencies during updates**
 
@@ -3980,9 +3978,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the web ACL that helps with identification.
 
-- `"Rules"`: The [`rule`](@ref) statements used to identify the web requests that you want
-  to manage. Each rule includes one top-level statement that WAF uses to identify matching
-  web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The `Rule` statements used to identify the web requests that you want to
+  manage. Each rule includes one top-level statement that WAF uses to identify matching web
+  requests, and parameters that govern how WAF handles them.
 
 - `"TokenDomains"`: Specifies the domains that WAF should accept in a web request token.
   This enables the use of tokens across multiple protected websites. When WAF provides a

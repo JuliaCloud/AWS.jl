@@ -359,7 +359,7 @@ end
     delete_resource_set(identifier)
     delete_resource_set(identifier, params::Dict{String,<:Any})
 
-Deletes the specified [`resource_set`](@ref).
+Deletes the specified `ResourceSet`.
 
 # Arguments
 
@@ -985,7 +985,7 @@ end
 Lists the accounts that are managing the specified Organizations member account. This is
 useful for any member account so that they can view the accounts who are managing their
 account. This operation only returns the managing administrators that have the requested
-account within their [`admin_scope`](@ref).
+account within their `AdminScope`.
 
 # Optional Parameters
 
@@ -1522,8 +1522,8 @@ Organizations, see [Managing the Amazon Web Services Accounts in Your Organizati
 
 - `admin_account`: The Amazon Web Services account ID to add as an Firewall Manager
   administrator account. The account must be a member of the organization that was onboarded
-  to Firewall Manager by [`associate_admin_account`](@ref). For more information about
-  Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
+  to Firewall Manager by `AssociateAdminAccount`. For more information about Organizations,
+  see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
 
 # Optional Parameters
 

@@ -363,10 +363,10 @@ Creates a new cross-cluster search connection from a source domain to a destinat
 
 - `connection_alias`: Specifies the connection alias that will be used by the customer for
   this connection.
-- `destination_domain_info`: Specifies the `[`domain_information`](@ref)` for the
-  destination Elasticsearch domain.
-- `source_domain_info`: Specifies the `[`domain_information`](@ref)` for the source
+- `destination_domain_info`: Specifies the ``DomainInformation`` for the destination
   Elasticsearch domain.
+- `source_domain_info`: Specifies the ``DomainInformation`` for the source Elasticsearch
+  domain.
 """
 function create_outbound_cross_cluster_search_connection end
 
@@ -970,22 +970,22 @@ end
     describe_elasticsearch_instance_type_limits(elasticsearch_version, instance_type, params::Dict{String,<:Any})
 
 Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When
-modifying existing Domain, specify the `[`domain_name`](@ref)` to know what Limits are
-supported for modifying.
+modifying existing Domain, specify the ``DomainName`` to know what Limits are supported for
+modifying.
 
 # Arguments
 
-- `elasticsearch_version`: Version of Elasticsearch for which `[`limits`](@ref)` are needed.
+- `elasticsearch_version`: Version of Elasticsearch for which ``Limits`` are needed.
 - `instance_type`: The instance type for an Elasticsearch cluster for which Elasticsearch
-  `[`limits`](@ref)` are needed.
+  ``Limits`` are needed.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"domainName"`: DomainName represents the name of the Domain that we are trying to modify.
-  This should be present only if we are querying for Elasticsearch `[`limits`](@ref)` for
-  existing domain.
+  This should be present only if we are querying for Elasticsearch ``Limits`` for existing
+  domain.
 """
 function describe_elasticsearch_instance_type_limits end
 
@@ -1026,7 +1026,7 @@ Lists all the inbound cross-cluster search connections for a destination domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: A list of filters used to match properties for inbound cross-cluster search
-  connection. Available `[`filter`](@ref)` names for this operation are:
+  connection. Available ``Filter`` names for this operation are:
 
   - cross-cluster-search-connection-id
   - source-domain-info.domain-name
@@ -1076,7 +1076,7 @@ Lists all the outbound cross-cluster search connections for a source domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: A list of filters used to match properties for outbound cross-cluster search
-  connection. Available `[`filter`](@ref)` names for this operation are:
+  connection. Available ``Filter`` names for this operation are:
 
   - cross-cluster-search-connection-id
   - destination-domain-info.domain-name
@@ -1323,8 +1323,8 @@ end
     get_compatible_elasticsearch_versions(params::Dict{String,<:Any})
 
 Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a
-`[`domain_name`](@ref)` to get all upgrade compatible Elasticsearch versions for that
-specific domain.
+``DomainName`` to get all upgrade compatible Elasticsearch versions for that specific
+domain.
 
 # Optional Parameters
 

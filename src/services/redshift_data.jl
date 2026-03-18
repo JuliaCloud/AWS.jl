@@ -23,14 +23,14 @@ combinations of request parameters:
   - When connecting to a serverless workgroup, specify the workgroup name and database name.
     The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift-serverless:_get_credentials`](@ref) operation is required.
+    to call the `redshift-serverless:GetCredentials` operation is required.
   - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
     database name. The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift:_get_cluster_credentials_with_iam`](@ref) operation is required.
+    to call the `redshift:GetClusterCredentialsWithIAM` operation is required.
   - When connecting to a cluster as a database user, specify the cluster identifier, the
-    database name, and the database user name. Also, permission to call the [`redshift:_get_cluster_credentials`](@ref)
-    operation is required.
+    database name, and the database user name. Also, permission to call the
+    `redshift:GetClusterCredentials` operation is required.
 
 For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
 in the *Amazon Redshift Management Guide*.
@@ -192,14 +192,14 @@ parameters:
   - When connecting to a serverless workgroup, specify the workgroup name and database name.
     The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift-serverless:_get_credentials`](@ref) operation is required.
+    to call the `redshift-serverless:GetCredentials` operation is required.
   - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
     database name. The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift:_get_cluster_credentials_with_iam`](@ref) operation is required.
+    to call the `redshift:GetClusterCredentialsWithIAM` operation is required.
   - When connecting to a cluster as a database user, specify the cluster identifier, the
-    database name, and the database user name. Also, permission to call the [`redshift:_get_cluster_credentials`](@ref)
-    operation is required.
+    database name, and the database user name. Also, permission to call the
+    `redshift:GetClusterCredentials` operation is required.
 
 For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
 in the *Amazon Redshift Management Guide*.
@@ -291,14 +291,14 @@ authorization method, use one of the following combinations of request parameter
   - When connecting to a serverless workgroup, specify the workgroup name and database name.
     The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift-serverless:_get_credentials`](@ref) operation is required.
+    to call the `redshift-serverless:GetCredentials` operation is required.
   - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
     database name. The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift:_get_cluster_credentials_with_iam`](@ref) operation is required.
+    to call the `redshift:GetClusterCredentialsWithIAM` operation is required.
   - When connecting to a cluster as a database user, specify the cluster identifier, the
-    database name, and the database user name. Also, permission to call the [`redshift:_get_cluster_credentials`](@ref)
-    operation is required.
+    database name, and the database user name. Also, permission to call the
+    `redshift:GetClusterCredentials` operation is required.
 
 For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
 in the *Amazon Redshift Management Guide*.
@@ -432,14 +432,14 @@ parameters:
   - When connecting to a serverless workgroup, specify the workgroup name and database name.
     The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift-serverless:_get_credentials`](@ref) operation is required.
+    to call the `redshift-serverless:GetCredentials` operation is required.
   - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
     database name. The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift:_get_cluster_credentials_with_iam`](@ref) operation is required.
+    to call the `redshift:GetClusterCredentialsWithIAM` operation is required.
   - When connecting to a cluster as a database user, specify the cluster identifier, the
-    database name, and the database user name. Also, permission to call the [`redshift:_get_cluster_credentials`](@ref)
-    operation is required.
+    database name, and the database user name. Also, permission to call the
+    `redshift:GetClusterCredentials` operation is required.
 
 For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
 in the *Amazon Redshift Management Guide*.
@@ -521,14 +521,14 @@ parameters:
   - When connecting to a serverless workgroup, specify the workgroup name and database name.
     The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift-serverless:_get_credentials`](@ref) operation is required.
+    to call the `redshift-serverless:GetCredentials` operation is required.
   - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
     database name. The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift:_get_cluster_credentials_with_iam`](@ref) operation is required.
+    to call the `redshift:GetClusterCredentialsWithIAM` operation is required.
   - When connecting to a cluster as a database user, specify the cluster identifier, the
-    database name, and the database user name. Also, permission to call the [`redshift:_get_cluster_credentials`](@ref)
-    operation is required.
+    database name, and the database user name. Also, permission to call the
+    `redshift:GetClusterCredentials` operation is required.
 
 For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
 in the *Amazon Redshift Management Guide*.
@@ -680,14 +680,14 @@ request parameters:
   - When connecting to a serverless workgroup, specify the workgroup name and database name.
     The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift-serverless:_get_credentials`](@ref) operation is required.
+    to call the `redshift-serverless:GetCredentials` operation is required.
   - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
     database name. The database user name is derived from the IAM identity. For example,
     `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission
-    to call the [`redshift:_get_cluster_credentials_with_iam`](@ref) operation is required.
+    to call the `redshift:GetClusterCredentialsWithIAM` operation is required.
   - When connecting to a cluster as a database user, specify the cluster identifier, the
-    database name, and the database user name. Also, permission to call the [`redshift:_get_cluster_credentials`](@ref)
-    operation is required.
+    database name, and the database user name. Also, permission to call the
+    `redshift:GetClusterCredentials` operation is required.
 
 For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
 in the *Amazon Redshift Management Guide*.

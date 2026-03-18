@@ -211,7 +211,7 @@ returns no error messages.
   Queue URLs and names are case-sensitive.
 
 - `receipt_handle`: The receipt handle associated with the message, whose visibility timeout
-  is changed. This parameter is returned by the `[`receive_message`](@ref)` action.
+  is changed. This parameter is returned by the ``ReceiveMessage`` action.
 
 - `visibility_timeout`: The new value for the message's visibility timeout (in seconds).
   Values range: `0` to `43200`. Maximum: 12 hours.
@@ -394,8 +394,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     about policy structure, see [Overview of Amazon Web Services IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html)
     in the *IAM User Guide*.
   - `ReceiveMessageWaitTimeSeconds` – The length of time, in seconds, for which a
-    `[`receive_message`](@ref)` action waits for a message to arrive. Valid values: An
-    integer from 0 to 20 (seconds). Default: 0.
+    ``ReceiveMessage`` action waits for a message to arrive. Valid values: An integer from 0
+    to 20 (seconds). Default: 0.
   - `VisibilityTimeout` – The visibility timeout for the queue, in seconds. Valid values: An
     integer from 0 to 43,200 (12 hours). Default: 30. For more information about the
     visibility timeout, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html)
@@ -1268,9 +1268,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     keys. Only one server-side encryption option is supported per queue (for example, [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html)
     or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
   - `MessageDeduplicationId` – Returns the value provided by the producer that calls the
-    `[`send_message`](@ref)` action.
+    ``SendMessage`` action.
   - `MessageGroupId` – Returns the value provided by the producer that calls the
-    `[`send_message`](@ref)` action. Messages with the same `MessageGroupId` are returned in
+    ``SendMessage`` action. Messages with the same `MessageGroupId` are returned in
     sequence.
   - `SequenceNumber` – Returns the value provided by Amazon SQS.
 
@@ -1312,9 +1312,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     keys. Only one server-side encryption option is supported per queue (for example, [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html)
     or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
   - `MessageDeduplicationId` – Returns the value provided by the producer that calls the
-    `[`send_message`](@ref)` action.
+    ``SendMessage`` action.
   - `MessageGroupId` – Returns the value provided by the producer that calls the
-    `[`send_message`](@ref)` action. Messages with the same `MessageGroupId` are returned in
+    ``SendMessage`` action. Messages with the same `MessageGroupId` are returned in
     sequence.
   - `SequenceNumber` – Returns the value provided by Amazon SQS.
 
@@ -1423,7 +1423,7 @@ Revokes any permissions in the queue policy that matches the specified `Label` p
 # Arguments
 
 - `label`: The identification of the permission to remove. This is the label added using the
-  `[`add_permission`](@ref)` action.
+  ``AddPermission`` action.
 
 - `queue_url`: The URL of the Amazon SQS queue from which permissions are removed.
 
@@ -1664,7 +1664,7 @@ value for the queue.
 
 # Arguments
 
-- `entries`: A list of `[`send_message_batch_request_entry`](@ref)` items.
+- `entries`: A list of ``SendMessageBatchRequestEntry`` items.
 
 - `queue_url`: The URL of the Amazon SQS queue to which batched messages are sent.
 
@@ -1749,8 +1749,8 @@ messages.
     about policy structure, see [Overview of Amazon Web Services IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html)
     in the *Identity and Access Management User Guide*.
   - `ReceiveMessageWaitTimeSeconds` – The length of time, in seconds, for which a
-    `[`receive_message`](@ref)` action waits for a message to arrive. Valid values: An
-    integer from 0 to 20 (seconds). Default: 0.
+    ``ReceiveMessage`` action waits for a message to arrive. Valid values: An integer from 0
+    to 20 (seconds). Default: 0.
   - `VisibilityTimeout` – The visibility timeout for the queue, in seconds. Valid values: An
     integer from 0 to 43,200 (12 hours). Default: 30. For more information about the
     visibility timeout, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html)

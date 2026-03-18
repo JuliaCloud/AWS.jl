@@ -2079,8 +2079,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       You can only filter by one Control Catalog resource at a time. Specifying multiple
       resource ARNs isn’t currently supported. If you want to filter by more than one ARN,
-      we recommend that you run the [`list_controls`](@ref) operation separately for each
-      ARN.
+      we recommend that you run the `ListControls` operation separately for each ARN.
 
   Alternatively, specify `UNCATEGORIZED` to list controls that aren't mapped to a Control
   Catalog resource. For example, this operation might return a list of custom controls that

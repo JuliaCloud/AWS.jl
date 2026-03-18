@@ -1484,9 +1484,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to display the next page of results.
-- `"nextToken"`: If your initial [`list_endpoint_access`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in following [`list_endpoint_access`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListEndpointAccess` operation returns a `nextToken`, you
+  can include the returned `nextToken` in following `ListEndpointAccess` operations, which
+  returns results in the next page.
 - `"ownerAccount"`: The owner Amazon Web Services account for the Amazon Redshift Serverless
   workgroup.
 - `"vpcId"`: The unique identifier of the virtual private cloud with access to Amazon
@@ -1521,9 +1521,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to display the next page of results.
-- `"nextToken"`: If your initial [`list_namespaces`](@ref) operation returns a `nextToken`,
-  you can include the returned `nextToken` in following [`list_namespaces`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListNamespaces` operation returns a `nextToken`, you can
+  include the returned `nextToken` in following `ListNamespaces` operations, which returns
+  results in the next page.
 """
 function list_namespaces end
 
@@ -1557,9 +1557,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespaceArn"`: The Amazon Resource Name (ARN) of the namespace from which to list
   recovery points.
 - `"namespaceName"`: The name of the namespace to list recovery points for.
-- `"nextToken"`: If your initial [`list_recovery_points`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in following [`list_recovery_points`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListRecoveryPoints` operation returns a `nextToken`, you
+  can include the returned `nextToken` in following `ListRecoveryPoints` operations, which
+  returns results in the next page.
 - `"startTime"`: The time when the recovery point's creation was initiated.
 """
 function list_recovery_points end
@@ -1705,13 +1705,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use nextToken to display the next page of results.
-- `"namespaceName"`: The namespace from which to list all of the statuses of [`restore_table_from_snapshot`](@ref)
-  operations .
-- `"nextToken"`: If your initial [`list_table_restore_status`](@ref) operation returns a
-  nextToken, you can include the returned `nextToken` in following [`list_table_restore_status`](@ref)
-  operations. This will return results on the next page.
-- `"workgroupName"`: The workgroup from which to list all of the statuses of [`restore_table_from_snapshot`](@ref)
-  operations.
+- `"namespaceName"`: The namespace from which to list all of the statuses of
+  `RestoreTableFromSnapshot` operations .
+- `"nextToken"`: If your initial `ListTableRestoreStatus` operation returns a nextToken, you
+  can include the returned `nextToken` in following `ListTableRestoreStatus` operations.
+  This will return results on the next page.
+- `"workgroupName"`: The workgroup from which to list all of the statuses of
+  `RestoreTableFromSnapshot` operations.
 """
 function list_table_restore_status end
 
@@ -1782,9 +1782,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results. The default is 100.
-- `"nextToken"`: If your initial [`list_usage_limits`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in following [`list_usage_limits`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListUsageLimits` operation returns a `nextToken`, you can
+  include the returned `nextToken` in following `ListUsageLimits` operations, which returns
+  results in the next page.
 - `"resourceArn"`: The Amazon Resource Name (ARN) associated with the resource whose usage
   limits you want to list.
 - `"usageType"`: The Amazon Redshift Serverless feature whose limits you want to see.

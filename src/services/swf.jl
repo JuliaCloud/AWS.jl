@@ -1490,13 +1490,13 @@ end
     poll_for_activity_task(domain, task_list)
     poll_for_activity_task(domain, task_list, params::Dict{String,<:Any})
 
-Used by workers to get an [`activity_task`](@ref) from the specified activity `taskList`.
-This initiates a long poll, where the service holds the HTTP connection open and responds as
-soon as a task becomes available. The maximum time the service holds on to the request
-before responding is 60 seconds. If no task is available within 60 seconds, the poll returns
-an empty result. An empty result, in this context, means that an ActivityTask is returned,
-but that the value of taskToken is an empty string. If a task is returned, the worker should
-use its type to identify and process it correctly.
+Used by workers to get an `ActivityTask` from the specified activity `taskList`. This
+initiates a long poll, where the service holds the HTTP connection open and responds as soon
+as a task becomes available. The maximum time the service holds on to the request before
+responding is 60 seconds. If no task is available within 60 seconds, the poll returns an
+empty result. An empty result, in this context, means that an ActivityTask is returned, but
+that the value of taskToken is an empty string. If a task is returned, the worker should use
+its type to identify and process it correctly.
 
 !!! important
     Workers should set their client side socket timeout to at least 70 seconds (10 seconds
@@ -1571,11 +1571,10 @@ end
     poll_for_decision_task(domain, task_list)
     poll_for_decision_task(domain, task_list, params::Dict{String,<:Any})
 
-Used by deciders to get a [`decision_task`](@ref) from the specified decision `taskList`. A
-decision task may be returned for any open workflow execution that is using the specified
-task list. The task includes a paginated view of the history of the workflow execution. The
-decider should use the workflow type and the history to determine how to properly handle the
-task.
+Used by deciders to get a `DecisionTask` from the specified decision `taskList`. A decision
+task may be returned for any open workflow execution that is using the specified task list.
+The task includes a paginated view of the history of the workflow execution. The decider
+should use the workflow type and the history to determine how to properly handle the task.
 
 This action initiates a long poll, where the service holds the HTTP connection open and
 responds as soon a task becomes available. If no decision task is available in the specified
@@ -1645,10 +1644,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 
   !!! note
-      The `nextPageToken` returned by this action cannot be used with [`get_workflow_execution_history`](@ref)
-      to get the next page. You must call [`poll_for_decision_task`](@ref) again (with the
-      `nextPageToken`) to retrieve the next page of history records. Calling [`poll_for_decision_task`](@ref)
-      with a `nextPageToken` doesn't return a new decision task.
+      The `nextPageToken` returned by this action cannot be used with
+      `GetWorkflowExecutionHistory` to get the next page. You must call
+      `PollForDecisionTask` again (with the `nextPageToken`) to retrieve the next page of
+      history records. Calling `PollForDecisionTask` with a `nextPageToken` doesn't return a
+      new decision task.
 
 - `"reverseOrder"`: When set to `true`, returns the events in reverse order. By default the
   results are returned in ascending order of the `eventTimestamp` of the events.
@@ -1692,13 +1692,12 @@ end
     record_activity_task_heartbeat(task_token)
     record_activity_task_heartbeat(task_token, params::Dict{String,<:Any})
 
-Used by activity workers to report to the service that the [`activity_task`](@ref)
-represented by the specified `taskToken` is still making progress. The worker can also
-specify details of the progress, for example percent complete, using the `details`
-parameter. This action can also be used by the worker as a mechanism to check if
-cancellation is being requested for the activity task. If a cancellation is being attempted
-for the specified task, then the boolean `cancelRequested` flag returned by the service is
-set to `true`.
+Used by activity workers to report to the service that the `ActivityTask` represented by the
+specified `taskToken` is still making progress. The worker can also specify details of the
+progress, for example percent complete, using the `details` parameter. This action can also
+be used by the worker as a mechanism to check if cancellation is being requested for the
+activity task. If a cancellation is being attempted for the specified task, then the boolean
+`cancelRequested` flag returned by the service is set to `true`.
 
 This action resets the `taskHeartbeatTimeout` clock. The `taskHeartbeatTimeout` is specified
 in [`register_activity_type`](@ref).
@@ -1738,7 +1737,7 @@ in the *Amazon SWF Developer Guide*.
 
 # Arguments
 
-- `task_token`: The `taskToken` of the [`activity_task`](@ref).
+- `task_token`: The `taskToken` of the `ActivityTask`.
 
   !!! important
       `taskToken` is generated by the service and should be treated as an opaque value. If
@@ -1835,20 +1834,20 @@ in the *Amazon SWF Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"defaultTaskHeartbeatTimeout"`: If set, specifies the default maximum time before which a
-  worker processing a task of this type must report progress by calling [`record_activity_task_heartbeat`](@ref).
-  If the timeout is exceeded, the activity task is automatically timed out. This default can
-  be overridden when scheduling an activity task using the `ScheduleActivityTask` [`decision`](@ref).
-  If the activity worker subsequently attempts to record a heartbeat or returns a result,
-  the activity worker receives an `UnknownResource` fault. In this case, Amazon SWF no
-  longer considers the activity task to be valid; the activity worker should clean up the
-  activity task.
+  worker processing a task of this type must report progress by calling
+  `RecordActivityTaskHeartbeat`. If the timeout is exceeded, the activity task is
+  automatically timed out. This default can be overridden when scheduling an activity task
+  using the `ScheduleActivityTask` `Decision`. If the activity worker subsequently attempts
+  to record a heartbeat or returns a result, the activity worker receives an
+  `UnknownResource` fault. In this case, Amazon SWF no longer considers the activity task to
+  be valid; the activity worker should clean up the activity task.
 
   The duration is specified in seconds, an integer greater than or equal to `0`. You can use
   `NONE` to specify unlimited duration.
 
 - `"defaultTaskList"`: If set, specifies the default task list to use for scheduling tasks
   of this activity type. This default task list is used if a task list isn't provided when a
-  task is scheduled through the `ScheduleActivityTask` [`decision`](@ref).
+  task is scheduled through the `ScheduleActivityTask` `Decision`.
 
 - `"defaultTaskPriority"`: The default task priority to assign to the activity type. If not
   assigned, then `0` is used. Valid values are integers that range from Java's
@@ -1860,21 +1859,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"defaultTaskScheduleToCloseTimeout"`: If set, specifies the default maximum duration for
   a task of this activity type. This default can be overridden when scheduling an activity
-  task using the `ScheduleActivityTask` [`decision`](@ref).
+  task using the `ScheduleActivityTask` `Decision`.
 
   The duration is specified in seconds, an integer greater than or equal to `0`. You can use
   `NONE` to specify unlimited duration.
 
 - `"defaultTaskScheduleToStartTimeout"`: If set, specifies the default maximum duration that
   a task of this activity type can wait before being assigned to a worker. This default can
-  be overridden when scheduling an activity task using the `ScheduleActivityTask` [`decision`](@ref).
+  be overridden when scheduling an activity task using the `ScheduleActivityTask`
+  `Decision`.
 
   The duration is specified in seconds, an integer greater than or equal to `0`. You can use
   `NONE` to specify unlimited duration.
 
 - `"defaultTaskStartToCloseTimeout"`: If set, specifies the default maximum duration that a
   worker can take to process tasks of this activity type. This default can be overridden
-  when scheduling an activity task using the `ScheduleActivityTask` [`decision`](@ref).
+  when scheduling an activity task using the `ScheduleActivityTask` `Decision`.
 
   The duration is specified in seconds, an integer greater than or equal to `0`. You can use
   `NONE` to specify unlimited duration.
@@ -2060,7 +2060,7 @@ in the *Amazon SWF Developer Guide*.
   !!! note
       The workflow type consists of the name and version, the combination of which must be
       unique within the domain. To get a list of all currently registered workflow types,
-      use the [`list_workflow_types`](@ref) action.
+      use the `ListWorkflowTypes` action.
 
   The specified string must not contain a `:` (colon), `/` (slash), `|` (vertical bar), or
   any control characters (`\\u0000-\\u001f` | `\\u007f-\\u009f`). Also, it must *not* be the
@@ -2071,10 +2071,10 @@ in the *Amazon SWF Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"defaultChildPolicy"`: If set, specifies the default policy to use for the child workflow
-  executions when a workflow execution of this type is terminated, by calling the [`terminate_workflow_execution`](@ref)
-  action explicitly or due to an expired timeout. This default can be overridden when
-  starting a workflow execution using the [`start_workflow_execution`](@ref) action or the
-  `StartChildWorkflowExecution` [`decision`](@ref).
+  executions when a workflow execution of this type is terminated, by calling the
+  `TerminateWorkflowExecution` action explicitly or due to an expired timeout. This default
+  can be overridden when starting a workflow execution using the `StartWorkflowExecution`
+  action or the `StartChildWorkflowExecution` `Decision`.
 
   The supported child policies are:
 
@@ -2087,8 +2087,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"defaultExecutionStartToCloseTimeout"`: If set, specifies the default maximum duration
   for executions of this workflow type. You can override this default when starting an
-  execution through the [`start_workflow_execution`](@ref) Action or
-  `StartChildWorkflowExecution` [`decision`](@ref).
+  execution through the `StartWorkflowExecution` Action or `StartChildWorkflowExecution`
+  `Decision`.
 
   The duration is specified in seconds; an integer greater than or equal to 0. Unlike some
   of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for
@@ -2106,8 +2106,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"defaultTaskList"`: If set, specifies the default task list to use for scheduling
   decision tasks for executions of this workflow type. This default is used only if a task
-  list isn't provided when starting the execution through the [`start_workflow_execution`](@ref)
-  Action or `StartChildWorkflowExecution` [`decision`](@ref).
+  list isn't provided when starting the execution through the `StartWorkflowExecution`
+  Action or `StartChildWorkflowExecution` `Decision`.
 
 - `"defaultTaskPriority"`: The default task priority to assign to the workflow type. If not
   assigned, then `0` is used. Valid values are integers that range from Java's
@@ -2119,8 +2119,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"defaultTaskStartToCloseTimeout"`: If set, specifies the default maximum duration of
   decision tasks for this workflow type. This default can be overridden when starting a
-  workflow execution using the [`start_workflow_execution`](@ref) action or the
-  `StartChildWorkflowExecution` [`decision`](@ref).
+  workflow execution using the `StartWorkflowExecution` action or the
+  `StartChildWorkflowExecution` `Decision`.
 
   The duration is specified in seconds, an integer greater than or equal to `0`. You can use
   `NONE` to specify unlimited duration.
@@ -2242,9 +2242,9 @@ end
     respond_activity_task_canceled(task_token)
     respond_activity_task_canceled(task_token, params::Dict{String,<:Any})
 
-Used by workers to tell the service that the [`activity_task`](@ref) identified by the
-`taskToken` was successfully canceled. Additional `details` can be provided using the
-`details` argument.
+Used by workers to tell the service that the `ActivityTask` identified by the `taskToken`
+was successfully canceled. Additional `details` can be provided using the `details`
+argument.
 
 These `details` (if provided) appear in the `ActivityTaskCanceled` event added to the
 workflow history.
@@ -2275,7 +2275,7 @@ in the *Amazon SWF Developer Guide*.
 
 # Arguments
 
-- `task_token`: The `taskToken` of the [`activity_task`](@ref).
+- `task_token`: The `taskToken` of the `ActivityTask`.
 
   !!! important
       `taskToken` is generated by the service and should be treated as an opaque value. If
@@ -2320,9 +2320,9 @@ end
     respond_activity_task_completed(task_token)
     respond_activity_task_completed(task_token, params::Dict{String,<:Any})
 
-Used by workers to tell the service that the [`activity_task`](@ref) identified by the
-`taskToken` completed successfully with a `result` (if provided). The `result` appears in
-the `ActivityTaskCompleted` event in the workflow history.
+Used by workers to tell the service that the `ActivityTask` identified by the `taskToken`
+completed successfully with a `result` (if provided). The `result` appears in the
+`ActivityTaskCompleted` event in the workflow history.
 
 !!! important
     If the requested task doesn't complete successfully, use [`respond_activity_task_failed`](@ref)
@@ -2352,7 +2352,7 @@ in the *Amazon SWF Developer Guide*.
 
 # Arguments
 
-- `task_token`: The `taskToken` of the [`activity_task`](@ref).
+- `task_token`: The `taskToken` of the `ActivityTask`.
 
   !!! important
       `taskToken` is generated by the service and should be treated as an opaque value. If
@@ -2398,9 +2398,9 @@ end
     respond_activity_task_failed(task_token)
     respond_activity_task_failed(task_token, params::Dict{String,<:Any})
 
-Used by workers to tell the service that the [`activity_task`](@ref) identified by the
-`taskToken` has failed with `reason` (if specified). The `reason` and `details` appear in
-the `ActivityTaskFailed` event added to the workflow history.
+Used by workers to tell the service that the `ActivityTask` identified by the `taskToken`
+has failed with `reason` (if specified). The `reason` and `details` appear in the
+`ActivityTaskFailed` event added to the workflow history.
 
 A task is considered open from the time that it is scheduled until it is closed. Therefore a
 task is reported as open while a worker is processing it. A task is closed after it has been
@@ -2424,7 +2424,7 @@ in the *Amazon SWF Developer Guide*.
 
 # Arguments
 
-- `task_token`: The `taskToken` of the [`activity_task`](@ref).
+- `task_token`: The `taskToken` of the `ActivityTask`.
 
   !!! important
       `taskToken` is generated by the service and should be treated as an opaque value. If
@@ -2470,9 +2470,9 @@ end
     respond_decision_task_completed(task_token)
     respond_decision_task_completed(task_token, params::Dict{String,<:Any})
 
-Used by deciders to tell the service that the [`decision_task`](@ref) identified by the
-`taskToken` has successfully completed. The `decisions` argument specifies the list of
-decisions made while processing the task.
+Used by deciders to tell the service that the `DecisionTask` identified by the `taskToken`
+has successfully completed. The `decisions` argument specifies the list of decisions made
+while processing the task.
 
 A `DecisionTaskCompleted` event is added to the workflow history. The `executionContext`
 specified is attached to the event in the workflow execution history.
@@ -2488,7 +2488,7 @@ in the *Amazon SWF Developer Guide*.
 
 # Arguments
 
-- `task_token`: The `taskToken` from the [`decision_task`](@ref).
+- `task_token`: The `taskToken` from the `DecisionTask`.
 
   !!! important
       `taskToken` is generated by the service and should be treated as an opaque value. If
@@ -2500,7 +2500,7 @@ in the *Amazon SWF Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"decisions"`: The list of decisions (possibly empty) made by the decider while processing
-  this decision task. See the docs for the [`decision`](@ref) structure for details.
+  this decision task. See the docs for the `Decision` structure for details.
 
 - `"executionContext"`: User defined context to add to workflow execution.
 
@@ -2692,9 +2692,9 @@ in the *Amazon SWF Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"childPolicy"`: If set, specifies the policy to use for the child workflow executions of
-  this workflow execution if it is terminated, by calling the [`terminate_workflow_execution`](@ref)
+  this workflow execution if it is terminated, by calling the `TerminateWorkflowExecution`
   action explicitly or due to an expired timeout. This policy overrides the default child
-  policy specified when registering the workflow type using [`register_workflow_type`](@ref).
+  policy specified when registering the workflow type using `RegisterWorkflowType`.
 
   The supported child policies are:
 
@@ -2737,8 +2737,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       in the *Amazon SWF Developer Guide*.
 
 - `"tagList"`: The list of tags to associate with the workflow execution. You can specify a
-  maximum of 5 tags. You can list workflow executions with a specific tag by calling [`list_open_workflow_executions`](@ref)
-  or [`list_closed_workflow_executions`](@ref) and specifying a [`tag_filter`](@ref).
+  maximum of 5 tags. You can list workflow executions with a specific tag by calling
+  `ListOpenWorkflowExecutions` or `ListClosedWorkflowExecutions` and specifying a
+  `TagFilter`.
 
 - `"taskList"`: The task list to use for the decision tasks generated for this workflow
   execution. This overrides the `defaultTaskList` specified when registering the workflow
@@ -2764,7 +2765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"taskStartToCloseTimeout"`: Specifies the maximum duration of decision tasks for this
   workflow execution. This parameter overrides the `defaultTaskStartToCloseTimout` specified
-  when registering the workflow type using [`register_workflow_type`](@ref).
+  when registering the workflow type using `RegisterWorkflowType`.
 
   The duration is specified in seconds, an integer greater than or equal to `0`. You can use
   `NONE` to specify unlimited duration.

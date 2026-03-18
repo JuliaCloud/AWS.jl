@@ -66,8 +66,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"logGroupName"`: The name of the log group.
 
-  In your [`associate_kms_key`](@ref) operation, you must specify either the
-  `resourceIdentifier` parameter or the `logGroup` parameter, but you can't specify both.
+  In your `AssociateKmsKey` operation, you must specify either the `resourceIdentifier`
+  parameter or the `logGroup` parameter, but you can't specify both.
 
 - `"resourceIdentifier"`: Specifies the target for this operation. You must specify one of
   the following:
@@ -83,8 +83,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `arn:aws:logs:*REGION*:*ACCOUNT_ID*:log-group:*LOG_GROUP_NAME*`
 
-  In your [`associate_kms_key`](@ref) operation, you must specify either the
-  `resourceIdentifier` parameter or the `logGroup` parameter, but you can't specify both.
+  In your `AssociateKmsKey` operation, you must specify either the `resourceIdentifier`
+  parameter or the `logGroup` parameter, but you can't specify both.
 """
 function associate_kms_key end
 
@@ -1882,8 +1882,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"logGroupName"`: The name of the log group.
 
-  In your [`disassociate_kms_key`](@ref) operation, you must specify either the
-  `resourceIdentifier` parameter or the `logGroup` parameter, but you can't specify both.
+  In your `DisassociateKmsKey` operation, you must specify either the `resourceIdentifier`
+  parameter or the `logGroup` parameter, but you can't specify both.
 
 - `"resourceIdentifier"`: Specifies the target for this operation. You must specify one of
   the following:
@@ -1901,8 +1901,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `arn:aws:logs:*REGION*:*ACCOUNT_ID*:query-result:*`
 
-  In your [`disssociate_kms_key`](@ref) operation, you must specify either the
-  `resourceIdentifier` parameter or the `logGroup` parameter, but you can't specify both.
+  In your `DisssociateKmsKey` operation, you must specify either the `resourceIdentifier`
+  parameter or the `logGroup` parameter, but you can't specify both.
 """
 function disassociate_kms_key end
 
@@ -2415,8 +2415,8 @@ The full unparsed log event is returned within `@message`.
 # Arguments
 
 - `log_record_pointer`: The pointer corresponding to the log event record you want to
-  retrieve. You get this from the response of a [`get_query_results`](@ref) operation. In
-  that response, the value of the `@ptr` field for a log event is the value to use as
+  retrieve. You get this from the response of a `GetQueryResults` operation. In that
+  response, the value of the `@ptr` field for a log event is the value to use as
   `logRecordPointer` to retrieve that complete log event record.
 
 # Optional Parameters
@@ -3242,7 +3242,7 @@ permission.
 
 - `destination_name`: A name for the destination.
 - `role_arn`: The ARN of an IAM role that grants CloudWatch Logs permissions to call the
-  Amazon Kinesis [`put_record`](@ref) operation on the destination stream.
+  Amazon Kinesis `PutRecord` operation on the destination stream.
 - `target_arn`: The ARN of an Amazon Kinesis stream to which to deliver matching log events.
 
 # Optional Parameters
@@ -4043,21 +4043,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you specify an ARN, the ARN can't end with an asterisk (*).
 
-  A [`start_query`](@ref) operation must include exactly one of the following parameters:
+  A `StartQuery` operation must include exactly one of the following parameters:
   `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
 
 - `"logGroupName"`: The log group on which to perform the query.
 
   !!! note
-      A [`start_query`](@ref) operation must include exactly one of the following
-      parameters: `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
+      A `StartQuery` operation must include exactly one of the following parameters:
+      `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
 
 - `"logGroupNames"`: The list of log groups to be queried. You can include up to 50 log
   groups.
 
   !!! note
-      A [`start_query`](@ref) operation must include exactly one of the following
-      parameters: `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
+      A `StartQuery` operation must include exactly one of the following parameters:
+      `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
 """
 function start_query end
 

@@ -12,9 +12,9 @@ Analyzes an input document for relationships between detected items.
 
 The types of information returned are as follows:
 
-- Form data (key-value pairs). The related information is returned in two [`block`](@ref)
-  objects, each of type `KEY_VALUE_SET`: a KEY `Block` object and a VALUE `Block` object.
-  For example, *Name: Ana Silva Carolina* contains a key and value. *Name:* is the key. *Ana
+- Form data (key-value pairs). The related information is returned in two `Block` objects,
+  each of type `KEY_VALUE_SET`: a KEY `Block` object and a VALUE `Block` object. For
+  example, *Name: Ana Silva Carolina* contains a key and value. *Name:* is the key. *Ana
   Silva Carolina* is the value.
 - Table and table cell data. A TABLE `Block` object contains information about a detected
   table. A CELL `Block` object is returned for each cell in a table.
@@ -419,7 +419,7 @@ end
 Detects text in the input document. Amazon Textract can detect lines of text and the words
 that make up a line of text. The input document must be in one of the following image
 formats: JPEG, PNG, PDF, or TIFF. `DetectDocumentText` returns the detected text in an array
-of [`block`](@ref) objects.
+of `Block` objects.
 
 Each document page has as an associated `Block` of type PAGE. Each PAGE `Block` object is
 the parent of LINE `Block` objects that represent the lines of detected text on a page. A
@@ -567,12 +567,12 @@ results of the text-detection operation, first check that the status value publi
 Amazon SNS topic is `SUCCEEDED`. If so, call `GetDocumentAnalysis`, and pass the job
 identifier (`JobId`) from the initial call to `StartDocumentAnalysis`.
 
-`GetDocumentAnalysis` returns an array of [`block`](@ref) objects. The following types of
+`GetDocumentAnalysis` returns an array of `Block` objects. The following types of
 information are returned:
 
-- Form data (key-value pairs). The related information is returned in two [`block`](@ref)
-  objects, each of type `KEY_VALUE_SET`: a KEY `Block` object and a VALUE `Block` object.
-  For example, *Name: Ana Silva Carolina* contains a key and value. *Name:* is the key. *Ana
+- Form data (key-value pairs). The related information is returned in two `Block` objects,
+  each of type `KEY_VALUE_SET`: a KEY `Block` object and a VALUE `Block` object. For
+  example, *Name: Ana Silva Carolina* contains a key and value. *Name:* is the key. *Ana
   Silva Carolina* is the value.
 - Table and table cell data. A TABLE `Block` object contains information about a detected
   table. A CELL `Block` object is returned for each cell in a table.
@@ -656,7 +656,7 @@ results of the text-detection operation, first check that the status value publi
 Amazon SNS topic is `SUCCEEDED`. If so, call `GetDocumentTextDetection`, and pass the job
 identifier (`JobId`) from the initial call to `StartDocumentTextDetection`.
 
-`GetDocumentTextDetection` returns an array of [`block`](@ref) objects.
+`GetDocumentTextDetection` returns an array of `Block` objects.
 
 Each document page has as an associated `Block` of type PAGE. Each PAGE `Block` object is
 the parent of LINE `Block` objects that represent the lines of detected text on a page. A
@@ -995,8 +995,8 @@ Starts the asynchronous analysis of an input document for relationships between 
 items such as key-value pairs, tables, and selection elements.
 
 `StartDocumentAnalysis` can analyze text in documents that are in JPEG, PNG, TIFF, and PDF
-format. The documents are stored in an Amazon S3 bucket. Use [`document_location`](@ref) to
-specify the bucket name and file name of the document.
+format. The documents are stored in an Amazon S3 bucket. Use `DocumentLocation` to specify
+the bucket name and file name of the document.
 
 `StartDocumentAnalysis` returns a job identifier (`JobId`) that you use to get the results
 of the operation. When text analysis is finished, Amazon Textract publishes a completion
@@ -1086,8 +1086,8 @@ Starts the asynchronous detection of text in a document. Amazon Textract can det
 text and the words that make up a line of text.
 
 `StartDocumentTextDetection` can analyze text in documents that are in JPEG, PNG, TIFF, and
-PDF format. The documents are stored in an Amazon S3 bucket. Use [`document_location`](@ref)
-to specify the bucket name and file name of the document.
+PDF format. The documents are stored in an Amazon S3 bucket. Use `DocumentLocation` to
+specify the bucket name and file name of the document.
 
 `StartTextDetection` returns a job identifier (`JobId`) that you use to get the results of
 the operation. When text detection is finished, Amazon Textract publishes a completion
@@ -1162,8 +1162,8 @@ Starts the asynchronous analysis of invoices or receipts for data like contact i
 items purchased, and vendor names.
 
 `StartExpenseAnalysis` can analyze text in documents that are in JPEG, PNG, and PDF format.
-The documents must be stored in an Amazon S3 bucket. Use the [`document_location`](@ref)
-parameter to specify the name of your S3 bucket and the name of the document in that bucket.
+The documents must be stored in an Amazon S3 bucket. Use the `DocumentLocation` parameter to
+specify the name of your S3 bucket and the name of the document in that bucket.
 
 `StartExpenseAnalysis` returns a job identifier (`JobId`) that you will provide to
 `GetExpenseAnalysis` to retrieve the results of the operation. When the analysis of the
@@ -1199,8 +1199,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Textract to publish
   the completion status of the operation to.
 - `"OutputConfig"`: Sets if the output will go to a customer defined bucket. By default,
-  Amazon Textract will save the results internally to be accessed by the [`get_expense_analysis`](@ref)
-  operation.
+  Amazon Textract will save the results internally to be accessed by the
+  `GetExpenseAnalysis` operation.
 """
 function start_expense_analysis end
 

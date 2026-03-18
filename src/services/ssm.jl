@@ -347,8 +347,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   premises servers, edge devices, and VMs after they connect to Systems Manager for the
   first time and are assigned a managed node ID. This means they are listed in the Amazon
   Web Services Systems Manager console with an ID that is prefixed with "mi-". For
-  information about how to add tags to your managed nodes, see [`add_tags_to_resource`](@ref).
-  For information about how to remove tags from your managed nodes, see [`remove_tags_from_resource`](@ref).
+  information about how to add tags to your managed nodes, see `AddTagsToResource`. For
+  information about how to remove tags from your managed nodes, see
+  `RemoveTagsFromResource`.
 """
 function create_activation end
 
@@ -520,9 +521,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   association is `COMPLIANT`. If the association execution doesn't run successfully, the
   association is `NON-COMPLIANT`.
 
-  In `MANUAL` mode, you must specify the `AssociationId` as a parameter for the [`put_compliance_items`](@ref)
-  API operation. In this case, compliance data isn't managed by State Manager. It is managed
-  by your direct call to the [`put_compliance_items`](@ref) API operation.
+  In `MANUAL` mode, you must specify the `AssociationId` as a parameter for the
+  `PutComplianceItems` API operation. In this case, compliance data isn't managed by State
+  Manager. It is managed by your direct call to the `PutComplianceItems` API operation.
 
   By default, all associations use `AUTO` mode.
 
@@ -656,7 +657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DisplayName"`: An optional field where you can specify a friendly name for the SSM
   document. This value can differ for each version of the document. You can update this
-  value at a later time using the [`update_document`](@ref) operation.
+  value at a later time using the `UpdateDocument` operation.
 
 - `"DocumentFormat"`: Specify the document format for the request. The document format can
   be JSON, YAML, or TEXT. JSON is the default format.
@@ -683,8 +684,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `Key=Environment,Value=Production`
 
   !!! note
-      To add tags to an existing SSM document, use the [`add_tags_to_resource`](@ref)
-      operation.
+      To add tags to an existing SSM document, use the `AddTagsToResource` operation.
 
 - `"TargetType"`: Specify a target type to define the kinds of resources the document can
   run on. For example, to run a document on EC2 instances, specify the following value:
@@ -807,8 +807,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `Key=Environment,Value=Production`
 
   !!! note
-      To add tags to an existing maintenance window, use the [`add_tags_to_resource`](@ref)
-      operation.
+      To add tags to an existing maintenance window, use the `AddTagsToResource` operation.
 """
 function create_maintenance_window end
 
@@ -927,10 +926,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You can choose to make the data searchable by other users in the account or you can
   restrict search access. Searchable data means that all users with access to the OpsItem
-  Overview page (as provided by the [`describe_ops_items`](@ref) API operation) can view and
-  search on the specified data. Operational data that isn't searchable is only viewable by
-  users who have access to the OpsItem (as provided by the [`get_ops_item`](@ref) API
-  operation).
+  Overview page (as provided by the `DescribeOpsItems` API operation) can view and search on
+  the specified data. Operational data that isn't searchable is only viewable by users who
+  have access to the OpsItem (as provided by the `GetOpsItem` API operation).
 
   Use the `/aws/resources` key in OperationalData to specify a related resource in the
   request. Use the `/aws/automations` key in OperationalData to associate an Automation
@@ -974,9 +972,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `Key=Department,Value=Finance`
 
   !!! important
-      To add tags to a new OpsItem, a user must have IAM permissions for both the [`ssm:_create_ops_items`](@ref)
-      operation and the [`ssm:_add_tags_to_resource`](@ref) operation. To add tags to an
-      existing OpsItem, use the [`add_tags_to_resource`](@ref) operation.
+      To add tags to a new OpsItem, a user must have IAM permissions for both the
+      `ssm:CreateOpsItems` operation and the `ssm:AddTagsToResource` operation. To add tags
+      to an existing OpsItem, use the `AddTagsToResource` operation.
 """
 function create_ops_item end
 
@@ -1077,7 +1075,7 @@ Creates a patch baseline.
 
 !!! note
     For information about valid key-value pairs in `PatchFilters` for each supported
-    operating system type, see [`patch_filter`](@ref).
+    operating system type, see `PatchFilter`.
 
 # Arguments
 
@@ -1154,8 +1152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `Key=OS,Value=Windows`
 
   !!! note
-      To add tags to an existing patch baseline, use the [`add_tags_to_resource`](@ref)
-      operation.
+      To add tags to an existing patch baseline, use the `AddTagsToResource` operation.
 """
 function create_patch_baseline end
 
@@ -1426,7 +1423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   DisableSchema: If you choose this option, the system ignores all inventory data for the
   specified version, and any earlier versions. To enable this schema again, you must call
-  the [`put_inventory`](@ref) operation for a version greater than the disabled version.
+  the `PutInventory` operation for a version greater than the disabled version.
 
   DeleteSchema: This option deletes the specified custom type from the Inventory service.
   You can recreate the schema later, if you want.
@@ -2049,8 +2046,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AssociationId"`: The association ID for which you want information.
 - `"AssociationVersion"`: Specify the association version to retrieve. To view the latest
   version, either specify `\$LATEST` for this parameter, or omit this parameter. To view a
-  list of all associations for a managed node, use [`list_associations`](@ref). To get a
-  list of versions for a specific association, use [`list_association_versions`](@ref).
+  list of all associations for a managed node, use `ListAssociations`. To get a list of
+  versions for a specific association, use `ListAssociationVersions`.
 - `"InstanceId"`: The managed node ID.
 - `"Name"`: The name of the SSM document.
 """
@@ -2918,7 +2915,7 @@ Describes a specific delete inventory operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DeletionId"`: Specify the delete inventory ID for which you want information. This ID
-  was returned by the [`delete_inventory`](@ref) operation.
+  was returned by the `DeleteInventory` operation.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also returns
   a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
@@ -3481,9 +3478,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       By default when using this option, the command returns parameters that have been
       shared using a standard Resource Access Manager Resource Share. In order for a
-      parameter that was shared using the [`put_resource_policy`](@ref) command to be
-      returned, the associated `RAM Resource Share Created From Policy` must have been
-      promoted to a standard Resource Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
+      parameter that was shared using the `PutResourcePolicy` command to be returned, the
+      associated `RAM Resource Share Created From Policy` must have been promoted to a
+      standard Resource Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
       API operation.
 
       For more information about sharing parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html)
@@ -3973,9 +3970,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `aws:RunShellScript`.
 
   To find the `PluginName`, check the document content and find the name of the step you
-  want details for. Alternatively, use [`list_command_invocations`](@ref) with the
-  `CommandId` and `Details` parameters. The `PluginName` is the `Name` attribute of the
-  `CommandPlugin` object in the `CommandPlugins` list.
+  want details for. Alternatively, use `ListCommandInvocations` with the `CommandId` and
+  `Details` parameters. The `PluginName` is the `Name` attribute of the `CommandPlugin`
+  object in the `CommandPlugins` list.
 """
 function get_command_invocation end
 
@@ -6155,7 +6152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `Key=ParameterType,Value=LicenseKey`
 
   !!! note
-      To add tags to an existing Systems Manager parameter, use the [`add_tags_to_resource`](@ref)
+      To add tags to an existing Systems Manager parameter, use the `AddTagsToResource`
       operation.
 
 - `"Tier"`: The parameter tier to assign to a parameter.
@@ -6562,10 +6559,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     - For Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any
       task invocations that are already running continue, but no new task invocations are
       started.
-    - For Run Command tasks: When the cutoff time is reached, the system sends a [`cancel_command`](@ref)
-      operation that attempts to cancel the command associated with the task. However, there
-      is no guarantee that the command will be terminated and the underlying process
-      stopped.
+    - For Run Command tasks: When the cutoff time is reached, the system sends a
+      `CancelCommand` operation that attempts to cancel the command associated with the
+      task. However, there is no guarantee that the command will be terminated and the
+      underlying process stopped.
   The status for tasks that are not completed is `TIMED_OUT`.
 
 - `"Description"`: An optional description for the task.
@@ -6578,7 +6575,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       S3) bucket to contain logs, instead use the `OutputS3BucketName` and
       `OutputS3KeyPrefix` options in the `TaskInvocationParameters` structure. For
       information about how Amazon Web Services Systems Manager handles these options for
-      the supported maintenance window task types, see [`maintenance_window_task_invocation_parameters`](@ref).
+      the supported maintenance window task types, see
+      `MaintenanceWindowTaskInvocationParameters`.
 
 - `"MaxConcurrency"`: The maximum number of targets this task can be run for, in parallel.
 
@@ -6647,7 +6645,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       `TaskParameters` has been deprecated. To specify parameters to pass to a task when it
       runs, instead use the `Parameters` option in the `TaskInvocationParameters` structure.
       For information about how Systems Manager handles these options for the supported
-      maintenance window task types, see [`maintenance_window_task_invocation_parameters`](@ref).
+      maintenance window task types, see `MaintenanceWindowTaskInvocationParameters`.
 """
 function register_task_with_maintenance_window end
 
@@ -7187,8 +7185,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `Key=OS,Value=Windows`
 
   !!! note
-      To add tags to an existing automation, use the [`add_tags_to_resource`](@ref)
-      operation.
+      To add tags to an existing automation, use the `AddTagsToResource` operation.
 
 - `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and/or
   Amazon Web Services accounts where you want to run the automation. Use this operation to
@@ -7364,9 +7361,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DocumentName"`: The name of the SSM document you want to use to define the type of
   session, input parameters, or preferences for the session. For example,
-  `SSM-SessionManagerRunShell`. You can call the [`get_document`](@ref) API to verify the
-  document exists before attempting to start a session. If no document name is provided, a
-  shell to the managed node is launched by default. For more information, see [Start a session](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html)
+  `SSM-SessionManagerRunShell`. You can call the `GetDocument` API to verify the document
+  exists before attempting to start a session. If no document name is provided, a shell to
+  the managed node is launched by default. For more information, see [Start a session](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"Parameters"`: The values you want to specify for the parameters defined in the Session
@@ -7703,10 +7700,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   association is `COMPLIANT`. If the association execution doesn't run successfully, the
   association is `NON-COMPLIANT`.
 
-  In `MANUAL` mode, you must specify the `AssociationId` as a parameter for the [`put_compliance_items`](@ref)
-  API operation. In this case, compliance data isn't managed by State Manager, a capability
-  of Amazon Web Services Systems Manager. It is managed by your direct call to the [`put_compliance_items`](@ref)
-  API operation.
+  In `MANUAL` mode, you must specify the `AssociationId` as a parameter for the
+  `PutComplianceItems` API operation. In this case, compliance data isn't managed by State
+  Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct
+  call to the `PutComplianceItems` API operation.
 
   By default, all associations use `AUTO` mode.
 
@@ -8017,7 +8014,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Name"`: The name of the maintenance window.
 
-- `"Replace"`: If `True`, then all fields that are required by the [`create_maintenance_window`](@ref)
+- `"Replace"`: If `True`, then all fields that are required by the `CreateMaintenanceWindow`
   operation are also required for this API request. Optional fields that aren't specified
   are set to null.
 
@@ -8087,7 +8084,7 @@ Modifies the target of an existing maintenance window. You can change the follow
 - IDs for an ID target
 - Tags for a Tag target
 - From any supported tag type to another. The three supported tag types are ID target, Tag
-  target, and resource group. For more information, see [`target`](@ref).
+  target, and resource group. For more information, see `Target`.
 
 !!! note
     If a parameter is null, then the corresponding field isn't modified.
@@ -8105,9 +8102,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: A name for the update.
 - `"OwnerInformation"`: User-provided value that will be included in any Amazon CloudWatch
   Events events raised while running tasks for these targets in this maintenance window.
-- `"Replace"`: If `True`, then all fields that are required by the [`register_target_with_maintenance_window`](@ref)
-  operation are also required for this API request. Optional fields that aren't specified
-  are set to null.
+- `"Replace"`: If `True`, then all fields that are required by the
+  `RegisterTargetWithMaintenanceWindow` operation are also required for this API request.
+  Optional fields that aren't specified are set to null.
 - `"Targets"`: The targets to add or replace.
 """
 function update_maintenance_window_target end
@@ -8203,10 +8200,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     - For Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any
       task invocations that are already running continue, but no new task invocations are
       started.
-    - For Run Command tasks: When the cutoff time is reached, the system sends a [`cancel_command`](@ref)
-      operation that attempts to cancel the command associated with the task. However, there
-      is no guarantee that the command will be terminated and the underlying process
-      stopped.
+    - For Run Command tasks: When the cutoff time is reached, the system sends a
+      `CancelCommand` operation that attempts to cancel the command associated with the
+      task. However, there is no guarantee that the command will be terminated and the
+      underlying process stopped.
   The status for tasks that are not completed is `TIMED_OUT`.
 
 - `"Description"`: The new task description to specify.
@@ -8218,7 +8215,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       S3) bucket to contain logs, instead use the `OutputS3BucketName` and
       `OutputS3KeyPrefix` options in the `TaskInvocationParameters` structure. For
       information about how Amazon Web Services Systems Manager handles these options for
-      the supported maintenance window task types, see [`maintenance_window_task_invocation_parameters`](@ref).
+      the supported maintenance window task types, see
+      `MaintenanceWindowTaskInvocationParameters`.
 
 - `"MaxConcurrency"`: The new `MaxConcurrency` value you want to specify. `MaxConcurrency`
   is the number of targets that are allowed to run this task, in parallel.
@@ -8249,9 +8247,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Priority"`: The new task priority to specify. The lower the number, the higher the
   priority. Tasks that have the same priority are scheduled in parallel.
 
-- `"Replace"`: If True, then all fields that are required by the [`register_task_with_maintenance_window`](@ref)
-  operation are also required for this API request. Optional fields that aren't specified
-  are set to null.
+- `"Replace"`: If True, then all fields that are required by the
+  `RegisterTaskWithMaintenanceWindow` operation are also required for this API request.
+  Optional fields that aren't specified are set to null.
 
 - `"ServiceRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
   Services Systems Manager to assume when running a maintenance window task. If you do not
@@ -8297,7 +8295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       `TaskParameters` has been deprecated. To specify parameters to pass to a task when it
       runs, instead use the `Parameters` option in the `TaskInvocationParameters` structure.
       For information about how Systems Manager handles these options for the supported
-      maintenance window task types, see [`maintenance_window_task_invocation_parameters`](@ref).
+      maintenance window task types, see `MaintenanceWindowTaskInvocationParameters`.
 
   The map has the following format:
 
@@ -8442,10 +8440,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You can choose to make the data searchable by other users in the account or you can
   restrict search access. Searchable data means that all users with access to the OpsItem
-  Overview page (as provided by the [`describe_ops_items`](@ref) API operation) can view and
-  search on the specified data. Operational data that isn't searchable is only viewable by
-  users who have access to the OpsItem (as provided by the [`get_ops_item`](@ref) API
-  operation).
+  Overview page (as provided by the `DescribeOpsItems` API operation) can view and search on
+  the specified data. Operational data that isn't searchable is only viewable by users who
+  have access to the OpsItem (as provided by the `GetOpsItem` API operation).
 
   Use the `/aws/resources` key in OperationalData to specify a related resource in the
   request. Use the `/aws/automations` key in OperationalData to associate an Automation
@@ -8558,7 +8555,7 @@ Modifies an existing patch baseline. Fields not specified in the request are lef
 
 !!! note
     For information about valid key-value pairs in `PatchFilters` for each supported
-    operating system type, see [`patch_filter`](@ref).
+    operating system type, see `PatchFilter`.
 
 # Arguments
 
@@ -8618,7 +8615,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Patch Manager afterward, it's considered noncompliant with the patch baseline and its
   status is reported as `INSTALLED_REJECTED`.
 
-- `"Replace"`: If True, then all fields that are required by the [`create_patch_baseline`](@ref)
+- `"Replace"`: If True, then all fields that are required by the `CreatePatchBaseline`
   operation are also required for this API request. Optional fields that aren't specified
   are set to null.
 

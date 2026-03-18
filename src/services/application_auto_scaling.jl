@@ -1155,7 +1155,7 @@ in the *Amazon Web Services General Reference*.
   For example:
   `arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123`
 
-  To get the ARN for a scalable target, use [`describe_scalable_targets`](@ref).
+  To get the ARN for a scalable target, use `DescribeScalableTargets`.
 """
 function list_tags_for_resource end
 
@@ -1836,8 +1836,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Application Auto Scaling User Guide*.
 
 - `"Tags"`: Assigns one or more tags to the scalable target. Use this parameter to tag the
-  scalable target when it is created. To tag an existing scalable target, use the [`tag_resource`](@ref)
-  operation.
+  scalable target when it is created. To tag an existing scalable target, use the
+  `TagResource` operation.
 
   Each tag consists of a tag key and a tag value. Both the tag key and the tag value are
   required. You cannot have more than one tag on a scalable target with the same tag key.
@@ -1920,7 +1920,7 @@ in the *Application Auto Scaling User Guide*.
   For example:
   `arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123`
 
-  To get the ARN for a scalable target, use [`describe_scalable_targets`](@ref).
+  To get the ARN for a scalable target, use `DescribeScalableTargets`.
 
 - `tags`: The tags assigned to the resource. A tag is a label that you assign to an Amazon
   Web Services resource.
@@ -1980,7 +1980,7 @@ tag key and the Application Auto Scaling scalable target.
   For example:
   `arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123`
 
-  To get the ARN for a scalable target, use [`describe_scalable_targets`](@ref).
+  To get the ARN for a scalable target, use `DescribeScalableTargets`.
 
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 """

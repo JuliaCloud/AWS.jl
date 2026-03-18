@@ -11,11 +11,11 @@ using AWS.UUIDs
 Associate your own domain name with the App Runner subdomain URL of your App Runner service.
 
 After you call `AssociateCustomDomain` and receive a successful response, use the
-information in the [`custom_domain`](@ref) record that's returned to add CNAME records to
-your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App
-Runner subdomain and one or more certificate validation records. App Runner then performs
-DNS validation to verify that you own or control the domain name that you associated. App
-Runner tracks domain validity in a certificate stored in [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide).
+information in the `CustomDomain` record that's returned to add CNAME records to your Domain
+Name System (DNS). For each mapped domain name, add a mapping to the target App Runner
+subdomain and one or more certificate validation records. App Runner then performs DNS
+validation to verify that you own or control the domain name that you associated. App Runner
+tracks domain validity in a certificate stored in [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide).
 
 # Arguments
 
@@ -1329,8 +1329,8 @@ end
 
 Return a list of operations that occurred on an App Runner service.
 
-The resulting list of [`operation_summary`](@ref) objects is sorted in reverse chronological
-order. The first object on the list represents the last started operation.
+The resulting list of `OperationSummary` objects is sorted in reverse chronological order.
+The first object on the list represents the last started operation.
 
 # Arguments
 

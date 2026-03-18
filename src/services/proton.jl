@@ -410,7 +410,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"provisioningRepository"`: The linked repository that you use to host your rendered
   infrastructure templates for self-managed provisioning. A linked repository is a
-  repository that has been registered with Proton. For more information, see [`create_repository`](@ref).
+  repository that has been registered with Proton. For more information, see
+  `CreateRepository`.
 
   To use self-managed provisioning for the environment, specify this parameter and omit the
   `environmentAccountConnectionId` and `protonServiceRoleArn` parameters.
@@ -3758,7 +3759,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pipelineProvisioningRepository"`: A linked repository for pipeline provisioning. Specify
   it if you have environments configured for self-managed provisioning with services that
   include pipelines. A linked repository is a repository that has been registered with
-  Proton. For more information, see [`create_repository`](@ref).
+  Proton. For more information, see `CreateRepository`.
 
   To remove a previously configured repository, set `deletePipelineProvisioningRepository`
   to `true`, and don't set `pipelineProvisioningRepository`.
@@ -3995,7 +3996,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"provisioningRepository"`: The linked repository that you use to host your rendered
   infrastructure templates for self-managed provisioning. A linked repository is a
-  repository that has been registered with Proton. For more information, see [`create_repository`](@ref).
+  repository that has been registered with Proton. For more information, see
+  `CreateRepository`.
 
 - `"spec"`: The formatted specification that defines the update.
 

@@ -945,7 +945,7 @@ for an existing tag, use [`add_tags_to_resource`](@ref).
 - `tag_key_list`: The tag key or keys to remove.
 
   Specify only the tag key to remove (not the value). To overwrite the value for an existing
-  tag, use [`add_tags_to_resource`](@ref).
+  tag, use `AddTagsToResource`.
 """
 function remove_tags_from_resource end
 

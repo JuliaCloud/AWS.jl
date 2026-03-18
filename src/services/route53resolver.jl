@@ -8,7 +8,7 @@ using AWS.UUIDs
     associate_firewall_rule_group(creator_request_id, firewall_rule_group_id, name, priority, vpc_id)
     associate_firewall_rule_group(creator_request_id, firewall_rule_group_id, name, priority, vpc_id, params::Dict{String,<:Any})
 
-Associates a [`firewall_rule_group`](@ref) with a VPC, to provide DNS filtering for the VPC.
+Associates a `FirewallRuleGroup` with a VPC, to provide DNS filtering for the VPC.
 
 # Arguments
 
@@ -1259,12 +1259,12 @@ end
     disassociate_firewall_rule_group(firewall_rule_group_association_id)
     disassociate_firewall_rule_group(firewall_rule_group_association_id, params::Dict{String,<:Any})
 
-Disassociates a [`firewall_rule_group`](@ref) from a VPC, to remove DNS filtering from the
-VPC.
+Disassociates a `FirewallRuleGroup` from a VPC, to remove DNS filtering from the VPC.
 
 # Arguments
 
-- `firewall_rule_group_association_id`: The identifier of the [`firewall_rule_group_association`](@ref).
+- `firewall_rule_group_association_id`: The identifier of the
+  `FirewallRuleGroupAssociation`.
 """
 function disassociate_firewall_rule_group end
 
@@ -1597,7 +1597,8 @@ can be associated with more than one VPC.
 
 # Arguments
 
-- `firewall_rule_group_association_id`: The identifier of the [`firewall_rule_group_association`](@ref).
+- `firewall_rule_group_association_id`: The identifier of the
+  `FirewallRuleGroupAssociation`.
 """
 function get_firewall_rule_group_association end
 
@@ -3586,12 +3587,13 @@ end
     update_firewall_rule_group_association(firewall_rule_group_association_id)
     update_firewall_rule_group_association(firewall_rule_group_association_id, params::Dict{String,<:Any})
 
-Changes the association of a [`firewall_rule_group`](@ref) with a VPC. The association
-enables DNS filtering for the VPC.
+Changes the association of a `FirewallRuleGroup` with a VPC. The association enables DNS
+filtering for the VPC.
 
 # Arguments
 
-- `firewall_rule_group_association_id`: The identifier of the [`firewall_rule_group_association`](@ref).
+- `firewall_rule_group_association_id`: The identifier of the
+  `FirewallRuleGroupAssociation`.
 
 # Optional Parameters
 

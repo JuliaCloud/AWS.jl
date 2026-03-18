@@ -82,7 +82,7 @@ end
     batch_put_attributes(domain_name, item, params::Dict{String,<:Any})
 
 The [`batch_put_attributes`](@ref) operation creates or replaces attributes within one or
-more items. By using this operation, the client can perform multiple [`put_attribute`](@ref)
+more items. By using this operation, the client can perform multiple `PutAttribute`
 operation with a single call. This helps yield savings in round trips and latencies,
 enabling Amazon SimpleDB to optimize requests and generally produce better throughput.
 

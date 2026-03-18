@@ -103,8 +103,7 @@ Returns the data in a block in an Amazon Elastic Block Store snapshot.
   data/`524288`). The logical offset of the data must be `512` KiB aligned.
 
 - `block_token`: The block token of the block from which to get data. You can obtain the
-  `BlockToken` by running the `ListChangedBlocks` or [`list_snapshot_blocks`](@ref)
-  operations.
+  `BlockToken` by running the `ListChangedBlocks` or `ListSnapshotBlocks` operations.
 
 - `snapshot_id`: The ID of the snapshot containing the block from which to get data.
 

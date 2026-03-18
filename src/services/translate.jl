@@ -150,8 +150,8 @@ ID, status, source and target languages, input/output S3 buckets, and so on.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Translate generated for the job. The [`start_text_translation_job`](@ref)
-  operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Translate generated for the job. The
+  `StartTextTranslationJob` operation returns this identifier in its response.
 """
 function describe_text_translation_job end
 
@@ -551,8 +551,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Active Custom Translation jobs are priced at a higher rate than other jobs that don't
       use parallel data. For more information, see [Amazon Translate pricing](http://aws.amazon.com/translate/pricing/).
 
-  For a list of available parallel data resources, use the [`list_parallel_data`](@ref)
-  operation.
+  For a list of available parallel data resources, use the `ListParallelData` operation.
 
   For more information, see [Customizing your translations with parallel data](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-parallel-data.html).
 
@@ -572,7 +571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   terminology for each requested target language that has an entry for the source term in
   the terminology file.
 
-  For a list of available custom terminology resources, use the [`list_terminologies`](@ref)
+  For a list of available custom terminology resources, use the `ListTerminologies`
   operation.
 
   For more information, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
@@ -771,7 +770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list can contain a maximum of 256 terms. You can use one custom terminology resource in
   your translation request.
 
-  Use the [`list_terminologies`](@ref) operation to get the available terminology lists.
+  Use the `ListTerminologies` operation to get the available terminology lists.
 
   For more information about custom terminology lists, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
 """
@@ -864,7 +863,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list can contain a maximum of 256 terms. You can use one custom terminology resource in
   your translation request.
 
-  Use the [`list_terminologies`](@ref) operation to get the available terminology lists.
+  Use the `ListTerminologies` operation to get the available terminology lists.
 
   For more information about custom terminology lists, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
 """

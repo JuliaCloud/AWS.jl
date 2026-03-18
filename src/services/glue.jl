@@ -364,8 +364,8 @@ that uses tags.
 
 # Arguments
 
-- `crawler_names`: A list of crawler names, which might be the names returned from the [`list_crawlers`](@ref)
-  operation.
+- `crawler_names`: A list of crawler names, which might be the names returned from the
+  `ListCrawlers` operation.
 """
 function batch_get_crawlers end
 
@@ -479,7 +479,7 @@ permissions, including permission conditions that uses tags.
 # Arguments
 
 - `dev_endpoint_names`: The list of `DevEndpoint` names, which might be the names returned
-  from the [`list_dev_endpoint`](@ref) operation.
+  from the `ListDevEndpoint` operation.
 """
 function batch_get_dev_endpoints end
 
@@ -522,7 +522,7 @@ that uses tags.
 
 # Arguments
 
-- `job_names`: A list of job names, which might be the names returned from the [`list_jobs`](@ref)
+- `job_names`: A list of job names, which might be the names returned from the `ListJobs`
   operation.
 """
 function batch_get_jobs end
@@ -663,8 +663,8 @@ that uses tags.
 
 # Arguments
 
-- `trigger_names`: A list of trigger names, which may be the names returned from the [`list_triggers`](@ref)
-  operation.
+- `trigger_names`: A list of trigger names, which may be the names returned from the
+  `ListTriggers` operation.
 """
 function batch_get_triggers end
 
@@ -705,8 +705,8 @@ that uses tags.
 
 # Arguments
 
-- `names`: A list of workflow names, which may be the names returned from the [`list_workflows`](@ref)
-  operation.
+- `names`: A list of workflow names, which may be the names returned from the
+  `ListWorkflows` operation.
 
 # Optional Parameters
 
@@ -6972,10 +6972,10 @@ For IAM authorization, the public IAM action associated with this API is `glue:G
 
   Important: If you provide a supported permission type that doesn't match the user's level
   of permissions on the table, then Lake Formation raises an exception. For example, if the
-  third-party engine calling the [`get_unfiltered_table_metadata`](@ref) operation can
-  enforce only column-level filtering, and the user has nested cell filtering applied on the
-  table, Lake Formation throws an exception, and will not return unfiltered table metadata
-  and data access credentials.
+  third-party engine calling the `GetUnfilteredTableMetadata` operation can enforce only
+  column-level filtering, and the user has nested cell filtering applied on the table, Lake
+  Formation throws an exception, and will not return unfiltered table metadata and data
+  access credentials.
 
 # Optional Parameters
 

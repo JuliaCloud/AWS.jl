@@ -355,8 +355,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"OwnershipType"`: Filters the returned set of entities based on their owner. The default
   is `SELF`. To list entities shared with you through AWS Resource Access Manager (AWS RAM),
-  set to `SHARED`. Entities shared through the AWS Marketplace Catalog API [`put_resource_policy`](@ref)
-  operation can't be discovered through the `SHARED` parameter.
+  set to `SHARED`. Entities shared through the AWS Marketplace Catalog API
+  `PutResourcePolicy` operation can't be discovered through the `SHARED` parameter.
 - `"Sort"`: An object that contains two attributes, `SortBy` and `SortOrder`.
 """
 function list_entities end

@@ -91,8 +91,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Mode"`: The mode to use in the cluster. The allowed values are `FIPS` and `NON_FIPS`.
 - `"SourceBackupId"`: The identifier (ID) or the Amazon Resource Name (ARN) of the cluster
   backup to restore. Use this value to restore the cluster from a backup instead of creating
-  a new cluster. To find the backup ID or ARN, use [`describe_backups`](@ref). *If using a
-  backup in another account, the full ARN must be supplied.*
+  a new cluster. To find the backup ID or ARN, use `DescribeBackups`. *If using a backup in
+  another account, the full ARN must be supplied.*
 - `"TagList"`: Tags to apply to the CloudHSM cluster during creation.
 """
 function create_cluster end
@@ -140,8 +140,9 @@ different Amazon Web Service account.
 # Arguments
 
 - `availability_zone`: The Availability Zone where you are creating the HSM. To find the
-  cluster's Availability Zones, use [`describe_clusters`](@ref).
-- `cluster_id`: The identifier (ID) of the HSM's cluster. To find the cluster ID, use [`describe_clusters`](@ref).
+  cluster's Availability Zones, use `DescribeClusters`.
+- `cluster_id`: The identifier (ID) of the HSM's cluster. To find the cluster ID, use
+  `DescribeClusters`.
 
 # Optional Parameters
 
@@ -198,8 +199,8 @@ different Amazon Web Services account.
 
 # Arguments
 
-- `backup_id`: The ID of the backup to be deleted. To find the ID of a backup, use the [`describe_backups`](@ref)
-  operation.
+- `backup_id`: The ID of the backup to be deleted. To find the ID of a backup, use the
+  `DescribeBackups` operation.
 """
 function delete_backup end
 
@@ -241,7 +242,7 @@ different Amazon Web Services account.
 # Arguments
 
 - `cluster_id`: The identifier (ID) of the cluster that you are deleting. To find the
-  cluster ID, use [`describe_clusters`](@ref).
+  cluster ID, use `DescribeClusters`.
 """
 function delete_cluster end
 
@@ -384,8 +385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   backup identifier (ID).
 
   Use the `sourceBackupIds` filter to return only the backups created from a source backup.
-  The `sourceBackupID` of a source backup is returned by the [`copy_backup_to_region`](@ref)
-  operation.
+  The `sourceBackupID` of a source backup is returned by the `CopyBackupToRegion` operation.
 
   Use the `clusterIds` filter to return only the backups for the specified clusters. Specify
   clusters by their cluster identifier (ID).
@@ -528,7 +528,7 @@ different Amazon Web Services account.
 # Arguments
 
 - `cluster_id`: The identifier (ID) of the cluster that you are claiming. To find the
-  cluster ID, use [`describe_clusters`](@ref).
+  cluster ID, use `DescribeClusters`.
 
 - `signed_cert`: The cluster certificate issued (signed) by your issuing certificate
   authority (CA). The certificate must be in PEM format and can contain a maximum of 5000
@@ -600,7 +600,7 @@ different Amazon Web Services account.
 # Arguments
 
 - `resource_id`: The cluster identifier (ID) for the cluster whose tags you are getting. To
-  find the cluster ID, use [`describe_clusters`](@ref).
+  find the cluster ID, use `DescribeClusters`.
 
 # Optional Parameters
 
@@ -649,7 +649,7 @@ different Amazon Web Services account.
 # Arguments
 
 - `backup_id`: The identifier (ID) of the backup to modify. To find the ID of a backup, use
-  the [`describe_backups`](@ref) operation.
+  the `DescribeBackups` operation.
 - `never_expires`: Specifies whether the service should exempt a backup from the retention
   policy for the cluster. `True` exempts a backup from the retention policy. `False` means
   the service applies the backup retention policy defined at the cluster.
@@ -700,7 +700,7 @@ different Amazon Web Services account.
 
 - `backup_retention_policy`: A policy that defines how the service retains backups.
 - `cluster_id`: The identifier (ID) of the cluster that you want to modify. To find the
-  cluster ID, use [`describe_clusters`](@ref).
+  cluster ID, use `DescribeClusters`.
 """
 function modify_cluster end
 
@@ -806,8 +806,8 @@ different Amazon Web Services account.
 
 # Arguments
 
-- `backup_id`: The ID of the backup to be restored. To find the ID of a backup, use the [`describe_backups`](@ref)
-  operation.
+- `backup_id`: The ID of the backup to be restored. To find the ID of a backup, use the
+  `DescribeBackups` operation.
 """
 function restore_backup end
 
@@ -847,7 +847,7 @@ different Amazon Web Services account.
 # Arguments
 
 - `resource_id`: The cluster identifier (ID) for the cluster that you are tagging. To find
-  the cluster ID, use [`describe_clusters`](@ref).
+  the cluster ID, use `DescribeClusters`.
 - `tag_list`: A list of one or more tags.
 """
 function tag_resource end
@@ -895,7 +895,7 @@ different Amazon Web Services account.
 # Arguments
 
 - `resource_id`: The cluster identifier (ID) for the cluster whose tags you are removing. To
-  find the cluster ID, use [`describe_clusters`](@ref).
+  find the cluster ID, use `DescribeClusters`.
 - `tag_key_list`: A list of one or more tag keys for the tags that you are removing. Specify
   only the tag keys, not the tag values.
 """

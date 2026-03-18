@@ -89,7 +89,7 @@ Retrieves the status of an on-going assessment.
 
 # Arguments
 
-- `id`: The `assessmentid` returned by [`start_assessment`](@ref).
+- `id`: The `assessmentid` returned by `StartAssessment`.
 """
 function get_assessment end
 
@@ -122,7 +122,8 @@ Retrieves the details about a specific import task.
 
 # Arguments
 
-- `id`: The ID of the import file task. This ID is returned in the response of [`start_import_file_task`](@ref).
+- `id`: The ID of the import file task. This ID is returned in the response of
+  `StartImportFileTask`.
 """
 function get_import_file_task end
 
@@ -243,7 +244,8 @@ Retrieves detailed information about the specified recommendation report.
 
 # Arguments
 
-- `id`: The recommendation report generation task `id` returned by [`start_recommendation_report_generation`](@ref).
+- `id`: The recommendation report generation task `id` returned by
+  `StartRecommendationReportGeneration`.
 """
 function get_recommendation_report_details end
 
@@ -407,8 +409,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   components.
 - `"filterValue"`: Specify the value based on the application component criteria type. For
   example, if `applicationComponentCriteria` is set to `SERVER_ID` and `filterValue` is set
-  to `server1`, then [`list_application_components`](@ref) returns all the application
-  components running on server1.
+  to `server1`, then `ListApplicationComponents` returns all the application components
+  running on server1.
 - `"groupIdFilter"`: The group ID specified in to filter on.
 - `"maxResults"`: The maximum number of items to include in the response. The maximum value
   is 100.
@@ -744,7 +746,7 @@ Stops the assessment of an on-premises environment.
 
 # Arguments
 
-- `assessment_id`: The `assessmentId` returned by [`start_assessment`](@ref).
+- `assessment_id`: The `assessmentId` returned by `StartAssessment`.
 """
 function stop_assessment end
 
@@ -800,7 +802,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceCodeList"`: The list of source code configurations to update for the application
   component.
 - `"strategyOption"`: The preferred strategy options for the application component. Use
-  values from the [`get_application_component_strategies`](@ref) response.
+  values from the `GetApplicationComponentStrategies` response.
 """
 function update_application_component_config end
 
@@ -851,7 +853,7 @@ Updates the configuration of the specified server.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"strategyOption"`: The preferred strategy options for the application component. See the
-  response from [`get_server_strategies`](@ref).
+  response from `GetServerStrategies`.
 """
 function update_server_config end
 

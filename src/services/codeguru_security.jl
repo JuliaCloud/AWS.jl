@@ -306,8 +306,8 @@ Returns details about a scan, including whether or not a scan has completed.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"runId"`: UUID that identifies the individual scan run you want to view details about.
-  You retrieve this when you call the [`create_scan`](@ref) operation. Defaults to the
-  latest scan run if missing.
+  You retrieve this when you call the `CreateScan` operation. Defaults to the latest scan
+  run if missing.
 """
 function get_scan end
 

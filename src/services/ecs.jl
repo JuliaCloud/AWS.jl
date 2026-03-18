@@ -1920,8 +1920,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the container instances to list. If you do not specify a cluster, the default cluster is
   assumed.
 
-- `"filter"`: You can filter the results of a [`list_container_instances`](@ref) operation
-  with cluster query language statements. For more information, see [Cluster Query Language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html)
+- `"filter"`: You can filter the results of a `ListContainerInstances` operation with
+  cluster query language statements. For more information, see [Cluster Query Language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html)
   in the *Amazon Elastic Container Service Developer Guide*.
 
 - `"maxResults"`: The maximum number of container instance results that

@@ -20,7 +20,7 @@ The CancelJob operation cancels an unfinished job.
 - `id`: The identifier of the job that you want to cancel.
 
   To get a list of the jobs (including their `jobId`) that have a status of `Submitted`, use
-  the [`list_jobs_by_status`](@ref) API action.
+  the `ListJobsByStatus` API action.
 """
 function cancel_job end
 

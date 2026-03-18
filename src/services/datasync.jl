@@ -1339,7 +1339,7 @@ delete the VM or instance from your storage environment or reuse it to [activate
 
 # Arguments
 
-- `agent_arn`: The Amazon Resource Name (ARN) of the agent to delete. Use the [`list_agents`](@ref)
+- `agent_arn`: The Amazon Resource Name (ARN) of the agent to delete. Use the `ListAgents`
   operation to return a list of agents for your account and Amazon Web Services Region.
 """
 function delete_agent end

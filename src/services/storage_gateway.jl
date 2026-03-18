@@ -139,7 +139,7 @@ cache, and one or more disk IDs that you want to configure as cache.
 
 - `disk_ids`: An array of strings that identify disks that are to be configured as working
   storage. Each string has a minimum length of 1 and maximum length of 300. You can get the
-  disk IDs from the [`list_local_disks`](@ref) API.
+  disk IDs from the `ListLocalDisks` API.
 - `gateway_arn`:
 """
 function add_cache end
@@ -251,7 +251,7 @@ upload buffer, and one or more disk IDs that you want to configure as upload buf
 
 - `disk_ids`: An array of strings that identify disks that are to be configured as working
   storage. Each string has a minimum length of 1 and maximum length of 300. You can get the
-  disk IDs from the [`list_local_disks`](@ref) API.
+  disk IDs from the `ListLocalDisks` API.
 - `gateway_arn`:
 """
 function add_upload_buffer end
@@ -306,7 +306,7 @@ working storage, and one or more disk IDs that you want to configure as working 
 
 - `disk_ids`: An array of strings that identify disks that are to be configured as working
   storage. Each string has a minimum length of 1 and maximum length of 300. You can get the
-  disk IDs from the [`list_local_disks`](@ref) API.
+  disk IDs from the `ListLocalDisks` API.
 - `gateway_arn`:
 """
 function add_working_storage end
@@ -510,8 +510,8 @@ volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instanc
   volume to.
 
 - `network_interface_id`: The network interface of the gateway on which to expose the iSCSI
-  target. Only IPv4 addresses are accepted. Use [`describe_gateway_information`](@ref) to
-  get a list of the network interfaces available on a gateway.
+  target. Only IPv4 addresses are accepted. Use `DescribeGatewayInformation` to get a list
+  of the network interfaces available on a gateway.
 
   Valid Values: A valid IP address.
 
@@ -703,8 +703,8 @@ in bytes.
 - `gateway_arn`:
 
 - `network_interface_id`: The network interface of the gateway on which to expose the iSCSI
-  target. Only IPv4 addresses are accepted. Use [`describe_gateway_information`](@ref) to
-  get a list of the network interfaces available on a gateway.
+  target. Only IPv4 addresses are accepted. Use `DescribeGatewayInformation` to get a list
+  of the network interfaces available on a gateway.
 
   Valid Values: A valid IP address.
 
@@ -1303,7 +1303,7 @@ from a snapshot. This operation is only supported in stored and cached volume ga
 - `snapshot_description`: Textual description of the snapshot that appears in the Amazon EC2
   console, Elastic Block Store snapshots panel in the **Description** field, and in the
   Storage Gateway snapshot **Details** pane, **Description** field.
-- `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the [`list_volumes`](@ref)
+- `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the `ListVolumes`
   operation to return a list of gateway volumes.
 
 # Optional Parameters
@@ -1384,8 +1384,9 @@ create a volume from a snapshot.
 - `snapshot_description`: Textual description of the snapshot that appears in the Amazon EC2
   console, Elastic Block Store snapshots panel in the **Description** field, and in the
   Storage Gateway snapshot **Details** pane, **Description** field.
-- `volume_arn`: The Amazon Resource Name (ARN) of the iSCSI volume target. Use the [`describe_storedi_scsivolumes`](@ref)
-  operation to return to retrieve the TargetARN for specified VolumeARN.
+- `volume_arn`: The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
+  `DescribeStorediSCSIVolumes` operation to return to retrieve the TargetARN for specified
+  VolumeARN.
 
 # Optional Parameters
 
@@ -1463,8 +1464,8 @@ ARN that initiators can use to connect to the volume target.
 - `gateway_arn`:
 
 - `network_interface_id`: The network interface of the gateway on which to expose the iSCSI
-  target. Only IPv4 addresses are accepted. Use [`describe_gateway_information`](@ref) to
-  get a list of the network interfaces available on a gateway.
+  target. Only IPv4 addresses are accepted. Use `DescribeGatewayInformation` to get a list
+  of the network interfaces available on a gateway.
 
   Valid Values: A valid IP address.
 
@@ -1647,8 +1648,8 @@ in the tape gateway type.
 # Arguments
 
 - `gateway_arn`: The unique Amazon Resource Name (ARN) that represents the gateway to
-  associate the virtual tape with. Use the [`list_gateways`](@ref) operation to return a
-  list of gateways for your account and Amazon Web Services Region.
+  associate the virtual tape with. Use the `ListGateways` operation to return a list of
+  gateways for your account and Amazon Web Services Region.
 
 - `tape_barcode`: The barcode that you want to assign to the tape.
 
@@ -1756,8 +1757,8 @@ tapes. This operation is only supported in the tape gateway type.
       Using the same `ClientToken` prevents creating the tape multiple times.
 
 - `gateway_arn`: The unique Amazon Resource Name (ARN) that represents the gateway to
-  associate the virtual tapes with. Use the [`list_gateways`](@ref) operation to return a
-  list of gateways for your account and Amazon Web Services Region.
+  associate the virtual tapes with. Use the `ListGateways` operation to return a list of
+  gateways for your account and Amazon Web Services Region.
 
 - `num_tapes_to_create`: The number of virtual tapes that you want to create.
 
@@ -1960,8 +1961,9 @@ target and initiator pair. This operation is supported in volume and tape gatewa
 # Arguments
 
 - `initiator_name`: The iSCSI initiator that connects to the target.
-- `target_arn`: The Amazon Resource Name (ARN) of the iSCSI volume target. Use the [`describe_storedi_scsivolumes`](@ref)
-  operation to return to retrieve the TargetARN for specified VolumeARN.
+- `target_arn`: The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
+  `DescribeStorediSCSIVolumes` operation to return to retrieve the TargetARN for specified
+  VolumeARN.
 """
 function delete_chap_credentials end
 
@@ -2153,8 +2155,8 @@ type.
 # Arguments
 
 - `gateway_arn`: The unique Amazon Resource Name (ARN) of the gateway that the virtual tape
-  to delete is associated with. Use the [`list_gateways`](@ref) operation to return a list
-  of gateways for your account and Amazon Web Services Region.
+  to delete is associated with. Use the `ListGateways` operation to return a list of
+  gateways for your account and Amazon Web Services Region.
 - `tape_arn`: The Amazon Resource Name (ARN) of the virtual tape to delete.
 
 # Optional Parameters
@@ -2301,7 +2303,7 @@ want to delete.
 
 # Arguments
 
-- `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the [`list_volumes`](@ref)
+- `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the `ListVolumes`
   operation to return a list of gateway volumes.
 """
 function delete_volume end
@@ -2523,7 +2525,7 @@ Storage Gateway returns volume information sorted by volume Amazon Resource Name
 
 - `volume_arns`: An array of strings where each string represents the Amazon Resource Name
   (ARN) of a cached volume. All of the specified cached volumes must be from the same
-  gateway. Use [`list_volumes`](@ref) to get volume ARNs for a gateway.
+  gateway. Use `ListVolumes` to get volume ARNs for a gateway.
 """
 function describe_cachedi_scsivolumes end
 
@@ -2563,8 +2565,9 @@ is supported in the volume and tape gateway types.
 
 # Arguments
 
-- `target_arn`: The Amazon Resource Name (ARN) of the iSCSI volume target. Use the [`describe_storedi_scsivolumes`](@ref)
-  operation to return to retrieve the TargetARN for specified VolumeARN.
+- `target_arn`: The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
+  `DescribeStorediSCSIVolumes` operation to return to retrieve the TargetARN for specified
+  VolumeARN.
 """
 function describe_chap_credentials end
 
@@ -2853,7 +2856,7 @@ This operation is only supported in the cached volume and stored volume types.
 
 # Arguments
 
-- `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the [`list_volumes`](@ref)
+- `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the `ListVolumes`
   operation to return a list of gateway volumes.
 """
 function describe_snapshot_schedule end
@@ -2897,7 +2900,7 @@ gateway type.
 
 - `volume_arns`: An array of strings where each string represents the Amazon Resource Name
   (ARN) of a stored volume. All of the specified stored volumes must be from the same
-  gateway. Use [`list_volumes`](@ref) to get volume ARNs for a gateway.
+  gateway. Use `ListVolumes` to get volume ARNs for a gateway.
 """
 function describe_storedi_scsivolumes end
 
@@ -3396,7 +3399,7 @@ gateways that support the SMB file protocol.
 # Arguments
 
 - `domain_name`: The name of the domain that you want the gateway to join.
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [`list_gateways`](@ref)
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the `ListGateways`
   operation to return a list of gateways for your account and Amazon Web Services Region.
 - `password`: Sets the password of the user who has permission to add the gateway to the
   Active Directory domain.
@@ -3415,8 +3418,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OrganizationalUnit"`: The organizational unit (OU) is a container in an Active Directory
   that can hold users, groups, computers, and other OUs and this parameter specifies the OU
   that the gateway will join within the AD domain.
-- `"TimeoutInSeconds"`: Specifies the time in seconds, in which the [`join_domain`](@ref)
-  operation must complete. The default is 20 seconds.
+- `"TimeoutInSeconds"`: Specifies the time in seconds, in which the `JoinDomain` operation
+  must complete. The default is 20 seconds.
 """
 function join_domain end
 
@@ -3555,7 +3558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GatewayARN"`:
 - `"Limit"`: The maximum number of file system associations to return in the response. If
   present, `Limit` must be an integer with a value greater than zero. Optional.
-- `"Marker"`: Opaque pagination token returned from a previous [`list_file_system_associations`](@ref)
+- `"Marker"`: Opaque pagination token returned from a previous `ListFileSystemAssociations`
   operation. If present, `Marker` specifies where to continue the list from after a previous
   call to `ListFileSystemAssociations`. Optional.
 """
@@ -3801,7 +3804,7 @@ cached volume and stored volume gateway types.
 
 # Arguments
 
-- `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the [`list_volumes`](@ref)
+- `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the `ListVolumes`
   operation to return a list of gateway volumes for the gateway.
 """
 function list_volume_initiators end
@@ -4166,8 +4169,8 @@ operation is only supported in the tape gateway type.
 # Arguments
 
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway you want to retrieve the
-  virtual tape to. Use the [`list_gateways`](@ref) operation to return a list of gateways
-  for your account and Amazon Web Services Region.
+  virtual tape to. Use the `ListGateways` operation to return a list of gateways for your
+  account and Amazon Web Services Region.
 
   You retrieve archived virtual tapes to only one gateway and the gateway must be a tape
   gateway.
@@ -4710,8 +4713,8 @@ you might use it. This operation is supported in the volume and tape gateway typ
   !!! note
       The secret key must be between 12 and 16 bytes when encoded in UTF-8.
 
-- `target_arn`: The Amazon Resource Name (ARN) of the iSCSI volume target. Use the [`describe_storedi_scsivolumes`](@ref)
-  operation to return the TargetARN for specified VolumeARN.
+- `target_arn`: The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
+  `DescribeStorediSCSIVolumes` operation to return the TargetARN for specified VolumeARN.
 
 # Optional Parameters
 
@@ -5518,7 +5521,7 @@ and the frequency (in hours) of snapshots.
   snapshots.
 - `start_at`: The hour of the day at which the snapshot schedule begins represented as *hh*,
   where *hh* is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
-- `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the [`list_volumes`](@ref)
+- `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the `ListVolumes`
   operation to return a list of gateway volumes.
 
 # Optional Parameters

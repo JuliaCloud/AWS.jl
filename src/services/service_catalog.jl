@@ -1059,7 +1059,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PathId"`: The path identifier of the product. This value is optional if the product has
   a default path, and required if the product has more than one path. To list the paths for
-  a product, use [`list_launch_paths`](@ref).
+  a product, use `ListLaunchPaths`.
 
 - `"ProvisioningParameters"`: Parameters specified by the administrator that are required
   for provisioning the product.
@@ -1776,7 +1776,8 @@ Gets the status of the specified copy product operation.
 
 # Arguments
 
-- `copy_product_token`: The token for the copy product operation. This token is returned by [`copy_product`](@ref).
+- `copy_product_token`: The token for the copy product operation. This token is returned by
+  `CopyProduct`.
 
 # Optional Parameters
 
@@ -2270,7 +2271,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PathId"`: The path identifier of the product. This value is optional if the product has
   a default path, and required if the product has more than one path. To list the paths for
-  a product, use [`list_launch_paths`](@ref). You must provide the name or ID, but not both.
+  a product, use `ListLaunchPaths`. You must provide the name or ID, but not both.
 
 - `"PathName"`: The name of the path. You must provide the name or ID, but not both.
 
@@ -4378,7 +4379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PathId"`: The path identifier of the product. This value is optional if the product has
   a default path, and required if the product has more than one path. To list the paths for
-  a product, use [`list_launch_paths`](@ref). You must provide the name or ID, but not both.
+  a product, use `ListLaunchPaths`. You must provide the name or ID, but not both.
 
 - `"PathName"`: The name of the path. You must provide the name or ID, but not both.
 

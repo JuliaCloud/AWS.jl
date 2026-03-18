@@ -23,8 +23,8 @@ API operation and ensure that the parts list is empty.
     - **Directory buckets** - If multipart uploads in a directory bucket are in progress,
       you can't delete the bucket until all the in-progress multipart uploads are aborted or
       completed. To delete these in-progress multipart uploads, use the [`list_multipart_uploads`](@ref)
-      operation to list the in-progress multipart uploads in the bucket and use the [`abort_multupart_upload`](@ref)
-      operation to abort all the in-progress multipart uploads.
+      operation to list the in-progress multipart uploads in the bucket and use the
+      `AbortMultupartUpload` operation to abort all the in-progress multipart uploads.
     - **Directory buckets** - For directory buckets, you must make requests for this API
       operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests
       in the format
@@ -823,12 +823,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), and
     server-side encryption with customer-provided encryption keys (SSE-C). Amazon S3 uses
     the corresponding KMS key, or a customer-provided key to encrypt the target object copy.
-  - When you perform a [`copy_object`](@ref) operation, if you want to use a different type
-    of encryption setting for the target object, you can specify appropriate encryption-
-    related headers to encrypt the target object with an Amazon S3 managed key, a KMS key,
-    or a customer-provided key. If the encryption setting in your request is different from
-    the default encryption configuration of the destination bucket, the encryption setting
-    in your request takes precedence.
+  - When you perform a `CopyObject` operation, if you want to use a different type of
+    encryption setting for the target object, you can specify appropriate encryption-related
+    headers to encrypt the target object with an Amazon S3 managed key, a KMS key, or a
+    customer-provided key. If the encryption setting in your request is different from the
+    default encryption configuration of the destination bucket, the encryption setting in
+    your request takes precedence.
 
   **Directory buckets**
 
@@ -848,8 +848,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     (`aws/s3`) isn't supported. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)
     per directory bucket for the lifetime of the bucket. After you specify a customer
     managed key for SSE-KMS, you can't override the customer managed key for the bucket's
-    SSE-KMS configuration. Then, when you perform a [`copy_object`](@ref) operation and want
-    to specify server-side encryption settings for new object copies with SSE-KMS in the
+    SSE-KMS configuration. Then, when you perform a `CopyObject` operation and want to
+    specify server-side encryption settings for new object copies with SSE-KMS in the
     encryption-related request headers, you must ensure the encryption key is the same
     customer managed key that you specified for the directory bucket's default encryption
     configuration.
@@ -910,7 +910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
   encrypting the object (for example, `AES256`).
 
-  When you perform a [`copy_object`](@ref) operation, if you want to use a different type of
+  When you perform a `CopyObject` operation, if you want to use a different type of
   encryption setting for the target object, you can specify appropriate encryption-related
   headers to encrypt the target object with an Amazon S3 managed key, a KMS key, or a
   customer-provided key. If the encryption setting in your request is different from the
@@ -977,9 +977,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default value is the empty value.
 
   !!! note
-      **Directory buckets** - For directory buckets in a [`copy_object`](@ref) operation,
-      only the empty tag-set is supported. Any requests that attempt to write non-empty tags
-      into directory buckets will receive a `501 Not Implemented` status code. When the
+      **Directory buckets** - For directory buckets in a `CopyObject` operation, only the
+      empty tag-set is supported. Any requests that attempt to write non-empty tags into
+      directory buckets will receive a `501 Not Implemented` status code. When the
       destination bucket is a directory bucket, you will receive a `501 Not Implemented`
       response in any of the following situations:
 
@@ -991,7 +991,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
         non-empty tags. This is because the default value of `x-amz-tagging-directive` is
         `COPY`.
 
-      Because only the empty tag-set is supported for directory buckets in a [`copy_object`](@ref)
+      Because only the empty tag-set is supported for directory buckets in a `CopyObject`
       operation, the following situations are allowed:
 
       - When you attempt to `COPY` the tag-set from a directory bucket source object that
@@ -1012,9 +1012,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default value is `COPY`.
 
   !!! note
-      **Directory buckets** - For directory buckets in a [`copy_object`](@ref) operation,
-      only the empty tag-set is supported. Any requests that attempt to write non-empty tags
-      into directory buckets will receive a `501 Not Implemented` status code. When the
+      **Directory buckets** - For directory buckets in a `CopyObject` operation, only the
+      empty tag-set is supported. Any requests that attempt to write non-empty tags into
+      directory buckets will receive a `501 Not Implemented` status code. When the
       destination bucket is a directory bucket, you will receive a `501 Not Implemented`
       response in any of the following situations:
 
@@ -1026,7 +1026,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
         non-empty tags. This is because the default value of `x-amz-tagging-directive` is
         `COPY`.
 
-      Because only the empty tag-set is supported for directory buckets in a [`copy_object`](@ref)
+      Because only the empty tag-set is supported for directory buckets in a `CopyObject`
       operation, the following situations are allowed:
 
       - When you attempt to `COPY` the tag-set from a directory bucket source object that
@@ -1762,10 +1762,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Bucket Key for object encryption with SSE-KMS. Also, specifying this header with a PUT
   action doesn't affect bucket-level settings for S3 Bucket Key.
 
-  **Directory buckets** - S3 Bucket Keys are always enabled for `GET` and [`put`](@ref)
-  operations in a directory bucket and can’t be disabled. S3 Bucket Keys aren't supported,
-  when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets,
-  from directory buckets to general purpose buckets, or between directory buckets, through [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html), [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), [the Copy operation in Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops),
+  **Directory buckets** - S3 Bucket Keys are always enabled for `GET` and `PUT` operations
+  in a directory bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you
+  copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from
+  directory buckets to general purpose buckets, or between directory buckets, through [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html), [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), [the Copy operation in Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops),
   or [the import jobs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-import-job).
   In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-
   encrypted object.
@@ -2013,10 +2013,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use an S3 Bucket Key for object encryption with server-side encryption using KMS keys
   (SSE-KMS).
 
-  S3 Bucket Keys are always enabled for `GET` and [`put`](@ref) operations in a directory
-  bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS
-  encrypted objects from general purpose buckets to directory buckets, from directory
-  buckets to general purpose buckets, or between directory buckets, through [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html), [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), [the Copy operation in Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops),
+  S3 Bucket Keys are always enabled for `GET` and `PUT` operations in a directory bucket and
+  can’t be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted
+  objects from general purpose buckets to directory buckets, from directory buckets to
+  general purpose buckets, or between directory buckets, through [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html), [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), [the Copy operation in Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops),
   or [the import jobs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-import-job).
   In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-
   encrypted object.
@@ -2025,10 +2025,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Context as an additional encryption context to use for object encryption. The value of
   this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the
   encryption context as key-value pairs. This value is stored as object metadata and
-  automatically gets passed on to Amazon Web Services KMS for future [`get_object`](@ref)
-  operations on this object.
+  automatically gets passed on to Amazon Web Services KMS for future `GetObject` operations
+  on this object.
 
-  **General purpose buckets** - This value must be explicitly added during [`copy_object`](@ref)
+  **General purpose buckets** - This value must be explicitly added during `CopyObject`
   operations if you want an additional encryption context for your object. For more
   information, see [Encryption context](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html#encryption-context)
   in the *Amazon S3 User Guide*.
@@ -3301,12 +3301,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and the value that is displayed on your authentication device. Required to permanently
   delete a versioned object if versioning is configured with MFA delete enabled.
 
-  When performing the [`delete_objects`](@ref) operation on an MFA delete enabled bucket,
-  which attempts to delete the specified versioned objects, you must include an MFA token.
-  If you don't provide an MFA token, the entire request will fail, even if there are non-
-  versioned objects that you are trying to delete. If you provide an invalid token, whether
-  there are versioned object keys in the request or not, the entire Multi-Object Delete
-  request will fail. For information about MFA Delete, see [MFA Delete](https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html#MultiFactorAuthenticationDelete)
+  When performing the `DeleteObjects` operation on an MFA delete enabled bucket, which
+  attempts to delete the specified versioned objects, you must include an MFA token. If you
+  don't provide an MFA token, the entire request will fail, even if there are non-versioned
+  objects that you are trying to delete. If you provide an invalid token, whether there are
+  versioned object keys in the request or not, the entire Multi-Object Delete request will
+  fail. For information about MFA Delete, see [MFA Delete](https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html#MultiFactorAuthenticationDelete)
   in the *Amazon S3 User Guide*.
 
   !!! note
@@ -5120,8 +5120,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"versionId"`: Version ID used to reference a specific version of the object.
 
-  By default, the [`get_object`](@ref) operation returns the current version of an object.
-  To return a different version, use the `versionId` subresource.
+  By default, the `GetObject` operation returns the current version of an object. To return
+  a different version, use the `versionId` subresource.
 
   !!! note
       - If you include a `versionId` in your request header, you must have the
@@ -6087,14 +6087,14 @@ end
     head_object(bucket, key)
     head_object(bucket, key, params::Dict{String,<:Any})
 
-The [`head`](@ref) operation retrieves metadata from an object without returning the object
-itself. This operation is useful if you're interested only in an object's metadata.
+The `HEAD` operation retrieves metadata from an object without returning the object itself.
+This operation is useful if you're interested only in an object's metadata.
 
 !!! note
-    A `HEAD` request has the same options as a [`get`](@ref) operation on an object. The
-    response is identical to the `GET` response except that there is no response body.
-    Because of this, if the `HEAD` request generates an error, it returns a generic code,
-    such as `400 Bad Request`, `403 Forbidden`, `404 Not Found`, `405 Method Not Allowed`,
+    A `HEAD` request has the same options as a `GET` operation on an object. The response is
+    identical to the `GET` response except that there is no response body. Because of this,
+    if the `HEAD` request generates an error, it returns a generic code, such as
+    `400 Bad Request`, `403 Forbidden`, `404 Not Found`, `405 Method Not Allowed`,
     `412 Precondition Failed`, or `304 Not Modified`. It's not possible to retrieve the
     exact exception of these error codes.
 
@@ -6768,8 +6768,8 @@ but has not yet been completed or aborted.
     **Directory buckets** - If multipart uploads in a directory bucket are in progress, you
     can't delete the bucket until all the in-progress multipart uploads are aborted or
     completed. To delete these in-progress multipart uploads, use the [`list_multipart_uploads`](@ref)
-    operation to list the in-progress multipart uploads in the bucket and use the [`abort_multupart_upload`](@ref)
-    operation to abort all the in-progress multipart uploads.
+    operation to list the in-progress multipart uploads in the bucket and use the
+    `AbortMultupartUpload` operation to abort all the in-progress multipart uploads.
 
 The [`list_multipart_uploads`](@ref) operation returns a maximum of 1,000 multipart uploads
 in the response. The limit of 1,000 multipart uploads is also the default value. You can
@@ -8028,11 +8028,10 @@ encryption with Amazon S3 managed keys (SSE-S3).
       - Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)
         per directory bucket for the lifetime of the bucket. The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk)
         (`aws/s3`) isn't supported.
-      - S3 Bucket Keys are always enabled for `GET` and [`put`](@ref) operations in a
-        directory bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you
-        copy SSE-KMS encrypted objects from general purpose buckets to directory buckets,
-        from directory buckets to general purpose buckets, or between directory buckets,
-        through [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html), [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), [the Copy operation in Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops),
+      - S3 Bucket Keys are always enabled for `GET` and `PUT` operations in a directory
+        bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS
+        encrypted objects from general purpose buckets to directory buckets, from directory
+        buckets to general purpose buckets, or between directory buckets, through [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html), [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), [the Copy operation in Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops),
         or [the import jobs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-import-job).
         In this case, Amazon S3 makes a call to KMS every time a copy request is made for a
         KMS-encrypted object.
@@ -10164,10 +10163,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Bucket Key for object encryption with SSE-KMS. Also, specifying this header with a PUT
   action doesn't affect bucket-level settings for S3 Bucket Key.
 
-  **Directory buckets** - S3 Bucket Keys are always enabled for `GET` and [`put`](@ref)
-  operations in a directory bucket and can’t be disabled. S3 Bucket Keys aren't supported,
-  when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets,
-  from directory buckets to general purpose buckets, or between directory buckets, through [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html), [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), [the Copy operation in Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops),
+  **Directory buckets** - S3 Bucket Keys are always enabled for `GET` and `PUT` operations
+  in a directory bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you
+  copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from
+  directory buckets to general purpose buckets, or between directory buckets, through [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html), [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), [the Copy operation in Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops),
   or [the import jobs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-import-job).
   In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-
   encrypted object.
@@ -10176,10 +10175,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Context as an additional encryption context to use for object encryption. The value of
   this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the
   encryption context as key-value pairs. This value is stored as object metadata and
-  automatically gets passed on to Amazon Web Services KMS for future [`get_object`](@ref)
-  operations on this object.
+  automatically gets passed on to Amazon Web Services KMS for future `GetObject` operations
+  on this object.
 
-  **General purpose buckets** - This value must be explicitly added during [`copy_object`](@ref)
+  **General purpose buckets** - This value must be explicitly added during `CopyObject`
   operations if you want an additional encryption context for your object. For more
   information, see [Encryption context](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html#encryption-context)
   in the *Amazon S3 User Guide*.

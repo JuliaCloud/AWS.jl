@@ -52,8 +52,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   execute a SQL statement with no parameters, use one of the following options:
 
   - Specify one or more empty parameter sets.
-  - Use the [`execute_statement`](@ref) operation instead of the [`batch_execute_statement`](@ref)
-    operation.
+  - Use the `ExecuteStatement` operation instead of the `BatchExecuteStatement` operation.
 
   !!! note
       Array parameters are not supported.
@@ -63,9 +62,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       Currently, the `schema` parameter isn't supported.
 
-- `"transactionId"`: The identifier of a transaction that was started by using the [`begin_transaction`](@ref)
-  operation. Specify the transaction ID of the transaction that you want to include the SQL
-  statement in.
+- `"transactionId"`: The identifier of a transaction that was started by using the
+  `BeginTransaction` operation. Specify the transaction ID of the transaction that you want
+  to include the SQL statement in.
 
   If the SQL statement is not part of a transaction, don't set this parameter.
 """
@@ -374,9 +373,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       Currently, the `schema` parameter isn't supported.
 
-- `"transactionId"`: The identifier of a transaction that was started by using the [`begin_transaction`](@ref)
-  operation. Specify the transaction ID of the transaction that you want to include the SQL
-  statement in.
+- `"transactionId"`: The identifier of a transaction that was started by using the
+  `BeginTransaction` operation. Specify the transaction ID of the transaction that you want
+  to include the SQL statement in.
 
   If the SQL statement is not part of a transaction, don't set this parameter.
 """

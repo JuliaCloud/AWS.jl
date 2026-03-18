@@ -13,7 +13,7 @@ you can back up and restore your VMs through the gateway.
 
 # Arguments
 
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [`list_gateways`](@ref)
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the `ListGateways`
   operation to return a list of gateways for your account and Amazon Web Services Region.
 - `server_arn`: The Amazon Resource Name (ARN) of the server that hosts your virtual
   machines.

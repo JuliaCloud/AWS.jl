@@ -18,8 +18,8 @@ no errors and an empty body.
 
 # Arguments
 
-- `qualification_request_id`: The ID of the Qualification request, as returned by the [`get_qualification_requests`](@ref)
-  operation.
+- `qualification_request_id`: The ID of the Qualification request, as returned by the
+  `GetQualificationRequests` operation.
 
 # Optional Parameters
 
@@ -1621,8 +1621,8 @@ end
     list_worker_blocks()
     list_worker_blocks(params::Dict{String,<:Any})
 
-The [`list_workers_blocks`](@ref) operation retrieves a list of Workers who are blocked from
-working on your HITs.
+The `ListWorkersBlocks` operation retrieves a list of Workers who are blocked from working
+on your HITs.
 
 # Optional Parameters
 
@@ -1823,8 +1823,8 @@ the request can see this message.
 
 # Arguments
 
-- `qualification_request_id`: The ID of the Qualification request, as returned by the [`list_qualification_requests`](@ref)
-  operation.
+- `qualification_request_id`: The ID of the Qualification request, as returned by the
+  `ListQualificationRequests` operation.
 
 # Optional Parameters
 

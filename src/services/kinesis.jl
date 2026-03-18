@@ -736,7 +736,7 @@ This operation has a limit of five transactions per second per shard.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Limit"`: The maximum number of records to return. Specify a value of up to 10,000. If
-  you specify a value that is greater than 10,000, [`get_records`](@ref) throws
+  you specify a value that is greater than 10,000, `GetRecords` throws
   `InvalidArgumentException`. The default value is 10,000.
 - `"StreamARN"`: The ARN of the stream.
 """
@@ -1046,8 +1046,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can optionally specify a value for the `MaxResults` parameter when you specify
   `NextToken`. If you specify a `MaxResults` value that is less than the number of shards
   that the operation returns if you don't specify `MaxResults`, the response will contain a
-  new `NextToken` value. You can use the new `NextToken` value in a subsequent call to the [`list_shards`](@ref)
-  operation.
+  new `NextToken` value. You can use the new `NextToken` value in a subsequent call to the
+  `ListShards` operation.
 
   !!! important
       Tokens expire after 300 seconds. When you obtain a value for `NextToken` in the
@@ -1137,8 +1137,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can optionally specify a value for the `MaxResults` parameter when you specify
   `NextToken`. If you specify a `MaxResults` value that is less than the number of consumers
   that the operation returns if you don't specify `MaxResults`, the response will contain a
-  new `NextToken` value. You can use the new `NextToken` value in a subsequent call to the [`list_stream_consumers`](@ref)
-  operation to list the next set of consumers.
+  new `NextToken` value. You can use the new `NextToken` value in a subsequent call to the
+  `ListStreamConsumers` operation to list the next set of consumers.
 
   !!! important
       Tokens expire after 300 seconds. When you obtain a value for `NextToken` in the
@@ -1645,9 +1645,9 @@ end
     register_stream_consumer(consumer_name, stream_arn, params::Dict{String,<:Any})
 
 Registers a consumer with a Kinesis data stream. When you use this operation, the consumer
-you register can then call [`subscribe_to_shard`](@ref) to receive data from the stream
-using enhanced fan-out, at a rate of up to 2 MiB per second for every shard you subscribe
-to. This rate is unaffected by the total number of consumers that read from the same stream.
+you register can then call `SubscribeToShard` to receive data from the stream using enhanced
+fan-out, at a rate of up to 2 MiB per second for every shard you subscribe to. This rate is
+unaffected by the total number of consumers that read from the same stream.
 
 You can register up to 20 consumers per stream. A given consumer can only be registered with
 one stream at a time.

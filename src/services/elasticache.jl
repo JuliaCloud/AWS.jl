@@ -1302,8 +1302,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group. The value must be set to `Redis`.
 
 - `"EngineVersion"`: The version number of the cache engine to be used for the clusters in
-  this replication group. To view the supported cache engine versions, use the [`describe_cache_engine_versions`](@ref)
-  operation.
+  this replication group. To view the supported cache engine versions, use the
+  `DescribeCacheEngineVersions` operation.
 
   **Important:** You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement))
   in the *ElastiCache User Guide*, but you cannot downgrade to an earlier engine version. If

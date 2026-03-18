@@ -379,8 +379,8 @@ information, see [Limiting a user to viewing specific canaries](https://docs.aws
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Specify this parameter to limit how many canaries are returned each time
-  you use the [`describe_canaries`](@ref) operation. If you omit this parameter, the default
-  of 100 is used.
+  you use the `DescribeCanaries` operation. If you omit this parameter, the default of 100
+  is used.
 
 - `"Names"`: Use this parameter to return only canaries that match the names that you
   specify here. You can specify as many as five canary names.
@@ -433,8 +433,8 @@ information, see [Limiting a user to viewing specific canaries](https://docs.aws
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Specify this parameter to limit how many runs are returned each time you
-  use the [`describe_last_run`](@ref) operation. If you omit this parameter, the default of
-  100 is used.
+  use the `DescribeLastRun` operation. If you omit this parameter, the default of 100 is
+  used.
 
 - `"Names"`: Use this parameter to return only canaries that match the names that you
   specify here. You can specify as many as five canary names.
@@ -448,8 +448,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
 
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
-  token in a subsequent [`describe_canaries_last_run`](@ref) operation to retrieve the next
-  set of results.
+  token in a subsequent `DescribeCanariesLastRun` operation to retrieve the next set of
+  results.
 """
 function describe_canaries_last_run end
 
@@ -482,11 +482,11 @@ Returns a list of Synthetics canary runtime versions. For more information, see 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Specify this parameter to limit how many runs are returned each time you
-  use the [`describe_runtime_versions`](@ref) operation. If you omit this parameter, the
-  default of 100 is used.
+  use the `DescribeRuntimeVersions` operation. If you omit this parameter, the default of
+  100 is used.
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
-  token in a subsequent [`describe_runtime_versions`](@ref) operation to retrieve the next
-  set of results.
+  token in a subsequent `DescribeRuntimeVersions` operation to retrieve the next set of
+  results.
 """
 function describe_runtime_versions end
 
@@ -598,11 +598,9 @@ Retrieves a list of runs for a specified canary.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Specify this parameter to limit how many runs are returned each time you
-  use the [`get_canary_runs`](@ref) operation. If you omit this parameter, the default of
-  100 is used.
+  use the `GetCanaryRuns` operation. If you omit this parameter, the default of 100 is used.
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
-  token in a subsequent [`get_canary_runs`](@ref) operation to retrieve the next set of
-  results.
+  token in a subsequent `GetCanaryRuns` operation to retrieve the next set of results.
 """
 function get_canary_runs end
 
@@ -680,8 +678,8 @@ you specify must be in the current Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Specify this parameter to limit how many groups are returned each time you
-  use the [`list_associated_groups`](@ref) operation. If you omit this parameter, the
-  default of 20 is used.
+  use the `ListAssociatedGroups` operation. If you omit this parameter, the default of 20 is
+  used.
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
   token in a subsequent operation to retrieve the next set of results.
 """
@@ -729,8 +727,8 @@ specified group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Specify this parameter to limit how many canary ARNs are returned each
-  time you use the [`list_group_resources`](@ref) operation. If you omit this parameter, the
-  default of 20 is used.
+  time you use the `ListGroupResources` operation. If you omit this parameter, the default
+  of 20 is used.
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
   token in a subsequent operation to retrieve the next set of results.
 """
@@ -773,8 +771,7 @@ The groups from all Regions are returned.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Specify this parameter to limit how many groups are returned each time you
-  use the [`list_groups`](@ref) operation. If you omit this parameter, the default of 20 is
-  used.
+  use the `ListGroups` operation. If you omit this parameter, the default of 20 is used.
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
   token in a subsequent operation to retrieve the next set of results.
 """

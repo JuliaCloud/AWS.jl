@@ -579,8 +579,7 @@ in the *Direct Connect User Guide*.
 - `connection_id`: The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
   (dxlag-xxxx).
 
-  You can use [`describe_connections`](@ref) or [`describe_lags`](@ref) to retrieve
-  connection ID.
+  You can use `DescribeConnections` or `DescribeLags` to retrieve connection ID.
 
 # Optional Parameters
 
@@ -607,8 +606,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"secretARN"`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to
   associate with the dedicated connection.
 
-  You can use [`describe_connections`](@ref) or [`describe_lags`](@ref) to retrieve the MAC
-  Security (MACsec) secret key.
+  You can use `DescribeConnections` or `DescribeLags` to retrieve the MAC Security (MACsec)
+  secret key.
 
   If you use this request parameter, you do not use the `ckn` and `cak` request parameters.
 """
@@ -2753,13 +2752,12 @@ dedicated connection.
 - `connection_id`: The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
   (dxlag-xxxx).
 
-  You can use [`describe_connections`](@ref) or [`describe_lags`](@ref) to retrieve
-  connection ID.
+  You can use `DescribeConnections` or `DescribeLags` to retrieve connection ID.
 
 - `secret_arn`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key.
 
-  You can use [`describe_connections`](@ref) to retrieve the ARN of the MAC Security
-  (MACsec) secret key.
+  You can use `DescribeConnections` to retrieve the ARN of the MAC Security (MACsec) secret
+  key.
 """
 function disassociate_mac_sec_key end
 
@@ -3050,7 +3048,7 @@ You can update the following parameters for a connection:
 
 - `connection_id`: The ID of the dedicated connection.
 
-  You can use [`describe_connections`](@ref) to retrieve the connection ID.
+  You can use `DescribeConnections` to retrieve the connection ID.
 
 # Optional Parameters
 

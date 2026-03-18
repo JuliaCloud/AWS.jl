@@ -630,8 +630,7 @@ operation.
 # Arguments
 
 - `application_id`: The application identifier.
-- `task_id`: The task identifier returned by the [`create_data_set_import_task`](@ref)
-  operation.
+- `task_id`: The task identifier returned by the `CreateDataSetImportTask` operation.
 """
 function get_data_set_import_task end
 

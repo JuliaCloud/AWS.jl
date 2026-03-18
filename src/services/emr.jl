@@ -131,8 +131,8 @@ BOOTSTRAPPING, RUNNING, or WAITING.
 # Arguments
 
 - `job_flow_id`: A string that uniquely identifies the job flow. This identifier is returned
-  by [`run_job_flow`](@ref) and can also be obtained from [`list_clusters`](@ref).
-- `steps`: A list of [`step_config`](@ref) to be executed by the job flow.
+  by `RunJobFlow` and can also be obtained from `ListClusters`.
+- `steps`: A list of `StepConfig` to be executed by the job flow.
 
 # Optional Parameters
 
@@ -236,10 +236,10 @@ Cancels a pending step or steps in a running cluster. Available only in Amazon E
 
 # Arguments
 
-- `cluster_id`: The `ClusterID` for the specified steps that will be canceled. Use [`run_job_flow`](@ref)
-  and [`list_clusters`](@ref) to get ClusterIDs.
-- `step_ids`: The list of `StepIDs` to cancel. Use [`list_steps`](@ref) to get steps and
-  their states for the specified cluster.
+- `cluster_id`: The `ClusterID` for the specified steps that will be canceled. Use
+  `RunJobFlow` and `ListClusters` to get ClusterIDs.
+- `step_ids`: The list of `StepIDs` to cancel. Use `ListSteps` to get steps and their states
+  for the specified cluster.
 
 # Optional Parameters
 
@@ -1687,7 +1687,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StepConcurrencyLevel"`: The number of steps that can be executed concurrently. You can
   specify a minimum of 1 step and a maximum of 256 steps. We recommend that you do not
   change this parameter while steps are running or the `ActionOnFailure` setting may not
-  behave as expected. For more information see [`step\$_action_on_failure`](@ref).
+  behave as expected. For more information see `Step\$ActionOnFailure`.
 """
 function modify_cluster end
 
@@ -2211,13 +2211,13 @@ end
 RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the steps
 specified. After the steps complete, the cluster stops and the HDFS partition is lost. To
 prevent loss of data, configure the last step of the job flow to store results in Amazon S3.
-If the [`job_flow_instances_config`](@ref) `KeepJobFlowAliveWhenNoSteps` parameter is set to
-`TRUE`, the cluster transitions to the WAITING state rather than shutting down after the
-steps have completed.
+If the `JobFlowInstancesConfig` `KeepJobFlowAliveWhenNoSteps` parameter is set to `TRUE`,
+the cluster transitions to the WAITING state rather than shutting down after the steps have
+completed.
 
-For additional protection, you can set the [`job_flow_instances_config`](@ref)
-`TerminationProtected` parameter to `TRUE` to lock the cluster and prevent it from being
-terminated by API call, user intervention, or in the event of a job flow error.
+For additional protection, you can set the `JobFlowInstancesConfig` `TerminationProtected`
+parameter to `TRUE` to lock the cluster and prevent it from being terminated by API call,
+user intervention, or in the event of a job flow error.
 
 A maximum of 256 steps are allowed in each job flow.
 
@@ -2514,8 +2514,7 @@ in the *Amazon EMR Management Guide*.
 # Arguments
 
 - `job_flow_ids`: A list of strings that uniquely identify the clusters to protect. This
-  identifier is returned by [`run_job_flow`](@ref) and can also be obtained from [`describe_job_flows`](@ref)
-  .
+  identifier is returned by `RunJobFlow` and can also be obtained from `DescribeJobFlows` .
 - `termination_protected`: A Boolean that indicates whether to protect the cluster and
   prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user
   intervention, or job-flow error.
@@ -2580,8 +2579,8 @@ in the *Amazon EMR Management Guide*.
 # Arguments
 
 - `job_flow_ids`: The list of strings that uniquely identify the clusters for which to turn
-  on unhealthy node replacement. You can get these identifiers by running the [`run_job_flow`](@ref)
-  or the [`describe_job_flows`](@ref) operations.
+  on unhealthy node replacement. You can get these identifiers by running the `RunJobFlow`
+  or the `DescribeJobFlows` operations.
 - `unhealthy_node_replacement`: Indicates whether to turn on or turn off graceful unhealthy
   node replacement.
 """
@@ -2632,14 +2631,14 @@ end
     The SetVisibleToAllUsers parameter is no longer supported. Your cluster may be visible
     to all users in your account. To restrict cluster access using an IAM policy, see [Identity and Access Management for Amazon EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-access-IAM.html).
 
-Sets the [`cluster\$_visible_to_all_users`](@ref) value for an Amazon EMR cluster. When
-`true`, IAM principals in the Amazon Web Services account can perform Amazon EMR cluster
-actions that their IAM policies allow. When `false`, only the IAM principal that created the
-cluster and the Amazon Web Services account root user can perform Amazon EMR actions on the
-cluster, regardless of IAM permissions policies attached to other IAM principals.
+Sets the `Cluster\$VisibleToAllUsers` value for an Amazon EMR cluster. When `true`, IAM
+principals in the Amazon Web Services account can perform Amazon EMR cluster actions that
+their IAM policies allow. When `false`, only the IAM principal that created the cluster and
+the Amazon Web Services account root user can perform Amazon EMR actions on the cluster,
+regardless of IAM permissions policies attached to other IAM principals.
 
-This action works on running clusters. When you create a cluster, use the [`run_job_flow_input\$_visible_to_all_users`](@ref)
-parameter.
+This action works on running clusters. When you create a cluster, use the
+`RunJobFlowInput\$VisibleToAllUsers` parameter.
 
 For more information, see [Understanding the Amazon EMR Cluster VisibleToAllUsers Setting](https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_IAM_emr-with-IAM.html#security_set_visible_to_all_users)
 in the *Amazon EMR Management Guide*.

@@ -996,8 +996,8 @@ Deletes the content of a comment made on a change, file, or commit in a reposito
 
 # Arguments
 
-- `comment_id`: The unique, system-generated ID of the comment. To get this ID, use [`get_comments_for_compared_commit`](@ref)
-  or [`get_comments_for_pull_request`](@ref).
+- `comment_id`: The unique, system-generated ID of the comment. To get this ID, use
+  `GetCommentsForComparedCommit` or `GetCommentsForPullRequest`.
 """
 function delete_comment_content end
 
@@ -1307,7 +1307,8 @@ Returns information about one or more pull request events.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
+  `ListPullRequests`.
 
 # Optional Parameters
 
@@ -1419,7 +1420,7 @@ approval rules.
 
 - `pull_request_id`: The system-generated ID of the pull request you want to evaluate.
 - `revision_id`: The system-generated ID for the pull request revision. To retrieve the most
-  recent revision ID for a pull request, use [`get_pull_request`](@ref).
+  recent revision ID for a pull request, use `GetPullRequest`.
 """
 function evaluate_pull_request_approval_rules end
 
@@ -1584,8 +1585,8 @@ Returns the content of a comment made on a change, file, or commit in a reposito
 
 # Arguments
 
-- `comment_id`: The unique, system-generated ID of the comment. To get this ID, use [`get_comments_for_compared_commit`](@ref)
-  or [`get_comments_for_pull_request`](@ref).
+- `comment_id`: The unique, system-generated ID of the comment. To get this ID, use
+  `GetCommentsForComparedCommit` or `GetCommentsForPullRequest`.
 """
 function get_comment end
 
@@ -1741,7 +1742,8 @@ Returns comments made on a pull request.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
+  `ListPullRequests`.
 
 # Optional Parameters
 
@@ -2258,7 +2260,8 @@ Gets information about a pull request in a specified repository.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
+  `ListPullRequests`.
 """
 function get_pull_request end
 
@@ -2346,7 +2349,7 @@ rules and their requirements for the pull request.
 - `pull_request_id`: The ID of the pull request for which you want to get information about
   whether approval rules have been set aside (overridden).
 - `revision_id`: The system-generated ID of the revision for the pull request. To retrieve
-  the most recent revision ID, use [`get_pull_request`](@ref).
+  the most recent revision ID, use `GetPullRequest`.
 """
 function get_pull_request_override_state end
 
@@ -3073,7 +3076,8 @@ merge is successful, it closes the pull request.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
+  `ListPullRequests`.
 - `repository_name`: The name of the repository where the pull request was created.
 
 # Optional Parameters
@@ -3131,7 +3135,8 @@ is successful, it closes the pull request.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
+  `ListPullRequests`.
 - `repository_name`: The name of the repository where the pull request was created.
 
 # Optional Parameters
@@ -3207,7 +3212,8 @@ merge is successful, it closes the pull request.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
+  `ListPullRequests`.
 - `repository_name`: The name of the repository where the pull request was created.
 
 # Optional Parameters
@@ -3285,7 +3291,7 @@ Sets aside (overrides) all approval rule requirements for a specified pull reque
   request (OVERRIDE) or revoke a previous override and apply approval rule requirements
   (REVOKE). REVOKE status is not stored.
 - `pull_request_id`: The system-generated ID of the pull request for which you want to
-  override all approval rule requirements. To get this information, use [`get_pull_request`](@ref).
+  override all approval rule requirements. To get this information, use `GetPullRequest`.
 - `revision_id`: The system-generated ID of the most recent revision of the pull request.
   You cannot override approval rules for anything but the most recent revision of a pull
   request. To get the revision ID, use GetPullRequest.
@@ -3422,7 +3428,8 @@ Posts a comment on a pull request.
 - `before_commit_id`: The full commit ID of the commit in the destination branch that was
   the tip of the branch at the time the pull request was created.
 - `content`: The content of your comment on the change.
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
+  `ListPullRequests`.
 - `repository_name`: The name of the repository where you want to post a comment on a pull
   request.
 
@@ -3504,7 +3511,7 @@ request.
 
 - `content`: The contents of your reply to a comment.
 - `in_reply_to`: The system-generated ID of the comment to which you want to reply. To get
-  this ID, use [`get_comments_for_compared_commit`](@ref) or [`get_comments_for_pull_request`](@ref).
+  this ID, use `GetCommentsForComparedCommit` or `GetCommentsForPullRequest`.
 
 # Optional Parameters
 
@@ -3905,7 +3912,7 @@ approvals, the membership of the approval rule, and whether an approval pool is 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"existingRuleContentSha256"`: The SHA-256 hash signature for the content of the approval
-  rule. You can retrieve this information by using [`get_pull_request`](@ref).
+  rule. You can retrieve this information by using `GetPullRequest`.
 """
 function update_approval_rule_template_content end
 
@@ -4064,7 +4071,7 @@ Replaces the contents of a comment.
 # Arguments
 
 - `comment_id`: The system-generated ID of the comment you want to update. To get this ID,
-  use [`get_comments_for_compared_commit`](@ref) or [`get_comments_for_pull_request`](@ref).
+  use `GetCommentsForComparedCommit` or `GetCommentsForPullRequest`.
 - `content`: The updated content to replace the existing content of the comment.
 """
 function update_comment end
@@ -4199,7 +4206,7 @@ approvers.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"existingRuleContentSha256"`: The SHA-256 hash signature for the content of the approval
-  rule. You can retrieve this information by using [`get_pull_request`](@ref).
+  rule. You can retrieve this information by using `GetPullRequest`.
 """
 function update_pull_request_approval_rule_content end
 
@@ -4314,7 +4321,8 @@ Replaces the contents of the description of a pull request.
 
 - `description`: The updated content of the description for the pull request. This content
   replaces the existing description.
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
+  `ListPullRequests`.
 """
 function update_pull_request_description end
 
@@ -4359,7 +4367,8 @@ Updates the status of a pull request.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
+  `ListPullRequests`.
 - `pull_request_status`: The status of the pull request. The only valid operations are to
   update the status from `OPEN` to `OPEN`, `OPEN` to `CLOSED` or from `CLOSED` to `CLOSED`.
 """
@@ -4409,7 +4418,8 @@ Replaces the title of a pull request.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
+  `ListPullRequests`.
 - `title`: The updated title of the pull request. This replaces the existing title.
 """
 function update_pull_request_title end

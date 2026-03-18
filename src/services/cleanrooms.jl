@@ -328,10 +328,10 @@ Provides the details necessary to create a configured audience model association
   collaboration.
 
   Setting this to `TRUE` requires you to have permissions to create, update, and delete the
-  resource policy for the `cleanrooms-ml` resource when you call the [`delete_configured_audience_model_association`](@ref)
-  resource. In addition, if you are the collaboration creator and specify `TRUE`, you must
-  have the same permissions when you call the [`delete_member`](@ref) and [`delete_collaboration`](@ref)
-  APIs.
+  resource policy for the `cleanrooms-ml` resource when you call the
+  `DeleteConfiguredAudienceModelAssociation` resource. In addition, if you are the
+  collaboration creator and specify `TRUE`, you must have the same permissions when you call
+  the `DeleteMember` and `DeleteCollaboration` APIs.
 
 - `membership_identifier`: A unique identifier for one of your memberships for a
   collaboration. The configured audience model is associated to the collaboration that this

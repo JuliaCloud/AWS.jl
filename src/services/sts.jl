@@ -222,8 +222,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and lower-case alphanumeric characters with no spaces. You can also include underscores or
   any of the following characters: =,.@-
 
-- `"SourceIdentity"`: The source identity specified by the principal that is calling the [`assume_role`](@ref)
-  operation.
+- `"SourceIdentity"`: The source identity specified by the principal that is calling the
+  `AssumeRole` operation.
 
   You can require users to specify a source identity when they assume a role. You do this by
   using the `sts:SourceIdentity` condition key in a role trust policy. You can use source
@@ -1231,9 +1231,9 @@ and [Comparing the Amazon Web Services STS API operations](https://docs.aws.amaz
 in the *IAM User Guide*.
 
 !!! note
-    No permissions are required for users to perform this operation. The purpose of the [`sts:_get_session_token`](@ref)
-    operation is to authenticate the user using MFA. You cannot use policies to control
-    authentication operations. For more information, see [Permissions for GetSessionToken](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_getsessiontoken.html)
+    No permissions are required for users to perform this operation. The purpose of the
+    `sts:GetSessionToken` operation is to authenticate the user using MFA. You cannot use
+    policies to control authentication operations. For more information, see [Permissions for GetSessionToken](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_getsessiontoken.html)
     in the *IAM User Guide*.
 
 **Session Duration**

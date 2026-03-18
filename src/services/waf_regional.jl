@@ -100,9 +100,9 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `name`: A friendly name or description of the [`byte_match_set`](@ref). You can't change
-  `Name` after you create a `ByteMatchSet`.
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `name`: A friendly name or description of the `ByteMatchSet`. You can't change `Name`
+  after you create a `ByteMatchSet`.
 """
 function create_byte_match_set end
 
@@ -149,8 +149,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Creates an [`geo_match_set`](@ref), which you use to specify which web requests you want to
-allow or block based on the country that the requests originate from. For example, if you're
+Creates an `GeoMatchSet`, which you use to specify which web requests you want to allow or
+block based on the country that the requests originate from. For example, if you're
 receiving a lot of requests from one or more countries and you want to block the requests,
 you can create an `GeoMatchSet` that contains those countries and then configure AWS WAF to
 block the requests.
@@ -170,9 +170,9 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `name`: A friendly name or description of the [`geo_match_set`](@ref). You can't change
-  `Name` after you create the `GeoMatchSet`.
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `name`: A friendly name or description of the `GeoMatchSet`. You can't change `Name` after
+  you create the `GeoMatchSet`.
 """
 function create_geo_match_set end
 
@@ -219,11 +219,11 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Creates an [`ipset`](@ref), which you use to specify which web requests that you want to
-allow or block based on the IP addresses that the requests originate from. For example, if
-you're receiving a lot of requests from one or more individual IP addresses or one or more
-ranges of IP addresses and you want to block the requests, you can create an `IPSet` that
-contains those IP addresses and then configure AWS WAF to block the requests.
+Creates an `IPSet`, which you use to specify which web requests that you want to allow or
+block based on the IP addresses that the requests originate from. For example, if you're
+receiving a lot of requests from one or more individual IP addresses or one or more ranges
+of IP addresses and you want to block the requests, you can create an `IPSet` that contains
+those IP addresses and then configure AWS WAF to block the requests.
 
 To create and configure an `IPSet`, perform the following steps:
 
@@ -240,9 +240,9 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `name`: A friendly name or description of the [`ipset`](@ref). You can't change `Name`
-  after you create the `IPSet`.
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `name`: A friendly name or description of the `IPSet`. You can't change `Name` after you
+  create the `IPSet`.
 """
 function create_ipset end
 
@@ -287,11 +287,11 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Creates a [`rate_based_rule`](@ref). The `RateBasedRule` contains a `RateLimit`, which
-specifies the maximum number of requests that AWS WAF allows from a specified IP address in
-a five-minute period. The `RateBasedRule` also contains the `IPSet` objects, `ByteMatchSet`
-objects, and other predicates that identify the requests that you want to count or block if
-these requests exceed the `RateLimit`.
+Creates a `RateBasedRule`. The `RateBasedRule` contains a `RateLimit`, which specifies the
+maximum number of requests that AWS WAF allows from a specified IP address in a five-minute
+period. The `RateBasedRule` also contains the `IPSet` objects, `ByteMatchSet` objects, and
+other predicates that identify the requests that you want to count or block if these
+requests exceed the `RateLimit`.
 
 If you add more than one predicate to a `RateBasedRule`, a request not only must exceed the
 `RateLimit`, but it also must match all the conditions to be counted or blocked. For
@@ -342,7 +342,7 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 - `change_token`: The `ChangeToken` that you used to submit the `CreateRateBasedRule`
   request. You can also use this value to query the status of the request. For more
-  information, see [`get_change_token_status`](@ref).
+  information, see `GetChangeTokenStatus`.
 
 - `metric_name`: A friendly name or description for the metrics for this `RateBasedRule`.
   The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128
@@ -350,8 +350,8 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
   including "All" and "Default_Action." You can't change the name of the metric after you
   create the `RateBasedRule`.
 
-- `name`: A friendly name or description of the [`rate_based_rule`](@ref). You can't change
-  the name of a `RateBasedRule` after you create it.
+- `name`: A friendly name or description of the `RateBasedRule`. You can't change the name
+  of a `RateBasedRule` after you create it.
 
 - `rate_key`: The field that AWS WAF uses to determine if requests are likely arriving from
   a single source and thus subject to rate monitoring. The only valid value for `RateKey` is
@@ -434,10 +434,10 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Creates a [`regex_match_set`](@ref). You then use [`update_regex_match_set`](@ref) to
-identify the part of a web request that you want AWS WAF to inspect, such as the values of
-the `User-Agent` header or the query string. For example, you can create a `RegexMatchSet`
-that contains a `RegexMatchTuple` that looks for any requests with `User-Agent` headers that
+Creates a `RegexMatchSet`. You then use [`update_regex_match_set`](@ref) to identify the
+part of a web request that you want AWS WAF to inspect, such as the values of the
+`User-Agent` header or the query string. For example, you can create a `RegexMatchSet` that
+contains a `RegexMatchTuple` that looks for any requests with `User-Agent` headers that
 match a `RegexPatternSet` with pattern `B[a@]dB[o0]t`. You can then configure AWS WAF to
 reject those requests.
 
@@ -457,9 +457,9 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `name`: A friendly name or description of the [`regex_match_set`](@ref). You can't change
-  `Name` after you create a `RegexMatchSet`.
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `name`: A friendly name or description of the `RegexMatchSet`. You can't change `Name`
+  after you create a `RegexMatchSet`.
 """
 function create_regex_match_set end
 
@@ -525,9 +525,9 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `name`: A friendly name or description of the [`regex_pattern_set`](@ref). You can't
-  change `Name` after you create a `RegexPatternSet`.
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `name`: A friendly name or description of the `RegexPatternSet`. You can't change `Name`
+  after you create a `RegexPatternSet`.
 """
 function create_regex_pattern_set end
 
@@ -604,7 +604,7 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 
 - `metric_name`: A friendly name or description for the metrics for this `Rule`. The name
   can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and
@@ -612,8 +612,8 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
   including "All" and "Default_Action." You can't change the name of the metric after you
   create the `Rule`.
 
-- `name`: A friendly name or description of the [`rule`](@ref). You can't change the name of
-  a `Rule` after you create it.
+- `name`: A friendly name or description of the `Rule`. You can't change the name of a
+  `Rule` after you create it.
 
 # Optional Parameters
 
@@ -686,7 +686,7 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 
 - `metric_name`: A friendly name or description for the metrics for this `RuleGroup`. The
   name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and
@@ -694,8 +694,8 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
   including "All" and "Default_Action." You can't change the name of the metric after you
   create the `RuleGroup`.
 
-- `name`: A friendly name or description of the [`rule_group`](@ref). You can't change
-  `Name` after you create a `RuleGroup`.
+- `name`: A friendly name or description of the `RuleGroup`. You can't change `Name` after
+  you create a `RuleGroup`.
 
 # Optional Parameters
 
@@ -775,9 +775,9 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `name`: A friendly name or description of the [`size_constraint_set`](@ref). You can't
-  change `Name` after you create a `SizeConstraintSet`.
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `name`: A friendly name or description of the `SizeConstraintSet`. You can't change `Name`
+  after you create a `SizeConstraintSet`.
 """
 function create_size_constraint_set end
 
@@ -824,9 +824,9 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Creates a [`sql_injection_match_set`](@ref), which you use to allow, block, or count
-requests that contain snippets of SQL code in a specified part of web requests. AWS WAF
-searches for character sequences that are likely to be malicious strings.
+Creates a `SqlInjectionMatchSet`, which you use to allow, block, or count requests that
+contain snippets of SQL code in a specified part of web requests. AWS WAF searches for
+character sequences that are likely to be malicious strings.
 
 To create and configure a `SqlInjectionMatchSet`, perform the following steps:
 
@@ -843,9 +843,9 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `name`: A friendly name or description for the [`sql_injection_match_set`](@ref) that
-  you're creating. You can't change `Name` after you create the `SqlInjectionMatchSet`.
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `name`: A friendly name or description for the `SqlInjectionMatchSet` that you're
+  creating. You can't change `Name` after you create the `SqlInjectionMatchSet`.
 """
 function create_sql_injection_match_set end
 
@@ -919,7 +919,7 @@ For more information about how to use the AWS WAF API, see the [AWS WAF Develope
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 
 - `default_action`: The action that you want AWS WAF to take when a request doesn't match
   the criteria specified in any of the `Rule` objects that are associated with the `WebACL`.
@@ -930,8 +930,8 @@ For more information about how to use the AWS WAF API, see the [AWS WAF Develope
   including "All" and "Default_Action." You can't change `MetricName` after you create the
   `WebACL`.
 
-- `name`: A friendly name or description of the [`web_acl`](@ref). You can't change `Name`
-  after you create the `WebACL`.
+- `name`: A friendly name or description of the `WebACL`. You can't change `Name` after you
+  create the `WebACL`.
 
 # Optional Parameters
 
@@ -1079,9 +1079,9 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Creates an [`xss_match_set`](@ref), which you use to allow, block, or count requests that
-contain cross-site scripting attacks in the specified part of web requests. AWS WAF searches
-for character sequences that are likely to be malicious strings.
+Creates an `XssMatchSet`, which you use to allow, block, or count requests that contain
+cross-site scripting attacks in the specified part of web requests. AWS WAF searches for
+character sequences that are likely to be malicious strings.
 
 To create and configure an `XssMatchSet`, perform the following steps:
 
@@ -1098,9 +1098,9 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `name`: A friendly name or description for the [`xss_match_set`](@ref) that you're
-  creating. You can't change `Name` after you create the `XssMatchSet`.
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `name`: A friendly name or description for the `XssMatchSet` that you're creating. You
+  can't change `Name` after you create the `XssMatchSet`.
 """
 function create_xss_match_set end
 
@@ -1147,9 +1147,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes a [`byte_match_set`](@ref). You can't delete a `ByteMatchSet` if it's
-still used in any `Rules` or if it still includes any [`byte_match_tuple`](@ref) objects
-(any filters).
+Permanently deletes a `ByteMatchSet`. You can't delete a `ByteMatchSet` if it's still used
+in any `Rules` or if it still includes any `ByteMatchTuple` objects (any filters).
 
 If you just want to remove a `ByteMatchSet` from a `Rule`, use [`update_rule`](@ref).
 
@@ -1162,9 +1161,9 @@ To permanently delete a `ByteMatchSet`, perform the following steps:
 
 # Arguments
 
-- `byte_match_set_id`: The `ByteMatchSetId` of the [`byte_match_set`](@ref) that you want to
-  delete. `ByteMatchSetId` is returned by [`create_byte_match_set`](@ref) and by [`list_byte_match_sets`](@ref).
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `byte_match_set_id`: The `ByteMatchSetId` of the `ByteMatchSet` that you want to delete.
+  `ByteMatchSetId` is returned by `CreateByteMatchSet` and by `ListByteMatchSets`.
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 """
 function delete_byte_match_set end
 
@@ -1213,8 +1212,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes a [`geo_match_set`](@ref). You can't delete a `GeoMatchSet` if it's
-still used in any `Rules` or if it still includes any countries.
+Permanently deletes a `GeoMatchSet`. You can't delete a `GeoMatchSet` if it's still used in
+any `Rules` or if it still includes any countries.
 
 If you just want to remove a `GeoMatchSet` from a `Rule`, use [`update_rule`](@ref).
 
@@ -1227,9 +1226,9 @@ To permanently delete a `GeoMatchSet` from AWS WAF, perform the following steps:
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `geo_match_set_id`: The `GeoMatchSetID` of the [`geo_match_set`](@ref) that you want to
-  delete. `GeoMatchSetId` is returned by [`create_geo_match_set`](@ref) and by [`list_geo_match_sets`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `geo_match_set_id`: The `GeoMatchSetID` of the `GeoMatchSet` that you want to delete.
+  `GeoMatchSetId` is returned by `CreateGeoMatchSet` and by `ListGeoMatchSets`.
 """
 function delete_geo_match_set end
 
@@ -1278,8 +1277,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes an [`ipset`](@ref). You can't delete an `IPSet` if it's still used in
-any `Rules` or if it still includes any IP addresses.
+Permanently deletes an `IPSet`. You can't delete an `IPSet` if it's still used in any
+`Rules` or if it still includes any IP addresses.
 
 If you just want to remove an `IPSet` from a `Rule`, use [`update_rule`](@ref).
 
@@ -1292,9 +1291,9 @@ To permanently delete an `IPSet` from AWS WAF, perform the following steps:
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `ipset_id`: The `IPSetId` of the [`ipset`](@ref) that you want to delete. `IPSetId` is
-  returned by [`create_ipset`](@ref) and by [`list_ipsets`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `ipset_id`: The `IPSetId` of the `IPSet` that you want to delete. `IPSetId` is returned by
+  `CreateIPSet` and by `ListIPSets`.
 """
 function delete_ipset end
 
@@ -1341,12 +1340,12 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes the [`logging_configuration`](@ref) from the specified web ACL.
+Permanently deletes the `LoggingConfiguration` from the specified web ACL.
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the web ACL from which you want to
-  delete the [`logging_configuration`](@ref).
+  delete the `LoggingConfiguration`.
 """
 function delete_logging_configuration end
 
@@ -1439,9 +1438,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes a [`rate_based_rule`](@ref). You can't delete a rule if it's still used
-in any `WebACL` objects or if it still includes any predicates, such as `ByteMatchSet`
-objects.
+Permanently deletes a `RateBasedRule`. You can't delete a rule if it's still used in any
+`WebACL` objects or if it still includes any predicates, such as `ByteMatchSet` objects.
 
 If you just want to remove a rule from a `WebACL`, use [`update_web_acl`](@ref).
 
@@ -1454,9 +1452,9 @@ To permanently delete a `RateBasedRule` from AWS WAF, perform the following step
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `rule_id`: The `RuleId` of the [`rate_based_rule`](@ref) that you want to delete. `RuleId`
-  is returned by [`create_rate_based_rule`](@ref) and by [`list_rate_based_rules`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `rule_id`: The `RuleId` of the `RateBasedRule` that you want to delete. `RuleId` is
+  returned by `CreateRateBasedRule` and by `ListRateBasedRules`.
 """
 function delete_rate_based_rule end
 
@@ -1503,9 +1501,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes a [`regex_match_set`](@ref). You can't delete a `RegexMatchSet` if it's
-still used in any `Rules` or if it still includes any `RegexMatchTuples` objects (any
-filters).
+Permanently deletes a `RegexMatchSet`. You can't delete a `RegexMatchSet` if it's still used
+in any `Rules` or if it still includes any `RegexMatchTuples` objects (any filters).
 
 If you just want to remove a `RegexMatchSet` from a `Rule`, use [`update_rule`](@ref).
 
@@ -1518,9 +1515,10 @@ To permanently delete a `RegexMatchSet`, perform the following steps:
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `regex_match_set_id`: The `RegexMatchSetId` of the [`regex_match_set`](@ref) that you want
-  to delete. `RegexMatchSetId` is returned by [`create_regex_match_set`](@ref) and by [`list_regex_match_sets`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `regex_match_set_id`: The `RegexMatchSetId` of the `RegexMatchSet` that you want to
+  delete. `RegexMatchSetId` is returned by `CreateRegexMatchSet` and by
+  `ListRegexMatchSets`.
 """
 function delete_regex_match_set end
 
@@ -1571,15 +1569,15 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes a [`regex_pattern_set`](@ref). You can't delete a `RegexPatternSet` if
-it's still used in any `RegexMatchSet` or if the `RegexPatternSet` is not empty.
+Permanently deletes a `RegexPatternSet`. You can't delete a `RegexPatternSet` if it's still
+used in any `RegexMatchSet` or if the `RegexPatternSet` is not empty.
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `regex_pattern_set_id`: The `RegexPatternSetId` of the [`regex_pattern_set`](@ref) that
-  you want to delete. `RegexPatternSetId` is returned by [`create_regex_pattern_set`](@ref)
-  and by [`list_regex_pattern_sets`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `regex_pattern_set_id`: The `RegexPatternSetId` of the `RegexPatternSet` that you want to
+  delete. `RegexPatternSetId` is returned by `CreateRegexPatternSet` and by
+  `ListRegexPatternSets`.
 """
 function delete_regex_pattern_set end
 
@@ -1630,8 +1628,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes a [`rule`](@ref). You can't delete a `Rule` if it's still used in any
-`WebACL` objects or if it still includes any predicates, such as `ByteMatchSet` objects.
+Permanently deletes a `Rule`. You can't delete a `Rule` if it's still used in any `WebACL`
+objects or if it still includes any predicates, such as `ByteMatchSet` objects.
 
 If you just want to remove a `Rule` from a `WebACL`, use [`update_web_acl`](@ref).
 
@@ -1644,9 +1642,9 @@ To permanently delete a `Rule` from AWS WAF, perform the following steps:
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `rule_id`: The `RuleId` of the [`rule`](@ref) that you want to delete. `RuleId` is
-  returned by [`create_rule`](@ref) and by [`list_rules`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `rule_id`: The `RuleId` of the `Rule` that you want to delete. `RuleId` is returned by
+  `CreateRule` and by `ListRules`.
 """
 function delete_rule end
 
@@ -1693,8 +1691,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes a [`rule_group`](@ref). You can't delete a `RuleGroup` if it's still
-used in any `WebACL` objects or if it still includes any rules.
+Permanently deletes a `RuleGroup`. You can't delete a `RuleGroup` if it's still used in any
+`WebACL` objects or if it still includes any rules.
 
 If you just want to remove a `RuleGroup` from a `WebACL`, use [`update_web_acl`](@ref).
 
@@ -1707,9 +1705,9 @@ To permanently delete a `RuleGroup` from AWS WAF, perform the following steps:
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `rule_group_id`: The `RuleGroupId` of the [`rule_group`](@ref) that you want to delete.
-  `RuleGroupId` is returned by [`create_rule_group`](@ref) and by [`list_rule_groups`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `rule_group_id`: The `RuleGroupId` of the `RuleGroup` that you want to delete.
+  `RuleGroupId` is returned by `CreateRuleGroup` and by `ListRuleGroups`.
 """
 function delete_rule_group end
 
@@ -1758,9 +1756,9 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes a [`size_constraint_set`](@ref). You can't delete a `SizeConstraintSet`
-if it's still used in any `Rules` or if it still includes any [`size_constraint`](@ref)
-objects (any filters).
+Permanently deletes a `SizeConstraintSet`. You can't delete a `SizeConstraintSet` if it's
+still used in any `Rules` or if it still includes any `SizeConstraint` objects (any
+filters).
 
 If you just want to remove a `SizeConstraintSet` from a `Rule`, use [`update_rule`](@ref).
 
@@ -1773,10 +1771,10 @@ To permanently delete a `SizeConstraintSet`, perform the following steps:
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `size_constraint_set_id`: The `SizeConstraintSetId` of the [`size_constraint_set`](@ref)
-  that you want to delete. `SizeConstraintSetId` is returned by [`create_size_constraint_set`](@ref)
-  and by [`list_size_constraint_sets`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `size_constraint_set_id`: The `SizeConstraintSetId` of the `SizeConstraintSet` that you
+  want to delete. `SizeConstraintSetId` is returned by `CreateSizeConstraintSet` and by
+  `ListSizeConstraintSets`.
 """
 function delete_size_constraint_set end
 
@@ -1828,9 +1826,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes a [`sql_injection_match_set`](@ref). You can't delete a
-`SqlInjectionMatchSet` if it's still used in any `Rules` or if it still contains any [`sql_injection_match_tuple`](@ref)
-objects.
+Permanently deletes a `SqlInjectionMatchSet`. You can't delete a `SqlInjectionMatchSet` if
+it's still used in any `Rules` or if it still contains any `SqlInjectionMatchTuple` objects.
 
 If you just want to remove a `SqlInjectionMatchSet` from a `Rule`, use [`update_rule`](@ref).
 
@@ -1843,10 +1840,10 @@ To permanently delete a `SqlInjectionMatchSet` from AWS WAF, perform the followi
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `sql_injection_match_set_id`: The `SqlInjectionMatchSetId` of the [`sql_injection_match_set`](@ref)
-  that you want to delete. `SqlInjectionMatchSetId` is returned by [`create_sql_injection_match_set`](@ref)
-  and by [`list_sql_injection_match_sets`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `sql_injection_match_set_id`: The `SqlInjectionMatchSetId` of the `SqlInjectionMatchSet`
+  that you want to delete. `SqlInjectionMatchSetId` is returned by
+  `CreateSqlInjectionMatchSet` and by `ListSqlInjectionMatchSets`.
 """
 function delete_sql_injection_match_set end
 
@@ -1898,8 +1895,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes a [`web_acl`](@ref). You can't delete a `WebACL` if it still contains
-any `Rules`.
+Permanently deletes a `WebACL`. You can't delete a `WebACL` if it still contains any
+`Rules`.
 
 To delete a `WebACL`, perform the following steps:
 
@@ -1910,9 +1907,9 @@ To delete a `WebACL`, perform the following steps:
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `web_aclid`: The `WebACLId` of the [`web_acl`](@ref) that you want to delete. `WebACLId`
-  is returned by [`create_web_acl`](@ref) and by [`list_web_acls`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `web_aclid`: The `WebACLId` of the `WebACL` that you want to delete. `WebACLId` is
+  returned by `CreateWebACL` and by `ListWebACLs`.
 """
 function delete_web_acl end
 
@@ -1959,8 +1956,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Permanently deletes an [`xss_match_set`](@ref). You can't delete an `XssMatchSet` if it's
-still used in any `Rules` or if it still contains any [`xss_match_tuple`](@ref) objects.
+Permanently deletes an `XssMatchSet`. You can't delete an `XssMatchSet` if it's still used
+in any `Rules` or if it still contains any `XssMatchTuple` objects.
 
 If you just want to remove an `XssMatchSet` from a `Rule`, use [`update_rule`](@ref).
 
@@ -1973,9 +1970,9 @@ To permanently delete an `XssMatchSet` from AWS WAF, perform the following steps
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `xss_match_set_id`: The `XssMatchSetId` of the [`xss_match_set`](@ref) that you want to
-  delete. `XssMatchSetId` is returned by [`create_xss_match_set`](@ref) and by [`list_xss_match_sets`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `xss_match_set_id`: The `XssMatchSetId` of the `XssMatchSet` that you want to delete.
+  `XssMatchSetId` is returned by `CreateXssMatchSet` and by `ListXssMatchSets`.
 """
 function delete_xss_match_set end
 
@@ -2079,12 +2076,12 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`byte_match_set`](@ref) specified by `ByteMatchSetId`.
+Returns the `ByteMatchSet` specified by `ByteMatchSetId`.
 
 # Arguments
 
-- `byte_match_set_id`: The `ByteMatchSetId` of the [`byte_match_set`](@ref) that you want to
-  get. `ByteMatchSetId` is returned by [`create_byte_match_set`](@ref) and by [`list_byte_match_sets`](@ref).
+- `byte_match_set_id`: The `ByteMatchSetId` of the `ByteMatchSet` that you want to get.
+  `ByteMatchSetId` is returned by `CreateByteMatchSet` and by `ListByteMatchSets`.
 """
 function get_byte_match_set end
 
@@ -2221,12 +2218,12 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`geo_match_set`](@ref) that is specified by `GeoMatchSetId`.
+Returns the `GeoMatchSet` that is specified by `GeoMatchSetId`.
 
 # Arguments
 
-- `geo_match_set_id`: The `GeoMatchSetId` of the [`geo_match_set`](@ref) that you want to
-  get. `GeoMatchSetId` is returned by [`create_geo_match_set`](@ref) and by [`list_geo_match_sets`](@ref).
+- `geo_match_set_id`: The `GeoMatchSetId` of the `GeoMatchSet` that you want to get.
+  `GeoMatchSetId` is returned by `CreateGeoMatchSet` and by `ListGeoMatchSets`.
 """
 function get_geo_match_set end
 
@@ -2268,12 +2265,12 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`ipset`](@ref) that is specified by `IPSetId`.
+Returns the `IPSet` that is specified by `IPSetId`.
 
 # Arguments
 
-- `ipset_id`: The `IPSetId` of the [`ipset`](@ref) that you want to get. `IPSetId` is
-  returned by [`create_ipset`](@ref) and by [`list_ipsets`](@ref).
+- `ipset_id`: The `IPSetId` of the `IPSet` that you want to get. `IPSetId` is returned by
+  `CreateIPSet` and by `ListIPSets`.
 """
 function get_ipset end
 
@@ -2311,12 +2308,12 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`logging_configuration`](@ref) for the specified web ACL.
+Returns the `LoggingConfiguration` for the specified web ACL.
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the web ACL for which you want to get
-  the [`logging_configuration`](@ref).
+  the `LoggingConfiguration`.
 """
 function get_logging_configuration end
 
@@ -2405,13 +2402,13 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`rate_based_rule`](@ref) that is specified by the `RuleId` that you included in
-the `GetRateBasedRule` request.
+Returns the `RateBasedRule` that is specified by the `RuleId` that you included in the
+`GetRateBasedRule` request.
 
 # Arguments
 
-- `rule_id`: The `RuleId` of the [`rate_based_rule`](@ref) that you want to get. `RuleId` is
-  returned by [`create_rate_based_rule`](@ref) and by [`list_rate_based_rules`](@ref).
+- `rule_id`: The `RuleId` of the `RateBasedRule` that you want to get. `RuleId` is returned
+  by `CreateRateBasedRule` and by `ListRateBasedRules`.
 """
 function get_rate_based_rule end
 
@@ -2447,15 +2444,15 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of IP addresses currently being blocked by the [`rate_based_rule`](@ref)
-that is specified by the `RuleId`. The maximum number of managed keys that will be blocked
-is 10,000. If more than 10,000 addresses exceed the rate limit, the 10,000 addresses with
-the highest rates will be blocked.
+Returns an array of IP addresses currently being blocked by the `RateBasedRule` that is
+specified by the `RuleId`. The maximum number of managed keys that will be blocked is
+10,000. If more than 10,000 addresses exceed the rate limit, the 10,000 addresses with the
+highest rates will be blocked.
 
 # Arguments
 
-- `rule_id`: The `RuleId` of the [`rate_based_rule`](@ref) for which you want to get a list
-  of `ManagedKeys`. `RuleId` is returned by [`create_rate_based_rule`](@ref) and by [`list_rate_based_rules`](@ref).
+- `rule_id`: The `RuleId` of the `RateBasedRule` for which you want to get a list of
+  `ManagedKeys`. `RuleId` is returned by `CreateRateBasedRule` and by `ListRateBasedRules`.
 
 # Optional Parameters
 
@@ -2499,12 +2496,12 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`regex_match_set`](@ref) specified by `RegexMatchSetId`.
+Returns the `RegexMatchSet` specified by `RegexMatchSetId`.
 
 # Arguments
 
-- `regex_match_set_id`: The `RegexMatchSetId` of the [`regex_match_set`](@ref) that you want
-  to get. `RegexMatchSetId` is returned by [`create_regex_match_set`](@ref) and by [`list_regex_match_sets`](@ref).
+- `regex_match_set_id`: The `RegexMatchSetId` of the `RegexMatchSet` that you want to get.
+  `RegexMatchSetId` is returned by `CreateRegexMatchSet` and by `ListRegexMatchSets`.
 """
 function get_regex_match_set end
 
@@ -2548,13 +2545,13 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`regex_pattern_set`](@ref) specified by `RegexPatternSetId`.
+Returns the `RegexPatternSet` specified by `RegexPatternSetId`.
 
 # Arguments
 
-- `regex_pattern_set_id`: The `RegexPatternSetId` of the [`regex_pattern_set`](@ref) that
-  you want to get. `RegexPatternSetId` is returned by [`create_regex_pattern_set`](@ref) and
-  by [`list_regex_pattern_sets`](@ref).
+- `regex_pattern_set_id`: The `RegexPatternSetId` of the `RegexPatternSet` that you want to
+  get. `RegexPatternSetId` is returned by `CreateRegexPatternSet` and by
+  `ListRegexPatternSets`.
 """
 function get_regex_pattern_set end
 
@@ -2598,13 +2595,13 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`rule`](@ref) that is specified by the `RuleId` that you included in the
-`GetRule` request.
+Returns the `Rule` that is specified by the `RuleId` that you included in the `GetRule`
+request.
 
 # Arguments
 
-- `rule_id`: The `RuleId` of the [`rule`](@ref) that you want to get. `RuleId` is returned
-  by [`create_rule`](@ref) and by [`list_rules`](@ref).
+- `rule_id`: The `RuleId` of the `Rule` that you want to get. `RuleId` is returned by
+  `CreateRule` and by `ListRules`.
 """
 function get_rule end
 
@@ -2640,15 +2637,15 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`rule_group`](@ref) that is specified by the `RuleGroupId` that you included in
-the `GetRuleGroup` request.
+Returns the `RuleGroup` that is specified by the `RuleGroupId` that you included in the
+`GetRuleGroup` request.
 
 To view the rules in a rule group, use [`list_activated_rules_in_rule_group`](@ref).
 
 # Arguments
 
-- `rule_group_id`: The `RuleGroupId` of the [`rule_group`](@ref) that you want to get.
-  `RuleGroupId` is returned by [`create_rule_group`](@ref) and by [`list_rule_groups`](@ref).
+- `rule_group_id`: The `RuleGroupId` of the `RuleGroup` that you want to get. `RuleGroupId`
+  is returned by `CreateRuleGroup` and by `ListRuleGroups`.
 """
 function get_rule_group end
 
@@ -2783,13 +2780,13 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`size_constraint_set`](@ref) specified by `SizeConstraintSetId`.
+Returns the `SizeConstraintSet` specified by `SizeConstraintSetId`.
 
 # Arguments
 
-- `size_constraint_set_id`: The `SizeConstraintSetId` of the [`size_constraint_set`](@ref)
-  that you want to get. `SizeConstraintSetId` is returned by [`create_size_constraint_set`](@ref)
-  and by [`list_size_constraint_sets`](@ref).
+- `size_constraint_set_id`: The `SizeConstraintSetId` of the `SizeConstraintSet` that you
+  want to get. `SizeConstraintSetId` is returned by `CreateSizeConstraintSet` and by
+  `ListSizeConstraintSets`.
 """
 function get_size_constraint_set end
 
@@ -2835,13 +2832,13 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`sql_injection_match_set`](@ref) that is specified by `SqlInjectionMatchSetId`.
+Returns the `SqlInjectionMatchSet` that is specified by `SqlInjectionMatchSetId`.
 
 # Arguments
 
-- `sql_injection_match_set_id`: The `SqlInjectionMatchSetId` of the [`sql_injection_match_set`](@ref)
-  that you want to get. `SqlInjectionMatchSetId` is returned by [`create_sql_injection_match_set`](@ref)
-  and by [`list_sql_injection_match_sets`](@ref).
+- `sql_injection_match_set_id`: The `SqlInjectionMatchSetId` of the `SqlInjectionMatchSet`
+  that you want to get. `SqlInjectionMatchSetId` is returned by `CreateSqlInjectionMatchSet`
+  and by `ListSqlInjectionMatchSets`.
 """
 function get_sql_injection_match_set end
 
@@ -2887,12 +2884,12 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`web_acl`](@ref) that is specified by `WebACLId`.
+Returns the `WebACL` that is specified by `WebACLId`.
 
 # Arguments
 
-- `web_aclid`: The `WebACLId` of the [`web_acl`](@ref) that you want to get. `WebACLId` is
-  returned by [`create_web_acl`](@ref) and by [`list_web_acls`](@ref).
+- `web_aclid`: The `WebACLId` of the `WebACL` that you want to get. `WebACLId` is returned
+  by `CreateWebACL` and by `ListWebACLs`.
 """
 function get_web_acl end
 
@@ -2987,12 +2984,12 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns the [`xss_match_set`](@ref) that is specified by `XssMatchSetId`.
+Returns the `XssMatchSet` that is specified by `XssMatchSetId`.
 
 # Arguments
 
-- `xss_match_set_id`: The `XssMatchSetId` of the [`xss_match_set`](@ref) that you want to
-  get. `XssMatchSetId` is returned by [`create_xss_match_set`](@ref) and by [`list_xss_match_sets`](@ref).
+- `xss_match_set_id`: The `XssMatchSetId` of the `XssMatchSet` that you want to get.
+  `XssMatchSetId` is returned by `CreateXssMatchSet` and by `ListXssMatchSets`.
 """
 function get_xss_match_set end
 
@@ -3034,7 +3031,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`activated_rule`](@ref) objects.
+Returns an array of `ActivatedRule` objects.
 
 # Optional Parameters
 
@@ -3051,8 +3048,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ListActivatedRulesInRuleGroup` requests, specify the value of `NextMarker` from the
   previous response to get information about another batch of `ActivatedRules`.
 
-- `"RuleGroupId"`: The `RuleGroupId` of the [`rule_group`](@ref) for which you want to get a
-  list of [`activated_rule`](@ref) objects.
+- `"RuleGroupId"`: The `RuleGroupId` of the `RuleGroup` for which you want to get a list of
+  `ActivatedRule` objects.
 """
 function list_activated_rules_in_rule_group end
 
@@ -3089,7 +3086,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`byte_match_set_summary`](@ref) objects.
+Returns an array of `ByteMatchSetSummary` objects.
 
 # Optional Parameters
 
@@ -3134,7 +3131,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`geo_match_set_summary`](@ref) objects in the response.
+Returns an array of `GeoMatchSetSummary` objects in the response.
 
 # Optional Parameters
 
@@ -3179,7 +3176,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`ipset_summary`](@ref) objects in the response.
+Returns an array of `IPSetSummary` objects in the response.
 
 # Optional Parameters
 
@@ -3222,7 +3219,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`logging_configuration`](@ref) objects.
+Returns an array of `LoggingConfiguration` objects.
 
 # Optional Parameters
 
@@ -3271,7 +3268,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`rule_summary`](@ref) objects.
+Returns an array of `RuleSummary` objects.
 
 # Optional Parameters
 
@@ -3315,7 +3312,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`regex_match_set_summary`](@ref) objects.
+Returns an array of `RegexMatchSetSummary` objects.
 
 # Optional Parameters
 
@@ -3360,7 +3357,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`regex_pattern_set_summary`](@ref) objects.
+Returns an array of `RegexPatternSetSummary` objects.
 
 # Optional Parameters
 
@@ -3462,7 +3459,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`rule_group`](@ref) objects.
+Returns an array of `RuleGroup` objects.
 
 # Optional Parameters
 
@@ -3507,7 +3504,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`rule_summary`](@ref) objects.
+Returns an array of `RuleSummary` objects.
 
 # Optional Parameters
 
@@ -3549,7 +3546,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`size_constraint_set_summary`](@ref) objects.
+Returns an array of `SizeConstraintSetSummary` objects.
 
 # Optional Parameters
 
@@ -3597,22 +3594,23 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`sql_injection_match_set`](@ref) objects.
+Returns an array of `SqlInjectionMatchSet` objects.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: Specifies the number of [`sql_injection_match_set`](@ref) objects that you want
-  AWS WAF to return for this request. If you have more `SqlInjectionMatchSet` objects than
-  the number you specify for `Limit`, the response includes a `NextMarker` value that you
-  can use to get another batch of `Rules`.
+- `"Limit"`: Specifies the number of `SqlInjectionMatchSet` objects that you want AWS WAF to
+  return for this request. If you have more `SqlInjectionMatchSet` objects than the number
+  you specify for `Limit`, the response includes a `NextMarker` value that you can use to
+  get another batch of `Rules`.
 
-- `"NextMarker"`: If you specify a value for `Limit` and you have more [`sql_injection_match_set`](@ref)
-  objects than the value of `Limit`, AWS WAF returns a `NextMarker` value in the response
-  that allows you to list another group of `SqlInjectionMatchSets`. For the second and
-  subsequent `ListSqlInjectionMatchSets` requests, specify the value of `NextMarker` from
-  the previous response to get information about another batch of `SqlInjectionMatchSets`.
+- `"NextMarker"`: If you specify a value for `Limit` and you have more
+  `SqlInjectionMatchSet` objects than the value of `Limit`, AWS WAF returns a `NextMarker`
+  value in the response that allows you to list another group of `SqlInjectionMatchSets`.
+  For the second and subsequent `ListSqlInjectionMatchSets` requests, specify the value of
+  `NextMarker` from the previous response to get information about another batch of
+  `SqlInjectionMatchSets`.
 """
 function list_sql_injection_match_sets end
 
@@ -3645,7 +3643,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`rule_group`](@ref) objects that you are subscribed to.
+Returns an array of `RuleGroup` objects that you are subscribed to.
 
 # Optional Parameters
 
@@ -3753,7 +3751,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`web_aclsummary`](@ref) objects in the response.
+Returns an array of `WebACLSummary` objects in the response.
 
 # Optional Parameters
 
@@ -3798,20 +3796,20 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Returns an array of [`xss_match_set`](@ref) objects.
+Returns an array of `XssMatchSet` objects.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Limit"`: Specifies the number of [`xss_match_set`](@ref) objects that you want AWS WAF
-  to return for this request. If you have more `XssMatchSet` objects than the number you
-  specify for `Limit`, the response includes a `NextMarker` value that you can use to get
-  another batch of `Rules`.
+- `"Limit"`: Specifies the number of `XssMatchSet` objects that you want AWS WAF to return
+  for this request. If you have more `XssMatchSet` objects than the number you specify for
+  `Limit`, the response includes a `NextMarker` value that you can use to get another batch
+  of `Rules`.
 
-- `"NextMarker"`: If you specify a value for `Limit` and you have more [`xss_match_set`](@ref)
-  objects than the value of `Limit`, AWS WAF returns a `NextMarker` value in the response
-  that allows you to list another group of `XssMatchSets`. For the second and subsequent
+- `"NextMarker"`: If you specify a value for `Limit` and you have more `XssMatchSet` objects
+  than the value of `Limit`, AWS WAF returns a `NextMarker` value in the response that
+  allows you to list another group of `XssMatchSets`. For the second and subsequent
   `ListXssMatchSets` requests, specify the value of `NextMarker` from the previous response
   to get information about another batch of `XssMatchSets`.
 """
@@ -3843,7 +3841,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Associates a [`logging_configuration`](@ref) with a specified web ACL.
+Associates a `LoggingConfiguration` with a specified web ACL.
 
 You can access information about all traffic that AWS WAF inspects using the following
 steps:
@@ -4097,8 +4095,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes [`byte_match_tuple`](@ref) objects (filters) in a [`byte_match_set`](@ref).
-For each `ByteMatchTuple` object, you specify the following values:
+Inserts or deletes `ByteMatchTuple` objects (filters) in a `ByteMatchSet`. For each
+`ByteMatchTuple` object, you specify the following values:
 
 - Whether to insert or delete the object from the array. If you want to change a
   `ByteMatchSetUpdate` object, you delete the existing object and add a new one.
@@ -4106,8 +4104,7 @@ For each `ByteMatchTuple` object, you specify the following values:
   value of the `User-Agent` header.
 - The bytes (typically a string that corresponds with ASCII characters) that you want AWS
   WAF to look for. For more information, including how you specify the values for the AWS
-  WAF API and the AWS CLI or SDKs, see `TargetString` in the [`byte_match_tuple`](@ref) data
-  type.
+  WAF API and the AWS CLI or SDKs, see `TargetString` in the `ByteMatchTuple` data type.
 - Where to look, such as at the beginning or the end of a query string.
 - Whether to perform any conversions on the request, such as converting it to lowercase,
   before inspecting it for the specified string.
@@ -4130,18 +4127,18 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `byte_match_set_id`: The `ByteMatchSetId` of the [`byte_match_set`](@ref) that you want to
-  update. `ByteMatchSetId` is returned by [`create_byte_match_set`](@ref) and by [`list_byte_match_sets`](@ref).
+- `byte_match_set_id`: The `ByteMatchSetId` of the `ByteMatchSet` that you want to update.
+  `ByteMatchSetId` is returned by `CreateByteMatchSet` and by `ListByteMatchSets`.
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 
 - `updates`: An array of `ByteMatchSetUpdate` objects that you want to insert into or delete
-  from a [`byte_match_set`](@ref). For more information, see the applicable data types:
+  from a `ByteMatchSet`. For more information, see the applicable data types:
 
-  - [`byte_match_set_update`](@ref): Contains `Action` and `ByteMatchTuple`
-  - [`byte_match_tuple`](@ref): Contains `FieldToMatch`, `PositionalConstraint`,
-    `TargetString`, and `TextTransformation`
-  - [`field_to_match`](@ref): Contains `Data` and `Type`
+  - `ByteMatchSetUpdate`: Contains `Action` and `ByteMatchTuple`
+  - `ByteMatchTuple`: Contains `FieldToMatch`, `PositionalConstraint`, `TargetString`, and
+    `TextTransformation`
+  - `FieldToMatch`: Contains `Data` and `Type`
 """
 function update_byte_match_set end
 
@@ -4197,14 +4194,14 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes [`geo_match_constraint`](@ref) objects in an `GeoMatchSet`. For each
+Inserts or deletes `GeoMatchConstraint` objects in an `GeoMatchSet`. For each
 `GeoMatchConstraint` object, you specify the following values:
 
 - Whether to insert or delete the object from the array. If you want to change an
   `GeoMatchConstraint` object, you delete the existing object and add a new one.
 - The `Type`. The only valid value for `Type` is `Country`.
 - The `Value`, which is a two character code for the country to add to the
-  `GeoMatchConstraint` object. Valid codes are listed in [`geo_match_constraint\$_value`](@ref).
+  `GeoMatchConstraint` object. Valid codes are listed in `GeoMatchConstraint\$Value`.
 
 To create and configure an `GeoMatchSet`, perform the following steps:
 
@@ -4223,16 +4220,16 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 
-- `geo_match_set_id`: The `GeoMatchSetId` of the [`geo_match_set`](@ref) that you want to
-  update. `GeoMatchSetId` is returned by [`create_geo_match_set`](@ref) and by [`list_geo_match_sets`](@ref).
+- `geo_match_set_id`: The `GeoMatchSetId` of the `GeoMatchSet` that you want to update.
+  `GeoMatchSetId` is returned by `CreateGeoMatchSet` and by `ListGeoMatchSets`.
 
 - `updates`: An array of `GeoMatchSetUpdate` objects that you want to insert into or delete
-  from an [`geo_match_set`](@ref). For more information, see the applicable data types:
+  from an `GeoMatchSet`. For more information, see the applicable data types:
 
-  - [`geo_match_set_update`](@ref): Contains `Action` and `GeoMatchConstraint`
-  - [`geo_match_constraint`](@ref): Contains `Type` and `Value`
+  - `GeoMatchSetUpdate`: Contains `Action` and `GeoMatchConstraint`
+  - `GeoMatchConstraint`: Contains `Type` and `Value`
 
   You can have only one `Type` and `Value` per `GeoMatchConstraint`. To add multiple
   countries, include multiple `GeoMatchSetUpdate` objects in your request.
@@ -4291,8 +4288,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes [`ipset_descriptor`](@ref) objects in an `IPSet`. For each
-`IPSetDescriptor` object, you specify the following values:
+Inserts or deletes `IPSetDescriptor` objects in an `IPSet`. For each `IPSetDescriptor`
+object, you specify the following values:
 
 - Whether to insert or delete the object from the array. If you want to change an
   `IPSetDescriptor` object, you delete the existing object and add a new one.
@@ -4337,16 +4334,16 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 
-- `ipset_id`: The `IPSetId` of the [`ipset`](@ref) that you want to update. `IPSetId` is
-  returned by [`create_ipset`](@ref) and by [`list_ipsets`](@ref).
+- `ipset_id`: The `IPSetId` of the `IPSet` that you want to update. `IPSetId` is returned by
+  `CreateIPSet` and by `ListIPSets`.
 
 - `updates`: An array of `IPSetUpdate` objects that you want to insert into or delete from
-  an [`ipset`](@ref). For more information, see the applicable data types:
+  an `IPSet`. For more information, see the applicable data types:
 
-  - [`ipset_update`](@ref): Contains `Action` and `IPSetDescriptor`
-  - [`ipset_descriptor`](@ref): Contains `Type` and `Value`
+  - `IPSetUpdate`: Contains `Action` and `IPSetDescriptor`
+  - `IPSetDescriptor`: Contains `Type` and `Value`
 
   You can insert a maximum of 1000 addresses in a single request.
 """
@@ -4400,12 +4397,11 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes [`predicate`](@ref) objects in a rule and updates the `RateLimit` in the
-rule.
+Inserts or deletes `Predicate` objects in a rule and updates the `RateLimit` in the rule.
 
-Each `Predicate` object identifies a predicate, such as a [`byte_match_set`](@ref) or an [`ipset`](@ref),
-that specifies the web requests that you want to block or count. The `RateLimit` specifies
-the number of requests every five minutes that triggers the rule.
+Each `Predicate` object identifies a predicate, such as a `ByteMatchSet` or an `IPSet`, that
+specifies the web requests that you want to block or count. The `RateLimit` specifies the
+number of requests every five minutes that triggers the rule.
 
 If you add more than one predicate to a `RateBasedRule`, a request must match all the
 predicates and exceed the `RateLimit` to be counted or blocked. For example, suppose you add
@@ -4437,14 +4433,15 @@ without affecting the rest of your site.
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 - `rate_limit`: The maximum number of requests, which have an identical value in the field
   specified by the `RateKey`, allowed in a five-minute period. If the number of requests
   exceeds the `RateLimit` and the other predicates specified in the rule are also met, AWS
   WAF triggers the action that is specified for this rule.
 - `rule_id`: The `RuleId` of the `RateBasedRule` that you want to update. `RuleId` is
-  returned by `CreateRateBasedRule` and by [`list_rate_based_rules`](@ref).
-- `updates`: An array of `RuleUpdate` objects that you want to insert into or delete from a [`rate_based_rule`](@ref).
+  returned by `CreateRateBasedRule` and by `ListRateBasedRules`.
+- `updates`: An array of `RuleUpdate` objects that you want to insert into or delete from a
+  `RateBasedRule`.
 """
 function update_rate_based_rule end
 
@@ -4507,15 +4504,15 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes [`regex_match_tuple`](@ref) objects (filters) in a [`regex_match_set`](@ref).
-For each `RegexMatchSetUpdate` object, you specify the following values:
+Inserts or deletes `RegexMatchTuple` objects (filters) in a `RegexMatchSet`. For each
+`RegexMatchSetUpdate` object, you specify the following values:
 
 - Whether to insert or delete the object from the array. If you want to change a
   `RegexMatchSetUpdate` object, you delete the existing object and add a new one.
 - The part of a web request that you want AWS WAF to inspectupdate, such as a query string
   or the value of the `User-Agent` header.
 - The identifier of the pattern (a regular expression) that you want AWS WAF to look for.
-  For more information, see [`regex_pattern_set`](@ref).
+  For more information, see `RegexPatternSet`.
 - Whether to perform any conversions on the request, such as converting it to lowercase,
   before inspecting it for the specified string.
 
@@ -4538,11 +4535,12 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `regex_match_set_id`: The `RegexMatchSetId` of the [`regex_match_set`](@ref) that you want
-  to update. `RegexMatchSetId` is returned by [`create_regex_match_set`](@ref) and by [`list_regex_match_sets`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `regex_match_set_id`: The `RegexMatchSetId` of the `RegexMatchSet` that you want to
+  update. `RegexMatchSetId` is returned by `CreateRegexMatchSet` and by
+  `ListRegexMatchSets`.
 - `updates`: An array of `RegexMatchSetUpdate` objects that you want to insert into or
-  delete from a [`regex_match_set`](@ref). For more information, see [`regex_match_tuple`](@ref).
+  delete from a `RegexMatchSet`. For more information, see `RegexMatchTuple`.
 """
 function update_regex_match_set end
 
@@ -4601,12 +4599,12 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes `RegexPatternString` objects in a [`regex_pattern_set`](@ref). For each
+Inserts or deletes `RegexPatternString` objects in a `RegexPatternSet`. For each
 `RegexPatternString` object, you specify the following values:
 
 - Whether to insert or delete the `RegexPatternString`.
 - The regular expression pattern that you want to insert or delete. For more information,
-  see [`regex_pattern_set`](@ref).
+  see `RegexPatternSet`.
 
 For example, you can create a `RegexPatternString` such as `B[a@]dB[o0]t`. AWS WAF will
 match this `RegexPatternString` to:
@@ -4629,12 +4627,12 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `regex_pattern_set_id`: The `RegexPatternSetId` of the [`regex_pattern_set`](@ref) that
-  you want to update. `RegexPatternSetId` is returned by [`create_regex_pattern_set`](@ref)
-  and by [`list_regex_pattern_sets`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `regex_pattern_set_id`: The `RegexPatternSetId` of the `RegexPatternSet` that you want to
+  update. `RegexPatternSetId` is returned by `CreateRegexPatternSet` and by
+  `ListRegexPatternSets`.
 - `updates`: An array of `RegexPatternSetUpdate` objects that you want to insert into or
-  delete from a [`regex_pattern_set`](@ref).
+  delete from a `RegexPatternSet`.
 """
 function update_regex_pattern_set end
 
@@ -4693,11 +4691,11 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes [`predicate`](@ref) objects in a `Rule`. Each `Predicate` object
-identifies a predicate, such as a [`byte_match_set`](@ref) or an [`ipset`](@ref), that
-specifies the web requests that you want to allow, block, or count. If you add more than one
-predicate to a `Rule`, a request must match all of the specifications to be allowed,
-blocked, or counted. For example, suppose that you add the following to a `Rule`:
+Inserts or deletes `Predicate` objects in a `Rule`. Each `Predicate` object identifies a
+predicate, such as a `ByteMatchSet` or an `IPSet`, that specifies the web requests that you
+want to allow, block, or count. If you add more than one predicate to a `Rule`, a request
+must match all of the specifications to be allowed, blocked, or counted. For example,
+suppose that you add the following to a `Rule`:
 
 - A `ByteMatchSet` that matches the value `BadBot` in the `User-Agent` header
 - An `IPSet` that matches the IP address `192.0.2.44`
@@ -4723,17 +4721,17 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 
 - `rule_id`: The `RuleId` of the `Rule` that you want to update. `RuleId` is returned by
-  `CreateRule` and by [`list_rules`](@ref).
+  `CreateRule` and by `ListRules`.
 
-- `updates`: An array of `RuleUpdate` objects that you want to insert into or delete from a [`rule`](@ref).
-  For more information, see the applicable data types:
+- `updates`: An array of `RuleUpdate` objects that you want to insert into or delete from a
+  `Rule`. For more information, see the applicable data types:
 
-  - [`rule_update`](@ref): Contains `Action` and `Predicate`
-  - [`predicate`](@ref): Contains `DataId`, `Negated`, and `Type`
-  - [`field_to_match`](@ref): Contains `Data` and `Type`
+  - `RuleUpdate`: Contains `Action` and `Predicate`
+  - `Predicate`: Contains `DataId`, `Negated`, and `Type`
+  - `FieldToMatch`: Contains `Data` and `Type`
 """
 function update_rule end
 
@@ -4785,7 +4783,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes [`activated_rule`](@ref) objects in a `RuleGroup`.
+Inserts or deletes `ActivatedRule` objects in a `RuleGroup`.
 
 You can only insert `REGULAR` rules into a rule group.
 
@@ -4807,13 +4805,13 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 
-- `rule_group_id`: The `RuleGroupId` of the [`rule_group`](@ref) that you want to update.
-  `RuleGroupId` is returned by [`create_rule_group`](@ref) and by [`list_rule_groups`](@ref).
+- `rule_group_id`: The `RuleGroupId` of the `RuleGroup` that you want to update.
+  `RuleGroupId` is returned by `CreateRuleGroup` and by `ListRuleGroups`.
 
 - `updates`: An array of `RuleGroupUpdate` objects that you want to insert into or delete
-  from a [`rule_group`](@ref).
+  from a `RuleGroup`.
 
   You can only insert `REGULAR` rules into a rule group.
 
@@ -4873,8 +4871,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes [`size_constraint`](@ref) objects (filters) in a [`size_constraint_set`](@ref).
-For each `SizeConstraint` object, you specify the following values:
+Inserts or deletes `SizeConstraint` objects (filters) in a `SizeConstraintSet`. For each
+`SizeConstraint` object, you specify the following values:
 
 - Whether to insert or delete the object from the array. If you want to change a
   `SizeConstraintSetUpdate` object, you delete the existing object and add a new one.
@@ -4909,20 +4907,19 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 
-- `size_constraint_set_id`: The `SizeConstraintSetId` of the [`size_constraint_set`](@ref)
-  that you want to update. `SizeConstraintSetId` is returned by [`create_size_constraint_set`](@ref)
-  and by [`list_size_constraint_sets`](@ref).
+- `size_constraint_set_id`: The `SizeConstraintSetId` of the `SizeConstraintSet` that you
+  want to update. `SizeConstraintSetId` is returned by `CreateSizeConstraintSet` and by
+  `ListSizeConstraintSets`.
 
 - `updates`: An array of `SizeConstraintSetUpdate` objects that you want to insert into or
-  delete from a [`size_constraint_set`](@ref). For more information, see the applicable data
-  types:
+  delete from a `SizeConstraintSet`. For more information, see the applicable data types:
 
-  - [`size_constraint_set_update`](@ref): Contains `Action` and `SizeConstraint`
-  - [`size_constraint`](@ref): Contains `FieldToMatch`, `TextTransformation`,
-    `ComparisonOperator`, and `Size`
-  - [`field_to_match`](@ref): Contains `Data` and `Type`
+  - `SizeConstraintSetUpdate`: Contains `Action` and `SizeConstraint`
+  - `SizeConstraint`: Contains `FieldToMatch`, `TextTransformation`, `ComparisonOperator`,
+    and `Size`
+  - `FieldToMatch`: Contains `Data` and `Type`
 """
 function update_size_constraint_set end
 
@@ -4981,7 +4978,7 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes [`sql_injection_match_tuple`](@ref) objects (filters) in a [`sql_injection_match_set`](@ref).
+Inserts or deletes `SqlInjectionMatchTuple` objects (filters) in a `SqlInjectionMatchSet`.
 For each `SqlInjectionMatchTuple` object, you specify the following values:
 
 - `Action`: Whether to insert the object into or delete the object from the array. To change
@@ -5013,19 +5010,19 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 
 - `sql_injection_match_set_id`: The `SqlInjectionMatchSetId` of the `SqlInjectionMatchSet`
-  that you want to update. `SqlInjectionMatchSetId` is returned by [`create_sql_injection_match_set`](@ref)
-  and by [`list_sql_injection_match_sets`](@ref).
+  that you want to update. `SqlInjectionMatchSetId` is returned by
+  `CreateSqlInjectionMatchSet` and by `ListSqlInjectionMatchSets`.
 
 - `updates`: An array of `SqlInjectionMatchSetUpdate` objects that you want to insert into
-  or delete from a [`sql_injection_match_set`](@ref). For more information, see the
-  applicable data types:
+  or delete from a `SqlInjectionMatchSet`. For more information, see the applicable data
+  types:
 
-  - [`sql_injection_match_set_update`](@ref): Contains `Action` and `SqlInjectionMatchTuple`
-  - [`sql_injection_match_tuple`](@ref): Contains `FieldToMatch` and `TextTransformation`
-  - [`field_to_match`](@ref): Contains `Data` and `Type`
+  - `SqlInjectionMatchSetUpdate`: Contains `Action` and `SqlInjectionMatchTuple`
+  - `SqlInjectionMatchTuple`: Contains `FieldToMatch` and `TextTransformation`
+  - `FieldToMatch`: Contains `Data` and `Type`
 """
 function update_sql_injection_match_set end
 
@@ -5084,9 +5081,9 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes [`activated_rule`](@ref) objects in a `WebACL`. Each `Rule` identifies
-web requests that you want to allow, block, or count. When you update a `WebACL`, you
-specify the following values:
+Inserts or deletes `ActivatedRule` objects in a `WebACL`. Each `Rule` identifies web
+requests that you want to allow, block, or count. When you update a `WebACL`, you specify
+the following values:
 
 - A default action for the `WebACL`, either `ALLOW` or `BLOCK`. AWS WAF performs the default
   action if a request doesn't match the criteria in any of the `Rules` in a `WebACL`.
@@ -5122,7 +5119,7 @@ The `ActivatedRule` can be a rule group. If you specify a rule group as your `Ac
 If you already have a rule group associated with a web ACL and want to submit an
 `UpdateWebACL` request to exclude certain rules from that rule group, you must first remove
 the rule group from the web ACL, the re-insert it again, specifying the excluded rules. For
-details, see [`activated_rule\$_excluded_rules`](@ref) .
+details, see `ActivatedRule\$ExcludedRules` .
 
 Be aware that if you try to add a RATE_BASED rule to a web ACL without setting the rule type
 when first creating the rule, the [`update_web_acl`](@ref) request will fail because the
@@ -5134,9 +5131,9 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
-- `web_aclid`: The `WebACLId` of the [`web_acl`](@ref) that you want to update. `WebACLId`
-  is returned by [`create_web_acl`](@ref) and by [`list_web_acls`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
+- `web_aclid`: The `WebACLId` of the `WebACL` that you want to update. `WebACLId` is
+  returned by `CreateWebACL` and by `ListWebACLs`.
 
 # Optional Parameters
 
@@ -5146,18 +5143,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performs the default action if a request doesn't match the criteria in any of the rules in
   a web ACL.
 
-- `"Updates"`: An array of updates to make to the [`web_acl`](@ref).
+- `"Updates"`: An array of updates to make to the `WebACL`.
 
-  An array of `WebACLUpdate` objects that you want to insert into or delete from a [`web_acl`](@ref).
+  An array of `WebACLUpdate` objects that you want to insert into or delete from a `WebACL`.
   For more information, see the applicable data types:
 
-  - [`web_aclupdate`](@ref): Contains `Action` and `ActivatedRule`
-  - [`activated_rule`](@ref): Contains `Action`, `OverrideAction`, `Priority`, `RuleId`, and
-    `Type`. `ActivatedRule|OverrideAction` applies only when updating or adding a
-    `RuleGroup` to a `WebACL`. In this case, you do not use `ActivatedRule|Action`. For all
-    other update requests, `ActivatedRule|Action` is used instead of
-    `ActivatedRule|OverrideAction`.
-  - [`waf_action`](@ref): Contains `Type`
+  - `WebACLUpdate`: Contains `Action` and `ActivatedRule`
+  - `ActivatedRule`: Contains `Action`, `OverrideAction`, `Priority`, `RuleId`, and `Type`.
+    `ActivatedRule|OverrideAction` applies only when updating or adding a `RuleGroup` to a
+    `WebACL`. In this case, you do not use `ActivatedRule|Action`. For all other update
+    requests, `ActivatedRule|Action` is used instead of `ActivatedRule|OverrideAction`.
+  - `WafAction`: Contains `Type`
 """
 function update_web_acl end
 
@@ -5204,8 +5200,8 @@ end
     With the latest version, AWS WAF has a single set of endpoints for regional and global
     use.
 
-Inserts or deletes [`xss_match_tuple`](@ref) objects (filters) in an [`xss_match_set`](@ref).
-For each `XssMatchTuple` object, you specify the following values:
+Inserts or deletes `XssMatchTuple` objects (filters) in an `XssMatchSet`. For each
+`XssMatchTuple` object, you specify the following values:
 
 - `Action`: Whether to insert the object into or delete the object from the array. To change
   an `XssMatchTuple`, you delete the existing object and add a new one.
@@ -5236,17 +5232,17 @@ the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developergu
 
 # Arguments
 
-- `change_token`: The value returned by the most recent call to [`get_change_token`](@ref).
+- `change_token`: The value returned by the most recent call to `GetChangeToken`.
 
 - `updates`: An array of `XssMatchSetUpdate` objects that you want to insert into or delete
-  from an [`xss_match_set`](@ref). For more information, see the applicable data types:
+  from an `XssMatchSet`. For more information, see the applicable data types:
 
-  - [`xss_match_set_update`](@ref): Contains `Action` and `XssMatchTuple`
-  - [`xss_match_tuple`](@ref): Contains `FieldToMatch` and `TextTransformation`
-  - [`field_to_match`](@ref): Contains `Data` and `Type`
+  - `XssMatchSetUpdate`: Contains `Action` and `XssMatchTuple`
+  - `XssMatchTuple`: Contains `FieldToMatch` and `TextTransformation`
+  - `FieldToMatch`: Contains `Data` and `Type`
 
 - `xss_match_set_id`: The `XssMatchSetId` of the `XssMatchSet` that you want to update.
-  `XssMatchSetId` is returned by [`create_xss_match_set`](@ref) and by [`list_xss_match_sets`](@ref).
+  `XssMatchSetId` is returned by `CreateXssMatchSet` and by `ListXssMatchSets`.
 """
 function update_xss_match_set end
 

@@ -21,7 +21,7 @@ Associates an Identity and Access Management (IAM) role with a DB cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FeatureName"`: The name of the feature for the DB cluster that the IAM role is to be
-  associated with. For information about supported feature names, see [`dbengine_version`](@ref).
+  associated with. For information about supported feature names, see `DBEngineVersion`.
 """
 function add_role_to_dbcluster end
 
@@ -76,7 +76,7 @@ This command doesn't apply to RDS Custom.
 
 - `dbinstance_identifier`: The name of the DB instance to associate the IAM role with.
 - `feature_name`: The name of the feature for the DB instance that the IAM role is to be
-  associated with. For information about supported feature names, see [`dbengine_version`](@ref).
+  associated with. For information about supported feature names, see `DBEngineVersion`.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role to associate with the DB
   instance, for example `arn:aws:iam::123456789012:role/AccessRole`.
 """
@@ -738,8 +738,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `KmsKeyId` - The KMS key identifier for the KMS key to use to encrypt the copy of the DB
     cluster snapshot in the destination Amazon Web Services Region. This is the same
-    identifier for both the [`copy_dbcluster_snapshot`](@ref) operation that is called in
-    the destination Amazon Web Services Region, and the operation contained in the presigned
+    identifier for both the `CopyDBClusterSnapshot` operation that is called in the
+    destination Amazon Web Services Region, and the operation contained in the presigned
     URL.
   - `DestinationRegion` - The name of the Amazon Web Services Region that the DB cluster
     snapshot is to be created in.
@@ -1008,19 +1008,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values:
 
   - `DestinationRegion` - The Amazon Web Services Region that the encrypted DB snapshot is
-    copied to. This Amazon Web Services Region is the same one where the [`copy_dbsnapshot`](@ref)
+    copied to. This Amazon Web Services Region is the same one where the `CopyDBSnapshot`
     operation is called that contains this presigned URL.
 
   For example, if you copy an encrypted DB snapshot from the us-west-2 Amazon Web Services
-  Region to the us-east-1 Amazon Web Services Region, then you call the [`copy_dbsnapshot`](@ref)
+  Region to the us-east-1 Amazon Web Services Region, then you call the `CopyDBSnapshot`
   operation in the us-east-1 Amazon Web Services Region and provide a presigned URL that
-  contains a call to the [`copy_dbsnapshot`](@ref) operation in the us-west-2 Amazon Web
-  Services Region. For this example, the `DestinationRegion` in the presigned URL must be
-  set to the us-east-1 Amazon Web Services Region.
+  contains a call to the `CopyDBSnapshot` operation in the us-west-2 Amazon Web Services
+  Region. For this example, the `DestinationRegion` in the presigned URL must be set to the
+  us-east-1 Amazon Web Services Region.
   - `KmsKeyId` - The KMS key identifier for the KMS key to use to encrypt the copy of the DB
     snapshot in the destination Amazon Web Services Region. This is the same identifier for
-    both the [`copy_dbsnapshot`](@ref) operation that is called in the destination Amazon
-    Web Services Region, and the operation contained in the presigned URL.
+    both the `CopyDBSnapshot` operation that is called in the destination Amazon Web
+    Services Region, and the operation contained in the presigned URL.
   - `SourceDBSnapshotIdentifier` - The DB snapshot identifier for the encrypted snapshot to
     be copied. This identifier must be in the Amazon Resource Name (ARN) format for the
     source Amazon Web Services Region. For example, if you are copying an encrypted DB
@@ -1915,9 +1915,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PreSignedUrl"`: When you are replicating a DB cluster from one Amazon Web Services
   GovCloud (US) Region to another, an URL that contains a Signature Version 4 signed request
-  for the [`create_dbcluster`](@ref) operation to be called in the source Amazon Web
-  Services Region where the DB cluster is replicated from. Specify `PreSignedUrl` only when
-  you are performing cross-Region replication from an encrypted DB cluster.
+  for the `CreateDBCluster` operation to be called in the source Amazon Web Services Region
+  where the DB cluster is replicated from. Specify `PreSignedUrl` only when you are
+  performing cross-Region replication from an encrypted DB cluster.
 
   The presigned URL must be a valid request for the `CreateDBCluster` API operation that can
   run in the source Amazon Web Services Region that contains the encrypted DB cluster to
@@ -1927,8 +1927,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `KmsKeyId` - The KMS key identifier for the KMS key to use to encrypt the copy of the DB
     cluster in the destination Amazon Web Services Region. This should refer to the same KMS
-    key for both the [`create_dbcluster`](@ref) operation that is called in the destination
-    Amazon Web Services Region, and the operation contained in the presigned URL.
+    key for both the `CreateDBCluster` operation that is called in the destination Amazon
+    Web Services Region, and the operation contained in the presigned URL.
   - `DestinationRegion` - The name of the Amazon Web Services Region that Aurora read
     replica will be created in.
   - `ReplicationSourceIdentifier` - The DB cluster identifier for the encrypted DB cluster
@@ -2930,8 +2930,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This setting doesn't apply to Amazon Aurora DB instances. The version number of the
   database engine the DB instance uses is managed by the DB cluster.
 
-  For a list of valid engine versions, use the [`describe_dbengine_versions`](@ref)
-  operation.
+  For a list of valid engine versions, use the `DescribeDBEngineVersions` operation.
 
   The following are the database engines and links to information about the major and minor
   versions that are available with Amazon RDS. Not every database engine is available for
@@ -3756,20 +3755,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter values:
 
   - `DestinationRegion` - The Amazon Web Services Region that the encrypted read replica is
-    created in. This Amazon Web Services Region is the same one where the [`create_dbinstance_read_replica`](@ref)
-    operation is called that contains this presigned URL.
+    created in. This Amazon Web Services Region is the same one where the
+    `CreateDBInstanceReadReplica` operation is called that contains this presigned URL.
 
   For example, if you create an encrypted DB instance in the us-west-1 Amazon Web Services
   Region, from a source DB instance in the us-east-2 Amazon Web Services Region, then you
-  call the [`create_dbinstance_read_replica`](@ref) operation in the us-east-1 Amazon Web
-  Services Region and provide a presigned URL that contains a call to the [`create_dbinstance_read_replica`](@ref)
-  operation in the us-west-2 Amazon Web Services Region. For this example, the
-  `DestinationRegion` in the presigned URL must be set to the us-east-1 Amazon Web Services
-  Region.
+  call the `CreateDBInstanceReadReplica` operation in the us-east-1 Amazon Web Services
+  Region and provide a presigned URL that contains a call to the
+  `CreateDBInstanceReadReplica` operation in the us-west-2 Amazon Web Services Region. For
+  this example, the `DestinationRegion` in the presigned URL must be set to the us-east-1
+  Amazon Web Services Region.
   - `KmsKeyId` - The KMS key identifier for the key to use to encrypt the read replica in
-    the destination Amazon Web Services Region. This is the same identifier for both the [`create_dbinstance_read_replica`](@ref)
-    operation that is called in the destination Amazon Web Services Region, and the
-    operation contained in the presigned URL.
+    the destination Amazon Web Services Region. This is the same identifier for both the
+    `CreateDBInstanceReadReplica` operation that is called in the destination Amazon Web
+    Services Region, and the operation contained in the presigned URL.
   - `SourceDBInstanceIdentifier` - The DB instance identifier for the encrypted DB instance
     to be replicated. This identifier must be in the Amazon Resource Name (ARN) format for
     the source Amazon Web Services Region. For example, if you are creating an encrypted
@@ -3811,7 +3810,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS
   name that resolves to a private IP address.
 
-  For more information, see [`create_dbinstance`](@ref).
+  For more information, see `CreateDBInstance`.
 
 - `"ReplicaMode"`: The open mode of the replica database: mounted or read-only.
 
@@ -4624,7 +4623,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (`SourceType`) that you want to subscribe to. You can see a list of the categories for a
   given source type in the "Amazon RDS event categories and event messages" section of the [*Amazon RDS User Guide*](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Messages.html)
   or the [*Amazon Aurora User Guide*](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Messages.html).
-  You can also see this list by using the [`describe_event_categories`](@ref) operation.
+  You can also see this list by using the `DescribeEventCategories` operation.
 
 - `"SourceIds"`: The list of identifiers of the event sources for which events are returned.
   If not specified, then all sources are included in the response. An identifier must begin
@@ -6921,8 +6920,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   public and can be copied or restored by any Amazon Web Services account. By default, the
   public snapshots are not included.
 
-  You can share a manual DB cluster snapshot as public by using the [`modify_dbcluster_snapshot_attribute`](@ref)
-  API action.
+  You can share a manual DB cluster snapshot as public by using the
+  `ModifyDBClusterSnapshotAttribute` API action.
 
 - `"IncludeShared"`: Specifies whether to include shared manual DB cluster snapshots from
   other Amazon Web Services accounts that this Amazon Web Services account has been given
@@ -8115,8 +8114,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   public and can be copied or restored by any Amazon Web Services account. By default, the
   public snapshots are not included.
 
-  You can share a manual DB snapshot as public by using the [`modify_dbsnapshot_attribute`](@ref)
-  API.
+  You can share a manual DB snapshot as public by using the `ModifyDBSnapshotAttribute` API.
 
   This setting doesn't apply to RDS Custom.
 
@@ -10308,7 +10306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable
       the HTTP endpoint for an Aurora PostgreSQL Serverless v2 or provisioned DB cluster,
-      use the `EnableHttpEndpoint` and [`disable_http_endpoint`](@ref) operations.
+      use the `EnableHttpEndpoint` and `DisableHttpEndpoint` operations.
 
   Valid for Cluster Type: Aurora DB clusters only
 
@@ -10850,8 +10848,8 @@ API operation. The accounts are returned as values for the `restore` attribute.
   DB cluster snapshot, set this value to `restore`.
 
   !!! note
-      To view the list of attributes available to modify, use the [`describe_dbcluster_snapshot_attributes`](@ref)
-      API operation.
+      To view the list of attributes available to modify, use the
+      `DescribeDBClusterSnapshotAttributes` API operation.
 
 - `dbcluster_snapshot_identifier`: The identifier for the DB cluster snapshot to modify the
   attributes for.
@@ -10976,8 +10974,7 @@ current value.
 
   If this parameter is disabled, changes to the DB instance are applied during the next
   maintenance window. Some parameter changes can cause an outage and are applied on the next
-  call to [`reboot_dbinstance`](@ref), or the next failure reboot. Review the table of
-  parameters in [Modifying a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html)
+  call to `RebootDBInstance`, or the next failure reboot. Review the table of parameters in [Modifying a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html)
   in the *Amazon RDS User Guide* to see the impact of enabling or disabling
   `ApplyImmediately` for each modified parameter and to determine when the changes are
   applied.
@@ -11479,7 +11476,7 @@ current value.
   During the conversion, RDS creates an initial tenant database and associates the DB name,
   master user name, character set, and national character set metadata with this database.
   The tags associated with the instance also propagate to the initial tenant database. You
-  can add more tenant databases to your DB instance by using the [`create_tenant_database`](@ref)
+  can add more tenant databases to your DB instance by using the `CreateTenantDatabase`
   operation.
 
   !!! important
@@ -12274,8 +12271,8 @@ API operation. The accounts are returned as values for the `restore` attribute.
   DB snapshot, set this value to `restore`.
 
   !!! note
-      To view the list of attributes available to modify, use the [`describe_dbsnapshot_attributes`](@ref)
-      API operation.
+      To view the list of attributes available to modify, use the
+      `DescribeDBSnapshotAttributes` API operation.
 
 - `dbsnapshot_identifier`: The identifier for the DB snapshot to modify the attributes for.
 
@@ -12427,8 +12424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EventCategories"`: A list of event categories for a source type (`SourceType`) that you
   want to subscribe to. You can see a list of the categories for a given source type in [Events](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html)
-  in the *Amazon RDS User Guide* or by using the [`describe_event_categories`](@ref)
-  operation.
+  in the *Amazon RDS User Guide* or by using the `DescribeEventCategories` operation.
 
 - `"SnsTopicArn"`: The Amazon Resource Name (ARN) of the SNS topic created for event
   notification. The ARN is created by Amazon SNS when you create a topic and subscribe to
@@ -13228,7 +13224,7 @@ in the *Amazon RDS User Guide.*
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FeatureName"`: The name of the feature for the DB cluster that the IAM role is to be
-  disassociated from. For information about supported feature names, see [`dbengine_version`](@ref).
+  disassociated from. For information about supported feature names, see `DBEngineVersion`.
 """
 function remove_role_from_dbcluster end
 
@@ -15130,7 +15126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS
   name that resolves to a private IP address.
 
-  For more information, see [`create_dbinstance`](@ref).
+  For more information, see `CreateDBInstance`.
 
 - `"StorageThroughput"`: Specifies the storage throughput value for the DB instance.
 
@@ -15561,7 +15557,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS
   name that resolves to a private IP address.
 
-  For more information, see [`create_dbinstance`](@ref).
+  For more information, see `CreateDBInstance`.
 
 - `"S3Prefix"`: The prefix of your Amazon S3 bucket.
 
@@ -16017,7 +16013,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS
   name that resolves to a private IP address.
 
-  For more information, see [`create_dbinstance`](@ref).
+  For more information, see `CreateDBInstance`.
 
 - `"RestoreTime"`: The date and time to restore from.
 
@@ -16393,7 +16389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `arn:aws:kms:us-east-1:123456789012:key/AKIAIOSFODNN7EXAMPLE`.
 
 - `"PreSignedUrl"`: In an Amazon Web Services GovCloud (US) Region, an URL that contains a
-  Signature Version 4 signed request for the [`start_dbinstance_automated_backups_replication`](@ref)
+  Signature Version 4 signed request for the `StartDBInstanceAutomatedBackupsReplication`
   operation to call in the Amazon Web Services Region of the source DB instance. The
   presigned URL must be a valid request for the `StartDBInstanceAutomatedBackupsReplication`
   API operation that can run in the Amazon Web Services Region that contains the source DB

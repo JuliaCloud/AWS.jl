@@ -883,8 +883,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"NextToken"`: If your initial [`describe_domain_auto_tunes`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`describe_domain_auto_tunes`](@ref)
+- `"NextToken"`: If your initial `DescribeDomainAutoTunes` operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent `DescribeDomainAutoTunes`
   operations, which returns results in the next page.
 """
 function describe_domain_auto_tunes end
@@ -1174,9 +1174,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   connections.
 - `"MaxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"NextToken"`: If your initial [`describe_inbound_connections`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`describe_inbound_connections`](@ref)
-  operations, which returns results in the next page.
+- `"NextToken"`: If your initial `DescribeInboundConnections` operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent
+  `DescribeInboundConnections` operations, which returns results in the next page.
 """
 function describe_inbound_connections end
 
@@ -1264,9 +1264,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: List of filter names and values that you can use for requests.
 - `"MaxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"NextToken"`: If your initial [`describe_outbound_connections`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`describe_outbound_connections`](@ref)
-  operations, which returns results in the next page.
+- `"NextToken"`: If your initial `DescribeOutboundConnections` operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent
+  `DescribeOutboundConnections` operations, which returns results in the next page.
 """
 function describe_outbound_connections end
 
@@ -1304,8 +1304,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Only returns packages that match the `DescribePackagesFilterList` values.
 - `"MaxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"NextToken"`: If your initial [`describe_package_filters`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`describe_package_filters`](@ref)
+- `"NextToken"`: If your initial `DescribePackageFilters` operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent `DescribePackageFilters`
   operations, which returns results in the next page.
 """
 function describe_packages end
@@ -1344,9 +1344,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`describe_reserved_instance_offerings`](@ref) operation
-  returns a `nextToken`, you can include the returned `nextToken` in subsequent [`describe_reserved_instance_offerings`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `DescribeReservedInstanceOfferings` operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent
+  `DescribeReservedInstanceOfferings` operations, which returns results in the next page.
 - `"offeringId"`: The Reserved Instance identifier filter value. Use this parameter to show
   only the available instance types that match the specified reservation identifier.
 """
@@ -1388,9 +1388,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`describe_reserved_instances`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`describe_reserved_instances`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `DescribeReservedInstances` operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent
+  `DescribeReservedInstances` operations, which returns results in the next page.
 - `"reservationId"`: The reserved instance identifier filter value. Use this parameter to
   show only the reservation that matches the specified reserved OpenSearch instance ID.
 """
@@ -1635,8 +1635,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`get_package_version_history`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`get_package_version_history`](@ref)
+- `"nextToken"`: If your initial `GetPackageVersionHistory` operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent `GetPackageVersionHistory`
   operations, which returns results in the next page.
 """
 function get_package_version_history end
@@ -1683,9 +1683,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`get_upgrade_history`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`get_upgrade_history`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `GetUpgradeHistory` operation returns a `nextToken`, you
+  can include the returned `nextToken` in subsequent `GetUpgradeHistory` operations, which
+  returns results in the next page.
 """
 function get_upgrade_history end
 
@@ -1801,9 +1801,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"action"`: The name of the action.
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`list_domain_maintenances`](@ref) operation returns a
-  `nextToken`, include the returned `nextToken` in subsequent [`list_domain_maintenances`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListDomainMaintenances` operation returns a `nextToken`,
+  include the returned `nextToken` in subsequent `ListDomainMaintenances` operations, which
+  returns results in the next page.
 - `"status"`: The status of the action.
 """
 function list_domain_maintenances end
@@ -1883,9 +1883,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`list_domains_for_package`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_domains_for_package`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListDomainsForPackage` operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent `ListDomainsForPackage` operations,
+  which returns results in the next page.
 """
 function list_domains_for_package end
 
@@ -1934,8 +1934,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"instanceType"`: An optional parameter that lists information for a given instance type.
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`list_instance_type_details`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_instance_type_details`](@ref)
+- `"nextToken"`: If your initial `ListInstanceTypeDetails` operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent `ListInstanceTypeDetails`
   operations, which returns results in the next page.
 - `"retrieveAZs"`: An optional parameter that specifies the Availability Zones for the
   domain.
@@ -1984,9 +1984,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`list_packages_for_domain`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_packages_for_domain`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListPackagesForDomain` operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent `ListPackagesForDomain` operations,
+  which returns results in the next page.
 """
 function list_packages_for_domain end
 
@@ -2033,9 +2033,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`list_scheduled_actions`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_scheduled_actions`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListScheduledActions` operation returns a `nextToken`, you
+  can include the returned `nextToken` in subsequent `ListScheduledActions` operations,
+  which returns results in the next page.
 """
 function list_scheduled_actions end
 
@@ -2110,9 +2110,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`list_versions`](@ref) operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent [`list_versions`](@ref) operations,
-  which returns results in the next page.
+- `"nextToken"`: If your initial `ListVersions` operation returns a `nextToken`, you can
+  include the returned `nextToken` in subsequent `ListVersions` operations, which returns
+  results in the next page.
 """
 function list_versions end
 
@@ -2153,9 +2153,9 @@ given Amazon OpenSearch Service domain through the use of an interface VPC endpo
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"nextToken"`: If your initial [`list_vpc_endpoint_access`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_vpc_endpoint_access`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListVpcEndpointAccess` operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent `ListVpcEndpointAccess` operations,
+  which returns results in the next page.
 """
 function list_vpc_endpoint_access end
 
@@ -2195,9 +2195,9 @@ Services account and Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"nextToken"`: If your initial [`list_vpc_endpoints`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_vpc_endpoints`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListVpcEndpoints` operation returns a `nextToken`, you can
+  include the returned `nextToken` in subsequent `ListVpcEndpoints` operations, which
+  returns results in the next page.
 """
 function list_vpc_endpoints end
 
@@ -2237,8 +2237,8 @@ domain.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"nextToken"`: If your initial [`list_endpoints_for_domain`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_endpoints_for_domain`](@ref)
+- `"nextToken"`: If your initial `ListEndpointsForDomain` operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent `ListEndpointsForDomain`
   operations, which returns results in the next page.
 """
 function list_vpc_endpoints_for_domain end

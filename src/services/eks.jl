@@ -2685,8 +2685,8 @@ Connects a Kubernetes cluster to the Amazon EKS control plane.
 Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current
 information about the cluster and its nodes.
 
-Cluster connection requires two steps. First, send a `[`register_cluster_request`](@ref)` to
-add it to the Amazon EKS control plane.
+Cluster connection requires two steps. First, send a ``RegisterClusterRequest`` to add it to
+the Amazon EKS control plane.
 
 Second, a [Manifest](https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml)
 containing the `activationID` and `activationCode` must be applied to the Kubernetes cluster

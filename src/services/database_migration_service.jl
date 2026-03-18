@@ -5914,8 +5914,8 @@ in the *Database Migration Service User Guide.*
   When the migration type is `full-load` or `full-load-and-cdc`, the only valid value for
   the first run of the task is `start-replication`. This option will start the migration.
 
-  You can also use [`reload_tables`](@ref) to reload specific tables that failed during
-  migration instead of restarting the task.
+  You can also use `ReloadTables` to reload specific tables that failed during migration
+  instead of restarting the task.
 
   The `resume-processing` option isn't applicable for a full-load task, because you can't
   resume partially loaded tables during the full load phase.
@@ -6089,8 +6089,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       API operation.
 
       To identify the names of the default individual assessments that DMS supports for the
-      associated migration task, run the [`describe_applicable_individual_assessments`](@ref)
-      operation using its own `replication_task_arn` request parameter.
+      associated migration task, run the `DescribeApplicableIndividualAssessments` operation
+      using its own `replication_task_arn` request parameter.
 
 - `"IncludeOnly"`: Space-separated list of names for specific individual assessments that
   you want to include. These names come from the default list of individual assessments that
@@ -6102,8 +6102,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       API operation.
 
       To identify the names of the default individual assessments that DMS supports for the
-      associated migration task, run the [`describe_applicable_individual_assessments`](@ref)
-      operation using its own `replication_task_arn` request parameter.
+      associated migration task, run the `DescribeApplicableIndividualAssessments` operation
+      using its own `replication_task_arn` request parameter.
 
 - `"ResultEncryptionMode"`: Encryption mode that you can specify to encrypt the results of
   this assessment run. If you don't specify this request parameter, DMS stores the

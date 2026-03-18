@@ -26,8 +26,8 @@ operation.
 
 - `job_id`: The Batch job ID of the job to cancel.
 - `reason`: A message to attach to the job that explains the reason for canceling it. This
-  message is returned by future [`describe_jobs`](@ref) operations on the job. This message
-  is also recorded in the Batch activity logs.
+  message is returned by future `DescribeJobs` operations on the job. This message is also
+  recorded in the Batch activity logs.
 """
 function cancel_job end
 
@@ -599,9 +599,9 @@ end
 
 Describes one or more of your compute environments.
 
-If you're using an unmanaged compute environment, you can use the [`describe_compute_environment`](@ref)
-operation to determine the `ecsClusterArn` that you launch your Amazon ECS container
-instances into.
+If you're using an unmanaged compute environment, you can use the
+`DescribeComputeEnvironment` operation to determine the `ecsClusterArn` that you launch your
+Amazon ECS container instances into.
 
 # Optional Parameters
 
@@ -1161,9 +1161,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       If the job runs on Amazon EKS resources, then you must not specify `propagateTags`.
 
 - `"retryStrategy"`: The retry strategy to use for failed jobs that are submitted with this
-  job definition. Any retry strategy that's specified during a [`submit_job`](@ref)
-  operation overrides the retry strategy defined here. If a job is terminated due to a
-  timeout, it isn't retried.
+  job definition. Any retry strategy that's specified during a `SubmitJob` operation
+  overrides the retry strategy defined here. If a job is terminated due to a timeout, it
+  isn't retried.
 
 - `"schedulingPriority"`: The scheduling priority for jobs that are submitted with this job
   definition. This only affects jobs in job queues with a fair share policy. Jobs with a
@@ -1179,8 +1179,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"timeout"`: The timeout configuration for jobs that are submitted with this job
   definition, after which Batch terminates your jobs if they have not finished. If a job is
   terminated due to a timeout, it isn't retried. The minimum value for the timeout is 60
-  seconds. Any timeout configuration that's specified during a [`submit_job`](@ref)
-  operation overrides the timeout configuration defined here. For more information, see [Job Timeouts](https://docs.aws.amazon.com/batch/latest/userguide/job_timeouts.html)
+  seconds. Any timeout configuration that's specified during a `SubmitJob` operation
+  overrides the timeout configuration defined here. For more information, see [Job Timeouts](https://docs.aws.amazon.com/batch/latest/userguide/job_timeouts.html)
   in the *Batch User Guide*.
 """
 function register_job_definition end
@@ -1304,7 +1304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `FAILED` state. When specified, this overrides the tag propagation setting in the job
   definition.
 
-- `"retryStrategy"`: The retry strategy to use for failed jobs from this [`submit_job`](@ref)
+- `"retryStrategy"`: The retry strategy to use for failed jobs from this `SubmitJob`
   operation. When a retry strategy is specified here, it overrides the retry strategy
   defined in the job definition.
 
@@ -1327,12 +1327,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in *Amazon Web Services General Reference*.
 
-- `"timeout"`: The timeout configuration for this [`submit_job`](@ref) operation. You can
-  specify a timeout duration after which Batch terminates your jobs if they haven't
-  finished. If a job is terminated due to a timeout, it isn't retried. The minimum value for
-  the timeout is 60 seconds. This configuration overrides any timeout configuration
-  specified in the job definition. For array jobs, child jobs have the same timeout
-  configuration as the parent job. For more information, see [Job Timeouts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/job_timeouts.html)
+- `"timeout"`: The timeout configuration for this `SubmitJob` operation. You can specify a
+  timeout duration after which Batch terminates your jobs if they haven't finished. If a job
+  is terminated due to a timeout, it isn't retried. The minimum value for the timeout is 60
+  seconds. This configuration overrides any timeout configuration specified in the job
+  definition. For array jobs, child jobs have the same timeout configuration as the parent
+  job. For more information, see [Job Timeouts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/job_timeouts.html)
   in the *Amazon Elastic Container Service Developer Guide*.
 """
 function submit_job end
@@ -1437,8 +1437,8 @@ the `STARTING` state are cancelled.
 
 - `job_id`: The Batch job ID of the job to terminate.
 - `reason`: A message to attach to the job that explains the reason for canceling it. This
-  message is returned by future [`describe_jobs`](@ref) operations on the job. This message
-  is also recorded in the Batch activity logs.
+  message is returned by future `DescribeJobs` operations on the job. This message is also
+  recorded in the Batch activity logs.
 """
 function terminate_job end
 

@@ -256,8 +256,8 @@ to verify that the upload has completed.
 
 - `layer_digests`: The `sha256` digest of the image layer.
 - `repository_name`: The name of the repository to associate with the image layer.
-- `upload_id`: The upload ID from a previous [`initiate_layer_upload`](@ref) operation to
-  associate with the image layer.
+- `upload_id`: The upload ID from a previous `InitiateLayerUpload` operation to associate
+  with the image layer.
 
 # Optional Parameters
 
@@ -2141,7 +2141,7 @@ in the *Amazon Elastic Container Registry User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"force"`: If the policy you are attempting to set on a repository policy would prevent
-  you from setting another policy in the future, you must force the [`set_repository_policy`](@ref)
+  you from setting another policy in the future, you must force the `SetRepositoryPolicy`
   operation. This is intended to prevent accidental repository lock outs.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository. If you do not specify a registry, the default registry is
@@ -2527,8 +2527,8 @@ once per each new image layer part.
 - `part_last_byte`: The position of the last byte of the layer part within the overall image
   layer.
 - `repository_name`: The name of the repository to which you are uploading layer parts.
-- `upload_id`: The upload ID from a previous [`initiate_layer_upload`](@ref) operation to
-  associate with the layer part upload.
+- `upload_id`: The upload ID from a previous `InitiateLayerUpload` operation to associate
+  with the layer part upload.
 
 # Optional Parameters
 

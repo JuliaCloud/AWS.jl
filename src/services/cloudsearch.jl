@@ -135,9 +135,9 @@ end
     define_expression(domain_name, expression)
     define_expression(domain_name, expression, params::Dict{String,<:Any})
 
-Configures an `[`expression`](@ref)` for the search domain. Used to create new expressions
-and modify existing ones. If the expression exists, the new configuration replaces the old
-one. For more information, see <a
+Configures an ``Expression`` for the search domain. Used to create new expressions and
+modify existing ones. If the expression exists, the new configuration replaces the old one.
+For more information, see <a
 href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-
 expressions.html" target="_blank">Configuring Expressions</a> in the *Amazon CloudSearch
 Developer Guide*.
@@ -184,12 +184,12 @@ end
     define_index_field(domain_name, index_field)
     define_index_field(domain_name, index_field, params::Dict{String,<:Any})
 
-Configures an `[`index_field`](@ref)` for the search domain. Used to create new fields and
-modify existing ones. You must specify the name of the domain you are configuring and an
-index field configuration. The index field configuration specifies a unique name, the index
-field type, and the options you want to configure for the field. The options you can specify
-depend on the `[`index_field_type`](@ref)`. If the field exists, the new configuration
-replaces the old one. For more information, see <a
+Configures an ``IndexField`` for the search domain. Used to create new fields and modify
+existing ones. You must specify the name of the domain you are configuring and an index
+field configuration. The index field configuration specifies a unique name, the index field
+type, and the options you want to configure for the field. The options you can specify
+depend on the ``IndexFieldType``. If the field exists, the new configuration replaces the
+old one. For more information, see <a
 href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-
 fields.html" target="_blank">Configuring Index Fields</a> in the *Amazon CloudSearch
 Developer Guide*.
@@ -375,7 +375,7 @@ end
     delete_expression(domain_name, expression_name)
     delete_expression(domain_name, expression_name, params::Dict{String,<:Any})
 
-Removes an `[`expression`](@ref)` from the search domain. For more information, see <a
+Removes an ``Expression`` from the search domain. For more information, see <a
 href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-
 expressions.html" target="_blank">Configuring Expressions</a> in the *Amazon CloudSearch
 Developer Guide*.
@@ -383,7 +383,7 @@ Developer Guide*.
 # Arguments
 
 - `domain_name`:
-- `expression_name`: The name of the `[`expression`](@ref)` to delete.
+- `expression_name`: The name of the ``Expression`` to delete.
 """
 function delete_expression end
 
@@ -424,7 +424,7 @@ end
     delete_index_field(domain_name, index_field_name)
     delete_index_field(domain_name, index_field_name, params::Dict{String,<:Any})
 
-Removes an `[`index_field`](@ref)` from the search domain. For more information, see <a
+Removes an ``IndexField`` from the search domain. For more information, see <a
 href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-
 fields.html" target="_blank">Configuring Index Fields</a> in the *Amazon CloudSearch
 Developer Guide*.
@@ -726,7 +726,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Deployed"`: Whether to display the deployed configuration (`true`) or include any
   pending changes (`false`). Defaults to `false`.
-- `"ExpressionNames"`: Limits the `[`describe_expressions`](@ref)` response to the specified
+- `"ExpressionNames"`: Limits the ``DescribeExpressions`` response to the specified
   expressions. If not specified, all expressions are shown.
 """
 function describe_expressions end
@@ -957,7 +957,7 @@ end
     index_documents(domain_name, params::Dict{String,<:Any})
 
 Tells the search domain to start indexing its documents using the latest indexing options.
-This operation must be invoked to activate options whose [`option_status`](@ref) is
+This operation must be invoked to activate options whose `OptionStatus` is
 `RequiresIndexDocuments`.
 
 # Arguments

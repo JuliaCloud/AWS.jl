@@ -455,15 +455,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   ### Alarm
 
-  The template is an [`alarm_recommendation`](@ref) template.
+  The template is an `AlarmRecommendation` template.
 
   ### Sop
 
-  The template is a [`sop_recommendation`](@ref) template.
+  The template is a `SopRecommendation` template.
 
   ### Test
 
-  The template is a [`test_recommendation`](@ref) template.
+  The template is a `TestRecommendation` template.
 
 - `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon Web
   Services resource. Each tag consists of a key/value pair.

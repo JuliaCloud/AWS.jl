@@ -3249,8 +3249,8 @@ fails.
 
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
 - `notification_types`: The type of event that causes the notification to be sent. To query
-  the notification types supported by Amazon EC2 Auto Scaling, call the [`describe_auto_scaling_notification_types`](@ref)
-  API.
+  the notification types supported by Amazon EC2 Auto Scaling, call the
+  `DescribeAutoScalingNotificationTypes` API.
 - `topic_arn`: The Amazon Resource Name (ARN) of the Amazon SNS topic.
 """
 function put_notification_configuration end

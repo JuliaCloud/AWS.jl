@@ -129,8 +129,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       This parameter can't include any entities of a type that matches the user or group
       entity types that you defined in your identity source.
 
-      - The [`batch_is_authorized_with_token`](@ref) operation takes principal attributes
-        from ***only*** the `identityToken` or `accessToken` passed to the operation.
+      - The `BatchIsAuthorizedWithToken` operation takes principal attributes from
+        ***only*** the `identityToken` or `accessToken` passed to the operation.
       - For action entities, you can include only their `Identifier` and `EntityType`.
 
 - `"identityToken"`: Specifies an identity (ID) token for the principal that you want to
@@ -1070,8 +1070,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       This parameter can't include any entities of a type that matches the user or group
       entity types that you defined in your identity source.
 
-      - The [`is_authorized_with_token`](@ref) operation takes principal attributes from
-        ***only*** the `identityToken` or `accessToken` passed to the operation.
+      - The `IsAuthorizedWithToken` operation takes principal attributes from ***only*** the
+        `identityToken` or `accessToken` passed to the operation.
       - For action entities, you can include only their `Identifier` and `EntityType`.
 
 - `"identityToken"`: Specifies an identity token for the principal to be authorized. This

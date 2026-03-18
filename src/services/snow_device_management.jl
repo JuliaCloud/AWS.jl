@@ -18,7 +18,7 @@ Sends a cancel request for a specified task. You can cancel a task only if it's 
 # Arguments
 
 - `task_id`: The ID of the task that you are attempting to cancel. You can retrieve a task
-  ID by using the [`list_tasks`](@ref) operation.
+  ID by using the `ListTasks` operation.
 """
 function cancel_task end
 

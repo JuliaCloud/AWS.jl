@@ -8,7 +8,7 @@ using AWS.UUIDs
     associate_firewall_policy(firewall_policy_arn)
     associate_firewall_policy(firewall_policy_arn, params::Dict{String,<:Any})
 
-Associates a [`firewall_policy`](@ref) to a [`firewall`](@ref).
+Associates a `FirewallPolicy` to a `Firewall`.
 
 A firewall policy defines how to monitor and manage your VPC network traffic, using a
 collection of inspection rule groups and other settings. Each firewall requires one firewall
@@ -150,8 +150,7 @@ end
     create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id)
     create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id, params::Dict{String,<:Any})
 
-Creates an Network Firewall [`firewall`](@ref) and accompanying [`firewall_status`](@ref)
-for a VPC.
+Creates an Network Firewall `Firewall` and accompanying `FirewallStatus` for a VPC.
 
 The firewall defines the configuration settings for an Network Firewall firewall. The
 settings that you can define at creation include the firewall policy, the subnets in your
@@ -175,8 +174,8 @@ To retrieve information about firewalls, use [`list_firewalls`](@ref) and [`desc
 - `firewall_name`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
 
-- `firewall_policy_arn`: The Amazon Resource Name (ARN) of the [`firewall_policy`](@ref)
-  that you want to use for the firewall.
+- `firewall_policy_arn`: The Amazon Resource Name (ARN) of the `FirewallPolicy` that you
+  want to use for the firewall.
 
 - `subnet_mappings`: The public subnets to use for your Network Firewall firewalls. Each
   subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a
@@ -351,7 +350,7 @@ You provide your rule group specification in your request using either `RuleGrou
   reserves this capacity for the rule group.
 
   You can retrieve the capacity that would be required for a rule group before you create
-  the rule group by calling [`create_rule_group`](@ref) with `DryRun` set to `TRUE`.
+  the rule group by calling `CreateRuleGroup` with `DryRun` set to `TRUE`.
 
   !!! note
       You can't change or exceed this capacity when you update the rule group, so leave room
@@ -421,8 +420,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       both.
 
   You can provide your rule group specification in Suricata flat format through this setting
-  when you create or update your rule group. The call response returns a [`rule_group`](@ref)
-  object that Network Firewall has populated from your string.
+  when you create or update your rule group. The call response returns a `RuleGroup` object
+  that Network Firewall has populated from your string.
 
 - `"SourceMetadata"`: A complex type that contains metadata about the rule group that your
   own rule group is copied from. You can use the metadata to keep track of updates made to
@@ -495,8 +494,9 @@ in the *Network Firewall Developer Guide*.
 # Arguments
 
 - `tlsinspection_configuration`: The object that defines a TLS inspection configuration.
-  This, along with [`tlsinspection_configuration_response`](@ref), define the TLS inspection
-  configuration. You can retrieve all objects for a TLS inspection configuration by calling [`describe_tlsinspection_configuration`](@ref).
+  This, along with `TLSInspectionConfigurationResponse`, define the TLS inspection
+  configuration. You can retrieve all objects for a TLS inspection configuration by calling
+  `DescribeTLSInspectionConfiguration`.
 
   Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall
   re-encrypts the traffic before sending it to its destination.
@@ -566,9 +566,8 @@ end
     delete_firewall()
     delete_firewall(params::Dict{String,<:Any})
 
-Deletes the specified [`firewall`](@ref) and its [`firewall_status`](@ref). This operation
-requires the firewall's `DeleteProtection` flag to be `FALSE`. You can't revert this
-operation.
+Deletes the specified `Firewall` and its `FirewallStatus`. This operation requires the
+firewall's `DeleteProtection` flag to be `FALSE`. You can't revert this operation.
 
 You can check whether a firewall is in use by reviewing the route tables for the
 Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by
@@ -612,7 +611,7 @@ end
     delete_firewall_policy()
     delete_firewall_policy(params::Dict{String,<:Any})
 
-Deletes the specified [`firewall_policy`](@ref).
+Deletes the specified `FirewallPolicy`.
 
 # Optional Parameters
 
@@ -689,7 +688,7 @@ end
     delete_rule_group()
     delete_rule_group(params::Dict{String,<:Any})
 
-Deletes the specified [`rule_group`](@ref).
+Deletes the specified `RuleGroup`.
 
 # Optional Parameters
 
@@ -730,7 +729,7 @@ end
     delete_tlsinspection_configuration()
     delete_tlsinspection_configuration(params::Dict{String,<:Any})
 
-Deletes the specified [`tlsinspection_configuration`](@ref).
+Deletes the specified `TLSInspectionConfiguration`.
 
 # Optional Parameters
 
@@ -1717,8 +1716,8 @@ Updates the properties of the specified firewall policy.
 # Arguments
 
 - `firewall_policy`: The updated firewall policy to use for the firewall. You can't add or
-  remove a [`tlsinspection_configuration`](@ref) after you create a firewall policy.
-  However, you can replace an existing TLS inspection configuration with another
+  remove a `TLSInspectionConfiguration` after you create a firewall policy. However, you can
+  replace an existing TLS inspection configuration with another
   `TLSInspectionConfiguration`.
 
 - `update_token`: A token used for optimistic locking. Network Firewall returns a token to
@@ -1879,10 +1878,10 @@ end
 
 Sets the logging configuration for the specified firewall.
 
-To change the logging configuration, retrieve the [`logging_configuration`](@ref) by calling [`describe_logging_configuration`](@ref),
+To change the logging configuration, retrieve the `LoggingConfiguration` by calling [`describe_logging_configuration`](@ref),
 then change it and provide the modified object to this update call. You must change the
-logging configuration one [`log_destination_config`](@ref) at a time inside the retrieved [`logging_configuration`](@ref)
-object.
+logging configuration one `LogDestinationConfig` at a time inside the retrieved
+`LoggingConfiguration` object.
 
 You can perform only one of the following actions in any call to
 `UpdateLoggingConfiguration`:
@@ -1940,8 +1939,9 @@ Updates the rule settings for the specified rule group. You use a rule group by 
 one or more firewall policies. When you modify a rule group, you modify all firewall
 policies that use the rule group.
 
-To update a rule group, first call [`describe_rule_group`](@ref) to retrieve the current [`rule_group`](@ref)
-object, update the object as needed, and then provide the updated object to this call.
+To update a rule group, first call [`describe_rule_group`](@ref) to retrieve the current
+`RuleGroup` object, update the object as needed, and then provide the updated object to this
+call.
 
 # Arguments
 
@@ -2003,8 +2003,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       both.
 
   You can provide your rule group specification in Suricata flat format through this setting
-  when you create or update your rule group. The call response returns a [`rule_group`](@ref)
-  object that Network Firewall has populated from your string.
+  when you create or update your rule group. The call response returns a `RuleGroup` object
+  that Network Firewall has populated from your string.
 
 - `"SourceMetadata"`: A complex type that contains metadata about the rule group that your
   own rule group is copied from. You can use the metadata to keep track of updates made to
@@ -2123,14 +2123,15 @@ firewall policies. When you modify a TLS inspection configuration, you modify al
 policies that use the TLS inspection configuration.
 
 To update a TLS inspection configuration, first call [`describe_tlsinspection_configuration`](@ref)
-to retrieve the current [`tlsinspection_configuration`](@ref) object, update the object as
-needed, and then provide the updated object to this call.
+to retrieve the current `TLSInspectionConfiguration` object, update the object as needed,
+and then provide the updated object to this call.
 
 # Arguments
 
 - `tlsinspection_configuration`: The object that defines a TLS inspection configuration.
-  This, along with [`tlsinspection_configuration_response`](@ref), define the TLS inspection
-  configuration. You can retrieve all objects for a TLS inspection configuration by calling [`describe_tlsinspection_configuration`](@ref).
+  This, along with `TLSInspectionConfigurationResponse`, define the TLS inspection
+  configuration. You can retrieve all objects for a TLS inspection configuration by calling
+  `DescribeTLSInspectionConfiguration`.
 
   Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall
   re-encrypts the traffic before sending it to its destination.

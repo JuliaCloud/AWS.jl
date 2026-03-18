@@ -21,11 +21,11 @@ is returned.
 - `iso_country_code`: The new two-character code, in ISO 3166-1 alpha-2 format, for the
   country or region of the origination identity.
 - `origination_identity`: The origination identity to use, such as PhoneNumberId,
-  PhoneNumberArn, SenderId, or SenderIdArn. You can use [`describe_phone_numbers`](@ref) to
-  find the values for PhoneNumberId and PhoneNumberArn, while [`describe_sender_ids`](@ref)
-  can be used to get the values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId, or SenderIdArn. You can use `DescribePhoneNumbers` to find the
+  values for PhoneNumberId and PhoneNumberArn, while `DescribeSenderIds` can be used to get
+  the values for SenderId and SenderIdArn.
 - `pool_id`: The pool to update with the new Identity. This value can be either the PoolId
-  or PoolArn, and you can find these values using [`describe_pools`](@ref).
+  or PoolArn, and you can find these values using `DescribePools`.
 
 # Optional Parameters
 
@@ -219,7 +219,7 @@ Firehose destination.
 
 - `configuration_set_name`: Either the name of the configuration set or the configuration
   set ARN to apply event logging to. The ConfigurateSetName and ConfigurationSetArn can be
-  found using the [`describe_configuration_sets`](@ref) action.
+  found using the `DescribeConfigurationSets` action.
 
 - `event_destination_name`: The name that identifies the event destination.
 
@@ -380,9 +380,9 @@ an error is returned. A sender ID can be associated with multiple pools.
   sensitive. After the pool is created the MessageType can't be changed.
 
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use [`describe_phone_numbers`](@ref) to
-  find the values for PhoneNumberId and PhoneNumberArn while [`describe_sender_ids`](@ref)
-  can be used to get the values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use `DescribePhoneNumbers` to find the
+  values for PhoneNumberId and PhoneNumberArn while `DescribeSenderIds` can be used to get
+  the values for SenderId and SenderIdArn.
 
   After the pool is created you can add more origination identities to the pool by using [AssociateOriginationIdentity](https://docs.aws.amazon.com/pinpoint/latest/apireference_smsvoicev2/API_AssociateOriginationIdentity.html).
 
@@ -394,7 +394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If you don't specify a client token, a randomly generated
   token is used for the request to ensure idempotency.
 - `"DeletionProtectionEnabled"`: By default this is set to false. When set to true the pool
-  can't be deleted. You can change this value using the [`update_pool`](@ref) action.
+  can't be deleted. You can change this value using the `UpdatePool` action.
 - `"Tags"`: An array of tags (key and value pairs) associated with the pool.
 """
 function create_pool end
@@ -497,8 +497,7 @@ Creates a new registration based on the **RegistrationType** field.
 # Arguments
 
 - `registration_type`: The type of registration form to create. The list of
-  **RegistrationTypes** can be found using the [`describe_registration_type_definitions`](@ref)
-  action.
+  **RegistrationTypes** can be found using the `DescribeRegistrationTypeDefinitions` action.
 
 # Optional Parameters
 
@@ -780,7 +779,7 @@ related to voice and SMS messages.
 
 - `configuration_set_name`: The name of the configuration set or the configuration set ARN
   that you want to delete. The ConfigurationSetName and ConfigurationSetArn can be found
-  using the [`describe_configuration_sets`](@ref) action.
+  using the `DescribeConfigurationSets` action.
 """
 function delete_configuration_set end
 
@@ -829,8 +828,8 @@ choose **Promotional**. This setting applies to your entire Amazon Web Services 
 
 - `configuration_set_name`: The name of the configuration set or the configuration set
   Amazon Resource Name (ARN) to delete the default message type from. The
-  ConfigurationSetName and ConfigurationSetArn can be found using the [`describe_configuration_sets`](@ref)
-  action.
+  ConfigurationSetName and ConfigurationSetArn can be found using the
+  `DescribeConfigurationSets` action.
 """
 function delete_default_message_type end
 
@@ -877,8 +876,7 @@ SMS messages. Support for sender ID capabilities varies by country or region.
 
 - `configuration_set_name`: The name of the configuration set or the configuration set
   Amazon Resource Name (ARN) to delete the default sender ID from. The ConfigurationSetName
-  and ConfigurationSetArn can be found using the [`describe_configuration_sets`](@ref)
-  action.
+  and ConfigurationSetArn can be found using the `DescribeConfigurationSets` action.
 """
 function delete_default_sender_id end
 
@@ -927,8 +925,7 @@ endpoints that are subscribed to an Amazon SNS topic.
 
 - `configuration_set_name`: The name of the configuration set or the configuration set's
   Amazon Resource Name (ARN) to remove the event destination from. The ConfigurateSetName
-  and ConfigurationSetArn can be found using the [`describe_configuration_sets`](@ref)
-  action.
+  and ConfigurationSetArn can be found using the `DescribeConfigurationSets` action.
 - `event_destination_name`: The name of the event destination to delete.
 """
 function delete_event_destination end
@@ -990,9 +987,9 @@ Keywords "HELP" and "STOP" can't be deleted or modified.
 
 - `keyword`: The keyword to delete.
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, PoolId or PoolArn. You can use [`describe_phone_numbers`](@ref) to find
-  the values for PhoneNumberId and PhoneNumberArn and [`describe_pools`](@ref) to find the
-  values of PoolId and PoolArn.
+  PhoneNumberArn, PoolId or PoolArn. You can use `DescribePhoneNumbers` to find the values
+  for PhoneNumberId and PhoneNumberArn and `DescribePools` to find the values of PoolId and
+  PoolArn.
 """
 function delete_keyword end
 
@@ -1077,8 +1074,7 @@ or pool, an error is returned.
 # Arguments
 
 - `opt_out_list_name`: The OptOutListName or OptOutListArn of the OptOutList to delete. You
-  can use [`describe_opt_out_lists`](@ref) to find the values for OptOutListName and
-  OptOutListArn.
+  can use `DescribeOptOutLists` to find the values for OptOutListName and OptOutListArn.
 """
 function delete_opt_out_list end
 
@@ -1175,8 +1171,8 @@ numbers and SenderIds that are associated with your Amazon Web Services account.
 
 # Arguments
 
-- `pool_id`: The PoolId or PoolArn of the pool to delete. You can use [`describe_pools`](@ref)
-  to find the values for PoolId and PoolArn .
+- `pool_id`: The PoolId or PoolArn of the pool to delete. You can use `DescribePools` to
+  find the values for PoolId and PoolArn .
 """
 function delete_pool end
 
@@ -1332,8 +1328,8 @@ Delete the value in a registration form field.
 
 # Arguments
 
-- `field_path`: The path to the registration form field. You can use [`describe_registration_field_definitions`](@ref)
-  for a list of **FieldPaths**.
+- `field_path`: The path to the registration form field. You can use
+  `DescribeRegistrationFieldDefinitions` for a list of **FieldPaths**.
 - `registration_id`: The unique identifier for the registration.
 """
 function delete_registration_field_value end
@@ -1620,9 +1616,9 @@ If you specify a keyword that isn't valid, an error is returned.
 # Arguments
 
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use [`describe_phone_numbers`](@ref) to
-  find the values for PhoneNumberId and PhoneNumberArn while [`describe_sender_ids`](@ref)
-  can be used to get the values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use `DescribePhoneNumbers` to find the
+  values for PhoneNumberId and PhoneNumberArn while `DescribeSenderIds` can be used to get
+  the values for SenderId and SenderIdArn.
 
 # Optional Parameters
 
@@ -1725,8 +1721,8 @@ If you specify an opted out number that isn't valid, an error is returned.
 
 # Arguments
 
-- `opt_out_list_name`: The OptOutListName or OptOutListArn of the OptOutList. You can use [`describe_opt_out_lists`](@ref)
-  to find the values for OptOutListName and OptOutListArn.
+- `opt_out_list_name`: The OptOutListName or OptOutListArn of the OptOutList. You can use
+  `DescribeOptOutLists` to find the values for OptOutListName and OptOutListArn.
 
 # Optional Parameters
 
@@ -1944,7 +1940,7 @@ submitting each registration type.
 # Arguments
 
 - `registration_type`: The type of registration form. The list of **RegistrationTypes** can
-  be found using the [`describe_registration_type_definitions`](@ref) action.
+  be found using the `DescribeRegistrationTypeDefinitions` action.
 
 # Optional Parameters
 
@@ -2046,7 +2042,7 @@ and submitting each registration type.
 # Arguments
 
 - `registration_type`: The type of registration form. The list of **RegistrationTypes** can
-  be found using the [`describe_registration_type_definitions`](@ref) action.
+  be found using the `DescribeRegistrationTypeDefinitions` action.
 
 # Optional Parameters
 
@@ -2104,7 +2100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
 - `"RegistrationTypes"`: The type of registration form. The list of **RegistrationTypes**
-  can be found using the [`describe_registration_type_definitions`](@ref) action.
+  can be found using the `DescribeRegistrationTypeDefinitions` action.
 """
 function describe_registration_type_definitions end
 
@@ -2343,9 +2339,9 @@ If the origination identity isn't associated with the specified pool, an error i
 - `iso_country_code`: The two-character code, in ISO 3166-1 alpha-2 format, for the country
   or region.
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use [`describe_phone_numbers`](@ref) find
-  the values for PhoneNumberId and PhoneNumberArn, or use [`describe_sender_ids`](@ref) to
-  get the values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use `DescribePhoneNumbers` find the
+  values for PhoneNumberId and PhoneNumberArn, or use `DescribeSenderIds` to get the values
+  for SenderId and SenderIdArn.
 - `pool_id`: The unique identifier for the pool to disassociate with the origination
   identity. This value can be either the PoolId or PoolArn.
 
@@ -2699,9 +2695,9 @@ If you specify a keyword that isn't valid, an error is returned.
 - `keyword`: The new keyword to add.
 - `keyword_message`: The message associated with the keyword.
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use [`describe_phone_numbers`](@ref) get
-  the values for PhoneNumberId and PhoneNumberArn while [`describe_sender_ids`](@ref) can be
-  used to get the values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use `DescribePhoneNumbers` get the values
+  for PhoneNumberId and PhoneNumberArn while `DescribeSenderIds` can be used to get the
+  values for SenderId and SenderIdArn.
 
 # Optional Parameters
 
@@ -2817,8 +2813,8 @@ Creates or updates a field value for a registration.
 
 # Arguments
 
-- `field_path`: The path to the registration form field. You can use [`describe_registration_field_definitions`](@ref)
-  for a list of **FieldPaths**.
+- `field_path`: The path to the registration form field. You can use
+  `DescribeRegistrationFieldDefinitions` for a list of **FieldPaths**.
 - `registration_id`: The unique identifier for the registration.
 
 # Optional Parameters
@@ -2877,8 +2873,7 @@ pool, an error is returned.
 # Arguments
 
 - `phone_number_id`: The PhoneNumberId or PhoneNumberArn of the phone number to release. You
-  can use [`describe_phone_numbers`](@ref) to get the values for PhoneNumberId and
-  PhoneNumberArn.
+  can use `DescribePhoneNumbers` to get the values for PhoneNumberId and PhoneNumberArn.
 """
 function release_phone_number end
 
@@ -3567,9 +3562,9 @@ numbers or registered sender IDs are available in your account.
 
 - `sender_id`: The current sender ID for the configuration set. When sending a text message
   to a destination country which supports SenderIds, the default sender ID on the
-  configuration set specified on [`send_text_message`](@ref) will be used if no dedicated
-  origination phone numbers or registered SenderIds are available in your account, instead
-  of a generic sender ID, such as 'NOTICE'.
+  configuration set specified on `SendTextMessage` will be used if no dedicated origination
+  phone numbers or registered SenderIds are available in your account, instead of a generic
+  sender ID, such as 'NOTICE'.
 """
 function set_default_sender_id end
 

@@ -406,14 +406,14 @@ the values
 `[RSA_1024, RSA_2048, RSA_3072, RSA_4096, EC_prime256v1, EC_secp384r1, EC_secp521r1]`.
 
 In addition to `keyType`, you can also filter by the `CertificateStatuses`, `keyUsage`, and
-`extendedKeyUsage` attributes on the certificate. For more information, see [`filters`](@ref).
+`extendedKeyUsage` attributes on the certificate. For more information, see `Filters`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CertificateStatuses"`: Filter the certificate list by status value.
-- `"Includes"`: Filter the certificate list. For more information, see the [`filters`](@ref)
+- `"Includes"`: Filter the certificate list. For more information, see the `Filters`
   structure.
 - `"MaxItems"`: Use this parameter when paginating results to specify the maximum number of
   items to return in the response. If additional items exist beyond the number you specify,
@@ -802,10 +802,9 @@ your contact email addresses, see [Configure Email for your Domain](https://docs
 # Arguments
 
 - `certificate_arn`: String that contains the ARN of the requested certificate. The
-  certificate ARN is generated and returned by the [`request_certificate`](@ref) action as
-  soon as the request is made. By default, using this parameter causes email to be sent to
-  all top-level domains you specified in the certificate request. The ARN must be of the
-  form:
+  certificate ARN is generated and returned by the `RequestCertificate` action as soon as
+  the request is made. By default, using this parameter causes email to be sent to all top-
+  level domains you specified in the certificate request. The ARN must be of the form:
 
   `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
 

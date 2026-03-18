@@ -86,16 +86,15 @@ account that is a delegated administrator for an Amazon Web Services service.
 # Arguments
 
 - `policy_id`: The unique identifier (ID) of the policy that you want to attach to the
-  target. You can get the ID for the policy by calling the [`list_policies`](@ref)
-  operation.
+  target. You can get the ID for the policy by calling the `ListPolicies` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-"
   followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore
   character (_).
 
 - `target_id`: The unique identifier (ID) of the root, OU, or account that you want to
-  attach the policy to. You can get the ID by calling the [`list_roots`](@ref), [`list_organizational_units_for_parent`](@ref),
-  or [`list_accounts`](@ref) operations.
+  attach the policy to. You can get the ID by calling the `ListRoots`,
+  `ListOrganizationalUnitsForParent`, or `ListAccounts` operations.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a target ID string requires one
   of the following:
@@ -156,7 +155,7 @@ only 30 days. After that, it's deleted.
 # Arguments
 
 - `handshake_id`: The unique identifier (ID) of the handshake that you want to cancel. You
-  can get the ID from the [`list_handshakes_for_organization`](@ref) operation.
+  can get the ID from the `ListHandshakesForOrganization` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-"
   followed by from 8 to 32 lowercase letters or digits.
@@ -585,8 +584,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: A list of tags that you want to attach to the newly created account. These tags
   are attached to the commercial account associated with the GovCloud account, and not to
-  the GovCloud account itself. To add tags to the actual GovCloud account, call the [`tag_resource`](@ref)
-  operation in the GovCloud region after the new GovCloud account exists.
+  the GovCloud account itself. To add tags to the actual GovCloud account, call the
+  `TagResource` operation in the GovCloud region after the new GovCloud account exists.
 
   For each tag in the list, you must specify both a tag key and a value. You can set the
   value to an empty string, but you can't set it to `null`. For more information about
@@ -872,7 +871,7 @@ only 30 days. After that, it's deleted.
 # Arguments
 
 - `handshake_id`: The unique identifier (ID) of the handshake that you want to decline. You
-  can get the ID from the [`list_handshakes_for_account`](@ref) operation.
+  can get the ID from the `ListHandshakesForAccount` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-"
   followed by from 8 to 32 lowercase letters or digits.
@@ -938,8 +937,7 @@ This operation can be called only from the organization's management account.
 # Arguments
 
 - `organizational_unit_id`: The unique identifier (ID) of the organizational unit that you
-  want to delete. You can get the ID from the [`list_organizational_units_for_parent`](@ref)
-  operation.
+  want to delete. You can get the ID from the `ListOrganizationalUnitsForParent` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string
   requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root
@@ -991,7 +989,7 @@ account that is a delegated administrator for an Amazon Web Services service.
 # Arguments
 
 - `policy_id`: The unique identifier (ID) of the policy that you want to delete. You can get
-  the ID from the [`list_policies`](@ref) or [`list_policies_for_target`](@ref) operations.
+  the ID from the `ListPolicies` or `ListPoliciesForTarget` operations.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-"
   followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore
@@ -1130,7 +1128,7 @@ account that is a delegated administrator for an Amazon Web Services service.
 # Arguments
 
 - `account_id`: The unique identifier (ID) of the Amazon Web Services account that you want
-  information about. You can get the ID from the [`list_accounts`](@ref) or [`list_accounts_for_parent`](@ref)
+  information about. You can get the ID from the `ListAccounts` or `ListAccountsForParent`
   operations.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for an account ID string requires
@@ -1175,8 +1173,7 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 - `create_account_request_id`: Specifies the `Id` value that uniquely identifies the
   `CreateAccount` request. You can get the value from the `CreateAccountStatus.Id` response
-  in an earlier [`create_account`](@ref) request, or from the [`list_create_account_status`](@ref)
-  operation.
+  in an earlier `CreateAccount` request, or from the `ListCreateAccountStatus` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a create account request ID
   string requires "car-" followed by from 8 to 32 lowercase letters or digits.
@@ -1289,8 +1286,8 @@ This operation can be called from any account in the organization.
 # Arguments
 
 - `handshake_id`: The unique identifier (ID) of the handshake that you want information
-  about. You can get the ID from the original call to [`invite_account_to_organization`](@ref),
-  or from a call to [`list_handshakes_for_account`](@ref) or [`list_handshakes_for_organization`](@ref).
+  about. You can get the ID from the original call to `InviteAccountToOrganization`, or from
+  a call to `ListHandshakesForAccount` or `ListHandshakesForOrganization`.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-"
   followed by from 8 to 32 lowercase letters or digits.
@@ -1365,7 +1362,7 @@ account that is a delegated administrator for an Amazon Web Services service.
 # Arguments
 
 - `organizational_unit_id`: The unique identifier (ID) of the organizational unit that you
-  want details about. You can get the ID from the [`list_organizational_units_for_parent`](@ref)
+  want details about. You can get the ID from the `ListOrganizationalUnitsForParent`
   operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string
@@ -1417,8 +1414,7 @@ account that is a delegated administrator for an Amazon Web Services service.
 # Arguments
 
 - `policy_id`: The unique identifier (ID) of the policy that you want details about. You can
-  get the ID from the [`list_policies`](@ref) or [`list_policies_for_target`](@ref)
-  operations.
+  get the ID from the `ListPolicies` or `ListPoliciesForTarget` operations.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-"
   followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore
@@ -1504,15 +1500,15 @@ account that is a delegated administrator for an Amazon Web Services service.
 # Arguments
 
 - `policy_id`: The unique identifier (ID) of the policy you want to detach. You can get the
-  ID from the [`list_policies`](@ref) or [`list_policies_for_target`](@ref) operations.
+  ID from the `ListPolicies` or `ListPoliciesForTarget` operations.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-"
   followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore
   character (_).
 
 - `target_id`: The unique identifier (ID) of the root, OU, or account that you want to
-  detach the policy from. You can get the ID from the [`list_roots`](@ref), [`list_organizational_units_for_parent`](@ref),
-  or [`list_accounts`](@ref) operations.
+  detach the policy from. You can get the ID from the `ListRoots`,
+  `ListOrganizationalUnitsForParent`, or `ListAccounts` operations.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a target ID string requires one
   of the following:
@@ -1678,7 +1674,7 @@ To view the status of available policy types in the organization, use [`describe
   - [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
 
 - `root_id`: The unique identifier (ID) of the root in which you want to disable a policy
-  type. You can get the ID from the [`list_roots`](@ref) operation.
+  type. You can get the ID from the `ListRoots` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-"
   followed by from 4 to 32 lowercase letters or digits.
@@ -1855,7 +1851,7 @@ organization. To view the status of available policy types in the organization, 
   - [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
 
 - `root_id`: The unique identifier (ID) of the root in which you want to enable a policy
-  type. You can get the ID from the [`list_roots`](@ref) operation.
+  type. You can get the ID from the `ListRoots` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-"
   followed by from 4 to 32 lowercase letters or digits.
@@ -1899,8 +1895,8 @@ end
 
 Sends an invitation to another account to join your organization as a member account.
 Organizations sends email on your behalf to the email address that is associated with the
-other account's owner. The invitation is implemented as a [`handshake`](@ref) whose details
-are in the response.
+other account's owner. The invitation is implemented as a `Handshake` whose details are in
+the response.
 
 !!! important
     - You can invite Amazon Web Services accounts only from the same seller as the
@@ -2054,10 +2050,10 @@ Lists all the accounts in the organization. To request only the accounts in a sp
 or organizational unit (OU), use the [`list_accounts_for_parent`](@ref) operation instead.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an Amazon Web Services service.
@@ -2107,10 +2103,10 @@ and not in any child OUs. To get a list of all accounts in the organization, use
 operation.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an Amazon Web Services service.
@@ -2231,10 +2227,10 @@ parent OU or root. This operation, along with [`list_parents`](@ref) enables you
 the tree structure that makes up this root.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an Amazon Web Services service.
@@ -2314,10 +2310,10 @@ Lists the account creation requests that match the specified status that is curr
 tracked for the organization.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an Amazon Web Services service.
@@ -2489,10 +2485,10 @@ of this API for only 30 days after changing to that state. After that, they're d
 no longer accessible.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called from any account in the organization.
 
@@ -2553,10 +2549,10 @@ of this API for only 30 days after changing to that state. After that, they're d
 no longer accessible.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an Amazon Web Services service.
@@ -2616,10 +2612,10 @@ end
 Lists the organizational units (OUs) in a parent organizational unit or root.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an Amazon Web Services service.
@@ -2693,10 +2689,10 @@ specified child OU or account. This operation, along with [`list_children`](@ref
 you to traverse the tree structure that makes up this root.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an Amazon Web Services service.
@@ -2766,10 +2762,10 @@ end
 Retrieves the list of all policies in an organization of a specified type.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an Amazon Web Services service.
@@ -2833,10 +2829,10 @@ unit (OU), or account. You must specify the policy type that you want included i
 returned list.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an Amazon Web Services service.
@@ -2920,10 +2916,10 @@ end
 Lists the roots that are defined in the current organization.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an Amazon Web Services service.
@@ -3042,10 +3038,10 @@ Lists all the roots, organizational units (OUs), and accounts that the specified
 attached to.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a [`list*`](@ref)
-    operation. These operations can occasionally return an empty set of results even when
-    there are more results available. The `NextToken` response parameter value is `null`
-    *only* when there are no more results to display.
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    `List*` operation. These operations can occasionally return an empty set of results even
+    when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 This operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an Amazon Web Services service.
@@ -3510,7 +3506,7 @@ This operation can be called only from the organization's management account.
 # Arguments
 
 - `organizational_unit_id`: The unique identifier (ID) of the OU that you want to rename.
-  You can get the ID from the [`list_organizational_units_for_parent`](@ref) operation.
+  You can get the ID from the `ListOrganizationalUnitsForParent` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string
   requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root

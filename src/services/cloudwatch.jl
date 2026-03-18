@@ -344,8 +344,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       Only the `Alarm Name`, `ARN`, `StateValue` (OK/ALARM/INSUFFICIENT_DATA), and
       `StateUpdatedTimestamp` information are returned by this operation when you use this
-      parameter. To get complete information about these alarms, perform another [`describe_alarms`](@ref)
-      operation and specify the parent alarm names in the `AlarmNames` parameter.
+      parameter. To get complete information about these alarms, perform another
+      `DescribeAlarms` operation and specify the parent alarm names in the `AlarmNames`
+      parameter.
 
 - `"MaxRecords"`: The maximum number of alarm descriptions to retrieve.
 
@@ -364,8 +365,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Only the Alarm Name and ARN are returned by this operation when you use this
-      parameter. To get complete information about these alarms, perform another [`describe_alarms`](@ref)
-      operation and specify the parent alarm names in the `AlarmNames` parameter.
+      parameter. To get complete information about these alarms, perform another
+      `DescribeAlarms` operation and specify the parent alarm names in the `AlarmNames`
+      parameter.
 
 - `"StateValue"`: Specify this parameter to receive information only about alarms that are
   currently in the state that you specify.
@@ -955,7 +957,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxDatapoints"`: The maximum number of data points the request should return before
   paginating. If you omit this, the default of 100,800 is used.
 
-- `"NextToken"`: Include this value, if it was returned by the previous [`get_metric_data`](@ref)
+- `"NextToken"`: Include this value, if it was returned by the previous `GetMetricData`
   operation, to get the next set of data points.
 
 - `"ScanBy"`: The order in which data points should be returned. `TimestampDescending`
@@ -2234,8 +2236,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `arn:aws:ssm:*region*:*account-id*:opsitem:*severity*#CATEGORY=*category-name*`
   - `arn:aws:ssm-incidents::*account-id*:responseplan/*response-plan-name*`
 
-- `"MetricName"`: The name for the metric associated with the alarm. For each [`put_metric_alarm`](@ref)
-  operation, you must specify either `MetricName` or a `Metrics` array.
+- `"MetricName"`: The name for the metric associated with the alarm. For each
+  `PutMetricAlarm` operation, you must specify either `MetricName` or a `Metrics` array.
 
   If you are creating an alarm based on a math expression, you cannot specify this
   parameter, or any of the `Namespace`, `Dimensions`, `Period`, `Unit`, `Statistic`, or
@@ -2243,8 +2245,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   array.
 
 - `"Metrics"`: An array of `MetricDataQuery` structures that enable you to create an alarm
-  based on the result of a metric math expression. For each [`put_metric_alarm`](@ref)
-  operation, you must specify either `MetricName` or a `Metrics` array.
+  based on the result of a metric math expression. For each `PutMetricAlarm` operation, you
+  must specify either `MetricName` or a `Metrics` array.
 
   Each item in the `Metrics` array either retrieves a metric or performs a math expression.
 

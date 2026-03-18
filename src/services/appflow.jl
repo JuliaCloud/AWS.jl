@@ -694,9 +694,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of items that the operation returns in the response.
 
-- `"nextToken"`: A token that was provided by your prior [`list_connector_entities`](@ref)
-  operation if the response was too big for the page size. You specify this token to get the
-  next page of results in paginated response.
+- `"nextToken"`: A token that was provided by your prior `ListConnectorEntities` operation
+  if the response was too big for the page size. You specify this token to get the next page
+  of results in paginated response.
 """
 function list_connector_entities end
 

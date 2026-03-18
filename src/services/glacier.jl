@@ -291,8 +291,7 @@ the request when the vault lock is in the `InProgress` state, the operation thro
   Glacier uses the AWS account ID associated with the credentials used to sign the request.
   If you specify your account ID, do not include any hyphens ('-') in the ID.
 
-- `lock_id`: The `lockId` value is the lock ID obtained from a [`initiate_vault_lock`](@ref)
-  request.
+- `lock_id`: The `lockId` value is the lock ID obtained from a `InitiateVaultLock` request.
 
 - `vault_name`: The name of the vault.
 """
@@ -841,10 +840,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
      specifying the appropriate byte range.
   4. After downloading all the parts of the job output, you have a list of eight checksum
      values. Compute the tree hash of these values to find the checksum of the entire
-     output. Using the [`describe_job`](@ref) API, obtain job information of the job that
-     provided you the output. The response includes the checksum of the entire archive
-     stored in Amazon S3 Glacier. You compare this value with the checksum you computed to
-     ensure you have downloaded the entire archive content with no errors.
+     output. Using the `DescribeJob` API, obtain job information of the job that provided
+     you the output. The response includes the checksum of the entire archive stored in
+     Amazon S3 Glacier. You compare this value with the checksum you computed to ensure you
+     have downloaded the entire archive content with no errors.
 """
 function get_job_output end
 

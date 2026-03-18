@@ -109,7 +109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"grafanaVersion"`: Specifies the version of Grafana to support in the new workspace. If
   not specified, defaults to the latest version (for example, 10.4).
 
-  To get a list of supported versions, use the [`list_versions`](@ref) operation.
+  To get a list of supported versions, use the `ListVersions` operation.
 
 - `"networkAccessControl"`: Configuration for network access to your workspace.
 
@@ -760,7 +760,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"groupId"`: (Optional) Limits the results to only the group that matches this ID.
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You received this
-  token from a previous [`list_permissions`](@ref) operation.
+  token from a previous `ListPermissions` operation.
 - `"userId"`: (Optional) Limits the results to only the user that matches this ID.
 - `"userType"`: (Optional) If you specify `SSO_USER`, then only the permissions of IAM
   Identity Center users are returned. If you specify `SSO_GROUP`, only the permissions of
@@ -843,7 +843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You receive this
-  token from a previous [`list_versions`](@ref) operation.
+  token from a previous `ListVersions` operation.
 - `"workspace-id"`: The ID of the workspace to list the available upgrade versions. If not
   included, lists all versions of Grafana that are supported for `CreateWorkspace`.
 """
@@ -887,7 +887,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of tokens to include in the results.
 - `"nextToken"`: The token for the next set of service accounts to return. (You receive this
-  token from a previous [`list_workspace_service_account_tokens`](@ref) operation.)
+  token from a previous `ListWorkspaceServiceAccountTokens` operation.)
 """
 function list_workspace_service_account_tokens end
 
@@ -936,7 +936,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of service accounts to include in the results.
 - `"nextToken"`: The token for the next set of service accounts to return. (You receive this
-  token from a previous [`list_workspace_service_accounts`](@ref) operation.)
+  token from a previous `ListWorkspaceServiceAccounts` operation.)
 """
 function list_workspace_service_accounts end
 
@@ -978,7 +978,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of workspaces to include in the results.
 - `"nextToken"`: The token for the next set of workspaces to return. (You receive this token
-  from a previous [`list_workspaces`](@ref) operation.)
+  from a previous `ListWorkspaces` operation.)
 """
 function list_workspaces end
 

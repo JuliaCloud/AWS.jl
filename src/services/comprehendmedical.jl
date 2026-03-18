@@ -13,8 +13,8 @@ get the status of a detection job.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The [`start_entities_detection_v2_job`](@ref)
-  operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
+  `StartEntitiesDetectionV2Job` operation returns this identifier in its response.
 """
 function describe_entities_detection_v2_job end
 
@@ -49,8 +49,8 @@ status of an inference job.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. [`the _start_icd10_cminference_job`](@ref)
-  operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Comprehend Medical generated for the job.
+  `The StartICD10CMInferenceJob` operation returns this identifier in its response.
 """
 function describe_icd10_cminference_job end
 
@@ -85,8 +85,8 @@ this operation to get the status of a detection job.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The [`start_phidetection_job`](@ref)
-  operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
+  `StartPHIDetectionJob` operation returns this identifier in its response.
 """
 function describe_phidetection_job end
 

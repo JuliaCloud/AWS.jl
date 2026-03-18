@@ -2191,9 +2191,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkspaceIds"`: The identifiers of the WorkSpaces. You cannot combine this parameter
   with any other filter.
 
-  Because the [`create_workspaces`](@ref) operation is asynchronous, the identifier it
-  returns is not immediately available. If you immediately call [`describe_workspaces`](@ref)
-  with this identifier, no information is returned.
+  Because the `CreateWorkspaces` operation is asynchronous, the identifier it returns is not
+  immediately available. If you immediately call `DescribeWorkspaces` with this identifier,
+  no information is returned.
 
 - `"WorkspaceName"`: The name of the user-decoupled WorkSpace.
 """
@@ -2813,8 +2813,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   block, for the management network interface. Specify an IP address range that is
   compatible with your network and in CIDR notation (that is, specify the range as an IPv4
   CIDR block). The CIDR block size must be /16 (for example, 203.0.113.25/16). It must also
-  be specified as available by the [`list_available_management_cidr_ranges`](@ref)
-  operation.
+  be specified as available by the `ListAvailableManagementCidrRanges` operation.
 
 - `"DedicatedTenancySupport"`: The status of BYOL.
 """

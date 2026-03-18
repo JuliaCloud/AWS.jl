@@ -321,8 +321,7 @@ end
     create_test_grid_project(name)
     create_test_grid_project(name, params::Dict{String,<:Any})
 
-Creates a Selenium testing project. Projects are used to track [`test_grid_session`](@ref)
-instances.
+Creates a Selenium testing project. Projects are used to track `TestGridSession` instances.
 
 # Arguments
 
@@ -367,8 +366,8 @@ constructor.
 # Arguments
 
 - `expires_in_seconds`: Lifetime, in seconds, of the URL.
-- `project_arn`: ARN (from [`create_test_grid_project`](@ref) or [`list_test_grid_projects`](@ref))
-  to associate with the short-term URL.
+- `project_arn`: ARN (from `CreateTestGridProject` or `ListTestGridProjects`) to associate
+  with the short-term URL.
 """
 function create_test_grid_url end
 
@@ -784,8 +783,8 @@ Deletes a Selenium testing project and all content generated under it.
 
 # Arguments
 
-- `project_arn`: The ARN of the project to delete, from [`create_test_grid_project`](@ref)
-  or [`list_test_grid_projects`](@ref).
+- `project_arn`: The ARN of the project to delete, from `CreateTestGridProject` or
+  `ListTestGridProjects`.
 """
 function delete_test_grid_project end
 
@@ -1363,8 +1362,8 @@ Retrieves information about a Selenium testing project.
 
 # Arguments
 
-- `project_arn`: The ARN of the Selenium testing project, from either [`create_test_grid_project`](@ref)
-  or [`list_test_grid_projects`](@ref).
+- `project_arn`: The ARN of the Selenium testing project, from either
+  `CreateTestGridProject` or `ListTestGridProjects`.
 """
 function get_test_grid_project end
 
@@ -1398,19 +1397,20 @@ end
     get_test_grid_session()
     get_test_grid_session(params::Dict{String,<:Any})
 
-A session is an instance of a browser created through a `RemoteWebDriver` with the URL from [`create_test_grid_url_result\$url`](@ref).
-You can use the following to look up sessions:
+A session is an instance of a browser created through a `RemoteWebDriver` with the URL from
+`CreateTestGridUrlResult\$url`. You can use the following to look up sessions:
 
-- The session ARN ([`get_test_grid_session_request\$session_arn`](@ref)).
-- The project ARN and a session ID ([`get_test_grid_session_request\$project_arn`](@ref) and [`get_test_grid_session_request\$session_id`](@ref)).
+- The session ARN (`GetTestGridSessionRequest\$sessionArn`).
+- The project ARN and a session ID (`GetTestGridSessionRequest\$projectArn` and
+  `GetTestGridSessionRequest\$sessionId`).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"projectArn"`: The ARN for the project that this session belongs to. See [`create_test_grid_project`](@ref)
-  and [`list_test_grid_projects`](@ref).
-- `"sessionArn"`: An ARN that uniquely identifies a [`test_grid_session`](@ref).
+- `"projectArn"`: The ARN for the project that this session belongs to. See
+  `CreateTestGridProject` and `ListTestGridProjects`.
+- `"sessionArn"`: An ARN that uniquely identifies a `TestGridSession`.
 - `"sessionId"`: An ID associated with this session.
 """
 function get_test_grid_session end
@@ -2230,7 +2230,7 @@ end
     list_test_grid_session_actions(session_arn)
     list_test_grid_session_actions(session_arn, params::Dict{String,<:Any})
 
-Returns a list of the actions taken in a [`test_grid_session`](@ref).
+Returns a list of the actions taken in a `TestGridSession`.
 
 # Arguments
 
@@ -2279,7 +2279,7 @@ Retrieves a list of artifacts created during the session.
 
 # Arguments
 
-- `session_arn`: The ARN of a [`test_grid_session`](@ref).
+- `session_arn`: The ARN of a `TestGridSession`.
 
 # Optional Parameters
 
@@ -2321,11 +2321,11 @@ end
     list_test_grid_sessions(project_arn)
     list_test_grid_sessions(project_arn, params::Dict{String,<:Any})
 
-Retrieves a list of sessions for a [`test_grid_project`](@ref).
+Retrieves a list of sessions for a `TestGridProject`.
 
 # Arguments
 
-- `project_arn`: ARN of a [`test_grid_project`](@ref).
+- `project_arn`: ARN of a `TestGridProject`.
 
 # Optional Parameters
 
@@ -2672,8 +2672,8 @@ Schedules a run.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"appArn"`: The ARN of an application package to run tests against, created with [`create_upload`](@ref).
-  See [`list_uploads`](@ref).
+- `"appArn"`: The ARN of an application package to run tests against, created with
+  `CreateUpload`. See `ListUploads`.
 
 - `"configuration"`: Information about the settings for the run to be scheduled.
 

@@ -81,7 +81,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   3166 country code) for filtering the list of voices returned. If you don't specify this
 optional parameter, all available voices are returned.
 
-- `"NextToken"`: An opaque pagination token returned from the previous [`describe_voices`](@ref)
+- `"NextToken"`: An opaque pagination token returned from the previous `DescribeVoices`
   operation. If present, this indicates where to continue the listing.
 """
 function describe_voices end
@@ -184,8 +184,8 @@ information, see [Managing Lexicons](https://docs.aws.amazon.com/polly/latest/dg
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NextToken"`: An opaque pagination token returned from previous [`list_lexicons`](@ref)
-  operation. If present, indicates where to continue the list of lexicons.
+- `"NextToken"`: An opaque pagination token returned from previous `ListLexicons` operation.
+  If present, indicates where to continue the list of lexicons.
 """
 function list_lexicons end
 

@@ -320,7 +320,7 @@ To retrieve the full pipeline definition instead of metadata about the pipeline,
 # Arguments
 
 - `pipeline_ids`: The IDs of the pipelines to describe. You can pass as many as 25
-  identifiers in a single call. To obtain pipeline IDs, call [`list_pipelines`](@ref).
+  identifiers in a single call. To obtain pipeline IDs, call `ListPipelines`.
 """
 function describe_pipelines end
 
@@ -732,7 +732,7 @@ seconds.
 # Arguments
 
 - `task_id`: The ID of the task assigned to the task runner. This value is provided in the
-  response for [`poll_for_task`](@ref).
+  response for `PollForTask`.
 
 # Optional Parameters
 
@@ -887,7 +887,7 @@ tasks that are canceled by the web service during a call to [`report_task_progre
 # Arguments
 
 - `task_id`: The ID of the task assigned to the task runner. This value is provided in the
-  response for [`poll_for_task`](@ref).
+  response for `PollForTask`.
 - `task_status`: If `FINISHED`, the task successfully completed. If `FAILED`, the task ended
   unsuccessfully. Preconditions use false.
 

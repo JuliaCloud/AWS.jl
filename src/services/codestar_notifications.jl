@@ -19,7 +19,7 @@ for Slack) where you want to receive them.
   CloudWatch. `FULL` will include any supplemental information provided by AWS CodeStar
   Notifications and/or the service for the resource for which the notification is created.
 - `event_type_ids`: A list of event types associated with this notification rule. For a list
-  of allowed events, see [`event_type_summary`](@ref).
+  of allowed events, see `EventTypeSummary`.
 - `name`: The name for the notification rule. Notification rule names must be unique in your
   Amazon Web Services account.
 - `resource`: The Amazon Resource Name (ARN) of the resource to associate with the
@@ -266,7 +266,7 @@ Returns a list of the notification rules for an Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: The filters to use to return information by service or resource type. For
-  valid values, see [`list_notification_rules_filter`](@ref).
+  valid values, see `ListNotificationRulesFilter`.
 
   !!! note
       A filter with the same name can appear more than once when used with OR statements.

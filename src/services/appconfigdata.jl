@@ -26,8 +26,8 @@ in the *AppConfig User Guide*.
 # Arguments
 
 - `configuration_token`: Token describing the current state of the configuration session. To
-  obtain a token, first call the [`start_configuration_session`](@ref) API. Note that every
-  call to `GetLatestConfiguration` will return a new `ConfigurationToken`
+  obtain a token, first call the `StartConfigurationSession` API. Note that every call to
+  `GetLatestConfiguration` will return a new `ConfigurationToken`
   (`NextPollConfigurationToken` in the response) and *must* be provided to subsequent
   `GetLatestConfiguration` API calls.
 
@@ -91,8 +91,8 @@ in the *AppConfig User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"RequiredMinimumPollIntervalInSeconds"`: Sets a constraint on a session. If you specify a
-  value of, for example, 60 seconds, then the client that established the session can't call [`get_latest_configuration`](@ref)
-  more frequently than every 60 seconds.
+  value of, for example, 60 seconds, then the client that established the session can't call
+  `GetLatestConfiguration` more frequently than every 60 seconds.
 """
 function start_configuration_session end
 

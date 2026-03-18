@@ -319,7 +319,8 @@ by the user who created it.
 # Arguments
 
 - `id`: The ID of the personal access token to delete. You can find the IDs of all PATs
-  associated with your Amazon Web Services Builder ID in a space by calling [`list_access_tokens`](@ref).
+  associated with your Amazon Web Services Builder ID in a space by calling
+  `ListAccessTokens`.
 """
 function delete_access_token end
 
@@ -353,7 +354,7 @@ Deletes a Dev Environment.
 # Arguments
 
 - `id`: The system-generated unique ID of the Dev Environment you want to delete. To
-  retrieve a list of Dev Environment IDs, use [`list_dev_environments`](@ref).
+  retrieve a list of Dev Environment IDs, use `ListDevEnvironments`.
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -394,7 +395,8 @@ Deletes a project in a space.
 
 # Arguments
 
-- `name`: The name of the project in the space. To retrieve a list of project names, use [`list_projects`](@ref).
+- `name`: The name of the project in the space. To retrieve a list of project names, use
+  `ListProjects`.
 - `space_name`: The name of the space.
 """
 function delete_project end
@@ -477,7 +479,7 @@ Deletes a space.
 
 # Arguments
 
-- `name`: The name of the space. To retrieve a list of space names, use [`list_spaces`](@ref).
+- `name`: The name of the space. To retrieve a list of space names, use `ListSpaces`.
 """
 function delete_space end
 
@@ -512,7 +514,7 @@ Environments are specific to the user who creates them.
 # Arguments
 
 - `id`: The system-generated unique ID of the Dev Environment for which you want to view
-  information. To retrieve a list of Dev Environment IDs, use [`list_dev_environments`](@ref).
+  information. To retrieve a list of Dev Environment IDs, use `ListDevEnvironments`.
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -775,7 +777,7 @@ Returns information about a workflow.
 
 # Arguments
 
-- `id`: The ID of the workflow. To rerieve a list of workflow IDs, use [`list_workflows`](@ref).
+- `id`: The ID of the workflow. To rerieve a list of workflow IDs, use `ListWorkflows`.
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -816,7 +818,8 @@ Returns information about a specified run of a workflow.
 
 # Arguments
 
-- `id`: The ID of the workflow run. To retrieve a list of workflow run IDs, use [`list_workflow_runs`](@ref).
+- `id`: The ID of the workflow run. To retrieve a list of workflow run IDs, use
+  `ListWorkflowRuns`.
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -1260,7 +1263,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 - `"sortBy"`: Information used to sort the items in the returned list.
-- `"workflowId"`: The ID of the workflow. To retrieve a list of workflow IDs, use [`list_workflows`](@ref).
+- `"workflowId"`: The ID of the workflow. To retrieve a list of workflow IDs, use
+  `ListWorkflows`.
 """
 function list_workflow_runs end
 
@@ -1457,7 +1461,7 @@ Begins a run of a specified workflow.
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 - `workflow_id`: The system-generated unique ID of the workflow. To retrieve a list of
-  workflow IDs, use [`list_workflows`](@ref).
+  workflow IDs, use `ListWorkflows`.
 
 # Optional Parameters
 
@@ -1556,10 +1560,11 @@ Stops a session for a specified Dev Environment.
 
 # Arguments
 
-- `id`: The system-generated unique ID of the Dev Environment. To obtain this ID, use [`list_dev_environments`](@ref).
+- `id`: The system-generated unique ID of the Dev Environment. To obtain this ID, use
+  `ListDevEnvironments`.
 - `project_name`: The name of the project in the space.
 - `session_id`: The system-generated unique ID of the Dev Environment session. This ID is
-  returned by [`start_dev_environment_session`](@ref).
+  returned by `StartDevEnvironmentSession`.
 - `space_name`: The name of the space.
 """
 function stop_dev_environment_session end

@@ -397,7 +397,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You must specify at least one Availability Zone.
 
-  You can add more Availability Zones after you create the load balancer using [`enable_availability_zones_for_load_balancer`](@ref).
+  You can add more Availability Zones after you create the load balancer using
+  `EnableAvailabilityZonesForLoadBalancer`.
 
 - `"Scheme"`: The type of a load balancer. Valid only for load balancers in a VPC.
 
@@ -519,7 +520,8 @@ listener or the application server, depending on the policy type.
 - `load_balancer_name`: The name of the load balancer.
 - `policy_name`: The name of the load balancer policy to be created. This name must be
   unique within the set of policies for this load balancer.
-- `policy_type_name`: The name of the base policy type. To get the list of policy types, use [`describe_load_balancer_policy_types`](@ref).
+- `policy_type_name`: The name of the base policy type. To get the list of policy types, use
+  `DescribeLoadBalancerPolicyTypes`.
 
 # Optional Parameters
 

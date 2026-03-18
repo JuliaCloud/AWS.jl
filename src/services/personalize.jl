@@ -1060,10 +1060,9 @@ When you create a recommender, you can configure the recommender's minimum recom
 requests per second. The minimum recommendation requests per second
 (`minRecommendationRequestsPerSecond`) specifies the baseline recommendation request
 throughput provisioned by Amazon Personalize. The default minRecommendationRequestsPerSecond
-is `1`. A recommendation request is a single [`get_recommendations`](@ref) operation.
-Request throughput is measured in requests per second and Amazon Personalize uses your
-requests per second to derive your requests per hour and the price of your recommender
-usage.
+is `1`. A recommendation request is a single `GetRecommendations` operation. Request
+throughput is measured in requests per second and Amazon Personalize uses your requests per
+second to derive your requests per hour and the price of your recommender usage.
 
 If your requests per second increases beyond `minRecommendationRequestsPerSecond`, Amazon
 Personalize auto-scales the provisioned capacity up and down, but never below

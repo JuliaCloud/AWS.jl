@@ -618,19 +618,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     this compute type, you can also set the `AnywhereConfiguration` parameter.
 
 - `"ContainerGroupsConfiguration"`: The container groups to deploy to instances in the
-  container fleet and other fleet-level configuration settings. Use the [`create_container_group_definition`](@ref)
-  action to create container groups. A container fleet must have exactly one replica
-  container group, and can optionally have one daemon container group. You can't change this
-  property after you create the fleet.
+  container fleet and other fleet-level configuration settings. Use the
+  `CreateContainerGroupDefinition` action to create container groups. A container fleet must
+  have exactly one replica container group, and can optionally have one daemon container
+  group. You can't change this property after you create the fleet.
 
 - `"Description"`: A description for the fleet.
 
 - `"EC2InboundPermissions"`: The IP address ranges and port settings that allow inbound
   traffic to access game server processes and other processes on this fleet. Set this
   parameter for EC2 and container fleets. You can leave this parameter empty when creating
-  the fleet, but you must call [`update_fleet_port_settings`](@ref) to set it before players
-  can connect to game sessions. As a best practice, we recommend opening ports for remote
-  access only when you need them and closing them when you're finished. For Realtime Servers
+  the fleet, but you must call `UpdateFleetPortSettings` to set it before players can
+  connect to game sessions. As a best practice, we recommend opening ports for remote access
+  only when you need them and closing them when you're finished. For Realtime Servers
   fleets, Amazon GameLift automatically sets TCP and UDP ranges.
 
   To manage inbound access for a container fleet, set this parameter to the same port
@@ -1068,9 +1068,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CreatorId"`: A unique identifier for a player or entity creating the game session.
 
-  If you add a resource creation limit policy to a fleet, the [`create_game_session`](@ref)
-  operation requires a `CreatorId`. Amazon GameLift limits the number of game session
-  creation requests with the same `CreatorId` in a specified time period.
+  If you add a resource creation limit policy to a fleet, the `CreateGameSession` operation
+  requires a `CreatorId`. Amazon GameLift limits the number of game session creation
+  requests with the same `CreatorId` in a specified time period.
 
   If you your fleet doesn't have a resource creation limit policy and you provide a
   `CreatorId` in your `CreateGameSession` requests, Amazon GameLift limits requests to one
@@ -5286,8 +5286,7 @@ in the *Amazon Web Services General Reference*
 - `resource_arn`: The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
   that uniquely identifies the Amazon GameLift resource that you want to retrieve tags for.
   Amazon GameLift includes resource ARNs in the data object for the resource. You can
-  retrieve the ARN by calling a `List` or [`describe`](@ref) operation for the resource
-  type.
+  retrieve the ARN by calling a `List` or `Describe` operation for the resource type.
 """
 function list_tags_for_resource end
 
@@ -5861,8 +5860,8 @@ attributes. For game session search examples, see the Examples section of this t
   be unique to a game session.
 - **gameSessionProperties** -- A set of key-value pairs that can store custom data in a game
   session. For example: `{"Key": "difficulty", "Value": "novice"}`. The filter expression
-  must specify the [`game_property`](@ref) -- a `Key` and a string `Value` to search for the
-  game sessions.
+  must specify the `GameProperty` -- a `Key` and a string `Value` to search for the game
+  sessions.
 
 For example, to search for the above key-value pair, specify the following search filter:
 `gameSessionProperties.difficulty = "novice"`. All game property values are searched as
@@ -6612,9 +6611,7 @@ in the *Amazon Web Services General Reference*
 - `resource_arn`: The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
   that uniquely identifies the Amazon GameLift resource that you want to assign tags to.
   Amazon GameLift includes resource ARNs in the data object for the resource. You can
-  retrieve the ARN by calling a `List` or [`describe`](@ref) operation for the resource
-  type.
-
+  retrieve the ARN by calling a `List` or `Describe` operation for the resource type.
 - `tags`: A list of one or more tags to assign to the specified Amazon GameLift resource.
   Tags are developer-defined and structured as key-value pairs. The maximum tag limit may be
   lower than stated. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
@@ -6679,9 +6676,7 @@ in the *Amazon Web Services General Reference*
 - `resource_arn`: The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
   that uniquely identifies the Amazon GameLift resource that you want to remove tags from.
   Amazon GameLift includes resource ARNs in the data object for the resource. You can
-  retrieve the ARN by calling a `List` or [`describe`](@ref) operation for the resource
-  type.
-
+  retrieve the ARN by calling a `List` or `Describe` operation for the resource type.
 - `tag_keys`: A list of one or more tag keys to remove from the specified Amazon GameLift
   resource.
 """

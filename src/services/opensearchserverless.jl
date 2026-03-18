@@ -984,9 +984,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial [`list_access_policies`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_access_policies`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListAccessPolicies` operation returns a `nextToken`, you
+  can include the returned `nextToken` in subsequent `ListAccessPolicies` operations, which
+  returns results in the next page.
 - `"resource"`: Resource filters (can be collections or indexes) that policies can apply to.
 """
 function list_access_policies end
@@ -1028,9 +1028,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"collectionFilters"`: A list of filter names and values that you can use for requests.
 - `"maxResults"`: The maximum number of results to return. Default is 20. You can use
   `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`list_collections`](@ref) operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent [`list_collections`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListCollections` operation returns a `nextToken`, you can
+  include the returned `nextToken` in subsequent `ListCollections` operations, which returns
+  results in the next page.
 """
 function list_collections end
 
@@ -1064,9 +1064,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use use `nextToken` to get the next page of results. The default is 10.
-- `"nextToken"`: If your initial [`list_lifecycle_policies`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_lifecycle_policies`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListLifecyclePolicies` operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent `ListLifecyclePolicies` operations,
+  which returns results in the next page.
 - `"resources"`: Resource filters that policies can apply to. Currently, the only supported
   resource type is `index`.
 """
@@ -1109,9 +1109,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial [`list_security_configs`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_security_configs`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListSecurityConfigs` operation returns a `nextToken`, you
+  can include the returned `nextToken` in subsequent `ListSecurityConfigs` operations, which
+  returns results in the next page.
 """
 function list_security_configs end
 
@@ -1151,9 +1151,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial [`list_security_policies`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_security_policies`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListSecurityPolicies` operation returns a `nextToken`, you
+  can include the returned `nextToken` in subsequent `ListSecurityPolicies` operations,
+  which returns results in the next page.
 - `"resource"`: Resource filters (can be collection or indexes) that policies can apply to.
 """
 function list_security_policies end
@@ -1231,9 +1231,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial [`list_vpc_endpoints`](@ref) operation returns a
-  `nextToken`, you can include the returned `nextToken` in subsequent [`list_vpc_endpoints`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListVpcEndpoints` operation returns a `nextToken`, you can
+  include the returned `nextToken` in subsequent `ListVpcEndpoints` operations, which
+  returns results in the next page.
 - `"vpcEndpointFilters"`: Filter the results according to the current status of the VPC
   endpoint. Possible statuses are `CREATING`, `DELETING`, `UPDATING`, `ACTIVE`, and
   `FAILED`.

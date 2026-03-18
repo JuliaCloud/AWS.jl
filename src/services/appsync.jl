@@ -338,8 +338,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"elasticsearchConfig"`: Amazon OpenSearch Service settings.
 
   As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch Service. This
-  configuration is deprecated. For new data sources, use [`create_data_source_request\$open_search_service_config`](@ref)
-  to create an OpenSearch data source.
+  configuration is deprecated. For new data sources, use
+  `CreateDataSourceRequest\$openSearchServiceConfig` to create an OpenSearch data source.
 
 - `"eventBridgeConfig"`: Amazon EventBridge settings.
 
@@ -2770,8 +2770,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"elasticsearchConfig"`: The new OpenSearch configuration.
 
   As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch Service. This
-  configuration is deprecated. Instead, use [`update_data_source_request\$open_search_service_config`](@ref)
-  to update an OpenSearch data source.
+  configuration is deprecated. Instead, use
+  `UpdateDataSourceRequest\$openSearchServiceConfig` to update an OpenSearch data source.
 
 - `"eventBridgeConfig"`: The new Amazon EventBridge settings.
 

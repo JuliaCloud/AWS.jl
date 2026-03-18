@@ -920,10 +920,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next request.
 
   !!! note
-      Cloud Map gets [`max_results`](@ref) operations and then filters them based on the
-      specified criteria. It's possible that no operations in the first [`max_results`](@ref)
-      operations matched the specified criteria but that subsequent groups of [`max_results`](@ref)
-      operations do contain operations that match the criteria.
+      Cloud Map gets `MaxResults` operations and then filters them based on the specified
+      criteria. It's possible that no operations in the first `MaxResults` operations
+      matched the specified criteria but that subsequent groups of `MaxResults` operations
+      do contain operations that match the criteria.
 """
 function list_operations end
 

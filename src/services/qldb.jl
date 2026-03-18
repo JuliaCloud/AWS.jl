@@ -94,8 +94,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default.
 
   If deletion protection is enabled, you must first disable it before you can delete the
-  ledger. You can disable it by calling the [`update_ledger`](@ref) operation to set this
-  parameter to `false`.
+  ledger. You can disable it by calling the `UpdateLedger` operation to set this parameter
+  to `false`.
 
 - `"KmsKey"`: The key in Key Management Service (KMS) to use for encryption of data at rest
   in the ledger. For more information, see [Encryption at rest](https://docs.aws.amazon.com/qldb/latest/developerguide/encryption-at-rest.html)
@@ -1046,8 +1046,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default.
 
   If deletion protection is enabled, you must first disable it before you can delete the
-  ledger. You can disable it by calling the [`update_ledger`](@ref) operation to set this
-  parameter to `false`.
+  ledger. You can disable it by calling the `UpdateLedger` operation to set this parameter
+  to `false`.
 
 - `"KmsKey"`: The key in Key Management Service (KMS) to use for encryption of data at rest
   in the ledger. For more information, see [Encryption at rest](https://docs.aws.amazon.com/qldb/latest/developerguide/encryption-at-rest.html)

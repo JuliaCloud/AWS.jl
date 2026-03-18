@@ -74,7 +74,7 @@ status might show as `CANCELLED` even if the operation is not yet finished.
 # Arguments
 
 - `query_id`: The ID of the query that you want to cancel. The `QueryId` comes from the
-  response of a [`start_query`](@ref) operation.
+  response of a `StartQuery` operation.
 
 # Optional Parameters
 

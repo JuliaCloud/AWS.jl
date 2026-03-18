@@ -2349,12 +2349,13 @@ Deliverability dashboard for the domain.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NextToken"`: A token that’s returned from a previous call to the [`list_domain_deliverability_campaigns`](@ref)
-  operation. This token indicates the position of a campaign in the list of campaigns.
-- `"PageSize"`: The maximum number of results to include in response to a single call to the [`list_domain_deliverability_campaigns`](@ref)
-  operation. If the number of results is larger than the number that you specify in this
-  parameter, the response includes a `NextToken` element, which you can use to obtain
-  additional results.
+- `"NextToken"`: A token that’s returned from a previous call to the
+  `ListDomainDeliverabilityCampaigns` operation. This token indicates the position of a
+  campaign in the list of campaigns.
+- `"PageSize"`: The maximum number of results to include in response to a single call to the
+  `ListDomainDeliverabilityCampaigns` operation. If the number of results is larger than the
+  number that you specify in this parameter, the response includes a `NextToken` element,
+  which you can use to obtain additional results.
 """
 function list_domain_deliverability_campaigns end
 
@@ -3773,9 +3774,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigurationSetName"`: The name of the configuration set to use when sending the email.
 
 - `"DefaultEmailTags"`: A list of tags, in the form of name/value pairs, to apply to an
-  email that you send using the [`send_email`](@ref) operation. Tags correspond to
-  characteristics of the email that you define, so that you can publish email sending
-  events.
+  email that you send using the `SendEmail` operation. Tags correspond to characteristics of
+  the email that you define, so that you can publish email sending events.
 
 - `"FeedbackForwardingEmailAddress"`: The address that you want bounce and complaint
   notifications to be sent to.
@@ -3946,8 +3946,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Destination"`: An object that contains the recipients of the email message.
 
 - `"EmailTags"`: A list of tags, in the form of name/value pairs, to apply to an email that
-  you send using the [`send_email`](@ref) operation. Tags correspond to characteristics of
-  the email that you define, so that you can publish email sending events.
+  you send using the `SendEmail` operation. Tags correspond to characteristics of the email
+  that you define, so that you can publish email sending events.
 
 - `"FeedbackForwardingEmailAddress"`: The address that you want bounce and complaint
   notifications to be sent to.

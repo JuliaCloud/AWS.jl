@@ -2574,7 +2574,7 @@ Set `FunctionVersion` to `ALL` to include all published versions of each functio
 addition to the unpublished version.
 
 !!! note
-    The [`list_functions`](@ref) operation returns a subset of the [`function_configuration`](@ref)
+    The [`list_functions`](@ref) operation returns a subset of the `FunctionConfiguration`
     fields. To get the additional fields (State, StateReasonCode, StateReason,
     LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode,
     RuntimeVersionConfig) for a function or version, use [`get_function`](@ref).
@@ -2933,7 +2933,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CompatibleArchitectures"`: A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
 
 - `"CompatibleRuntimes"`: A list of compatible [function runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
-  Used for filtering with [`list_layers`](@ref) and [`list_layer_versions`](@ref).
+  Used for filtering with `ListLayers` and `ListLayerVersions`.
 
   The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
 
@@ -3009,7 +3009,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CodeSha256"`: Only publish a version if the hash value matches the value that's
   specified. Use this option to avoid publishing a version if the function code has changed
   since you last updated it. You can get the hash for the version that you uploaded from the
-  output of [`update_function_code`](@ref).
+  output of `UpdateFunctionCode`.
 - `"Description"`: A description for the version to override the description in the function
   configuration.
 - `"RevisionId"`: Only update the function if the revision ID matches the ID that's
@@ -3997,7 +3997,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ImageUri"`: URI of a container image in the Amazon ECR registry. Do not use for a
   function defined with a .zip file archive.
 - `"Publish"`: Set to true to publish a new version of the function after updating the code.
-  This has the same effect as calling [`publish_version`](@ref) separately.
+  This has the same effect as calling `PublishVersion` separately.
 - `"RevisionId"`: Update the function only if the revision ID matches the ID that's
   specified. Use this option to avoid modifying a function that has changed since you last
   read it.

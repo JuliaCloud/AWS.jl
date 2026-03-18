@@ -870,7 +870,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If this is included, it filters the results to only the scrapers that match the filter.
 
-- `"maxResults"`: Optional) The maximum number of scrapers to return in one [`list_scrapers`](@ref)
+- `"maxResults"`: Optional) The maximum number of scrapers to return in one `ListScrapers`
   operation. The range is 1-1000.
 
   If you omit this parameter, the default of 100 is used.

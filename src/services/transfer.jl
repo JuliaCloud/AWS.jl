@@ -2364,7 +2364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Specifies the number of tags to return as a response to the
   `ListTagsForResource` request.
-- `"NextToken"`: When you request additional results from the [`list_tags_for_resource`](@ref)
+- `"NextToken"`: When you request additional results from the `ListTagsForResource`
   operation, a `NextToken` parameter is returned in the input. You can then pass in a
   subsequent command to the `NextToken` parameter to continue listing additional tags.
 """

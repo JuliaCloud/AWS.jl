@@ -35,8 +35,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Configuration"`: A configuration associates the resource group with an Amazon Web
   Services service and specifies how the service can interact with the resources in the
-  group. A configuration is an array of [`group_configuration_item`](@ref) elements. For
-  details about the syntax of service configurations, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
+  group. A configuration is an array of `GroupConfigurationItem` elements. For details about
+  the syntax of service configurations, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
 
   !!! note
       A resource group can contain either a `Configuration` or a `ResourceQuery`, but not
@@ -385,9 +385,9 @@ To run this command, you must have the following permissions:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters, formatted as [`resource_filter`](@ref) objects, that you want to
-  apply to a [`list_group_resources`](@ref) operation. Filters the results to include only
-  those of the specified resource types.
+- `"Filters"`: Filters, formatted as `ResourceFilter` objects, that you want to apply to a
+  `ListGroupResources` operation. Filters the results to include only those of the specified
+  resource types.
 
   - `resource-type` - Filter resources by their type. Specify up to five resource types in
     the format `AWS::ServiceCode::ResourceType`. For example, `AWS::EC2::Instance`, or
@@ -467,8 +467,8 @@ To run this command, you must have the following permissions:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters, formatted as [`group_filter`](@ref) objects, that you want to apply
-  to a [`list_groups`](@ref) operation.
+- `"Filters"`: Filters, formatted as `GroupFilter` objects, that you want to apply to a
+  `ListGroups` operation.
 
   - `resource-type` - Filter the results to include only those resource groups that have the
     specified resource type in their `ResourceTypeFilter`. For example, `AWS::EC2::Instance`
@@ -538,7 +538,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Configuration"`: The new configuration to associate with the specified group. A
   configuration associates the resource group with an Amazon Web Services service and
   specifies how the service can interact with the resources in the group. A configuration is
-  an array of [`group_configuration_item`](@ref) elements.
+  an array of `GroupConfigurationItem` elements.
 
   For information about the syntax of a service configuration, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
 
@@ -592,7 +592,7 @@ To run this command, you must have the following permissions:
 # Arguments
 
 - `resource_query`: The search query, using the same formats that are supported for resource
-  group definition. For more information, see [`create_group`](@ref).
+  group definition. For more information, see `CreateGroup`.
 
 # Optional Parameters
 

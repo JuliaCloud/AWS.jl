@@ -1080,7 +1080,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You received this
-  token from a previous [`list_experiments`](@ref) operation.
+  token from a previous `ListExperiments` operation.
 - `"status"`: Use this optional parameter to limit the returned results to only the
   experiments with the status that you specify here.
 """
@@ -1125,7 +1125,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You received this
-  token from a previous [`list_features`](@ref) operation.
+  token from a previous `ListFeatures` operation.
 """
 function list_features end
 
@@ -1168,7 +1168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You received this
-  token from a previous [`list_launches`](@ref) operation.
+  token from a previous `ListLaunches` operation.
 - `"status"`: Use this optional parameter to limit the returned results to only the launches
   with the status that you specify here.
 """
@@ -1209,7 +1209,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You received this
-  token from a previous [`list_projects`](@ref) operation.
+  token from a previous `ListProjects` operation.
 """
 function list_projects end
 
@@ -1246,7 +1246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to include in the response. If you omit
   this, the default of 50 is used.
 - `"nextToken"`: The token to use when requesting the next set of results. You received this
-  token from a previous [`list_segment_references`](@ref) operation.
+  token from a previous `ListSegmentReferences` operation.
 """
 function list_segment_references end
 
@@ -1290,7 +1290,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to include in the response. If you omit
   this, the default of 50 is used.
 - `"nextToken"`: The token to use when requesting the next set of results. You received this
-  token from a previous [`list_segments`](@ref) operation.
+  token from a previous `ListSegments` operation.
 """
 function list_segments end
 

@@ -101,7 +101,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This can be `null` if you want to add only resources.
 
   What the principals can do with the resources in the share is determined by the RAM
-  permissions that you associate with the resource share. See [`associate_resource_share_permission`](@ref).
+  permissions that you associate with the resource share. See
+  `AssociateResourceSharePermission`.
 
   You can include the following values:
 
@@ -171,7 +172,7 @@ type currently in the resource share.
 
 - `permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the RAM permission to associate with the resource share. To find the ARN for a
-  permission, use either the [`list_permissions`](@ref) operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:)
+  permission, use either the `ListPermissions` operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:)
   page in the RAM console and then choose the name of the permission. The ARN is displayed
   on the detail page.
 
@@ -290,8 +291,7 @@ operation.
 
   The format is `*&lt;service-code&gt;*:*&lt;resource-type&gt;*` and is not case sensitive.
   For example, to specify an Amazon EC2 Subnet, you can use the string `ec2:subnet`. To see
-  the list of valid values for this parameter, query the [`list_resource_types`](@ref)
-  operation.
+  the list of valid values for this parameter, query the `ListResourceTypes` operation.
 
 # Optional Parameters
 
@@ -624,9 +624,10 @@ least one version before you can create another.
   first create another version, or delete the permission completely.
 
   You can't delete a version if it is attached to any resource shares. If the version is the
-  default, you must first use [`set_default_permission_version`](@ref) to set a different
-  version as the default for the customer managed permission, and then use [`associate_resource_share_permission`](@ref)
-  to update your resource shares to use the new default version.
+  default, you must first use `SetDefaultPermissionVersion` to set a different version as
+  the default for the customer managed permission, and then use
+  `AssociateResourceSharePermission` to update your resource shares to use the new default
+  version.
 
 # Optional Parameters
 
@@ -953,7 +954,7 @@ Retrieves the contents of a managed permission in JSON format.
 
 - `permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the permission whose contents you want to retrieve. To find the ARN for a permission,
-  use either the [`list_permissions`](@ref) operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:)
+  use either the `ListPermissions` operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:)
   page in the RAM console and then choose the name of the permission. The ARN is displayed
   on the detail page.
 
@@ -964,7 +965,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"permissionVersion"`: Specifies the version number of the RAM permission to retrieve. If
   you don't specify this parameter, the operation retrieves the default version.
 
-  To see the list of available versions, use [`list_permission_versions`](@ref).
+  To see the list of available versions, use `ListPermissionVersions`.
 """
 function get_permission end
 
@@ -1284,8 +1285,8 @@ invitation hasn't expired.
 # Arguments
 
 - `resource_share_invitation_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-  of the invitation. You can use [`get_resource_share_invitations`](@ref) to find the ARN of
-  the invitation.
+  of the invitation. You can use `GetResourceShareInvitations` to find the ARN of the
+  invitation.
 
 # Optional Parameters
 
@@ -1432,8 +1433,8 @@ Lists the available versions of the specified RAM permission.
 
 - `permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the RAM permission whose versions you want to list. You can use the `permissionVersion`
-  parameter on the [`associate_resource_share_permission`](@ref) operation to specify a non-
-  default version to attach.
+  parameter on the `AssociateResourceSharePermission` operation to specify a non-default
+  version to attach.
 
 # Optional Parameters
 
@@ -1521,8 +1522,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified resource type. This parameter is not case sensitive.
 
   For example, to list only permissions that apply to Amazon EC2 subnets, specify
-  `ec2:subnet`. You can use the [`list_resource_types`](@ref) operation to get the specific
-  string required.
+  `ec2:subnet`. You can use the `ListResourceTypes` operation to get the specific string
+  required.
 """
 function list_permissions end
 
@@ -1605,7 +1606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceType"`: Specifies that you want to list information for only principals
   associated with resource shares that include the specified resource type.
 
-  For a list of valid values, query the [`list_resource_types`](@ref) operation.
+  For a list of valid values, query the `ListResourceTypes` operation.
 """
 function list_principals end
 
@@ -1639,8 +1640,8 @@ end
     list_replace_permission_associations_work()
     list_replace_permission_associations_work(params::Dict{String,<:Any})
 
-Retrieves the current status of the asynchronous tasks performed by RAM when you perform the [`replace_permission_associations_work`](@ref)
-operation.
+Retrieves the current status of the asynchronous tasks performed by RAM when you perform the
+`ReplacePermissionAssociationsWork` operation.
 
 # Optional Parameters
 
@@ -1664,8 +1665,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that matches this value.
 
 - `"workIds"`: A list of IDs. These values come from the `id`field of the
-  `replacePermissionAssociationsWork`structure returned by the [`replace_permission_associations`](@ref)
-  operation.
+  `replacePermissionAssociationsWork`structure returned by the
+  `ReplacePermissionAssociations` operation.
 """
 function list_replace_permission_associations_work end
 
@@ -1860,7 +1861,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceType"`: Specifies that you want to list only the resource shares that include
   resources of the specified resource type.
 
-  For valid values, query the [`list_resource_types`](@ref) operation.
+  For valid values, query the `ListResourceTypes` operation.
 """
 function list_resources end
 
@@ -1925,7 +1926,7 @@ be associated with the promoted resource share.
 - `name`: Specifies a name for the promoted customer managed permission.
 - `permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the `CREATED_FROM_POLICY` permission that you want to promote. You can get this [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-  by calling the [`list_resource_share_permissions`](@ref) operation.
+  by calling the `ListResourceSharePermissions` operation.
 
 # Optional Parameters
 
@@ -2203,7 +2204,7 @@ to update them.
   of the customer managed permission whose default version you want to change.
 - `permission_version`: Specifies the version number that you want to designate as the
   default for customer managed permission. To see a list of all available version numbers,
-  use [`list_permission_versions`](@ref).
+  use `ListPermissionVersions`.
 
 # Optional Parameters
 

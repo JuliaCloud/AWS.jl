@@ -585,8 +585,8 @@ end
     get_data_endpoint(apiname, params::Dict{String,<:Any})
 
 Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in
-your application to read from the specified stream (using the `GetMedia` or [`get_media_for_fragment_list`](@ref)
-operations) or write to it (using the [`put_media`](@ref) operation).
+your application to read from the specified stream (using the `GetMedia` or
+`GetMediaForFragmentList` operations) or write to it (using the `PutMedia` operation).
 
 !!! note
     The returned endpoint does not have the API name appended. The client needs to add the
@@ -710,9 +710,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of edge configurations to return in the response. The
   default is 5.
-- `"NextToken"`: If you specify this parameter, when the result of a [`list_edge_agent_configurations`](@ref)
-  operation is truncated, the call returns the `NextToken` in the response. To get another
-  batch of edge configurations, provide this token in your next request.
+- `"NextToken"`: If you specify this parameter, when the result of a
+  `ListEdgeAgentConfigurations` operation is truncated, the call returns the `NextToken` in
+  the response. To get another batch of edge configurations, provide this token in your next
+  request.
 """
 function list_edge_agent_configurations end
 
@@ -760,7 +761,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   condition.
 - `"MaxResults"`: The maximum number of channels to return in the response. The default is
   500.
-- `"NextToken"`: If you specify this parameter, when the result of a [`list_signaling_channels`](@ref)
+- `"NextToken"`: If you specify this parameter, when the result of a `ListSignalingChannels`
   operation is truncated, the call returns the `NextToken` in the response. To get another
   batch of channels, provide this token in your next request.
 """
@@ -800,9 +801,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of streams to return in the response. The default is
   10,000.
-- `"NextToken"`: If you specify this parameter, when the result of a [`list_streams`](@ref)
-  operation is truncated, the call returns the `NextToken` in the response. To get another
-  batch of streams, provide this token in your next request.
+- `"NextToken"`: If you specify this parameter, when the result of a `ListStreams` operation
+  is truncated, the call returns the `NextToken` in the response. To get another batch of
+  streams, provide this token in your next request.
 - `"StreamNameCondition"`: Optional: Returns only streams that satisfy a specific condition.
   Currently, you can specify only the prefix of a stream name as a condition.
 """

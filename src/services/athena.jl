@@ -10,12 +10,12 @@ using AWS.UUIDs
 
 Returns the details of a single named query or a list of up to 50 queries, which you provide
 as an array of query ID strings. Requires you to have access to the workgroup in which the
-queries were saved. Use [`list_named_queries_input`](@ref) to get the list of named query
-IDs in the specified workgroup. If information could not be retrieved for a submitted query
-ID, information about the query ID submitted is listed under [`unprocessed_named_query_id`](@ref).
-Named queries differ from executed queries. Use [`batch_get_query_execution_input`](@ref) to
-get details about each unique query execution, and [`list_query_executions_input`](@ref) to
-get a list of query execution IDs.
+queries were saved. Use `ListNamedQueriesInput` to get the list of named query IDs in the
+specified workgroup. If information could not be retrieved for a submitted query ID,
+information about the query ID submitted is listed under `UnprocessedNamedQueryId`. Named
+queries differ from executed queries. Use `BatchGetQueryExecutionInput` to get details about
+each unique query execution, and `ListQueryExecutionsInput` to get a list of query execution
+IDs.
 
 # Arguments
 
@@ -108,9 +108,9 @@ end
 
 Returns the details of a single query execution or a list of up to 50 query executions,
 which you provide as an array of query execution ID strings. Requires you to have access to
-the workgroup in which the queries ran. To get a list of query execution IDs, use [`list_query_executions_input\$_work_group`](@ref).
-Query executions differ from named (saved) queries. Use [`batch_get_named_query_input`](@ref)
-to get details about named queries.
+the workgroup in which the queries ran. To get a list of query execution IDs, use
+`ListQueryExecutionsInput\$WorkGroup`. Query executions differ from named (saved) queries.
+Use `BatchGetNamedQueryInput` to get details about named queries.
 
 # Arguments
 
@@ -567,7 +567,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff)
   per query, if it is specified, and whether workgroup's settings (specified with
   `EnforceWorkGroupConfiguration`) in the `WorkGroupConfiguration` override client-side
-  settings. See [`work_group_configuration\$_enforce_work_group_configuration`](@ref).
+  settings. See `WorkGroupConfiguration\$EnforceWorkGroupConfiguration`.
 
 - `"Description"`: The workgroup description.
 
@@ -1166,8 +1166,7 @@ which the query was saved.
 
 # Arguments
 
-- `named_query_id`: The unique ID of the query. Use [`list_named_queries`](@ref) to get
-  query IDs.
+- `named_query_id`: The unique ID of the query. Use `ListNamedQueries` to get query IDs.
 """
 function get_named_query end
 
@@ -1389,8 +1388,8 @@ end
 
 Returns query execution runtime statistics related to a single execution of a query if you
 have access to the workgroup in which the query ran. Statistics from the `Timeline` section
-of the response object are available as soon as [`query_execution_status\$_state`](@ref) is
-in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like
+of the response object are available as soon as `QueryExecutionStatus\$State` is in a
+SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like
 stage-level input and output row count and data size) are updated asynchronously and may not
 be available immediately after a query completes. The non-timeline statistics are also not
 included when a query has row-level filters defined in Lake Formation.
@@ -2465,10 +2464,10 @@ Submits calculations for execution within a session. You can supply the code to 
 inline code block within the request.
 
 !!! note
-    The request syntax requires the [`start_calculation_execution_request\$_code_block`](@ref)
-    parameter or the [`calculation_configuration\$_code_block`](@ref) parameter, but not
-    both. Because [`calculation_configuration\$_code_block`](@ref) is deprecated, use the [`start_calculation_execution_request\$_code_block`](@ref)
-    parameter instead.
+    The request syntax requires the `StartCalculationExecutionRequest\$CodeBlock` parameter
+    or the `CalculationConfiguration\$CodeBlock` parameter, but not both. Because
+    `CalculationConfiguration\$CodeBlock` is deprecated, use the
+    `StartCalculationExecutionRequest\$CodeBlock` parameter instead.
 
 # Arguments
 
@@ -2492,7 +2491,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       this token or the action will fail.
 
 - `"CodeBlock"`: A string that contains the code of the calculation. Use this parameter
-  instead of [`calculation_configuration\$_code_block`](@ref), which is deprecated.
+  instead of `CalculationConfiguration\$CodeBlock`, which is deprecated.
 
 - `"Description"`: A description of the calculation.
 """
@@ -2565,7 +2564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the query execution. If the query runs in a workgroup, then workgroup's settings may
   override query settings. This affects the query results location. The workgroup settings
   override is specified in EnforceWorkGroupConfiguration (true/false) in the
-  WorkGroupConfiguration. See [`work_group_configuration\$_enforce_work_group_configuration`](@ref).
+  WorkGroupConfiguration. See `WorkGroupConfiguration\$EnforceWorkGroupConfiguration`.
 
 - `"ResultReuseConfiguration"`: Specifies the query result reuse behavior for the query.
 
@@ -2640,7 +2639,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotebookVersion"`: The notebook version. This value is supplied automatically for
   notebook sessions in the Athena console and is not required for programmatic session
   access. The only valid notebook version is `Athena notebook version 1`. If you specify a
-  value for `NotebookVersion`, you must also specify a value for `NotebookId`. See [`engine_configuration\$_additional_configs`](@ref).
+  value for `NotebookVersion`, you must also specify a value for `NotebookId`. See
+  `EngineConfiguration\$AdditionalConfigs`.
 
 - `"SessionIdleTimeoutInMinutes"`: The idle timeout in minutes for the session.
 """
@@ -3021,7 +3021,7 @@ end
     update_named_query(name, named_query_id, query_string)
     update_named_query(name, named_query_id, query_string, params::Dict{String,<:Any})
 
-Updates a [`named_query`](@ref) object. The database or workgroup cannot be updated.
+Updates a `NamedQuery` object. The database or workgroup cannot be updated.
 
 # Arguments
 

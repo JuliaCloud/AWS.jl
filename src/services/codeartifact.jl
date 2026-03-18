@@ -140,9 +140,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     component, package versions of those formats do not have a namespace.
 
 - `"versionRevisions"`: A list of key-value pairs. The keys are package versions and the
-  values are package version revisions. A [`copy_package_version`](@ref) operation succeeds
-  if the specified versions in the source repository match the specified package version
-  revision.
+  values are package version revisions. A `CopyPackageVersion` operation succeeds if the
+  specified versions in the source repository match the specified package version revision.
 
   !!! note
       You must specify `versions` or `versionRevisions`. You cannot specify both.

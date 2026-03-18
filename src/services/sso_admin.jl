@@ -8,7 +8,7 @@ using AWS.UUIDs
     attach_customer_managed_policy_reference_to_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn)
     attach_customer_managed_policy_reference_to_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Attaches the specified customer managed policy to the specified [`permission_set`](@ref).
+Attaches the specified customer managed policy to the specified `PermissionSet`.
 
 # Arguments
 
@@ -83,8 +83,8 @@ Attaches an Amazon Web Services managed policy ARN to a permission set.
   in the *Amazon Web Services General Reference*.
 - `managed_policy_arn`: The Amazon Web Services managed policy ARN to be attached to a
   permission set.
-- `permission_set_arn`: The ARN of the [`permission_set`](@ref) that the managed policy
-  should be attached to.
+- `permission_set_arn`: The ARN of the `PermissionSet` that the managed policy should be
+  attached to.
 """
 function attach_managed_policy_to_permission_set end
 
@@ -511,18 +511,18 @@ Creates a permission set within a specified IAM Identity Center instance.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
   be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
-- `name`: The name of the [`permission_set`](@ref).
+- `name`: The name of the `PermissionSet`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Description"`: The description of the [`permission_set`](@ref).
+- `"Description"`: The description of the `PermissionSet`.
 - `"RelayState"`: Used to redirect users within the application during the federation
   authentication process.
 - `"SessionDuration"`: The length of time that the application user sessions are valid in
   the ISO-8601 standard.
-- `"Tags"`: The tags to attach to the new [`permission_set`](@ref).
+- `"Tags"`: The tags to attach to the new `PermissionSet`.
 """
 function create_permission_set end
 
@@ -1159,7 +1159,7 @@ end
     delete_permissions_boundary_from_permission_set(instance_arn, permission_set_arn)
     delete_permissions_boundary_from_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Deletes the permissions boundary from a specified [`permission_set`](@ref).
+Deletes the permissions boundary from a specified `PermissionSet`.
 
 # Arguments
 
@@ -1661,8 +1661,8 @@ Describes the status for the given permission set provisioning request.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
   be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
-- `provision_permission_set_request_id`: The identifier that is provided by the [`provision_permission_set`](@ref)
-  call to retrieve the current status of the provisioning workflow.
+- `provision_permission_set_request_id`: The identifier that is provided by the
+  `ProvisionPermissionSet` call to retrieve the current status of the provisioning workflow.
 """
 function describe_permission_set_provisioning_status end
 
@@ -1755,7 +1755,7 @@ end
     detach_customer_managed_policy_reference_from_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn)
     detach_customer_managed_policy_reference_from_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Detaches the specified customer managed policy from the specified [`permission_set`](@ref).
+Detaches the specified customer managed policy from the specified `PermissionSet`.
 
 # Arguments
 
@@ -1825,8 +1825,8 @@ set.
   in the *Amazon Web Services General Reference*.
 - `managed_policy_arn`: The Amazon Web Services managed policy ARN to be detached from a
   permission set.
-- `permission_set_arn`: The ARN of the [`permission_set`](@ref) from which the policy should
-  be detached.
+- `permission_set_arn`: The ARN of the `PermissionSet` from which the policy should be
+  detached.
 """
 function detach_managed_policy_from_permission_set end
 
@@ -2111,7 +2111,7 @@ end
     get_permissions_boundary_for_permission_set(instance_arn, permission_set_arn)
     get_permissions_boundary_for_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Obtains the permissions boundary for a specified [`permission_set`](@ref).
+Obtains the permissions boundary for a specified `PermissionSet`.
 
 # Arguments
 
@@ -2417,14 +2417,14 @@ provisioned.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
   be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
-- `permission_set_arn`: The ARN of the [`permission_set`](@ref) from which the associated
-  Amazon Web Services accounts will be listed.
+- `permission_set_arn`: The ARN of the `PermissionSet` from which the associated Amazon Web
+  Services accounts will be listed.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of results to display for the [`permission_set`](@ref).
+- `"MaxResults"`: The maximum number of results to display for the `PermissionSet`.
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
   output of previous API calls to make subsequent calls.
 - `"ProvisioningStatus"`: The permission set provisioning status for an Amazon Web Services
@@ -2858,7 +2858,7 @@ end
     list_customer_managed_policy_references_in_permission_set(instance_arn, permission_set_arn)
     list_customer_managed_policy_references_in_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Lists all customer managed policies attached to a specified [`permission_set`](@ref).
+Lists all customer managed policies attached to a specified `PermissionSet`.
 
 # Arguments
 
@@ -2953,14 +2953,14 @@ Lists the Amazon Web Services managed policy that is attached to a specified per
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
   be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
-- `permission_set_arn`: The ARN of the [`permission_set`](@ref) whose managed policies will
-  be listed.
+- `permission_set_arn`: The ARN of the `PermissionSet` whose managed policies will be
+  listed.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of results to display for the [`permission_set`](@ref).
+- `"MaxResults"`: The maximum number of results to display for the `PermissionSet`.
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
   output of previous API calls to make subsequent calls.
 """
@@ -3055,7 +3055,7 @@ end
     list_permission_sets(instance_arn)
     list_permission_sets(instance_arn, params::Dict{String,<:Any})
 
-Lists the [`permission_set`](@ref)s in an IAM Identity Center instance.
+Lists the `PermissionSet`s in an IAM Identity Center instance.
 
 # Arguments
 
@@ -3563,7 +3563,7 @@ Attaches an inline policy to a permission set.
 
 # Arguments
 
-- `inline_policy`: The inline policy to attach to a [`permission_set`](@ref).
+- `inline_policy`: The inline policy to attach to a `PermissionSet`.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
   be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
@@ -3618,8 +3618,8 @@ end
     put_permissions_boundary_to_permission_set(instance_arn, permission_set_arn, permissions_boundary)
     put_permissions_boundary_to_permission_set(instance_arn, permission_set_arn, permissions_boundary, params::Dict{String,<:Any})
 
-Attaches an Amazon Web Services managed or customer managed policy to the specified [`permission_set`](@ref)
-as a permissions boundary.
+Attaches an Amazon Web Services managed or customer managed policy to the specified
+`PermissionSet` as a permissions boundary.
 
 # Arguments
 
@@ -3953,7 +3953,7 @@ Updates an existing permission set.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Description"`: The description of the [`permission_set`](@ref).
+- `"Description"`: The description of the `PermissionSet`.
 - `"RelayState"`: Used to redirect users within the application during the federation
   authentication process.
 - `"SessionDuration"`: The length of time that the application user sessions are valid for

@@ -248,7 +248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     replication.
 
   !!! note
-      `CLONE` isn't a valid copy strategy option for the [`copy_snapshot_and_update_volume`](@ref)
+      `CLONE` isn't a valid copy strategy option for the `CopySnapshotAndUpdateVolume`
       operation.
 
 - `"Options"`: Confirms that you want to delete data on the destination volume that wasn’t
@@ -359,7 +359,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FileSystemId"`: The ID of the file system to back up.
 - `"Tags"`: (Optional) The tags to apply to the backup at backup creation. The key value of
   the `Name` tag appears in the console as the backup name. If you have set
-  `CopyTagsToBackups` to `true`, and you specify one or more tags using the [`create_backup`](@ref)
+  `CopyTagsToBackups` to `true`, and you specify one or more tags using the `CreateBackup`
   operation, no existing file system tags are copied from the file system to the backup.
 - `"VolumeId"`: (Optional) The ID of the FSx for ONTAP volume to back up.
 """
@@ -661,12 +661,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   63 ASCII characters. This token is automatically filled on your behalf when you use the
 Command Line Interface (CLI) or an Amazon Web Services SDK.
 
-  By using the idempotent operation, you can retry a [`create_file_cache`](@ref) operation
-  without the risk of creating an extra cache. This approach can be useful when an initial
-  call fails in a way that makes it unclear whether a cache was created. Examples are if a
-  transport level timeout occurred, or your connection was reset. If you use the same client
-  request token and the initial call created a cache, the client receives success as long as
-  the parameters are the same.
+  By using the idempotent operation, you can retry a `CreateFileCache` operation without the
+  risk of creating an extra cache. This approach can be useful when an initial call fails in
+  a way that makes it unclear whether a cache was created. Examples are if a transport level
+  timeout occurred, or your connection was reset. If you use the same client request token
+  and the initial call created a cache, the client receives success as long as the
+  parameters are the same.
 
 - `"CopyTagsToDataRepositoryAssociations"`: A boolean flag indicating whether tags for the
   cache should be copied to data repository associations. This value defaults to false.
@@ -1590,8 +1590,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ensure idempotent deletion. This token is automatically filled on your behalf when using
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `"LustreConfiguration"`:
-- `"OpenZFSConfiguration"`: The configuration object for the OpenZFS file system used in the [`delete_file_system`](@ref)
-  operation.
+- `"OpenZFSConfiguration"`: The configuration object for the OpenZFS file system used in the
+  `DeleteFileSystem` operation.
 - `"WindowsConfiguration"`:
 """
 function delete_file_system end
@@ -1831,7 +1831,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must be greater than 0. The number of items that Amazon FSx returns is the minimum of the
   `MaxResults` parameter specified in the request and the service's internal maximum number
   of items per page.
-- `"NextToken"`: An opaque pagination token returned from a previous [`describe_backups`](@ref)
+- `"NextToken"`: An opaque pagination token returned from a previous `DescribeBackups`
   operation. If a token is present, the operation continues the list from where the
   returning call left off.
 """
@@ -2012,7 +2012,7 @@ end
 
 Returns the DNS aliases that are associated with the specified Amazon FSx for Windows File
 Server file system. A history of all DNS aliases that have been associated with and
-disassociated from the file system is available in the list of [`administrative_action`](@ref)
+disassociated from the file system is available in the list of `AdministrativeAction`
 provided in the [`describe_file_systems`](@ref) operation response.
 
 # Arguments
@@ -2029,9 +2029,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter value must be greater than 0. The number of items that Amazon FSx returns is the
   minimum of the `MaxResults` parameter specified in the request and the service's internal
   maximum number of items per page.
-- `"NextToken"`: Opaque pagination token returned from a previous [`describe_file_system_aliases`](@ref)
-  operation (String). If a token is included in the request, the action continues the list
-  from where the previous returning call left off.
+- `"NextToken"`: Opaque pagination token returned from a previous
+  `DescribeFileSystemAliases` operation (String). If a token is included in the request, the
+  action continues the list from where the previous returning call left off.
 """
 function describe_file_system_aliases end
 
@@ -2107,7 +2107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter value must be greater than 0. The number of items that Amazon FSx returns is the
   minimum of the `MaxResults` parameter specified in the request and the service's internal
   maximum number of items per page.
-- `"NextToken"`: Opaque pagination token returned from a previous [`describe_file_systems`](@ref)
+- `"NextToken"`: Opaque pagination token returned from a previous `DescribeFileSystems`
   operation (String). If a token present, the operation continues the list from where the
   returning call left off.
 """
@@ -2382,7 +2382,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value must be greater than 0. The number of items that Amazon FSx returns is the minimum
   of the `MaxResults` parameter specified in the request and the service's internal maximum
   number of items per page.
-- `"NextToken"`: Opaque pagination token returned from a previous [`list_tags_for_resource`](@ref)
+- `"NextToken"`: Opaque pagination token returned from a previous `ListTagsForResource`
   operation (String). If a token present, the action continues the list from where the
   returning call left off.
 """

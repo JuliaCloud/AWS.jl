@@ -351,7 +351,7 @@ stage.
 # Arguments
 
 - `participant_id`: Identifier of the participant to be disconnected. This is assigned by
-  IVS and returned by [`create_participant_token`](@ref).
+  IVS and returned by `CreateParticipantToken`.
 - `stage_arn`: ARN of the stage to which the participant is attached.
 
 # Optional Parameters
@@ -472,7 +472,7 @@ Gets information about the specified participant token.
 # Arguments
 
 - `participant_id`: Unique identifier for the participant. This is assigned by IVS and
-  returned by [`create_participant_token`](@ref).
+  returned by `CreateParticipantToken`.
 - `session_id`: ID of a session within the stage.
 - `stage_arn`: Stage ARN.
 """
@@ -805,7 +805,7 @@ Lists events for a specified participant that occurred during a specified stage 
 # Arguments
 
 - `participant_id`: Unique identifier for this participant. This is assigned by IVS and
-  returned by [`create_participant_token`](@ref).
+  returned by `CreateParticipantToken`.
 - `session_id`: ID of a session within the stage.
 - `stage_arn`: Stage ARN.
 

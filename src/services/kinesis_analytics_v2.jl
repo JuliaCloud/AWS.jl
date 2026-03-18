@@ -22,15 +22,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
   updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`. You
-  get the application's current `ConditionalToken` using [`describe_application`](@ref). For
-  better concurrency support, use the `ConditionalToken` parameter instead of
+  get the application's current `ConditionalToken` using `DescribeApplication`. For better
+  concurrency support, use the `ConditionalToken` parameter instead of
   `CurrentApplicationVersionId`.
 
 - `"CurrentApplicationVersionId"`: The version ID of the SQL-based Kinesis Data Analytics
   application. You must provide the `CurrentApplicationVersionId` or the
-  `ConditionalToken`.You can retrieve the application version ID using [`describe_application`](@ref).
-  For better concurrency support, use the `ConditionalToken` parameter instead of
-  `CurrentApplicationVersionId`.
+  `ConditionalToken`.You can retrieve the application version ID using
+  `DescribeApplication`. For better concurrency support, use the `ConditionalToken`
+  parameter instead of `CurrentApplicationVersionId`.
 """
 function add_application_cloud_watch_logging_option end
 
@@ -91,9 +91,9 @@ operation to find the current application version.
 - `application_name`: The name of your existing application to which you want to add the
   streaming source.
 - `current_application_version_id`: The current version of your application. You must
-  provide the `ApplicationVersionID` or the `ConditionalToken`.You can use the [`describe_application`](@ref)
-  operation to find the current application version.
-- `input`: The [`input`](@ref) to add.
+  provide the `ApplicationVersionID` or the `ConditionalToken`.You can use the
+  `DescribeApplication` operation to find the current application version.
+- `input`: The `Input` to add.
 """
 function add_application_input end
 
@@ -144,23 +144,23 @@ end
     add_application_input_processing_configuration(application_name, current_application_version_id, input_id, input_processing_configuration)
     add_application_input_processing_configuration(application_name, current_application_version_id, input_id, input_processing_configuration, params::Dict{String,<:Any})
 
-Adds an [`input_processing_configuration`](@ref) to a SQL-based Kinesis Data Analytics
-application. An input processor pre-processes records on the input stream before the
-application's SQL code executes. Currently, the only input processor available is [Amazon Lambda](https://docs.aws.amazon.com/lambda/).
+Adds an `InputProcessingConfiguration` to a SQL-based Kinesis Data Analytics application. An
+input processor pre-processes records on the input stream before the application's SQL code
+executes. Currently, the only input processor available is [Amazon Lambda](https://docs.aws.amazon.com/lambda/).
 
 # Arguments
 
 - `application_name`: The name of the application to which you want to add the input
   processing configuration.
 - `current_application_version_id`: The version of the application to which you want to add
-  the input processing configuration. You can use the [`describe_application`](@ref)
-  operation to get the current application version. If the version specified is not the
-  current version, the `ConcurrentModificationException` is returned.
+  the input processing configuration. You can use the `DescribeApplication` operation to get
+  the current application version. If the version specified is not the current version, the
+  `ConcurrentModificationException` is returned.
 - `input_id`: The ID of the input configuration to add the input processing configuration
-  to. You can get a list of the input IDs for an application using the [`describe_application`](@ref)
+  to. You can get a list of the input IDs for an application using the `DescribeApplication`
   operation.
-- `input_processing_configuration`: The [`input_processing_configuration`](@ref) to add to
-  the application.
+- `input_processing_configuration`: The `InputProcessingConfiguration` to add to the
+  application.
 """
 function add_application_input_processing_configuration end
 
@@ -236,8 +236,8 @@ operation to find the current application version.
 - `application_name`: The name of the application to which you want to add the output
   configuration.
 - `current_application_version_id`: The version of the application to which you want to add
-  the output configuration. You can use the [`describe_application`](@ref) operation to get
-  the current application version. If the version specified is not the current version, the
+  the output configuration. You can use the `DescribeApplication` operation to get the
+  current application version. If the version specified is not the current version, the
   `ConcurrentModificationException` is returned.
 - `output`: An array of objects, each describing one output configuration. In the output
   configuration, you specify the name of an in-application stream, a destination (that is, a
@@ -305,8 +305,8 @@ in the resulting in-application table.
 
 - `application_name`: The name of an existing application.
 - `current_application_version_id`: The version of the application for which you are adding
-  the reference data source. You can use the [`describe_application`](@ref) operation to get
-  the current application version. If the version specified is not the current version, the
+  the reference data source. You can use the `DescribeApplication` operation to get the
+  current application version. If the version specified is not the current version, the
   `ConcurrentModificationException` is returned.
 - `reference_data_source`: The reference data source can be an object in your Amazon S3
   bucket. Kinesis Data Analytics reads the object and copies the data into the in-
@@ -384,14 +384,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
   updates. You must provide the `ApplicationVersionID` or the `ConditionalToken`. You get
-  the application's current `ConditionalToken` using [`describe_application`](@ref). For
-  better concurrency support, use the `ConditionalToken` parameter instead of
+  the application's current `ConditionalToken` using `DescribeApplication`. For better
+  concurrency support, use the `ConditionalToken` parameter instead of
   `CurrentApplicationVersionId`.
 
 - `"CurrentApplicationVersionId"`: The version of the application to which you want to add
   the VPC configuration. You must provide the `CurrentApplicationVersionId` or the
-  `ConditionalToken`. You can use the [`describe_application`](@ref) operation to get the
-  current application version. If the version specified is not the current version, the
+  `ConditionalToken`. You can use the `DescribeApplication` operation to get the current
+  application version. If the version specified is not the current version, the
   `ConcurrentModificationException` is returned. For better concurrency support, use the
   `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
 """
@@ -635,7 +635,7 @@ execution and deletes the application.
 # Arguments
 
 - `application_name`: The name of the application to delete.
-- `create_timestamp`: Use the [`describe_application`](@ref) operation to get this value.
+- `create_timestamp`: Use the `DescribeApplication` operation to get this value.
 """
 function delete_application end
 
@@ -686,8 +686,8 @@ application.
 
 - `application_name`: The application name.
 - `cloud_watch_logging_option_id`: The `CloudWatchLoggingOptionId` of the Amazon CloudWatch
-  logging option to delete. You can get the `CloudWatchLoggingOptionId` by using the [`describe_application`](@ref)
-  operation.
+  logging option to delete. You can get the `CloudWatchLoggingOptionId` by using the
+  `DescribeApplication` operation.
 
 # Optional Parameters
 
@@ -695,13 +695,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
   updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`. You
-  get the application's current `ConditionalToken` using [`describe_application`](@ref). For
-  better concurrency support, use the `ConditionalToken` parameter instead of
+  get the application's current `ConditionalToken` using `DescribeApplication`. For better
+  concurrency support, use the `ConditionalToken` parameter instead of
   `CurrentApplicationVersionId`.
 
 - `"CurrentApplicationVersionId"`: The version ID of the application. You must provide the
   `CurrentApplicationVersionId` or the `ConditionalToken`. You can retrieve the application
-  version ID using [`describe_application`](@ref). For better concurrency support, use the
+  version ID using `DescribeApplication`. For better concurrency support, use the
   `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
 """
 function delete_application_cloud_watch_logging_option end
@@ -749,17 +749,17 @@ end
     delete_application_input_processing_configuration(application_name, current_application_version_id, input_id)
     delete_application_input_processing_configuration(application_name, current_application_version_id, input_id, params::Dict{String,<:Any})
 
-Deletes an [`input_processing_configuration`](@ref) from an input.
+Deletes an `InputProcessingConfiguration` from an input.
 
 # Arguments
 
 - `application_name`: The name of the application.
-- `current_application_version_id`: The application version. You can use the [`describe_application`](@ref)
-  operation to get the current application version. If the version specified is not the
-  current version, the `ConcurrentModificationException` is returned.
+- `current_application_version_id`: The application version. You can use the
+  `DescribeApplication` operation to get the current application version. If the version
+  specified is not the current version, the `ConcurrentModificationException` is returned.
 - `input_id`: The ID of the input configuration from which to delete the input processing
-  configuration. You can get a list of the input IDs for an application by using the [`describe_application`](@ref)
-  operation.
+  configuration. You can get a list of the input IDs for an application by using the
+  `DescribeApplication` operation.
 """
 function delete_application_input_processing_configuration end
 
@@ -818,15 +818,16 @@ corresponding in-application stream to the external output destination.
 
 - `application_name`: The application name.
 
-- `current_application_version_id`: The application version. You can use the [`describe_application`](@ref)
-  operation to get the current application version. If the version specified is not the
-  current version, the `ConcurrentModificationException` is returned.
+- `current_application_version_id`: The application version. You can use the
+  `DescribeApplication` operation to get the current application version. If the version
+  specified is not the current version, the `ConcurrentModificationException` is returned.
 
 - `output_id`: The ID of the configuration to delete. Each output configuration that is
-  added to the application (either when the application is created or later) using the [`add_application_output`](@ref)
-  operation has a unique ID. You need to provide the ID to uniquely identify the output
-  configuration that you want to delete from the application configuration. You can use the [`describe_application`](@ref)
-  operation to get the specific `OutputId`.
+  added to the application (either when the application is created or later) using the
+  `AddApplicationOutput` operation has a unique ID. You need to provide the ID to uniquely
+  identify the output configuration that you want to delete from the application
+  configuration. You can use the `DescribeApplication` operation to get the specific
+  `OutputId`.
 """
 function delete_application_output end
 
@@ -886,13 +887,12 @@ table that you created using the [`add_application_reference_data_source`](@ref)
 # Arguments
 
 - `application_name`: The name of an existing application.
-- `current_application_version_id`: The current application version. You can use the [`describe_application`](@ref)
-  operation to get the current application version. If the version specified is not the
-  current version, the `ConcurrentModificationException` is returned.
+- `current_application_version_id`: The current application version. You can use the
+  `DescribeApplication` operation to get the current application version. If the version
+  specified is not the current version, the `ConcurrentModificationException` is returned.
 - `reference_id`: The ID of the reference data source. When you add a reference data source
-  to your application using the [`add_application_reference_data_source`](@ref), Kinesis
-  Data Analytics assigns an ID. You can use the [`describe_application`](@ref) operation to
-  get the reference ID.
+  to your application using the `AddApplicationReferenceDataSource`, Kinesis Data Analytics
+  assigns an ID. You can use the `DescribeApplication` operation to get the reference ID.
 """
 function delete_application_reference_data_source end
 
@@ -1014,13 +1014,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
   updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`. You
-  get the application's current `ConditionalToken` using [`describe_application`](@ref). For
-  better concurrency support, use the `ConditionalToken` parameter instead of
+  get the application's current `ConditionalToken` using `DescribeApplication`. For better
+  concurrency support, use the `ConditionalToken` parameter instead of
   `CurrentApplicationVersionId`.
 
 - `"CurrentApplicationVersionId"`: The current application version ID. You must provide the
   `CurrentApplicationVersionId` or the `ConditionalToken`. You can retrieve the application
-  version ID using [`describe_application`](@ref). For better concurrency support, use the
+  version ID using `DescribeApplication`. For better concurrency support, use the
   `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
 """
 function delete_application_vpc_configuration end
@@ -1289,8 +1289,8 @@ this operation to infer a schema and show it in the console user interface.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"InputProcessingConfiguration"`: The [`input_processing_configuration`](@ref) to use to
-  preprocess the records before discovering the schema of the records.
+- `"InputProcessingConfiguration"`: The `InputProcessingConfiguration` to use to preprocess
+  the records before discovering the schema of the records.
 - `"InputStartingPositionConfiguration"`: The point at which you want Kinesis Data Analytics
   to start reading records from the specified streaming source for discovery purposes.
 - `"ResourceARN"`: The Amazon Resource Name (ARN) of the streaming source.
@@ -1575,7 +1575,7 @@ request.
 
 - `application_name`: The name of the application.
 - `current_application_version_id`: The current application version ID. You can retrieve the
-  application version ID using [`describe_application`](@ref).
+  application version ID using `DescribeApplication`.
 """
 function rollback_application end
 
@@ -1842,17 +1842,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CloudWatchLoggingOptionUpdates"`: Describes application Amazon CloudWatch logging option
   updates. You can only update existing CloudWatch logging options with this action. To add
-  a new CloudWatch logging option, use [`add_application_cloud_watch_logging_option`](@ref).
+  a new CloudWatch logging option, use `AddApplicationCloudWatchLoggingOption`.
 
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
   updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`. You
-  get the application's current `ConditionalToken` using [`describe_application`](@ref). For
-  better concurrency support, use the `ConditionalToken` parameter instead of
+  get the application's current `ConditionalToken` using `DescribeApplication`. For better
+  concurrency support, use the `ConditionalToken` parameter instead of
   `CurrentApplicationVersionId`.
 
 - `"CurrentApplicationVersionId"`: The current application version ID. You must provide the
   `CurrentApplicationVersionId` or the `ConditionalToken`.You can retrieve the application
-  version ID using [`describe_application`](@ref). For better concurrency support, use the
+  version ID using `DescribeApplication`. For better concurrency support, use the
   `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
 
 - `"RunConfigurationUpdate"`: Describes updates to the application's starting parameters.

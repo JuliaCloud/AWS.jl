@@ -28,9 +28,10 @@ existing Kinesis stream as its source. To specify a Kinesis data stream as input
 `DeliveryStreamType` parameter to `KinesisStreamAsSource`, and provide the Kinesis stream
 Amazon Resource Name (ARN) and role ARN in the `KinesisStreamSourceConfiguration` parameter.
 
-To create a delivery stream with server-side encryption (SSE) enabled, include [`delivery_stream_encryption_configuration_input`](@ref)
-in your request. This is optional. You can also invoke [`start_delivery_stream_encryption`](@ref)
-to turn on SSE for an existing delivery stream that doesn't have SSE enabled.
+To create a delivery stream with server-side encryption (SSE) enabled, include
+`DeliveryStreamEncryptionConfigurationInput` in your request. This is optional. You can also
+invoke [`start_delivery_stream_encryption`](@ref) to turn on SSE for an existing delivery
+stream that doesn't have SSE enabled.
 
 A delivery stream is configured with a single destination, such as Amazon Simple Storage
 Service (Amazon S3), Amazon Redshift, Amazon OpenSearch Service, Amazon OpenSearch
@@ -57,7 +58,7 @@ A few notes about Amazon Redshift as a destination:
   Redshift table. This is specified in the
   `RedshiftDestinationConfiguration.S3Configuration` parameter.
 - The compression formats `SNAPPY` or `ZIP` cannot be specified in
-  `RedshiftDestinationConfiguration.S3Configuration` because the Amazon Redshift [`copy`](@ref)
+  `RedshiftDestinationConfiguration.S3Configuration` because the Amazon Redshift `COPY`
   operation that reads from the S3 bucket doesn't support these compression formats.
 - We strongly recommend that you use the user name and password you provide exclusively with
   Firehose, and that the permissions for the account are restricted for Amazon Redshift
@@ -108,8 +109,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Data Firehose is in preview release and is subject to change.
 
 - `"KinesisStreamSourceConfiguration"`: When a Kinesis data stream is used as the source for
-  the delivery stream, a [`kinesis_stream_source_configuration`](@ref) containing the
-  Kinesis data stream Amazon Resource Name (ARN) and the role ARN for the source stream.
+  the delivery stream, a `KinesisStreamSourceConfiguration` containing the Kinesis data
+  stream Amazon Resource Name (ARN) and the role ARN for the source stream.
 
 - `"MSKSourceConfiguration"`:
 
@@ -256,8 +257,8 @@ stream is created, call `DescribeDeliveryStream` to see whether the delivery str
 If the status of a delivery stream is `CREATING_FAILED`, this status doesn't change, and you
 can't invoke [`create_delivery_stream`](@ref) again on it. However, you can invoke the [`delete_delivery_stream`](@ref)
 operation to delete it. If the status is `DELETING_FAILED`, you can force deletion by
-invoking [`delete_delivery_stream`](@ref) again but with [`delete_delivery_stream_input\$_allow_force_delete`](@ref)
-set to true.
+invoking [`delete_delivery_stream`](@ref) again but with
+`DeleteDeliveryStreamInput\$AllowForceDelete` set to true.
 
 # Arguments
 
@@ -611,13 +612,14 @@ Enables server-side encryption (SSE) for the delivery stream.
 
 This operation is asynchronous. It returns immediately. When you invoke it, Firehose first
 sets the encryption status of the stream to `ENABLING`, and then to `ENABLED`. The
-encryption status of a delivery stream is the `Status` property in [`delivery_stream_encryption_configuration`](@ref).
-If the operation fails, the encryption status changes to `ENABLING_FAILED`. You can continue
-to read and write data to your delivery stream while the encryption status is `ENABLING`,
-but the data is not encrypted. It can take up to 5 seconds after the encryption status
-changes to `ENABLED` before all records written to the delivery stream are encrypted. To
-find out whether a record or a batch of records was encrypted, check the response elements [`put_record_output\$_encrypted`](@ref)
-and [`put_record_batch_output\$_encrypted`](@ref), respectively.
+encryption status of a delivery stream is the `Status` property in
+`DeliveryStreamEncryptionConfiguration`. If the operation fails, the encryption status
+changes to `ENABLING_FAILED`. You can continue to read and write data to your delivery
+stream while the encryption status is `ENABLING`, but the data is not encrypted. It can take
+up to 5 seconds after the encryption status changes to `ENABLED` before all records written
+to the delivery stream are encrypted. To find out whether a record or a batch of records was
+encrypted, check the response elements `PutRecordOutput\$Encrypted` and
+`PutRecordBatchOutput\$Encrypted`, respectively.
 
 To check the encryption status of a delivery stream, use [`describe_delivery_stream`](@ref).
 
@@ -702,8 +704,8 @@ sets the encryption status of the stream to `DISABLING`, and then to `DISABLED`.
 continue to read and write data to your stream while its status is `DISABLING`. It can take
 up to 5 seconds after the encryption status changes to `DISABLED` before all records written
 to the delivery stream are no longer subject to encryption. To find out whether a record or
-a batch of records was encrypted, check the response elements [`put_record_output\$_encrypted`](@ref)
-and [`put_record_batch_output\$_encrypted`](@ref), respectively.
+a batch of records was encrypted, check the response elements `PutRecordOutput\$Encrypted`
+and `PutRecordBatchOutput\$Encrypted`, respectively.
 
 To check the encryption state of a delivery stream, use [`describe_delivery_stream`](@ref).
 
@@ -879,8 +881,8 @@ Service destination.
 If the destination type is the same, Firehose merges the configuration parameters specified
 with the destination configuration that already exists on the delivery stream. If any of the
 parameters are not specified in the call, the existing values are retained. For example, in
-the Amazon S3 destination, if [`encryption_configuration`](@ref) is not specified, then the
-existing `EncryptionConfiguration` is maintained on the destination.
+the Amazon S3 destination, if `EncryptionConfiguration` is not specified, then the existing
+`EncryptionConfiguration` is maintained on the destination.
 
 If the destination type is not the same, for example, changing the destination from Amazon
 S3 to Amazon Redshift, Firehose does not merge any parameters. In this case, all parameters
@@ -894,11 +896,12 @@ Use the new version ID to set `CurrentDeliveryStreamVersionId` in the next call.
 
 # Arguments
 
-- `current_delivery_stream_version_id`: Obtain this value from the `VersionId` result of [`delivery_stream_description`](@ref).
-  This value is required, and helps the service perform conditional operations. For example,
-  if there is an interleaving update and this value is null, then the update destination
-  fails. After the update is successful, the `VersionId` value is updated. The service then
-  performs a merge of the old configuration with the new configuration.
+- `current_delivery_stream_version_id`: Obtain this value from the `VersionId` result of
+  `DeliveryStreamDescription`. This value is required, and helps the service perform
+  conditional operations. For example, if there is an interleaving update and this value is
+  null, then the update destination fails. After the update is successful, the `VersionId`
+  value is updated. The service then performs a merge of the old configuration with the new
+  configuration.
 
 - `delivery_stream_name`: The name of the delivery stream.
 

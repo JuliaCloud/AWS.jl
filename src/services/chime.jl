@@ -593,9 +593,9 @@ end
     batch_update_user(update_user_request_items, account_id)
     batch_update_user(update_user_request_items, account_id, params::Dict{String,<:Any})
 
-Updates user details within the [`update_user_request_item`](@ref) object for up to 20 users
-for the specified Amazon Chime account. Currently, only `LicenseType` updates are supported
-for this action.
+Updates user details within the `UpdateUserRequestItem` object for up to 20 users for the
+specified Amazon Chime account. Currently, only `LicenseType` updates are supported for this
+action.
 
 # Arguments
 
@@ -2117,9 +2117,9 @@ end
 Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can
 choose to create an Amazon Chime Voice Connector in a specific AWS Region.
 
-Enabling [`create_voice_connector_request\$_require_encryption`](@ref) configures your
-Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP)
-for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked.
+Enabling `CreateVoiceConnectorRequest\$RequireEncryption` configures your Amazon Chime Voice
+Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound
+calls use TLS transport, and unencrypted outbound calls are blocked.
 
 !!! important
     **This API is is no longer supported and will not be updated.** We recommend using the
@@ -7301,7 +7301,8 @@ end
     put_events_configuration(account_id, bot_id, params::Dict{String,<:Any})
 
 Creates an events configuration that allows a bot to receive outgoing events sent by Amazon
-Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see [`bot`](@ref).
+Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see
+`Bot`.
 
 # Arguments
 
@@ -8050,7 +8051,7 @@ end
     reset_personal_pin(account_id, user_id, params::Dict{String,<:Any})
 
 Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns
-the [`user`](@ref) object with the updated personal meeting PIN.
+the `User` object with the updated personal meeting PIN.
 
 # Arguments
 

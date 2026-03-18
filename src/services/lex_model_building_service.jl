@@ -17,7 +17,7 @@ create a new version. It returns the last created version.
     versions that you create with the [`create_bot_version`](@ref) operation.
 
 When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent
-versions increment by 1. For more information, see [`versioning-intro`](@ref).
+versions increment by 1. For more information, see `versioning-intro`.
 
 This operation requires permission for the `lex:CreateBotVersion` action.
 
@@ -71,7 +71,7 @@ doesn't create a new version. It returns the last version you created.
     versions that you create with the [`create_intent_version`](@ref) operation.
 
 When you create a version of an intent, Amazon Lex sets the version to 1. Subsequent
-versions increment by 1. For more information, see [`versioning-intro`](@ref).
+versions increment by 1. For more information, see `versioning-intro`.
 
 This operation requires permissions to perform the `lex:CreateIntentVersion` action.
 
@@ -127,7 +127,7 @@ created.
     versions that you create with the [`create_slot_type_version`](@ref) operation.
 
 When you create a version of a slot type, Amazon Lex sets the version to 1. Subsequent
-versions increment by 1. For more information, see [`versioning-intro`](@ref).
+versions increment by 1. For more information, see `versioning-intro`.
 
 This operation requires permissions for the `lex:CreateSlotTypeVersion` action.
 
@@ -315,7 +315,7 @@ This operation requires permissions for the `lex:DeleteBotVersion` action.
 
 - `name`: The name of the bot.
 - `version`: The version of the bot to delete. You cannot delete the `\$LATEST` version of
-  the bot. To delete the `\$LATEST` version, use the [`delete_bot`](@ref) operation.
+  the bot. To delete the `\$LATEST` version, use the `DeleteBot` operation.
 """
 function delete_bot_version end
 
@@ -353,8 +353,8 @@ Deletes all versions of the intent, including the `\$LATEST` version. To delete 
 version of the intent, use the [`delete_intent_version`](@ref) operation.
 
 You can delete a version of an intent only if it is not referenced. To delete an intent that
-is referred to in one or more bots (see [`how-it-works`](@ref)), you must remove those
-references first.
+is referred to in one or more bots (see `how-it-works`), you must remove those references
+first.
 
 !!! note
     If you get the `ResourceInUseException` exception, it provides an example reference that
@@ -402,8 +402,7 @@ This operation requires permissions for the `lex:DeleteIntentVersion` action.
 
 - `name`: The name of the intent.
 - `version`: The version of the intent to delete. You cannot delete the `\$LATEST` version
-  of the intent. To delete the `\$LATEST` version, use the [`delete_intent`](@ref)
-  operation.
+  of the intent. To delete the `\$LATEST` version, use the `DeleteIntent` operation.
 """
 function delete_intent_version end
 
@@ -492,7 +491,7 @@ This operation requires permissions for the `lex:DeleteSlotTypeVersion` action.
 
 - `name`: The name of the slot type.
 - `version`: The version of the slot type to delete. You cannot delete the `\$LATEST`
-  version of the slot type. To delete the `\$LATEST` version, use the [`delete_slot_type`](@ref)
+  version of the slot type. To delete the `\$LATEST` version, use the `DeleteSlotType`
   operation.
 """
 function delete_slot_type_version end
@@ -620,7 +619,8 @@ end
     get_bot_alias(bot_name, name)
     get_bot_alias(bot_name, name, params::Dict{String,<:Any})
 
-Returns information about an Amazon Lex bot alias. For more information about aliases, see [`versioning-aliases`](@ref).
+Returns information about an Amazon Lex bot alias. For more information about aliases, see
+`versioning-aliases`.
 
 This operation requires permissions for the `lex:GetBotAlias` action.
 
@@ -1602,7 +1602,8 @@ update a bot you are only required to specify a name, a locale, and whether the 
 directed toward children under age 13. You can use this to add intents later, or to remove
 intents from an existing bot. When you create a bot with the minimum information, the bot is
 created or updated but Amazon Lex returns the <code/> response `FAILED`. You can build the
-bot after you add one or more intents. For more information about Amazon Lex bots, see [`how-it-works`](@ref).
+bot after you add one or more intents. For more information about Amazon Lex bots, see
+`how-it-works`.
 
 If you specify the name of an existing bot, the fields in the request replace the existing
 values in the `\$LATEST` version of the bot. Amazon Lex removes any fields that you don't
@@ -1610,7 +1611,8 @@ provide values for in the request, except for the `idleTTLInSeconds` and `privac
 fields, which are set to their default values. If you don't specify values for required
 fields, Amazon Lex throws an exception.
 
-This operation requires permissions for the `lex:PutBot` action. For more information, see [`security-iam`](@ref).
+This operation requires permissions for the `lex:PutBot` action. For more information, see
+`security-iam`.
 
 # Arguments
 
@@ -1697,12 +1699,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Lambda function - When using a Lambda function, you return an `ElicitIntent` dialog
     type. Since Amazon Lex does not have a clarification prompt to get an intent from the
     user, it returns a 400 Bad Request exception.
-  - PutSession operation - When using the [`put_session`](@ref) operation, you send an
-    `ElicitIntent` dialog type. Since Amazon Lex does not have a clarification prompt to get
-    an intent from the user, it returns a 400 Bad Request exception.
+  - PutSession operation - When using the `PutSession` operation, you send an `ElicitIntent`
+    dialog type. Since Amazon Lex does not have a clarification prompt to get an intent from
+    the user, it returns a 400 Bad Request exception.
 
 - `"createVersion"`: When set to `true` a new numbered version of the bot is created. This
-  is the same as calling the [`create_bot_version`](@ref) operation. If you don't specify
+  is the same as calling the `CreateBotVersion` operation. If you don't specify
   `createVersion`, the default is `false`.
 
 - `"description"`: A description of the bot.
@@ -1742,15 +1744,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified time, Amazon Lex discards the slot information that it gathered, and the user
   must start over.
 
-  If you don't include the `idleSessionTTLInSeconds` element in a [`put_bot`](@ref)
-  operation request, Amazon Lex uses the default value. This is also true if the request
-  replaces an existing bot.
+  If you don't include the `idleSessionTTLInSeconds` element in a `PutBot` operation
+  request, Amazon Lex uses the default value. This is also true if the request replaces an
+  existing bot.
 
   The default is 300 seconds (5 minutes).
 
 - `"intents"`: An array of `Intent` objects. Each intent represents a command that a user
   can express. For example, a pizza ordering bot might support an OrderPizza intent. For
-  more information, see [`how-it-works`](@ref).
+  more information, see `how-it-works`.
 
 - `"nluIntentConfidenceThreshold"`: Determines the threshold where Amazon Lex will insert
   the `AMAZON.FallbackIntent`, `AMAZON.KendraSearchIntent`, or both when returning
@@ -1771,8 +1773,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For example, suppose a bot is configured with the confidence threshold of 0.80 and the
   `AMAZON.FallbackIntent`. Amazon Lex returns three alternative intents with the following
-  confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the [`post_text`](@ref)
-  operation would be:
+  confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the
+  `PostText` operation would be:
 
   - AMAZON.FallbackIntent
   - IntentA
@@ -1786,8 +1788,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't specify this value, the default value is `BUILD`.
 
 - `"tags"`: A list of tags to add to the bot. You can only add tags when you create a bot,
-  you can't use the [`put_bot`](@ref) operation to update the tags on a bot. To update tags,
-  use the [`tag_resource`](@ref) operation.
+  you can't use the `PutBot` operation to update the tags on a bot. To update tags, use the
+  `TagResource` operation.
 
 - `"voiceId"`: The Amazon Polly voice ID that you want Amazon Lex to use for voice
   interactions with the user. The locale configured for the voice must match the locale of
@@ -1836,7 +1838,7 @@ end
 
 Creates an alias for the specified version of the bot or replaces an alias for the specified
 bot. To change the version of the bot that the alias points to, replace the alias. For more
-information about aliases, see [`versioning-aliases`](@ref).
+information about aliases, see `versioning-aliases`.
 
 This operation requires permissions for the `lex:PutBotAlias` action.
 
@@ -1865,8 +1867,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the alias.
 
 - `"tags"`: A list of tags to add to the bot alias. You can only add tags when you create an
-  alias, you can't use the [`put_bot_alias`](@ref) operation to update the tags on a bot
-  alias. To update tags, use the [`tag_resource`](@ref) operation.
+  alias, you can't use the `PutBotAlias` operation to update the tags on a bot alias. To
+  update tags, use the `TagResource` operation.
 """
 function put_bot_alias end
 
@@ -1939,7 +1941,7 @@ Amazon Lex throws an exception. When you update the `\$LATEST` version of an int
 `status` field of any bot that uses the `\$LATEST` version of the intent is set to
 `NOT_BUILT`.
 
-For more information, see [`how-it-works`](@ref).
+For more information, see `how-it-works`.
 
 This operation requires permissions for the `lex:PutIntent` action.
 
@@ -1993,8 +1995,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       neither.
 
 - `"createVersion"`: When set to `true` a new numbered version of the intent is created.
-  This is the same as calling the [`create_intent_version`](@ref) operation. If you do not
-  specify `createVersion`, the default is `false`.
+  This is the same as calling the `CreateIntentVersion` operation. If you do not specify
+  `createVersion`, the default is `false`.
 
 - `"description"`: A description of the intent.
 
@@ -2060,7 +2062,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   In each utterance, a slot name is enclosed in curly braces.
 
 - `"slots"`: An array of intent slots. At runtime, Amazon Lex elicits required slot values
-  from the user using prompts defined in the slots. For more information, see [`how-it-works`](@ref).
+  from the user using prompts defined in the slots. For more information, see
+  `how-it-works`.
 """
 function put_intent end
 
@@ -2092,7 +2095,8 @@ end
 Creates a custom slot type or replaces an existing custom slot type.
 
 To create a custom slot type, specify a name for the slot type and a set of enumeration
-values, which are the values that a slot of this type can assume. For more information, see [`how-it-works`](@ref).
+values, which are the values that a slot of this type can assume. For more information, see
+`how-it-works`.
 
 If you specify the name of an existing slot type, the fields in the request replace the
 existing values in the `\$LATEST` version of the slot type. Amazon Lex removes the fields
@@ -2129,8 +2133,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `PreconditionFailedException` exception.
 
 - `"createVersion"`: When set to `true` a new numbered version of the slot type is created.
-  This is the same as calling the [`create_slot_type_version`](@ref) operation. If you do
-  not specify `createVersion`, the default is `false`.
+  This is the same as calling the `CreateSlotTypeVersion` operation. If you do not specify
+  `createVersion`, the default is `false`.
 
 - `"description"`: A description of the slot type.
 
@@ -2199,12 +2203,12 @@ Starts a job to import a resource to Amazon Lex.
 
 # Arguments
 
-- `merge_strategy`: Specifies the action that the [`start_import`](@ref) operation should
-  take when there is an existing resource with the same name.
+- `merge_strategy`: Specifies the action that the `StartImport` operation should take when
+  there is an existing resource with the same name.
 
   - FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a
     resource in the import file and an existing resource. The name of the resource causing
-    the conflict is in the `failureReason` field of the response to the [`get_import`](@ref)
+    the conflict is in the `failureReason` field of the response to the `GetImport`
     operation.
 
   OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an

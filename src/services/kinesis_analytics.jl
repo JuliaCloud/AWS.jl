@@ -542,8 +542,7 @@ action.
 # Arguments
 
 - `application_name`: Name of the Amazon Kinesis Analytics application to delete.
-- `create_timestamp`: You can use the [`describe_application`](@ref) operation to get this
-  value.
+- `create_timestamp`: You can use the `DescribeApplication` operation to get this value.
 """
 function delete_application end
 

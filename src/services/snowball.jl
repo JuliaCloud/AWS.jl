@@ -1180,20 +1180,20 @@ available.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AddressId"`: The ID of the updated [`address`](@ref) object.
+- `"AddressId"`: The ID of the updated `Address` object.
 - `"Description"`: The updated description of this cluster.
 - `"ForwardingAddressId"`: The updated ID for the forwarding address for a cluster. This
   field is not supported in most regions.
-- `"Notification"`: The new or updated [`notification`](@ref) object.
+- `"Notification"`: The new or updated `Notification` object.
 - `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
   device that your transferred data will be exported from or imported into. Amazon Web
   Services Snow Family device clusters support Amazon S3 and NFS (Network File System).
-- `"Resources"`: The updated arrays of [`job_resource`](@ref) objects that can include
-  updated [`s3_resource`](@ref) objects or [`lambda_resource`](@ref) objects.
+- `"Resources"`: The updated arrays of `JobResource` objects that can include updated
+  `S3Resource` objects or `LambdaResource` objects.
 - `"RoleARN"`: The new role Amazon Resource Name (ARN) that you want to associate with this
   cluster. To create a role ARN, use the [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)
   API action in Identity and Access Management (IAM).
-- `"ShippingOption"`: The updated shipping option value of this cluster's [`shipping_details`](@ref)
+- `"ShippingOption"`: The updated shipping option value of this cluster's `ShippingDetails`
   object.
 """
 function update_cluster end
@@ -1239,14 +1239,14 @@ job being created, this action is no longer available.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AddressId"`: The ID of the updated [`address`](@ref) object.
+- `"AddressId"`: The ID of the updated `Address` object.
 
-- `"Description"`: The updated description of this job's [`job_metadata`](@ref) object.
+- `"Description"`: The updated description of this job's `JobMetadata` object.
 
 - `"ForwardingAddressId"`: The updated ID for the forwarding address for a job. This field
   is not supported in most regions.
 
-- `"Notification"`: The new or updated [`notification`](@ref) object.
+- `"Notification"`: The new or updated `Notification` object.
 
 - `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
   device that your transferred data will be exported from or imported into. Amazon Web
@@ -1255,18 +1255,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PickupDetails"`:
 
-- `"Resources"`: The updated `JobResource` object, or the updated [`job_resource`](@ref)
-  object.
+- `"Resources"`: The updated `JobResource` object, or the updated `JobResource` object.
 
 - `"RoleARN"`: The new role Amazon Resource Name (ARN) that you want to associate with this
   job. To create a role ARN, use the [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)Identity
   and Access Management (IAM) API action.
 
-- `"ShippingOption"`: The updated shipping option value of this job's [`shipping_details`](@ref)
+- `"ShippingOption"`: The updated shipping option value of this job's `ShippingDetails`
   object.
 
-- `"SnowballCapacityPreference"`: The updated `SnowballCapacityPreference` of this job's [`job_metadata`](@ref)
-  object. The 50 TB Snowballs are only available in the US regions.
+- `"SnowballCapacityPreference"`: The updated `SnowballCapacityPreference` of this job's
+  `JobMetadata` object. The 50 TB Snowballs are only available in the US regions.
 
   For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-
   guide/snow-device-types.html" (Snow Family Devices and Capacity) in the *Snowcone User

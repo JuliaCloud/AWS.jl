@@ -228,9 +228,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute name “kvs:ts”. A custom MPEG-DASH media player is necessary to leverage this
   custom attribute.
 
-  The default value is `NEVER`. When [`dashfragment_selector`](@ref) is `SERVER_TIMESTAMP`,
-  the timestamps will be the server start timestamps. Similarly, when [`dashfragment_selector`](@ref)
-  is `PRODUCER_TIMESTAMP`, the timestamps will be the producer start timestamps.
+  The default value is `NEVER`. When `DASHFragmentSelector` is `SERVER_TIMESTAMP`, the
+  timestamps will be the server start timestamps. Similarly, when `DASHFragmentSelector` is
+  `PRODUCER_TIMESTAMP`, the timestamps will be the producer start timestamps.
 
 - `"Expires"`: The time in seconds until the requested session expires. This value can be
   between 300 (5 minutes) and 43200 (12 hours).
@@ -485,12 +485,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Media players typically build a timeline of media content to play, based on the timestamps
   of each fragment. This means that if there is any overlap or gap between fragments (as is
-  typical if [`hlsfragment_selector`](@ref) is set to `SERVER_TIMESTAMP`), the media player
-  timeline will also have small gaps between fragments in some places, and will overwrite
-  frames in other places. Gaps in the media player timeline can cause playback to stall and
-  overlaps can cause playback to be jittery. When there are discontinuity flags between
-  fragments, the media player is expected to reset the timeline, resulting in the next
-  fragment being played immediately after the previous fragment.
+  typical if `HLSFragmentSelector` is set to `SERVER_TIMESTAMP`), the media player timeline
+  will also have small gaps between fragments in some places, and will overwrite frames in
+  other places. Gaps in the media player timeline can cause playback to stall and overlaps
+  can cause playback to be jittery. When there are discontinuity flags between fragments,
+  the media player is expected to reset the timeline, resulting in the next fragment being
+  played immediately after the previous fragment.
 
   The following modes are supported:
 
@@ -505,8 +505,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     to use a value of `ON_DISCONTINUITY` so that the media player timeline is only reset
     when there is a significant issue with the media timeline (e.g. a missing fragment).
 
-  The default is `ALWAYS` when [`hlsfragment_selector`](@ref) is set to `SERVER_TIMESTAMP`,
-  and `NEVER` when it is set to `PRODUCER_TIMESTAMP`.
+  The default is `ALWAYS` when `HLSFragmentSelector` is set to `SERVER_TIMESTAMP`, and
+  `NEVER` when it is set to `PRODUCER_TIMESTAMP`.
 
 - `"DisplayFragmentTimestamp"`: Specifies when the fragment start timestamps should be
   included in the HLS media playlist. Typically, media players report the playhead position
@@ -516,9 +516,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be useful for creating a playback experience that shows viewers the wall-clock time of the
   media.
 
-  The default is `NEVER`. When [`hlsfragment_selector`](@ref) is `SERVER_TIMESTAMP`, the
-  timestamps will be the server start timestamps. Similarly, when [`hlsfragment_selector`](@ref)
-  is `PRODUCER_TIMESTAMP`, the timestamps will be the producer start timestamps.
+  The default is `NEVER`. When `HLSFragmentSelector` is `SERVER_TIMESTAMP`, the timestamps
+  will be the server start timestamps. Similarly, when `HLSFragmentSelector` is
+  `PRODUCER_TIMESTAMP`, the timestamps will be the producer start timestamps.
 
 - `"Expires"`: The time in seconds until the requested session expires. This value can be
   between 300 (5 minutes) and 43200 (12 hours).
@@ -784,7 +784,7 @@ For limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesi
 # Arguments
 
 - `fragments`: A list of the numbers of fragments for which to retrieve media. You retrieve
-  these values with [`list_fragments`](@ref).
+  these values with `ListFragments`.
 
 # Optional Parameters
 
@@ -829,8 +829,8 @@ end
     list_fragments()
     list_fragments(params::Dict{String,<:Any})
 
-Returns a list of [`fragment`](@ref) objects from the specified stream and timestamp range
-within the archived data.
+Returns a list of `Fragment` objects from the specified stream and timestamp range within
+the archived data.
 
 Listing fragments is eventually consistent. This means that even if the producer receives an
 acknowledgment that a fragment is persisted, the result might not be returned immediately
@@ -869,11 +869,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       This is only required when the `NextToken` isn't passed in the API.
 
 - `"MaxResults"`: The total number of fragments to return. If the total number of fragments
-  available is more than the value specified in `max-results`, then a [`list_fragments_output\$_next_token`](@ref)
-  is provided in the output that you can use to resume pagination.
+  available is more than the value specified in `max-results`, then a
+  `ListFragmentsOutput\$NextToken` is provided in the output that you can use to resume
+  pagination.
 
-- `"NextToken"`: A token to specify where to start paginating. This is the [`list_fragments_output\$_next_token`](@ref)
-  from a previously truncated response.
+- `"NextToken"`: A token to specify where to start paginating. This is the
+  `ListFragmentsOutput\$NextToken` from a previously truncated response.
 
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream from which to retrieve a
   fragment list. Specify either this parameter or the `StreamName` parameter.

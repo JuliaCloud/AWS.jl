@@ -20,8 +20,8 @@ Copy an image set.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"force"`: Setting this flag will force the [`copy_image_set`](@ref) operation, even if
-  Patient, Study, or Series level metadata are mismatched across the `sourceImageSet` and
+- `"force"`: Setting this flag will force the `CopyImageSet` operation, even if Patient,
+  Study, or Series level metadata are mismatched across the `sourceImageSet` and
   `destinationImageSet`.
 """
 function copy_image_set end
@@ -801,8 +801,8 @@ Update image set metadata attributes.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"force"`: Setting this flag will force the [`update_image_set_metadata`](@ref) operation
-  for the following attributes:
+- `"force"`: Setting this flag will force the `UpdateImageSetMetadata` operation for the
+  following attributes:
 
   - `Tag.StudyInstanceUID`, `Tag.SeriesInstanceUID`, `Tag.SOPInstanceUID`, and `Tag.StudyID`
   - Adding, removing, or updating private tags for an individual SOP Instance

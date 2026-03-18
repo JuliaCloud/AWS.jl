@@ -230,8 +230,8 @@ explicitly grants permissions. For more information about user permissions, see 
   OpsWorks Stacks to work with Amazon Web Services resources on your behalf. You must set
   this parameter to the Amazon Resource Name (ARN) for an existing IAM role. If you create a
   stack by using the OpsWorkss Stacks console, it creates the role for you. You can obtain
-  an existing stack's IAM ARN programmatically by calling [`describe_permissions`](@ref).
-  For more information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
+  an existing stack's IAM ARN programmatically by calling `DescribePermissions`. For more
+  information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
 
   !!! note
       You must set this parameter to a valid service role ARN or the action will fail; there
@@ -255,8 +255,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The default setting is `LATEST`. To specify an agent version, you must use the complete
   version number, not the abbreviated number shown on the console. For a list of available
-  agent version numbers, call [`describe_agent_versions`](@ref). AgentVersion cannot be set
-  to Chef 12.2.
+  agent version numbers, call `DescribeAgentVersions`. AgentVersion cannot be set to Chef
+  12.2.
 
   !!! note
       You can also specify an agent version when you create or update an instance, which
@@ -641,8 +641,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The default setting is `INHERIT`. To specify an agent version, you must use the complete
   version number, not the abbreviated number shown on the console. For a list of available
-  agent version numbers, call [`describe_agent_versions`](@ref). AgentVersion cannot be set
-  to Chef 12.2.
+  agent version numbers, call `DescribeAgentVersions`. AgentVersion cannot be set to Chef
+  12.2.
 
 - `"AmiId"`: A custom AMI ID to be used to create the instance. The AMI should be based on
   one of the supported operating systems. For more information, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
@@ -673,9 +673,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when the
   instance boots. The default value is `true`. To control when updates are installed, set
-  this value to `false`. You must then update your instances manually by using [`create_deployment`](@ref)
-  to run the `update_dependencies` stack command or by manually running `yum` (Amazon Linux)
-  or `apt-get` (Ubuntu) on the instances.
+  this value to `false`. You must then update your instances manually by using
+  `CreateDeployment` to run the `update_dependencies` stack command or by manually running
+  `yum` (Amazon Linux) or `apt-get` (Ubuntu) on the instances.
 
   !!! note
       We strongly recommend using the default value of `true` to ensure that your instances
@@ -701,9 +701,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about the supported operating systems, see [OpsWorks Stacks Operating Systems](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html).
 
   The default option is the current Amazon Linux version. If you set this parameter to
-  `Custom`, you must use the [`create_instance`](@ref) action's AmiId parameter to specify
-  the custom AMI that you want to use. Block device mappings are not supported if the value
-  is `Custom`. For more information about how to use custom AMIs with OpsWorks Stacks, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
+  `Custom`, you must use the `CreateInstance` action's AmiId parameter to specify the custom
+  AMI that you want to use. Block device mappings are not supported if the value is
+  `Custom`. For more information about how to use custom AMIs with OpsWorks Stacks, see [Using Custom AMIs](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html).
 
 - `"RootDeviceType"`: The instance root device type. For more information, see [Storage for the Root Device](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device).
 
@@ -816,7 +816,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assign a public IP address to the layer's instances. For more information, see [How to Edit a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html).
 
 - `"CloudWatchLogsConfiguration"`: Specifies CloudWatch Logs configuration options for the
-  layer. For more information, see [`cloud_watch_logs_log_stream`](@ref).
+  layer. For more information, see `CloudWatchLogsLogStream`.
 
 - `"CustomInstanceProfileArn"`: The ARN of an IAM profile to be used for the layer's EC2
   instances. For more information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
@@ -833,9 +833,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when the
   instance boots. The default value is `true`. To control when updates are installed, set
-  this value to `false`. You must then update your instances manually by using [`create_deployment`](@ref)
-  to run the `update_dependencies` stack command or by manually running `yum` (Amazon Linux)
-  or `apt-get` (Ubuntu) on the instances.
+  this value to `false`. You must then update your instances manually by using
+  `CreateDeployment` to run the `update_dependencies` stack command or by manually running
+  `yum` (Amazon Linux) or `apt-get` (Ubuntu) on the instances.
 
   !!! note
       To ensure that your instances have the latest security updates, we strongly recommend
@@ -949,8 +949,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The default setting is the most recent release of the agent. To specify an agent version,
   you must use the complete version number, not the abbreviated number shown on the console.
-  For a list of available agent version numbers, call [`describe_agent_versions`](@ref).
-  AgentVersion cannot be set to Chef 12.2.
+  For a list of available agent version numbers, call `DescribeAgentVersions`. AgentVersion
+  cannot be set to Chef 12.2.
 
   !!! note
       You can also specify an agent version when you create or update an instance, which
@@ -3702,7 +3702,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The default setting is `INHERIT`. To specify an agent version, you must use the complete
   version number, not the abbreviated number shown on the console. For a list of available
-  agent version numbers, call [`describe_agent_versions`](@ref).
+  agent version numbers, call `DescribeAgentVersions`.
 
   AgentVersion cannot be set to Chef 12.2.
 
@@ -3728,9 +3728,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when the
   instance boots. The default value is `true`. To control when updates are installed, set
-  this value to `false`. You must then update your instances manually by using [`create_deployment`](@ref)
-  to run the `update_dependencies` stack command or by manually running `yum` (Amazon Linux)
-  or `apt-get` (Ubuntu) on the instances.
+  this value to `false`. You must then update your instances manually by using
+  `CreateDeployment` to run the `update_dependencies` stack command or by manually running
+  `yum` (Amazon Linux) or `apt-get` (Ubuntu) on the instances.
 
   !!! note
       We strongly recommend using the default value of `true`, to ensure that your instances
@@ -3827,7 +3827,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assign a public IP address to the layer's instances. For more information, see [How to Edit a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html).
 
 - `"CloudWatchLogsConfiguration"`: Specifies CloudWatch Logs configuration options for the
-  layer. For more information, see [`cloud_watch_logs_log_stream`](@ref).
+  layer. For more information, see `CloudWatchLogsLogStream`.
 
 - `"CustomInstanceProfileArn"`: The ARN of an IAM profile to be used for all of the layer's
   EC2 instances. For more information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
@@ -3844,9 +3844,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when the
   instance boots. The default value is `true`. To control when updates are installed, set
-  this value to `false`. You must then update your instances manually by using [`create_deployment`](@ref)
-  to run the `update_dependencies` stack command or manually running `yum` (Amazon Linux) or
-  `apt-get` (Ubuntu) on the instances.
+  this value to `false`. You must then update your instances manually by using
+  `CreateDeployment` to run the `update_dependencies` stack command or manually running
+  `yum` (Amazon Linux) or `apt-get` (Ubuntu) on the instances.
 
   !!! note
       We strongly recommend using the default value of `true`, to ensure that your instances
@@ -4010,8 +4010,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The default setting is `LATEST`. To specify an agent version, you must use the complete
   version number, not the abbreviated number shown on the console. For a list of available
-  agent version numbers, call [`describe_agent_versions`](@ref). AgentVersion cannot be set
-  to Chef 12.2.
+  agent version numbers, call `DescribeAgentVersions`. AgentVersion cannot be set to Chef
+  12.2.
 
   !!! note
       You can also specify an agent version when you create or update an instance, which
@@ -4043,7 +4043,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DefaultAvailabilityZone"`: The stack's default Availability Zone, which must be in the
   stack's region. For more information, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html).
   If you also specify a value for `DefaultSubnetId`, the subnet must be in the same zone.
-  For more information, see [`create_stack`](@ref).
+  For more information, see `CreateStack`.
 
 - `"DefaultInstanceProfileArn"`: The ARN of an IAM profile that is the default profile for
   all of the stack's EC2 instances. For more information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).

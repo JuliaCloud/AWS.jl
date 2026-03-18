@@ -17,8 +17,7 @@ To have a project with separate training and test datasets, call `CreateDataset`
 the first call, specify `train` for the value of `DatasetType`. On the second call, specify
 `test` for the value of `DatasetType`.
 
-This operation requires permissions to perform the [`lookoutvision:_create_dataset`](@ref)
-operation.
+This operation requires permissions to perform the `lookoutvision:CreateDataset` operation.
 
 # Arguments
 
@@ -34,12 +33,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to create the dataset.
 
   If you don't specify `DatasetSource`, an empty dataset is created and the operation
-  synchronously returns. Later, you can add JSON Lines by calling [`update_dataset_entries`](@ref).
+  synchronously returns. Later, you can add JSON Lines by calling `UpdateDatasetEntries`.
 
   If you specify a value for `DataSource`, the manifest at the S3 location is validated and
   used to create the dataset. The call to `CreateDataset` is asynchronous and might take a
   while to complete. To find out the current status, Check the value of `Status` returned in
-  a call to [`describe_dataset`](@ref).
+  a call to `DescribeDataset`.
 
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
   `CreateDataset` completes only once. You choose the value to pass. For example, An issue
@@ -110,8 +109,8 @@ Lookout for Vision uses the respective datasets to train and test the model.
 After training completes, the evaluation metrics are stored at the location specified in
 `OutputConfig`.
 
-This operation requires permissions to perform the [`lookoutvision:_create_model`](@ref)
-operation. If you want to tag your model, you also require permission to the [`lookoutvision:_tag_resource`](@ref)
+This operation requires permissions to perform the `lookoutvision:CreateModel` operation. If
+you want to tag your model, you also require permission to the `lookoutvision:TagResource`
 operation.
 
 # Arguments
@@ -191,8 +190,7 @@ end
 Creates an empty Amazon Lookout for Vision project. After you create the project, add a
 dataset by calling [`create_dataset`](@ref).
 
-This operation requires permissions to perform the [`lookoutvision:_create_project`](@ref)
-operation.
+This operation requires permissions to perform the `lookoutvision:CreateProject` operation.
 
 # Arguments
 
@@ -268,8 +266,7 @@ If you project has a training dataset and a test dataset consider the following.
 - If you delete the training dataset, you must create a training dataset before you can
   create a model.
 
-This operation requires permissions to perform the [`lookoutvision:_delete_dataset`](@ref)
-operation.
+This operation requires permissions to perform the `lookoutvision:DeleteDataset` operation.
 
 # Arguments
 
@@ -337,8 +334,8 @@ running model, use the [`stop_model`](@ref) operation.
 
 It might take a few seconds to delete a model. To determine if a model has been deleted,
 call [`list_models`](@ref) and check if the version of the model (`ModelVersion`) is in the
-`Models` array. This operation requires permissions to perform the [`lookoutvision:_delete_model`](@ref)
-operation.
+`Models` array. This operation requires permissions to perform the
+`lookoutvision:DeleteModel` operation.
 
 # Arguments
 
@@ -407,8 +404,7 @@ project. To delete a model use the [`delete_model`](@ref) operation.
 You also have to delete the dataset(s) associated with the model. For more information, see [`delete_dataset`](@ref).
 The images referenced by the training and test datasets aren't deleted.
 
-This operation requires permissions to perform the [`lookoutvision:_delete_project`](@ref)
-operation.
+This operation requires permissions to perform the `lookoutvision:DeleteProject` operation.
 
 # Arguments
 
@@ -467,7 +463,7 @@ end
 
 Describe an Amazon Lookout for Vision dataset.
 
-This operation requires permissions to perform the [`lookoutvision:_describe_dataset`](@ref)
+This operation requires permissions to perform the `lookoutvision:DescribeDataset`
 operation.
 
 # Arguments
@@ -512,8 +508,7 @@ end
 
 Describes a version of an Amazon Lookout for Vision model.
 
-This operation requires permissions to perform the [`lookoutvision:_describe_model`](@ref)
-operation.
+This operation requires permissions to perform the `lookoutvision:DescribeModel` operation.
 
 # Arguments
 
@@ -555,7 +550,7 @@ end
 
 Describes an Amazon Lookout for Vision model packaging job.
 
-This operation requires permissions to perform the [`lookoutvision:_describe_model_packaging_job`](@ref)
+This operation requires permissions to perform the `lookoutvision:DescribeModelPackagingJob`
 operation.
 
 For more information, see *Using your Amazon Lookout for Vision model on an edge device* in
@@ -601,7 +596,7 @@ end
 
 Describes an Amazon Lookout for Vision project.
 
-This operation requires permissions to perform the [`lookoutvision:_describe_project`](@ref)
+This operation requires permissions to perform the `lookoutvision:DescribeProject`
 operation.
 
 # Arguments
@@ -653,7 +648,7 @@ anomaly found in the image.
 For more information, see *Detecting anomalies in an image* in the Amazon Lookout for Vision
 developer guide.
 
-This operation requires permissions to perform the [`lookoutvision:_detect_anomalies`](@ref)
+This operation requires permissions to perform the `lookoutvision:DetectAnomalies`
 operation.
 
 # Arguments
@@ -718,7 +713,7 @@ end
 Lists the JSON Lines within a dataset. An Amazon Lookout for Vision JSON Line contains the
 anomaly information for a single image, including the image location and the assigned label.
 
-This operation requires permissions to perform the [`lookoutvision:_list_dataset_entries`](@ref)
+This operation requires permissions to perform the `lookoutvision:ListDatasetEntries`
 operation.
 
 # Arguments
@@ -785,7 +780,7 @@ end
 
 Lists the model packaging jobs created for an Amazon Lookout for Vision project.
 
-This operation requires permissions to perform the [`lookoutvision:_list_model_packaging_jobs`](@ref)
+This operation requires permissions to perform the `lookoutvision:ListModelPackagingJobs`
 operation.
 
 For more information, see *Using your Amazon Lookout for Vision model on an edge device* in
@@ -843,8 +838,7 @@ Lists the versions of a model in an Amazon Lookout for Vision project.
 The [`list_models`](@ref) operation is eventually consistent. Recent calls to `CreateModel`
 might take a while to appear in the response from `ListProjects`.
 
-This operation requires permissions to perform the [`lookoutvision:_list_models`](@ref)
-operation.
+This operation requires permissions to perform the `lookoutvision:ListModels` operation.
 
 # Arguments
 
@@ -898,8 +892,7 @@ The [`list_projects`](@ref) operation is eventually consistent. Recent calls to
 `CreateProject` and `DeleteProject` might take a while to appear in the response from
 `ListProjects`.
 
-This operation requires permissions to perform the [`lookoutvision:_list_projects`](@ref)
-operation.
+This operation requires permissions to perform the `lookoutvision:ListProjects` operation.
 
 # Optional Parameters
 
@@ -941,7 +934,7 @@ end
 
 Returns a list of tags attached to the specified Amazon Lookout for Vision model.
 
-This operation requires permissions to perform the [`lookoutvision:_list_tags_for_resource`](@ref)
+This operation requires permissions to perform the `lookoutvision:ListTagsForResource`
 operation.
 
 # Arguments
@@ -991,8 +984,7 @@ Once the model is running, you can detect custom labels in new images by calling
     You are charged for the amount of time that the model is running. To stop a running
     model, call [`stop_model`](@ref).
 
-This operation requires permissions to perform the [`lookoutvision:_start_model`](@ref)
-operation.
+This operation requires permissions to perform the `lookoutvision:StartModel` operation.
 
 # Arguments
 
@@ -1182,8 +1174,7 @@ the current status, call [`describe_model`](@ref).
 
 After the model hosting stops, the `Status` of the model is `TRAINED`.
 
-This operation requires permissions to perform the [`lookoutvision:_stop_model`](@ref)
-operation.
+This operation requires permissions to perform the `lookoutvision:StopModel` operation.
 
 # Arguments
 
@@ -1247,8 +1238,7 @@ end
 Adds one or more key-value tags to an Amazon Lookout for Vision model. For more information,
 see *Tagging a model* in the *Amazon Lookout for Vision Developer Guide*.
 
-This operation requires permissions to perform the [`lookoutvision:_tag_resource`](@ref)
-operation.
+This operation requires permissions to perform the `lookoutvision:TagResource` operation.
 
 # Arguments
 
@@ -1289,8 +1279,7 @@ end
 Removes one or more tags from an Amazon Lookout for Vision model. For more information, see
 *Tagging a model* in the *Amazon Lookout for Vision Developer Guide*.
 
-This operation requires permissions to perform the [`lookoutvision:_untag_resource`](@ref)
-operation.
+This operation requires permissions to perform the `lookoutvision:UntagResource` operation.
 
 # Arguments
 
@@ -1348,7 +1337,7 @@ Lookout for Vision Developer Guide.
 Updating a dataset might take a while to complete. To check the current status, call [`describe_dataset`](@ref)
 and check the `Status` field in the response.
 
-This operation requires permissions to perform the [`lookoutvision:_update_dataset_entries`](@ref)
+This operation requires permissions to perform the `lookoutvision:UpdateDatasetEntries`
 operation.
 
 # Arguments

@@ -15,8 +15,8 @@ worker. Used for custom actions only.
 
 - `job_id`: The unique system-generated ID of the job for which you want to confirm receipt.
 - `nonce`: A system-generated random number that CodePipeline uses to ensure that the job is
-  being worked on by only one job worker. Get this number from the response of the [`poll_for_jobs`](@ref)
-  request that returned this job.
+  being worked on by only one job worker. Get this number from the response of the
+  `PollForJobs` request that returned this job.
 """
 function acknowledge_job end
 
@@ -57,8 +57,8 @@ Confirms a job worker has received the specified job. Used for partner actions o
   verify that the calling entity is allowed access to the job and its details.
 - `job_id`: The unique system-generated ID of the job.
 - `nonce`: A system-generated random number that CodePipeline uses to ensure that the job is
-  being worked on by only one job worker. Get this number from the response to a [`get_third_party_job_details`](@ref)
-  request.
+  being worked on by only one job worker. Get this number from the response to a
+  `GetThirdPartyJobDetails` request.
 """
 function acknowledge_third_party_job end
 
@@ -1390,9 +1390,8 @@ Approved and Rejected.
 - `result`: Represents information about the result of the approval request.
 - `stage_name`: The name of the stage that contains the action.
 - `token`: The system-generated token used to identify a unique approval request. The token
-  for each open approval request can be obtained using the [`get_pipeline_state`](@ref)
-  action. It is used to validate that the approval request corresponding to this token is
-  still valid.
+  for each open approval request can be obtained using the `GetPipelineState` action. It is
+  used to validate that the approval request corresponding to this token is still valid.
 """
 function put_approval_result end
 
@@ -1779,8 +1778,8 @@ either have all actions failed or some actions failed and some succeeded.
 # Arguments
 
 - `pipeline_execution_id`: The ID of the pipeline execution in the failed stage to be
-  retried. Use the [`get_pipeline_state`](@ref) action to retrieve the current
-  pipelineExecutionId of the failed stage
+  retried. Use the `GetPipelineState` action to retrieve the current pipelineExecutionId of
+  the failed stage
 - `pipeline_name`: The name of the pipeline that contains the failed stage.
 - `retry_mode`: The scope of the retry attempt.
 - `stage_name`: The name of the failed stage to be retried.

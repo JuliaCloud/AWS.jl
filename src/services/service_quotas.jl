@@ -46,10 +46,10 @@ Deletes the quota increase request for the specified quota from your quota reque
 
 - `aws_region`: Specifies the Amazon Web Services Region for which the request was made.
 - `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
-  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
-  the output for the quota you want.
+  use the `ListServiceQuotas` operation, and look for the `QuotaCode` response in the output
+  for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
-  Amazon Web Services service, use the [`list_services`](@ref) operation.
+  Amazon Web Services service, use the `ListServices` operation.
 """
 function delete_service_quota_increase_request_from_template end
 
@@ -161,10 +161,10 @@ quota increases.
 # Arguments
 
 - `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
-  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
-  the output for the quota you want.
+  use the `ListServiceQuotas` operation, and look for the `QuotaCode` response in the output
+  for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
-  Amazon Web Services service, use the [`list_services`](@ref) operation.
+  Amazon Web Services service, use the `ListServices` operation.
 """
 function get_awsdefault_service_quota end
 
@@ -248,10 +248,10 @@ not retrieved.
 # Arguments
 
 - `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
-  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
-  the output for the quota you want.
+  use the `ListServiceQuotas` operation, and look for the `QuotaCode` response in the output
+  for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
-  Amazon Web Services service, use the [`list_services`](@ref) operation.
+  Amazon Web Services service, use the `ListServices` operation.
 
 # Optional Parameters
 
@@ -305,10 +305,10 @@ template.
 
 - `aws_region`: Specifies the Amazon Web Services Region for which you made the request.
 - `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
-  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
-  the output for the quota you want.
+  use the `ListServiceQuotas` operation, and look for the `QuotaCode` response in the output
+  for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
-  Amazon Web Services service, use the [`list_services`](@ref) operation.
+  Amazon Web Services service, use the `ListServices` operation.
 """
 function get_service_quota_increase_request_from_template end
 
@@ -360,7 +360,7 @@ value does not reflect any quota increases.
 # Arguments
 
 - `service_code`: Specifies the service identifier. To find the service code value for an
-  Amazon Web Services service, use the [`list_services`](@ref) operation.
+  Amazon Web Services service, use the `ListServices` operation.
 
 # Optional Parameters
 
@@ -442,7 +442,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the quota request applies to.
 
 - `"ServiceCode"`: Specifies the service identifier. To find the service code value for an
-  Amazon Web Services service, use the [`list_services`](@ref) operation.
+  Amazon Web Services service, use the `ListServices` operation.
 
 - `"Status"`: Specifies that you want to filter the results to only the requests with the
   matching status.
@@ -479,10 +479,10 @@ Retrieves the quota increase requests for the specified quota.
 # Arguments
 
 - `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
-  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
-  the output for the quota you want.
+  use the `ListServiceQuotas` operation, and look for the `QuotaCode` response in the output
+  for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
-  Amazon Web Services service, use the [`list_services`](@ref) operation.
+  Amazon Web Services service, use the `ListServices` operation.
 
 # Optional Parameters
 
@@ -574,7 +574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to indicate where the output should continue from.
 
 - `"ServiceCode"`: Specifies the service identifier. To find the service code value for an
-  Amazon Web Services service, use the [`list_services`](@ref) operation.
+  Amazon Web Services service, use the `ListServices` operation.
 """
 function list_service_quota_increase_requests_in_template end
 
@@ -610,7 +610,7 @@ the quota is not retrieved.
 # Arguments
 
 - `service_code`: Specifies the service identifier. To find the service code value for an
-  Amazon Web Services service, use the [`list_services`](@ref) operation.
+  Amazon Web Services service, use the `ListServices` operation.
 
 # Optional Parameters
 
@@ -637,8 +637,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied.
 
 - `"QuotaCode"`: Specifies the quota identifier. To find the quota code for a specific
-  quota, use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode`
-  response in the output for the quota you want.
+  quota, use the `ListServiceQuotas` operation, and look for the `QuotaCode` response in the
+  output for the quota you want.
 """
 function list_service_quotas end
 
@@ -764,10 +764,10 @@ Adds a quota increase request to your quota request template.
 - `aws_region`: Specifies the Amazon Web Services Region to which the template applies.
 - `desired_value`: Specifies the new, increased value for the quota.
 - `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
-  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
-  the output for the quota you want.
+  use the `ListServiceQuotas` operation, and look for the `QuotaCode` response in the output
+  for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
-  Amazon Web Services service, use the [`list_services`](@ref) operation.
+  Amazon Web Services service, use the `ListServices` operation.
 """
 function put_service_quota_increase_request_into_template end
 
@@ -828,10 +828,10 @@ Submits a quota increase request for the specified quota.
 
 - `desired_value`: Specifies the new, increased value for the quota.
 - `quota_code`: Specifies the quota identifier. To find the quota code for a specific quota,
-  use the [`list_service_quotas`](@ref) operation, and look for the `QuotaCode` response in
-  the output for the quota you want.
+  use the `ListServiceQuotas` operation, and look for the `QuotaCode` response in the output
+  for the quota you want.
 - `service_code`: Specifies the service identifier. To find the service code value for an
-  Amazon Web Services service, use the [`list_services`](@ref) operation.
+  Amazon Web Services service, use the `ListServices` operation.
 
 # Optional Parameters
 

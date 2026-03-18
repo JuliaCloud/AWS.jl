@@ -73,9 +73,9 @@ Cancels the requested policy generation.
 
 # Arguments
 
-- `job_id`: The `JobId` that is returned by the [`start_policy_generation`](@ref) operation.
-  The `JobId` can be used with `GetGeneratedPolicy` to retrieve the generated policies or
-  used with `CancelPolicyGeneration` to cancel the policy generation request.
+- `job_id`: The `JobId` that is returned by the `StartPolicyGeneration` operation. The
+  `JobId` can be used with `GetGeneratedPolicy` to retrieve the generated policies or used
+  with `CancelPolicyGeneration` to cancel the policy generation request.
 """
 function cancel_policy_generation end
 
@@ -955,9 +955,9 @@ Retrieves the policy that was generated using `StartPolicyGeneration`.
 
 # Arguments
 
-- `job_id`: The `JobId` that is returned by the [`start_policy_generation`](@ref) operation.
-  The `JobId` can be used with `GetGeneratedPolicy` to retrieve the generated policies or
-  used with `CancelPolicyGeneration` to cancel the policy generation request.
+- `job_id`: The `JobId` that is returned by the `StartPolicyGeneration` operation. The
+  `JobId` can be used with `GetGeneratedPolicy` to retrieve the generated policies or used
+  with `CancelPolicyGeneration` to cancel the policy generation request.
 
 # Optional Parameters
 

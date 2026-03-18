@@ -929,9 +929,9 @@ You must use AWS Developer credentials to call this API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"RoleMappings"`: How users for a specific identity provider are to mapped to roles. This
-  is a string to [`role_mapping`](@ref) object map. The string identifies the identity
-  provider, for example, "graph.facebook.com" or "cognito-idp.us-east-1.amazonaws.com/us-
-  east-1_abcdefghi:app_client_id".
+  is a string to `RoleMapping` object map. The string identifies the identity provider, for
+  example, "graph.facebook.com" or "cognito-idp.us-east-1.amazonaws.com/us-east-
+  1_abcdefghi:app_client_id".
 
   Up to 25 rules can be specified per identity provider.
 """

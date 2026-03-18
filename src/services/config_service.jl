@@ -2335,9 +2335,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters the results based on the `ResourceCountFilters` object.
 - `"GroupByKey"`: The key to group the resource counts.
-- `"Limit"`: The maximum number of [`grouped_resource_count`](@ref) objects returned on each
-  page. The default is 1000. You cannot specify a number greater than 1000. If you specify
-  0, Config uses the default.
+- `"Limit"`: The maximum number of `GroupedResourceCount` objects returned on each page. The
+  default is 1000. You cannot specify a number greater than 1000. If you specify 0, Config
+  uses the default.
 - `"NextToken"`: The `nextToken` string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
@@ -2768,8 +2768,8 @@ resources that Config is recording in this region for your Amazon Web Services a
 - The number of each resource type (25, 20, and 15).
 - The total number of all resources (60).
 
-The response is paginated. By default, Config lists 100 [`resource_count`](@ref) objects on
-each page. You can customize this number with the `limit` parameter. The response includes a
+The response is paginated. By default, Config lists 100 `ResourceCount` objects on each
+page. You can customize this number with the `limit` parameter. The response includes a
 `nextToken` string. To get the next page of results, run the request again and specify the
 string for the `nextToken` parameter.
 
@@ -2787,8 +2787,8 @@ string for the `nextToken` parameter.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"limit"`: The maximum number of [`resource_count`](@ref) objects returned on each page.
-  The default is 100. You cannot specify a number greater than 100. If you specify 0, Config
+- `"limit"`: The maximum number of `ResourceCount` objects returned on each page. The
+  default is 100. You cannot specify a number greater than 100. If you specify 0, Config
   uses the default.
 
 - `"nextToken"`: The `nextToken` string returned on a previous page that you use to get the
@@ -2801,10 +2801,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Config is recording in the region for your account.
 
   !!! note
-      If the configuration recorder is turned off, Config returns an empty list of [`resource_count`](@ref)
-      objects. If the configuration recorder is not recording a specific resource type (for
-      example, S3 buckets), that resource type is not returned in the list of [`resource_count`](@ref)
-      objects.
+      If the configuration recorder is turned off, Config returns an empty list of
+      `ResourceCount` objects. If the configuration recorder is not recording a specific
+      resource type (for example, S3 buckets), that resource type is not returned in the
+      list of `ResourceCount` objects.
 """
 function get_discovered_resource_counts end
 

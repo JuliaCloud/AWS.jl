@@ -117,17 +117,17 @@ Defines the information necessary to create a configured audience model.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"audienceSizeConfig"`: Configure the list of output sizes of audiences that can be
-  created using this configured audience model. A request to [`start_audience_generation_job`](@ref)
+  created using this configured audience model. A request to `StartAudienceGenerationJob`
   that uses this configured audience model must have an `audienceSize` selected from this
-  list. You can use the `ABSOLUTE` [`audience_size`](@ref) to configure out audience sizes
-  using the count of identifiers in the output. You can use the `Percentage` [`audience_size`](@ref)
-  to configure sizes in the range 1-100 percent.
+  list. You can use the `ABSOLUTE` `AudienceSize` to configure out audience sizes using the
+  count of identifiers in the output. You can use the `Percentage` `AudienceSize` to
+  configure sizes in the range 1-100 percent.
 
 - `"childResourceTagOnCreatePolicy"`: Configure how the service tags audience generation
   jobs created using this configured audience model. If you specify `NONE`, the tags from
-  the [`start_audience_generation_job`](@ref) request determine the tags of the audience
-  generation job. If you specify `FROM_PARENT_RESOURCE`, the audience generation job
-  inherits the tags from the configured audience model, by default. Tags in the [`start_audience_generation_job`](@ref)
+  the `StartAudienceGenerationJob` request determine the tags of the audience generation
+  job. If you specify `FROM_PARENT_RESOURCE`, the audience generation job inherits the tags
+  from the configured audience model, by default. Tags in the `StartAudienceGenerationJob`
   will override the default.
 
   When the client is in a different account than the configured audience model, the tags

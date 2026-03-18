@@ -282,9 +282,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial [`list_pipelines`](@ref) operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent [`list_pipelines`](@ref)
-  operations, which returns results in the next page.
+- `"nextToken"`: If your initial `ListPipelines` operation returns a `nextToken`, you can
+  include the returned `nextToken` in subsequent `ListPipelines` operations, which returns
+  results in the next page.
 """
 function list_pipelines end
 

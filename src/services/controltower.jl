@@ -740,9 +740,9 @@ examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filter"`: A filter applied on the [`list_enabled_baseline`](@ref) operation. Allowed
-  filters are `baselineIdentifiers` and `targetIdentifiers`. The filter can be applied for
-  either, or both.
+- `"filter"`: A filter applied on the `ListEnabledBaseline` operation. Allowed filters are
+  `baselineIdentifiers` and `targetIdentifiers`. The filter can be applied for either, or
+  both.
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """

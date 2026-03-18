@@ -2510,8 +2510,8 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"additionalMetricsToRetain"`: *Please use [`create_security_profile_request\$additional_metrics_to_retain_v2`](@ref)
-  instead.*
+- `"additionalMetricsToRetain"`: *Please use
+  `CreateSecurityProfileRequest\$additionalMetricsToRetainV2` instead.*
 
   A list of metrics whose data is retained (stored). By default, data is retained for any
   metric used in the profile's `behaviors`, but it is also retained for any metric specified
@@ -12204,8 +12204,8 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"additionalMetricsToRetain"`: *Please use [`update_security_profile_request\$additional_metrics_to_retain_v2`](@ref)
-  instead.*
+- `"additionalMetricsToRetain"`: *Please use
+  `UpdateSecurityProfileRequest\$additionalMetricsToRetainV2` instead.*
 
   A list of metrics whose data is retained (stored). By default, data is retained for any
   metric used in the profile's `behaviors`, but it is also retained for any metric specified

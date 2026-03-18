@@ -40,7 +40,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 """
 function cancel_key_deletion end
 
@@ -91,7 +91,8 @@ isolation and control of a key store that you own and manage.
 
 The [`connect_custom_key_store`](@ref) operation might fail for various reasons. To find the
 reason, use the [`describe_custom_key_stores`](@ref) operation and see the
-`ConnectionErrorCode` in the response. For help interpreting the `ConnectionErrorCode`, see [`custom_key_stores_list_entry`](@ref).
+`ConnectionErrorCode` in the response. For help interpreting the `ConnectionErrorCode`, see
+`CustomKeyStoresListEntry`.
 
 To fix the failure, use the [`disconnect_custom_key_store`](@ref) operation to disconnect
 the custom key store, correct the error, use the [`update_custom_key_store`](@ref) operation
@@ -152,7 +153,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 # Arguments
 
 - `custom_key_store_id`: Enter the key store ID of the custom key store that you want to
-  connect. To find the ID of a custom key store, use the [`describe_custom_key_stores`](@ref)
+  connect. To find the ID of a custom key store, use the `DescribeCustomKeyStores`
   operation.
 """
 function connect_custom_key_store end
@@ -268,7 +269,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 """
 function create_alias end
 
@@ -441,8 +442,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This parameter doesn't set or change the authentication credentials on the XKS proxy. It
   just tells KMS the credential that you established on your external key store proxy. If
-  you rotate your proxy authentication credential, use the [`update_custom_key_store`](@ref)
-  operation to provide the new credential to KMS.
+  you rotate your proxy authentication credential, use the `UpdateCustomKeyStore` operation
+  to provide the new credential to KMS.
 
 - `"XksProxyConnectivity"`: Indicates how KMS communicates with the external key store
   proxy. This parameter is required for custom key stores with a `CustomKeyStoreType` of
@@ -476,8 +477,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For external key stores with `PUBLIC_ENDPOINT` connectivity, this endpoint must be
   reachable before you create the custom key store. KMS connects to the external key store
   proxy while creating the custom key store. For external key stores with
-  `VPC_ENDPOINT_SERVICE` connectivity, KMS connects when you call the [`connect_custom_key_store`](@ref)
-  operation.
+  `VPC_ENDPOINT_SERVICE` connectivity, KMS connects when you call the
+  `ConnectCustomKeyStore` operation.
 
   The value of this parameter must begin with `https://`. The remainder can contain upper
   and lower case letters (A-Z and a-z), numbers (0-9), dots (`.`), and hyphens (`-`).
@@ -625,15 +626,15 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 - `operations`: A list of operations that the grant permits.
 
   This list must include only operations that are permitted in a grant. Also, the operation
   must be supported on the KMS key. For example, you cannot create a grant for a symmetric
-  encryption KMS key that allows the [`sign`](@ref) operation, or a grant for an asymmetric
-  KMS key that allows the [`generate_data_key`](@ref) operation. If you try, KMS returns a
-  `ValidationError` exception. For details, see [Grant operations](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-grant-operations)
+  encryption KMS key that allows the `Sign` operation, or a grant for an asymmetric KMS key
+  that allows the `GenerateDataKey` operation. If you try, KMS returns a `ValidationError`
+  exception. For details, see [Grant operations](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-grant-operations)
   in the *Key Management Service Developer Guide*.
 
 # Optional Parameters
@@ -653,11 +654,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The encryption context grant constraints are supported only on [grant operations](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-grant-operations)
   that include an `EncryptionContext` parameter, such as cryptographic operations on
-  symmetric encryption KMS keys. Grants with grant constraints can include the [`describe_key`](@ref)
-  and [`retire_grant`](@ref) operations, but the constraint doesn't apply to these
-  operations. If a grant with a grant constraint includes the [`create_grant`](@ref)
-  operation, the constraint requires that any grants created with the `CreateGrant`
-  permission have an equally strict or stricter encryption context constraint.
+  symmetric encryption KMS keys. Grants with grant constraints can include the `DescribeKey`
+  and `RetireGrant` operations, but the constraint doesn't apply to these operations. If a
+  grant with a grant constraint includes the `CreateGrant` operation, the constraint
+  requires that any grants created with the `CreateGrant` permission have an equally strict
+  or stricter encryption context constraint.
 
   You cannot use an encryption context grant constraint for cryptographic operations with
   asymmetric KMS keys or HMAC KMS keys. Operations with these keys don't support an
@@ -699,7 +700,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `CreateGrant` request, even when a duplicate `GrantId` is returned. All grant tokens for
   the same grant ID can be used interchangeably.
 
-- `"RetiringPrincipal"`: The principal that has permission to use the [`retire_grant`](@ref)
+- `"RetiringPrincipal"`: The principal that has permission to use the `RetireGrant`
   operation to retire the grant.
 
   To specify the principal, use the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
@@ -709,7 +710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *<i>Identity and Access Management User Guide* </i>.
 
   The grant determines the retiring principal. Other principals might have permission to
-  retire the grant or revoke the grant. For details, see [`revoke_grant`](@ref) and [Retiring and revoking grants](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#grant-delete)
+  retire the grant or revoke the grant. For details, see `RevokeGrant` and [Retiring and revoking grants](https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#grant-delete)
   in the *Key Management Service Developer Guide*.
 """
 function create_grant end
@@ -944,8 +945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CustomKeyStoreId"`: Creates the KMS key in the specified [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html).
   The `ConnectionState` of the custom key store must be `CONNECTED`. To find the
-  CustomKeyStoreID and ConnectionState use the [`describe_custom_key_stores`](@ref)
-  operation.
+  CustomKeyStoreID and ConnectionState use the `DescribeCustomKeyStores` operation.
 
   This parameter is valid only for symmetric encryption KMS keys in a single Region. You
   cannot create any other type of KMS key in a custom key store.
@@ -969,7 +969,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Do not include confidential or sensitive information in this field. This field may be
       displayed in plaintext in CloudTrail logs and other output.
 
-  To set or change the description after the key is created, use [`update_key_description`](@ref).
+  To set or change the description after the key is created, use `UpdateKeyDescription`.
 
 - `"KeySpec"`: Specifies the type of KMS key to create. The default value,
   `SYMMETRIC_DEFAULT`, creates a KMS key with a 256-bit AES-GCM key that is used for
@@ -1044,8 +1044,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about multi-Region keys, see [Multi-Region keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html)
   in the *Key Management Service Developer Guide*.
 
-  This value creates a *primary key*, not a replica. To create a *replica key*, use the [`replicate_key`](@ref)
-  operation.
+  This value creates a *primary key*, not a replica. To create a *replica key*, use the
+  `ReplicateKey` operation.
 
   You can create a symmetric or asymmetric multi-Region key, and you can create a multi-
   Region key with imported key material. However, you cannot create a multi-Region key in a
@@ -1097,7 +1097,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *<i>Identity and Access Management User Guide* </i>.
 
 - `"Tags"`: Assigns one or more tags to the KMS key. Use this parameter to tag the KMS key
-  when it is created. To tag an existing KMS key, use the [`tag_resource`](@ref) operation.
+  when it is created. To tag an existing KMS key, use the `TagResource` operation.
 
   !!! important
       Do not include confidential or sensitive information in this field. This field may be
@@ -1242,7 +1242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EncryptionAlgorithm"`: Specifies the encryption algorithm that will be used to decrypt
   the ciphertext. Specify the same algorithm that was used to encrypt the data. If you
-  specify a different algorithm, the [`decrypt`](@ref) operation fails.
+  specify a different algorithm, the `Decrypt` operation fails.
 
   This parameter is required only when the ciphertext was encrypted under an asymmetric KMS
   key. The default value, `SYMMETRIC_DEFAULT`, represents the only supported algorithm that
@@ -1273,7 +1273,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KeyId"`: Specifies the KMS key that KMS uses to decrypt the ciphertext.
 
   Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a
-  different KMS key, the [`decrypt`](@ref) operation throws an `IncorrectKeyException`.
+  different KMS key, the `Decrypt` operation throws an `IncorrectKeyException`.
 
   This parameter is required only when the ciphertext was encrypted under an asymmetric KMS
   key. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata
@@ -1291,8 +1291,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 - `"Recipient"`: A signed [attestation document](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-concepts.html#term-attestdoc)
   from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the
@@ -1466,7 +1466,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 # Arguments
 
 - `custom_key_store_id`: Enter the ID of the custom key store you want to delete. To find
-  the ID of a custom key store, use the [`describe_custom_key_stores`](@ref) operation.
+  the ID of a custom key store, use the `DescribeCustomKeyStores` operation.
 """
 function delete_custom_key_store end
 
@@ -1540,7 +1540,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 """
 function delete_imported_key_material end
 
@@ -1650,7 +1650,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 - `key_id`: Identifies an asymmetric NIST-recommended ECC or SM2 (China Regions only) KMS
   key. KMS uses the private key in the specified key pair to derive the shared secret. The
   key usage of the KMS key must be `KEY_AGREEMENT`. To find the `KeyUsage` of a KMS key, use
-  the [`describe_key`](@ref) operation.
+  the `DescribeKey` operation.
 
   To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an
   alias name, prefix it with `"alias/"`. To specify a KMS key in a different Amazon Web
@@ -1663,8 +1663,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 - `public_key`: Specifies the public key in your peer's NIST-recommended elliptic curve
   (ECC) or SM2 (China Regions only) key pair.
@@ -1672,8 +1672,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   The public key must be a DER-encoded X.509 public key, also known as
   `SubjectPublicKeyInfo` (SPKI), as defined in [RFC 5280](https://tools.ietf.org/html/rfc5280).
 
-  [`get_public_key`](@ref) returns the public key of an asymmetric KMS key pair in the
-  required DER-encoded format.
+  `GetPublicKey` returns the public key of an asymmetric KMS key pair in the required DER-
+  encoded format.
 
   !!! note
       If you use [Amazon Web Services CLI version 1](https://docs.aws.amazon.com/cli/v1/userguide/cli-chap-welcome.html),
@@ -1785,7 +1785,7 @@ To determine whether the custom key store is connected to its CloudHSM cluster o
 key store proxy, use the `ConnectionState` element in the response. If an attempt to connect
 the custom key store failed, the `ConnectionState` value is `FAILED` and the
 `ConnectionErrorCode` element in the response indicates the cause of the failure. For help
-interpreting the `ConnectionErrorCode`, see [`custom_key_stores_list_entry`](@ref).
+interpreting the `ConnectionErrorCode`, see `CustomKeyStoresListEntry`.
 
 Custom key stores have a `DISCONNECTED` connection state if the key store has never been
 connected or you used the [`disconnect_custom_key_store`](@ref) operation to disconnect it.
@@ -1934,8 +1934,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 # Optional Parameters
 
@@ -2006,7 +2006,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 """
 function disable_key end
 
@@ -2088,7 +2088,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 """
 function disable_key_rotation end
 
@@ -2161,7 +2161,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 # Arguments
 
 - `custom_key_store_id`: Enter the ID of the custom key store you want to disconnect. To
-  find the ID of a custom key store, use the [`describe_custom_key_stores`](@ref) operation.
+  find the ID of a custom key store, use the `DescribeCustomKeyStores` operation.
 """
 function disconnect_custom_key_store end
 
@@ -2225,7 +2225,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 """
 function enable_key end
 
@@ -2332,7 +2332,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 # Optional Parameters
 
@@ -2443,8 +2443,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 # Arguments
 
 - `key_id`: Identifies the KMS key to use in the encryption operation. The KMS key must have
-  a `KeyUsage` of `ENCRYPT_DECRYPT`. To find the `KeyUsage` of a KMS key, use the [`describe_key`](@ref)
-  operation.
+  a `KeyUsage` of `ENCRYPT_DECRYPT`. To find the `KeyUsage` of a KMS key, use the
+  `DescribeKey` operation.
 
   To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an
   alias name, prefix it with `"alias/"`. To specify a KMS key in a different Amazon Web
@@ -2457,8 +2457,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 - `plaintext`: Data to be encrypted.
 
@@ -2627,7 +2627,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 
 - `key_id`: Specifies the symmetric encryption KMS key that encrypts the data key. You
   cannot specify an asymmetric KMS key or a KMS key in a custom key store. To get the type
-  and origin of your KMS key, use the [`describe_key`](@ref) operation.
+  and origin of your KMS key, use the `DescribeKey` operation.
 
   To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an
   alias name, prefix it with `"alias/"`. To specify a KMS key in a different Amazon Web
@@ -2640,8 +2640,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 # Optional Parameters
 
@@ -2815,8 +2815,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 
 - `key_id`: Specifies the symmetric encryption KMS key that encrypts the private key in the
   data key pair. You cannot specify an asymmetric KMS key or a KMS key in a custom key
-  store. To get the type and origin of your KMS key, use the [`describe_key`](@ref)
-  operation.
+  store. To get the type and origin of your KMS key, use the `DescribeKey` operation.
 
   To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an
   alias name, prefix it with `"alias/"`. To specify a KMS key in a different Amazon Web
@@ -2829,8 +2828,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 - `key_pair_spec`: Determines the type of data key pair that is generated.
 
@@ -2988,8 +2987,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 
 - `key_id`: Specifies the symmetric encryption KMS key that encrypts the private key in the
   data key pair. You cannot specify an asymmetric KMS key or a KMS key in a custom key
-  store. To get the type and origin of your KMS key, use the [`describe_key`](@ref)
-  operation.
+  store. To get the type and origin of your KMS key, use the `DescribeKey` operation.
 
   To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an
   alias name, prefix it with `"alias/"`. To specify a KMS key in a different Amazon Web
@@ -3002,8 +3000,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 - `key_pair_spec`: Determines the type of data key pair that is generated.
 
@@ -3152,7 +3150,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 
 - `key_id`: Specifies the symmetric encryption KMS key that encrypts the data key. You
   cannot specify an asymmetric KMS key or a KMS key in a custom key store. To get the type
-  and origin of your KMS key, use the [`describe_key`](@ref) operation.
+  and origin of your KMS key, use the `DescribeKey` operation.
 
   To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an
   alias name, prefix it with `"alias/"`. To specify a KMS key in a different Amazon Web
@@ -3165,8 +3163,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 # Optional Parameters
 
@@ -3277,20 +3275,20 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 - `key_id`: The HMAC KMS key to use in the operation. The MAC algorithm computes the HMAC
   for the message and the key as described in [RFC 2104](https://datatracker.ietf.org/doc/html/rfc2104).
 
-  To identify an HMAC KMS key, use the [`describe_key`](@ref) operation and see the
-  `KeySpec` field in the response.
+  To identify an HMAC KMS key, use the `DescribeKey` operation and see the `KeySpec` field
+  in the response.
 
 - `mac_algorithm`: The MAC algorithm used in the operation.
 
   The algorithm must be compatible with the HMAC KMS key that you specify. To find the MAC
-  algorithms that your HMAC KMS key supports, use the [`describe_key`](@ref) operation and
-  see the `MacAlgorithms` field in the `DescribeKey` response.
+  algorithms that your HMAC KMS key supports, use the `DescribeKey` operation and see the
+  `MacAlgorithms` field in the `DescribeKey` response.
 
 - `message`: The message to be hashed. Specify a message of up to 4,096 bytes.
 
-  `GenerateMac` and [`verify_mac`](@ref) do not provide special handling for message
-  digests. If you generate an HMAC for a hash digest of a message, you must verify the HMAC
-  of the same hash digest.
+  `GenerateMac` and `VerifyMac` do not provide special handling for message digests. If you
+  generate an HMAC for a hash digest of a message, you must verify the HMAC of the same hash
+  digest.
 
 # Optional Parameters
 
@@ -3386,7 +3384,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CustomKeyStoreId"`: Generates the random byte string in the CloudHSM cluster that is
   associated with the specified CloudHSM key store. To find the ID of a custom key store,
-  use the [`describe_custom_key_stores`](@ref) operation.
+  use the `DescribeCustomKeyStores` operation.
 
   External key store IDs are not valid for this parameter. If you specify the ID of an
   external key store, `GenerateRandom` throws an `UnsupportedOperationException`.
@@ -3453,7 +3451,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 # Optional Parameters
 
@@ -3461,7 +3459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PolicyName"`: Specifies the name of the key policy. If no policy name is specified, the
   default value is `default`. The only valid name is `default`. To get the names of key
-  policies, use [`list_key_policies`](@ref).
+  policies, use `ListKeyPolicies`.
 """
 function get_key_policy end
 
@@ -3558,7 +3556,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 """
 function get_key_rotation_status end
 
@@ -3661,7 +3659,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 - `wrapping_algorithm`: The algorithm you will use with the RSA public key (`PublicKey`) in
   the response to protect your key material during import. For more information, see [Select a wrapping algorithm](kms/latest/developerguide/importing-keys-get-public-key-and-token.html#select-wrapping-algorithm)
@@ -3813,8 +3811,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 # Optional Parameters
 
@@ -3945,18 +3943,17 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 # Arguments
 
 - `encrypted_key_material`: The encrypted key material to import. The key material must be
-  encrypted under the public wrapping key that [`get_parameters_for_import`](@ref) returned,
-  using the wrapping algorithm that you specified in the same `GetParametersForImport`
-  request.
+  encrypted under the public wrapping key that `GetParametersForImport` returned, using the
+  wrapping algorithm that you specified in the same `GetParametersForImport` request.
 
-- `import_token`: The import token that you received in the response to a previous [`get_parameters_for_import`](@ref)
-  request. It must be from the same response that contained the public key that you used to
-  encrypt the key material.
+- `import_token`: The import token that you received in the response to a previous
+  `GetParametersForImport` request. It must be from the same response that contained the
+  public key that you used to encrypt the key material.
 
 - `key_id`: The identifier of the KMS key that will be associated with the imported key
   material. This must be the same KMS key specified in the `KeyID` parameter of the
-  corresponding [`get_parameters_for_import`](@ref) request. The `Origin` of the KMS key
-  must be `EXTERNAL` and its `KeyState` must be `PendingImport`.
+  corresponding `GetParametersForImport` request. The `Origin` of the KMS key must be
+  `EXTERNAL` and its `KeyState` must be `PendingImport`.
 
   The KMS key can be a symmetric encryption KMS key, HMAC KMS key, asymmetric encryption KMS
   key, or asymmetric signing KMS key, including a [multi-Region key](kms/latest/developerguide/multi-region-keys-overview.html)
@@ -3970,7 +3967,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 # Optional Parameters
 
@@ -3999,8 +3996,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must reimport the same key material.
 
   You cannot change the `ExpirationModel` or `ValidTo` values for the current import after
-  the request completes. To change either value, you must delete ([`delete_imported_key_material`](@ref))
-  and reimport the key material.
+  the request completes. To change either value, you must delete
+  (`DeleteImportedKeyMaterial`) and reimport the key material.
 """
 function import_key_material end
 
@@ -4104,7 +4101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 - `"Limit"`: Use this parameter to specify the maximum number of items to return. When this
   value is present, KMS does not return more than the specified number of items, but it
@@ -4179,7 +4176,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 # Optional Parameters
 
@@ -4257,7 +4254,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 # Optional Parameters
 
@@ -4337,7 +4334,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 # Optional Parameters
 
@@ -4461,7 +4458,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 # Optional Parameters
 
@@ -4637,7 +4634,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 - `policy`: The key policy to attach to the KMS key.
 
@@ -4808,8 +4805,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 
 - `destination_key_id`: A unique identifier for the KMS key that is used to reencrypt the
   data. Specify a symmetric encryption KMS key or an asymmetric KMS key with a `KeyUsage`
-  value of `ENCRYPT_DECRYPT`. To find the `KeyUsage` value of a KMS key, use the [`describe_key`](@ref)
-  operation.
+  value of `ENCRYPT_DECRYPT`. To find the `KeyUsage` value of a KMS key, use the
+  `DescribeKey` operation.
 
   To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an
   alias name, prefix it with `"alias/"`. To specify a KMS key in a different Amazon Web
@@ -4822,8 +4819,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 # Optional Parameters
 
@@ -4895,7 +4892,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   it is re-encrypted.
 
   Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a
-  different KMS key, the [`re_encrypt`](@ref) operation throws an `IncorrectKeyException`.
+  different KMS key, the `ReEncrypt` operation throws an `IncorrectKeyException`.
 
   This parameter is required only when the ciphertext was encrypted under an asymmetric KMS
   key. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata
@@ -4913,8 +4910,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 """
 function re_encrypt end
 
@@ -5035,8 +5032,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 # Arguments
 
 - `key_id`: Identifies the multi-Region primary key that is being replicated. To determine
-  whether a KMS key is a multi-Region primary key, use the [`describe_key`](@ref) operation
-  to check the value of the `MultiRegionKeyType` property.
+  whether a KMS key is a multi-Region primary key, use the `DescribeKey` operation to check
+  the value of the `MultiRegionKeyType` property.
 
   Specify the key ID or key ARN of a multi-Region primary key.
 
@@ -5045,7 +5042,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `mrk-1234abcd12ab34cd56ef1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 - `replica_region`: The Region ID of the Amazon Web Services Region for this replica key.
 
@@ -5056,9 +5053,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   !!! note
       HMAC KMS keys are not supported in all Amazon Web Services Regions. If you try to
       replicate an HMAC KMS key in an Amazon Web Services Region in which HMAC keys are not
-      supported, the [`replicate_key`](@ref) operation returns an
-      `UnsupportedOperationException`. For a list of Regions in which HMAC KMS keys are
-      supported, see [HMAC keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html)
+      supported, the `ReplicateKey` operation returns an `UnsupportedOperationException`.
+      For a list of Regions in which HMAC KMS keys are supported, see [HMAC keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html)
       in the *Key Management Service Developer Guide*.
 
   The replica must be in a different Amazon Web Services Region than its primary key and
@@ -5137,8 +5133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *<i>Identity and Access Management User Guide* </i>.
 
 - `"Tags"`: Assigns one or more tags to the replica key. Use this parameter to tag the KMS
-  key when it is created. To tag an existing KMS key, use the [`tag_resource`](@ref)
-  operation.
+  key when it is created. To tag an existing KMS key, use the `TagResource` operation.
 
   !!! important
       Do not include confidential or sensitive information in this field. This field may be
@@ -5243,20 +5238,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html)
   in the *Key Management Service Developer Guide*.
 
-- `"GrantId"`: Identifies the grant to retire. To get the grant ID, use [`create_grant`](@ref), [`list_grants`](@ref),
-  or [`list_retirable_grants`](@ref).
+- `"GrantId"`: Identifies the grant to retire. To get the grant ID, use `CreateGrant`,
+  `ListGrants`, or `ListRetirableGrants`.
 
   - Grant ID Example - 0123456789012345678901234567890123456789012345678901234567890123
 
 - `"GrantToken"`: Identifies the grant to be retired. You can use a grant token to identify
   a new grant even before it has achieved eventual consistency.
 
-  Only the [`create_grant`](@ref) operation returns a grant token. For details, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token)
+  Only the `CreateGrant` operation returns a grant token. For details, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token)
   and [Eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-eventual-consistency)
   in the *Key Management Service Developer Guide*.
 
-- `"KeyId"`: The key ARN KMS key associated with the grant. To find the key ARN, use the [`list_keys`](@ref)
-  operation.
+- `"KeyId"`: The key ARN KMS key associated with the grant. To find the key ARN, use the
+  `ListKeys` operation.
 
   For example: `arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 """
@@ -5309,11 +5304,11 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 
 # Arguments
 
-- `grant_id`: Identifies the grant to revoke. To get the grant ID, use [`create_grant`](@ref), [`list_grants`](@ref),
-  or [`list_retirable_grants`](@ref).
+- `grant_id`: Identifies the grant to revoke. To get the grant ID, use `CreateGrant`,
+  `ListGrants`, or `ListRetirableGrants`.
 
 - `key_id`: A unique identifier for the KMS key associated with the grant. To get the key ID
-  and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
   Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon
   Web Services account, you must use the key ARN.
@@ -5323,7 +5318,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 # Optional Parameters
 
@@ -5436,7 +5431,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 """
 function rotate_key_on_demand end
 
@@ -5529,7 +5524,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 # Optional Parameters
 
@@ -5631,7 +5626,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 
 - `key_id`: Identifies an asymmetric KMS key. KMS uses the private key in the asymmetric KMS
   key to sign the message. The `KeyUsage` type of the KMS key must be `SIGN_VERIFY`. To find
-  the `KeyUsage` of a KMS key, use the [`describe_key`](@ref) operation.
+  the `KeyUsage` of a KMS key, use the `DescribeKey` operation.
 
   To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an
   alias name, prefix it with `"alias/"`. To specify a KMS key in a different Amazon Web
@@ -5644,8 +5639,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 - `message`: Specifies the message or message digest to sign. Messages can be 0-4096 bytes.
   To sign a larger message, provide a message digest.
@@ -5801,7 +5796,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 - `tags`: One or more tags. Each tag consists of a tag key and a tag value. The tag value
   can be an empty (null) string.
@@ -5893,7 +5888,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 """
@@ -6004,9 +5999,9 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
-  To verify that the alias is mapped to the correct KMS key, use [`list_aliases`](@ref).
+  To verify that the alias is mapped to the correct KMS key, use `ListAliases`.
 """
 function update_alias end
 
@@ -6128,8 +6123,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 # Arguments
 
 - `custom_key_store_id`: Identifies the custom key store that you want to update. Enter the
-  ID of the custom key store. To find the ID of a custom key store, use the [`describe_custom_key_stores`](@ref)
-  operation.
+  ID of the custom key store. To find the ID of a custom key store, use the
+  `DescribeCustomKeyStores` operation.
 
 # Optional Parameters
 
@@ -6305,7 +6300,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 """
 function update_key_description end
 
@@ -6419,7 +6414,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Key ID: `mrk-1234abcd12ab34cd56ef1234567890ab`
   - Key ARN: `arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 - `primary_region`: The Amazon Web Services Region of the new primary key. Enter the Region
   ID, such as `us-east-1` or `ap-southeast-2`. There must be an existing replica key in this
@@ -6526,8 +6521,8 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   - Alias name: `alias/ExampleAlias`
   - Alias ARN: `arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias`
 
-  To get the key ID and key ARN for a KMS key, use [`list_keys`](@ref) or [`describe_key`](@ref).
-  To get the alias name and alias ARN, use [`list_aliases`](@ref).
+  To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`. To get the
+  alias name and alias ARN, use `ListAliases`.
 
 - `message`: Specifies the message that was signed. You can submit a raw message of up to
   4096 bytes, or a hash digest of the message. If you submit a digest, use the `MessageType`
@@ -6536,7 +6531,7 @@ parameter with a value of `DIGEST`.
   If the message specified here is different from the message that was signed, the signature
   verification fails. A message and its hash digest are considered to be the same message.
 
-- `signature`: The signature that the [`sign`](@ref) operation generated.
+- `signature`: The signature that the `Sign` operation generated.
 
 - `signing_algorithm`: The signing algorithm that was used to sign the message. If you
   submit a different algorithm, the signature verification fails.
@@ -6671,9 +6666,9 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 - `key_id`: The KMS key that will be used in the verification.
 
   Enter a key ID of the KMS key that was used to generate the HMAC. If you identify a
-  different KMS key, the [`verify_mac`](@ref) operation fails.
+  different KMS key, the `VerifyMac` operation fails.
 
-- `mac`: The HMAC to verify. Enter the HMAC that was generated by the [`generate_mac`](@ref)
+- `mac`: The HMAC to verify. Enter the HMAC that was generated by the `GenerateMac`
   operation when you specified the same message, HMAC KMS key, and MAC algorithm as the
   values specified in this request.
 
@@ -6684,9 +6679,9 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
 - `message`: The message that will be used in the verification. Enter the same message that
   was used to generate the HMAC.
 
-  [`generate_mac`](@ref) and `VerifyMac` do not provide special handling for message
-  digests. If you generated an HMAC for a hash digest of a message, you must verify the HMAC
-  for the same hash digest.
+  `GenerateMac` and `VerifyMac` do not provide special handling for message digests. If you
+  generated an HMAC for a hash digest of a message, you must verify the HMAC for the same
+  hash digest.
 
 # Optional Parameters
 

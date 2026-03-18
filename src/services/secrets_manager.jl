@@ -213,8 +213,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `SecretBinary` values are the same as those in the request, then the request is ignored.
   - If a version with this value already exists and that version's `SecretString` and
     `SecretBinary` values are different from those in the request, then the request fails
-    because you cannot modify an existing version. Instead, use [`put_secret_value`](@ref)
-    to create a new version.
+    because you cannot modify an existing version. Instead, use `PutSecretValue` to create a
+    new version.
 
   This value becomes the `VersionId` of the new version.
 
@@ -1278,7 +1278,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value to ensure uniqueness of your versions within the specified secret.
 
 - `"RotateImmediately"`: Specifies whether to rotate the secret immediately or wait until
-  the next scheduled rotation window. The rotation schedule is defined in [`rotate_secret_request\$_rotation_rules`](@ref).
+  the next scheduled rotation window. The rotation schedule is defined in
+  `RotateSecretRequest\$RotationRules`.
 
   For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate
   the secret, Secrets Manager tests the rotation configuration by running the [`testSecret` step](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda-functions.html#rotate-secrets_lambda-functions-code)

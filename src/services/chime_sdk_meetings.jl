@@ -286,8 +286,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   In addition to the `tag:TagResources` permission required by this operation, you must also
   have the tagging permission defined by the service that created the resource. For example,
-  to tag a `ChimeSDKMeetings` instance using the [`tag_resources`](@ref) operation, you must
-  have both of the following permissions:
+  to tag a `ChimeSDKMeetings` instance using the `TagResources` operation, you must have
+  both of the following permissions:
 
   `tag:TagResources`
 
@@ -867,7 +867,7 @@ attempt to remove tags from a resource that were already removed. Note the follo
 
 In addition to the `tag:UntagResources` permission required by this operation, you must also
 have the remove tags permission defined by the service that created the resource. For
-example, to remove the tags from an Amazon EC2 instance using the [`untag_resources`](@ref)
+example, to remove the tags from an Amazon EC2 instance using the `UntagResources`
 operation, you must have both of the following permissions:
 
 `tag:UntagResource`

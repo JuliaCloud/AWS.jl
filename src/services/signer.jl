@@ -20,11 +20,11 @@ Adds cross-account permissions to a signing profile.
   You can designate the following actions to an account.
 
   - `signer:StartSigningJob`. This action isn't supported for container image workflows. For
-    details, see [`start_signing_job`](@ref).
+    details, see `StartSigningJob`.
   - `signer:SignPayload`. This action isn't supported for AWS Lambda workflows. For details,
-    see [`sign_payload`](@ref)
-  - `signer:GetSigningProfile`. For details, see [`get_signing_profile`](@ref).
-  - `signer:RevokeSignature`. For details, see [`revoke_signature`](@ref).
+    see `SignPayload`
+  - `signer:GetSigningProfile`. For details, see `GetSigningProfile`.
+  - `signer:RevokeSignature`. For details, see `RevokeSignature`.
 
 - `principal`: The AWS principal receiving cross-account permissions. This may be an IAM
   role or another AWS account ID.

@@ -24,9 +24,9 @@ Adds a policy statement object. To retrieve a list of existing policy statements
   (`Allow`) or denied (`Deny`).
 
   !!! important
-      If you set the value of the `effect` parameter to `Deny` for the [`add_policy_statement`](@ref)
+      If you set the value of the `effect` parameter to `Deny` for the `AddPolicyStatement`
       operation, you must also set the value of the `effect` parameter in the `policy` to
-      `Deny` for the [`put_policy`](@ref) operation.
+      `Deny` for the `PutPolicy` operation.
 
 - `principal`: The Amazon Web Services service or Amazon Web Services account that can
   access the resource defined as ARN.
@@ -1272,9 +1272,9 @@ Updates the resource-based policy.
 - `policy`: The resource-based policy.
 
   !!! important
-      If you set the value of the `effect` parameter in the `policy` to `Deny` for the [`put_policy`](@ref)
-      operation, you must also set the value of the `effect` parameter to `Deny` for the [`add_policy_statement`](@ref)
-      operation.
+      If you set the value of the `effect` parameter in the `policy` to `Deny` for the
+      `PutPolicy` operation, you must also set the value of the `effect` parameter to `Deny`
+      for the `AddPolicyStatement` operation.
 
 # Optional Parameters
 

@@ -981,8 +981,8 @@ end
     describe_batch_predictions()
     describe_batch_predictions(params::Dict{String,<:Any})
 
-Returns a list of [`batch_prediction`](@ref) operations that match the search criteria in
-the request.
+Returns a list of `BatchPrediction` operations that match the search criteria in the
+request.
 
 # Optional Parameters
 
@@ -1028,7 +1028,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Prefix"`: A string that is found at the beginning of a variable, such as `Name` or `Id`.
 
-  For example, a [`batch _prediction`](@ref) operation could have the `Name`
+  For example, a `Batch Prediction` operation could have the `Name`
   `2014-09-09-HolidayGiftMailer`. To search for this `BatchPrediction`, select `Name` for
   the `FilterVariable` and any of the following strings for the `Prefix`:
 
@@ -1415,7 +1415,7 @@ schema description and the list of files pointed to by the DataSource to the nor
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Verbose"`: Specifies whether the [`get_data_source`](@ref) operation should return
+- `"Verbose"`: Specifies whether the `GetDataSource` operation should return
   `DataSourceSchema`.
 
   If true, `DataSourceSchema` is returned.
@@ -1503,7 +1503,7 @@ current status of the `MLModel`.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Verbose"`: Specifies whether the [`get_mlmodel`](@ref) operation should return `Recipe`.
+- `"Verbose"`: Specifies whether the `GetMLModel` operation should return `Recipe`.
 
   If true, `Recipe` is returned.
 

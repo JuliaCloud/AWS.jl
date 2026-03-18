@@ -1187,8 +1187,8 @@ the status of a classification job.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Comprehend generated for the job. The [`start_document_classification_job`](@ref)
-  operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Comprehend generated for the job. The
+  `StartDocumentClassificationJob` operation returns this identifier in its response.
 """
 function describe_document_classification_job end
 
@@ -1223,8 +1223,8 @@ Gets the properties associated with a document classifier.
 # Arguments
 
 - `document_classifier_arn`: The Amazon Resource Name (ARN) that identifies the document
-  classifier. The [`create_document_classifier`](@ref) operation returns this identifier in
-  its response.
+  classifier. The `CreateDocumentClassifier` operation returns this identifier in its
+  response.
 """
 function describe_document_classifier end
 
@@ -1267,8 +1267,8 @@ get the status of a detection job.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Comprehend generated for the job. The [`start_dominant_language_detection_job`](@ref)
-  operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Comprehend generated for the job. The
+  `StartDominantLanguageDetectionJob` operation returns this identifier in its response.
 """
 function describe_dominant_language_detection_job end
 
@@ -1340,8 +1340,8 @@ status of a detection job.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Comprehend generated for the job. The [`start_entities_detection_job`](@ref)
-  operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Comprehend generated for the job. The
+  `StartEntitiesDetectionJob` operation returns this identifier in its response.
 """
 function describe_entities_detection_job end
 
@@ -1543,8 +1543,8 @@ the status of a detection job.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Comprehend generated for the job. The [`start_key_phrases_detection_job`](@ref)
-  operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Comprehend generated for the job. The
+  `StartKeyPhrasesDetectionJob` operation returns this identifier in its response.
 """
 function describe_key_phrases_detection_job end
 
@@ -1691,8 +1691,8 @@ to get the status of the job.
 
 # Arguments
 
-- `job_id`: The identifier that Amazon Comprehend generated for the job. The [`start_targeted_sentiment_detection_job`](@ref)
-  operation returns this identifier in its response.
+- `job_id`: The identifier that Amazon Comprehend generated for the job. The
+  `StartTargetedSentimentDetectionJob` operation returns this identifier in its response.
 """
 function describe_targeted_sentiment_detection_job end
 
@@ -3750,8 +3750,8 @@ end
     start_topics_detection_job(data_access_role_arn, input_data_config, output_data_config)
     start_topics_detection_job(data_access_role_arn, input_data_config, output_data_config, params::Dict{String,<:Any})
 
-Starts an asynchronous topic detection job. Use the [`describe_topic_detection_job`](@ref)
-operation to track the status of a job.
+Starts an asynchronous topic detection job. Use the `DescribeTopicDetectionJob` operation to
+track the status of a job.
 
 # Arguments
 

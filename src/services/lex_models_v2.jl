@@ -254,14 +254,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"botMembers"`: The list of bot members in a network to be created.
 - `"botTags"`: A list of tags to add to the bot. You can only add tags when you create a
-  bot. You can't use the [`update_bot`](@ref) operation to update tags. To update tags, use
-  the [`tag_resource`](@ref) operation.
+  bot. You can't use the `UpdateBot` operation to update tags. To update tags, use the
+  `TagResource` operation.
 - `"botType"`: The type of a bot to create.
 - `"description"`: A description of the bot. It appears in lists to help you identify a
   particular bot.
 - `"testBotAliasTags"`: A list of tags to add to the test alias for a bot. You can only add
-  tags when you create a bot. You can't use the [`update_alias`](@ref) operation to update
-  tags. To update tags on the test alias, use the [`tag_resource`](@ref) operation.
+  tags when you create a bot. You can't use the `UpdateAlias` operation to update tags. To
+  update tags on the test alias, use the `TagResource` operation.
 """
 function create_bot end
 
@@ -346,8 +346,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   alias.
 - `"sentimentAnalysisSettings"`:
 - `"tags"`: A list of tags to add to the bot alias. You can only add tags when you create an
-  alias, you can't use the [`update_bot_alias`](@ref) operation to update the tags on a bot
-  alias. To update tags, use the [`tag_resource`](@ref) operation.
+  alias, you can't use the `UpdateBotAlias` operation to update the tags on a bot alias. To
+  update tags, use the `TagResource` operation.
 """
 function create_bot_alias end
 
@@ -406,8 +406,8 @@ to a bot before you can add intents and slot types to the bot.
 
   For example, suppose a bot is configured with the confidence threshold of 0.80 and the
   `AMAZON.FallbackIntent`. Amazon Lex returns three alternative intents with the following
-  confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the [`recognize_text`](@ref)
-  operation would be:
+  confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the
+  `RecognizeText` operation would be:
 
   - AMAZON.FallbackIntent
   - IntentA
@@ -1759,7 +1759,7 @@ avoid the exception, set the `skipResourceInUseCheck` parameter to `true`.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"skipResourceInUseCheck"`: By default, the [`delete_slot_type`](@ref) operations throws a
+- `"skipResourceInUseCheck"`: By default, the `DeleteSlotType` operations throws a
   `ResourceInUseException` exception if you try to delete a slot type used by a slot. Set
   the `skipResourceInUseCheck` parameter to `true` to skip this check and remove the slot
   type even if a slot uses it.
@@ -2755,10 +2755,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of utterances to return in each page of results. If
   there are fewer results than the maximum page size, only the actual number of results are
   returned. If you don't specify the `maxResults` parameter, 1,000 results are returned.
-- `"nextToken"`: If the response from the [`list_aggregated_utterances`](@ref) operation
-  contains more results that specified in the `maxResults` parameter, a token is returned in
-  the response. Use that token in the `nextToken` parameter to return the next page of
-  results.
+- `"nextToken"`: If the response from the `ListAggregatedUtterances` operation contains more
+  results that specified in the `maxResults` parameter, a token is returned in the response.
+  Use that token in the `nextToken` parameter to return the next page of results.
 - `"sortBy"`: Specifies sorting parameters for the list of utterances. You can sort by the
   hit count, the missed count, or the number of distinct sessions the utterance appeared in.
 """
@@ -2868,9 +2867,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of aliases to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
-- `"nextToken"`: If the response from the [`list_bot_aliases`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the response.
-  Use that token in the `nextToken` parameter to return the next page of results.
+- `"nextToken"`: If the response from the `ListBotAliases` operation contains more results
+  than specified in the `maxResults` parameter, a token is returned in the response. Use
+  that token in the `nextToken` parameter to return the next page of results.
 """
 function list_bot_aliases end
 
@@ -2915,9 +2914,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value to filter on.
 - `"maxResults"`: The maximum number of aliases to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
-- `"nextToken"`: If the response from the [`list_bot_locales`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the response.
-  Use that token as the `nextToken` parameter to return the next page of results.
+- `"nextToken"`: If the response from the `ListBotLocales` operation contains more results
+  than specified in the `maxResults` parameter, a token is returned in the response. Use
+  that token as the `nextToken` parameter to return the next page of results.
 - `"sortBy"`: Specifies sorting parameters for the list of locales. You can sort by locale
   name in ascending or descending order.
 """
@@ -3157,9 +3156,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of versions to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
-- `"nextToken"`: If the response to the [`list_bot_version`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the response.
-  Use that token in the `nextToken` parameter to return the next page of results.
+- `"nextToken"`: If the response to the `ListBotVersion` operation contains more results
+  than specified in the `maxResults` parameter, a token is returned in the response. Use
+  that token in the `nextToken` parameter to return the next page of results.
 - `"sortBy"`: Specifies sorting parameters for the list of versions. You can specify that
   the list be sorted by version name in either ascending or descending order.
 """
@@ -3203,12 +3202,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of bots to return in each page of results. If there are
   fewer results than the maximum page size, only the actual number of results are returned.
 
-- `"nextToken"`: If the response from the [`list_bots`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the response.
+- `"nextToken"`: If the response from the `ListBots` operation contains more results than
+  specified in the `maxResults` parameter, a token is returned in the response.
 
   Use the returned token in the `nextToken` parameter of a `ListBots` request to return the
-  next page of results. For a complete set of results, call the [`list_bots`](@ref)
-  operation until the `nextToken` returned in the response is null.
+  next page of results. For a complete set of results, call the `ListBots` operation until
+  the `nextToken` returned in the response is null.
 
 - `"sortBy"`: Specifies sorting parameters for the list of bots. You can specify that the
   list be sorted by bot name in ascending or descending order.
@@ -3251,9 +3250,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of built-in intents to return in each page of results.
   If there are fewer results than the max page size, only the actual number of results are
   returned.
-- `"nextToken"`: If the response from the [`list_built_in_intents`](@ref) operation contains
-  more results than specified in the `maxResults` parameter, a token is returned in the
-  response. Use that token in the `nextToken` parameter to return the next page of results.
+- `"nextToken"`: If the response from the `ListBuiltInIntents` operation contains more
+  results than specified in the `maxResults` parameter, a token is returned in the response.
+  Use that token in the `nextToken` parameter to return the next page of results.
 - `"sortBy"`: Specifies sorting parameters for the list of built-in intents. You can specify
   that the list be sorted by the built-in intent signature in either ascending or descending
   order.
@@ -3301,11 +3300,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of built-in slot types to return in each page of
   results. If there are fewer results than the max page size, only the actual number of
   results are returned.
-- `"nextToken"`: If the response from the [`list_built_in_slot_types`](@ref) operation
-  contains more results than specified in the `maxResults` parameter, a token is returned in
-  the response. Use that token in the `nextToken` parameter to return the next page of
-  results.
-- `"sortBy"`: Determines the sort order for the response from the [`list_built_in_slot_types`](@ref)
+- `"nextToken"`: If the response from the `ListBuiltInSlotTypes` operation contains more
+  results than specified in the `maxResults` parameter, a token is returned in the response.
+  Use that token in the `nextToken` parameter to return the next page of results.
+- `"sortBy"`: Determines the sort order for the response from the `ListBuiltInSlotTypes`
   operation. You can choose to sort by the slot type signature in either ascending or
   descending order.
 """
@@ -3412,12 +3410,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of exports to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
 
-- `"nextToken"`: If the response from the [`list_exports`](@ref) operation contains more
-  results that specified in the `maxResults` parameter, a token is returned in the response.
+- `"nextToken"`: If the response from the `ListExports` operation contains more results that
+  specified in the `maxResults` parameter, a token is returned in the response.
 
   Use the returned token in the `nextToken` parameter of a `ListExports` request to return
-  the next page of results. For a complete set of results, call the [`list_exports`](@ref)
-  operation until the `nextToken` returned in the response is null.
+  the next page of results. For a complete set of results, call the `ListExports` operation
+  until the `nextToken` returned in the response is null.
 
 - `"sortBy"`: Determines the field that the list of exports is sorted by. You can sort by
   the `LastUpdatedDateTime` field in ascending or descending order.
@@ -3464,12 +3462,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of imports to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
 
-- `"nextToken"`: If the response from the [`list_imports`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the response.
+- `"nextToken"`: If the response from the `ListImports` operation contains more results than
+  specified in the `maxResults` parameter, a token is returned in the response.
 
   Use the returned token in the `nextToken` parameter of a `ListImports` request to return
-  the next page of results. For a complete set of results, call the [`list_imports`](@ref)
-  operation until the `nextToken` returned in the response is null.
+  the next page of results. For a complete set of results, call the `ListImports` operation
+  until the `nextToken` returned in the response is null.
 
 - `"sortBy"`: Determines the field that the list of imports is sorted by. You can sort by
   the `LastUpdatedDateTime` field in ascending or descending order.
@@ -3832,16 +3830,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of intents to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
 
-- `"nextToken"`: If the response from the [`list_intents`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the response.
+- `"nextToken"`: If the response from the `ListIntents` operation contains more results than
+  specified in the `maxResults` parameter, a token is returned in the response.
 
   Use the returned token in the `nextToken` parameter of a `ListIntents` request to return
-  the next page of results. For a complete set of results, call the [`list_intents`](@ref)
-  operation until the `nextToken` returned in the response is null.
+  the next page of results. For a complete set of results, call the `ListIntents` operation
+  until the `nextToken` returned in the response is null.
 
-- `"sortBy"`: Determines the sort order for the response from the [`list_intents`](@ref)
-  operation. You can choose to sort by the intent name or last updated date in either
-  ascending or descending order.
+- `"sortBy"`: Determines the sort order for the response from the `ListIntents` operation.
+  You can choose to sort by the intent name or last updated date in either ascending or
+  descending order.
 """
 function list_intents end
 
@@ -4153,12 +4151,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of slot types to return in each page of results. If
   there are fewer results than the max page size, only the actual number of results are
   returned.
-- `"nextToken"`: If the response from the [`list_slot_types`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the response.
-  Use that token in the `nextToken` parameter to return the next page of results.
-- `"sortBy"`: Determines the sort order for the response from the [`list_slot_types`](@ref)
-  operation. You can choose to sort by the slot type name or last updated date in either
-  ascending or descending order.
+- `"nextToken"`: If the response from the `ListSlotTypes` operation contains more results
+  than specified in the `maxResults` parameter, a token is returned in the response. Use
+  that token in the `nextToken` parameter to return the next page of results.
+- `"sortBy"`: Determines the sort order for the response from the `ListSlotTypes` operation.
+  You can choose to sort by the slot type name or last updated date in either ascending or
+  descending order.
 """
 function list_slot_types end
 
@@ -4212,12 +4210,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter and only one string to filter on.
 - `"maxResults"`: The maximum number of slots to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
-- `"nextToken"`: If the response from the [`list_slots`](@ref) operation contains more
-  results than specified in the `maxResults` parameter, a token is returned in the response.
-  Use that token in the `nextToken` parameter to return the next page of results.
-- `"sortBy"`: Determines the sort order for the response from the [`list_slots`](@ref)
-  operation. You can choose to sort by the slot name or last updated date in either
-  ascending or descending order.
+- `"nextToken"`: If the response from the `ListSlots` operation contains more results than
+  specified in the `maxResults` parameter, a token is returned in the response. Use that
+  token in the `nextToken` parameter to return the next page of results.
+- `"sortBy"`: Determines the sort order for the response from the `ListSlots` operation. You
+  can choose to sort by the slot name or last updated date in either ascending or descending
+  order.
 """
 function list_slots end
 
@@ -4309,10 +4307,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of test execution result items to return in each page.
   If there are fewer results than the max page size, only the actual number of results are
   returned.
-- `"nextToken"`: If the response from the [`list_test_execution_result_items`](@ref)
-  operation contains more results than specified in the `maxResults` parameter, a token is
-  returned in the response. Use that token in the `nextToken` parameter to return the next
-  page of results.
+- `"nextToken"`: If the response from the `ListTestExecutionResultItems` operation contains
+  more results than specified in the `maxResults` parameter, a token is returned in the
+  response. Use that token in the `nextToken` parameter to return the next page of results.
 """
 function list_test_execution_result_items end
 
@@ -5015,8 +5012,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The test set description for the test set generation request.
 - `"testSetTags"`: A list of tags to add to the test set. You can only add tags when you
-  import/generate a new test set. You can't use the [`update_test_set`](@ref) operation to
-  update tags. To update tags, use the [`tag_resource`](@ref) operation.
+  import/generate a new test set. You can't use the `UpdateTestSet` operation to update
+  tags. To update tags, use the `TagResource` operation.
 """
 function start_test_set_generation end
 

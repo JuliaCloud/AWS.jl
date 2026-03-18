@@ -129,8 +129,8 @@ in the *WAF Developer Guide*.
 
 - `health_check_arn`: The Amazon Resource Name (ARN) of the health check to associate with
   the protection.
-- `protection_id`: The unique identifier (ID) for the [`protection`](@ref) object to add the
-  health check association to.
+- `protection_id`: The unique identifier (ID) for the `Protection` object to add the health
+  check association to.
 """
 function associate_health_check end
 
@@ -272,8 +272,7 @@ and [Adding Shield Advanced protection to Amazon Web Services resources](https:/
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Tags"`: One or more tag key-value pairs for the [`protection`](@ref) object that is
-  created.
+- `"Tags"`: One or more tag key-value pairs for the `Protection` object that is created.
 """
 function create_protection end
 
@@ -431,12 +430,11 @@ end
     delete_protection(protection_id)
     delete_protection(protection_id, params::Dict{String,<:Any})
 
-Deletes an Shield Advanced [`protection`](@ref).
+Deletes an Shield Advanced `Protection`.
 
 # Arguments
 
-- `protection_id`: The unique identifier (ID) for the [`protection`](@ref) object to be
-  deleted.
+- `protection_id`: The unique identifier (ID) for the `Protection` object to be deleted.
 """
 function delete_protection end
 
@@ -658,15 +656,15 @@ end
     describe_protection()
     describe_protection(params::Dict{String,<:Any})
 
-Lists the details of a [`protection`](@ref) object.
+Lists the details of a `Protection` object.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ProtectionId"`: The unique identifier (ID) for the [`protection`](@ref) object to
-  describe. You must provide either the `ResourceArn` of the protected resource or the
-  `ProtectionID` of the protection, but not both.
+- `"ProtectionId"`: The unique identifier (ID) for the `Protection` object to describe. You
+  must provide either the `ResourceArn` of the protected resource or the `ProtectionID` of
+  the protection, but not both.
 - `"ResourceArn"`: The ARN (Amazon Resource Name) of the protected Amazon Web Services
   resource. You must provide either the `ResourceArn` of the protected resource or the
   `ProtectionID` of the protection, but not both.
@@ -900,8 +898,8 @@ in the *WAF Developer Guide*.
 
 - `health_check_arn`: The Amazon Resource Name (ARN) of the health check that is associated
   with the protection.
-- `protection_id`: The unique identifier (ID) for the [`protection`](@ref) object to remove
-  the health check association from.
+- `protection_id`: The unique identifier (ID) for the `Protection` object to remove the
+  health check association from.
 """
 function disassociate_health_check end
 
@@ -1126,9 +1124,9 @@ end
     list_protection_groups()
     list_protection_groups(params::Dict{String,<:Any})
 
-Retrieves [`protection_group`](@ref) objects for the account. You can retrieve all
-protection groups or you can provide filtering criteria and retrieve just the subset of
-protection groups that match the criteria.
+Retrieves `ProtectionGroup` objects for the account. You can retrieve all protection groups
+or you can provide filtering criteria and retrieve just the subset of protection groups that
+match the criteria.
 
 # Optional Parameters
 
@@ -1185,9 +1183,9 @@ end
     list_protections()
     list_protections(params::Dict{String,<:Any})
 
-Retrieves [`protection`](@ref) objects for the account. You can retrieve all protections or
-you can provide filtering criteria and retrieve just the subset of protections that match
-the criteria.
+Retrieves `Protection` objects for the account. You can retrieve all protections or you can
+provide filtering criteria and retrieve just the subset of protections that match the
+criteria.
 
 # Optional Parameters
 

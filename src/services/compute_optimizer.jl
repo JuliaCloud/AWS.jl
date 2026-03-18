@@ -94,8 +94,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"jobIds"`: The identification numbers of the export jobs to return.
 
-  An export job ID is returned when you create an export using the [`export_auto_scaling_group_recommendations`](@ref)
-  or [`export_ec2_instance_recommendations`](@ref) actions.
+  An export job ID is returned when you create an export using the
+  `ExportAutoScalingGroupRecommendations` or `ExportEC2InstanceRecommendations` actions.
 
   All export jobs created in the last seven days are returned if this parameter is omitted.
 
@@ -1773,7 +1773,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   preference to create or update.
 
   Specify a valid provider in the `source` field to activate the preference. To delete this
-  preference, see the [`delete_recommendation_preferences`](@ref) action.
+  preference, see the `DeleteRecommendationPreferences` action.
 
   This preference can only be set for the `Ec2Instance` resource type.
 

@@ -21,7 +21,7 @@ Associates an Identity and Access Management (IAM) role with an Neptune DB clust
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FeatureName"`: The name of the feature for the Neptune DB cluster that the IAM role is
-  to be associated with. For the list of supported feature names, see [`dbengine_version`](@ref).
+  to be associated with. For the list of supported feature names, see `DBEngineVersion`.
 """
 function add_role_to_dbcluster end
 
@@ -994,7 +994,7 @@ Creates a new DB instance.
 
 - `dbcluster_identifier`: The identifier of the DB cluster that the instance will belong to.
 
-  For information on creating a DB cluster, see [`create_dbcluster`](@ref).
+  For information on creating a DB cluster, see `CreateDBCluster`.
 
   Type: String
 
@@ -1040,7 +1040,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BackupRetentionPeriod"`: The number of days for which automated backups are retained.
 
   Not applicable. The retention period for automated backups is managed by the DB cluster.
-  For more information, see [`create_dbcluster`](@ref).
+  For more information, see `CreateDBCluster`.
 
   Default: 1
 
@@ -1107,7 +1107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ARN for the KM encryption key.
 
   Not applicable. The KMS key identifier is managed by the DB cluster. For more information,
-  see [`create_dbcluster`](@ref).
+  see `CreateDBCluster`.
 
   If the `StorageEncrypted` parameter is true, and you do not specify a value for the
   `KmsKeyId` parameter, then Amazon Neptune will use your default encryption key. Amazon KMS
@@ -1147,7 +1147,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Port"`: The port number on which the database accepts connections.
 
-  Not applicable. The port is managed by the DB cluster. For more information, see [`create_dbcluster`](@ref).
+  Not applicable. The port is managed by the DB cluster. For more information, see
+  `CreateDBCluster`.
 
   Default: `8182`
 
@@ -1157,7 +1158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 
   Not applicable. The daily time range for creating automated backups is managed by the DB
-  cluster. For more information, see [`create_dbcluster`](@ref).
+  cluster. For more information, see `CreateDBCluster`.
 
 - `"PreferredMaintenanceWindow"`: The time range each week during which system maintenance
   can occur, in Universal Coordinated Time (UTC).
@@ -1183,7 +1184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StorageEncrypted"`: Specifies whether the DB instance is encrypted.
 
   Not applicable. The encryption for DB instances is managed by the DB cluster. For more
-  information, see [`create_dbcluster`](@ref).
+  information, see `CreateDBCluster`.
 
   Default: false
 
@@ -1205,7 +1206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance.
 
   Not applicable. The associated list of EC2 VPC security groups is managed by the DB
-  cluster. For more information, see [`create_dbcluster`](@ref).
+  cluster. For more information, see `CreateDBCluster`.
 
   Default: The default EC2 VPC security group for the DB subnet group's VPC.
 """
@@ -2380,15 +2381,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   copied or restored by any Amazon account, and otherwise false. The default is `false`. The
   default is false.
 
-  You can share a manual DB cluster snapshot as public by using the [`modify_dbcluster_snapshot_attribute`](@ref)
-  API action.
+  You can share a manual DB cluster snapshot as public by using the
+  `ModifyDBClusterSnapshotAttribute` API action.
 
 - `"IncludeShared"`: True to include shared manual DB cluster snapshots from other Amazon
   accounts that this Amazon account has been given permission to copy or restore, and
   otherwise false. The default is `false`.
 
   You can give an Amazon account permission to restore a manual DB cluster snapshot from
-  another Amazon account by the [`modify_dbcluster_snapshot_attribute`](@ref) API action.
+  another Amazon account by the `ModifyDBClusterSnapshotAttribute` API action.
 
 - `"Marker"`: An optional pagination token provided by a previous
   `DescribeDBClusterSnapshots` request. If this parameter is specified, the response
@@ -2476,7 +2477,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, to invoke this API from the Amazon CLI and filter so that only Neptune DB
   clusters are returned, you could use the following command:
 
-- `"Marker"`: An optional pagination token provided by a previous [`describe_dbclusters`](@ref)
+- `"Marker"`: An optional pagination token provided by a previous `DescribeDBClusters`
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by `MaxRecords`.
 
@@ -3554,7 +3555,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maintenance window unless the `ApplyImmediately` parameter is set to true.
 
   For a list of valid engine versions, see [Engine Releases for Amazon Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/engine-releases.html),
-  or call [`describe_dbengine_versions`](@ref).
+  or call `DescribeDBEngineVersions`.
 
 - `"MasterUserPassword"`: Not supported by Neptune.
 
@@ -3912,7 +3913,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If this parameter is set to `false`, changes to the DB instance are applied during the
   next maintenance window. Some parameter changes can cause an outage and are applied on the
-  next call to [`reboot_dbinstance`](@ref), or the next failure reboot.
+  next call to `RebootDBInstance`, or the next failure reboot.
 
   Default: `false`
 
@@ -3924,7 +3925,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enabled auto patching for that engine version.
 
 - `"BackupRetentionPeriod"`: Not applicable. The retention period for automated backups is
-  managed by the DB cluster. For more information, see [`modify_dbcluster`](@ref).
+  managed by the DB cluster. For more information, see `ModifyDBCluster`.
 
   Default: Uses existing setting
 
@@ -4000,7 +4001,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can enable IAM database authentication for the following database engines
 
   Not applicable. Mapping Amazon IAM accounts to database accounts is managed by the DB
-  cluster. For more information, see [`modify_dbcluster`](@ref).
+  cluster. For more information, see `ModifyDBCluster`.
 
   Default: `false`
 
@@ -4008,7 +4009,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EngineVersion"`: The version number of the database engine to upgrade to. Currently,
   setting this parameter has no effect. To upgrade your database engine to the most recent
-  release, use the [`apply_pending_maintenance_action`](@ref) API.
+  release, use the `ApplyPendingMaintenanceAction` API.
 
 - `"Iops"`: The new Provisioned IOPS (I/O operations per second) value for the instance.
 
@@ -4065,7 +4066,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if automated backups are enabled.
 
   Not applicable. The daily time range for creating automated backups is managed by the DB
-  cluster. For more information, see [`modify_dbcluster`](@ref).
+  cluster. For more information, see `ModifyDBCluster`.
 
   Constraints:
 
@@ -4112,7 +4113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance. This change is asynchronously applied as soon as possible.
 
   Not applicable. The associated list of EC2 VPC security groups is managed by the DB
-  cluster. For more information, see [`modify_dbcluster`](@ref).
+  cluster. For more information, see `ModifyDBCluster`.
 
   Constraints:
 
@@ -4630,7 +4631,8 @@ Disassociates an Identity and Access Management (IAM) role from a DB cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FeatureName"`: The name of the feature for the DB cluster that the IAM role is to be
-  disassociated from. For the list of supported feature names, see [`describe_dbengine_versions`](@ref).
+  disassociated from. For the list of supported feature names, see
+  `DescribeDBEngineVersions`.
 """
 function remove_role_from_dbcluster end
 

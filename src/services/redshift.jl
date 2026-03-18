@@ -17,7 +17,7 @@ Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the con
   be exchanged.
 - `target_reserved_node_offering_id`: The unique identifier of the DC2 Reserved Node
   offering to be used for the exchange. You can obtain the value for the parameter by
-  calling [`get_reserved_node_exchange_offerings`](@ref)
+  calling `GetReservedNodeExchangeOfferings`
 """
 function accept_reserved_node_exchange end
 
@@ -778,7 +778,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AutomatedSnapshotRetentionPeriod"`: The number of days that automated snapshots are
   retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots
-  are disabled, you can still create manual snapshots when you want with [`create_cluster_snapshot`](@ref).
+  are disabled, you can still create manual snapshots when you want with
+  `CreateClusterSnapshot`.
 
   You can't disable automated snapshots for RA3 node types. Set the automated retention
   period from 1-35 days.
@@ -1064,12 +1065,12 @@ in the *Amazon Redshift Cluster Management Guide*.
 - `parameter_group_family`: The Amazon Redshift engine version to which the cluster
   parameter group applies. The cluster engine version determines the set of parameters.
 
-  To get a list of valid parameter group family names, you can call [`describe_cluster_parameter_groups`](@ref).
-  By default, Amazon Redshift returns a list of all the parameter groups that are owned by
-  your Amazon Web Services account, including the default parameter groups for each Amazon
-  Redshift engine version. The parameter group family names associated with the default
-  parameter groups provide you the valid values. For example, a valid family name is
-  "redshift-1.0".
+  To get a list of valid parameter group family names, you can call
+  `DescribeClusterParameterGroups`. By default, Amazon Redshift returns a list of all the
+  parameter groups that are owned by your Amazon Web Services account, including the default
+  parameter groups for each Amazon Redshift engine version. The parameter group family names
+  associated with the default parameter groups provide you the valid values. For example, a
+  valid family name is "redshift-1.0".
 
 - `parameter_group_name`: The name of the cluster parameter group.
 
@@ -1848,25 +1849,27 @@ operation.
 # Arguments
 
 - `iam_role`: The IAM role to assume to run the target action. For more information about
-  this parameter, see [`scheduled_action`](@ref).
+  this parameter, see `ScheduledAction`.
 - `schedule`: The schedule in `at( )` or `cron( )` format. For more information about this
-  parameter, see [`scheduled_action`](@ref).
+  parameter, see `ScheduledAction`.
 - `scheduled_action_name`: The name of the scheduled action. The name must be unique within
-  an account. For more information about this parameter, see [`scheduled_action`](@ref).
+  an account. For more information about this parameter, see `ScheduledAction`.
 - `target_action`: A JSON format string of the Amazon Redshift API operation with input
-  parameters. For more information about this parameter, see [`scheduled_action`](@ref).
+  parameters. For more information about this parameter, see `ScheduledAction`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Enable"`: If true, the schedule is enabled. If false, the scheduled action does not
-  trigger. For more information about `state` of the scheduled action, see [`scheduled_action`](@ref).
+  trigger. For more information about `state` of the scheduled action, see
+  `ScheduledAction`.
 - `"EndTime"`: The end time in UTC of the scheduled action. After this time, the scheduled
-  action does not trigger. For more information about this parameter, see [`scheduled_action`](@ref).
+  action does not trigger. For more information about this parameter, see `ScheduledAction`.
 - `"ScheduledActionDescription"`: The description of the scheduled action.
 - `"StartTime"`: The start time in UTC of the scheduled action. Before this time, the
-  scheduled action does not trigger. For more information about this parameter, see [`scheduled_action`](@ref).
+  scheduled action does not trigger. For more information about this parameter, see
+  `ScheduledAction`.
 """
 function create_scheduled_action end
 
@@ -2110,7 +2113,7 @@ is identified by the returned usage limit identifier.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BreachAction"`: The action that Amazon Redshift takes when the limit is reached. The
-  default is log. For more information about this parameter, see [`usage_limit`](@ref).
+  default is log. For more information about this parameter, see `UsageLimit`.
 - `"Period"`: The time period that the amount applies to. A `weekly` period begins on
   Sunday. The default is `monthly`.
 - `"Tags"`: A list of tag instances.
@@ -3275,10 +3278,10 @@ regardless of whether they have tag keys or values associated with them.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_cluster_parameter_groups`](@ref)
-  request exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in
-  the `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeClusterParameterGroups` request exceed
+  the value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker`
+  field of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -3353,10 +3356,10 @@ in the *Amazon Redshift Cluster Management Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_cluster_parameters`](@ref) request
-  exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in the
-  `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeClusterParameters` request exceed the
+  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
+  of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -3434,10 +3437,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example: `securitygroup1`
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_cluster_security_groups`](@ref) request
-  exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in the
-  `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeClusterSecurityGroups` request exceed the
+  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
+  of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
   Constraints: You must specify either the **ClusterSecurityGroupName** parameter or the
   **Marker** parameter, but not both.
@@ -3533,10 +3536,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example: `2012-07-16T18:00:00Z`
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_cluster_snapshots`](@ref) request
-  exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in the
-  `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeClusterSnapshots` request exceed the
+  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
+  of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -3626,10 +3629,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requested.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_cluster_subnet_groups`](@ref) request
-  exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in the
-  `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeClusterSubnetGroups` request exceed the
+  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
+  of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -3741,10 +3744,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example: `1.0`
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_cluster_versions`](@ref) request exceed
-  the value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker`
-  field of the response. You can retrieve the next set of response records by providing the
-  returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeClusterVersions` request exceed the value
+  specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -3801,10 +3804,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default is that all clusters defined for an account are returned.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_clusters`](@ref) request exceed the
-  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
-  of the response. You can retrieve the next set of response records by providing the
-  returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeClusters` request exceed the value
+  specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the `Marker` parameter and retrying the request.
 
   Constraints: You can specify either the **ClusterIdentifier** parameter or the **Marker**
   parameter, but not both.
@@ -3898,10 +3901,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataShareArn"`: The Amazon resource name (ARN) of the datashare to describe details of.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_data_shares`](@ref) request exceed the
-  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
-  of the response. You can retrieve the next set of response records by providing the
-  returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeDataShares` request exceed the value
+  specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -3939,10 +3942,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the list of datashares.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_data_shares_for_consumer`](@ref)
-  request exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in
-  the `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeDataSharesForConsumer` request exceed the
+  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
+  of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -3988,10 +3991,10 @@ identifier.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_data_shares_for_producer`](@ref)
-  request exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in
-  the `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeDataSharesForProducer` request exceed the
+  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
+  of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -4046,10 +4049,10 @@ in the *Amazon Redshift Cluster Management Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_default_cluster_parameters`](@ref)
-  request exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in
-  the `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeDefaultClusterParameters` request exceed
+  the value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker`
+  field of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -4312,7 +4315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example: `2009-07-08T18:00Z`
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_events`](@ref) request exceed the value
+  response records. When the results of a `DescribeEvents` request exceed the value
   specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field of
   the response. You can retrieve the next set of response records by providing the returned
   marker value in the `Marker` parameter and retrying the request.
@@ -4399,10 +4402,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all HSM client certificates owned by your Amazon Web Services account.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_hsm_client_certificates`](@ref) request
-  exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in the
-  `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeHsmClientCertificates` request exceed the
+  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
+  of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -4475,10 +4478,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all HSM configurations owned by your Amazon Web Services account.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_hsm_configurations`](@ref) request
-  exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in the
-  `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeHsmConfigurations` request exceed the
+  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
+  of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -4535,10 +4538,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IntegrationArn"`: The Amazon Resource Name (ARN) of the inbound integration.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_inbound_integrations`](@ref) request
-  exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in the
-  `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeInboundIntegrations` request exceed the
+  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
+  of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -4640,10 +4643,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: A set of name, operator, and value items to filter the results.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_node_configuration_options`](@ref)
-  request exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in
-  the `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeNodeConfigurationOptions` request exceed
+  the value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker`
+  field of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -4712,13 +4715,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Default: All versions.
 
-  Constraints: Must be one of the version returned from [`describe_cluster_versions`](@ref).
+  Constraints: Must be one of the version returned from `DescribeClusterVersions`.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_orderable_cluster_options`](@ref)
-  request exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in
-  the `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeOrderableClusterOptions` request exceed
+  the value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker`
+  field of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -4929,10 +4932,10 @@ in the *Amazon Redshift Cluster Management Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_reserved_node_offerings`](@ref) request
-  exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in the
-  `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeReservedNodeOfferings` request exceed the
+  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
+  of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -4979,10 +4982,10 @@ Returns the descriptions of the reserved nodes.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_reserved_nodes`](@ref) request exceed
-  the value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker`
-  field of the response. You can retrieve the next set of response records by providing the
-  returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeReservedNodes` request exceed the value
+  specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -5083,10 +5086,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: List of scheduled action filters.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_scheduled_actions`](@ref) request
-  exceed the value specified in `MaxRecords`, Amazon Web Services returns a value in the
-  `Marker` field of the response. You can retrieve the next set of response records by
-  providing the returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeScheduledActions` request exceed the
+  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
+  of the response. You can retrieve the next set of response records by providing the
+  returned marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -5413,10 +5416,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FeatureType"`: The feature type for which you want to describe usage limits.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
-  response records. When the results of a [`describe_usage_limits`](@ref) request exceed the
-  value specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field
-  of the response. You can retrieve the next set of response records by providing the
-  returned marker value in the `Marker` parameter and retrying the request.
+  response records. When the results of a `DescribeUsageLimits` request exceed the value
+  specified in `MaxRecords`, Amazon Web Services returns a value in the `Marker` field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the `Marker` parameter and retrying the request.
 
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified `MaxRecords` value, a value is
@@ -6304,7 +6307,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AutomatedSnapshotRetentionPeriod"`: The number of days that automated snapshots are
   retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots
-  are disabled, you can still create manual snapshots when you want with [`create_cluster_snapshot`](@ref).
+  are disabled, you can still create manual snapshots when you want with
+  `CreateClusterSnapshot`.
 
   If you decrease the automated snapshot retention period from its current value, existing
   automated snapshots that fall outside of the new retention period will be immediately
@@ -6325,7 +6329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClusterParameterGroupName"`: The name of the cluster parameter group to apply to this
   cluster. This change is applied only after the cluster is rebooted. To reboot a cluster
-  use [`reboot_cluster`](@ref).
+  use `RebootCluster`.
 
   Default: Uses existing setting.
 
@@ -6349,8 +6353,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you submit your cluster resize request, your existing cluster goes into a read-only
   mode. After Amazon Redshift provisions a new cluster based on your resize requirements,
   there will be outage for a period while the old cluster is deleted and your connection is
-  switched to the new cluster. You can use [`describe_resize`](@ref) to track the progress
-  of the resize request.
+  switched to the new cluster. You can use `DescribeResize` to track the progress of the
+  resize request.
 
   Valid Values: `multi-node | single-node`
 
@@ -6551,7 +6555,7 @@ the database running in a cluster.
   Example: `examplecluster`
 
 - `revision_target`: The identifier of the database revision. You can retrieve this value
-  from the response to the [`describe_cluster_db_revisions`](@ref) request.
+  from the response to the `DescribeClusterDbRevisions` request.
 """
 function modify_cluster_db_revision end
 
@@ -7204,16 +7208,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Enable"`: A modified enable flag of the scheduled action. If true, the scheduled action
   is active. If false, the scheduled action is disabled.
 - `"EndTime"`: A modified end time of the scheduled action. For more information about this
-  parameter, see [`scheduled_action`](@ref).
+  parameter, see `ScheduledAction`.
 - `"IamRole"`: A different IAM role to assume to run the target action. For more information
-  about this parameter, see [`scheduled_action`](@ref).
+  about this parameter, see `ScheduledAction`.
 - `"Schedule"`: A modified schedule in either `at( )` or `cron( )` format. For more
-  information about this parameter, see [`scheduled_action`](@ref).
+  information about this parameter, see `ScheduledAction`.
 - `"ScheduledActionDescription"`: A modified description of the scheduled action.
 - `"StartTime"`: A modified start time of the scheduled action. For more information about
-  this parameter, see [`scheduled_action`](@ref).
+  this parameter, see `ScheduledAction`.
 - `"TargetAction"`: A modified JSON format of the scheduled action. For more information
-  about this parameter, see [`scheduled_action`](@ref).
+  about this parameter, see `ScheduledAction`.
 """
 function modify_scheduled_action end
 
@@ -7410,9 +7414,10 @@ limit.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Amount"`: The new limit amount. For more information about this parameter, see [`usage_limit`](@ref).
+- `"Amount"`: The new limit amount. For more information about this parameter, see
+  `UsageLimit`.
 - `"BreachAction"`: The new action that Amazon Redshift takes when the limit is reached. For
-  more information about this parameter, see [`usage_limit`](@ref).
+  more information about this parameter, see `UsageLimit`.
 """
 function modify_usage_limit end
 
@@ -7837,7 +7842,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AutomatedSnapshotRetentionPeriod"`: The number of days that automated snapshots are
   retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots
-  are disabled, you can still create manual snapshots when you want with [`create_cluster_snapshot`](@ref).
+  are disabled, you can still create manual snapshots when you want with
+  `CreateClusterSnapshot`.
 
   You can't disable automated snapshots for RA3 node types. Set the automated retention
   period from 1-35 days.

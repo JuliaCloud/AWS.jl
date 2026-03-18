@@ -194,9 +194,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to ensure the uniqueness of your views.
 
 - `"Filters"`: An array of strings that specify which resources are included in the results
-  of queries made using this view. When you use this view in a [`search`](@ref) operation,
-  the filter string is combined with the search's `QueryString` parameter using a logical
-  `AND` operator.
+  of queries made using this view. When you use this view in a `Search` operation, the
+  filter string is combined with the search's `QueryString` parameter using a logical `AND`
+  operator.
 
   For information about the supported syntax, see [Search query reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html)
   in the *Amazon Web Services Resource Explorer User Guide*.
@@ -1039,9 +1039,9 @@ included properties. You can't change the name of the view.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: An array of strings that specify which resources are included in the results
-  of queries made using this view. When you use this view in a [`search`](@ref) operation,
-  the filter string is combined with the search's `QueryString` parameter using a logical
-  `AND` operator.
+  of queries made using this view. When you use this view in a `Search` operation, the
+  filter string is combined with the search's `QueryString` parameter using a logical `AND`
+  operator.
 
   For information about the supported syntax, see [Search query reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html)
   in the *Amazon Web Services Resource Explorer User Guide*.

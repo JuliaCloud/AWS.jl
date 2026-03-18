@@ -293,7 +293,7 @@ Creates a rotation in an on-call schedule.
 - `contact_ids`: The Amazon Resource Names (ARNs) of the contacts to add to the rotation.
 
   The order that you list the contacts in is their shift order in the rotation schedule. To
-  change the order of the contact's shifts, use the [`update_rotation`](@ref) operation.
+  change the order of the contact's shifts, use the `UpdateRotation` operation.
 
 - `name`: The name of the rotation.
 
@@ -1529,8 +1529,8 @@ end
     send_activation_code(contact_channel_id, params::Dict{String,<:Any})
 
 Sends an activation code to a contact channel. The contact can use this code to activate the
-contact channel in the console or with the [`activate_channel`](@ref) operation. Incident
-Manager can't engage a contact channel until it has been activated.
+contact channel in the console or with the `ActivateChannel` operation. Incident Manager
+can't engage a contact channel until it has been activated.
 
 # Arguments
 

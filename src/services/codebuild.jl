@@ -419,8 +419,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"badgeEnabled"`: Set this to true to generate a publicly accessible URL for your
   project's build badge.
 
-- `"buildBatchConfig"`: A [`project_build_batch_config`](@ref) object that defines the batch
-  build options for the project.
+- `"buildBatchConfig"`: A `ProjectBuildBatchConfig` object that defines the batch build
+  options for the project.
 
 - `"cache"`: Stores recently used information so that it can be quickly accessed at a later
   time.

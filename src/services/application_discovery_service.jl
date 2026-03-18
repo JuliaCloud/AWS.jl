@@ -119,7 +119,8 @@ records that comes from the deleted records will also be deleted.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"deleteHistory"`: Set to `true` to remove the deleted import task from [`describe_import_tasks`](@ref).
+- `"deleteHistory"`: Set to `true` to remove the deleted import task from
+  `DescribeImportTasks`.
 """
 function batch_delete_import_data end
 

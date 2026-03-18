@@ -207,8 +207,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Key alias ARN - An ARN for a key alias, for example
     `arn:aws:kms:us-west-2:444455556666:alias/projectKey1`.
 
-  If you use `KmsKeyId`, you must set the [`create_file_system_request\$_encrypted`](@ref)
-  parameter to true.
+  If you use `KmsKeyId`, you must set the `CreateFileSystemRequest\$Encrypted` parameter to
+  true.
 
   !!! important
       EFS accepts only symmetric KMS keys. You cannot use asymmetric KMS keys with Amazon
@@ -1060,9 +1060,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token (String). You specify a creation token when you create an Amazon EFS file system.
 - `"FileSystemId"`: (Optional) ID of the file system whose description you want to retrieve
   (String).
-- `"Marker"`: (Optional) Opaque pagination token returned from a previous [`describe_file_systems`](@ref)
-  operation (String). If present, specifies to continue the list from where the returning
-  call had left off.
+- `"Marker"`: (Optional) Opaque pagination token returned from a previous
+  `DescribeFileSystems` operation (String). If present, specifies to continue the list from
+  where the returning call had left off.
 - `"MaxItems"`: (Optional) Specifies the maximum number of file systems to return in the
   response (integer). This number is automatically set to 100. The response is paginated at
   100 per page if you have more than 100 file systems.
@@ -1099,8 +1099,8 @@ system. Lifecycle management uses the `LifecycleConfiguration` object to identif
 move files between storage classes. For a file system without a `LifecycleConfiguration`
 object, the call returns an empty array in the response.
 
-This operation requires permissions for the [`elasticfilesystem:_describe_lifecycle_configuration`](@ref)
-operation.
+This operation requires permissions for the
+`elasticfilesystem:DescribeLifecycleConfiguration` operation.
 
 # Arguments
 
@@ -1201,9 +1201,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FileSystemId"`: (Optional) ID of the file system whose mount targets you want to list
   (String). It must be included in your request if an `AccessPointId` or `MountTargetId` is
   not included. Accepts either a file system ID or ARN as input.
-- `"Marker"`: (Optional) Opaque pagination token returned from a previous [`describe_mount_targets`](@ref)
-  operation (String). If present, it specifies to continue the list from where the previous
-  returning call left off.
+- `"Marker"`: (Optional) Opaque pagination token returned from a previous
+  `DescribeMountTargets` operation (String). If present, it specifies to continue the list
+  from where the previous returning call left off.
 - `"MaxItems"`: (Optional) Maximum number of mount targets to return in the response.
   Currently, this number is automatically set to 10, and other values are ignored. The
   response is paginated at 100 per page if you have more than 100 mount targets.
@@ -1300,7 +1300,7 @@ This operation requires permissions for the `elasticfilesystem:DescribeTags` act
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Marker"`: (Optional) An opaque pagination token returned from a previous [`describe_tags`](@ref)
+- `"Marker"`: (Optional) An opaque pagination token returned from a previous `DescribeTags`
   operation (String). If present, it specifies to continue the list from where the previous
   call left off.
 - `"MaxItems"`: (Optional) The maximum number of file system tags to return in the response.
@@ -1644,7 +1644,7 @@ deletes any existing `LifecycleConfiguration`. In the request, specify the follo
       `LifecyclePolicy` objects. See the example requests in the following section for more
       information.
 
-This operation requires permissions for the [`elasticfilesystem:_put_lifecycle_configuration`](@ref)
+This operation requires permissions for the `elasticfilesystem:PutLifecycleConfiguration`
 operation.
 
 To apply a `LifecycleConfiguration` object to an encrypted file system, you need the same

@@ -296,7 +296,7 @@ the [`connect_directory`](@ref) operation, see [Directory Service API Permission
 
 # Arguments
 
-- `connect_settings`: A [`directory_connect_settings`](@ref) object that contains additional
+- `connect_settings`: A `DirectoryConnectSettings` object that contains additional
   information for the operation.
 - `name`: The fully qualified name of your self-managed directory, such as
   `corp.example.com`.
@@ -430,8 +430,8 @@ Creates an Active Directory computer object in the specified directory.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ComputerAttributes"`: An array of [`attribute`](@ref) objects that contain any LDAP
-  attributes to apply to the computer account.
+- `"ComputerAttributes"`: An array of `Attribute` objects that contain any LDAP attributes
+  to apply to the computer account.
 - `"OrganizationalUnitDistinguishedName"`: The fully-qualified distinguished name of the
   organizational unit to place the computer account in.
 """
@@ -558,8 +558,8 @@ the [`create_directory`](@ref) operation, see [Directory Service API Permissions
   creates a directory administrator account with the user name `Administrator` and this
   password.
 
-  If you need to change the password for the administrator account, you can use the [`reset_user_password`](@ref)
-  API call.
+  If you need to change the password for the administrator account, you can use the
+  `ResetUserPassword` API call.
 
   The regex pattern for this string is made up of the following conditions:
 
@@ -583,8 +583,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the directory.
 - `"ShortName"`: The NetBIOS name of the directory, such as `CORP`.
 - `"Tags"`: The tags to be assigned to the Simple AD directory.
-- `"VpcSettings"`: A [`directory_vpc_settings`](@ref) object that contains additional
-  information for the operation.
+- `"VpcSettings"`: A `DirectoryVpcSettings` object that contains additional information for
+  the operation.
 """
 function create_directory end
 
@@ -688,10 +688,10 @@ the *CreateMicrosoftAD* operation, see [Directory Service API Permissions: Actio
 
 - `password`: The password for the default administrative user named `Admin`.
 
-  If you need to change the password for the administrator account, you can use the [`reset_user_password`](@ref)
-  API call.
+  If you need to change the password for the administrator account, you can use the
+  `ResetUserPassword` API call.
 
-- `vpc_settings`: Contains VPC information for the [`create_directory`](@ref) or [`create_microsoft_ad`](@ref)
+- `vpc_settings`: Contains VPC information for the `CreateDirectory` or `CreateMicrosoftAD`
   operation.
 
 # Optional Parameters
@@ -1238,8 +1238,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of items to return. If this value is zero, the maximum
   number of items is specified by the limitations of the operation.
 - `"NextToken"`: The *DescribeClientAuthenticationSettingsResult.NextToken* value from a
-  previous call to [`describe_client_authentication_settings`](@ref). Pass null if this is
-  the first call.
+  previous call to `DescribeClientAuthenticationSettings`. Pass null if this is the first
+  call.
 - `"Type"`: The type of client authentication for which to retrieve information. If no type
   is specified, a list of all client authentication types that are supported for the
   specified directory is retrieved.
@@ -1352,8 +1352,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of items to return. If this value is zero, the maximum
   number of items is specified by the limitations of the operation.
 
-- `"NextToken"`: The `DescribeDirectoriesResult.NextToken` value from a previous call to [`describe_directories`](@ref).
-  Pass null if this is the first call.
+- `"NextToken"`: The `DescribeDirectoriesResult.NextToken` value from a previous call to
+  `DescribeDirectories`. Pass null if this is the first call.
 """
 function describe_directories end
 
@@ -1392,8 +1392,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DomainControllerIds"`: A list of identifiers for the domain controllers whose
   information will be provided.
 - `"Limit"`: The maximum number of items to return.
-- `"NextToken"`: The *DescribeDomainControllers.NextToken* value from a previous call to [`describe_domain_controllers`](@ref).
-  Pass null if this is the first call.
+- `"NextToken"`: The *DescribeDomainControllers.NextToken* value from a previous call to
+  `DescribeDomainControllers`. Pass null if this is the first call.
 """
 function describe_domain_controllers end
 
@@ -1525,8 +1525,8 @@ Provides information about the Regions that are configured for multi-Region repl
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NextToken"`: The `DescribeRegionsResult.NextToken` value from a previous call to [`describe_regions`](@ref).
-  Pass null if this is the first call.
+- `"NextToken"`: The `DescribeRegionsResult.NextToken` value from a previous call to
+  `DescribeRegions`. Pass null if this is the first call.
 - `"RegionName"`: The name of the Region. For example, `us-east-1`.
 """
 function describe_regions end
@@ -1569,8 +1569,8 @@ Retrieves information about the configurable settings for the specified director
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NextToken"`: The `DescribeSettingsResult.NextToken` value from a previous call to [`describe_settings`](@ref).
-  Pass null if this is the first call.
+- `"NextToken"`: The `DescribeSettingsResult.NextToken` value from a previous call to
+  `DescribeSettings`. Pass null if this is the first call.
 - `"Status"`: The status of the directory settings for which to retrieve information.
 """
 function describe_settings end
@@ -1616,7 +1616,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Limit"`: The number of shared directories to return in the response object.
 - `"NextToken"`: The `DescribeSharedDirectoriesResult.NextToken` value from a previous call
-  to [`describe_shared_directories`](@ref). Pass null if this is the first call.
+  to `DescribeSharedDirectories`. Pass null if this is the first call.
 - `"SharedDirectoryIds"`: A list of identifiers of all shared directories in your account.
 """
 function describe_shared_directories end
@@ -1669,8 +1669,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DirectoryId"`: The identifier of the directory for which to retrieve snapshot
   information.
 - `"Limit"`: The maximum number of objects to return.
-- `"NextToken"`: The *DescribeSnapshotsResult.NextToken* value from a previous call to [`describe_snapshots`](@ref).
-  Pass null if this is the first call.
+- `"NextToken"`: The *DescribeSnapshotsResult.NextToken* value from a previous call to
+  `DescribeSnapshots`. Pass null if this is the first call.
 - `"SnapshotIds"`: A list of identifiers of the snapshots to obtain the information for. If
   this member is null or empty, all snapshots are returned using the *Limit* and *NextToken*
   members.
@@ -1709,8 +1709,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Limit"`: The maximum number of objects to return.
 
-- `"NextToken"`: The *DescribeTrustsResult.NextToken* value from a previous call to [`describe_trusts`](@ref).
-  Pass null if this is the first call.
+- `"NextToken"`: The *DescribeTrustsResult.NextToken* value from a previous call to
+  `DescribeTrusts`. Pass null if this is the first call.
 
 - `"TrustIds"`: A list of identifiers of the trust relationships for which to obtain the
   information. If this member is null, all trust relationships that belong to the current
@@ -1750,7 +1750,7 @@ Describes the updates of a directory for a particular update type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"NextToken"`: The `DescribeUpdateDirectoryResult`. NextToken value from a previous call
-  to [`describe_update_directory`](@ref). Pass null if this is the first call.
+  to `DescribeUpdateDirectory`. Pass null if this is the first call.
 - `"RegionName"`: The name of the Region.
 """
 function describe_update_directory end
@@ -2065,8 +2065,8 @@ Service (RADIUS) server for an AD Connector or Microsoft AD directory.
 # Arguments
 
 - `directory_id`: The identifier of the directory for which to enable MFA.
-- `radius_settings`: A [`radius_settings`](@ref) object that contains information about the
-  RADIUS server.
+- `radius_settings`: A `RadiusSettings` object that contains information about the RADIUS
+  server.
 """
 function enable_radius end
 
@@ -2282,7 +2282,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Limit"`: Maximum number of items to return. If this value is zero, the maximum number of
   items is specified by the limitations of the operation.
-- `"NextToken"`: The *ListIpRoutes.NextToken* value from a previous call to [`list_ip_routes`](@ref).
+- `"NextToken"`: The *ListIpRoutes.NextToken* value from a previous call to `ListIpRoutes`.
   Pass null if this is the first call.
 """
 function list_ip_routes end
@@ -3206,8 +3206,8 @@ Connector or Microsoft AD directory.
 
 - `directory_id`: The identifier of the directory for which to update the RADIUS server
   information.
-- `radius_settings`: A [`radius_settings`](@ref) object that contains information about the
-  RADIUS server.
+- `radius_settings`: A `RadiusSettings` object that contains information about the RADIUS
+  server.
 """
 function update_radius end
 
@@ -3253,7 +3253,7 @@ Updates the configurable settings for the specified directory.
 # Arguments
 
 - `directory_id`: The identifier of the directory for which to update settings.
-- `settings`: The list of [`setting`](@ref) objects.
+- `settings`: The list of `Setting` objects.
 """
 function update_settings end
 
