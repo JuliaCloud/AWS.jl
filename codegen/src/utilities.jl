@@ -14,7 +14,7 @@ function service_definition(
 )
     if service_file.definition === nothing
         # Retrieve the contents of the ${service}.normal.json file
-        service_blob = blob(service_file.repo, service_file.sha; auth=auth)
+        service_blob = GitHub.blob(service_file.repo, service_file.sha; auth=auth)
         def = JSON.parse(String(base64decode(service_blob.content)))
         service_file.definition = def
     end
@@ -36,9 +36,9 @@ Get a list of all AWS service API definition files from the `aws-sdk-js` GitHub 
 """
 function _get_service_files(auth::GitHub.Authorization)
     github_repo = "aws/aws-sdk-js"  # Owner and repository name
-    master_tree = @mock tree(github_repo, "master"; auth=auth)
+    master_tree = @mock GitHub.tree(github_repo, "master"; auth=auth)
     apis_sha = [t for t in master_tree.tree if t["path"] == "apis"][1]["sha"]
-    files = @mock tree(github_repo, apis_sha)
+    files = @mock GitHub.tree(github_repo, apis_sha)
     tree_items = files.tree
 
     service_file_blobs = filter!(tree_items) do t
