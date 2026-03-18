@@ -487,7 +487,7 @@ end
             \"\"\"
             function function_name end
 
-            functio function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
                 service_name("GET", "request_uri", Dict{String, Any}("OptionalParam" => string(uuid4()), "headers" => Dict{String, Any}("RequiredParam" => RequiredParam)); aws_config, feature_set=SERVICE_FEATURE_SET)
             end
 
