@@ -1,23 +1,21 @@
 using AWS
+using Dates
+using Test
+
 using AWS: AWSCredentials, AWSServices, assume_role_creds
 using AWS.AWSExceptions: AWSException, IMDSUnavailable, NoCredentials
-using Base64
-using Compat: mergewith, pkgversion
-using Dates
-using Downloads
-using HTTP
+using Base64: base64encode
+using HTTP: HTTP
 using IniFile: Inifile, sections
 using JSON: JSON
 using OrderedCollections: LittleDict, OrderedDict
-using MbedTLS: digest, MD_SHA256, MD_MD5
-using Mocking
-using Pkg
-using Random
-using Suppressor
-using Test
-using UUIDs
-using XMLDict
-using StableRNGs
+using MbedTLS: MD_MD5, MD_SHA256, digest
+using Mocking: Mocking, @patch, apply
+using Pkg: Pkg
+using Random: randstring
+using Suppressor: @capture_err, @capture_out
+using XMLDict: XMLDict, parse_xml, xml_dict
+using StableRNGs: StableRNG
 
 Mocking.activate()
 
