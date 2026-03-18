@@ -24,7 +24,7 @@ function associate_member(accountId; aws_config::AbstractAWSConfig=current_aws_c
         "POST",
         "/members/associate",
         Dict{String,Any}("accountId" => accountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -40,7 +40,7 @@ function associate_member(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountId" => accountId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -61,7 +61,7 @@ function batch_get_account_status end
 
 function batch_get_account_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
-        "POST", "/status/batch/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/status/batch/get"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -69,11 +69,7 @@ function batch_get_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "POST",
-        "/status/batch/get",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/status/batch/get", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -98,7 +94,7 @@ function batch_get_code_snippet(
         "POST",
         "/codesnippet/batchget",
         Dict{String,Any}("findingArns" => findingArns);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -114,7 +110,7 @@ function batch_get_code_snippet(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("findingArns" => findingArns), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -138,7 +134,7 @@ function batch_get_finding_details(
         "POST",
         "/findings/details/batch/get",
         Dict{String,Any}("findingArns" => findingArns);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -154,7 +150,7 @@ function batch_get_finding_details(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("findingArns" => findingArns), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -178,7 +174,7 @@ function batch_get_free_trial_info(
         "POST",
         "/freetrialinfo/batchget",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -194,7 +190,7 @@ function batch_get_free_trial_info(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -220,7 +216,7 @@ function batch_get_member_ec2_deep_inspection_status(;
     return inspector2(
         "POST",
         "/ec2deepinspectionstatus/member/batch/get";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -232,7 +228,7 @@ function batch_get_member_ec2_deep_inspection_status(
         "POST",
         "/ec2deepinspectionstatus/member/batch/get",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -259,7 +255,7 @@ function batch_update_member_ec2_deep_inspection_status(
         "POST",
         "/ec2deepinspectionstatus/member/batch/update",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -275,7 +271,7 @@ function batch_update_member_ec2_deep_inspection_status(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -299,7 +295,7 @@ function cancel_findings_report(
         "POST",
         "/reporting/cancel",
         Dict{String,Any}("reportId" => reportId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -315,7 +311,7 @@ function cancel_findings_report(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("reportId" => reportId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -337,7 +333,7 @@ function cancel_sbom_export(reportId; aws_config::AbstractAWSConfig=current_aws_
         "POST",
         "/sbomexport/cancel",
         Dict{String,Any}("reportId" => reportId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -353,7 +349,7 @@ function cancel_sbom_export(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("reportId" => reportId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -393,7 +389,7 @@ function create_cis_scan_configuration(
             "securityLevel" => securityLevel,
             "targets" => targets,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -421,7 +417,7 @@ function create_cis_scan_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -457,7 +453,7 @@ function create_filter(
         Dict{String,Any}(
             "action" => action, "filterCriteria" => filterCriteria, "name" => name
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -481,7 +477,7 @@ function create_filter(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -511,7 +507,7 @@ function create_findings_report(
         "POST",
         "/reporting/create",
         Dict{String,Any}("reportFormat" => reportFormat, "s3Destination" => s3Destination);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -534,7 +530,7 @@ function create_findings_report(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -563,7 +559,7 @@ function create_sbom_export(
         "POST",
         "/sbomexport/create",
         Dict{String,Any}("reportFormat" => reportFormat, "s3Destination" => s3Destination);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -586,7 +582,7 @@ function create_sbom_export(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -610,7 +606,7 @@ function delete_cis_scan_configuration(
         "POST",
         "/cis/scan-configuration/delete",
         Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -630,7 +626,7 @@ function delete_cis_scan_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -652,7 +648,7 @@ function delete_filter(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/filters/delete",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -664,7 +660,7 @@ function delete_filter(
         "POST",
         "/filters/delete",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -684,7 +680,7 @@ function describe_organization_configuration(;
     return inspector2(
         "POST",
         "/organizationconfiguration/describe";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -696,7 +692,7 @@ function describe_organization_configuration(
         "POST",
         "/organizationconfiguration/describe",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -716,16 +712,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function disable end
 
 function disable(; aws_config::AbstractAWSConfig=current_aws_config())
-    return inspector2(
-        "POST", "/disable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return inspector2("POST", "/disable"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function disable(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "POST", "/disable", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/disable", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -749,7 +743,7 @@ function disable_delegated_admin_account(
         "POST",
         "/delegatedadminaccounts/disable",
         Dict{String,Any}("delegatedAdminAccountId" => delegatedAdminAccountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -769,7 +763,7 @@ function disable_delegated_admin_account(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -791,7 +785,7 @@ function disassociate_member(accountId; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/members/disassociate",
         Dict{String,Any}("accountId" => accountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -807,7 +801,7 @@ function disassociate_member(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountId" => accountId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -835,7 +829,7 @@ function enable(resourceTypes; aws_config::AbstractAWSConfig=current_aws_config(
         Dict{String,Any}(
             "resourceTypes" => resourceTypes, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -857,7 +851,7 @@ function enable(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -888,7 +882,7 @@ function enable_delegated_admin_account(
             "delegatedAdminAccountId" => delegatedAdminAccountId,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -911,7 +905,7 @@ function enable_delegated_admin_account(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -938,7 +932,7 @@ function get_cis_scan_report(scanArn; aws_config::AbstractAWSConfig=current_aws_
         "POST",
         "/cis/scan/report/get",
         Dict{String,Any}("scanArn" => scanArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -952,7 +946,7 @@ function get_cis_scan_report(
         "POST",
         "/cis/scan/report/get",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("scanArn" => scanArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -991,7 +985,7 @@ function get_cis_scan_result_details(
             "scanArn" => scanArn,
             "targetResourceId" => targetResourceId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1017,7 +1011,7 @@ function get_cis_scan_result_details(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1033,7 +1027,7 @@ function get_configuration end
 
 function get_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
-        "POST", "/configuration/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/configuration/get"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1041,11 +1035,7 @@ function get_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "POST",
-        "/configuration/get",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/configuration/get", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1061,10 +1051,7 @@ function get_delegated_admin_account end
 
 function get_delegated_admin_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
-        "POST",
-        "/delegatedadminaccounts/get";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/delegatedadminaccounts/get"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1075,7 +1062,7 @@ function get_delegated_admin_account(
         "POST",
         "/delegatedadminaccounts/get",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1096,7 +1083,7 @@ function get_ec2_deep_inspection_configuration(;
     return inspector2(
         "POST",
         "/ec2deepinspectionconfiguration/get";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1108,7 +1095,7 @@ function get_ec2_deep_inspection_configuration(
         "POST",
         "/ec2deepinspectionconfiguration/get",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1133,7 +1120,7 @@ function get_encryption_key(
         "GET",
         "/encryptionkey/get",
         Dict{String,Any}("resourceType" => resourceType, "scanType" => scanType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1154,7 +1141,7 @@ function get_encryption_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1173,10 +1160,7 @@ function get_findings_report_status end
 
 function get_findings_report_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
-        "POST",
-        "/reporting/status/get";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/reporting/status/get"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1184,11 +1168,7 @@ function get_findings_report_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "POST",
-        "/reporting/status/get",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/reporting/status/get", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1210,7 +1190,7 @@ function get_member(accountId; aws_config::AbstractAWSConfig=current_aws_config(
         "POST",
         "/members/get",
         Dict{String,Any}("accountId" => accountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1226,7 +1206,7 @@ function get_member(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountId" => accountId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1248,7 +1228,7 @@ function get_sbom_export(reportId; aws_config::AbstractAWSConfig=current_aws_con
         "POST",
         "/sbomexport/get",
         Dict{String,Any}("reportId" => reportId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1264,7 +1244,7 @@ function get_sbom_export(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("reportId" => reportId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1291,10 +1271,7 @@ function list_account_permissions end
 
 function list_account_permissions(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
-        "POST",
-        "/accountpermissions/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/accountpermissions/list"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1305,7 +1282,7 @@ function list_account_permissions(
         "POST",
         "/accountpermissions/list",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1330,10 +1307,7 @@ function list_cis_scan_configurations end
 
 function list_cis_scan_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
-        "POST",
-        "/cis/scan-configuration/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/cis/scan-configuration/list"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1344,7 +1318,7 @@ function list_cis_scan_configurations(
         "POST",
         "/cis/scan-configuration/list",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1377,7 +1351,7 @@ function list_cis_scan_results_aggregated_by_checks(
         "POST",
         "/cis/scan-result/check/list",
         Dict{String,Any}("scanArn" => scanArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1391,7 +1365,7 @@ function list_cis_scan_results_aggregated_by_checks(
         "POST",
         "/cis/scan-result/check/list",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("scanArn" => scanArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1424,7 +1398,7 @@ function list_cis_scan_results_aggregated_by_target_resource(
         "POST",
         "/cis/scan-result/resource/list",
         Dict{String,Any}("scanArn" => scanArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1438,7 +1412,7 @@ function list_cis_scan_results_aggregated_by_target_resource(
         "POST",
         "/cis/scan-result/resource/list",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("scanArn" => scanArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1462,20 +1436,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_cis_scans end
 
 function list_cis_scans(; aws_config::AbstractAWSConfig=current_aws_config())
-    return inspector2(
-        "POST", "/cis/scan/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return inspector2("POST", "/cis/scan/list"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_cis_scans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "POST",
-        "/cis/scan/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/cis/scan/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1501,20 +1469,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_coverage end
 
 function list_coverage(; aws_config::AbstractAWSConfig=current_aws_config())
-    return inspector2(
-        "POST", "/coverage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return inspector2("POST", "/coverage/list"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_coverage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "POST",
-        "/coverage/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/coverage/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1538,10 +1500,7 @@ function list_coverage_statistics end
 
 function list_coverage_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
-        "POST",
-        "/coverage/statistics/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/coverage/statistics/list"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1552,7 +1511,7 @@ function list_coverage_statistics(
         "POST",
         "/coverage/statistics/list",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1578,10 +1537,7 @@ function list_delegated_admin_accounts end
 
 function list_delegated_admin_accounts(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
-        "POST",
-        "/delegatedadminaccounts/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/delegatedadminaccounts/list"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1592,7 +1548,7 @@ function list_delegated_admin_accounts(
         "POST",
         "/delegatedadminaccounts/list",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1619,20 +1575,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_filters end
 
 function list_filters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return inspector2(
-        "POST", "/filters/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return inspector2("POST", "/filters/list"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "POST",
-        "/filters/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/filters/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1669,7 +1619,7 @@ function list_finding_aggregations(
         "POST",
         "/findings/aggregation/list",
         Dict{String,Any}("aggregationType" => aggregationType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1687,7 +1637,7 @@ function list_finding_aggregations(
                 _merge, Dict{String,Any}("aggregationType" => aggregationType), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1714,20 +1664,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_findings end
 
 function list_findings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return inspector2(
-        "POST", "/findings/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return inspector2("POST", "/findings/list"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "POST",
-        "/findings/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/findings/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1754,20 +1698,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_members end
 
 function list_members(; aws_config::AbstractAWSConfig=current_aws_config())
-    return inspector2(
-        "POST", "/members/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return inspector2("POST", "/members/list"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_members(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "POST",
-        "/members/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/members/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1787,10 +1725,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1800,11 +1735,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return inspector2(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1829,20 +1760,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_usage_totals end
 
 function list_usage_totals(; aws_config::AbstractAWSConfig=current_aws_config())
-    return inspector2(
-        "POST", "/usage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return inspector2("POST", "/usage/list"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_usage_totals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "POST",
-        "/usage/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/usage/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1867,7 +1792,7 @@ function reset_encryption_key(
         "PUT",
         "/encryptionkey/reset",
         Dict{String,Any}("resourceType" => resourceType, "scanType" => scanType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1888,7 +1813,7 @@ function reset_encryption_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1918,7 +1843,7 @@ function search_vulnerabilities(
         "POST",
         "/vulnerabilities/search",
         Dict{String,Any}("filterCriteria" => filterCriteria);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1934,7 +1859,7 @@ function search_vulnerabilities(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("filterCriteria" => filterCriteria), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1961,7 +1886,7 @@ function send_cis_session_health(
         "PUT",
         "/cissession/health/send",
         Dict{String,Any}("scanJobId" => scanJobId, "sessionToken" => sessionToken);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1982,7 +1907,7 @@ function send_cis_session_health(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2012,7 +1937,7 @@ function send_cis_session_telemetry(
         Dict{String,Any}(
             "messages" => messages, "scanJobId" => scanJobId, "sessionToken" => sessionToken
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2038,7 +1963,7 @@ function send_cis_session_telemetry(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2065,7 +1990,7 @@ function start_cis_session(
         "PUT",
         "/cissession/start",
         Dict{String,Any}("message" => message, "scanJobId" => scanJobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2086,7 +2011,7 @@ function start_cis_session(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2116,7 +2041,7 @@ function stop_cis_session(
         Dict{String,Any}(
             "message" => message, "scanJobId" => scanJobId, "sessionToken" => sessionToken
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2142,7 +2067,7 @@ function stop_cis_session(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2165,7 +2090,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2180,7 +2105,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2205,7 +2130,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2220,7 +2145,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2251,7 +2176,7 @@ function update_cis_scan_configuration(
         "POST",
         "/cis/scan-configuration/update",
         Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2271,7 +2196,7 @@ function update_cis_scan_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2295,10 +2220,7 @@ function update_configuration end
 
 function update_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector2(
-        "POST",
-        "/configuration/update";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/configuration/update"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2306,11 +2228,7 @@ function update_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return inspector2(
-        "POST",
-        "/configuration/update",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/configuration/update", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2338,7 +2256,7 @@ function update_ec2_deep_inspection_configuration(;
     return inspector2(
         "POST",
         "/ec2deepinspectionconfiguration/update";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2350,7 +2268,7 @@ function update_ec2_deep_inspection_configuration(
         "POST",
         "/ec2deepinspectionconfiguration/update",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2379,7 +2297,7 @@ function update_encryption_key(
         Dict{String,Any}(
             "kmsKeyId" => kmsKeyId, "resourceType" => resourceType, "scanType" => scanType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2405,7 +2323,7 @@ function update_encryption_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2435,7 +2353,7 @@ function update_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_conf
         "POST",
         "/filters/update",
         Dict{String,Any}("filterArn" => filterArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2451,7 +2369,7 @@ function update_filter(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("filterArn" => filterArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2477,7 +2395,7 @@ function update_org_ec2_deep_inspection_configuration(
         "POST",
         "/ec2deepinspectionconfiguration/org/update",
         Dict{String,Any}("orgPackagePaths" => orgPackagePaths);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2495,7 +2413,7 @@ function update_org_ec2_deep_inspection_configuration(
                 _merge, Dict{String,Any}("orgPackagePaths" => orgPackagePaths), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2520,7 +2438,7 @@ function update_organization_configuration(
         "POST",
         "/organizationconfiguration/update",
         Dict{String,Any}("autoEnable" => autoEnable);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2536,7 +2454,7 @@ function update_organization_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("autoEnable" => autoEnable), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

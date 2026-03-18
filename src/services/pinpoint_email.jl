@@ -39,7 +39,7 @@ function create_configuration_set(
         "POST",
         "/v1/email/configuration-sets",
         Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -59,7 +59,7 @@ function create_configuration_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -98,7 +98,7 @@ function create_configuration_set_event_destination(
             "EventDestination" => EventDestination,
             "EventDestinationName" => EventDestinationName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -123,7 +123,7 @@ function create_configuration_set_event_destination(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -154,7 +154,7 @@ function create_dedicated_ip_pool(
         "POST",
         "/v1/email/dedicated-ip-pools",
         Dict{String,Any}("PoolName" => PoolName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -170,7 +170,7 @@ function create_dedicated_ip_pool(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PoolName" => PoolName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -209,7 +209,7 @@ function create_deliverability_test_report(
         "POST",
         "/v1/email/deliverability-dashboard/test",
         Dict{String,Any}("Content" => Content, "FromEmailAddress" => FromEmailAddress);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -232,7 +232,7 @@ function create_deliverability_test_report(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -270,7 +270,7 @@ function create_email_identity(
         "POST",
         "/v1/email/identities",
         Dict{String,Any}("EmailIdentity" => EmailIdentity);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -286,7 +286,7 @@ function create_email_identity(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EmailIdentity" => EmailIdentity), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -313,7 +313,7 @@ function delete_configuration_set(
     return pinpoint_email(
         "DELETE",
         "/v1/email/configuration-sets/$(ConfigurationSetName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -327,7 +327,7 @@ function delete_configuration_set(
         "DELETE",
         "/v1/email/configuration-sets/$(ConfigurationSetName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -358,7 +358,7 @@ function delete_configuration_set_event_destination(
     return pinpoint_email(
         "DELETE",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -373,7 +373,7 @@ function delete_configuration_set_event_destination(
         "DELETE",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -396,7 +396,7 @@ function delete_dedicated_ip_pool(
     return pinpoint_email(
         "DELETE",
         "/v1/email/dedicated-ip-pools/$(PoolName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -410,7 +410,7 @@ function delete_dedicated_ip_pool(
         "DELETE",
         "/v1/email/dedicated-ip-pools/$(PoolName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -435,7 +435,7 @@ function delete_email_identity(
     return pinpoint_email(
         "DELETE",
         "/v1/email/identities/$(EmailIdentity)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -449,7 +449,7 @@ function delete_email_identity(
         "DELETE",
         "/v1/email/identities/$(EmailIdentity)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -466,7 +466,7 @@ function get_account end
 
 function get_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
-        "GET", "/v1/email/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/email/account"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -474,11 +474,7 @@ function get_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint_email(
-        "GET",
-        "/v1/email/account",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/email/account", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -503,7 +499,7 @@ function get_blacklist_reports(
         "GET",
         "/v1/email/deliverability-dashboard/blacklist-report",
         Dict{String,Any}("BlacklistItemNames" => BlacklistItemNames);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -521,7 +517,7 @@ function get_blacklist_reports(
                 _merge, Dict{String,Any}("BlacklistItemNames" => BlacklistItemNames), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -550,7 +546,7 @@ function get_configuration_set(
     return pinpoint_email(
         "GET",
         "/v1/email/configuration-sets/$(ConfigurationSetName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -564,7 +560,7 @@ function get_configuration_set(
         "GET",
         "/v1/email/configuration-sets/$(ConfigurationSetName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -593,7 +589,7 @@ function get_configuration_set_event_destinations(
     return pinpoint_email(
         "GET",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -607,7 +603,7 @@ function get_configuration_set_event_destinations(
         "GET",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -630,10 +626,7 @@ function get_dedicated_ip end
 
 function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
-        "GET",
-        "/v1/email/dedicated-ips/$(IP)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/email/dedicated-ips/$(IP)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -644,7 +637,7 @@ function get_dedicated_ip(
         "GET",
         "/v1/email/dedicated-ips/$(IP)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -668,10 +661,7 @@ function get_dedicated_ips end
 
 function get_dedicated_ips(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
-        "GET",
-        "/v1/email/dedicated-ips";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/email/dedicated-ips"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -682,7 +672,7 @@ function get_dedicated_ips(
         "GET",
         "/v1/email/dedicated-ips",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -709,7 +699,7 @@ function get_deliverability_dashboard_options(;
     return pinpoint_email(
         "GET",
         "/v1/email/deliverability-dashboard";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -721,7 +711,7 @@ function get_deliverability_dashboard_options(
         "GET",
         "/v1/email/deliverability-dashboard",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -744,7 +734,7 @@ function get_deliverability_test_report(
     return pinpoint_email(
         "GET",
         "/v1/email/deliverability-dashboard/test-reports/$(ReportId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -758,7 +748,7 @@ function get_deliverability_test_report(
         "GET",
         "/v1/email/deliverability-dashboard/test-reports/$(ReportId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -786,7 +776,7 @@ function get_domain_deliverability_campaign(
     return pinpoint_email(
         "GET",
         "/v1/email/deliverability-dashboard/campaigns/$(CampaignId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -800,7 +790,7 @@ function get_domain_deliverability_campaign(
         "GET",
         "/v1/email/deliverability-dashboard/campaigns/$(CampaignId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -829,7 +819,7 @@ function get_domain_statistics_report(
         "GET",
         "/v1/email/deliverability-dashboard/statistics-report/$(Domain)",
         Dict{String,Any}("EndDate" => EndDate, "StartDate" => StartDate);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -851,7 +841,7 @@ function get_domain_statistics_report(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -876,7 +866,7 @@ function get_email_identity(
     return pinpoint_email(
         "GET",
         "/v1/email/identities/$(EmailIdentity)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -890,7 +880,7 @@ function get_email_identity(
         "GET",
         "/v1/email/identities/$(EmailIdentity)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -918,10 +908,7 @@ function list_configuration_sets end
 
 function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
-        "GET",
-        "/v1/email/configuration-sets";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/email/configuration-sets"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -932,7 +919,7 @@ function list_configuration_sets(
         "GET",
         "/v1/email/configuration-sets",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -956,10 +943,7 @@ function list_dedicated_ip_pools end
 
 function list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
-        "GET",
-        "/v1/email/dedicated-ip-pools";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/email/dedicated-ip-pools"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -970,7 +954,7 @@ function list_dedicated_ip_pools(
         "GET",
         "/v1/email/dedicated-ip-pools",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1001,7 +985,7 @@ function list_deliverability_test_reports(;
     return pinpoint_email(
         "GET",
         "/v1/email/deliverability-dashboard/test-reports";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1013,7 +997,7 @@ function list_deliverability_test_reports(
         "GET",
         "/v1/email/deliverability-dashboard/test-reports",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1054,7 +1038,7 @@ function list_domain_deliverability_campaigns(
         "GET",
         "/v1/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns",
         Dict{String,Any}("EndDate" => EndDate, "StartDate" => StartDate);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1076,7 +1060,7 @@ function list_domain_deliverability_campaigns(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1102,10 +1086,7 @@ function list_email_identities end
 
 function list_email_identities(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
-        "GET",
-        "/v1/email/identities";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/email/identities"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1113,11 +1094,7 @@ function list_email_identities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint_email(
-        "GET",
-        "/v1/email/identities",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/email/identities", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1145,7 +1122,7 @@ function list_tags_for_resource(
         "GET",
         "/v1/email/tags",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1161,7 +1138,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1186,7 +1163,7 @@ function put_account_dedicated_ip_warmup_attributes(;
     return pinpoint_email(
         "PUT",
         "/v1/email/account/dedicated-ips/warmup";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1198,7 +1175,7 @@ function put_account_dedicated_ip_warmup_attributes(
         "PUT",
         "/v1/email/account/dedicated-ips/warmup",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1222,10 +1199,7 @@ function put_account_sending_attributes(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint_email(
-        "PUT",
-        "/v1/email/account/sending";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PUT", "/v1/email/account/sending"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1236,7 +1210,7 @@ function put_account_sending_attributes(
         "PUT",
         "/v1/email/account/sending",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1269,7 +1243,7 @@ function put_configuration_set_delivery_options(
     return pinpoint_email(
         "PUT",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/delivery-options";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1283,7 +1257,7 @@ function put_configuration_set_delivery_options(
         "PUT",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/delivery-options",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1313,7 +1287,7 @@ function put_configuration_set_reputation_options(
     return pinpoint_email(
         "PUT",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/reputation-options";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1327,7 +1301,7 @@ function put_configuration_set_reputation_options(
         "PUT",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/reputation-options",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1356,7 +1330,7 @@ function put_configuration_set_sending_options(
     return pinpoint_email(
         "PUT",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/sending";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1370,7 +1344,7 @@ function put_configuration_set_sending_options(
         "PUT",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/sending",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1398,7 +1372,7 @@ function put_configuration_set_tracking_options(
     return pinpoint_email(
         "PUT",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/tracking-options";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1412,7 +1386,7 @@ function put_configuration_set_tracking_options(
         "PUT",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/tracking-options",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1443,7 +1417,7 @@ function put_dedicated_ip_in_pool(
         "PUT",
         "/v1/email/dedicated-ips/$(IP)/pool",
         Dict{String,Any}("DestinationPoolName" => DestinationPoolName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1464,7 +1438,7 @@ function put_dedicated_ip_in_pool(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1490,7 +1464,7 @@ function put_dedicated_ip_warmup_attributes(
         "PUT",
         "/v1/email/dedicated-ips/$(IP)/warmup",
         Dict{String,Any}("WarmupPercentage" => WarmupPercentage);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1509,7 +1483,7 @@ function put_dedicated_ip_warmup_attributes(
                 _merge, Dict{String,Any}("WarmupPercentage" => WarmupPercentage), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1544,7 +1518,7 @@ function put_deliverability_dashboard_option(
         "PUT",
         "/v1/email/deliverability-dashboard",
         Dict{String,Any}("DashboardEnabled" => DashboardEnabled);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1562,7 +1536,7 @@ function put_deliverability_dashboard_option(
                 _merge, Dict{String,Any}("DashboardEnabled" => DashboardEnabled), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1591,7 +1565,7 @@ function put_email_identity_dkim_attributes(
     return pinpoint_email(
         "PUT",
         "/v1/email/identities/$(EmailIdentity)/dkim";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1605,7 +1579,7 @@ function put_email_identity_dkim_attributes(
         "PUT",
         "/v1/email/identities/$(EmailIdentity)/dkim",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1649,7 +1623,7 @@ function put_email_identity_feedback_attributes(
     return pinpoint_email(
         "PUT",
         "/v1/email/identities/$(EmailIdentity)/feedback";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1663,7 +1637,7 @@ function put_email_identity_feedback_attributes(
         "PUT",
         "/v1/email/identities/$(EmailIdentity)/feedback",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1699,7 +1673,7 @@ function put_email_identity_mail_from_attributes(
     return pinpoint_email(
         "PUT",
         "/v1/email/identities/$(EmailIdentity)/mail-from";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1713,7 +1687,7 @@ function put_email_identity_mail_from_attributes(
         "PUT",
         "/v1/email/identities/$(EmailIdentity)/mail-from",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1758,7 +1732,7 @@ function send_email(
         "POST",
         "/v1/email/outbound-emails",
         Dict{String,Any}("Content" => Content, "Destination" => Destination);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1779,7 +1753,7 @@ function send_email(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1811,7 +1785,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/v1/email/tags",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1832,7 +1806,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1862,7 +1836,7 @@ function untag_resource(
         "DELETE",
         "/v1/email/tags",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1883,7 +1857,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1918,7 +1892,7 @@ function update_configuration_set_event_destination(
         "PUT",
         "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)",
         Dict{String,Any}("EventDestination" => EventDestination);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1938,7 +1912,7 @@ function update_configuration_set_event_destination(
                 _merge, Dict{String,Any}("EventDestination" => EventDestination), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

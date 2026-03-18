@@ -68,7 +68,7 @@ function create_connector(
             "plugins" => plugins,
             "serviceExecutionRoleArn" => serviceExecutionRoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -106,7 +106,7 @@ function create_connector(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -138,7 +138,7 @@ function create_custom_plugin(
         Dict{String,Any}(
             "contentType" => contentType, "location" => location, "name" => name
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -162,7 +162,7 @@ function create_custom_plugin(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -191,7 +191,7 @@ function create_worker_configuration(
         "POST",
         "/v1/worker-configurations",
         Dict{String,Any}("name" => name, "propertiesFileContent" => propertiesFileContent);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -214,7 +214,7 @@ function create_worker_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -238,7 +238,7 @@ function delete_connector(connectorArn; aws_config::AbstractAWSConfig=current_aw
     return kafkaconnect(
         "DELETE",
         "/v1/connectors/$(connectorArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -252,7 +252,7 @@ function delete_connector(
         "DELETE",
         "/v1/connectors/$(connectorArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -276,7 +276,7 @@ function delete_custom_plugin(
     return kafkaconnect(
         "DELETE",
         "/v1/custom-plugins/$(customPluginArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -290,7 +290,7 @@ function delete_custom_plugin(
         "DELETE",
         "/v1/custom-plugins/$(customPluginArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -314,7 +314,7 @@ function delete_worker_configuration(
     return kafkaconnect(
         "DELETE",
         "/v1/worker-configurations/$(workerConfigurationArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -328,7 +328,7 @@ function delete_worker_configuration(
         "DELETE",
         "/v1/worker-configurations/$(workerConfigurationArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -350,10 +350,7 @@ function describe_connector(
     connectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafkaconnect(
-        "GET",
-        "/v1/connectors/$(connectorArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/connectors/$(connectorArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -366,7 +363,7 @@ function describe_connector(
         "GET",
         "/v1/connectors/$(connectorArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -389,7 +386,7 @@ function describe_custom_plugin(
     return kafkaconnect(
         "GET",
         "/v1/custom-plugins/$(customPluginArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -403,7 +400,7 @@ function describe_custom_plugin(
         "GET",
         "/v1/custom-plugins/$(customPluginArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -427,7 +424,7 @@ function describe_worker_configuration(
     return kafkaconnect(
         "GET",
         "/v1/worker-configurations/$(workerConfigurationArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -441,7 +438,7 @@ function describe_worker_configuration(
         "GET",
         "/v1/worker-configurations/$(workerConfigurationArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -467,7 +464,7 @@ function list_connectors end
 
 function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafkaconnect(
-        "GET", "/v1/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/connectors"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -475,11 +472,7 @@ function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafkaconnect(
-        "GET",
-        "/v1/connectors",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/connectors", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -501,7 +494,7 @@ function list_custom_plugins end
 
 function list_custom_plugins(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafkaconnect(
-        "GET", "/v1/custom-plugins"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/custom-plugins"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -509,11 +502,7 @@ function list_custom_plugins(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafkaconnect(
-        "GET",
-        "/v1/custom-plugins",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/custom-plugins", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -534,10 +523,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafkaconnect(
-        "GET",
-        "/v1/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -550,7 +536,7 @@ function list_tags_for_resource(
         "GET",
         "/v1/tags/$(resourceArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -574,10 +560,7 @@ function list_worker_configurations end
 
 function list_worker_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafkaconnect(
-        "GET",
-        "/v1/worker-configurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/worker-configurations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -588,7 +571,7 @@ function list_worker_configurations(
         "GET",
         "/v1/worker-configurations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -612,7 +595,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -627,7 +610,7 @@ function tag_resource(
         "POST",
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -653,7 +636,7 @@ function untag_resource(
         "DELETE",
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -668,7 +651,7 @@ function untag_resource(
         "DELETE",
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -697,7 +680,7 @@ function update_connector(
         "PUT",
         "/v1/connectors/$(connectorArn)",
         Dict{String,Any}("capacity" => capacity, "currentVersion" => currentVersion);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -721,7 +704,7 @@ function update_connector(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

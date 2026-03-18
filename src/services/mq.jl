@@ -105,7 +105,7 @@ function create_broker(
             "users" => users,
             "creatorRequestId" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -138,7 +138,7 @@ function create_broker(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -175,7 +175,7 @@ function create_configuration(
         "POST",
         "/v1/configurations",
         Dict{String,Any}("engineType" => engineType, "name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -194,7 +194,7 @@ function create_configuration(
                 _merge, Dict{String,Any}("engineType" => engineType, "name" => name), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -216,10 +216,7 @@ function create_tags end
 
 function create_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
-        "POST",
-        "/v1/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/v1/tags/$(resource-arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -232,7 +229,7 @@ function create_tags(
         "POST",
         "/v1/tags/$(resource-arn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -272,7 +269,7 @@ function create_user(
         "POST",
         "/v1/brokers/$(broker-id)/users/$(username)",
         Dict{String,Any}("password" => password);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -290,7 +287,7 @@ function create_user(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("password" => password), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -309,10 +306,7 @@ function delete_broker end
 
 function delete_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
-        "DELETE",
-        "/v1/brokers/$(broker-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/v1/brokers/$(broker-id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -325,7 +319,7 @@ function delete_broker(
         "DELETE",
         "/v1/brokers/$(broker-id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -350,7 +344,7 @@ function delete_tags(
         "DELETE",
         "/v1/tags/$(resource-arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -365,7 +359,7 @@ function delete_tags(
         "DELETE",
         "/v1/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -391,7 +385,7 @@ function delete_user(
     return mq(
         "DELETE",
         "/v1/brokers/$(broker-id)/users/$(username)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -406,7 +400,7 @@ function delete_user(
         "DELETE",
         "/v1/brokers/$(broker-id)/users/$(username)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -425,10 +419,7 @@ function describe_broker end
 
 function describe_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
-        "GET",
-        "/v1/brokers/$(broker-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/brokers/$(broker-id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -441,7 +432,7 @@ function describe_broker(
         "GET",
         "/v1/brokers/$(broker-id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -463,12 +454,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_broker_engine_types end
 
 function describe_broker_engine_types(; aws_config::AbstractAWSConfig=current_aws_config())
-    return mq(
-        "GET",
-        "/v1/broker-engine-types";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return mq("GET", "/v1/broker-engine-types"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_broker_engine_types(
@@ -478,7 +464,7 @@ function describe_broker_engine_types(
         "GET",
         "/v1/broker-engine-types",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -505,10 +491,7 @@ function describe_broker_instance_options(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
-        "GET",
-        "/v1/broker-instance-options";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/broker-instance-options"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -519,7 +502,7 @@ function describe_broker_instance_options(
         "GET",
         "/v1/broker-instance-options",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -542,7 +525,7 @@ function describe_configuration(
     return mq(
         "GET",
         "/v1/configurations/$(configuration-id)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -556,7 +539,7 @@ function describe_configuration(
         "GET",
         "/v1/configurations/$(configuration-id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -582,7 +565,7 @@ function describe_configuration_revision(
     return mq(
         "GET",
         "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -597,7 +580,7 @@ function describe_configuration_revision(
         "GET",
         "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -623,7 +606,7 @@ function describe_user(
     return mq(
         "GET",
         "/v1/brokers/$(broker-id)/users/$(username)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -638,7 +621,7 @@ function describe_user(
         "GET",
         "/v1/brokers/$(broker-id)/users/$(username)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -659,15 +642,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_brokers end
 
 function list_brokers(; aws_config::AbstractAWSConfig=current_aws_config())
-    return mq("GET", "/v1/brokers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return mq("GET", "/v1/brokers"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_brokers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return mq(
-        "GET", "/v1/brokers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mq("GET", "/v1/brokers", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -694,7 +675,7 @@ function list_configuration_revisions(
     return mq(
         "GET",
         "/v1/configurations/$(configuration-id)/revisions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -708,7 +689,7 @@ function list_configuration_revisions(
         "GET",
         "/v1/configurations/$(configuration-id)/revisions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -729,20 +710,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_configurations end
 
 function list_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return mq(
-        "GET", "/v1/configurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mq("GET", "/v1/configurations"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
-        "GET",
-        "/v1/configurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/configurations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -760,10 +735,7 @@ function list_tags end
 
 function list_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
-        "GET",
-        "/v1/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/tags/$(resource-arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -776,7 +748,7 @@ function list_tags(
         "GET",
         "/v1/tags/$(resource-arn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -801,10 +773,7 @@ function list_users end
 
 function list_users(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
-        "GET",
-        "/v1/brokers/$(broker-id)/users";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/brokers/$(broker-id)/users"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -817,7 +786,7 @@ function list_users(
         "GET",
         "/v1/brokers/$(broker-id)/users",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -841,7 +810,7 @@ function promote(broker_id, mode; aws_config::AbstractAWSConfig=current_aws_conf
         "POST",
         "/v1/brokers/$(broker-id)/promote",
         Dict{String,Any}("mode" => mode);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -856,7 +825,7 @@ function promote(
         "POST",
         "/v1/brokers/$(broker-id)/promote",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("mode" => mode), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -877,7 +846,7 @@ function reboot_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_conf
     return mq(
         "POST",
         "/v1/brokers/$(broker-id)/reboot";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -891,7 +860,7 @@ function reboot_broker(
         "POST",
         "/v1/brokers/$(broker-id)/reboot",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -932,10 +901,7 @@ function update_broker end
 
 function update_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
-        "PUT",
-        "/v1/brokers/$(broker-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PUT", "/v1/brokers/$(broker-id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -948,7 +914,7 @@ function update_broker(
         "PUT",
         "/v1/brokers/$(broker-id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -977,7 +943,7 @@ function update_configuration(
         "PUT",
         "/v1/configurations/$(configuration-id)",
         Dict{String,Any}("data" => data);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -992,7 +958,7 @@ function update_configuration(
         "PUT",
         "/v1/configurations/$(configuration-id)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("data" => data), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1028,7 +994,7 @@ function update_user(
     return mq(
         "PUT",
         "/v1/brokers/$(broker-id)/users/$(username)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1043,7 +1009,7 @@ function update_user(
         "PUT",
         "/v1/brokers/$(broker-id)/users/$(username)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -56,7 +56,7 @@ function create_cluster(
             "size" => size,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -84,7 +84,7 @@ function create_cluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -162,7 +162,7 @@ function create_compute_node_group(
             "subnetIds" => subnetIds,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -196,7 +196,7 @@ function create_compute_node_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -237,7 +237,7 @@ function create_queue(
             "queueName" => queueName,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -261,7 +261,7 @@ function create_queue(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -295,7 +295,7 @@ function delete_cluster(
         Dict{String,Any}(
             "clusterIdentifier" => clusterIdentifier, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -317,7 +317,7 @@ function delete_cluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -356,7 +356,7 @@ function delete_compute_node_group(
             "computeNodeGroupIdentifier" => computeNodeGroupIdentifier,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -380,7 +380,7 @@ function delete_compute_node_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -418,7 +418,7 @@ function delete_queue(
             "queueIdentifier" => queueIdentifier,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -442,7 +442,7 @@ function delete_queue(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -465,7 +465,7 @@ function get_cluster(clusterIdentifier; aws_config::AbstractAWSConfig=current_aw
     return pcs(
         "GetCluster",
         Dict{String,Any}("clusterIdentifier" => clusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -482,7 +482,7 @@ function get_cluster(
                 _merge, Dict{String,Any}("clusterIdentifier" => clusterIdentifier), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -513,7 +513,7 @@ function get_compute_node_group(
             "clusterIdentifier" => clusterIdentifier,
             "computeNodeGroupIdentifier" => computeNodeGroupIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -536,7 +536,7 @@ function get_compute_node_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -563,7 +563,7 @@ function get_queue(
         Dict{String,Any}(
             "clusterIdentifier" => clusterIdentifier, "queueIdentifier" => queueIdentifier
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -586,7 +586,7 @@ function get_queue(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -611,15 +611,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_clusters end
 
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return pcs("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return pcs("ListClusters"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return pcs(
-        "ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return pcs("ListClusters", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -650,7 +648,7 @@ function list_compute_node_groups(
     return pcs(
         "ListComputeNodeGroups",
         Dict{String,Any}("clusterIdentifier" => clusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -667,7 +665,7 @@ function list_compute_node_groups(
                 _merge, Dict{String,Any}("clusterIdentifier" => clusterIdentifier), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -698,7 +696,7 @@ function list_queues(clusterIdentifier; aws_config::AbstractAWSConfig=current_aw
     return pcs(
         "ListQueues",
         Dict{String,Any}("clusterIdentifier" => clusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -715,7 +713,7 @@ function list_queues(
                 _merge, Dict{String,Any}("clusterIdentifier" => clusterIdentifier), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -738,7 +736,7 @@ function list_tags_for_resource(
     return pcs(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -753,7 +751,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -781,7 +779,7 @@ function register_compute_node_group_instance(
         Dict{String,Any}(
             "bootstrapId" => bootstrapId, "clusterIdentifier" => clusterIdentifier
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -803,7 +801,7 @@ function register_compute_node_group_instance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -829,7 +827,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
     return pcs(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -849,7 +847,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -875,7 +873,7 @@ function untag_resource(
     return pcs(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -895,7 +893,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -952,7 +950,7 @@ function update_compute_node_group(
             "computeNodeGroupIdentifier" => computeNodeGroupIdentifier,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -976,7 +974,7 @@ function update_compute_node_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1015,7 +1013,7 @@ function update_queue(
             "queueIdentifier" => queueIdentifier,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1039,7 +1037,7 @@ function update_queue(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

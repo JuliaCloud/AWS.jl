@@ -43,7 +43,7 @@ function associate_created_artifact(
             "MigrationTaskName" => MigrationTaskName,
             "ProgressUpdateStream" => ProgressUpdateStream,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -68,7 +68,7 @@ function associate_created_artifact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -106,7 +106,7 @@ function associate_discovered_resource(
             "MigrationTaskName" => MigrationTaskName,
             "ProgressUpdateStream" => ProgressUpdateStream,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -131,7 +131,7 @@ function associate_discovered_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -163,7 +163,7 @@ function create_progress_update_stream(
     return migration_hub(
         "CreateProgressUpdateStream",
         Dict{String,Any}("ProgressUpdateStreamName" => ProgressUpdateStreamName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -182,7 +182,7 @@ function create_progress_update_stream(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -222,7 +222,7 @@ function delete_progress_update_stream(
     return migration_hub(
         "DeleteProgressUpdateStream",
         Dict{String,Any}("ProgressUpdateStreamName" => ProgressUpdateStreamName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -241,7 +241,7 @@ function delete_progress_update_stream(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -265,7 +265,7 @@ function describe_application_state(
     return migration_hub(
         "DescribeApplicationState",
         Dict{String,Any}("ApplicationId" => ApplicationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -280,7 +280,7 @@ function describe_application_state(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -310,7 +310,7 @@ function describe_migration_task(
             "MigrationTaskName" => MigrationTaskName,
             "ProgressUpdateStream" => ProgressUpdateStream,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -333,7 +333,7 @@ function describe_migration_task(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -377,7 +377,7 @@ function disassociate_created_artifact(
             "MigrationTaskName" => MigrationTaskName,
             "ProgressUpdateStream" => ProgressUpdateStream,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -402,7 +402,7 @@ function disassociate_created_artifact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -440,7 +440,7 @@ function disassociate_discovered_resource(
             "MigrationTaskName" => MigrationTaskName,
             "ProgressUpdateStream" => ProgressUpdateStream,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -465,7 +465,7 @@ function disassociate_discovered_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -501,7 +501,7 @@ function import_migration_task(
             "MigrationTaskName" => MigrationTaskName,
             "ProgressUpdateStream" => ProgressUpdateStream,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -524,7 +524,7 @@ function import_migration_task(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -550,7 +550,7 @@ function list_application_states end
 
 function list_application_states(; aws_config::AbstractAWSConfig=current_aws_config())
     return migration_hub(
-        "ListApplicationStates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListApplicationStates"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -558,10 +558,7 @@ function list_application_states(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub(
-        "ListApplicationStates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListApplicationStates", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -599,7 +596,7 @@ function list_created_artifacts(
             "MigrationTaskName" => MigrationTaskName,
             "ProgressUpdateStream" => ProgressUpdateStream,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -622,7 +619,7 @@ function list_created_artifacts(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -658,7 +655,7 @@ function list_discovered_resources(
             "MigrationTaskName" => MigrationTaskName,
             "ProgressUpdateStream" => ProgressUpdateStream,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -681,7 +678,7 @@ function list_discovered_resources(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -706,16 +703,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_migration_tasks end
 
 function list_migration_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
-    return migration_hub(
-        "ListMigrationTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return migration_hub("ListMigrationTasks"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_migration_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub(
-        "ListMigrationTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListMigrationTasks", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -736,7 +731,7 @@ function list_progress_update_streams end
 
 function list_progress_update_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return migration_hub(
-        "ListProgressUpdateStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListProgressUpdateStreams"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -744,10 +739,7 @@ function list_progress_update_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub(
-        "ListProgressUpdateStreams",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListProgressUpdateStreams", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -778,7 +770,7 @@ function notify_application_state(
     return migration_hub(
         "NotifyApplicationState",
         Dict{String,Any}("ApplicationId" => ApplicationId, "Status" => Status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -798,7 +790,7 @@ function notify_application_state(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -847,7 +839,7 @@ function notify_migration_task_state(
             "Task" => Task,
             "UpdateDateTime" => UpdateDateTime,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -876,7 +868,7 @@ function notify_migration_task_state(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -935,7 +927,7 @@ function put_resource_attributes(
             "ProgressUpdateStream" => ProgressUpdateStream,
             "ResourceAttributeList" => ResourceAttributeList,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -960,7 +952,7 @@ function put_resource_attributes(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

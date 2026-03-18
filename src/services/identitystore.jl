@@ -26,7 +26,7 @@ function create_group(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws
     return identitystore(
         "CreateGroup",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -43,7 +43,7 @@ function create_group(
                 _merge, Dict{String,Any}("IdentityStoreId" => IdentityStoreId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -75,7 +75,7 @@ function create_group_membership(
             "IdentityStoreId" => IdentityStoreId,
             "MemberId" => MemberId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -100,7 +100,7 @@ function create_group_membership(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -145,7 +145,7 @@ function create_user(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_
     return identitystore(
         "CreateUser",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -162,7 +162,7 @@ function create_user(
                 _merge, Dict{String,Any}("IdentityStoreId" => IdentityStoreId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -186,7 +186,7 @@ function delete_group(
     return identitystore(
         "DeleteGroup",
         Dict{String,Any}("GroupId" => GroupId, "IdentityStoreId" => IdentityStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -208,7 +208,7 @@ function delete_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -234,7 +234,7 @@ function delete_group_membership(
         Dict{String,Any}(
             "IdentityStoreId" => IdentityStoreId, "MembershipId" => MembershipId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -256,7 +256,7 @@ function delete_group_membership(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -280,7 +280,7 @@ function delete_user(
     return identitystore(
         "DeleteUser",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "UserId" => UserId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -300,7 +300,7 @@ function delete_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -329,7 +329,7 @@ function describe_group(
     return identitystore(
         "DescribeGroup",
         Dict{String,Any}("GroupId" => GroupId, "IdentityStoreId" => IdentityStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -351,7 +351,7 @@ function describe_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -379,7 +379,7 @@ function describe_group_membership(
         Dict{String,Any}(
             "IdentityStoreId" => IdentityStoreId, "MembershipId" => MembershipId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -401,7 +401,7 @@ function describe_group_membership(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -430,7 +430,7 @@ function describe_user(
     return identitystore(
         "DescribeUser",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "UserId" => UserId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -450,7 +450,7 @@ function describe_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -482,7 +482,7 @@ function get_group_id(
             "AlternateIdentifier" => AlternateIdentifier,
             "IdentityStoreId" => IdentityStoreId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -505,7 +505,7 @@ function get_group_id(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -538,7 +538,7 @@ function get_group_membership_id(
             "IdentityStoreId" => IdentityStoreId,
             "MemberId" => MemberId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -563,7 +563,7 @@ function get_group_membership_id(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -595,7 +595,7 @@ function get_user_id(
             "AlternateIdentifier" => AlternateIdentifier,
             "IdentityStoreId" => IdentityStoreId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -618,7 +618,7 @@ function get_user_id(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -649,7 +649,7 @@ function is_member_in_groups(
             "IdentityStoreId" => IdentityStoreId,
             "MemberId" => MemberId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -674,7 +674,7 @@ function is_member_in_groups(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -709,7 +709,7 @@ function list_group_memberships(
     return identitystore(
         "ListGroupMemberships",
         Dict{String,Any}("GroupId" => GroupId, "IdentityStoreId" => IdentityStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -731,7 +731,7 @@ function list_group_memberships(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -769,7 +769,7 @@ function list_group_memberships_for_member(
     return identitystore(
         "ListGroupMembershipsForMember",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "MemberId" => MemberId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -791,7 +791,7 @@ function list_group_memberships_for_member(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -830,7 +830,7 @@ function list_groups(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_
     return identitystore(
         "ListGroups",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -847,7 +847,7 @@ function list_groups(
                 _merge, Dict{String,Any}("IdentityStoreId" => IdentityStoreId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -885,7 +885,7 @@ function list_users(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_c
     return identitystore(
         "ListUsers",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -902,7 +902,7 @@ function list_users(
                 _merge, Dict{String,Any}("IdentityStoreId" => IdentityStoreId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -933,7 +933,7 @@ function update_group(
             "IdentityStoreId" => IdentityStoreId,
             "Operations" => Operations,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -958,7 +958,7 @@ function update_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -989,7 +989,7 @@ function update_user(
             "Operations" => Operations,
             "UserId" => UserId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1014,7 +1014,7 @@ function update_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

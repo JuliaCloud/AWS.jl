@@ -24,7 +24,7 @@ function accept_invitation(GraphArn; aws_config::AbstractAWSConfig=current_aws_c
         "PUT",
         "/invitation",
         Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -40,7 +40,7 @@ function accept_invitation(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -66,7 +66,7 @@ function batch_get_graph_member_datasources(
         "POST",
         "/graph/datasources/get",
         Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -87,7 +87,7 @@ function batch_get_graph_member_datasources(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -111,7 +111,7 @@ function batch_get_membership_datasources(
         "POST",
         "/membership/datasources/get",
         Dict{String,Any}("GraphArns" => GraphArns);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -127,7 +127,7 @@ function batch_get_membership_datasources(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GraphArns" => GraphArns), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -154,17 +154,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_graph end
 
 function create_graph(; aws_config::AbstractAWSConfig=current_aws_config())
-    return detective(
-        "POST", "/graph"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return detective("POST", "/graph"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function create_graph(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return detective(
-        "POST", "/graph", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return detective("POST", "/graph", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -216,7 +212,7 @@ function create_members(
         "POST",
         "/graph/members",
         Dict{String,Any}("Accounts" => Accounts, "GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -237,7 +233,7 @@ function create_members(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -261,7 +257,7 @@ function delete_graph(GraphArn; aws_config::AbstractAWSConfig=current_aws_config
         "POST",
         "/graph/removal",
         Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -277,7 +273,7 @@ function delete_graph(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -314,7 +310,7 @@ function delete_members(
         "POST",
         "/graph/members/removal",
         Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -335,7 +331,7 @@ function delete_members(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -361,7 +357,7 @@ function describe_organization_configuration(
         "POST",
         "/orgs/describeOrganizationConfiguration",
         Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -377,7 +373,7 @@ function describe_organization_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -401,10 +397,7 @@ function disable_organization_admin_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
-        "POST",
-        "/orgs/disableAdminAccount";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/orgs/disableAdminAccount"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -415,7 +408,7 @@ function disable_organization_admin_account(
         "POST",
         "/orgs/disableAdminAccount",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -444,7 +437,7 @@ function disassociate_membership(
         "POST",
         "/membership/removal",
         Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -460,7 +453,7 @@ function disassociate_membership(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -495,7 +488,7 @@ function enable_organization_admin_account(
         "POST",
         "/orgs/enableAdminAccount",
         Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -511,7 +504,7 @@ function enable_organization_admin_account(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -540,7 +533,7 @@ function get_investigation(
         "POST",
         "/investigations/getInvestigation",
         Dict{String,Any}("GraphArn" => GraphArn, "InvestigationId" => InvestigationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -563,7 +556,7 @@ function get_investigation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -591,7 +584,7 @@ function get_members(
         "POST",
         "/graph/members/get",
         Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -612,7 +605,7 @@ function get_members(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -642,7 +635,7 @@ function list_datasource_packages(
         "POST",
         "/graph/datasources/list",
         Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -658,7 +651,7 @@ function list_datasource_packages(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -683,20 +676,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_graphs end
 
 function list_graphs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return detective(
-        "POST", "/graphs/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return detective("POST", "/graphs/list"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_graphs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
-        "POST",
-        "/graphs/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/graphs/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -731,7 +718,7 @@ function list_indicators(
         "POST",
         "/investigations/listIndicators",
         Dict{String,Any}("GraphArn" => GraphArn, "InvestigationId" => InvestigationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -754,7 +741,7 @@ function list_indicators(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -789,7 +776,7 @@ function list_investigations(GraphArn; aws_config::AbstractAWSConfig=current_aws
         "POST",
         "/investigations/listInvestigations",
         Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -805,7 +792,7 @@ function list_investigations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -833,7 +820,7 @@ function list_invitations end
 
 function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
-        "POST", "/invitations/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/invitations/list"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -841,11 +828,7 @@ function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
-        "POST",
-        "/invitations/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/invitations/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -878,7 +861,7 @@ function list_members(GraphArn; aws_config::AbstractAWSConfig=current_aws_config
         "POST",
         "/graph/members/list",
         Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -894,7 +877,7 @@ function list_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -919,10 +902,7 @@ function list_organization_admin_accounts(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
-        "POST",
-        "/orgs/adminAccountslist";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/orgs/adminAccountslist"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -933,7 +913,7 @@ function list_organization_admin_accounts(
         "POST",
         "/orgs/adminAccountslist",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -954,10 +934,7 @@ function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return detective(
-        "GET",
-        "/tags/$(ResourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -967,11 +944,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return detective(
-        "GET",
-        "/tags/$(ResourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -996,7 +969,7 @@ function reject_invitation(GraphArn; aws_config::AbstractAWSConfig=current_aws_c
         "POST",
         "/invitation/removal",
         Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1012,7 +985,7 @@ function reject_invitation(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1054,7 +1027,7 @@ function start_investigation(
             "ScopeEndTime" => ScopeEndTime,
             "ScopeStartTime" => ScopeStartTime,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1082,7 +1055,7 @@ function start_investigation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1111,7 +1084,7 @@ function start_monitoring_member(
         "POST",
         "/graph/member/monitoringstate",
         Dict{String,Any}("AccountId" => AccountId, "GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1132,7 +1105,7 @@ function start_monitoring_member(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1157,7 +1130,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1172,7 +1145,7 @@ function tag_resource(
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1198,7 +1171,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1213,7 +1186,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1240,7 +1213,7 @@ function update_datasource_packages(
         Dict{String,Any}(
             "DatasourcePackages" => DatasourcePackages, "GraphArn" => GraphArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1263,7 +1236,7 @@ function update_datasource_packages(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1292,7 +1265,7 @@ function update_investigation_state(
         Dict{String,Any}(
             "GraphArn" => GraphArn, "InvestigationId" => InvestigationId, "State" => State
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1318,7 +1291,7 @@ function update_investigation_state(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1347,7 +1320,7 @@ function update_organization_configuration(
         "POST",
         "/orgs/updateOrganizationConfiguration",
         Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1363,7 +1336,7 @@ function update_organization_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

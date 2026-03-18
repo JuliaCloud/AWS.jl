@@ -36,7 +36,7 @@ function delete_session(
     return lex_runtime_v2(
         "DELETE",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -53,7 +53,7 @@ function delete_session(
         "DELETE",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -87,7 +87,7 @@ function get_session(
     return lex_runtime_v2(
         "GET",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -104,7 +104,7 @@ function get_session(
         "GET",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -150,7 +150,7 @@ function put_session(
         "POST",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
         Dict{String,Any}("sessionState" => sessionState);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -170,7 +170,7 @@ function put_session(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("sessionState" => sessionState), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -221,7 +221,7 @@ function recognize_text(
         "POST",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text",
         Dict{String,Any}("text" => text);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -239,7 +239,7 @@ function recognize_text(
         "POST",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("text" => text), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -318,7 +318,7 @@ function recognize_utterance(
         "POST",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/utterance",
         Dict{String,Any}("headers" => Dict{String,Any}("Content-Type" => Content_Type));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -344,7 +344,7 @@ function recognize_utterance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

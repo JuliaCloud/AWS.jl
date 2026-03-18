@@ -25,7 +25,7 @@ function add_notification_channels(
         "POST",
         "/profilingGroups/$(profilingGroupName)/notificationConfiguration",
         Dict{String,Any}("channels" => channels);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -42,7 +42,7 @@ function add_notification_channels(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("channels" => channels), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -85,7 +85,7 @@ function batch_get_frame_metric_data(
     return codeguruprofiler(
         "POST",
         "/profilingGroups/$(profilingGroupName)/frames/-/metrics";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -99,7 +99,7 @@ function batch_get_frame_metric_data(
         "POST",
         "/profilingGroups/$(profilingGroupName)/frames/-/metrics",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -142,7 +142,7 @@ function configure_agent(
     return codeguruprofiler(
         "POST",
         "/profilingGroups/$(profilingGroupName)/configureAgent";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -156,7 +156,7 @@ function configure_agent(
         "POST",
         "/profilingGroups/$(profilingGroupName)/configureAgent",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -194,7 +194,7 @@ function create_profiling_group(
         Dict{String,Any}(
             "clientToken" => clientToken, "profilingGroupName" => profilingGroupName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -217,7 +217,7 @@ function create_profiling_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -240,7 +240,7 @@ function delete_profiling_group(
     return codeguruprofiler(
         "DELETE",
         "/profilingGroups/$(profilingGroupName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -254,7 +254,7 @@ function delete_profiling_group(
         "DELETE",
         "/profilingGroups/$(profilingGroupName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -278,7 +278,7 @@ function describe_profiling_group(
     return codeguruprofiler(
         "GET",
         "/profilingGroups/$(profilingGroupName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -292,7 +292,7 @@ function describe_profiling_group(
         "GET",
         "/profilingGroups/$(profilingGroupName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -326,10 +326,7 @@ function get_findings_report_account_summary(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeguruprofiler(
-        "GET",
-        "/internal/findingsReports";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/internal/findingsReports"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -340,7 +337,7 @@ function get_findings_report_account_summary(
         "GET",
         "/internal/findingsReports",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -364,7 +361,7 @@ function get_notification_configuration(
     return codeguruprofiler(
         "GET",
         "/profilingGroups/$(profilingGroupName)/notificationConfiguration";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -378,7 +375,7 @@ function get_notification_configuration(
         "GET",
         "/profilingGroups/$(profilingGroupName)/notificationConfiguration",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -399,7 +396,7 @@ function get_policy(profilingGroupName; aws_config::AbstractAWSConfig=current_aw
     return codeguruprofiler(
         "GET",
         "/profilingGroups/$(profilingGroupName)/policy";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -413,7 +410,7 @@ function get_policy(
         "GET",
         "/profilingGroups/$(profilingGroupName)/policy",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -494,7 +491,7 @@ function get_profile(profilingGroupName; aws_config::AbstractAWSConfig=current_a
     return codeguruprofiler(
         "GET",
         "/profilingGroups/$(profilingGroupName)/profile";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -508,7 +505,7 @@ function get_profile(
         "GET",
         "/profilingGroups/$(profilingGroupName)/profile",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -551,7 +548,7 @@ function get_recommendations(
         "GET",
         "/internal/profilingGroups/$(profilingGroupName)/recommendations",
         Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -573,7 +570,7 @@ function get_recommendations(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -622,7 +619,7 @@ function list_findings_reports(
         "GET",
         "/internal/profilingGroups/$(profilingGroupName)/findingsReports",
         Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -644,7 +641,7 @@ function list_findings_reports(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -694,7 +691,7 @@ function list_profile_times(
         Dict{String,Any}(
             "endTime" => endTime, "period" => period, "startTime" => startTime
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -719,7 +716,7 @@ function list_profile_times(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -752,7 +749,7 @@ function list_profiling_groups end
 
 function list_profiling_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguruprofiler(
-        "GET", "/profilingGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/profilingGroups"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -760,11 +757,7 @@ function list_profiling_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeguruprofiler(
-        "GET",
-        "/profilingGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/profilingGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -785,10 +778,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeguruprofiler(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -798,11 +788,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeguruprofiler(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -848,7 +834,7 @@ function post_agent_profile(
             "profileToken" => string(uuid4()),
             "headers" => Dict{String,Any}("Content-Type" => Content_Type),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -874,7 +860,7 @@ function post_agent_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -931,7 +917,7 @@ function put_permission(
         "PUT",
         "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)",
         Dict{String,Any}("principals" => principals);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -949,7 +935,7 @@ function put_permission(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("principals" => principals), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -974,7 +960,7 @@ function remove_notification_channel(
     return codeguruprofiler(
         "DELETE",
         "/profilingGroups/$(profilingGroupName)/notificationConfiguration/$(channelId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -989,7 +975,7 @@ function remove_notification_channel(
         "DELETE",
         "/profilingGroups/$(profilingGroupName)/notificationConfiguration/$(channelId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1025,7 +1011,7 @@ function remove_permission(
         "DELETE",
         "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)",
         Dict{String,Any}("revisionId" => revisionId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1043,7 +1029,7 @@ function remove_permission(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("revisionId" => revisionId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1078,7 +1064,7 @@ function submit_feedback(
         "POST",
         "/internal/profilingGroups/$(profilingGroupName)/anomalies/$(anomalyInstanceId)/feedback",
         Dict{String,Any}("type" => type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1094,7 +1080,7 @@ function submit_feedback(
         "POST",
         "/internal/profilingGroups/$(profilingGroupName)/anomalies/$(anomalyInstanceId)/feedback",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1118,7 +1104,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1133,7 +1119,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1160,7 +1146,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1175,7 +1161,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1203,7 +1189,7 @@ function update_profiling_group(
         "PUT",
         "/profilingGroups/$(profilingGroupName)",
         Dict{String,Any}("agentOrchestrationConfig" => agentOrchestrationConfig);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1224,7 +1210,7 @@ function update_profiling_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -26,7 +26,7 @@ function associate_attribute_group(
     return service_catalog_appregistry(
         "PUT",
         "/applications/$(application)/attribute-groups/$(attributeGroup)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -41,7 +41,7 @@ function associate_attribute_group(
         "PUT",
         "/applications/$(application)/attribute-groups/$(attributeGroup)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -78,7 +78,7 @@ function associate_resource(
     return service_catalog_appregistry(
         "PUT",
         "/applications/$(application)/resources/$(resourceType)/$(resource)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -94,7 +94,7 @@ function associate_resource(
         "PUT",
         "/applications/$(application)/resources/$(resourceType)/$(resource)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -129,7 +129,7 @@ function create_application(
         "POST",
         "/applications",
         Dict{String,Any}("clientToken" => clientToken, "name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -150,7 +150,7 @@ function create_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -190,7 +190,7 @@ function create_attribute_group(
         Dict{String,Any}(
             "attributes" => attributes, "clientToken" => clientToken, "name" => name
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -214,7 +214,7 @@ function create_attribute_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -237,7 +237,7 @@ function delete_application(application; aws_config::AbstractAWSConfig=current_a
     return service_catalog_appregistry(
         "DELETE",
         "/applications/$(application)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -251,7 +251,7 @@ function delete_application(
         "DELETE",
         "/applications/$(application)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -275,7 +275,7 @@ function delete_attribute_group(
     return service_catalog_appregistry(
         "DELETE",
         "/attribute-groups/$(attributeGroup)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -289,7 +289,7 @@ function delete_attribute_group(
         "DELETE",
         "/attribute-groups/$(attributeGroup)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -316,7 +316,7 @@ function disassociate_attribute_group(
     return service_catalog_appregistry(
         "DELETE",
         "/applications/$(application)/attribute-groups/$(attributeGroup)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -331,7 +331,7 @@ function disassociate_attribute_group(
         "DELETE",
         "/applications/$(application)/attribute-groups/$(attributeGroup)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -366,7 +366,7 @@ function disassociate_resource(
     return service_catalog_appregistry(
         "DELETE",
         "/applications/$(application)/resources/$(resourceType)/$(resource)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -382,7 +382,7 @@ function disassociate_resource(
         "DELETE",
         "/applications/$(application)/resources/$(resourceType)/$(resource)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -405,10 +405,7 @@ function get_application end
 
 function get_application(application; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
-        "GET",
-        "/applications/$(application)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/applications/$(application)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -421,7 +418,7 @@ function get_application(
         "GET",
         "/applications/$(application)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -454,7 +451,7 @@ function get_associated_resource(
     return service_catalog_appregistry(
         "GET",
         "/applications/$(application)/resources/$(resourceType)/$(resource)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -470,7 +467,7 @@ function get_associated_resource(
         "GET",
         "/applications/$(application)/resources/$(resourceType)/$(resource)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -495,7 +492,7 @@ function get_attribute_group(
     return service_catalog_appregistry(
         "GET",
         "/attribute-groups/$(attributeGroup)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -509,7 +506,7 @@ function get_attribute_group(
         "GET",
         "/attribute-groups/$(attributeGroup)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -525,7 +522,7 @@ function get_configuration end
 
 function get_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
-        "GET", "/configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/configuration"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -533,11 +530,7 @@ function get_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
-        "GET",
-        "/configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/configuration", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -558,7 +551,7 @@ function list_applications end
 
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
-        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/applications"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -566,11 +559,7 @@ function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
-        "GET",
-        "/applications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/applications", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -599,7 +588,7 @@ function list_associated_attribute_groups(
     return service_catalog_appregistry(
         "GET",
         "/applications/$(application)/attribute-groups";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -613,7 +602,7 @@ function list_associated_attribute_groups(
         "GET",
         "/applications/$(application)/attribute-groups",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -645,7 +634,7 @@ function list_associated_resources(
     return service_catalog_appregistry(
         "GET",
         "/applications/$(application)/resources";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -659,7 +648,7 @@ function list_associated_resources(
         "GET",
         "/applications/$(application)/resources",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -681,7 +670,7 @@ function list_attribute_groups end
 
 function list_attribute_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
-        "GET", "/attribute-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/attribute-groups"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -689,11 +678,7 @@ function list_attribute_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
-        "GET",
-        "/attribute-groups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/attribute-groups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -721,7 +706,7 @@ function list_attribute_groups_for_application(
     return service_catalog_appregistry(
         "GET",
         "/applications/$(application)/attribute-group-details";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -735,7 +720,7 @@ function list_attribute_groups_for_application(
         "GET",
         "/applications/$(application)/attribute-group-details",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -756,10 +741,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog_appregistry(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -769,11 +751,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog_appregistry(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -796,7 +774,7 @@ function put_configuration(
         "PUT",
         "/configuration",
         Dict{String,Any}("configuration" => configuration);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -812,7 +790,7 @@ function put_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -840,7 +818,7 @@ function sync_resource(
     return service_catalog_appregistry(
         "POST",
         "/sync/$(resourceType)/$(resource)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -855,7 +833,7 @@ function sync_resource(
         "POST",
         "/sync/$(resourceType)/$(resource)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -881,7 +859,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -896,7 +874,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -922,7 +900,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -937,7 +915,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -962,10 +940,7 @@ function update_application end
 
 function update_application(application; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog_appregistry(
-        "PATCH",
-        "/applications/$(application)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PATCH", "/applications/$(application)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -978,7 +953,7 @@ function update_application(
         "PATCH",
         "/applications/$(application)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1010,7 +985,7 @@ function update_attribute_group(
     return service_catalog_appregistry(
         "PATCH",
         "/attribute-groups/$(attributeGroup)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1024,7 +999,7 @@ function update_attribute_group(
         "PATCH",
         "/attribute-groups/$(attributeGroup)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

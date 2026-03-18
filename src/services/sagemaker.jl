@@ -37,7 +37,7 @@ function add_association(
     return sagemaker(
         "AddAssociation",
         Dict{String,Any}("DestinationArn" => DestinationArn, "SourceArn" => SourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -59,7 +59,7 @@ function add_association(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -100,7 +100,7 @@ function add_tags(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_c
     return sagemaker(
         "AddTags",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -120,7 +120,7 @@ function add_tags(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -148,7 +148,7 @@ function associate_trial_component(
         Dict{String,Any}(
             "TrialComponentName" => TrialComponentName, "TrialName" => TrialName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -170,7 +170,7 @@ function associate_trial_component(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -194,7 +194,7 @@ function batch_describe_model_package(
     return sagemaker(
         "BatchDescribeModelPackage",
         Dict{String,Any}("ModelPackageArnList" => ModelPackageArnList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -213,7 +213,7 @@ function batch_describe_model_package(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -251,7 +251,7 @@ function create_action(
         Dict{String,Any}(
             "ActionName" => ActionName, "ActionType" => ActionType, "Source" => Source
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -276,7 +276,7 @@ function create_action(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -327,7 +327,7 @@ function create_algorithm(
             "AlgorithmName" => AlgorithmName,
             "TrainingSpecification" => TrainingSpecification,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -350,7 +350,7 @@ function create_algorithm(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -394,7 +394,7 @@ function create_app(
         Dict{String,Any}(
             "AppName" => AppName, "AppType" => AppType, "DomainId" => DomainId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -417,7 +417,7 @@ function create_app(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -454,7 +454,7 @@ function create_app_image_config(
     return sagemaker(
         "CreateAppImageConfig",
         Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -471,7 +471,7 @@ function create_app_image_config(
                 _merge, Dict{String,Any}("AppImageConfigName" => AppImageConfigName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -504,7 +504,7 @@ function create_artifact(
     return sagemaker(
         "CreateArtifact",
         Dict{String,Any}("ArtifactType" => ArtifactType, "Source" => Source);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -524,7 +524,7 @@ function create_artifact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -602,7 +602,7 @@ function create_auto_mljob(
             "OutputDataConfig" => OutputDataConfig,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -629,7 +629,7 @@ function create_auto_mljob(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -727,7 +727,7 @@ function create_auto_mljob_v2(
             "OutputDataConfig" => OutputDataConfig,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -756,7 +756,7 @@ function create_auto_mljob_v2(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -790,7 +790,7 @@ function create_cluster(
     return sagemaker(
         "CreateCluster",
         Dict{String,Any}("ClusterName" => ClusterName, "InstanceGroups" => InstanceGroups);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -812,7 +812,7 @@ function create_cluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -850,7 +850,7 @@ function create_code_repository(
         Dict{String,Any}(
             "CodeRepositoryName" => CodeRepositoryName, "GitConfig" => GitConfig
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -872,7 +872,7 @@ function create_code_repository(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -944,7 +944,7 @@ function create_compilation_job(
             "RoleArn" => RoleArn,
             "StoppingCondition" => StoppingCondition,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -971,7 +971,7 @@ function create_compilation_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1006,7 +1006,7 @@ function create_context(
         Dict{String,Any}(
             "ContextName" => ContextName, "ContextType" => ContextType, "Source" => Source
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1031,7 +1031,7 @@ function create_context(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1083,7 +1083,7 @@ function create_data_quality_job_definition(
             "JobResources" => JobResources,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1114,7 +1114,7 @@ function create_data_quality_job_definition(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1150,7 +1150,7 @@ function create_device_fleet(
         Dict{String,Any}(
             "DeviceFleetName" => DeviceFleetName, "OutputConfig" => OutputConfig
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1172,7 +1172,7 @@ function create_device_fleet(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1256,7 +1256,7 @@ function create_domain(
             "SubnetIds" => SubnetIds,
             "VpcId" => VpcId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1285,7 +1285,7 @@ function create_domain(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1323,7 +1323,7 @@ function create_edge_deployment_plan(
             "EdgeDeploymentPlanName" => EdgeDeploymentPlanName,
             "ModelConfigs" => ModelConfigs,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1348,7 +1348,7 @@ function create_edge_deployment_plan(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1374,7 +1374,7 @@ function create_edge_deployment_stage(
         Dict{String,Any}(
             "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "Stages" => Stages
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1396,7 +1396,7 @@ function create_edge_deployment_stage(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1447,7 +1447,7 @@ function create_edge_packaging_job(
             "OutputConfig" => OutputConfig,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1478,7 +1478,7 @@ function create_edge_packaging_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1550,7 +1550,7 @@ function create_endpoint(
         Dict{String,Any}(
             "EndpointConfigName" => EndpointConfigName, "EndpointName" => EndpointName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1573,7 +1573,7 @@ function create_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1663,7 +1663,7 @@ function create_endpoint_config(
             "EndpointConfigName" => EndpointConfigName,
             "ProductionVariants" => ProductionVariants,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1686,7 +1686,7 @@ function create_endpoint_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1732,7 +1732,7 @@ function create_experiment(
     return sagemaker(
         "CreateExperiment",
         Dict{String,Any}("ExperimentName" => ExperimentName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1747,7 +1747,7 @@ function create_experiment(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ExperimentName" => ExperimentName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1828,7 +1828,7 @@ function create_feature_group(
             "FeatureGroupName" => FeatureGroupName,
             "RecordIdentifierFeatureName" => RecordIdentifierFeatureName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1855,7 +1855,7 @@ function create_feature_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1901,7 +1901,7 @@ function create_flow_definition(
             "OutputConfig" => OutputConfig,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1926,7 +1926,7 @@ function create_flow_definition(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1956,7 +1956,7 @@ function create_hub(
     return sagemaker(
         "CreateHub",
         Dict{String,Any}("HubDescription" => HubDescription, "HubName" => HubName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1976,7 +1976,7 @@ function create_hub(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2011,7 +2011,7 @@ function create_hub_content_reference(
             "HubName" => HubName,
             "SageMakerPublicHubContentArn" => SageMakerPublicHubContentArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2034,7 +2034,7 @@ function create_hub_content_reference(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2065,7 +2065,7 @@ function create_human_task_ui(
     return sagemaker(
         "CreateHumanTaskUi",
         Dict{String,Any}("HumanTaskUiName" => HumanTaskUiName, "UiTemplate" => UiTemplate);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2087,7 +2087,7 @@ function create_human_task_ui(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2167,7 +2167,7 @@ function create_hyper_parameter_tuning_job(
             "HyperParameterTuningJobConfig" => HyperParameterTuningJobConfig,
             "HyperParameterTuningJobName" => HyperParameterTuningJobName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2190,7 +2190,7 @@ function create_hyper_parameter_tuning_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2222,7 +2222,7 @@ function create_image(
     return sagemaker(
         "CreateImage",
         Dict{String,Any}("ImageName" => ImageName, "RoleArn" => RoleArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2242,7 +2242,7 @@ function create_image(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2292,7 +2292,7 @@ function create_image_version(
         Dict{String,Any}(
             "BaseImage" => BaseImage, "ClientToken" => ClientToken, "ImageName" => ImageName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2317,7 +2317,7 @@ function create_image_version(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2369,7 +2369,7 @@ function create_inference_component(
             "Specification" => Specification,
             "VariantName" => VariantName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2398,7 +2398,7 @@ function create_inference_component(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2485,7 +2485,7 @@ function create_inference_experiment(
             "ShadowModeConfig" => ShadowModeConfig,
             "Type" => Type,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2516,7 +2516,7 @@ function create_inference_experiment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2571,7 +2571,7 @@ function create_inference_recommendations_job(
             "JobType" => JobType,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2598,7 +2598,7 @@ function create_inference_recommendations_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2730,7 +2730,7 @@ function create_labeling_job(
             "OutputConfig" => OutputConfig,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2761,7 +2761,7 @@ function create_labeling_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2819,7 +2819,7 @@ function create_mlflow_tracking_server(
             "RoleArn" => RoleArn,
             "TrackingServerName" => TrackingServerName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2844,7 +2844,7 @@ function create_mlflow_tracking_server(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2902,7 +2902,7 @@ function create_model(ModelName; aws_config::AbstractAWSConfig=current_aws_confi
     return sagemaker(
         "CreateModel",
         Dict{String,Any}("ModelName" => ModelName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2917,7 +2917,7 @@ function create_model(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2968,7 +2968,7 @@ function create_model_bias_job_definition(
             "ModelBiasJobOutputConfig" => ModelBiasJobOutputConfig,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2999,7 +2999,7 @@ function create_model_bias_job_definition(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3042,7 +3042,7 @@ function create_model_card(
             "ModelCardName" => ModelCardName,
             "ModelCardStatus" => ModelCardStatus,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3067,7 +3067,7 @@ function create_model_card(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3104,7 +3104,7 @@ function create_model_card_export_job(
             "ModelCardName" => ModelCardName,
             "OutputConfig" => OutputConfig,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3129,7 +3129,7 @@ function create_model_card_export_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3181,7 +3181,7 @@ function create_model_explainability_job_definition(
             "ModelExplainabilityJobOutputConfig" => ModelExplainabilityJobOutputConfig,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3214,7 +3214,7 @@ function create_model_explainability_job_definition(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3308,7 +3308,7 @@ function create_model_package(; aws_config::AbstractAWSConfig=current_aws_config
     return sagemaker(
         "CreateModelPackage",
         Dict{String,Any}("ClientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3321,7 +3321,7 @@ function create_model_package(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3350,7 +3350,7 @@ function create_model_package_group(
     return sagemaker(
         "CreateModelPackageGroup",
         Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3369,7 +3369,7 @@ function create_model_package_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3421,7 +3421,7 @@ function create_model_quality_job_definition(
             "ModelQualityJobOutputConfig" => ModelQualityJobOutputConfig,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3452,7 +3452,7 @@ function create_model_quality_job_definition(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3488,7 +3488,7 @@ function create_monitoring_schedule(
             "MonitoringScheduleConfig" => MonitoringScheduleConfig,
             "MonitoringScheduleName" => MonitoringScheduleName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3511,7 +3511,7 @@ function create_monitoring_schedule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3616,7 +3616,7 @@ function create_notebook_instance(
             "NotebookInstanceName" => NotebookInstanceName,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3641,7 +3641,7 @@ function create_notebook_instance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3681,7 +3681,7 @@ function create_notebook_instance_lifecycle_config(
         Dict{String,Any}(
             "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3703,7 +3703,7 @@ function create_notebook_instance_lifecycle_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3768,7 +3768,7 @@ function create_optimization_job(
             "RoleArn" => RoleArn,
             "StoppingCondition" => StoppingCondition,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3801,7 +3801,7 @@ function create_optimization_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3845,7 +3845,7 @@ function create_pipeline(
             "PipelineName" => PipelineName,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3870,7 +3870,7 @@ function create_pipeline(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3924,7 +3924,7 @@ function create_presigned_domain_url(
     return sagemaker(
         "CreatePresignedDomainUrl",
         Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3946,7 +3946,7 @@ function create_presigned_domain_url(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3976,7 +3976,7 @@ function create_presigned_mlflow_tracking_server_url(
     return sagemaker(
         "CreatePresignedMlflowTrackingServerUrl",
         Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3993,7 +3993,7 @@ function create_presigned_mlflow_tracking_server_url(
                 _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4034,7 +4034,7 @@ function create_presigned_notebook_instance_url(
     return sagemaker(
         "CreatePresignedNotebookInstanceUrl",
         Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4053,7 +4053,7 @@ function create_presigned_notebook_instance_url(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4107,7 +4107,7 @@ function create_processing_job(
             "ProcessingResources" => ProcessingResources,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4134,7 +4134,7 @@ function create_processing_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4173,7 +4173,7 @@ function create_project(
             "ProjectName" => ProjectName,
             "ServiceCatalogProvisioningDetails" => ServiceCatalogProvisioningDetails,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4197,7 +4197,7 @@ function create_project(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4229,7 +4229,7 @@ function create_space(
     return sagemaker(
         "CreateSpace",
         Dict{String,Any}("DomainId" => DomainId, "SpaceName" => SpaceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4249,7 +4249,7 @@ function create_space(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4289,7 +4289,7 @@ function create_studio_lifecycle_config(
             "StudioLifecycleConfigContent" => StudioLifecycleConfigContent,
             "StudioLifecycleConfigName" => StudioLifecycleConfigName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4314,7 +4314,7 @@ function create_studio_lifecycle_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4468,7 +4468,7 @@ function create_training_job(
             "StoppingCondition" => StoppingCondition,
             "TrainingJobName" => TrainingJobName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4499,7 +4499,7 @@ function create_training_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4595,7 +4595,7 @@ function create_transform_job(
             "TransformOutput" => TransformOutput,
             "TransformResources" => TransformResources,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4624,7 +4624,7 @@ function create_transform_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4663,7 +4663,7 @@ function create_trial(
     return sagemaker(
         "CreateTrial",
         Dict{String,Any}("ExperimentName" => ExperimentName, "TrialName" => TrialName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4685,7 +4685,7 @@ function create_trial(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4731,7 +4731,7 @@ function create_trial_component(
     return sagemaker(
         "CreateTrialComponent",
         Dict{String,Any}("TrialComponentName" => TrialComponentName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4748,7 +4748,7 @@ function create_trial_component(
                 _merge, Dict{String,Any}("TrialComponentName" => TrialComponentName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4792,7 +4792,7 @@ function create_user_profile(
     return sagemaker(
         "CreateUserProfile",
         Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4814,7 +4814,7 @@ function create_user_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4857,7 +4857,7 @@ function create_workforce(WorkforceName; aws_config::AbstractAWSConfig=current_a
     return sagemaker(
         "CreateWorkforce",
         Dict{String,Any}("WorkforceName" => WorkforceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4872,7 +4872,7 @@ function create_workforce(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkforceName" => WorkforceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4928,7 +4928,7 @@ function create_workteam(
             "MemberDefinitions" => MemberDefinitions,
             "WorkteamName" => WorkteamName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4953,7 +4953,7 @@ function create_workteam(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4974,7 +4974,7 @@ function delete_action(ActionName; aws_config::AbstractAWSConfig=current_aws_con
     return sagemaker(
         "DeleteAction",
         Dict{String,Any}("ActionName" => ActionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4989,7 +4989,7 @@ function delete_action(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ActionName" => ActionName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5010,7 +5010,7 @@ function delete_algorithm(AlgorithmName; aws_config::AbstractAWSConfig=current_a
     return sagemaker(
         "DeleteAlgorithm",
         Dict{String,Any}("AlgorithmName" => AlgorithmName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5025,7 +5025,7 @@ function delete_algorithm(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AlgorithmName" => AlgorithmName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5058,7 +5058,7 @@ function delete_app(
         Dict{String,Any}(
             "AppName" => AppName, "AppType" => AppType, "DomainId" => DomainId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5081,7 +5081,7 @@ function delete_app(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5104,7 +5104,7 @@ function delete_app_image_config(
     return sagemaker(
         "DeleteAppImageConfig",
         Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5121,7 +5121,7 @@ function delete_app_image_config(
                 _merge, Dict{String,Any}("AppImageConfigName" => AppImageConfigName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5140,17 +5140,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_artifact end
 
 function delete_artifact(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "DeleteArtifact"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("DeleteArtifact"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function delete_artifact(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "DeleteArtifact", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("DeleteArtifact", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5172,7 +5168,7 @@ function delete_association(
     return sagemaker(
         "DeleteAssociation",
         Dict{String,Any}("DestinationArn" => DestinationArn, "SourceArn" => SourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5194,7 +5190,7 @@ function delete_association(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5216,7 +5212,7 @@ function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
     return sagemaker(
         "DeleteCluster",
         Dict{String,Any}("ClusterName" => ClusterName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5231,7 +5227,7 @@ function delete_cluster(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5254,7 +5250,7 @@ function delete_code_repository(
     return sagemaker(
         "DeleteCodeRepository",
         Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5271,7 +5267,7 @@ function delete_code_repository(
                 _merge, Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5299,7 +5295,7 @@ function delete_compilation_job(
     return sagemaker(
         "DeleteCompilationJob",
         Dict{String,Any}("CompilationJobName" => CompilationJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5316,7 +5312,7 @@ function delete_compilation_job(
                 _merge, Dict{String,Any}("CompilationJobName" => CompilationJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5337,7 +5333,7 @@ function delete_context(ContextName; aws_config::AbstractAWSConfig=current_aws_c
     return sagemaker(
         "DeleteContext",
         Dict{String,Any}("ContextName" => ContextName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5352,7 +5348,7 @@ function delete_context(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContextName" => ContextName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5375,7 +5371,7 @@ function delete_data_quality_job_definition(
     return sagemaker(
         "DeleteDataQualityJobDefinition",
         Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5392,7 +5388,7 @@ function delete_data_quality_job_definition(
                 _merge, Dict{String,Any}("JobDefinitionName" => JobDefinitionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5415,7 +5411,7 @@ function delete_device_fleet(
     return sagemaker(
         "DeleteDeviceFleet",
         Dict{String,Any}("DeviceFleetName" => DeviceFleetName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5432,7 +5428,7 @@ function delete_device_fleet(
                 _merge, Dict{String,Any}("DeviceFleetName" => DeviceFleetName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5461,7 +5457,7 @@ function delete_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_confi
     return sagemaker(
         "DeleteDomain",
         Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5476,7 +5472,7 @@ function delete_domain(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5500,7 +5496,7 @@ function delete_edge_deployment_plan(
     return sagemaker(
         "DeleteEdgeDeploymentPlan",
         Dict{String,Any}("EdgeDeploymentPlanName" => EdgeDeploymentPlanName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5519,7 +5515,7 @@ function delete_edge_deployment_plan(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5546,7 +5542,7 @@ function delete_edge_deployment_stage(
         Dict{String,Any}(
             "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5569,7 +5565,7 @@ function delete_edge_deployment_stage(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5596,7 +5592,7 @@ function delete_endpoint(EndpointName; aws_config::AbstractAWSConfig=current_aws
     return sagemaker(
         "DeleteEndpoint",
         Dict{String,Any}("EndpointName" => EndpointName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5611,7 +5607,7 @@ function delete_endpoint(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EndpointName" => EndpointName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5640,7 +5636,7 @@ function delete_endpoint_config(
     return sagemaker(
         "DeleteEndpointConfig",
         Dict{String,Any}("EndpointConfigName" => EndpointConfigName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5657,7 +5653,7 @@ function delete_endpoint_config(
                 _merge, Dict{String,Any}("EndpointConfigName" => EndpointConfigName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5681,7 +5677,7 @@ function delete_experiment(
     return sagemaker(
         "DeleteExperiment",
         Dict{String,Any}("ExperimentName" => ExperimentName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5696,7 +5692,7 @@ function delete_experiment(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ExperimentName" => ExperimentName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5725,7 +5721,7 @@ function delete_feature_group(
     return sagemaker(
         "DeleteFeatureGroup",
         Dict{String,Any}("FeatureGroupName" => FeatureGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5742,7 +5738,7 @@ function delete_feature_group(
                 _merge, Dict{String,Any}("FeatureGroupName" => FeatureGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5765,7 +5761,7 @@ function delete_flow_definition(
     return sagemaker(
         "DeleteFlowDefinition",
         Dict{String,Any}("FlowDefinitionName" => FlowDefinitionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5782,7 +5778,7 @@ function delete_flow_definition(
                 _merge, Dict{String,Any}("FlowDefinitionName" => FlowDefinitionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5803,7 +5799,7 @@ function delete_hub(HubName; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
         "DeleteHub",
         Dict{String,Any}("HubName" => HubName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5816,7 +5812,7 @@ function delete_hub(
     return sagemaker(
         "DeleteHub",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HubName" => HubName), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5851,7 +5847,7 @@ function delete_hub_content(
             "HubContentVersion" => HubContentVersion,
             "HubName" => HubName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5878,7 +5874,7 @@ function delete_hub_content(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5911,7 +5907,7 @@ function delete_hub_content_reference(
             "HubContentType" => HubContentType,
             "HubName" => HubName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5936,7 +5932,7 @@ function delete_hub_content_reference(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5963,7 +5959,7 @@ function delete_human_task_ui(
     return sagemaker(
         "DeleteHumanTaskUi",
         Dict{String,Any}("HumanTaskUiName" => HumanTaskUiName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5980,7 +5976,7 @@ function delete_human_task_ui(
                 _merge, Dict{String,Any}("HumanTaskUiName" => HumanTaskUiName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6007,7 +6003,7 @@ function delete_hyper_parameter_tuning_job(
     return sagemaker(
         "DeleteHyperParameterTuningJob",
         Dict{String,Any}("HyperParameterTuningJobName" => HyperParameterTuningJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6028,7 +6024,7 @@ function delete_hyper_parameter_tuning_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6050,7 +6046,7 @@ function delete_image(ImageName; aws_config::AbstractAWSConfig=current_aws_confi
     return sagemaker(
         "DeleteImage",
         Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6065,7 +6061,7 @@ function delete_image(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6091,7 +6087,7 @@ function delete_image_version(ImageName; aws_config::AbstractAWSConfig=current_a
     return sagemaker(
         "DeleteImageVersion",
         Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6106,7 +6102,7 @@ function delete_image_version(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6129,7 +6125,7 @@ function delete_inference_component(
     return sagemaker(
         "DeleteInferenceComponent",
         Dict{String,Any}("InferenceComponentName" => InferenceComponentName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6148,7 +6144,7 @@ function delete_inference_component(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6172,7 +6168,7 @@ function delete_inference_experiment(
     return sagemaker(
         "DeleteInferenceExperiment",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6183,7 +6179,7 @@ function delete_inference_experiment(
     return sagemaker(
         "DeleteInferenceExperiment",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6206,7 +6202,7 @@ function delete_mlflow_tracking_server(
     return sagemaker(
         "DeleteMlflowTrackingServer",
         Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6223,7 +6219,7 @@ function delete_mlflow_tracking_server(
                 _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6246,7 +6242,7 @@ function delete_model(ModelName; aws_config::AbstractAWSConfig=current_aws_confi
     return sagemaker(
         "DeleteModel",
         Dict{String,Any}("ModelName" => ModelName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6261,7 +6257,7 @@ function delete_model(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6284,7 +6280,7 @@ function delete_model_bias_job_definition(
     return sagemaker(
         "DeleteModelBiasJobDefinition",
         Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6301,7 +6297,7 @@ function delete_model_bias_job_definition(
                 _merge, Dict{String,Any}("JobDefinitionName" => JobDefinitionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6324,7 +6320,7 @@ function delete_model_card(
     return sagemaker(
         "DeleteModelCard",
         Dict{String,Any}("ModelCardName" => ModelCardName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6339,7 +6335,7 @@ function delete_model_card(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ModelCardName" => ModelCardName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6362,7 +6358,7 @@ function delete_model_explainability_job_definition(
     return sagemaker(
         "DeleteModelExplainabilityJobDefinition",
         Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6379,7 +6375,7 @@ function delete_model_explainability_job_definition(
                 _merge, Dict{String,Any}("JobDefinitionName" => JobDefinitionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6406,7 +6402,7 @@ function delete_model_package(
     return sagemaker(
         "DeleteModelPackage",
         Dict{String,Any}("ModelPackageName" => ModelPackageName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6423,7 +6419,7 @@ function delete_model_package(
                 _merge, Dict{String,Any}("ModelPackageName" => ModelPackageName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6446,7 +6442,7 @@ function delete_model_package_group(
     return sagemaker(
         "DeleteModelPackageGroup",
         Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6465,7 +6461,7 @@ function delete_model_package_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6488,7 +6484,7 @@ function delete_model_package_group_policy(
     return sagemaker(
         "DeleteModelPackageGroupPolicy",
         Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6507,7 +6503,7 @@ function delete_model_package_group_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6530,7 +6526,7 @@ function delete_model_quality_job_definition(
     return sagemaker(
         "DeleteModelQualityJobDefinition",
         Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6547,7 +6543,7 @@ function delete_model_quality_job_definition(
                 _merge, Dict{String,Any}("JobDefinitionName" => JobDefinitionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6571,7 +6567,7 @@ function delete_monitoring_schedule(
     return sagemaker(
         "DeleteMonitoringSchedule",
         Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6590,7 +6586,7 @@ function delete_monitoring_schedule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6616,7 +6612,7 @@ function delete_notebook_instance(
     return sagemaker(
         "DeleteNotebookInstance",
         Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6635,7 +6631,7 @@ function delete_notebook_instance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6661,7 +6657,7 @@ function delete_notebook_instance_lifecycle_config(
         Dict{String,Any}(
             "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6683,7 +6679,7 @@ function delete_notebook_instance_lifecycle_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6706,7 +6702,7 @@ function delete_optimization_job(
     return sagemaker(
         "DeleteOptimizationJob",
         Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6725,7 +6721,7 @@ function delete_optimization_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6754,7 +6750,7 @@ function delete_pipeline(
         Dict{String,Any}(
             "ClientRequestToken" => ClientRequestToken, "PipelineName" => PipelineName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6777,7 +6773,7 @@ function delete_pipeline(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6798,7 +6794,7 @@ function delete_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_c
     return sagemaker(
         "DeleteProject",
         Dict{String,Any}("ProjectName" => ProjectName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6813,7 +6809,7 @@ function delete_project(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ProjectName" => ProjectName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6837,7 +6833,7 @@ function delete_space(
     return sagemaker(
         "DeleteSpace",
         Dict{String,Any}("DomainId" => DomainId, "SpaceName" => SpaceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6857,7 +6853,7 @@ function delete_space(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6884,7 +6880,7 @@ function delete_studio_lifecycle_config(
     return sagemaker(
         "DeleteStudioLifecycleConfig",
         Dict{String,Any}("StudioLifecycleConfigName" => StudioLifecycleConfigName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6903,7 +6899,7 @@ function delete_studio_lifecycle_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6933,7 +6929,7 @@ function delete_tags(
     return sagemaker(
         "DeleteTags",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6953,7 +6949,7 @@ function delete_tags(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6975,7 +6971,7 @@ function delete_trial(TrialName; aws_config::AbstractAWSConfig=current_aws_confi
     return sagemaker(
         "DeleteTrial",
         Dict{String,Any}("TrialName" => TrialName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6990,7 +6986,7 @@ function delete_trial(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TrialName" => TrialName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7015,7 +7011,7 @@ function delete_trial_component(
     return sagemaker(
         "DeleteTrialComponent",
         Dict{String,Any}("TrialComponentName" => TrialComponentName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7032,7 +7028,7 @@ function delete_trial_component(
                 _merge, Dict{String,Any}("TrialComponentName" => TrialComponentName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7057,7 +7053,7 @@ function delete_user_profile(
     return sagemaker(
         "DeleteUserProfile",
         Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7079,7 +7075,7 @@ function delete_user_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7105,7 +7101,7 @@ function delete_workforce(WorkforceName; aws_config::AbstractAWSConfig=current_a
     return sagemaker(
         "DeleteWorkforce",
         Dict{String,Any}("WorkforceName" => WorkforceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7120,7 +7116,7 @@ function delete_workforce(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkforceName" => WorkforceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7141,7 +7137,7 @@ function delete_workteam(WorkteamName; aws_config::AbstractAWSConfig=current_aws
     return sagemaker(
         "DeleteWorkteam",
         Dict{String,Any}("WorkteamName" => WorkteamName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7156,7 +7152,7 @@ function delete_workteam(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkteamName" => WorkteamName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7183,7 +7179,7 @@ function deregister_devices(
         Dict{String,Any}(
             "DeviceFleetName" => DeviceFleetName, "DeviceNames" => DeviceNames
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7205,7 +7201,7 @@ function deregister_devices(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7226,7 +7222,7 @@ function describe_action(ActionName; aws_config::AbstractAWSConfig=current_aws_c
     return sagemaker(
         "DescribeAction",
         Dict{String,Any}("ActionName" => ActionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7241,7 +7237,7 @@ function describe_action(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ActionName" => ActionName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7264,7 +7260,7 @@ function describe_algorithm(
     return sagemaker(
         "DescribeAlgorithm",
         Dict{String,Any}("AlgorithmName" => AlgorithmName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7279,7 +7275,7 @@ function describe_algorithm(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AlgorithmName" => AlgorithmName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7311,7 +7307,7 @@ function describe_app(
         Dict{String,Any}(
             "AppName" => AppName, "AppType" => AppType, "DomainId" => DomainId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7334,7 +7330,7 @@ function describe_app(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7357,7 +7353,7 @@ function describe_app_image_config(
     return sagemaker(
         "DescribeAppImageConfig",
         Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7374,7 +7370,7 @@ function describe_app_image_config(
                 _merge, Dict{String,Any}("AppImageConfigName" => AppImageConfigName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7395,7 +7391,7 @@ function describe_artifact(ArtifactArn; aws_config::AbstractAWSConfig=current_aw
     return sagemaker(
         "DescribeArtifact",
         Dict{String,Any}("ArtifactArn" => ArtifactArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7410,7 +7406,7 @@ function describe_artifact(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ArtifactArn" => ArtifactArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7434,7 +7430,7 @@ function describe_auto_mljob(
     return sagemaker(
         "DescribeAutoMLJob",
         Dict{String,Any}("AutoMLJobName" => AutoMLJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7449,7 +7445,7 @@ function describe_auto_mljob(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AutoMLJobName" => AutoMLJobName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7473,7 +7469,7 @@ function describe_auto_mljob_v2(
     return sagemaker(
         "DescribeAutoMLJobV2",
         Dict{String,Any}("AutoMLJobName" => AutoMLJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7488,7 +7484,7 @@ function describe_auto_mljob_v2(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AutoMLJobName" => AutoMLJobName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7510,7 +7506,7 @@ function describe_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws
     return sagemaker(
         "DescribeCluster",
         Dict{String,Any}("ClusterName" => ClusterName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7525,7 +7521,7 @@ function describe_cluster(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7551,7 +7547,7 @@ function describe_cluster_node(
     return sagemaker(
         "DescribeClusterNode",
         Dict{String,Any}("ClusterName" => ClusterName, "NodeId" => NodeId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7571,7 +7567,7 @@ function describe_cluster_node(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7594,7 +7590,7 @@ function describe_code_repository(
     return sagemaker(
         "DescribeCodeRepository",
         Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7611,7 +7607,7 @@ function describe_code_repository(
                 _merge, Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7637,7 +7633,7 @@ function describe_compilation_job(
     return sagemaker(
         "DescribeCompilationJob",
         Dict{String,Any}("CompilationJobName" => CompilationJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7654,7 +7650,7 @@ function describe_compilation_job(
                 _merge, Dict{String,Any}("CompilationJobName" => CompilationJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7675,7 +7671,7 @@ function describe_context(ContextName; aws_config::AbstractAWSConfig=current_aws
     return sagemaker(
         "DescribeContext",
         Dict{String,Any}("ContextName" => ContextName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7690,7 +7686,7 @@ function describe_context(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContextName" => ContextName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7713,7 +7709,7 @@ function describe_data_quality_job_definition(
     return sagemaker(
         "DescribeDataQualityJobDefinition",
         Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7730,7 +7726,7 @@ function describe_data_quality_job_definition(
                 _merge, Dict{String,Any}("JobDefinitionName" => JobDefinitionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7757,7 +7753,7 @@ function describe_device(
     return sagemaker(
         "DescribeDevice",
         Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7779,7 +7775,7 @@ function describe_device(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7802,7 +7798,7 @@ function describe_device_fleet(
     return sagemaker(
         "DescribeDeviceFleet",
         Dict{String,Any}("DeviceFleetName" => DeviceFleetName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7819,7 +7815,7 @@ function describe_device_fleet(
                 _merge, Dict{String,Any}("DeviceFleetName" => DeviceFleetName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7840,7 +7836,7 @@ function describe_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_con
     return sagemaker(
         "DescribeDomain",
         Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7855,7 +7851,7 @@ function describe_domain(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7883,7 +7879,7 @@ function describe_edge_deployment_plan(
     return sagemaker(
         "DescribeEdgeDeploymentPlan",
         Dict{String,Any}("EdgeDeploymentPlanName" => EdgeDeploymentPlanName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7902,7 +7898,7 @@ function describe_edge_deployment_plan(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7925,7 +7921,7 @@ function describe_edge_packaging_job(
     return sagemaker(
         "DescribeEdgePackagingJob",
         Dict{String,Any}("EdgePackagingJobName" => EdgePackagingJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7944,7 +7940,7 @@ function describe_edge_packaging_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7965,7 +7961,7 @@ function describe_endpoint(EndpointName; aws_config::AbstractAWSConfig=current_a
     return sagemaker(
         "DescribeEndpoint",
         Dict{String,Any}("EndpointName" => EndpointName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7980,7 +7976,7 @@ function describe_endpoint(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EndpointName" => EndpointName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8004,7 +8000,7 @@ function describe_endpoint_config(
     return sagemaker(
         "DescribeEndpointConfig",
         Dict{String,Any}("EndpointConfigName" => EndpointConfigName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8021,7 +8017,7 @@ function describe_endpoint_config(
                 _merge, Dict{String,Any}("EndpointConfigName" => EndpointConfigName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8044,7 +8040,7 @@ function describe_experiment(
     return sagemaker(
         "DescribeExperiment",
         Dict{String,Any}("ExperimentName" => ExperimentName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8059,7 +8055,7 @@ function describe_experiment(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ExperimentName" => ExperimentName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8088,7 +8084,7 @@ function describe_feature_group(
     return sagemaker(
         "DescribeFeatureGroup",
         Dict{String,Any}("FeatureGroupName" => FeatureGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8105,7 +8101,7 @@ function describe_feature_group(
                 _merge, Dict{String,Any}("FeatureGroupName" => FeatureGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8132,7 +8128,7 @@ function describe_feature_metadata(
         Dict{String,Any}(
             "FeatureGroupName" => FeatureGroupName, "FeatureName" => FeatureName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8154,7 +8150,7 @@ function describe_feature_metadata(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8177,7 +8173,7 @@ function describe_flow_definition(
     return sagemaker(
         "DescribeFlowDefinition",
         Dict{String,Any}("FlowDefinitionName" => FlowDefinitionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8194,7 +8190,7 @@ function describe_flow_definition(
                 _merge, Dict{String,Any}("FlowDefinitionName" => FlowDefinitionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8215,7 +8211,7 @@ function describe_hub(HubName; aws_config::AbstractAWSConfig=current_aws_config(
     return sagemaker(
         "DescribeHub",
         Dict{String,Any}("HubName" => HubName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8228,7 +8224,7 @@ function describe_hub(
     return sagemaker(
         "DescribeHub",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HubName" => HubName), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8263,7 +8259,7 @@ function describe_hub_content(
             "HubContentType" => HubContentType,
             "HubName" => HubName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8288,7 +8284,7 @@ function describe_hub_content(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8312,7 +8308,7 @@ function describe_human_task_ui(
     return sagemaker(
         "DescribeHumanTaskUi",
         Dict{String,Any}("HumanTaskUiName" => HumanTaskUiName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8329,7 +8325,7 @@ function describe_human_task_ui(
                 _merge, Dict{String,Any}("HumanTaskUiName" => HumanTaskUiName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8354,7 +8350,7 @@ function describe_hyper_parameter_tuning_job(
     return sagemaker(
         "DescribeHyperParameterTuningJob",
         Dict{String,Any}("HyperParameterTuningJobName" => HyperParameterTuningJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8375,7 +8371,7 @@ function describe_hyper_parameter_tuning_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8396,7 +8392,7 @@ function describe_image(ImageName; aws_config::AbstractAWSConfig=current_aws_con
     return sagemaker(
         "DescribeImage",
         Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8411,7 +8407,7 @@ function describe_image(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8438,7 +8434,7 @@ function describe_image_version(
     return sagemaker(
         "DescribeImageVersion",
         Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8453,7 +8449,7 @@ function describe_image_version(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8476,7 +8472,7 @@ function describe_inference_component(
     return sagemaker(
         "DescribeInferenceComponent",
         Dict{String,Any}("InferenceComponentName" => InferenceComponentName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8495,7 +8491,7 @@ function describe_inference_component(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8518,7 +8514,7 @@ function describe_inference_experiment(
     return sagemaker(
         "DescribeInferenceExperiment",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8529,7 +8525,7 @@ function describe_inference_experiment(
     return sagemaker(
         "DescribeInferenceExperiment",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8554,7 +8550,7 @@ function describe_inference_recommendations_job(
     return sagemaker(
         "DescribeInferenceRecommendationsJob",
         Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8567,7 +8563,7 @@ function describe_inference_recommendations_job(
     return sagemaker(
         "DescribeInferenceRecommendationsJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobName" => JobName), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8590,7 +8586,7 @@ function describe_labeling_job(
     return sagemaker(
         "DescribeLabelingJob",
         Dict{String,Any}("LabelingJobName" => LabelingJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8607,7 +8603,7 @@ function describe_labeling_job(
                 _merge, Dict{String,Any}("LabelingJobName" => LabelingJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8631,7 +8627,7 @@ function describe_lineage_group(
     return sagemaker(
         "DescribeLineageGroup",
         Dict{String,Any}("LineageGroupName" => LineageGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8648,7 +8644,7 @@ function describe_lineage_group(
                 _merge, Dict{String,Any}("LineageGroupName" => LineageGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8671,7 +8667,7 @@ function describe_mlflow_tracking_server(
     return sagemaker(
         "DescribeMlflowTrackingServer",
         Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8688,7 +8684,7 @@ function describe_mlflow_tracking_server(
                 _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8709,7 +8705,7 @@ function describe_model(ModelName; aws_config::AbstractAWSConfig=current_aws_con
     return sagemaker(
         "DescribeModel",
         Dict{String,Any}("ModelName" => ModelName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8724,7 +8720,7 @@ function describe_model(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8748,7 +8744,7 @@ function describe_model_bias_job_definition(
     return sagemaker(
         "DescribeModelBiasJobDefinition",
         Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8765,7 +8761,7 @@ function describe_model_bias_job_definition(
                 _merge, Dict{String,Any}("JobDefinitionName" => JobDefinitionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8793,7 +8789,7 @@ function describe_model_card(
     return sagemaker(
         "DescribeModelCard",
         Dict{String,Any}("ModelCardName" => ModelCardName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8808,7 +8804,7 @@ function describe_model_card(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ModelCardName" => ModelCardName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8832,7 +8828,7 @@ function describe_model_card_export_job(
     return sagemaker(
         "DescribeModelCardExportJob",
         Dict{String,Any}("ModelCardExportJobArn" => ModelCardExportJobArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8851,7 +8847,7 @@ function describe_model_card_export_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8875,7 +8871,7 @@ function describe_model_explainability_job_definition(
     return sagemaker(
         "DescribeModelExplainabilityJobDefinition",
         Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8892,7 +8888,7 @@ function describe_model_explainability_job_definition(
                 _merge, Dict{String,Any}("JobDefinitionName" => JobDefinitionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8921,7 +8917,7 @@ function describe_model_package(
     return sagemaker(
         "DescribeModelPackage",
         Dict{String,Any}("ModelPackageName" => ModelPackageName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8938,7 +8934,7 @@ function describe_model_package(
                 _merge, Dict{String,Any}("ModelPackageName" => ModelPackageName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8961,7 +8957,7 @@ function describe_model_package_group(
     return sagemaker(
         "DescribeModelPackageGroup",
         Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8980,7 +8976,7 @@ function describe_model_package_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9004,7 +9000,7 @@ function describe_model_quality_job_definition(
     return sagemaker(
         "DescribeModelQualityJobDefinition",
         Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9021,7 +9017,7 @@ function describe_model_quality_job_definition(
                 _merge, Dict{String,Any}("JobDefinitionName" => JobDefinitionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9044,7 +9040,7 @@ function describe_monitoring_schedule(
     return sagemaker(
         "DescribeMonitoringSchedule",
         Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9063,7 +9059,7 @@ function describe_monitoring_schedule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9087,7 +9083,7 @@ function describe_notebook_instance(
     return sagemaker(
         "DescribeNotebookInstance",
         Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9106,7 +9102,7 @@ function describe_notebook_instance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9134,7 +9130,7 @@ function describe_notebook_instance_lifecycle_config(
         Dict{String,Any}(
             "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9156,7 +9152,7 @@ function describe_notebook_instance_lifecycle_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9179,7 +9175,7 @@ function describe_optimization_job(
     return sagemaker(
         "DescribeOptimizationJob",
         Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9198,7 +9194,7 @@ function describe_optimization_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9219,7 +9215,7 @@ function describe_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_a
     return sagemaker(
         "DescribePipeline",
         Dict{String,Any}("PipelineName" => PipelineName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9234,7 +9230,7 @@ function describe_pipeline(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PipelineName" => PipelineName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9257,7 +9253,7 @@ function describe_pipeline_definition_for_execution(
     return sagemaker(
         "DescribePipelineDefinitionForExecution",
         Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9276,7 +9272,7 @@ function describe_pipeline_definition_for_execution(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9299,7 +9295,7 @@ function describe_pipeline_execution(
     return sagemaker(
         "DescribePipelineExecution",
         Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9318,7 +9314,7 @@ function describe_pipeline_execution(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9342,7 +9338,7 @@ function describe_processing_job(
     return sagemaker(
         "DescribeProcessingJob",
         Dict{String,Any}("ProcessingJobName" => ProcessingJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9359,7 +9355,7 @@ function describe_processing_job(
                 _merge, Dict{String,Any}("ProcessingJobName" => ProcessingJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9380,7 +9376,7 @@ function describe_project(ProjectName; aws_config::AbstractAWSConfig=current_aws
     return sagemaker(
         "DescribeProject",
         Dict{String,Any}("ProjectName" => ProjectName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9395,7 +9391,7 @@ function describe_project(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ProjectName" => ProjectName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9419,7 +9415,7 @@ function describe_space(
     return sagemaker(
         "DescribeSpace",
         Dict{String,Any}("DomainId" => DomainId, "SpaceName" => SpaceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9439,7 +9435,7 @@ function describe_space(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9463,7 +9459,7 @@ function describe_studio_lifecycle_config(
     return sagemaker(
         "DescribeStudioLifecycleConfig",
         Dict{String,Any}("StudioLifecycleConfigName" => StudioLifecycleConfigName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9482,7 +9478,7 @@ function describe_studio_lifecycle_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9506,7 +9502,7 @@ function describe_subscribed_workteam(
     return sagemaker(
         "DescribeSubscribedWorkteam",
         Dict{String,Any}("WorkteamArn" => WorkteamArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9521,7 +9517,7 @@ function describe_subscribed_workteam(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkteamArn" => WorkteamArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9548,7 +9544,7 @@ function describe_training_job(
     return sagemaker(
         "DescribeTrainingJob",
         Dict{String,Any}("TrainingJobName" => TrainingJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9565,7 +9561,7 @@ function describe_training_job(
                 _merge, Dict{String,Any}("TrainingJobName" => TrainingJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9588,7 +9584,7 @@ function describe_transform_job(
     return sagemaker(
         "DescribeTransformJob",
         Dict{String,Any}("TransformJobName" => TransformJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9605,7 +9601,7 @@ function describe_transform_job(
                 _merge, Dict{String,Any}("TransformJobName" => TransformJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9626,7 +9622,7 @@ function describe_trial(TrialName; aws_config::AbstractAWSConfig=current_aws_con
     return sagemaker(
         "DescribeTrial",
         Dict{String,Any}("TrialName" => TrialName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9641,7 +9637,7 @@ function describe_trial(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TrialName" => TrialName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9664,7 +9660,7 @@ function describe_trial_component(
     return sagemaker(
         "DescribeTrialComponent",
         Dict{String,Any}("TrialComponentName" => TrialComponentName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9681,7 +9677,7 @@ function describe_trial_component(
                 _merge, Dict{String,Any}("TrialComponentName" => TrialComponentName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9705,7 +9701,7 @@ function describe_user_profile(
     return sagemaker(
         "DescribeUserProfile",
         Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9727,7 +9723,7 @@ function describe_user_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9755,7 +9751,7 @@ function describe_workforce(
     return sagemaker(
         "DescribeWorkforce",
         Dict{String,Any}("WorkforceName" => WorkforceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9770,7 +9766,7 @@ function describe_workforce(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkforceName" => WorkforceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9793,7 +9789,7 @@ function describe_workteam(WorkteamName; aws_config::AbstractAWSConfig=current_a
     return sagemaker(
         "DescribeWorkteam",
         Dict{String,Any}("WorkteamName" => WorkteamName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9808,7 +9804,7 @@ function describe_workteam(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkteamName" => WorkteamName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9828,7 +9824,7 @@ function disable_sagemaker_servicecatalog_portfolio(;
 )
     return sagemaker(
         "DisableSagemakerServicecatalogPortfolio";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9839,7 +9835,7 @@ function disable_sagemaker_servicecatalog_portfolio(
     return sagemaker(
         "DisableSagemakerServicecatalogPortfolio",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9870,7 +9866,7 @@ function disassociate_trial_component(
         Dict{String,Any}(
             "TrialComponentName" => TrialComponentName, "TrialName" => TrialName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9892,7 +9888,7 @@ function disassociate_trial_component(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9912,7 +9908,7 @@ function enable_sagemaker_servicecatalog_portfolio(;
 )
     return sagemaker(
         "EnableSagemakerServicecatalogPortfolio";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9923,7 +9919,7 @@ function enable_sagemaker_servicecatalog_portfolio(
     return sagemaker(
         "EnableSagemakerServicecatalogPortfolio",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9946,7 +9942,7 @@ function get_device_fleet_report(
     return sagemaker(
         "GetDeviceFleetReport",
         Dict{String,Any}("DeviceFleetName" => DeviceFleetName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9963,7 +9959,7 @@ function get_device_fleet_report(
                 _merge, Dict{String,Any}("DeviceFleetName" => DeviceFleetName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9986,7 +9982,7 @@ function get_lineage_group_policy(
     return sagemaker(
         "GetLineageGroupPolicy",
         Dict{String,Any}("LineageGroupName" => LineageGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10003,7 +9999,7 @@ function get_lineage_group_policy(
                 _merge, Dict{String,Any}("LineageGroupName" => LineageGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10029,7 +10025,7 @@ function get_model_package_group_policy(
     return sagemaker(
         "GetModelPackageGroupPolicy",
         Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10048,7 +10044,7 @@ function get_model_package_group_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10068,7 +10064,7 @@ function get_sagemaker_servicecatalog_portfolio_status(;
 )
     return sagemaker(
         "GetSagemakerServicecatalogPortfolioStatus";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10079,7 +10075,7 @@ function get_sagemaker_servicecatalog_portfolio_status(
     return sagemaker(
         "GetSagemakerServicecatalogPortfolioStatus",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10120,7 +10116,7 @@ function get_scaling_configuration_recommendation(
         Dict{String,Any}(
             "InferenceRecommendationsJobName" => InferenceRecommendationsJobName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10141,7 +10137,7 @@ function get_scaling_configuration_recommendation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10169,7 +10165,7 @@ function get_search_suggestions(
     return sagemaker(
         "GetSearchSuggestions",
         Dict{String,Any}("Resource" => Resource);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10184,7 +10180,7 @@ function get_search_suggestions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Resource" => Resource), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10232,7 +10228,7 @@ function import_hub_content(
             "HubContentType" => HubContentType,
             "HubName" => HubName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10261,7 +10257,7 @@ function import_hub_content(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10290,15 +10286,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_actions end
 
 function list_actions(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListActions"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListActions", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -10325,17 +10319,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_algorithms end
 
 function list_algorithms(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListAlgorithms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListAlgorithms"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_algorithms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListAlgorithms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListAlgorithms", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -10362,7 +10352,7 @@ function list_aliases(ImageName; aws_config::AbstractAWSConfig=current_aws_confi
     return sagemaker(
         "ListAliases",
         Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10377,7 +10367,7 @@ function list_aliases(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10414,19 +10404,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_app_image_configs end
 
 function list_app_image_configs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListAppImageConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListAppImageConfigs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_app_image_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListAppImageConfigs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListAppImageConfigs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -10456,15 +10441,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_apps end
 
 function list_apps(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListApps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListApps"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListApps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListApps", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -10491,17 +10474,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_artifacts end
 
 function list_artifacts(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListArtifacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListArtifacts"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_artifacts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListArtifacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListArtifacts", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -10533,16 +10512,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_associations end
 
 function list_associations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListAssociations"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAssociations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -10569,17 +10546,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_auto_mljobs end
 
 function list_auto_mljobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListAutoMLJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListAutoMLJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_auto_mljobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListAutoMLJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListAutoMLJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -10609,7 +10582,7 @@ function list_candidates_for_auto_mljob(
     return sagemaker(
         "ListCandidatesForAutoMLJob",
         Dict{String,Any}("AutoMLJobName" => AutoMLJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10624,7 +10597,7 @@ function list_candidates_for_auto_mljob(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AutoMLJobName" => AutoMLJobName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10670,7 +10643,7 @@ function list_cluster_nodes(ClusterName; aws_config::AbstractAWSConfig=current_a
     return sagemaker(
         "ListClusterNodes",
         Dict{String,Any}("ClusterName" => ClusterName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10685,7 +10658,7 @@ function list_cluster_nodes(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10721,15 +10694,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_clusters end
 
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListClusters"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListClusters", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -10760,19 +10731,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_code_repositories end
 
 function list_code_repositories(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListCodeRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListCodeRepositories"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_code_repositories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListCodeRepositories",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListCodeRepositories", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -10808,19 +10774,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_compilation_jobs end
 
 function list_compilation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListCompilationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListCompilationJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_compilation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListCompilationJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListCompilationJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -10848,15 +10809,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_contexts end
 
 function list_contexts(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListContexts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListContexts"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_contexts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListContexts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListContexts", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -10891,9 +10850,7 @@ function list_data_quality_job_definitions(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListDataQualityJobDefinitions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListDataQualityJobDefinitions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -10901,10 +10858,7 @@ function list_data_quality_job_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListDataQualityJobDefinitions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListDataQualityJobDefinitions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -10931,16 +10885,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_device_fleets end
 
 function list_device_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListDeviceFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListDeviceFleets"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_device_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListDeviceFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDeviceFleets", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -10963,15 +10915,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_devices end
 
 function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListDevices"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListDevices", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -10993,15 +10943,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_domains end
 
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListDomains"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListDomains", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -11031,19 +10979,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_edge_deployment_plans end
 
 function list_edge_deployment_plans(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListEdgeDeploymentPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListEdgeDeploymentPlans"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_edge_deployment_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListEdgeDeploymentPlans",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListEdgeDeploymentPlans", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11071,19 +11014,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_edge_packaging_jobs end
 
 function list_edge_packaging_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListEdgePackagingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListEdgePackagingJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_edge_packaging_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListEdgePackagingJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListEdgePackagingJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11111,19 +11049,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_endpoint_configs end
 
 function list_endpoint_configs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListEndpointConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListEndpointConfigs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_endpoint_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListEndpointConfigs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListEndpointConfigs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11157,17 +11090,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_endpoints end
 
 function list_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListEndpoints"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListEndpoints", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -11193,17 +11122,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_experiments end
 
 function list_experiments(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListExperiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListExperiments"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_experiments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListExperiments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListExperiments", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -11230,16 +11155,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_feature_groups end
 
 function list_feature_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListFeatureGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListFeatureGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_feature_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListFeatureGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListFeatureGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11265,19 +11188,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_flow_definitions end
 
 function list_flow_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListFlowDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListFlowDefinitions"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_flow_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListFlowDefinitions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListFlowDefinitions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11322,7 +11240,7 @@ function list_hub_content_versions(
             "HubContentType" => HubContentType,
             "HubName" => HubName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11347,7 +11265,7 @@ function list_hub_content_versions(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11383,7 +11301,7 @@ function list_hub_contents(
     return sagemaker(
         "ListHubContents",
         Dict{String,Any}("HubContentType" => HubContentType, "HubName" => HubName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11403,7 +11321,7 @@ function list_hub_contents(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11432,15 +11350,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_hubs end
 
 function list_hubs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListHubs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListHubs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_hubs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListHubs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListHubs", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -11465,16 +11381,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_human_task_uis end
 
 function list_human_task_uis(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListHumanTaskUis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListHumanTaskUis"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_human_task_uis(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListHumanTaskUis", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListHumanTaskUis", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11511,9 +11425,7 @@ function list_hyper_parameter_tuning_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListHyperParameterTuningJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListHyperParameterTuningJobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11521,10 +11433,7 @@ function list_hyper_parameter_tuning_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListHyperParameterTuningJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListHyperParameterTuningJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11561,7 +11470,7 @@ function list_image_versions(ImageName; aws_config::AbstractAWSConfig=current_aw
     return sagemaker(
         "ListImageVersions",
         Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11576,7 +11485,7 @@ function list_image_versions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11610,15 +11519,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_images end
 
 function list_images(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListImages"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListImages", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -11658,19 +11565,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_inference_components end
 
 function list_inference_components(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListInferenceComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListInferenceComponents"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_inference_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListInferenceComponents",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListInferenceComponents", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11705,7 +11607,7 @@ function list_inference_experiments end
 
 function list_inference_experiments(; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
-        "ListInferenceExperiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListInferenceExperiments"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11713,10 +11615,7 @@ function list_inference_experiments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListInferenceExperiments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListInferenceExperiments", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11748,7 +11647,7 @@ function list_inference_recommendations_job_steps(
     return sagemaker(
         "ListInferenceRecommendationsJobSteps",
         Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11761,7 +11660,7 @@ function list_inference_recommendations_job_steps(
     return sagemaker(
         "ListInferenceRecommendationsJobSteps",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobName" => JobName), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11802,9 +11701,7 @@ function list_inference_recommendations_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListInferenceRecommendationsJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListInferenceRecommendationsJobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11814,7 +11711,7 @@ function list_inference_recommendations_jobs(
     return sagemaker(
         "ListInferenceRecommendationsJobs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11849,16 +11746,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_labeling_jobs end
 
 function list_labeling_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListLabelingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListLabelingJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_labeling_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListLabelingJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListLabelingJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11896,7 +11791,7 @@ function list_labeling_jobs_for_workteam(
     return sagemaker(
         "ListLabelingJobsForWorkteam",
         Dict{String,Any}("WorkteamArn" => WorkteamArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11911,7 +11806,7 @@ function list_labeling_jobs_for_workteam(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkteamArn" => WorkteamArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11939,16 +11834,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_lineage_groups end
 
 function list_lineage_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListLineageGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListLineageGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_lineage_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListLineageGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListLineageGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11983,7 +11876,7 @@ function list_mlflow_tracking_servers end
 
 function list_mlflow_tracking_servers(; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
-        "ListMlflowTrackingServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListMlflowTrackingServers"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -11991,10 +11884,7 @@ function list_mlflow_tracking_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListMlflowTrackingServers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListMlflowTrackingServers", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12027,9 +11917,7 @@ function list_model_bias_job_definitions(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListModelBiasJobDefinitions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListModelBiasJobDefinitions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12037,10 +11925,7 @@ function list_model_bias_job_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListModelBiasJobDefinitions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListModelBiasJobDefinitions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12079,7 +11964,7 @@ function list_model_card_export_jobs(
     return sagemaker(
         "ListModelCardExportJobs",
         Dict{String,Any}("ModelCardName" => ModelCardName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12094,7 +11979,7 @@ function list_model_card_export_jobs(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ModelCardName" => ModelCardName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12131,7 +12016,7 @@ function list_model_card_versions(
     return sagemaker(
         "ListModelCardVersions",
         Dict{String,Any}("ModelCardName" => ModelCardName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12146,7 +12031,7 @@ function list_model_card_versions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ModelCardName" => ModelCardName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12174,17 +12059,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_model_cards end
 
 function list_model_cards(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListModelCards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListModelCards"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_model_cards(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListModelCards", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListModelCards", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -12217,9 +12098,7 @@ function list_model_explainability_job_definitions(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListModelExplainabilityJobDefinitions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListModelExplainabilityJobDefinitions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12229,7 +12108,7 @@ function list_model_explainability_job_definitions(
     return sagemaker(
         "ListModelExplainabilityJobDefinitions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12255,16 +12134,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_model_metadata end
 
 function list_model_metadata(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListModelMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListModelMetadata"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_model_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListModelMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListModelMetadata", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12296,19 +12173,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_model_package_groups end
 
 function list_model_package_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListModelPackageGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListModelPackageGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_model_package_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListModelPackageGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListModelPackageGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12344,16 +12216,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_model_packages end
 
 function list_model_packages(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListModelPackages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListModelPackages"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_model_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListModelPackages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListModelPackages", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12388,9 +12258,7 @@ function list_model_quality_job_definitions(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListModelQualityJobDefinitions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListModelQualityJobDefinitions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12400,7 +12268,7 @@ function list_model_quality_job_definitions(
     return sagemaker(
         "ListModelQualityJobDefinitions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12429,15 +12297,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_models end
 
 function list_models(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListModels"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListModels", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -12467,7 +12333,7 @@ function list_monitoring_alert_history end
 
 function list_monitoring_alert_history(; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
-        "ListMonitoringAlertHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListMonitoringAlertHistory"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12475,10 +12341,7 @@ function list_monitoring_alert_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListMonitoringAlertHistory",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListMonitoringAlertHistory", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12506,7 +12369,7 @@ function list_monitoring_alerts(
     return sagemaker(
         "ListMonitoringAlerts",
         Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12525,7 +12388,7 @@ function list_monitoring_alerts(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12566,7 +12429,7 @@ function list_monitoring_executions end
 
 function list_monitoring_executions(; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
-        "ListMonitoringExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListMonitoringExecutions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12574,10 +12437,7 @@ function list_monitoring_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListMonitoringExecutions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListMonitoringExecutions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12617,19 +12477,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_monitoring_schedules end
 
 function list_monitoring_schedules(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListMonitoringSchedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListMonitoringSchedules"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_monitoring_schedules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListMonitoringSchedules",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListMonitoringSchedules", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12665,9 +12520,7 @@ function list_notebook_instance_lifecycle_configs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListNotebookInstanceLifecycleConfigs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListNotebookInstanceLifecycleConfigs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12677,7 +12530,7 @@ function list_notebook_instance_lifecycle_configs(
     return sagemaker(
         "ListNotebookInstanceLifecycleConfigs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12723,19 +12576,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_notebook_instances end
 
 function list_notebook_instances(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListNotebookInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListNotebookInstances"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_notebook_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListNotebookInstances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListNotebookInstances", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12773,19 +12621,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_optimization_jobs end
 
 function list_optimization_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListOptimizationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListOptimizationJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_optimization_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListOptimizationJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListOptimizationJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12808,7 +12651,7 @@ function list_pipeline_execution_steps end
 
 function list_pipeline_execution_steps(; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
-        "ListPipelineExecutionSteps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListPipelineExecutionSteps"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12816,10 +12659,7 @@ function list_pipeline_execution_steps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListPipelineExecutionSteps",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListPipelineExecutionSteps", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12853,7 +12693,7 @@ function list_pipeline_executions(
     return sagemaker(
         "ListPipelineExecutions",
         Dict{String,Any}("PipelineName" => PipelineName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12868,7 +12708,7 @@ function list_pipeline_executions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PipelineName" => PipelineName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12897,7 +12737,7 @@ function list_pipeline_parameters_for_execution(
     return sagemaker(
         "ListPipelineParametersForExecution",
         Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12916,7 +12756,7 @@ function list_pipeline_parameters_for_execution(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12944,17 +12784,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_pipelines end
 
 function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListPipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListPipelines"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListPipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListPipelines", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -12986,16 +12822,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_processing_jobs end
 
 function list_processing_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListProcessingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListProcessingJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_processing_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListProcessingJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListProcessingJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13023,15 +12857,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_projects end
 
 function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListProjects"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListProjects", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -13057,19 +12889,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_resource_catalogs end
 
 function list_resource_catalogs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListResourceCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListResourceCatalogs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_resource_catalogs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListResourceCatalogs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListResourceCatalogs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13096,15 +12923,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_spaces end
 
 function list_spaces(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListSpaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListSpaces"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_spaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListSpaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListSpaces", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -13136,7 +12961,7 @@ function list_stage_devices(
         Dict{String,Any}(
             "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13159,7 +12984,7 @@ function list_stage_devices(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13199,7 +13024,7 @@ function list_studio_lifecycle_configs end
 
 function list_studio_lifecycle_configs(; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
-        "ListStudioLifecycleConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListStudioLifecycleConfigs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13207,10 +13032,7 @@ function list_studio_lifecycle_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListStudioLifecycleConfigs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListStudioLifecycleConfigs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13234,19 +13056,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_subscribed_workteams end
 
 function list_subscribed_workteams(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListSubscribedWorkteams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListSubscribedWorkteams"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_subscribed_workteams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListSubscribedWorkteams",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListSubscribedWorkteams", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13272,7 +13089,7 @@ function list_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config
     return sagemaker(
         "ListTags",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13287,7 +13104,7 @@ function list_tags(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13331,16 +13148,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_training_jobs end
 
 function list_training_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListTrainingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListTrainingJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_training_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListTrainingJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTrainingJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13375,7 +13190,7 @@ function list_training_jobs_for_hyper_parameter_tuning_job(
     return sagemaker(
         "ListTrainingJobsForHyperParameterTuningJob",
         Dict{String,Any}("HyperParameterTuningJobName" => HyperParameterTuningJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13396,7 +13211,7 @@ function list_training_jobs_for_hyper_parameter_tuning_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13431,16 +13246,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_transform_jobs end
 
 function list_transform_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListTransformJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListTransformJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_transform_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListTransformJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTransformJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13475,19 +13288,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_trial_components end
 
 function list_trial_components(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListTrialComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListTrialComponents"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_trial_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListTrialComponents",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListTrialComponents", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13519,15 +13327,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_trials end
 
 function list_trials(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListTrials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("ListTrials"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_trials(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListTrials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListTrials", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -13553,16 +13359,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_user_profiles end
 
 function list_user_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListUserProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListUserProfiles"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_user_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
-        "ListUserProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListUserProfiles", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13585,17 +13389,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_workforces end
 
 function list_workforces(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListWorkforces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListWorkforces"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_workforces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListWorkforces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListWorkforces", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -13619,17 +13419,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_workteams end
 
 function list_workteams(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListWorkteams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListWorkteams"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_workteams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "ListWorkteams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("ListWorkteams", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -13658,7 +13454,7 @@ function put_model_package_group_policy(
             "ModelPackageGroupName" => ModelPackageGroupName,
             "ResourcePolicy" => ResourcePolicy,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13681,7 +13477,7 @@ function put_model_package_group_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13719,15 +13515,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function query_lineage end
 
 function query_lineage(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("QueryLineage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return sagemaker("QueryLineage"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function query_lineage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return sagemaker(
-        "QueryLineage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return sagemaker("QueryLineage", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -13752,7 +13546,7 @@ function register_devices(
     return sagemaker(
         "RegisterDevices",
         Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "Devices" => Devices);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13774,7 +13568,7 @@ function register_devices(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13805,7 +13599,7 @@ function render_ui_template(
     return sagemaker(
         "RenderUiTemplate",
         Dict{String,Any}("RoleArn" => RoleArn, "Task" => Task);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13823,7 +13617,7 @@ function render_ui_template(
                 _merge, Dict{String,Any}("RoleArn" => RoleArn, "Task" => Task), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13857,7 +13651,7 @@ function retry_pipeline_execution(
             "ClientRequestToken" => ClientRequestToken,
             "PipelineExecutionArn" => PipelineExecutionArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13880,7 +13674,7 @@ function retry_pipeline_execution(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13928,7 +13722,7 @@ function search(Resource; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
         "Search",
         Dict{String,Any}("Resource" => Resource);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13943,7 +13737,7 @@ function search(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Resource" => Resource), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13975,7 +13769,7 @@ function send_pipeline_execution_step_failure(
         Dict{String,Any}(
             "CallbackToken" => CallbackToken, "ClientRequestToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13997,7 +13791,7 @@ function send_pipeline_execution_step_failure(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14030,7 +13824,7 @@ function send_pipeline_execution_step_success(
         Dict{String,Any}(
             "CallbackToken" => CallbackToken, "ClientRequestToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14052,7 +13846,7 @@ function send_pipeline_execution_step_success(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14078,7 +13872,7 @@ function start_edge_deployment_stage(
         Dict{String,Any}(
             "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14101,7 +13895,7 @@ function start_edge_deployment_stage(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14124,7 +13918,7 @@ function start_inference_experiment(
     return sagemaker(
         "StartInferenceExperiment",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14135,7 +13929,7 @@ function start_inference_experiment(
     return sagemaker(
         "StartInferenceExperiment",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14158,7 +13952,7 @@ function start_mlflow_tracking_server(
     return sagemaker(
         "StartMlflowTrackingServer",
         Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14175,7 +13969,7 @@ function start_mlflow_tracking_server(
                 _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14199,7 +13993,7 @@ function start_monitoring_schedule(
     return sagemaker(
         "StartMonitoringSchedule",
         Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14218,7 +14012,7 @@ function start_monitoring_schedule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14244,7 +14038,7 @@ function start_notebook_instance(
     return sagemaker(
         "StartNotebookInstance",
         Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14263,7 +14057,7 @@ function start_notebook_instance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14299,7 +14093,7 @@ function start_pipeline_execution(
         Dict{String,Any}(
             "ClientRequestToken" => ClientRequestToken, "PipelineName" => PipelineName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14322,7 +14116,7 @@ function start_pipeline_execution(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14343,7 +14137,7 @@ function stop_auto_mljob(AutoMLJobName; aws_config::AbstractAWSConfig=current_aw
     return sagemaker(
         "StopAutoMLJob",
         Dict{String,Any}("AutoMLJobName" => AutoMLJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14358,7 +14152,7 @@ function stop_auto_mljob(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AutoMLJobName" => AutoMLJobName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14385,7 +14179,7 @@ function stop_compilation_job(
     return sagemaker(
         "StopCompilationJob",
         Dict{String,Any}("CompilationJobName" => CompilationJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14402,7 +14196,7 @@ function stop_compilation_job(
                 _merge, Dict{String,Any}("CompilationJobName" => CompilationJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14428,7 +14222,7 @@ function stop_edge_deployment_stage(
         Dict{String,Any}(
             "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14451,7 +14245,7 @@ function stop_edge_deployment_stage(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14474,7 +14268,7 @@ function stop_edge_packaging_job(
     return sagemaker(
         "StopEdgePackagingJob",
         Dict{String,Any}("EdgePackagingJobName" => EdgePackagingJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14493,7 +14287,7 @@ function stop_edge_packaging_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14520,7 +14314,7 @@ function stop_hyper_parameter_tuning_job(
     return sagemaker(
         "StopHyperParameterTuningJob",
         Dict{String,Any}("HyperParameterTuningJobName" => HyperParameterTuningJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14541,7 +14335,7 @@ function stop_hyper_parameter_tuning_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14578,7 +14372,7 @@ function stop_inference_experiment(
     return sagemaker(
         "StopInferenceExperiment",
         Dict{String,Any}("ModelVariantActions" => ModelVariantActions, "Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14600,7 +14394,7 @@ function stop_inference_experiment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14623,7 +14417,7 @@ function stop_inference_recommendations_job(
     return sagemaker(
         "StopInferenceRecommendationsJob",
         Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14636,7 +14430,7 @@ function stop_inference_recommendations_job(
     return sagemaker(
         "StopInferenceRecommendationsJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobName" => JobName), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14660,7 +14454,7 @@ function stop_labeling_job(
     return sagemaker(
         "StopLabelingJob",
         Dict{String,Any}("LabelingJobName" => LabelingJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14677,7 +14471,7 @@ function stop_labeling_job(
                 _merge, Dict{String,Any}("LabelingJobName" => LabelingJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14700,7 +14494,7 @@ function stop_mlflow_tracking_server(
     return sagemaker(
         "StopMlflowTrackingServer",
         Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14717,7 +14511,7 @@ function stop_mlflow_tracking_server(
                 _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14740,7 +14534,7 @@ function stop_monitoring_schedule(
     return sagemaker(
         "StopMonitoringSchedule",
         Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14759,7 +14553,7 @@ function stop_monitoring_schedule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14787,7 +14581,7 @@ function stop_notebook_instance(
     return sagemaker(
         "StopNotebookInstance",
         Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14806,7 +14600,7 @@ function stop_notebook_instance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14829,7 +14623,7 @@ function stop_optimization_job(
     return sagemaker(
         "StopOptimizationJob",
         Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14848,7 +14642,7 @@ function stop_optimization_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14891,7 +14685,7 @@ function stop_pipeline_execution(
             "ClientRequestToken" => ClientRequestToken,
             "PipelineExecutionArn" => PipelineExecutionArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14914,7 +14708,7 @@ function stop_pipeline_execution(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14937,7 +14731,7 @@ function stop_processing_job(
     return sagemaker(
         "StopProcessingJob",
         Dict{String,Any}("ProcessingJobName" => ProcessingJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14954,7 +14748,7 @@ function stop_processing_job(
                 _merge, Dict{String,Any}("ProcessingJobName" => ProcessingJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14981,7 +14775,7 @@ function stop_training_job(
     return sagemaker(
         "StopTrainingJob",
         Dict{String,Any}("TrainingJobName" => TrainingJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -14998,7 +14792,7 @@ function stop_training_job(
                 _merge, Dict{String,Any}("TrainingJobName" => TrainingJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15024,7 +14818,7 @@ function stop_transform_job(
     return sagemaker(
         "StopTransformJob",
         Dict{String,Any}("TransformJobName" => TransformJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15041,7 +14835,7 @@ function stop_transform_job(
                 _merge, Dict{String,Any}("TransformJobName" => TransformJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15068,7 +14862,7 @@ function update_action(ActionName; aws_config::AbstractAWSConfig=current_aws_con
     return sagemaker(
         "UpdateAction",
         Dict{String,Any}("ActionName" => ActionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15083,7 +14877,7 @@ function update_action(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ActionName" => ActionName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15111,7 +14905,7 @@ function update_app_image_config(
     return sagemaker(
         "UpdateAppImageConfig",
         Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15128,7 +14922,7 @@ function update_app_image_config(
                 _merge, Dict{String,Any}("AppImageConfigName" => AppImageConfigName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15154,7 +14948,7 @@ function update_artifact(ArtifactArn; aws_config::AbstractAWSConfig=current_aws_
     return sagemaker(
         "UpdateArtifact",
         Dict{String,Any}("ArtifactArn" => ArtifactArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15169,7 +14963,7 @@ function update_artifact(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ArtifactArn" => ArtifactArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15193,7 +14987,7 @@ function update_cluster(
     return sagemaker(
         "UpdateCluster",
         Dict{String,Any}("ClusterName" => ClusterName, "InstanceGroups" => InstanceGroups);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15215,7 +15009,7 @@ function update_cluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15240,7 +15034,7 @@ function update_cluster_software(
     return sagemaker(
         "UpdateClusterSoftware",
         Dict{String,Any}("ClusterName" => ClusterName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15255,7 +15049,7 @@ function update_cluster_software(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15285,7 +15079,7 @@ function update_code_repository(
     return sagemaker(
         "UpdateCodeRepository",
         Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15302,7 +15096,7 @@ function update_code_repository(
                 _merge, Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15328,7 +15122,7 @@ function update_context(ContextName; aws_config::AbstractAWSConfig=current_aws_c
     return sagemaker(
         "UpdateContext",
         Dict{String,Any}("ContextName" => ContextName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15343,7 +15137,7 @@ function update_context(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContextName" => ContextName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15377,7 +15171,7 @@ function update_device_fleet(
         Dict{String,Any}(
             "DeviceFleetName" => DeviceFleetName, "OutputConfig" => OutputConfig
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15399,7 +15193,7 @@ function update_device_fleet(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15423,7 +15217,7 @@ function update_devices(
     return sagemaker(
         "UpdateDevices",
         Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "Devices" => Devices);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15445,7 +15239,7 @@ function update_devices(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15487,7 +15281,7 @@ function update_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_confi
     return sagemaker(
         "UpdateDomain",
         Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15502,7 +15296,7 @@ function update_domain(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15556,7 +15350,7 @@ function update_endpoint(
         Dict{String,Any}(
             "EndpointConfigName" => EndpointConfigName, "EndpointName" => EndpointName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15579,7 +15373,7 @@ function update_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15612,7 +15406,7 @@ function update_endpoint_weights_and_capacities(
             "DesiredWeightsAndCapacities" => DesiredWeightsAndCapacities,
             "EndpointName" => EndpointName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15635,7 +15429,7 @@ function update_endpoint_weights_and_capacities(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15664,7 +15458,7 @@ function update_experiment(
     return sagemaker(
         "UpdateExperiment",
         Dict{String,Any}("ExperimentName" => ExperimentName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15679,7 +15473,7 @@ function update_experiment(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ExperimentName" => ExperimentName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15720,7 +15514,7 @@ function update_feature_group(
     return sagemaker(
         "UpdateFeatureGroup",
         Dict{String,Any}("FeatureGroupName" => FeatureGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15737,7 +15531,7 @@ function update_feature_group(
                 _merge, Dict{String,Any}("FeatureGroupName" => FeatureGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15771,7 +15565,7 @@ function update_feature_metadata(
         Dict{String,Any}(
             "FeatureGroupName" => FeatureGroupName, "FeatureName" => FeatureName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15793,7 +15587,7 @@ function update_feature_metadata(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15819,7 +15613,7 @@ function update_hub(HubName; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
         "UpdateHub",
         Dict{String,Any}("HubName" => HubName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15832,7 +15626,7 @@ function update_hub(
     return sagemaker(
         "UpdateHub",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HubName" => HubName), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15862,7 +15656,7 @@ function update_image(ImageName; aws_config::AbstractAWSConfig=current_aws_confi
     return sagemaker(
         "UpdateImage",
         Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15877,7 +15671,7 @@ function update_image(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15920,7 +15714,7 @@ function update_image_version(ImageName; aws_config::AbstractAWSConfig=current_a
     return sagemaker(
         "UpdateImageVersion",
         Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15935,7 +15729,7 @@ function update_image_version(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15964,7 +15758,7 @@ function update_inference_component(
     return sagemaker(
         "UpdateInferenceComponent",
         Dict{String,Any}("InferenceComponentName" => InferenceComponentName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -15983,7 +15777,7 @@ function update_inference_component(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16013,7 +15807,7 @@ function update_inference_component_runtime_config(
             "DesiredRuntimeConfig" => DesiredRuntimeConfig,
             "InferenceComponentName" => InferenceComponentName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16036,7 +15830,7 @@ function update_inference_component_runtime_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16076,7 +15870,7 @@ function update_inference_experiment(
     return sagemaker(
         "UpdateInferenceExperiment",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16087,7 +15881,7 @@ function update_inference_experiment(
     return sagemaker(
         "UpdateInferenceExperiment",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16122,7 +15916,7 @@ function update_mlflow_tracking_server(
     return sagemaker(
         "UpdateMlflowTrackingServer",
         Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16139,7 +15933,7 @@ function update_mlflow_tracking_server(
                 _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16173,7 +15967,7 @@ function update_model_card(
     return sagemaker(
         "UpdateModelCard",
         Dict{String,Any}("ModelCardName" => ModelCardName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16188,7 +15982,7 @@ function update_model_card(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ModelCardName" => ModelCardName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16238,7 +16032,7 @@ function update_model_package(
     return sagemaker(
         "UpdateModelPackage",
         Dict{String,Any}("ModelPackageArn" => ModelPackageArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16255,7 +16049,7 @@ function update_model_package(
                 _merge, Dict{String,Any}("ModelPackageArn" => ModelPackageArn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16292,7 +16086,7 @@ function update_monitoring_alert(
             "MonitoringAlertName" => MonitoringAlertName,
             "MonitoringScheduleName" => MonitoringScheduleName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16319,7 +16113,7 @@ function update_monitoring_alert(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16350,7 +16144,7 @@ function update_monitoring_schedule(
             "MonitoringScheduleConfig" => MonitoringScheduleConfig,
             "MonitoringScheduleName" => MonitoringScheduleName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16373,7 +16167,7 @@ function update_monitoring_schedule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16450,7 +16244,7 @@ function update_notebook_instance(
     return sagemaker(
         "UpdateNotebookInstance",
         Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16469,7 +16263,7 @@ function update_notebook_instance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16502,7 +16296,7 @@ function update_notebook_instance_lifecycle_config(
         Dict{String,Any}(
             "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16524,7 +16318,7 @@ function update_notebook_instance_lifecycle_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16555,7 +16349,7 @@ function update_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws
     return sagemaker(
         "UpdatePipeline",
         Dict{String,Any}("PipelineName" => PipelineName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16570,7 +16364,7 @@ function update_pipeline(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PipelineName" => PipelineName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16599,7 +16393,7 @@ function update_pipeline_execution(
     return sagemaker(
         "UpdatePipelineExecution",
         Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16618,7 +16412,7 @@ function update_pipeline_execution(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16654,7 +16448,7 @@ function update_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_c
     return sagemaker(
         "UpdateProject",
         Dict{String,Any}("ProjectName" => ProjectName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16669,7 +16463,7 @@ function update_project(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ProjectName" => ProjectName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16698,7 +16492,7 @@ function update_space(
     return sagemaker(
         "UpdateSpace",
         Dict{String,Any}("DomainId" => DomainId, "SpaceName" => SpaceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16718,7 +16512,7 @@ function update_space(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16755,7 +16549,7 @@ function update_training_job(
     return sagemaker(
         "UpdateTrainingJob",
         Dict{String,Any}("TrainingJobName" => TrainingJobName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16772,7 +16566,7 @@ function update_training_job(
                 _merge, Dict{String,Any}("TrainingJobName" => TrainingJobName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16797,7 +16591,7 @@ function update_trial(TrialName; aws_config::AbstractAWSConfig=current_aws_confi
     return sagemaker(
         "UpdateTrial",
         Dict{String,Any}("TrialName" => TrialName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16812,7 +16606,7 @@ function update_trial(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TrialName" => TrialName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16854,7 +16648,7 @@ function update_trial_component(
     return sagemaker(
         "UpdateTrialComponent",
         Dict{String,Any}("TrialComponentName" => TrialComponentName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16871,7 +16665,7 @@ function update_trial_component(
                 _merge, Dict{String,Any}("TrialComponentName" => TrialComponentName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16898,7 +16692,7 @@ function update_user_profile(
     return sagemaker(
         "UpdateUserProfile",
         Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16920,7 +16714,7 @@ function update_user_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16965,7 +16759,7 @@ function update_workforce(WorkforceName; aws_config::AbstractAWSConfig=current_a
     return sagemaker(
         "UpdateWorkforce",
         Dict{String,Any}("WorkforceName" => WorkforceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -16980,7 +16774,7 @@ function update_workforce(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkforceName" => WorkforceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -17025,7 +16819,7 @@ function update_workteam(WorkteamName; aws_config::AbstractAWSConfig=current_aws
     return sagemaker(
         "UpdateWorkteam",
         Dict{String,Any}("WorkteamName" => WorkteamName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -17040,7 +16834,7 @@ function update_workteam(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkteamName" => WorkteamName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

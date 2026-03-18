@@ -28,7 +28,7 @@ function batch_get_record(Identifiers; aws_config::AbstractAWSConfig=current_aws
         "POST",
         "/BatchGetRecord",
         Dict{String,Any}("Identifiers" => Identifiers);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -44,7 +44,7 @@ function batch_get_record(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Identifiers" => Identifiers), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -103,7 +103,7 @@ function delete_record(
             "EventTime" => EventTime,
             "RecordIdentifierValueAsString" => RecordIdentifierValueAsString,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -128,7 +128,7 @@ function delete_record(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -166,7 +166,7 @@ function get_record(
         "GET",
         "/FeatureGroup/$(FeatureGroupName)",
         Dict{String,Any}("RecordIdentifierValueAsString" => RecordIdentifierValueAsString);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -189,7 +189,7 @@ function get_record(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -235,7 +235,7 @@ function put_record(
         "PUT",
         "/FeatureGroup/$(FeatureGroupName)",
         Dict{String,Any}("Record" => Record);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -250,7 +250,7 @@ function put_record(
         "PUT",
         "/FeatureGroup/$(FeatureGroupName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Record" => Record), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

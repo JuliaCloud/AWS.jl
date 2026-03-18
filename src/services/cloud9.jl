@@ -66,7 +66,7 @@ function create_environment_ec2(
         Dict{String,Any}(
             "imageId" => imageId, "instanceType" => instanceType, "name" => name
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -89,7 +89,7 @@ function create_environment_ec2(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -121,7 +121,7 @@ function create_environment_membership(
             "permissions" => permissions,
             "userArn" => userArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -146,7 +146,7 @@ function create_environment_membership(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -170,7 +170,7 @@ function delete_environment(
     return cloud9(
         "DeleteEnvironment",
         Dict{String,Any}("environmentId" => environmentId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -185,7 +185,7 @@ function delete_environment(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("environmentId" => environmentId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -210,7 +210,7 @@ function delete_environment_membership(
     return cloud9(
         "DeleteEnvironmentMembership",
         Dict{String,Any}("environmentId" => environmentId, "userArn" => userArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -230,7 +230,7 @@ function delete_environment_membership(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -264,9 +264,7 @@ function describe_environment_memberships(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloud9(
-        "DescribeEnvironmentMemberships";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeEnvironmentMemberships"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -276,7 +274,7 @@ function describe_environment_memberships(
     return cloud9(
         "DescribeEnvironmentMemberships",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -299,7 +297,7 @@ function describe_environment_status(
     return cloud9(
         "DescribeEnvironmentStatus",
         Dict{String,Any}("environmentId" => environmentId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -314,7 +312,7 @@ function describe_environment_status(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("environmentId" => environmentId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -337,7 +335,7 @@ function describe_environments(
     return cloud9(
         "DescribeEnvironments",
         Dict{String,Any}("environmentIds" => environmentIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -352,7 +350,7 @@ function describe_environments(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("environmentIds" => environmentIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -375,17 +373,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_environments end
 
 function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloud9(
-        "ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloud9("ListEnvironments"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return cloud9(
-        "ListEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloud9("ListEnvironments", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -407,7 +401,7 @@ function list_tags_for_resource(
     return cloud9(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -422,7 +416,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -446,7 +440,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
     return cloud9(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -466,7 +460,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -492,7 +486,7 @@ function untag_resource(
     return cloud9(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -512,7 +506,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -545,7 +539,7 @@ function update_environment(
     return cloud9(
         "UpdateEnvironment",
         Dict{String,Any}("environmentId" => environmentId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -560,7 +554,7 @@ function update_environment(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("environmentId" => environmentId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -595,7 +589,7 @@ function update_environment_membership(
             "permissions" => permissions,
             "userArn" => userArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -620,7 +614,7 @@ function update_environment_membership(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

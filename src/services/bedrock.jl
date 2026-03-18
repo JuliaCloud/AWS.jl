@@ -25,7 +25,7 @@ function batch_delete_evaluation_job(
         "POST",
         "/evaluation-jobs/batch-delete",
         Dict{String,Any}("jobIdentifiers" => jobIdentifiers);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -41,7 +41,7 @@ function batch_delete_evaluation_job(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("jobIdentifiers" => jobIdentifiers), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -103,7 +103,7 @@ function create_evaluation_job(
             "roleArn" => roleArn,
             "clientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -134,7 +134,7 @@ function create_evaluation_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -198,7 +198,7 @@ function create_guardrail(
             "name" => name,
             "clientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -225,7 +225,7 @@ function create_guardrail(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -259,7 +259,7 @@ function create_guardrail_version(
         "POST",
         "/guardrails/$(guardrailIdentifier)",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -277,7 +277,7 @@ function create_guardrail_version(
                 _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -316,7 +316,7 @@ function create_model_copy_job(
             "targetModelName" => targetModelName,
             "clientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -341,7 +341,7 @@ function create_model_copy_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -413,7 +413,7 @@ function create_model_customization_job(
             "trainingDataConfig" => trainingDataConfig,
             "clientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -448,7 +448,7 @@ function create_model_customization_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -496,7 +496,7 @@ function create_model_import_job(
             "modelDataSource" => modelDataSource,
             "roleArn" => roleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -524,7 +524,7 @@ function create_model_import_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -580,7 +580,7 @@ function create_model_invocation_job(
             "roleArn" => roleArn,
             "clientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -611,7 +611,7 @@ function create_model_invocation_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -669,7 +669,7 @@ function create_provisioned_model_throughput(
             "provisionedModelName" => provisionedModelName,
             "clientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -696,7 +696,7 @@ function create_provisioned_model_throughput(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -720,7 +720,7 @@ function delete_custom_model(
     return bedrock(
         "DELETE",
         "/custom-models/$(modelIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -734,7 +734,7 @@ function delete_custom_model(
         "DELETE",
         "/custom-models/$(modelIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -764,7 +764,7 @@ function delete_guardrail(
     return bedrock(
         "DELETE",
         "/guardrails/$(guardrailIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -778,7 +778,7 @@ function delete_guardrail(
         "DELETE",
         "/guardrails/$(guardrailIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -802,7 +802,7 @@ function delete_imported_model(
     return bedrock(
         "DELETE",
         "/imported-models/$(modelIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -816,7 +816,7 @@ function delete_imported_model(
         "DELETE",
         "/imported-models/$(modelIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -834,10 +834,7 @@ function delete_model_invocation_logging_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "DELETE",
-        "/logging/modelinvocations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/logging/modelinvocations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -848,7 +845,7 @@ function delete_model_invocation_logging_configuration(
         "DELETE",
         "/logging/modelinvocations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -874,7 +871,7 @@ function delete_provisioned_model_throughput(
     return bedrock(
         "DELETE",
         "/provisioned-model-throughput/$(provisionedModelId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -888,7 +885,7 @@ function delete_provisioned_model_throughput(
         "DELETE",
         "/provisioned-model-throughput/$(provisionedModelId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -912,7 +909,7 @@ function get_custom_model(
     return bedrock(
         "GET",
         "/custom-models/$(modelIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -926,7 +923,7 @@ function get_custom_model(
         "GET",
         "/custom-models/$(modelIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -950,7 +947,7 @@ function get_evaluation_job(
     return bedrock(
         "GET",
         "/evaluation-jobs/$(jobIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -964,7 +961,7 @@ function get_evaluation_job(
         "GET",
         "/evaluation-jobs/$(jobIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -987,7 +984,7 @@ function get_foundation_model(
     return bedrock(
         "GET",
         "/foundation-models/$(modelIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1001,7 +998,7 @@ function get_foundation_model(
         "GET",
         "/foundation-models/$(modelIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1030,7 +1027,7 @@ function get_guardrail(
     return bedrock(
         "GET",
         "/guardrails/$(guardrailIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1044,7 +1041,7 @@ function get_guardrail(
         "GET",
         "/guardrails/$(guardrailIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1067,7 +1064,7 @@ function get_imported_model(
     return bedrock(
         "GET",
         "/imported-models/$(modelIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1081,7 +1078,7 @@ function get_imported_model(
         "GET",
         "/imported-models/$(modelIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1105,7 +1102,7 @@ function get_inference_profile(
     return bedrock(
         "GET",
         "/inference-profiles/$(inferenceProfileIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1119,7 +1116,7 @@ function get_inference_profile(
         "GET",
         "/inference-profiles/$(inferenceProfileIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1139,10 +1136,7 @@ function get_model_copy_job end
 
 function get_model_copy_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
-        "GET",
-        "/model-copy-jobs/$(jobArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/model-copy-jobs/$(jobArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1153,7 +1147,7 @@ function get_model_copy_job(
         "GET",
         "/model-copy-jobs/$(jobArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1177,7 +1171,7 @@ function get_model_customization_job(
     return bedrock(
         "GET",
         "/model-customization-jobs/$(jobIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1191,7 +1185,7 @@ function get_model_customization_job(
         "GET",
         "/model-customization-jobs/$(jobIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1215,7 +1209,7 @@ function get_model_import_job(
     return bedrock(
         "GET",
         "/model-import-jobs/$(jobIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1229,7 +1223,7 @@ function get_model_import_job(
         "GET",
         "/model-import-jobs/$(jobIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1253,7 +1247,7 @@ function get_model_invocation_job(
     return bedrock(
         "GET",
         "/model-invocation-job/$(jobIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1267,7 +1261,7 @@ function get_model_invocation_job(
         "GET",
         "/model-invocation-job/$(jobIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1285,10 +1279,7 @@ function get_model_invocation_logging_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "GET",
-        "/logging/modelinvocations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/logging/modelinvocations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1299,7 +1290,7 @@ function get_model_invocation_logging_configuration(
         "GET",
         "/logging/modelinvocations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1324,7 +1315,7 @@ function get_provisioned_model_throughput(
     return bedrock(
         "GET",
         "/provisioned-model-throughput/$(provisionedModelId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1338,7 +1329,7 @@ function get_provisioned_model_throughput(
         "GET",
         "/provisioned-model-throughput/$(provisionedModelId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1374,20 +1365,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_custom_models end
 
 function list_custom_models(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock(
-        "GET", "/custom-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bedrock("GET", "/custom-models"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_custom_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "GET",
-        "/custom-models",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/custom-models", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1414,20 +1399,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_evaluation_jobs end
 
 function list_evaluation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock(
-        "GET", "/evaluation-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bedrock("GET", "/evaluation-jobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_evaluation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "GET",
-        "/evaluation-jobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/evaluation-jobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1451,20 +1430,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_foundation_models end
 
 function list_foundation_models(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock(
-        "GET", "/foundation-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bedrock("GET", "/foundation-models"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_foundation_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "GET",
-        "/foundation-models",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/foundation-models", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1491,16 +1464,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_guardrails end
 
 function list_guardrails(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock(
-        "GET", "/guardrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bedrock("GET", "/guardrails"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_guardrails(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "GET", "/guardrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/guardrails", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1529,20 +1500,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_imported_models end
 
 function list_imported_models(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock(
-        "GET", "/imported-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bedrock("GET", "/imported-models"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_imported_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "GET",
-        "/imported-models",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/imported-models", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1565,7 +1530,7 @@ function list_inference_profiles end
 
 function list_inference_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
-        "GET", "/inference-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/inference-profiles"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1573,11 +1538,7 @@ function list_inference_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "GET",
-        "/inference-profiles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/inference-profiles", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1613,20 +1574,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_model_copy_jobs end
 
 function list_model_copy_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock(
-        "GET", "/model-copy-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bedrock("GET", "/model-copy-jobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_model_copy_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "GET",
-        "/model-copy-jobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/model-copy-jobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1658,10 +1613,7 @@ function list_model_customization_jobs end
 
 function list_model_customization_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
-        "GET",
-        "/model-customization-jobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/model-customization-jobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1672,7 +1624,7 @@ function list_model_customization_jobs(
         "GET",
         "/model-customization-jobs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1703,20 +1655,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_model_import_jobs end
 
 function list_model_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock(
-        "GET", "/model-import-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bedrock("GET", "/model-import-jobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_model_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "GET",
-        "/model-import-jobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/model-import-jobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1751,10 +1697,7 @@ function list_model_invocation_jobs end
 
 function list_model_invocation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
-        "GET",
-        "/model-invocation-jobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/model-invocation-jobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1762,11 +1705,7 @@ function list_model_invocation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "GET",
-        "/model-invocation-jobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/model-invocation-jobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1804,10 +1743,7 @@ function list_provisioned_model_throughputs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
-        "GET",
-        "/provisioned-model-throughputs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/provisioned-model-throughputs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1818,7 +1754,7 @@ function list_provisioned_model_throughputs(
         "GET",
         "/provisioned-model-throughputs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1843,7 +1779,7 @@ function list_tags_for_resource(
         "POST",
         "/listTagsForResource",
         Dict{String,Any}("resourceARN" => resourceARN);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1859,7 +1795,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceARN" => resourceARN), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1883,7 +1819,7 @@ function put_model_invocation_logging_configuration(
         "PUT",
         "/logging/modelinvocations",
         Dict{String,Any}("loggingConfig" => loggingConfig);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1899,7 +1835,7 @@ function put_model_invocation_logging_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("loggingConfig" => loggingConfig), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1922,7 +1858,7 @@ function stop_evaluation_job(
     return bedrock(
         "POST",
         "/evaluation-job/$(jobIdentifier)/stop";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1936,7 +1872,7 @@ function stop_evaluation_job(
         "POST",
         "/evaluation-job/$(jobIdentifier)/stop",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1960,7 +1896,7 @@ function stop_model_customization_job(
     return bedrock(
         "POST",
         "/model-customization-jobs/$(jobIdentifier)/stop";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1974,7 +1910,7 @@ function stop_model_customization_job(
         "POST",
         "/model-customization-jobs/$(jobIdentifier)/stop",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1998,7 +1934,7 @@ function stop_model_invocation_job(
     return bedrock(
         "POST",
         "/model-invocation-job/$(jobIdentifier)/stop";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2012,7 +1948,7 @@ function stop_model_invocation_job(
         "POST",
         "/model-invocation-job/$(jobIdentifier)/stop",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2036,7 +1972,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tagResource",
         Dict{String,Any}("resourceARN" => resourceARN, "tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2057,7 +1993,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2083,7 +2019,7 @@ function untag_resource(
         "POST",
         "/untagResource",
         Dict{String,Any}("resourceARN" => resourceARN, "tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2104,7 +2040,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2166,7 +2102,7 @@ function update_guardrail(
             "blockedOutputsMessaging" => blockedOutputsMessaging,
             "name" => name,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2193,7 +2129,7 @@ function update_guardrail(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2227,7 +2163,7 @@ function update_provisioned_model_throughput(
     return bedrock(
         "PATCH",
         "/provisioned-model-throughput/$(provisionedModelId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2241,7 +2177,7 @@ function update_provisioned_model_throughput(
         "PATCH",
         "/provisioned-model-throughput/$(provisionedModelId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

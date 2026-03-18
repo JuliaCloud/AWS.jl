@@ -30,7 +30,7 @@ function associate_configuration_items_to_application(
             "applicationConfigurationId" => applicationConfigurationId,
             "configurationIds" => configurationIds,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -53,7 +53,7 @@ function associate_configuration_items_to_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -78,7 +78,7 @@ function batch_delete_agents(
     return application_discovery_service(
         "BatchDeleteAgents",
         Dict{String,Any}("deleteAgents" => deleteAgents);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -93,7 +93,7 @@ function batch_delete_agents(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("deleteAgents" => deleteAgents), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -126,7 +126,7 @@ function batch_delete_import_data(
     return application_discovery_service(
         "BatchDeleteImportData",
         Dict{String,Any}("importTaskIds" => importTaskIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -141,7 +141,7 @@ function batch_delete_import_data(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("importTaskIds" => importTaskIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -165,7 +165,7 @@ function create_application(name; aws_config::AbstractAWSConfig=current_aws_conf
     return application_discovery_service(
         "CreateApplication",
         Dict{String,Any}("name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -176,7 +176,7 @@ function create_application(
     return application_discovery_service(
         "CreateApplication",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -204,7 +204,7 @@ function create_tags(
     return application_discovery_service(
         "CreateTags",
         Dict{String,Any}("configurationIds" => configurationIds, "tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -224,7 +224,7 @@ function create_tags(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -247,7 +247,7 @@ function delete_applications(
     return application_discovery_service(
         "DeleteApplications",
         Dict{String,Any}("configurationIds" => configurationIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -264,7 +264,7 @@ function delete_applications(
                 _merge, Dict{String,Any}("configurationIds" => configurationIds), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -291,7 +291,7 @@ function delete_tags(configurationIds; aws_config::AbstractAWSConfig=current_aws
     return application_discovery_service(
         "DeleteTags",
         Dict{String,Any}("configurationIds" => configurationIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -308,7 +308,7 @@ function delete_tags(
                 _merge, Dict{String,Any}("configurationIds" => configurationIds), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -339,7 +339,7 @@ function describe_agents end
 
 function describe_agents(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
-        "DescribeAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAgents"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -347,7 +347,7 @@ function describe_agents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
-        "DescribeAgents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAgents", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -370,7 +370,7 @@ function describe_batch_delete_configuration_task(
     return application_discovery_service(
         "DescribeBatchDeleteConfigurationTask",
         Dict{String,Any}("taskId" => taskId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -381,7 +381,7 @@ function describe_batch_delete_configuration_task(
     return application_discovery_service(
         "DescribeBatchDeleteConfigurationTask",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("taskId" => taskId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -410,7 +410,7 @@ function describe_configurations(
     return application_discovery_service(
         "DescribeConfigurations",
         Dict{String,Any}("configurationIds" => configurationIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -427,7 +427,7 @@ function describe_configurations(
                 _merge, Dict{String,Any}("configurationIds" => configurationIds), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -450,7 +450,7 @@ function describe_continuous_exports end
 
 function describe_continuous_exports(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
-        "DescribeContinuousExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeContinuousExports"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -458,10 +458,7 @@ function describe_continuous_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
-        "DescribeContinuousExports",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeContinuousExports", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -484,9 +481,7 @@ function describe_export_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
-        "DescribeExportConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeExportConfigurations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -494,10 +489,7 @@ function describe_export_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
-        "DescribeExportConfigurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeExportConfigurations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -526,7 +518,7 @@ function describe_export_tasks end
 
 function describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
-        "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeExportTasks"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -534,10 +526,7 @@ function describe_export_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
-        "DescribeExportTasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeExportTasks", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -561,7 +550,7 @@ function describe_import_tasks end
 
 function describe_import_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
-        "DescribeImportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeImportTasks"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -569,10 +558,7 @@ function describe_import_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
-        "DescribeImportTasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeImportTasks", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -599,7 +585,7 @@ function describe_tags end
 
 function describe_tags(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
-        "DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeTags"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -607,7 +593,7 @@ function describe_tags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
-        "DescribeTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeTags", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -637,7 +623,7 @@ function disassociate_configuration_items_from_application(
             "applicationConfigurationId" => applicationConfigurationId,
             "configurationIds" => configurationIds,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -660,7 +646,7 @@ function disassociate_configuration_items_from_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -681,7 +667,7 @@ function export_configurations end
 
 function export_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
-        "ExportConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ExportConfigurations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -689,10 +675,7 @@ function export_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
-        "ExportConfigurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ExportConfigurations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -708,7 +691,7 @@ function get_discovery_summary end
 
 function get_discovery_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
-        "GetDiscoverySummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetDiscoverySummary"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -716,10 +699,7 @@ function get_discovery_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
-        "GetDiscoverySummary",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetDiscoverySummary", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -758,7 +738,7 @@ function list_configurations(
     return application_discovery_service(
         "ListConfigurations",
         Dict{String,Any}("configurationType" => configurationType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -775,7 +755,7 @@ function list_configurations(
                 _merge, Dict{String,Any}("configurationType" => configurationType), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -808,7 +788,7 @@ function list_server_neighbors(
     return application_discovery_service(
         "ListServerNeighbors",
         Dict{String,Any}("configurationId" => configurationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -825,7 +805,7 @@ function list_server_neighbors(
                 _merge, Dict{String,Any}("configurationId" => configurationId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -853,7 +833,7 @@ function start_batch_delete_configuration_task(
         Dict{String,Any}(
             "configurationIds" => configurationIds, "configurationType" => configurationType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -876,7 +856,7 @@ function start_batch_delete_configuration_task(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -892,7 +872,7 @@ function start_continuous_export end
 
 function start_continuous_export(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
-        "StartContinuousExport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "StartContinuousExport"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -900,10 +880,7 @@ function start_continuous_export(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
-        "StartContinuousExport",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "StartContinuousExport", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -930,7 +907,7 @@ function start_data_collection_by_agent_ids(
     return application_discovery_service(
         "StartDataCollectionByAgentIds",
         Dict{String,Any}("agentIds" => agentIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -945,7 +922,7 @@ function start_data_collection_by_agent_ids(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("agentIds" => agentIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -993,7 +970,7 @@ function start_export_task end
 
 function start_export_task(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
-        "StartExportTask"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "StartExportTask"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1001,7 +978,7 @@ function start_export_task(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
-        "StartExportTask", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "StartExportTask", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1058,7 +1035,7 @@ function start_import_task(
             "name" => name,
             "clientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1082,7 +1059,7 @@ function start_import_task(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1105,7 +1082,7 @@ function stop_continuous_export(
     return application_discovery_service(
         "StopContinuousExport",
         Dict{String,Any}("exportId" => exportId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1120,7 +1097,7 @@ function stop_continuous_export(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("exportId" => exportId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1143,7 +1120,7 @@ function stop_data_collection_by_agent_ids(
     return application_discovery_service(
         "StopDataCollectionByAgentIds",
         Dict{String,Any}("agentIds" => agentIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1158,7 +1135,7 @@ function stop_data_collection_by_agent_ids(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("agentIds" => agentIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1185,7 +1162,7 @@ function update_application(
     return application_discovery_service(
         "UpdateApplication",
         Dict{String,Any}("configurationId" => configurationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1202,7 +1179,7 @@ function update_application(
                 _merge, Dict{String,Any}("configurationId" => configurationId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

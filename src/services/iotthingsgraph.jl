@@ -30,7 +30,7 @@ function associate_entity_to_thing(
     return iotthingsgraph(
         "AssociateEntityToThing",
         Dict{String,Any}("entityId" => entityId, "thingName" => thingName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -50,7 +50,7 @@ function associate_entity_to_thing(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -80,7 +80,7 @@ function create_flow_template(
     return iotthingsgraph(
         "CreateFlowTemplate",
         Dict{String,Any}("definition" => definition);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -95,7 +95,7 @@ function create_flow_template(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("definition" => definition), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -144,7 +144,7 @@ function create_system_instance(
     return iotthingsgraph(
         "CreateSystemInstance",
         Dict{String,Any}("definition" => definition, "target" => target);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -164,7 +164,7 @@ function create_system_instance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -192,7 +192,7 @@ function create_system_template(
     return iotthingsgraph(
         "CreateSystemTemplate",
         Dict{String,Any}("definition" => definition);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -207,7 +207,7 @@ function create_system_template(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("definition" => definition), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -231,7 +231,7 @@ function delete_flow_template(id; aws_config::AbstractAWSConfig=current_aws_conf
     return iotthingsgraph(
         "DeleteFlowTemplate",
         Dict{String,Any}("id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -242,7 +242,7 @@ function delete_flow_template(
     return iotthingsgraph(
         "DeleteFlowTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -259,16 +259,14 @@ action. This action takes no request parameters.
 function delete_namespace end
 
 function delete_namespace(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotthingsgraph(
-        "DeleteNamespace"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotthingsgraph("DeleteNamespace"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function delete_namespace(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotthingsgraph(
-        "DeleteNamespace", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DeleteNamespace", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -288,7 +286,7 @@ function delete_system_instance end
 
 function delete_system_instance(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
-        "DeleteSystemInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DeleteSystemInstance"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -296,10 +294,7 @@ function delete_system_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotthingsgraph(
-        "DeleteSystemInstance",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DeleteSystemInstance", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -322,7 +317,7 @@ function delete_system_template(id; aws_config::AbstractAWSConfig=current_aws_co
     return iotthingsgraph(
         "DeleteSystemTemplate",
         Dict{String,Any}("id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -333,7 +328,7 @@ function delete_system_template(
     return iotthingsgraph(
         "DeleteSystemTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -361,7 +356,7 @@ function deploy_system_instance end
 
 function deploy_system_instance(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
-        "DeploySystemInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DeploySystemInstance"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -369,10 +364,7 @@ function deploy_system_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotthingsgraph(
-        "DeploySystemInstance",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DeploySystemInstance", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -394,7 +386,7 @@ function deprecate_flow_template(id; aws_config::AbstractAWSConfig=current_aws_c
     return iotthingsgraph(
         "DeprecateFlowTemplate",
         Dict{String,Any}("id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -405,7 +397,7 @@ function deprecate_flow_template(
     return iotthingsgraph(
         "DeprecateFlowTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -427,7 +419,7 @@ function deprecate_system_template(id; aws_config::AbstractAWSConfig=current_aws
     return iotthingsgraph(
         "DeprecateSystemTemplate",
         Dict{String,Any}("id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -438,7 +430,7 @@ function deprecate_system_template(
     return iotthingsgraph(
         "DeprecateSystemTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -457,16 +449,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_namespace end
 
 function describe_namespace(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotthingsgraph(
-        "DescribeNamespace"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotthingsgraph("DescribeNamespace"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_namespace(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotthingsgraph(
-        "DescribeNamespace", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeNamespace", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -491,7 +481,7 @@ function dissociate_entity_from_thing(
     return iotthingsgraph(
         "DissociateEntityFromThing",
         Dict{String,Any}("entityType" => entityType, "thingName" => thingName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -511,7 +501,7 @@ function dissociate_entity_from_thing(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -540,7 +530,7 @@ function get_entities(ids; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
         "GetEntities",
         Dict{String,Any}("ids" => ids);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -551,7 +541,7 @@ function get_entities(
     return iotthingsgraph(
         "GetEntities",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -577,7 +567,7 @@ function get_flow_template(id; aws_config::AbstractAWSConfig=current_aws_config(
     return iotthingsgraph(
         "GetFlowTemplate",
         Dict{String,Any}("id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -588,7 +578,7 @@ function get_flow_template(
     return iotthingsgraph(
         "GetFlowTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -617,7 +607,7 @@ function get_flow_template_revisions(id; aws_config::AbstractAWSConfig=current_a
     return iotthingsgraph(
         "GetFlowTemplateRevisions",
         Dict{String,Any}("id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -628,7 +618,7 @@ function get_flow_template_revisions(
     return iotthingsgraph(
         "GetFlowTemplateRevisions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -644,7 +634,7 @@ function get_namespace_deletion_status end
 
 function get_namespace_deletion_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
-        "GetNamespaceDeletionStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetNamespaceDeletionStatus"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -652,10 +642,7 @@ function get_namespace_deletion_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotthingsgraph(
-        "GetNamespaceDeletionStatus",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetNamespaceDeletionStatus", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -677,7 +664,7 @@ function get_system_instance(id; aws_config::AbstractAWSConfig=current_aws_confi
     return iotthingsgraph(
         "GetSystemInstance",
         Dict{String,Any}("id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -688,7 +675,7 @@ function get_system_instance(
     return iotthingsgraph(
         "GetSystemInstance",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -713,7 +700,7 @@ function get_system_template(id; aws_config::AbstractAWSConfig=current_aws_confi
     return iotthingsgraph(
         "GetSystemTemplate",
         Dict{String,Any}("id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -724,7 +711,7 @@ function get_system_template(
     return iotthingsgraph(
         "GetSystemTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -755,7 +742,7 @@ function get_system_template_revisions(
     return iotthingsgraph(
         "GetSystemTemplateRevisions",
         Dict{String,Any}("id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -766,7 +753,7 @@ function get_system_template_revisions(
     return iotthingsgraph(
         "GetSystemTemplateRevisions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -788,7 +775,7 @@ function get_upload_status(uploadId; aws_config::AbstractAWSConfig=current_aws_c
     return iotthingsgraph(
         "GetUploadStatus",
         Dict{String,Any}("uploadId" => uploadId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -803,7 +790,7 @@ function get_upload_status(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("uploadId" => uploadId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -831,7 +818,7 @@ function list_flow_execution_messages(
     return iotthingsgraph(
         "ListFlowExecutionMessages",
         Dict{String,Any}("flowExecutionId" => flowExecutionId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -848,7 +835,7 @@ function list_flow_execution_messages(
                 _merge, Dict{String,Any}("flowExecutionId" => flowExecutionId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -876,7 +863,7 @@ function list_tags_for_resource(
     return iotthingsgraph(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -891,7 +878,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -925,7 +912,7 @@ function search_entities(entityTypes; aws_config::AbstractAWSConfig=current_aws_
     return iotthingsgraph(
         "SearchEntities",
         Dict{String,Any}("entityTypes" => entityTypes);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -940,7 +927,7 @@ function search_entities(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("entityTypes" => entityTypes), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -971,7 +958,7 @@ function search_flow_executions(
     return iotthingsgraph(
         "SearchFlowExecutions",
         Dict{String,Any}("systemInstanceId" => systemInstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -988,7 +975,7 @@ function search_flow_executions(
                 _merge, Dict{String,Any}("systemInstanceId" => systemInstanceId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1011,7 +998,7 @@ function search_flow_templates end
 
 function search_flow_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
-        "SearchFlowTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "SearchFlowTemplates"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1019,10 +1006,7 @@ function search_flow_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotthingsgraph(
-        "SearchFlowTemplates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "SearchFlowTemplates", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1045,7 +1029,7 @@ function search_system_instances end
 
 function search_system_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
-        "SearchSystemInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "SearchSystemInstances"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1053,10 +1037,7 @@ function search_system_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotthingsgraph(
-        "SearchSystemInstances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "SearchSystemInstances", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1079,7 +1060,7 @@ function search_system_templates end
 
 function search_system_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
-        "SearchSystemTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "SearchSystemTemplates"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1087,10 +1068,7 @@ function search_system_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotthingsgraph(
-        "SearchSystemTemplates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "SearchSystemTemplates", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1123,7 +1101,7 @@ function search_things(entityId; aws_config::AbstractAWSConfig=current_aws_confi
     return iotthingsgraph(
         "SearchThings",
         Dict{String,Any}("entityId" => entityId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1138,7 +1116,7 @@ function search_things(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("entityId" => entityId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1160,7 +1138,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
     return iotthingsgraph(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1180,7 +1158,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1199,7 +1177,7 @@ function undeploy_system_instance end
 
 function undeploy_system_instance(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
-        "UndeploySystemInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "UndeploySystemInstance"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1207,10 +1185,7 @@ function undeploy_system_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotthingsgraph(
-        "UndeploySystemInstance",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "UndeploySystemInstance", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1238,7 +1213,7 @@ function untag_resource(
     return iotthingsgraph(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1258,7 +1233,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1291,7 +1266,7 @@ function update_flow_template(
     return iotthingsgraph(
         "UpdateFlowTemplate",
         Dict{String,Any}("definition" => definition, "id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1309,7 +1284,7 @@ function update_flow_template(
                 _merge, Dict{String,Any}("definition" => definition, "id" => id), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1341,7 +1316,7 @@ function update_system_template(
     return iotthingsgraph(
         "UpdateSystemTemplate",
         Dict{String,Any}("definition" => definition, "id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1359,7 +1334,7 @@ function update_system_template(
                 _merge, Dict{String,Any}("definition" => definition, "id" => id), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1397,7 +1372,7 @@ function upload_entity_definitions end
 
 function upload_entity_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotthingsgraph(
-        "UploadEntityDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "UploadEntityDefinitions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1405,9 +1380,6 @@ function upload_entity_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotthingsgraph(
-        "UploadEntityDefinitions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "UploadEntityDefinitions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end

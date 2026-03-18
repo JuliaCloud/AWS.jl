@@ -21,10 +21,7 @@ function cancel_gremlin_query end
 
 function cancel_gremlin_query(queryId; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "DELETE",
-        "/gremlin/status/$(queryId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/gremlin/status/$(queryId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -37,7 +34,7 @@ function cancel_gremlin_query(
         "DELETE",
         "/gremlin/status/$(queryId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -59,10 +56,7 @@ function cancel_loader_job end
 
 function cancel_loader_job(loadId; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "DELETE",
-        "/loader/$(loadId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/loader/$(loadId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -70,11 +64,7 @@ function cancel_loader_job(
     loadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "DELETE",
-        "/loader/$(loadId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/loader/$(loadId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -104,10 +94,7 @@ function cancel_mldata_processing_job(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "DELETE",
-        "/ml/dataprocessing/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/ml/dataprocessing/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -118,7 +105,7 @@ function cancel_mldata_processing_job(
         "DELETE",
         "/ml/dataprocessing/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -147,10 +134,7 @@ function cancel_mlmodel_training_job end
 
 function cancel_mlmodel_training_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "DELETE",
-        "/ml/modeltraining/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/ml/modeltraining/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -161,7 +145,7 @@ function cancel_mlmodel_training_job(
         "DELETE",
         "/ml/modeltraining/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -192,10 +176,7 @@ function cancel_mlmodel_transform_job(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "DELETE",
-        "/ml/modeltransform/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/ml/modeltransform/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -206,7 +187,7 @@ function cancel_mlmodel_transform_job(
         "DELETE",
         "/ml/modeltransform/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -236,7 +217,7 @@ function cancel_open_cypher_query(
     return neptunedata(
         "DELETE",
         "/opencypher/status/$(queryId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -250,7 +231,7 @@ function cancel_open_cypher_query(
         "DELETE",
         "/opencypher/status/$(queryId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -296,20 +277,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_mlendpoint end
 
 function create_mlendpoint(; aws_config::AbstractAWSConfig=current_aws_config())
-    return neptunedata(
-        "POST", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return neptunedata("POST", "/ml/endpoints"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function create_mlendpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "POST",
-        "/ml/endpoints",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ml/endpoints", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -337,10 +312,7 @@ function delete_mlendpoint end
 
 function delete_mlendpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "DELETE",
-        "/ml/endpoints/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/ml/endpoints/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -348,11 +320,7 @@ function delete_mlendpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "DELETE",
-        "/ml/endpoints/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/ml/endpoints/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -372,10 +340,7 @@ function delete_propertygraph_statistics(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "DELETE",
-        "/propertygraph/statistics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/propertygraph/statistics"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -386,7 +351,7 @@ function delete_propertygraph_statistics(
         "DELETE",
         "/propertygraph/statistics",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -404,10 +369,7 @@ function delete_sparql_statistics end
 
 function delete_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "DELETE",
-        "/sparql/statistics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/sparql/statistics"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -415,11 +377,7 @@ function delete_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "DELETE",
-        "/sparql/statistics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/sparql/statistics", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -452,7 +410,7 @@ function execute_fast_reset(action; aws_config::AbstractAWSConfig=current_aws_co
         "POST",
         "/system",
         Dict{String,Any}("action" => action);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -464,7 +422,7 @@ function execute_fast_reset(
         "POST",
         "/system",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("action" => action), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -501,7 +459,7 @@ function execute_gremlin_explain_query(
         "POST",
         "/gremlin/explain",
         Dict{String,Any}("gremlin" => gremlin);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -515,7 +473,7 @@ function execute_gremlin_explain_query(
         "POST",
         "/gremlin/explain",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("gremlin" => gremlin), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -557,7 +515,7 @@ function execute_gremlin_profile_query(
         "POST",
         "/gremlin/profile",
         Dict{String,Any}("gremlin" => gremlin);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -571,7 +529,7 @@ function execute_gremlin_profile_query(
         "POST",
         "/gremlin/profile",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("gremlin" => gremlin), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -610,7 +568,7 @@ function execute_gremlin_query(gremlin; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/gremlin",
         Dict{String,Any}("gremlin" => gremlin);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -624,7 +582,7 @@ function execute_gremlin_query(
         "POST",
         "/gremlin",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("gremlin" => gremlin), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -658,7 +616,7 @@ function execute_open_cypher_explain_query(
         "POST",
         "/opencypher/explain",
         Dict{String,Any}("explain" => explain, "query" => query);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -677,7 +635,7 @@ function execute_open_cypher_explain_query(
                 _merge, Dict{String,Any}("explain" => explain, "query" => query), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -718,7 +676,7 @@ function execute_open_cypher_query(
         "POST",
         "/opencypher",
         Dict{String,Any}("query" => query);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -730,7 +688,7 @@ function execute_open_cypher_query(
         "POST",
         "/opencypher",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("query" => query), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -748,16 +706,14 @@ in that cluster.
 function get_engine_status end
 
 function get_engine_status(; aws_config::AbstractAWSConfig=current_aws_config())
-    return neptunedata(
-        "GET", "/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return neptunedata("GET", "/status"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_engine_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET", "/status", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/status", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -782,10 +738,7 @@ function get_gremlin_query_status(
     queryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/gremlin/status/$(queryId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/gremlin/status/$(queryId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -798,7 +751,7 @@ function get_gremlin_query_status(
         "GET",
         "/gremlin/status/$(queryId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -832,7 +785,7 @@ function get_loader_job_status end
 
 function get_loader_job_status(loadId; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET", "/loader/$(loadId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/loader/$(loadId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -840,11 +793,7 @@ function get_loader_job_status(
     loadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/loader/$(loadId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/loader/$(loadId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -870,10 +819,7 @@ function get_mldata_processing_job end
 
 function get_mldata_processing_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET",
-        "/ml/dataprocessing/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/ml/dataprocessing/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -884,7 +830,7 @@ function get_mldata_processing_job(
         "GET",
         "/ml/dataprocessing/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -911,7 +857,7 @@ function get_mlendpoint end
 
 function get_mlendpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET", "/ml/endpoints/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/ml/endpoints/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -919,11 +865,7 @@ function get_mlendpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/ml/endpoints/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/ml/endpoints/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -949,10 +891,7 @@ function get_mlmodel_training_job end
 
 function get_mlmodel_training_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET",
-        "/ml/modeltraining/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/ml/modeltraining/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -963,7 +902,7 @@ function get_mlmodel_training_job(
         "GET",
         "/ml/modeltraining/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -990,10 +929,7 @@ function get_mlmodel_transform_job end
 
 function get_mlmodel_transform_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET",
-        "/ml/modeltransform/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/ml/modeltransform/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1004,7 +940,7 @@ function get_mlmodel_transform_job(
         "GET",
         "/ml/modeltransform/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1030,10 +966,7 @@ function get_open_cypher_query_status(
     queryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/opencypher/status/$(queryId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/opencypher/status/$(queryId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1046,7 +979,7 @@ function get_open_cypher_query_status(
         "GET",
         "/opencypher/status/$(queryId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1065,10 +998,7 @@ function get_propertygraph_statistics end
 
 function get_propertygraph_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET",
-        "/propertygraph/statistics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/propertygraph/statistics"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1079,7 +1009,7 @@ function get_propertygraph_statistics(
         "GET",
         "/propertygraph/statistics",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1130,10 +1060,7 @@ function get_propertygraph_stream end
 
 function get_propertygraph_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET",
-        "/propertygraph/stream";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/propertygraph/stream"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1141,11 +1068,7 @@ function get_propertygraph_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/propertygraph/stream",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/propertygraph/stream", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1168,7 +1091,7 @@ function get_propertygraph_summary(; aws_config::AbstractAWSConfig=current_aws_c
     return neptunedata(
         "GET",
         "/propertygraph/statistics/summary";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1180,7 +1103,7 @@ function get_propertygraph_summary(
         "GET",
         "/propertygraph/statistics/summary",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1201,10 +1124,7 @@ function get_rdfgraph_summary end
 
 function get_rdfgraph_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET",
-        "/rdf/statistics/summary";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/rdf/statistics/summary"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1215,7 +1135,7 @@ function get_rdfgraph_summary(
         "GET",
         "/rdf/statistics/summary",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1231,7 +1151,7 @@ function get_sparql_statistics end
 
 function get_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/sparql/statistics"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1239,11 +1159,7 @@ function get_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/sparql/statistics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/sparql/statistics", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1289,20 +1205,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_sparql_stream end
 
 function get_sparql_stream(; aws_config::AbstractAWSConfig=current_aws_config())
-    return neptunedata(
-        "GET", "/sparql/stream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return neptunedata("GET", "/sparql/stream"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_sparql_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/sparql/stream",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/sparql/stream", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1327,7 +1237,7 @@ function list_gremlin_queries end
 
 function list_gremlin_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET", "/gremlin/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/gremlin/status"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1335,11 +1245,7 @@ function list_gremlin_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/gremlin/status",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/gremlin/status", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1363,16 +1269,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_loader_jobs end
 
 function list_loader_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return neptunedata(
-        "GET", "/loader"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return neptunedata("GET", "/loader"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_loader_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET", "/loader", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/loader", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1397,7 +1301,7 @@ function list_mldata_processing_jobs end
 
 function list_mldata_processing_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET", "/ml/dataprocessing"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/ml/dataprocessing"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1405,11 +1309,7 @@ function list_mldata_processing_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/ml/dataprocessing",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/ml/dataprocessing", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1432,20 +1332,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_mlendpoints end
 
 function list_mlendpoints(; aws_config::AbstractAWSConfig=current_aws_config())
-    return neptunedata(
-        "GET", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return neptunedata("GET", "/ml/endpoints"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_mlendpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/ml/endpoints",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/ml/endpoints", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1469,7 +1363,7 @@ function list_mlmodel_training_jobs end
 
 function list_mlmodel_training_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET", "/ml/modeltraining"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/ml/modeltraining"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1477,11 +1371,7 @@ function list_mlmodel_training_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/ml/modeltraining",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/ml/modeltraining", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1505,7 +1395,7 @@ function list_mlmodel_transform_jobs end
 
 function list_mlmodel_transform_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET", "/ml/modeltransform"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/ml/modeltransform"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1513,11 +1403,7 @@ function list_mlmodel_transform_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/ml/modeltransform",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/ml/modeltransform", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1542,7 +1428,7 @@ function list_open_cypher_queries end
 
 function list_open_cypher_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "GET", "/opencypher/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/opencypher/status"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1550,11 +1436,7 @@ function list_open_cypher_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "GET",
-        "/opencypher/status",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/opencypher/status", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1579,10 +1461,7 @@ function manage_propertygraph_statistics(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "POST",
-        "/propertygraph/statistics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/propertygraph/statistics"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1593,7 +1472,7 @@ function manage_propertygraph_statistics(
         "POST",
         "/propertygraph/statistics",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1617,7 +1496,7 @@ function manage_sparql_statistics end
 
 function manage_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
-        "POST", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/sparql/statistics"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1625,11 +1504,7 @@ function manage_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
-        "POST",
-        "/sparql/statistics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/sparql/statistics", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1769,7 +1644,7 @@ function start_loader_job(
             "region" => region,
             "source" => source,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1797,7 +1672,7 @@ function start_loader_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1866,7 +1741,7 @@ function start_mldata_processing_job(
             "inputDataS3Location" => inputDataS3Location,
             "processedDataS3Location" => processedDataS3Location,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1890,7 +1765,7 @@ function start_mldata_processing_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1966,7 +1841,7 @@ function start_mlmodel_training_job(
             "dataProcessingJobId" => dataProcessingJobId,
             "trainModelS3Location" => trainModelS3Location,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1990,7 +1865,7 @@ function start_mlmodel_training_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2052,7 +1927,7 @@ function start_mlmodel_transform_job(
         Dict{String,Any}(
             "modelTransformOutputS3Location" => modelTransformOutputS3Location
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2074,7 +1949,7 @@ function start_mlmodel_transform_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

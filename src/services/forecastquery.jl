@@ -41,7 +41,7 @@ function query_forecast(
     return forecastquery(
         "QueryForecast",
         Dict{String,Any}("Filters" => Filters, "ForecastArn" => ForecastArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -61,7 +61,7 @@ function query_forecast(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -97,7 +97,7 @@ function query_what_if_forecast(
     return forecastquery(
         "QueryWhatIfForecast",
         Dict{String,Any}("Filters" => Filters, "WhatIfForecastArn" => WhatIfForecastArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -119,7 +119,7 @@ function query_what_if_forecast(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

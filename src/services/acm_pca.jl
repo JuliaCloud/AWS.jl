@@ -80,7 +80,7 @@ function create_certificate_authority(
             "CertificateAuthorityConfiguration" => CertificateAuthorityConfiguration,
             "CertificateAuthorityType" => CertificateAuthorityType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -104,7 +104,7 @@ function create_certificate_authority(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -147,7 +147,7 @@ function create_certificate_authority_audit_report(
             "CertificateAuthorityArn" => CertificateAuthorityArn,
             "S3BucketName" => S3BucketName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -172,7 +172,7 @@ function create_certificate_authority_audit_report(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -224,7 +224,7 @@ function create_permission(
             "CertificateAuthorityArn" => CertificateAuthorityArn,
             "Principal" => Principal,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -249,7 +249,7 @@ function create_permission(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -293,7 +293,7 @@ function delete_certificate_authority(
     return acm_pca(
         "DeleteCertificateAuthority",
         Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -312,7 +312,7 @@ function delete_certificate_authority(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -358,7 +358,7 @@ function delete_permission(
         Dict{String,Any}(
             "CertificateAuthorityArn" => CertificateAuthorityArn, "Principal" => Principal
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -381,7 +381,7 @@ function delete_permission(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -421,7 +421,7 @@ function delete_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_co
     return acm_pca(
         "DeletePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -436,7 +436,7 @@ function delete_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -473,7 +473,7 @@ function describe_certificate_authority(
     return acm_pca(
         "DescribeCertificateAuthority",
         Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -492,7 +492,7 @@ function describe_certificate_authority(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -527,7 +527,7 @@ function describe_certificate_authority_audit_report(
             "AuditReportId" => AuditReportId,
             "CertificateAuthorityArn" => CertificateAuthorityArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -550,7 +550,7 @@ function describe_certificate_authority_audit_report(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -589,7 +589,7 @@ function get_certificate(
             "CertificateArn" => CertificateArn,
             "CertificateAuthorityArn" => CertificateAuthorityArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -612,7 +612,7 @@ function get_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -640,7 +640,7 @@ function get_certificate_authority_certificate(
     return acm_pca(
         "GetCertificateAuthorityCertificate",
         Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -659,7 +659,7 @@ function get_certificate_authority_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -689,7 +689,7 @@ function get_certificate_authority_csr(
     return acm_pca(
         "GetCertificateAuthorityCsr",
         Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -708,7 +708,7 @@ function get_certificate_authority_csr(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -744,7 +744,7 @@ function get_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_confi
     return acm_pca(
         "GetPolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -759,7 +759,7 @@ function get_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -825,7 +825,7 @@ function import_certificate_authority_certificate(
             "Certificate" => Certificate,
             "CertificateAuthorityArn" => CertificateAuthorityArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -848,7 +848,7 @@ function import_certificate_authority_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -940,7 +940,7 @@ function issue_certificate(
             "SigningAlgorithm" => SigningAlgorithm,
             "Validity" => Validity,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -967,7 +967,7 @@ function issue_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -996,7 +996,7 @@ function list_certificate_authorities end
 
 function list_certificate_authorities(; aws_config::AbstractAWSConfig=current_aws_config())
     return acm_pca(
-        "ListCertificateAuthorities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListCertificateAuthorities"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1004,10 +1004,7 @@ function list_certificate_authorities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
-        "ListCertificateAuthorities",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListCertificateAuthorities", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1053,7 +1050,7 @@ function list_permissions(
     return acm_pca(
         "ListPermissions",
         Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1072,7 +1069,7 @@ function list_permissions(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1109,7 +1106,7 @@ function list_tags(
     return acm_pca(
         "ListTags",
         Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1128,7 +1125,7 @@ function list_tags(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1169,7 +1166,7 @@ function put_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=current_a
     return acm_pca(
         "PutPolicy",
         Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1189,7 +1186,7 @@ function put_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1226,7 +1223,7 @@ function restore_certificate_authority(
     return acm_pca(
         "RestoreCertificateAuthority",
         Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1245,7 +1242,7 @@ function restore_certificate_authority(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1299,7 +1296,7 @@ function revoke_certificate(
             "CertificateSerial" => CertificateSerial,
             "RevocationReason" => RevocationReason,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1324,7 +1321,7 @@ function revoke_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1362,7 +1359,7 @@ function tag_certificate_authority(
         Dict{String,Any}(
             "CertificateAuthorityArn" => CertificateAuthorityArn, "Tags" => Tags
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1384,7 +1381,7 @@ function tag_certificate_authority(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1416,7 +1413,7 @@ function untag_certificate_authority(
         Dict{String,Any}(
             "CertificateAuthorityArn" => CertificateAuthorityArn, "Tags" => Tags
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1438,7 +1435,7 @@ function untag_certificate_authority(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1484,7 +1481,7 @@ function update_certificate_authority(
     return acm_pca(
         "UpdateCertificateAuthority",
         Dict{String,Any}("CertificateAuthorityArn" => CertificateAuthorityArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1503,7 +1500,7 @@ function update_certificate_authority(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

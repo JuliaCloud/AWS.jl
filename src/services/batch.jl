@@ -31,7 +31,7 @@ function cancel_job(jobId, reason; aws_config::AbstractAWSConfig=current_aws_con
         "POST",
         "/v1/canceljob",
         Dict{String,Any}("jobId" => jobId, "reason" => reason);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -50,7 +50,7 @@ function cancel_job(
                 _merge, Dict{String,Any}("jobId" => jobId, "reason" => reason), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -177,7 +177,7 @@ function create_compute_environment(
         Dict{String,Any}(
             "computeEnvironmentName" => computeEnvironmentName, "type" => type
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -200,7 +200,7 @@ function create_compute_environment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -270,7 +270,7 @@ function create_job_queue(
             "jobQueueName" => jobQueueName,
             "priority" => priority,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -296,7 +296,7 @@ function create_job_queue(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -327,7 +327,7 @@ function create_scheduling_policy(name; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/v1/createschedulingpolicy",
         Dict{String,Any}("name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -339,7 +339,7 @@ function create_scheduling_policy(
         "POST",
         "/v1/createschedulingpolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -369,7 +369,7 @@ function delete_compute_environment(
         "POST",
         "/v1/deletecomputeenvironment",
         Dict{String,Any}("computeEnvironment" => computeEnvironment);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -387,7 +387,7 @@ function delete_compute_environment(
                 _merge, Dict{String,Any}("computeEnvironment" => computeEnvironment), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -413,7 +413,7 @@ function delete_job_queue(jobQueue; aws_config::AbstractAWSConfig=current_aws_co
         "POST",
         "/v1/deletejobqueue",
         Dict{String,Any}("jobQueue" => jobQueue);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -429,7 +429,7 @@ function delete_job_queue(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("jobQueue" => jobQueue), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -452,7 +452,7 @@ function delete_scheduling_policy(arn; aws_config::AbstractAWSConfig=current_aws
         "POST",
         "/v1/deleteschedulingpolicy",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -464,7 +464,7 @@ function delete_scheduling_policy(
         "POST",
         "/v1/deleteschedulingpolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -489,7 +489,7 @@ function deregister_job_definition(
         "POST",
         "/v1/deregisterjobdefinition",
         Dict{String,Any}("jobDefinition" => jobDefinition);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -505,7 +505,7 @@ function deregister_job_definition(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("jobDefinition" => jobDefinition), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -542,7 +542,7 @@ function describe_compute_environments(; aws_config::AbstractAWSConfig=current_a
     return batch(
         "POST",
         "/v1/describecomputeenvironments";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -554,7 +554,7 @@ function describe_compute_environments(
         "POST",
         "/v1/describecomputeenvironments",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -593,10 +593,7 @@ function describe_job_definitions end
 
 function describe_job_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
-        "POST",
-        "/v1/describejobdefinitions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/v1/describejobdefinitions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -607,7 +604,7 @@ function describe_job_definitions(
         "POST",
         "/v1/describejobdefinitions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -639,10 +636,7 @@ function describe_job_queues end
 
 function describe_job_queues(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
-        "POST",
-        "/v1/describejobqueues";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/v1/describejobqueues"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -650,11 +644,7 @@ function describe_job_queues(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
-        "POST",
-        "/v1/describejobqueues",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/v1/describejobqueues", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -675,7 +665,7 @@ function describe_jobs(jobs; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/v1/describejobs",
         Dict{String,Any}("jobs" => jobs);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -687,7 +677,7 @@ function describe_jobs(
         "POST",
         "/v1/describejobs",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobs" => jobs), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -711,7 +701,7 @@ function describe_scheduling_policies(
         "POST",
         "/v1/describeschedulingpolicies",
         Dict{String,Any}("arns" => arns);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -723,7 +713,7 @@ function describe_scheduling_policies(
         "POST",
         "/v1/describeschedulingpolicies",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arns" => arns), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -747,7 +737,7 @@ function get_job_queue_snapshot(
         "POST",
         "/v1/getjobqueuesnapshot",
         Dict{String,Any}("jobQueue" => jobQueue);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -763,7 +753,7 @@ function get_job_queue_snapshot(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("jobQueue" => jobQueue), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -833,20 +823,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_jobs end
 
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return batch(
-        "POST", "/v1/listjobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return batch("POST", "/v1/listjobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
-        "POST",
-        "/v1/listjobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/v1/listjobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -876,10 +860,7 @@ function list_scheduling_policies end
 
 function list_scheduling_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return batch(
-        "POST",
-        "/v1/listschedulingpolicies";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/v1/listschedulingpolicies"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -890,7 +871,7 @@ function list_scheduling_policies(
         "POST",
         "/v1/listschedulingpolicies",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -916,10 +897,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
-        "GET",
-        "/v1/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -932,7 +910,7 @@ function list_tags_for_resource(
         "GET",
         "/v1/tags/$(resourceArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1009,7 +987,7 @@ function register_job_definition(
         "POST",
         "/v1/registerjobdefinition",
         Dict{String,Any}("jobDefinitionName" => jobDefinitionName, "type" => type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1030,7 +1008,7 @@ function register_job_definition(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1130,7 +1108,7 @@ function submit_job(
         Dict{String,Any}(
             "jobDefinition" => jobDefinition, "jobName" => jobName, "jobQueue" => jobQueue
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1156,7 +1134,7 @@ function submit_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1189,7 +1167,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1204,7 +1182,7 @@ function tag_resource(
         "POST",
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1231,7 +1209,7 @@ function terminate_job(jobId, reason; aws_config::AbstractAWSConfig=current_aws_
         "POST",
         "/v1/terminatejob",
         Dict{String,Any}("jobId" => jobId, "reason" => reason);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1250,7 +1228,7 @@ function terminate_job(
                 _merge, Dict{String,Any}("jobId" => jobId, "reason" => reason), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1278,7 +1256,7 @@ function untag_resource(
         "DELETE",
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1293,7 +1271,7 @@ function untag_resource(
         "DELETE",
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1360,7 +1338,7 @@ function update_compute_environment(
         "POST",
         "/v1/updatecomputeenvironment",
         Dict{String,Any}("computeEnvironment" => computeEnvironment);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1378,7 +1356,7 @@ function update_compute_environment(
                 _merge, Dict{String,Any}("computeEnvironment" => computeEnvironment), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1426,7 +1404,7 @@ function update_job_queue(jobQueue; aws_config::AbstractAWSConfig=current_aws_co
         "POST",
         "/v1/updatejobqueue",
         Dict{String,Any}("jobQueue" => jobQueue);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1442,7 +1420,7 @@ function update_job_queue(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("jobQueue" => jobQueue), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1467,7 +1445,7 @@ function update_scheduling_policy(arn; aws_config::AbstractAWSConfig=current_aws
         "POST",
         "/v1/updateschedulingpolicy",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1479,7 +1457,7 @@ function update_scheduling_policy(
         "POST",
         "/v1/updateschedulingpolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

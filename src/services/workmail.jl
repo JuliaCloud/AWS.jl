@@ -34,7 +34,7 @@ function associate_delegate_to_resource(
             "OrganizationId" => OrganizationId,
             "ResourceId" => ResourceId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -59,7 +59,7 @@ function associate_delegate_to_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -93,7 +93,7 @@ function associate_member_to_group(
         Dict{String,Any}(
             "GroupId" => GroupId, "MemberId" => MemberId, "OrganizationId" => OrganizationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -118,7 +118,7 @@ function associate_member_to_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -146,7 +146,7 @@ function assume_impersonation_role(
         Dict{String,Any}(
             "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -169,7 +169,7 @@ function assume_impersonation_role(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -199,7 +199,7 @@ function cancel_mailbox_export_job(
             "JobId" => JobId,
             "OrganizationId" => OrganizationId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -224,7 +224,7 @@ function cancel_mailbox_export_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -251,7 +251,7 @@ function create_alias(
         Dict{String,Any}(
             "Alias" => Alias, "EntityId" => EntityId, "OrganizationId" => OrganizationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -276,7 +276,7 @@ function create_alias(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -313,7 +313,7 @@ function create_availability_configuration(
             "OrganizationId" => OrganizationId,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -337,7 +337,7 @@ function create_availability_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -365,7 +365,7 @@ function create_group(
     return workmail(
         "CreateGroup",
         Dict{String,Any}("Name" => Name, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -385,7 +385,7 @@ function create_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -425,7 +425,7 @@ function create_impersonation_role(
             "Type" => Type,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -453,7 +453,7 @@ function create_impersonation_role(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -499,7 +499,7 @@ function create_mobile_device_access_rule(
             "OrganizationId" => OrganizationId,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -525,7 +525,7 @@ function create_mobile_device_access_rule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -566,7 +566,7 @@ function create_organization(Alias; aws_config::AbstractAWSConfig=current_aws_co
     return workmail(
         "CreateOrganization",
         Dict{String,Any}("Alias" => Alias, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -583,7 +583,7 @@ function create_organization(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -616,7 +616,7 @@ function create_resource(
         Dict{String,Any}(
             "Name" => Name, "OrganizationId" => OrganizationId, "Type" => Type
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -639,7 +639,7 @@ function create_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -676,7 +676,7 @@ function create_user(
         Dict{String,Any}(
             "DisplayName" => DisplayName, "Name" => Name, "OrganizationId" => OrganizationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -701,7 +701,7 @@ function create_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -727,7 +727,7 @@ function delete_access_control_rule(
     return workmail(
         "DeleteAccessControlRule",
         Dict{String,Any}("Name" => Name, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -747,7 +747,7 @@ function delete_access_control_rule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -776,7 +776,7 @@ function delete_alias(
         Dict{String,Any}(
             "Alias" => Alias, "EntityId" => EntityId, "OrganizationId" => OrganizationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -801,7 +801,7 @@ function delete_alias(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -826,7 +826,7 @@ function delete_availability_configuration(
     return workmail(
         "DeleteAvailabilityConfiguration",
         Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -848,7 +848,7 @@ function delete_availability_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -872,7 +872,7 @@ function delete_email_monitoring_configuration(
     return workmail(
         "DeleteEmailMonitoringConfiguration",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -887,7 +887,7 @@ function delete_email_monitoring_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -914,7 +914,7 @@ function delete_group(
     return workmail(
         "DeleteGroup",
         Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -934,7 +934,7 @@ function delete_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -960,7 +960,7 @@ function delete_impersonation_role(
         Dict{String,Any}(
             "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -983,7 +983,7 @@ function delete_impersonation_role(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1021,7 +1021,7 @@ function delete_mailbox_permissions(
             "GranteeId" => GranteeId,
             "OrganizationId" => OrganizationId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1046,7 +1046,7 @@ function delete_mailbox_permissions(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1080,7 +1080,7 @@ function delete_mobile_device_access_override(
         Dict{String,Any}(
             "DeviceId" => DeviceId, "OrganizationId" => OrganizationId, "UserId" => UserId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1105,7 +1105,7 @@ function delete_mobile_device_access_override(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1136,7 +1136,7 @@ function delete_mobile_device_access_rule(
             "MobileDeviceAccessRuleId" => MobileDeviceAccessRuleId,
             "OrganizationId" => OrganizationId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1159,7 +1159,7 @@ function delete_mobile_device_access_rule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1195,7 +1195,7 @@ function delete_organization(
             "OrganizationId" => OrganizationId,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1219,7 +1219,7 @@ function delete_organization(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1246,7 +1246,7 @@ function delete_resource(
     return workmail(
         "DeleteResource",
         Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1268,7 +1268,7 @@ function delete_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1292,7 +1292,7 @@ function delete_retention_policy(
     return workmail(
         "DeleteRetentionPolicy",
         Dict{String,Any}("Id" => Id, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1312,7 +1312,7 @@ function delete_retention_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1342,7 +1342,7 @@ function delete_user(
     return workmail(
         "DeleteUser",
         Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1362,7 +1362,7 @@ function delete_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1393,7 +1393,7 @@ function deregister_from_work_mail(
     return workmail(
         "DeregisterFromWorkMail",
         Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1415,7 +1415,7 @@ function deregister_from_work_mail(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1442,7 +1442,7 @@ function deregister_mail_domain(
     return workmail(
         "DeregisterMailDomain",
         Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1464,7 +1464,7 @@ function deregister_mail_domain(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1488,7 +1488,7 @@ function describe_email_monitoring_configuration(
     return workmail(
         "DescribeEmailMonitoringConfiguration",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1503,7 +1503,7 @@ function describe_email_monitoring_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1527,7 +1527,7 @@ function describe_entity(
     return workmail(
         "DescribeEntity",
         Dict{String,Any}("Email" => Email, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1547,7 +1547,7 @@ function describe_entity(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1574,7 +1574,7 @@ function describe_group(
     return workmail(
         "DescribeGroup",
         Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1594,7 +1594,7 @@ function describe_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1617,7 +1617,7 @@ function describe_inbound_dmarc_settings(
     return workmail(
         "DescribeInboundDmarcSettings",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1632,7 +1632,7 @@ function describe_inbound_dmarc_settings(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1656,7 +1656,7 @@ function describe_mailbox_export_job(
     return workmail(
         "DescribeMailboxExportJob",
         Dict{String,Any}("JobId" => JobId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1676,7 +1676,7 @@ function describe_mailbox_export_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1699,7 +1699,7 @@ function describe_organization(
     return workmail(
         "DescribeOrganization",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1714,7 +1714,7 @@ function describe_organization(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1742,7 +1742,7 @@ function describe_resource(
     return workmail(
         "DescribeResource",
         Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1764,7 +1764,7 @@ function describe_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1791,7 +1791,7 @@ function describe_user(
     return workmail(
         "DescribeUser",
         Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1811,7 +1811,7 @@ function describe_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1847,7 +1847,7 @@ function disassociate_delegate_from_resource(
             "OrganizationId" => OrganizationId,
             "ResourceId" => ResourceId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1872,7 +1872,7 @@ function disassociate_delegate_from_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1906,7 +1906,7 @@ function disassociate_member_from_group(
         Dict{String,Any}(
             "GroupId" => GroupId, "MemberId" => MemberId, "OrganizationId" => OrganizationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1931,7 +1931,7 @@ function disassociate_member_from_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1966,7 +1966,7 @@ function get_access_control_effect(
         Dict{String,Any}(
             "Action" => Action, "IpAddress" => IpAddress, "OrganizationId" => OrganizationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1991,7 +1991,7 @@ function get_access_control_effect(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2014,7 +2014,7 @@ function get_default_retention_policy(
     return workmail(
         "GetDefaultRetentionPolicy",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2029,7 +2029,7 @@ function get_default_retention_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2056,7 +2056,7 @@ function get_impersonation_role(
         Dict{String,Any}(
             "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2079,7 +2079,7 @@ function get_impersonation_role(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2114,7 +2114,7 @@ function get_impersonation_role_effect(
             "OrganizationId" => OrganizationId,
             "TargetUser" => TargetUser,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2139,7 +2139,7 @@ function get_impersonation_role_effect(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2164,7 +2164,7 @@ function get_mail_domain(
     return workmail(
         "GetMailDomain",
         Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2186,7 +2186,7 @@ function get_mail_domain(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2215,7 +2215,7 @@ function get_mailbox_details(
     return workmail(
         "GetMailboxDetails",
         Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2235,7 +2235,7 @@ function get_mailbox_details(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2266,7 +2266,7 @@ function get_mobile_device_access_effect(
     return workmail(
         "GetMobileDeviceAccessEffect",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2281,7 +2281,7 @@ function get_mobile_device_access_effect(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2313,7 +2313,7 @@ function get_mobile_device_access_override(
         Dict{String,Any}(
             "DeviceId" => DeviceId, "OrganizationId" => OrganizationId, "UserId" => UserId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2338,7 +2338,7 @@ function get_mobile_device_access_override(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2361,7 +2361,7 @@ function list_access_control_rules(
     return workmail(
         "ListAccessControlRules",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2376,7 +2376,7 @@ function list_access_control_rules(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2405,7 +2405,7 @@ function list_aliases(
     return workmail(
         "ListAliases",
         Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2427,7 +2427,7 @@ function list_aliases(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2456,7 +2456,7 @@ function list_availability_configurations(
     return workmail(
         "ListAvailabilityConfigurations",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2471,7 +2471,7 @@ function list_availability_configurations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2504,7 +2504,7 @@ function list_group_members(
     return workmail(
         "ListGroupMembers",
         Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2524,7 +2524,7 @@ function list_group_members(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2552,7 +2552,7 @@ function list_groups(OrganizationId; aws_config::AbstractAWSConfig=current_aws_c
     return workmail(
         "ListGroups",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2567,7 +2567,7 @@ function list_groups(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2600,7 +2600,7 @@ function list_groups_for_entity(
     return workmail(
         "ListGroupsForEntity",
         Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2622,7 +2622,7 @@ function list_groups_for_entity(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2651,7 +2651,7 @@ function list_impersonation_roles(
     return workmail(
         "ListImpersonationRoles",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2666,7 +2666,7 @@ function list_impersonation_roles(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2694,7 +2694,7 @@ function list_mail_domains(
     return workmail(
         "ListMailDomains",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2709,7 +2709,7 @@ function list_mail_domains(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2737,7 +2737,7 @@ function list_mailbox_export_jobs(
     return workmail(
         "ListMailboxExportJobs",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2752,7 +2752,7 @@ function list_mailbox_export_jobs(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2786,7 +2786,7 @@ function list_mailbox_permissions(
     return workmail(
         "ListMailboxPermissions",
         Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2808,7 +2808,7 @@ function list_mailbox_permissions(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2843,7 +2843,7 @@ function list_mobile_device_access_overrides(
     return workmail(
         "ListMobileDeviceAccessOverrides",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2858,7 +2858,7 @@ function list_mobile_device_access_overrides(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2881,7 +2881,7 @@ function list_mobile_device_access_rules(
     return workmail(
         "ListMobileDeviceAccessRules",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2896,7 +2896,7 @@ function list_mobile_device_access_rules(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2916,16 +2916,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_organizations end
 
 function list_organizations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return workmail(
-        "ListOrganizations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workmail("ListOrganizations"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_organizations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
-        "ListOrganizations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListOrganizations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2958,7 +2956,7 @@ function list_resource_delegates(
     return workmail(
         "ListResourceDelegates",
         Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2980,7 +2978,7 @@ function list_resource_delegates(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3008,7 +3006,7 @@ function list_resources(OrganizationId; aws_config::AbstractAWSConfig=current_aw
     return workmail(
         "ListResources",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3023,7 +3021,7 @@ function list_resources(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3046,7 +3044,7 @@ function list_tags_for_resource(
     return workmail(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3061,7 +3059,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3089,7 +3087,7 @@ function list_users(OrganizationId; aws_config::AbstractAWSConfig=current_aws_co
     return workmail(
         "ListUsers",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3104,7 +3102,7 @@ function list_users(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3154,7 +3152,7 @@ function put_access_control_rule(
             "Name" => Name,
             "OrganizationId" => OrganizationId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3181,7 +3179,7 @@ function put_access_control_rule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3213,7 +3211,7 @@ function put_email_monitoring_configuration(
             "OrganizationId" => OrganizationId,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3238,7 +3236,7 @@ function put_email_monitoring_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3262,7 +3260,7 @@ function put_inbound_dmarc_settings(
     return workmail(
         "PutInboundDmarcSettings",
         Dict{String,Any}("Enforced" => Enforced, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3284,7 +3282,7 @@ function put_inbound_dmarc_settings(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3333,7 +3331,7 @@ function put_mailbox_permissions(
             "OrganizationId" => OrganizationId,
             "PermissionValues" => PermissionValues,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3360,7 +3358,7 @@ function put_mailbox_permissions(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3403,7 +3401,7 @@ function put_mobile_device_access_override(
             "OrganizationId" => OrganizationId,
             "UserId" => UserId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3430,7 +3428,7 @@ function put_mobile_device_access_override(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3466,7 +3464,7 @@ function put_retention_policy(
             "Name" => Name,
             "OrganizationId" => OrganizationId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3491,7 +3489,7 @@ function put_retention_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3525,7 +3523,7 @@ function register_mail_domain(
             "OrganizationId" => OrganizationId,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3549,7 +3547,7 @@ function register_mail_domain(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3587,7 +3585,7 @@ function register_to_work_mail(
         Dict{String,Any}(
             "Email" => Email, "EntityId" => EntityId, "OrganizationId" => OrganizationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3612,7 +3610,7 @@ function register_to_work_mail(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3640,7 +3638,7 @@ function reset_password(
         Dict{String,Any}(
             "OrganizationId" => OrganizationId, "Password" => Password, "UserId" => UserId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3665,7 +3663,7 @@ function reset_password(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3721,7 +3719,7 @@ function start_mailbox_export_job(
             "S3BucketName" => S3BucketName,
             "S3Prefix" => S3Prefix,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3754,7 +3752,7 @@ function start_mailbox_export_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3776,7 +3774,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
     return workmail(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3796,7 +3794,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3832,7 +3830,7 @@ function test_availability_configuration(
     return workmail(
         "TestAvailabilityConfiguration",
         Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3847,7 +3845,7 @@ function test_availability_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3871,7 +3869,7 @@ function untag_resource(
     return workmail(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3891,7 +3889,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3925,7 +3923,7 @@ function update_availability_configuration(
     return workmail(
         "UpdateAvailabilityConfiguration",
         Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3947,7 +3945,7 @@ function update_availability_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3973,7 +3971,7 @@ function update_default_mail_domain(
     return workmail(
         "UpdateDefaultMailDomain",
         Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3995,7 +3993,7 @@ function update_default_mail_domain(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4026,7 +4024,7 @@ function update_group(
     return workmail(
         "UpdateGroup",
         Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4046,7 +4044,7 @@ function update_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4088,7 +4086,7 @@ function update_impersonation_role(
             "Rules" => Rules,
             "Type" => Type,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4117,7 +4115,7 @@ function update_impersonation_role(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4151,7 +4149,7 @@ function update_mailbox_quota(
             "OrganizationId" => OrganizationId,
             "UserId" => UserId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4176,7 +4174,7 @@ function update_mailbox_quota(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4226,7 +4224,7 @@ function update_mobile_device_access_rule(
             "Name" => Name,
             "OrganizationId" => OrganizationId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4253,7 +4251,7 @@ function update_mobile_device_access_rule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4286,7 +4284,7 @@ function update_primary_email_address(
         Dict{String,Any}(
             "Email" => Email, "EntityId" => EntityId, "OrganizationId" => OrganizationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4311,7 +4309,7 @@ function update_primary_email_address(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4349,7 +4347,7 @@ function update_resource(
     return workmail(
         "UpdateResource",
         Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4371,7 +4369,7 @@ function update_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4418,7 +4416,7 @@ function update_user(
     return workmail(
         "UpdateUser",
         Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4438,7 +4436,7 @@ function update_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

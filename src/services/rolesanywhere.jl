@@ -40,7 +40,7 @@ function create_profile(name, roleArns; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/profiles",
         Dict{String,Any}("name" => name, "roleArns" => roleArns);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -59,7 +59,7 @@ function create_profile(
                 _merge, Dict{String,Any}("name" => name, "roleArns" => roleArns), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -95,7 +95,7 @@ function create_trust_anchor(
         "POST",
         "/trustanchors",
         Dict{String,Any}("name" => name, "source" => source);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -112,7 +112,7 @@ function create_trust_anchor(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("name" => name, "source" => source), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -142,7 +142,7 @@ function delete_attribute_mapping(
         "DELETE",
         "/profiles/$(profileId)/mappings",
         Dict{String,Any}("certificateField" => certificateField);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -161,7 +161,7 @@ function delete_attribute_mapping(
                 _merge, Dict{String,Any}("certificateField" => certificateField), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -181,7 +181,7 @@ function delete_crl end
 
 function delete_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "DELETE", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/crl/$(crlId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -189,11 +189,7 @@ function delete_crl(
     crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rolesanywhere(
-        "DELETE",
-        "/crl/$(crlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/crl/$(crlId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -211,10 +207,7 @@ function delete_profile end
 
 function delete_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "DELETE",
-        "/profile/$(profileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/profile/$(profileId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -227,7 +220,7 @@ function delete_profile(
         "DELETE",
         "/profile/$(profileId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -250,7 +243,7 @@ function delete_trust_anchor(
     return rolesanywhere(
         "DELETE",
         "/trustanchor/$(trustAnchorId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -264,7 +257,7 @@ function delete_trust_anchor(
         "DELETE",
         "/trustanchor/$(trustAnchorId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -284,10 +277,7 @@ function disable_crl end
 
 function disable_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "POST",
-        "/crl/$(crlId)/disable";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/crl/$(crlId)/disable"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -295,11 +285,7 @@ function disable_crl(
     crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rolesanywhere(
-        "POST",
-        "/crl/$(crlId)/disable",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/crl/$(crlId)/disable", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -318,10 +304,7 @@ function disable_profile end
 
 function disable_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "POST",
-        "/profile/$(profileId)/disable";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/profile/$(profileId)/disable"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -334,7 +317,7 @@ function disable_profile(
         "POST",
         "/profile/$(profileId)/disable",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -358,7 +341,7 @@ function disable_trust_anchor(
     return rolesanywhere(
         "POST",
         "/trustanchor/$(trustAnchorId)/disable";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -372,7 +355,7 @@ function disable_trust_anchor(
         "POST",
         "/trustanchor/$(trustAnchorId)/disable",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -393,10 +376,7 @@ function enable_crl end
 
 function enable_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "POST",
-        "/crl/$(crlId)/enable";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/crl/$(crlId)/enable"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -404,11 +384,7 @@ function enable_crl(
     crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rolesanywhere(
-        "POST",
-        "/crl/$(crlId)/enable",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/crl/$(crlId)/enable", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -427,10 +403,7 @@ function enable_profile end
 
 function enable_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "POST",
-        "/profile/$(profileId)/enable";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/profile/$(profileId)/enable"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -443,7 +416,7 @@ function enable_profile(
         "POST",
         "/profile/$(profileId)/enable",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -467,7 +440,7 @@ function enable_trust_anchor(
     return rolesanywhere(
         "POST",
         "/trustanchor/$(trustAnchorId)/enable";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -481,7 +454,7 @@ function enable_trust_anchor(
         "POST",
         "/trustanchor/$(trustAnchorId)/enable",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -500,7 +473,7 @@ function get_crl end
 
 function get_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "GET", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/crl/$(crlId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -508,11 +481,7 @@ function get_crl(
     crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rolesanywhere(
-        "GET",
-        "/crl/$(crlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/crl/$(crlId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -530,10 +499,7 @@ function get_profile end
 
 function get_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "GET",
-        "/profile/$(profileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/profile/$(profileId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -543,11 +509,7 @@ function get_profile(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rolesanywhere(
-        "GET",
-        "/profile/$(profileId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/profile/$(profileId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -568,10 +530,7 @@ function get_subject end
 
 function get_subject(subjectId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "GET",
-        "/subject/$(subjectId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/subject/$(subjectId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -581,11 +540,7 @@ function get_subject(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rolesanywhere(
-        "GET",
-        "/subject/$(subjectId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/subject/$(subjectId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -603,10 +558,7 @@ function get_trust_anchor end
 
 function get_trust_anchor(trustAnchorId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "GET",
-        "/trustanchor/$(trustAnchorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/trustanchor/$(trustAnchorId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -619,7 +571,7 @@ function get_trust_anchor(
         "GET",
         "/trustanchor/$(trustAnchorId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -655,7 +607,7 @@ function import_crl(
         Dict{String,Any}(
             "crlData" => crlData, "name" => name, "trustAnchorArn" => trustAnchorArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -679,7 +631,7 @@ function import_crl(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -701,16 +653,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_crls end
 
 function list_crls(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rolesanywhere(
-        "GET", "/crls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rolesanywhere("GET", "/crls"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_crls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rolesanywhere(
-        "GET", "/crls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/crls", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -731,16 +681,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_profiles end
 
 function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rolesanywhere(
-        "GET", "/profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rolesanywhere("GET", "/profiles"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rolesanywhere(
-        "GET", "/profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/profiles", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -761,16 +709,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_subjects end
 
 function list_subjects(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rolesanywhere(
-        "GET", "/subjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rolesanywhere("GET", "/subjects"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_subjects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rolesanywhere(
-        "GET", "/subjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/subjects", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -794,7 +740,7 @@ function list_tags_for_resource(
         "GET",
         "/ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -810,7 +756,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -833,7 +779,7 @@ function list_trust_anchors end
 
 function list_trust_anchors(; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "GET", "/trustanchors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/trustanchors"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -841,11 +787,7 @@ function list_trust_anchors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rolesanywhere(
-        "GET",
-        "/trustanchors",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/trustanchors", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -878,7 +820,7 @@ function put_attribute_mapping(
         Dict{String,Any}(
             "certificateField" => certificateField, "mappingRules" => mappingRules
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -902,7 +844,7 @@ function put_attribute_mapping(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -932,7 +874,7 @@ function put_notification_settings(
         Dict{String,Any}(
             "notificationSettings" => notificationSettings, "trustAnchorId" => trustAnchorId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -956,7 +898,7 @@ function put_notification_settings(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -988,7 +930,7 @@ function reset_notification_settings(
             "notificationSettingKeys" => notificationSettingKeys,
             "trustAnchorId" => trustAnchorId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1012,7 +954,7 @@ function reset_notification_settings(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1035,7 +977,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1056,7 +998,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1081,7 +1023,7 @@ function untag_resource(
         "POST",
         "/UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1102,7 +1044,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1128,7 +1070,7 @@ function update_crl end
 
 function update_crl(crlId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "PATCH", "/crl/$(crlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH", "/crl/$(crlId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1136,11 +1078,7 @@ function update_crl(
     crlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rolesanywhere(
-        "PATCH",
-        "/crl/$(crlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PATCH", "/crl/$(crlId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1174,10 +1112,7 @@ function update_profile end
 
 function update_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config())
     return rolesanywhere(
-        "PATCH",
-        "/profile/$(profileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PATCH", "/profile/$(profileId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1190,7 +1125,7 @@ function update_profile(
         "PATCH",
         "/profile/$(profileId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1222,7 +1157,7 @@ function update_trust_anchor(
     return rolesanywhere(
         "PATCH",
         "/trustanchor/$(trustAnchorId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1236,7 +1171,7 @@ function update_trust_anchor(
         "PATCH",
         "/trustanchor/$(trustAnchorId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -43,7 +43,7 @@ function batch_is_authorized(
     return verifiedpermissions(
         "BatchIsAuthorized",
         Dict{String,Any}("policyStoreId" => policyStoreId, "requests" => requests);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -63,7 +63,7 @@ function batch_is_authorized(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -119,7 +119,7 @@ function batch_is_authorized_with_token(
     return verifiedpermissions(
         "BatchIsAuthorizedWithToken",
         Dict{String,Any}("policyStoreId" => policyStoreId, "requests" => requests);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -139,7 +139,7 @@ function batch_is_authorized_with_token(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -202,7 +202,7 @@ function create_identity_source(
             "policyStoreId" => policyStoreId,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -226,7 +226,7 @@ function create_identity_source(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -279,7 +279,7 @@ function create_policy(
             "policyStoreId" => policyStoreId,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -303,7 +303,7 @@ function create_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -351,7 +351,7 @@ function create_policy_store(
         Dict{String,Any}(
             "validationSettings" => validationSettings, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -373,7 +373,7 @@ function create_policy_store(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -423,7 +423,7 @@ function create_policy_template(
             "statement" => statement,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -447,7 +447,7 @@ function create_policy_template(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -477,7 +477,7 @@ function delete_identity_source(
         Dict{String,Any}(
             "identitySourceId" => identitySourceId, "policyStoreId" => policyStoreId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -499,7 +499,7 @@ function delete_identity_source(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -526,7 +526,7 @@ function delete_policy(
     return verifiedpermissions(
         "DeletePolicy",
         Dict{String,Any}("policyId" => policyId, "policyStoreId" => policyStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -546,7 +546,7 @@ function delete_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -571,7 +571,7 @@ function delete_policy_store(
     return verifiedpermissions(
         "DeletePolicyStore",
         Dict{String,Any}("policyStoreId" => policyStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -586,7 +586,7 @@ function delete_policy_store(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("policyStoreId" => policyStoreId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -616,7 +616,7 @@ function delete_policy_template(
         Dict{String,Any}(
             "policyStoreId" => policyStoreId, "policyTemplateId" => policyTemplateId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -638,7 +638,7 @@ function delete_policy_template(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -665,7 +665,7 @@ function get_identity_source(
         Dict{String,Any}(
             "identitySourceId" => identitySourceId, "policyStoreId" => policyStoreId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -687,7 +687,7 @@ function get_identity_source(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -712,7 +712,7 @@ function get_policy(
     return verifiedpermissions(
         "GetPolicy",
         Dict{String,Any}("policyId" => policyId, "policyStoreId" => policyStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -732,7 +732,7 @@ function get_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -753,7 +753,7 @@ function get_policy_store(policyStoreId; aws_config::AbstractAWSConfig=current_a
     return verifiedpermissions(
         "GetPolicyStore",
         Dict{String,Any}("policyStoreId" => policyStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -768,7 +768,7 @@ function get_policy_store(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("policyStoreId" => policyStoreId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -796,7 +796,7 @@ function get_policy_template(
         Dict{String,Any}(
             "policyStoreId" => policyStoreId, "policyTemplateId" => policyTemplateId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -818,7 +818,7 @@ function get_policy_template(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -839,7 +839,7 @@ function get_schema(policyStoreId; aws_config::AbstractAWSConfig=current_aws_con
     return verifiedpermissions(
         "GetSchema",
         Dict{String,Any}("policyStoreId" => policyStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -854,7 +854,7 @@ function get_schema(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("policyStoreId" => policyStoreId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -892,7 +892,7 @@ function is_authorized(policyStoreId; aws_config::AbstractAWSConfig=current_aws_
     return verifiedpermissions(
         "IsAuthorized",
         Dict{String,Any}("policyStoreId" => policyStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -907,7 +907,7 @@ function is_authorized(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("policyStoreId" => policyStoreId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -966,7 +966,7 @@ function is_authorized_with_token(
     return verifiedpermissions(
         "IsAuthorizedWithToken",
         Dict{String,Any}("policyStoreId" => policyStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -981,7 +981,7 @@ function is_authorized_with_token(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("policyStoreId" => policyStoreId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1023,7 +1023,7 @@ function list_identity_sources(
     return verifiedpermissions(
         "ListIdentitySources",
         Dict{String,Any}("policyStoreId" => policyStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1038,7 +1038,7 @@ function list_identity_sources(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("policyStoreId" => policyStoreId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1076,7 +1076,7 @@ function list_policies(policyStoreId; aws_config::AbstractAWSConfig=current_aws_
     return verifiedpermissions(
         "ListPolicies",
         Dict{String,Any}("policyStoreId" => policyStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1091,7 +1091,7 @@ function list_policies(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("policyStoreId" => policyStoreId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1121,7 +1121,7 @@ function list_policy_stores end
 
 function list_policy_stores(; aws_config::AbstractAWSConfig=current_aws_config())
     return verifiedpermissions(
-        "ListPolicyStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListPolicyStores"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1129,7 +1129,7 @@ function list_policy_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return verifiedpermissions(
-        "ListPolicyStores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListPolicyStores", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1167,7 +1167,7 @@ function list_policy_templates(
     return verifiedpermissions(
         "ListPolicyTemplates",
         Dict{String,Any}("policyStoreId" => policyStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1182,7 +1182,7 @@ function list_policy_templates(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("policyStoreId" => policyStoreId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1214,7 +1214,7 @@ function put_schema(
     return verifiedpermissions(
         "PutSchema",
         Dict{String,Any}("definition" => definition, "policyStoreId" => policyStoreId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1236,7 +1236,7 @@ function put_schema(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1280,7 +1280,7 @@ function update_identity_source(
             "policyStoreId" => policyStoreId,
             "updateConfiguration" => updateConfiguration,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1305,7 +1305,7 @@ function update_identity_source(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1356,7 +1356,7 @@ function update_policy(
             "policyId" => policyId,
             "policyStoreId" => policyStoreId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1381,7 +1381,7 @@ function update_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1414,7 +1414,7 @@ function update_policy_store(
         Dict{String,Any}(
             "policyStoreId" => policyStoreId, "validationSettings" => validationSettings
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1437,7 +1437,7 @@ function update_policy_store(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1484,7 +1484,7 @@ function update_policy_template(
             "policyTemplateId" => policyTemplateId,
             "statement" => statement,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1509,7 +1509,7 @@ function update_policy_template(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

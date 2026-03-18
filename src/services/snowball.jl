@@ -22,7 +22,7 @@ function cancel_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_con
     return snowball(
         "CancelCluster",
         Dict{String,Any}("ClusterId" => ClusterId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -37,7 +37,7 @@ function cancel_cluster(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -61,7 +61,7 @@ function cancel_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return snowball(
         "CancelJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -72,7 +72,7 @@ function cancel_job(
     return snowball(
         "CancelJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -98,7 +98,7 @@ function create_address(Address; aws_config::AbstractAWSConfig=current_aws_confi
     return snowball(
         "CreateAddress",
         Dict{String,Any}("Address" => Address);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -111,7 +111,7 @@ function create_address(
     return snowball(
         "CreateAddress",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Address" => Address), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -211,7 +211,7 @@ function create_cluster(
             "ShippingOption" => ShippingOption,
             "SnowballType" => SnowballType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -238,7 +238,7 @@ function create_cluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -341,15 +341,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_job end
 
 function create_job(; aws_config::AbstractAWSConfig=current_aws_config())
-    return snowball("CreateJob"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return snowball("CreateJob"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function create_job(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return snowball(
-        "CreateJob", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("CreateJob", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -380,7 +378,7 @@ function create_long_term_pricing(
         Dict{String,Any}(
             "LongTermPricingType" => LongTermPricingType, "SnowballType" => SnowballType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -403,7 +401,7 @@ function create_long_term_pricing(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -432,7 +430,7 @@ function create_return_shipping_label(
     return snowball(
         "CreateReturnShippingLabel",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -443,7 +441,7 @@ function create_return_shipping_label(
     return snowball(
         "CreateReturnShippingLabel",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -465,7 +463,7 @@ function describe_address(AddressId; aws_config::AbstractAWSConfig=current_aws_c
     return snowball(
         "DescribeAddress",
         Dict{String,Any}("AddressId" => AddressId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -480,7 +478,7 @@ function describe_address(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AddressId" => AddressId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -503,16 +501,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_addresses end
 
 function describe_addresses(; aws_config::AbstractAWSConfig=current_aws_config())
-    return snowball(
-        "DescribeAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("DescribeAddresses"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_addresses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snowball(
-        "DescribeAddresses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAddresses", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -533,7 +529,7 @@ function describe_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_c
     return snowball(
         "DescribeCluster",
         Dict{String,Any}("ClusterId" => ClusterId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -548,7 +544,7 @@ function describe_cluster(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -571,7 +567,7 @@ function describe_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return snowball(
         "DescribeJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -582,7 +578,7 @@ function describe_job(
     return snowball(
         "DescribeJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -607,7 +603,7 @@ function describe_return_shipping_label(
     return snowball(
         "DescribeReturnShippingLabel",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -618,7 +614,7 @@ function describe_return_shipping_label(
     return snowball(
         "DescribeReturnShippingLabel",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -652,7 +648,7 @@ function get_job_manifest(JobId; aws_config::AbstractAWSConfig=current_aws_confi
     return snowball(
         "GetJobManifest",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -663,7 +659,7 @@ function get_job_manifest(
     return snowball(
         "GetJobManifest",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -694,7 +690,7 @@ function get_job_unlock_code(JobId; aws_config::AbstractAWSConfig=current_aws_co
     return snowball(
         "GetJobUnlockCode",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -705,7 +701,7 @@ function get_job_unlock_code(
     return snowball(
         "GetJobUnlockCode",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -723,17 +719,13 @@ limit, contact Amazon Web Services Support.
 function get_snowball_usage end
 
 function get_snowball_usage(; aws_config::AbstractAWSConfig=current_aws_config())
-    return snowball(
-        "GetSnowballUsage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("GetSnowballUsage"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_snowball_usage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return snowball(
-        "GetSnowballUsage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("GetSnowballUsage", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -753,7 +745,7 @@ function get_software_updates(JobId; aws_config::AbstractAWSConfig=current_aws_c
     return snowball(
         "GetSoftwareUpdates",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -764,7 +756,7 @@ function get_software_updates(
     return snowball(
         "GetSoftwareUpdates",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -794,7 +786,7 @@ function list_cluster_jobs(ClusterId; aws_config::AbstractAWSConfig=current_aws_
     return snowball(
         "ListClusterJobs",
         Dict{String,Any}("ClusterId" => ClusterId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -809,7 +801,7 @@ function list_cluster_jobs(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -831,15 +823,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_clusters end
 
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return snowball("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return snowball("ListClusters"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return snowball(
-        "ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("ListClusters", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -865,19 +855,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_compatible_images end
 
 function list_compatible_images(; aws_config::AbstractAWSConfig=current_aws_config())
-    return snowball(
-        "ListCompatibleImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("ListCompatibleImages"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_compatible_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snowball(
-        "ListCompatibleImages",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListCompatibleImages", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -900,15 +885,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_jobs end
 
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return snowball("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return snowball("ListJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return snowball(
-        "ListJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("ListJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -926,19 +909,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_long_term_pricing end
 
 function list_long_term_pricing(; aws_config::AbstractAWSConfig=current_aws_config())
-    return snowball(
-        "ListLongTermPricing"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("ListLongTermPricing"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_long_term_pricing(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snowball(
-        "ListLongTermPricing",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListLongTermPricing", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -958,19 +936,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_pickup_locations end
 
 function list_pickup_locations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return snowball(
-        "ListPickupLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return snowball("ListPickupLocations"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_pickup_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return snowball(
-        "ListPickupLocations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListPickupLocations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1000,7 +973,7 @@ function list_service_versions(
     return snowball(
         "ListServiceVersions",
         Dict{String,Any}("ServiceName" => ServiceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1015,7 +988,7 @@ function list_service_versions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServiceName" => ServiceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1057,7 +1030,7 @@ function update_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_con
     return snowball(
         "UpdateCluster",
         Dict{String,Any}("ClusterId" => ClusterId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1072,7 +1045,7 @@ function update_cluster(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1121,7 +1094,7 @@ function update_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return snowball(
         "UpdateJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1132,7 +1105,7 @@ function update_job(
     return snowball(
         "UpdateJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1159,7 +1132,7 @@ function update_job_shipment_state(
     return snowball(
         "UpdateJobShipmentState",
         Dict{String,Any}("JobId" => JobId, "ShipmentState" => ShipmentState);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1179,7 +1152,7 @@ function update_job_shipment_state(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1209,7 +1182,7 @@ function update_long_term_pricing(
     return snowball(
         "UpdateLongTermPricing",
         Dict{String,Any}("LongTermPricingId" => LongTermPricingId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1226,7 +1199,7 @@ function update_long_term_pricing(
                 _merge, Dict{String,Any}("LongTermPricingId" => LongTermPricingId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

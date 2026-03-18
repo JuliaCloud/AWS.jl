@@ -38,7 +38,7 @@ function create_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_confi
     return payment_cryptography(
         "CreateAlias",
         Dict{String,Any}("AliasName" => AliasName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -53,7 +53,7 @@ function create_alias(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AliasName" => AliasName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -115,7 +115,7 @@ function create_key(
     return payment_cryptography(
         "CreateKey",
         Dict{String,Any}("Exportable" => Exportable, "KeyAttributes" => KeyAttributes);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -137,7 +137,7 @@ function create_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -166,7 +166,7 @@ function delete_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_confi
     return payment_cryptography(
         "DeleteAlias",
         Dict{String,Any}("AliasName" => AliasName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -181,7 +181,7 @@ function delete_alias(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AliasName" => AliasName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -218,7 +218,7 @@ function delete_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_con
     return payment_cryptography(
         "DeleteKey",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -233,7 +233,7 @@ function delete_key(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -350,7 +350,7 @@ function export_key(
         Dict{String,Any}(
             "ExportKeyIdentifier" => ExportKeyIdentifier, "KeyMaterial" => KeyMaterial
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -373,7 +373,7 @@ function export_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -397,7 +397,7 @@ function get_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config()
     return payment_cryptography(
         "GetAlias",
         Dict{String,Any}("AliasName" => AliasName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -412,7 +412,7 @@ function get_alias(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AliasName" => AliasName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -436,7 +436,7 @@ function get_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config
     return payment_cryptography(
         "GetKey",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -451,7 +451,7 @@ function get_key(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -488,7 +488,7 @@ function get_parameters_for_export(
             "KeyMaterialType" => KeyMaterialType,
             "SigningKeyAlgorithm" => SigningKeyAlgorithm,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -511,7 +511,7 @@ function get_parameters_for_export(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -553,7 +553,7 @@ function get_parameters_for_import(
             "KeyMaterialType" => KeyMaterialType,
             "WrappingKeyAlgorithm" => WrappingKeyAlgorithm,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -576,7 +576,7 @@ function get_parameters_for_import(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -606,7 +606,7 @@ function get_public_key_certificate(
     return payment_cryptography(
         "GetPublicKeyCertificate",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -621,7 +621,7 @@ function get_public_key_certificate(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -744,7 +744,7 @@ function import_key(KeyMaterial; aws_config::AbstractAWSConfig=current_aws_confi
     return payment_cryptography(
         "ImportKey",
         Dict{String,Any}("KeyMaterial" => KeyMaterial);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -759,7 +759,7 @@ function import_key(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("KeyMaterial" => KeyMaterial), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -793,16 +793,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_aliases end
 
 function list_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
-    return payment_cryptography(
-        "ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return payment_cryptography("ListAliases"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return payment_cryptography(
-        "ListAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAliases", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -834,16 +832,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_keys end
 
 function list_keys(; aws_config::AbstractAWSConfig=current_aws_config())
-    return payment_cryptography(
-        "ListKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return payment_cryptography("ListKeys"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return payment_cryptography(
-        "ListKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListKeys", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -881,7 +877,7 @@ function list_tags_for_resource(
     return payment_cryptography(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -896,7 +892,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -924,7 +920,7 @@ function restore_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_co
     return payment_cryptography(
         "RestoreKey",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -939,7 +935,7 @@ function restore_key(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -963,7 +959,7 @@ function start_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=current_aw
     return payment_cryptography(
         "StartKeyUsage",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -978,7 +974,7 @@ function start_key_usage(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1003,7 +999,7 @@ function stop_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws
     return payment_cryptography(
         "StopKeyUsage",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1018,7 +1014,7 @@ function stop_key_usage(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("KeyIdentifier" => KeyIdentifier), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1055,7 +1051,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
     return payment_cryptography(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1075,7 +1071,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1105,7 +1101,7 @@ function untag_resource(
     return payment_cryptography(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1125,7 +1121,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1155,7 +1151,7 @@ function update_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_confi
     return payment_cryptography(
         "UpdateAlias",
         Dict{String,Any}("AliasName" => AliasName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1170,7 +1166,7 @@ function update_alias(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AliasName" => AliasName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -33,7 +33,7 @@ function batch_put_message(
         "POST",
         "/messages/batch",
         Dict{String,Any}("channelName" => channelName, "messages" => messages);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -54,7 +54,7 @@ function batch_put_message(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -79,7 +79,7 @@ function cancel_pipeline_reprocessing(
     return iotanalytics(
         "DELETE",
         "/pipelines/$(pipelineName)/reprocessing/$(reprocessingId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -94,7 +94,7 @@ function cancel_pipeline_reprocessing(
         "DELETE",
         "/pipelines/$(pipelineName)/reprocessing/$(reprocessingId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -125,7 +125,7 @@ function create_channel(channelName; aws_config::AbstractAWSConfig=current_aws_c
         "POST",
         "/channels",
         Dict{String,Any}("channelName" => channelName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -141,7 +141,7 @@ function create_channel(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("channelName" => channelName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -189,7 +189,7 @@ function create_dataset(
         "POST",
         "/datasets",
         Dict{String,Any}("actions" => actions, "datasetName" => datasetName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -210,7 +210,7 @@ function create_dataset(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -238,7 +238,7 @@ function create_dataset_content(
     return iotanalytics(
         "POST",
         "/datasets/$(datasetName)/content";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -252,7 +252,7 @@ function create_dataset_content(
         "POST",
         "/datasets/$(datasetName)/content",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -288,7 +288,7 @@ function create_datastore(datastoreName; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/datastores",
         Dict{String,Any}("datastoreName" => datastoreName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -304,7 +304,7 @@ function create_datastore(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("datastoreName" => datastoreName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -343,7 +343,7 @@ function create_pipeline(
         Dict{String,Any}(
             "pipelineActivities" => pipelineActivities, "pipelineName" => pipelineName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -367,7 +367,7 @@ function create_pipeline(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -386,10 +386,7 @@ function delete_channel end
 
 function delete_channel(channelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
-        "DELETE",
-        "/channels/$(channelName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/channels/$(channelName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -402,7 +399,7 @@ function delete_channel(
         "DELETE",
         "/channels/$(channelName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -422,10 +419,7 @@ function delete_dataset end
 
 function delete_dataset(datasetName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
-        "DELETE",
-        "/datasets/$(datasetName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/datasets/$(datasetName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -438,7 +432,7 @@ function delete_dataset(
         "DELETE",
         "/datasets/$(datasetName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -466,7 +460,7 @@ function delete_dataset_content(
     return iotanalytics(
         "DELETE",
         "/datasets/$(datasetName)/content";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -480,7 +474,7 @@ function delete_dataset_content(
         "DELETE",
         "/datasets/$(datasetName)/content",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -501,7 +495,7 @@ function delete_datastore(datastoreName; aws_config::AbstractAWSConfig=current_a
     return iotanalytics(
         "DELETE",
         "/datastores/$(datastoreName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -515,7 +509,7 @@ function delete_datastore(
         "DELETE",
         "/datastores/$(datastoreName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -534,10 +528,7 @@ function delete_pipeline end
 
 function delete_pipeline(pipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
-        "DELETE",
-        "/pipelines/$(pipelineName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/pipelines/$(pipelineName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -550,7 +541,7 @@ function delete_pipeline(
         "DELETE",
         "/pipelines/$(pipelineName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -574,10 +565,7 @@ function describe_channel end
 
 function describe_channel(channelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
-        "GET",
-        "/channels/$(channelName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/channels/$(channelName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -590,7 +578,7 @@ function describe_channel(
         "GET",
         "/channels/$(channelName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -609,10 +597,7 @@ function describe_dataset end
 
 function describe_dataset(datasetName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
-        "GET",
-        "/datasets/$(datasetName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/datasets/$(datasetName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -625,7 +610,7 @@ function describe_dataset(
         "GET",
         "/datasets/$(datasetName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -651,10 +636,7 @@ function describe_datastore(
     datastoreName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotanalytics(
-        "GET",
-        "/datastores/$(datastoreName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/datastores/$(datastoreName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -667,7 +649,7 @@ function describe_datastore(
         "GET",
         "/datastores/$(datastoreName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -682,16 +664,14 @@ Retrieves the current settings of the IoT Analytics logging options.
 function describe_logging_options end
 
 function describe_logging_options(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotanalytics(
-        "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotanalytics("GET", "/logging"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotanalytics(
-        "GET", "/logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/logging", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -709,10 +689,7 @@ function describe_pipeline end
 
 function describe_pipeline(pipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
-        "GET",
-        "/pipelines/$(pipelineName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/pipelines/$(pipelineName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -725,7 +702,7 @@ function describe_pipeline(
         "GET",
         "/pipelines/$(pipelineName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -754,7 +731,7 @@ function get_dataset_content(
     return iotanalytics(
         "GET",
         "/datasets/$(datasetName)/content";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -768,7 +745,7 @@ function get_dataset_content(
         "GET",
         "/datasets/$(datasetName)/content",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -788,16 +765,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_channels end
 
 function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotanalytics(
-        "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotanalytics("GET", "/channels"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotanalytics(
-        "GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/channels", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -829,7 +804,7 @@ function list_dataset_contents(
     return iotanalytics(
         "GET",
         "/datasets/$(datasetName)/contents";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -843,7 +818,7 @@ function list_dataset_contents(
         "GET",
         "/datasets/$(datasetName)/contents",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -863,16 +838,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_datasets end
 
 function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotanalytics(
-        "GET", "/datasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotanalytics("GET", "/datasets"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotanalytics(
-        "GET", "/datasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/datasets", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -891,16 +864,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_datastores end
 
 function list_datastores(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotanalytics(
-        "GET", "/datastores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotanalytics("GET", "/datastores"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_datastores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotanalytics(
-        "GET", "/datastores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/datastores", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -919,16 +890,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_pipelines end
 
 function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotanalytics(
-        "GET", "/pipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iotanalytics("GET", "/pipelines"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotanalytics(
-        "GET", "/pipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/pipelines", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -951,7 +920,7 @@ function list_tags_for_resource(
         "GET",
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -967,7 +936,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -994,7 +963,7 @@ function put_logging_options(
         "PUT",
         "/logging",
         Dict{String,Any}("loggingOptions" => loggingOptions);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1010,7 +979,7 @@ function put_logging_options(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("loggingOptions" => loggingOptions), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1039,7 +1008,7 @@ function run_pipeline_activity(
         "POST",
         "/pipelineactivities/run",
         Dict{String,Any}("payloads" => payloads, "pipelineActivity" => pipelineActivity);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1062,7 +1031,7 @@ function run_pipeline_activity(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1092,7 +1061,7 @@ function sample_channel_data(
     return iotanalytics(
         "GET",
         "/channels/$(channelName)/sample";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1106,7 +1075,7 @@ function sample_channel_data(
         "GET",
         "/channels/$(channelName)/sample",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1138,7 +1107,7 @@ function start_pipeline_reprocessing(
     return iotanalytics(
         "POST",
         "/pipelines/$(pipelineName)/reprocessing";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1152,7 +1121,7 @@ function start_pipeline_reprocessing(
         "POST",
         "/pipelines/$(pipelineName)/reprocessing",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1176,7 +1145,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1197,7 +1166,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1222,7 +1191,7 @@ function untag_resource(
         "DELETE",
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1243,7 +1212,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1269,10 +1238,7 @@ function update_channel end
 
 function update_channel(channelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
-        "PUT",
-        "/channels/$(channelName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PUT", "/channels/$(channelName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1285,7 +1251,7 @@ function update_channel(
         "PUT",
         "/channels/$(channelName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1324,7 +1290,7 @@ function update_dataset(
         "PUT",
         "/datasets/$(datasetName)",
         Dict{String,Any}("actions" => actions);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1339,7 +1305,7 @@ function update_dataset(
         "PUT",
         "/datasets/$(datasetName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("actions" => actions), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1369,10 +1335,7 @@ function update_datastore end
 
 function update_datastore(datastoreName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
-        "PUT",
-        "/datastores/$(datastoreName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PUT", "/datastores/$(datastoreName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1385,7 +1348,7 @@ function update_datastore(
         "PUT",
         "/datastores/$(datastoreName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1418,7 +1381,7 @@ function update_pipeline(
         "PUT",
         "/pipelines/$(pipelineName)",
         Dict{String,Any}("pipelineActivities" => pipelineActivities);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1437,7 +1400,7 @@ function update_pipeline(
                 _merge, Dict{String,Any}("pipelineActivities" => pipelineActivities), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -31,7 +31,7 @@ function send_serial_console_sshpublic_key(
     return ec2_instance_connect(
         "SendSerialConsoleSSHPublicKey",
         Dict{String,Any}("InstanceId" => InstanceId, "SSHPublicKey" => SSHPublicKey);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -53,7 +53,7 @@ function send_serial_console_sshpublic_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -92,7 +92,7 @@ function send_sshpublic_key(
             "InstanceOSUser" => InstanceOSUser,
             "SSHPublicKey" => SSHPublicKey,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -117,7 +117,7 @@ function send_sshpublic_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

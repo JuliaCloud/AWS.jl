@@ -32,7 +32,7 @@ function accept_administrator_invitation(
         Dict{String,Any}(
             "AdministratorId" => AdministratorId, "InvitationId" => InvitationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -55,7 +55,7 @@ function accept_administrator_invitation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -92,7 +92,7 @@ function accept_invitation(
         "POST",
         "/master",
         Dict{String,Any}("InvitationId" => InvitationId, "MasterId" => MasterId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -113,7 +113,7 @@ function accept_invitation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -138,7 +138,7 @@ function batch_delete_automation_rules(
         "POST",
         "/automationrules/delete",
         Dict{String,Any}("AutomationRulesArns" => AutomationRulesArns);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -158,7 +158,7 @@ function batch_delete_automation_rules(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -183,7 +183,7 @@ function batch_disable_standards(
         "POST",
         "/standards/deregister",
         Dict{String,Any}("StandardsSubscriptionArns" => StandardsSubscriptionArns);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -203,7 +203,7 @@ function batch_disable_standards(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -229,7 +229,7 @@ function batch_enable_standards(
         "POST",
         "/standards/register",
         Dict{String,Any}("StandardsSubscriptionRequests" => StandardsSubscriptionRequests);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -251,7 +251,7 @@ function batch_enable_standards(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -276,7 +276,7 @@ function batch_get_automation_rules(
         "POST",
         "/automationrules/get",
         Dict{String,Any}("AutomationRulesArns" => AutomationRulesArns);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -296,7 +296,7 @@ function batch_get_automation_rules(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -328,7 +328,7 @@ function batch_get_configuration_policy_associations(
             "ConfigurationPolicyAssociationIdentifiers" =>
                 ConfigurationPolicyAssociationIdentifiers,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -351,7 +351,7 @@ function batch_get_configuration_policy_associations(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -378,7 +378,7 @@ function batch_get_security_controls(
         "POST",
         "/securityControls/batchGet",
         Dict{String,Any}("SecurityControlIds" => SecurityControlIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -396,7 +396,7 @@ function batch_get_security_controls(
                 _merge, Dict{String,Any}("SecurityControlIds" => SecurityControlIds), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -427,7 +427,7 @@ function batch_get_standards_control_associations(
         Dict{String,Any}(
             "StandardsControlAssociationIds" => StandardsControlAssociationIds
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -449,7 +449,7 @@ function batch_get_standards_control_associations(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -488,7 +488,7 @@ function batch_import_findings(Findings; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/findings/import",
         Dict{String,Any}("Findings" => Findings);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -504,7 +504,7 @@ function batch_import_findings(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Findings" => Findings), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -532,7 +532,7 @@ function batch_update_automation_rules(
         Dict{String,Any}(
             "UpdateAutomationRulesRequestItems" => UpdateAutomationRulesRequestItems
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -554,7 +554,7 @@ function batch_update_automation_rules(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -614,7 +614,7 @@ function batch_update_findings(
         "PATCH",
         "/findings/batchupdate",
         Dict{String,Any}("FindingIdentifiers" => FindingIdentifiers);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -632,7 +632,7 @@ function batch_update_findings(
                 _merge, Dict{String,Any}("FindingIdentifiers" => FindingIdentifiers), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -660,7 +660,7 @@ function batch_update_standards_control_associations(
         Dict{String,Any}(
             "StandardsControlAssociationUpdates" => StandardsControlAssociationUpdates
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -683,7 +683,7 @@ function batch_update_standards_control_associations(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -710,7 +710,7 @@ function create_action_target(
         "POST",
         "/actionTargets",
         Dict{String,Any}("Description" => Description, "Id" => Id, "Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -732,7 +732,7 @@ function create_action_target(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -789,7 +789,7 @@ function create_automation_rule(
             "RuleName" => RuleName,
             "RuleOrder" => RuleOrder,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -819,7 +819,7 @@ function create_automation_rule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -858,7 +858,7 @@ function create_configuration_policy(
         "POST",
         "/configurationPolicy/create",
         Dict{String,Any}("ConfigurationPolicy" => ConfigurationPolicy, "Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -881,7 +881,7 @@ function create_configuration_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -927,7 +927,7 @@ function create_finding_aggregator(
         "POST",
         "/findingAggregator/create",
         Dict{String,Any}("RegionLinkingMode" => RegionLinkingMode);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -945,7 +945,7 @@ function create_finding_aggregator(
                 _merge, Dict{String,Any}("RegionLinkingMode" => RegionLinkingMode), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -979,7 +979,7 @@ function create_insight(
         Dict{String,Any}(
             "Filters" => Filters, "GroupByAttribute" => GroupByAttribute, "Name" => Name
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1005,7 +1005,7 @@ function create_insight(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1051,7 +1051,7 @@ function create_members(AccountDetails; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/members",
         Dict{String,Any}("AccountDetails" => AccountDetails);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1067,7 +1067,7 @@ function create_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountDetails" => AccountDetails), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1093,7 +1093,7 @@ function decline_invitations(AccountIds; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/invitations/decline",
         Dict{String,Any}("AccountIds" => AccountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1109,7 +1109,7 @@ function decline_invitations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1134,7 +1134,7 @@ function delete_action_target(
     return securityhub(
         "DELETE",
         "/actionTargets/$(ActionTargetArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1148,7 +1148,7 @@ function delete_action_target(
         "DELETE",
         "/actionTargets/$(ActionTargetArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1175,7 +1175,7 @@ function delete_configuration_policy(
     return securityhub(
         "DELETE",
         "/configurationPolicy/$(Identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1189,7 +1189,7 @@ function delete_configuration_policy(
         "DELETE",
         "/configurationPolicy/$(Identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1216,7 +1216,7 @@ function delete_finding_aggregator(
     return securityhub(
         "DELETE",
         "/findingAggregator/delete/$(FindingAggregatorArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1230,7 +1230,7 @@ function delete_finding_aggregator(
         "DELETE",
         "/findingAggregator/delete/$(FindingAggregatorArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1249,10 +1249,7 @@ function delete_insight end
 
 function delete_insight(InsightArn; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
-        "DELETE",
-        "/insights/$(InsightArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/insights/$(InsightArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1265,7 +1262,7 @@ function delete_insight(
         "DELETE",
         "/insights/$(InsightArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1292,7 +1289,7 @@ function delete_invitations(AccountIds; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/invitations/delete",
         Dict{String,Any}("AccountIds" => AccountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1308,7 +1305,7 @@ function delete_invitations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1332,7 +1329,7 @@ function delete_members(AccountIds; aws_config::AbstractAWSConfig=current_aws_co
         "POST",
         "/members/delete",
         Dict{String,Any}("AccountIds" => AccountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1348,7 +1345,7 @@ function delete_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1373,7 +1370,7 @@ function describe_action_targets end
 
 function describe_action_targets(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
-        "POST", "/actionTargets/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/actionTargets/get"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1381,11 +1378,7 @@ function describe_action_targets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "POST",
-        "/actionTargets/get",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/actionTargets/get", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1403,16 +1396,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_hub end
 
 function describe_hub(; aws_config::AbstractAWSConfig=current_aws_config())
-    return securityhub(
-        "GET", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/accounts"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_hub(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/accounts", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1430,10 +1421,7 @@ function describe_organization_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET",
-        "/organization/configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/organization/configuration"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1444,7 +1432,7 @@ function describe_organization_configuration(
         "GET",
         "/organization/configuration",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1470,16 +1458,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_products end
 
 function describe_products(; aws_config::AbstractAWSConfig=current_aws_config())
-    return securityhub(
-        "GET", "/products"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/products"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_products(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET", "/products", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/products", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1501,16 +1487,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_standards end
 
 function describe_standards(; aws_config::AbstractAWSConfig=current_aws_config())
-    return securityhub(
-        "GET", "/standards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/standards"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_standards(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET", "/standards", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/standards", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1543,7 +1527,7 @@ function describe_standards_controls(
     return securityhub(
         "GET",
         "/standards/controls/$(StandardsSubscriptionArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1557,7 +1541,7 @@ function describe_standards_controls(
         "GET",
         "/standards/controls/$(StandardsSubscriptionArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1582,7 +1566,7 @@ function disable_import_findings_for_product(
     return securityhub(
         "DELETE",
         "/productSubscriptions/$(ProductSubscriptionArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1596,7 +1580,7 @@ function disable_import_findings_for_product(
         "DELETE",
         "/productSubscriptions/$(ProductSubscriptionArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1622,7 +1606,7 @@ function disable_organization_admin_account(
         "POST",
         "/organization/admin/disable",
         Dict{String,Any}("AdminAccountId" => AdminAccountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1638,7 +1622,7 @@ function disable_organization_admin_account(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AdminAccountId" => AdminAccountId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1660,20 +1644,14 @@ must export them before you disable Security Hub.
 function disable_security_hub end
 
 function disable_security_hub(; aws_config::AbstractAWSConfig=current_aws_config())
-    return securityhub(
-        "DELETE", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("DELETE", "/accounts"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function disable_security_hub(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "DELETE",
-        "/accounts",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/accounts", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1692,10 +1670,7 @@ function disassociate_from_administrator_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "POST",
-        "/administrator/disassociate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/administrator/disassociate"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1706,7 +1681,7 @@ function disassociate_from_administrator_account(
         "POST",
         "/administrator/disassociate",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1733,10 +1708,7 @@ function disassociate_from_master_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "POST",
-        "/master/disassociate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/master/disassociate"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1744,11 +1716,7 @@ function disassociate_from_master_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "POST",
-        "/master/disassociate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/master/disassociate", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1774,7 +1742,7 @@ function disassociate_members(
         "POST",
         "/members/disassociate",
         Dict{String,Any}("AccountIds" => AccountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1790,7 +1758,7 @@ function disassociate_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1816,7 +1784,7 @@ function enable_import_findings_for_product(
         "POST",
         "/productSubscriptions",
         Dict{String,Any}("ProductArn" => ProductArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1832,7 +1800,7 @@ function enable_import_findings_for_product(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ProductArn" => ProductArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1858,7 +1826,7 @@ function enable_organization_admin_account(
         "POST",
         "/organization/admin/enable",
         Dict{String,Any}("AdminAccountId" => AdminAccountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1874,7 +1842,7 @@ function enable_organization_admin_account(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AdminAccountId" => AdminAccountId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1915,16 +1883,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function enable_security_hub end
 
 function enable_security_hub(; aws_config::AbstractAWSConfig=current_aws_config())
-    return securityhub(
-        "POST", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("POST", "/accounts"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function enable_security_hub(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "POST", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/accounts", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1940,20 +1906,14 @@ accounts that were invited manually.
 function get_administrator_account end
 
 function get_administrator_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return securityhub(
-        "GET", "/administrator"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/administrator"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_administrator_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET",
-        "/administrator",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/administrator", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1977,7 +1937,7 @@ function get_configuration_policy(
     return securityhub(
         "GET",
         "/configurationPolicy/get/$(Identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1991,7 +1951,7 @@ function get_configuration_policy(
         "GET",
         "/configurationPolicy/get/$(Identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2018,7 +1978,7 @@ function get_configuration_policy_association(
         "POST",
         "/configurationPolicyAssociation/get",
         Dict{String,Any}("Target" => Target);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2030,7 +1990,7 @@ function get_configuration_policy_association(
         "POST",
         "/configurationPolicyAssociation/get",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Target" => Target), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2055,7 +2015,7 @@ function get_enabled_standards end
 
 function get_enabled_standards(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
-        "POST", "/standards/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/standards/get"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2063,11 +2023,7 @@ function get_enabled_standards(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "POST",
-        "/standards/get",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/standards/get", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2090,7 +2046,7 @@ function get_finding_aggregator(
     return securityhub(
         "GET",
         "/findingAggregator/get/$(FindingAggregatorArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2104,7 +2060,7 @@ function get_finding_aggregator(
         "GET",
         "/findingAggregator/get/$(FindingAggregatorArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2172,7 +2128,7 @@ function get_finding_history(
         "POST",
         "/findingHistory/get",
         Dict{String,Any}("FindingIdentifier" => FindingIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2190,7 +2146,7 @@ function get_finding_history(
                 _merge, Dict{String,Any}("FindingIdentifier" => FindingIdentifier), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2219,16 +2175,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_findings end
 
 function get_findings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return securityhub(
-        "POST", "/findings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("POST", "/findings"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "POST", "/findings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/findings", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2248,7 +2202,7 @@ function get_insight_results(InsightArn; aws_config::AbstractAWSConfig=current_a
     return securityhub(
         "GET",
         "/insights/results/$(InsightArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2262,7 +2216,7 @@ function get_insight_results(
         "GET",
         "/insights/results/$(InsightArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2287,20 +2241,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_insights end
 
 function get_insights(; aws_config::AbstractAWSConfig=current_aws_config())
-    return securityhub(
-        "POST", "/insights/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("POST", "/insights/get"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_insights(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "POST",
-        "/insights/get",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/insights/get", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2316,7 +2264,7 @@ function get_invitations_count end
 
 function get_invitations_count(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
-        "GET", "/invitations/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/invitations/count"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2324,11 +2272,7 @@ function get_invitations_count(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET",
-        "/invitations/count",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/invitations/count", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2349,16 +2293,14 @@ managed using Organizations and accounts that were invited manually.
 function get_master_account end
 
 function get_master_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return securityhub(
-        "GET", "/master"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/master"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_master_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET", "/master", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/master", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2384,7 +2326,7 @@ function get_members(AccountIds; aws_config::AbstractAWSConfig=current_aws_confi
         "POST",
         "/members/get",
         Dict{String,Any}("AccountIds" => AccountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2400,7 +2342,7 @@ function get_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2426,7 +2368,7 @@ function get_security_control_definition(
         "GET",
         "/securityControl/definition",
         Dict{String,Any}("SecurityControlId" => SecurityControlId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2444,7 +2386,7 @@ function get_security_control_definition(
                 _merge, Dict{String,Any}("SecurityControlId" => SecurityControlId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2473,7 +2415,7 @@ function invite_members(AccountIds; aws_config::AbstractAWSConfig=current_aws_co
         "POST",
         "/members/invite",
         Dict{String,Any}("AccountIds" => AccountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2489,7 +2431,7 @@ function invite_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2512,10 +2454,7 @@ function list_automation_rules end
 
 function list_automation_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
-        "GET",
-        "/automationrules/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/automationrules/list"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2523,11 +2462,7 @@ function list_automation_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET",
-        "/automationrules/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/automationrules/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2558,10 +2493,7 @@ function list_configuration_policies end
 
 function list_configuration_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
-        "GET",
-        "/configurationPolicy/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/configurationPolicy/list"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2572,7 +2504,7 @@ function list_configuration_policies(
         "GET",
         "/configurationPolicy/list",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2610,7 +2542,7 @@ function list_configuration_policy_associations(;
     return securityhub(
         "POST",
         "/configurationPolicyAssociation/list";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2622,7 +2554,7 @@ function list_configuration_policy_associations(
         "POST",
         "/configurationPolicyAssociation/list",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2648,10 +2580,7 @@ function list_enabled_products_for_import(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET",
-        "/productSubscriptions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/productSubscriptions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2659,11 +2588,7 @@ function list_enabled_products_for_import(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET",
-        "/productSubscriptions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/productSubscriptions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2685,10 +2610,7 @@ function list_finding_aggregators end
 
 function list_finding_aggregators(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
-        "GET",
-        "/findingAggregator/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/findingAggregator/list"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2699,7 +2621,7 @@ function list_finding_aggregators(
         "GET",
         "/findingAggregator/list",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2724,20 +2646,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_invitations end
 
 function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return securityhub(
-        "GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/invitations"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET",
-        "/invitations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/invitations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2765,16 +2681,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_members end
 
 function list_members(; aws_config::AbstractAWSConfig=current_aws_config())
-    return securityhub(
-        "GET", "/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("GET", "/members"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_members(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET", "/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/members", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2799,7 +2713,7 @@ function list_organization_admin_accounts(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET", "/organization/admin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/organization/admin"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2807,11 +2721,7 @@ function list_organization_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET",
-        "/organization/admin",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/organization/admin", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2838,10 +2748,7 @@ function list_security_control_definitions(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET",
-        "/securityControls/definitions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/securityControls/definitions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2852,7 +2759,7 @@ function list_security_control_definitions(
         "GET",
         "/securityControls/definitions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2889,7 +2796,7 @@ function list_standards_control_associations(
         "GET",
         "/associations",
         Dict{String,Any}("SecurityControlId" => SecurityControlId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2907,7 +2814,7 @@ function list_standards_control_associations(
                 _merge, Dict{String,Any}("SecurityControlId" => SecurityControlId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2928,10 +2835,7 @@ function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "GET",
-        "/tags/$(ResourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2941,11 +2845,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return securityhub(
-        "GET",
-        "/tags/$(ResourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2980,7 +2880,7 @@ function start_configuration_policy_association(
             "ConfigurationPolicyIdentifier" => ConfigurationPolicyIdentifier,
             "Target" => Target,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3004,7 +2904,7 @@ function start_configuration_policy_association(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3039,7 +2939,7 @@ function start_configuration_policy_disassociation(
         "POST",
         "/configurationPolicyAssociation/disassociate",
         Dict{String,Any}("ConfigurationPolicyIdentifier" => ConfigurationPolicyIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3061,7 +2961,7 @@ function start_configuration_policy_disassociation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3086,7 +2986,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3101,7 +3001,7 @@ function tag_resource(
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3127,7 +3027,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3142,7 +3042,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3169,7 +3069,7 @@ function update_action_target(
     return securityhub(
         "PATCH",
         "/actionTargets/$(ActionTargetArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3183,7 +3083,7 @@ function update_action_target(
         "PATCH",
         "/actionTargets/$(ActionTargetArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3224,7 +3124,7 @@ function update_configuration_policy(
     return securityhub(
         "PATCH",
         "/configurationPolicy/$(Identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3238,7 +3138,7 @@ function update_configuration_policy(
         "PATCH",
         "/configurationPolicy/$(Identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3292,7 +3192,7 @@ function update_finding_aggregator(
             "FindingAggregatorArn" => FindingAggregatorArn,
             "RegionLinkingMode" => RegionLinkingMode,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3316,7 +3216,7 @@ function update_finding_aggregator(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3348,7 +3248,7 @@ function update_findings(Filters; aws_config::AbstractAWSConfig=current_aws_conf
         "PATCH",
         "/findings",
         Dict{String,Any}("Filters" => Filters);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3362,7 +3262,7 @@ function update_findings(
         "PATCH",
         "/findings",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3386,10 +3286,7 @@ function update_insight end
 
 function update_insight(InsightArn; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
-        "PATCH",
-        "/insights/$(InsightArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PATCH", "/insights/$(InsightArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3402,7 +3299,7 @@ function update_insight(
         "PATCH",
         "/insights/$(InsightArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3446,7 +3343,7 @@ function update_organization_configuration(
         "POST",
         "/organization/configuration",
         Dict{String,Any}("AutoEnable" => AutoEnable);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3462,7 +3359,7 @@ function update_organization_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AutoEnable" => AutoEnable), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3494,7 +3391,7 @@ function update_security_control(
         Dict{String,Any}(
             "Parameters" => Parameters, "SecurityControlId" => SecurityControlId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3517,7 +3414,7 @@ function update_security_control(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3546,16 +3443,14 @@ function update_security_hub_configuration end
 function update_security_hub_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return securityhub(
-        "PATCH", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return securityhub("PATCH", "/accounts"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function update_security_hub_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return securityhub(
-        "PATCH", "/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH", "/accounts", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3582,7 +3477,7 @@ function update_standards_control(
     return securityhub(
         "PATCH",
         "/standards/control/$(StandardsControlArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3596,7 +3491,7 @@ function update_standards_control(
         "PATCH",
         "/standards/control/$(StandardsControlArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

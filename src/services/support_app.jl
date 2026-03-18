@@ -62,7 +62,7 @@ function create_slack_channel_configuration(
             "notifyOnCaseSeverity" => notifyOnCaseSeverity,
             "teamId" => teamId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -90,7 +90,7 @@ function create_slack_channel_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -108,10 +108,7 @@ function delete_account_alias end
 
 function delete_account_alias(; aws_config::AbstractAWSConfig=current_aws_config())
     return support_app(
-        "POST",
-        "/control/delete-account-alias";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/control/delete-account-alias"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -122,7 +119,7 @@ function delete_account_alias(
         "POST",
         "/control/delete-account-alias",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -150,7 +147,7 @@ function delete_slack_channel_configuration(
         "POST",
         "/control/delete-slack-channel-configuration",
         Dict{String,Any}("channelId" => channelId, "teamId" => teamId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -171,7 +168,7 @@ function delete_slack_channel_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -197,7 +194,7 @@ function delete_slack_workspace_configuration(
         "POST",
         "/control/delete-slack-workspace-configuration",
         Dict{String,Any}("teamId" => teamId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -209,7 +206,7 @@ function delete_slack_workspace_configuration(
         "POST",
         "/control/delete-slack-workspace-configuration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("teamId" => teamId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -227,10 +224,7 @@ function get_account_alias end
 
 function get_account_alias(; aws_config::AbstractAWSConfig=current_aws_config())
     return support_app(
-        "POST",
-        "/control/get-account-alias";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/control/get-account-alias"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -241,7 +235,7 @@ function get_account_alias(
         "POST",
         "/control/get-account-alias",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -267,7 +261,7 @@ function list_slack_channel_configurations(;
     return support_app(
         "POST",
         "/control/list-slack-channel-configurations";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -279,7 +273,7 @@ function list_slack_channel_configurations(
         "POST",
         "/control/list-slack-channel-configurations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -305,7 +299,7 @@ function list_slack_workspace_configurations(;
     return support_app(
         "POST",
         "/control/list-slack-workspace-configurations";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -317,7 +311,7 @@ function list_slack_workspace_configurations(
         "POST",
         "/control/list-slack-workspace-configurations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -341,7 +335,7 @@ function put_account_alias(accountAlias; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/control/put-account-alias",
         Dict{String,Any}("accountAlias" => accountAlias);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -357,7 +351,7 @@ function put_account_alias(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountAlias" => accountAlias), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -397,7 +391,7 @@ function register_slack_workspace_for_organization(
         "POST",
         "/control/register-slack-workspace-for-organization",
         Dict{String,Any}("teamId" => teamId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -409,7 +403,7 @@ function register_slack_workspace_for_organization(
         "POST",
         "/control/register-slack-workspace-for-organization",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("teamId" => teamId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -455,7 +449,7 @@ function update_slack_channel_configuration(
         "POST",
         "/control/update-slack-channel-configuration",
         Dict{String,Any}("channelId" => channelId, "teamId" => teamId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -476,7 +470,7 @@ function update_slack_channel_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

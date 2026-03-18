@@ -112,7 +112,7 @@ function create_delivery_stream(
     return firehose(
         "CreateDeliveryStream",
         Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -129,7 +129,7 @@ function create_delivery_stream(
                 _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -171,7 +171,7 @@ function delete_delivery_stream(
     return firehose(
         "DeleteDeliveryStream",
         Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -188,7 +188,7 @@ function delete_delivery_stream(
                 _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -223,7 +223,7 @@ function describe_delivery_stream(
     return firehose(
         "DescribeDeliveryStream",
         Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -240,7 +240,7 @@ function describe_delivery_stream(
                 _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -272,19 +272,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_delivery_streams end
 
 function list_delivery_streams(; aws_config::AbstractAWSConfig=current_aws_config())
-    return firehose(
-        "ListDeliveryStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return firehose("ListDeliveryStreams"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_delivery_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
-        "ListDeliveryStreams",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListDeliveryStreams", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -315,7 +310,7 @@ function list_tags_for_delivery_stream(
     return firehose(
         "ListTagsForDeliveryStream",
         Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -332,7 +327,7 @@ function list_tags_for_delivery_stream(
                 _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -384,7 +379,7 @@ function put_record(
     return firehose(
         "PutRecord",
         Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "Record" => Record);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -406,7 +401,7 @@ function put_record(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -474,7 +469,7 @@ function put_record_batch(
     return firehose(
         "PutRecordBatch",
         Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "Records" => Records);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -496,7 +491,7 @@ function put_record_batch(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -553,7 +548,7 @@ function start_delivery_stream_encryption(
     return firehose(
         "StartDeliveryStreamEncryption",
         Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -570,7 +565,7 @@ function start_delivery_stream_encryption(
                 _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -608,7 +603,7 @@ function stop_delivery_stream_encryption(
     return firehose(
         "StopDeliveryStreamEncryption",
         Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -625,7 +620,7 @@ function stop_delivery_stream_encryption(
                 _merge, Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -656,7 +651,7 @@ function tag_delivery_stream(
     return firehose(
         "TagDeliveryStream",
         Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -678,7 +673,7 @@ function tag_delivery_stream(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -706,7 +701,7 @@ function untag_delivery_stream(
     return firehose(
         "UntagDeliveryStream",
         Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -728,7 +723,7 @@ function untag_delivery_stream(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -802,7 +797,7 @@ function update_destination(
             "DeliveryStreamName" => DeliveryStreamName,
             "DestinationId" => DestinationId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -827,7 +822,7 @@ function update_destination(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

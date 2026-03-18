@@ -37,7 +37,7 @@ function add_tags_to_certificate(
     return acm(
         "AddTagsToCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -57,7 +57,7 @@ function add_tags_to_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -89,7 +89,7 @@ function delete_certificate(
     return acm(
         "DeleteCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -104,7 +104,7 @@ function delete_certificate(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CertificateArn" => CertificateArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -132,7 +132,7 @@ function describe_certificate(
     return acm(
         "DescribeCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -147,7 +147,7 @@ function describe_certificate(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CertificateArn" => CertificateArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -181,7 +181,7 @@ function export_certificate(
     return acm(
         "ExportCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn, "Passphrase" => Passphrase);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -203,7 +203,7 @@ function export_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -218,19 +218,14 @@ Returns the account configuration options associated with an Amazon Web Services
 function get_account_configuration end
 
 function get_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
-    return acm(
-        "GetAccountConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return acm("GetAccountConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_account_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm(
-        "GetAccountConfiguration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetAccountConfiguration", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -257,7 +252,7 @@ function get_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_a
     return acm(
         "GetCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -272,7 +267,7 @@ function get_certificate(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CertificateArn" => CertificateArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -327,7 +322,7 @@ function import_certificate(
     return acm(
         "ImportCertificate",
         Dict{String,Any}("Certificate" => Certificate, "PrivateKey" => PrivateKey);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -347,7 +342,7 @@ function import_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -383,15 +378,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_certificates end
 
 function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
-    return acm("ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return acm("ListCertificates"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return acm(
-        "ListCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return acm("ListCertificates", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -417,7 +410,7 @@ function list_tags_for_certificate(
     return acm(
         "ListTagsForCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -432,7 +425,7 @@ function list_tags_for_certificate(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CertificateArn" => CertificateArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -466,7 +459,7 @@ function put_account_configuration(
     return acm(
         "PutAccountConfiguration",
         Dict{String,Any}("IdempotencyToken" => IdempotencyToken);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -483,7 +476,7 @@ function put_account_configuration(
                 _merge, Dict{String,Any}("IdempotencyToken" => IdempotencyToken), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -515,7 +508,7 @@ function remove_tags_from_certificate(
     return acm(
         "RemoveTagsFromCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -535,7 +528,7 @@ function remove_tags_from_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -564,7 +557,7 @@ function renew_certificate(
     return acm(
         "RenewCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -579,7 +572,7 @@ function renew_certificate(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CertificateArn" => CertificateArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -670,7 +663,7 @@ function request_certificate(DomainName; aws_config::AbstractAWSConfig=current_a
     return acm(
         "RequestCertificate",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -685,7 +678,7 @@ function request_certificate(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -737,7 +730,7 @@ function resend_validation_email(
             "Domain" => Domain,
             "ValidationDomain" => ValidationDomain,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -762,7 +755,7 @@ function resend_validation_email(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -792,7 +785,7 @@ function update_certificate_options(
     return acm(
         "UpdateCertificateOptions",
         Dict{String,Any}("CertificateArn" => CertificateArn, "Options" => Options);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -812,7 +805,7 @@ function update_certificate_options(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

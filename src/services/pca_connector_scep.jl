@@ -37,7 +37,7 @@ function create_challenge(ConnectorArn; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/challenges",
         Dict{String,Any}("ConnectorArn" => ConnectorArn, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -59,7 +59,7 @@ function create_challenge(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -113,7 +113,7 @@ function create_connector(
             "CertificateAuthorityArn" => CertificateAuthorityArn,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -136,7 +136,7 @@ function create_connector(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -155,10 +155,7 @@ function delete_challenge end
 
 function delete_challenge(ChallengeArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_scep(
-        "DELETE",
-        "/challenges/$(ChallengeArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/challenges/$(ChallengeArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -171,7 +168,7 @@ function delete_challenge(
         "DELETE",
         "/challenges/$(ChallengeArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -191,10 +188,7 @@ function delete_connector end
 
 function delete_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_scep(
-        "DELETE",
-        "/connectors/$(ConnectorArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/connectors/$(ConnectorArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -207,7 +201,7 @@ function delete_connector(
         "DELETE",
         "/connectors/$(ConnectorArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -230,7 +224,7 @@ function get_challenge_metadata(
     return pca_connector_scep(
         "GET",
         "/challengeMetadata/$(ChallengeArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -244,7 +238,7 @@ function get_challenge_metadata(
         "GET",
         "/challengeMetadata/$(ChallengeArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -267,7 +261,7 @@ function get_challenge_password(
     return pca_connector_scep(
         "GET",
         "/challengePasswords/$(ChallengeArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -281,7 +275,7 @@ function get_challenge_password(
         "GET",
         "/challengePasswords/$(ChallengeArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -302,10 +296,7 @@ function get_connector end
 
 function get_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_scep(
-        "GET",
-        "/connectors/$(ConnectorArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/connectors/$(ConnectorArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -318,7 +309,7 @@ function get_connector(
         "GET",
         "/connectors/$(ConnectorArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -352,7 +343,7 @@ function list_challenge_metadata(
         "GET",
         "/challengeMetadata",
         Dict{String,Any}("ConnectorArn" => ConnectorArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -368,7 +359,7 @@ function list_challenge_metadata(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ConnectorArn" => ConnectorArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -394,7 +385,7 @@ function list_connectors end
 
 function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_scep(
-        "GET", "/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/connectors"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -402,7 +393,7 @@ function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pca_connector_scep(
-        "GET", "/connectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/connectors", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -426,10 +417,7 @@ function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pca_connector_scep(
-        "GET",
-        "/tags/$(ResourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -439,11 +427,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pca_connector_scep(
-        "GET",
-        "/tags/$(ResourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -465,7 +449,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -480,7 +464,7 @@ function tag_resource(
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -506,7 +490,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -521,7 +505,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

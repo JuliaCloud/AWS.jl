@@ -38,7 +38,7 @@ function batch_meter_usage(
     return marketplace_metering(
         "BatchMeterUsage",
         Dict{String,Any}("ProductCode" => ProductCode, "UsageRecords" => UsageRecords);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -60,7 +60,7 @@ function batch_meter_usage(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -111,7 +111,7 @@ function meter_usage(
             "Timestamp" => Timestamp,
             "UsageDimension" => UsageDimension,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -136,7 +136,7 @@ function meter_usage(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -191,7 +191,7 @@ function register_usage(
         Dict{String,Any}(
             "ProductCode" => ProductCode, "PublicKeyVersion" => PublicKeyVersion
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -213,7 +213,7 @@ function register_usage(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -244,7 +244,7 @@ function resolve_customer(
     return marketplace_metering(
         "ResolveCustomer",
         Dict{String,Any}("RegistrationToken" => RegistrationToken);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -261,7 +261,7 @@ function resolve_customer(
                 _merge, Dict{String,Any}("RegistrationToken" => RegistrationToken), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -27,7 +27,7 @@ function associate_entities_to_experience(
     return kendra(
         "AssociateEntitiesToExperience",
         Dict{String,Any}("EntityList" => EntityList, "Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -50,7 +50,7 @@ function associate_entities_to_experience(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -80,7 +80,7 @@ function associate_personas_to_entities(
     return kendra(
         "AssociatePersonasToEntities",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId, "Personas" => Personas);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -101,7 +101,7 @@ function associate_personas_to_entities(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -134,7 +134,7 @@ function batch_delete_document(
     return kendra(
         "BatchDeleteDocument",
         Dict{String,Any}("DocumentIdList" => DocumentIdList, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -154,7 +154,7 @@ function batch_delete_document(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -183,7 +183,7 @@ function batch_delete_featured_results_set(
         Dict{String,Any}(
             "FeaturedResultsSetIds" => FeaturedResultsSetIds, "IndexId" => IndexId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -205,7 +205,7 @@ function batch_delete_featured_results_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -237,7 +237,7 @@ function batch_get_document_status(
     return kendra(
         "BatchGetDocumentStatus",
         Dict{String,Any}("DocumentInfoList" => DocumentInfoList, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -259,7 +259,7 @@ function batch_get_document_status(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -303,7 +303,7 @@ function batch_put_document(
     return kendra(
         "BatchPutDocument",
         Dict{String,Any}("Documents" => Documents, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -323,7 +323,7 @@ function batch_put_document(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -351,7 +351,7 @@ function clear_query_suggestions(
     return kendra(
         "ClearQuerySuggestions",
         Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -364,7 +364,7 @@ function clear_query_suggestions(
     return kendra(
         "ClearQuerySuggestions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -418,7 +418,7 @@ function create_access_control_configuration(
         Dict{String,Any}(
             "IndexId" => IndexId, "Name" => Name, "ClientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -440,7 +440,7 @@ function create_access_control_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -512,7 +512,7 @@ function create_data_source(
             "Type" => Type,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -538,7 +538,7 @@ function create_data_source(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -580,7 +580,7 @@ function create_experience(
         Dict{String,Any}(
             "IndexId" => IndexId, "Name" => Name, "ClientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -602,7 +602,7 @@ function create_experience(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -654,7 +654,7 @@ function create_faq(
             "S3Path" => S3Path,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -682,7 +682,7 @@ function create_faq(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -733,7 +733,7 @@ function create_featured_results_set(
         Dict{String,Any}(
             "FeaturedResultsSetName" => FeaturedResultsSetName, "IndexId" => IndexId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -755,7 +755,7 @@ function create_featured_results_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -814,7 +814,7 @@ function create_index(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_c
         Dict{String,Any}(
             "Name" => Name, "RoleArn" => RoleArn, "ClientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -836,7 +836,7 @@ function create_index(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -892,7 +892,7 @@ function create_query_suggestions_block_list(
             "SourceS3Path" => SourceS3Path,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -920,7 +920,7 @@ function create_query_suggestions_block_list(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -965,7 +965,7 @@ function create_thesaurus(
             "SourceS3Path" => SourceS3Path,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -993,7 +993,7 @@ function create_thesaurus(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1020,7 +1020,7 @@ function delete_access_control_configuration(
     return kendra(
         "DeleteAccessControlConfiguration",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1036,7 +1036,7 @@ function delete_access_control_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1063,7 +1063,7 @@ function delete_data_source(Id, IndexId; aws_config::AbstractAWSConfig=current_a
     return kendra(
         "DeleteDataSource",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1079,7 +1079,7 @@ function delete_data_source(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1102,7 +1102,7 @@ function delete_experience(Id, IndexId; aws_config::AbstractAWSConfig=current_aw
     return kendra(
         "DeleteExperience",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1118,7 +1118,7 @@ function delete_experience(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1140,7 +1140,7 @@ function delete_faq(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_confi
     return kendra(
         "DeleteFaq",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1156,7 +1156,7 @@ function delete_faq(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1179,7 +1179,7 @@ function delete_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "DeleteIndex",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1190,7 +1190,7 @@ function delete_index(
     return kendra(
         "DeleteIndex",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1243,7 +1243,7 @@ function delete_principal_mapping(
     return kendra(
         "DeletePrincipalMapping",
         Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1261,7 +1261,7 @@ function delete_principal_mapping(
                 _merge, Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1288,7 +1288,7 @@ function delete_query_suggestions_block_list(
     return kendra(
         "DeleteQuerySuggestionsBlockList",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1304,7 +1304,7 @@ function delete_query_suggestions_block_list(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1326,7 +1326,7 @@ function delete_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws
     return kendra(
         "DeleteThesaurus",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1342,7 +1342,7 @@ function delete_thesaurus(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1369,7 +1369,7 @@ function describe_access_control_configuration(
     return kendra(
         "DescribeAccessControlConfiguration",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1385,7 +1385,7 @@ function describe_access_control_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1409,7 +1409,7 @@ function describe_data_source(
     return kendra(
         "DescribeDataSource",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1425,7 +1425,7 @@ function describe_data_source(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1451,7 +1451,7 @@ function describe_experience(
     return kendra(
         "DescribeExperience",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1467,7 +1467,7 @@ function describe_experience(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1489,7 +1489,7 @@ function describe_faq(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_con
     return kendra(
         "DescribeFaq",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1505,7 +1505,7 @@ function describe_faq(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1534,7 +1534,7 @@ function describe_featured_results_set(
         Dict{String,Any}(
             "FeaturedResultsSetId" => FeaturedResultsSetId, "IndexId" => IndexId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1556,7 +1556,7 @@ function describe_featured_results_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1577,7 +1577,7 @@ function describe_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "DescribeIndex",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1588,7 +1588,7 @@ function describe_index(
     return kendra(
         "DescribeIndex",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1623,7 +1623,7 @@ function describe_principal_mapping(
     return kendra(
         "DescribePrincipalMapping",
         Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1641,7 +1641,7 @@ function describe_principal_mapping(
                 _merge, Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1668,7 +1668,7 @@ function describe_query_suggestions_block_list(
     return kendra(
         "DescribeQuerySuggestionsBlockList",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1684,7 +1684,7 @@ function describe_query_suggestions_block_list(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1710,7 +1710,7 @@ function describe_query_suggestions_config(
     return kendra(
         "DescribeQuerySuggestionsConfig",
         Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1723,7 +1723,7 @@ function describe_query_suggestions_config(
     return kendra(
         "DescribeQuerySuggestionsConfig",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1745,7 +1745,7 @@ function describe_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_a
     return kendra(
         "DescribeThesaurus",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1761,7 +1761,7 @@ function describe_thesaurus(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1789,7 +1789,7 @@ function disassociate_entities_from_experience(
     return kendra(
         "DisassociateEntitiesFromExperience",
         Dict{String,Any}("EntityList" => EntityList, "Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1812,7 +1812,7 @@ function disassociate_entities_from_experience(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1841,7 +1841,7 @@ function disassociate_personas_from_entities(
     return kendra(
         "DisassociatePersonasFromEntities",
         Dict{String,Any}("EntityIds" => EntityIds, "Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1864,7 +1864,7 @@ function disassociate_personas_from_entities(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1905,7 +1905,7 @@ function get_query_suggestions(
     return kendra(
         "GetQuerySuggestions",
         Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1925,7 +1925,7 @@ function get_query_suggestions(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1970,7 +1970,7 @@ function get_snapshots(
         Dict{String,Any}(
             "IndexId" => IndexId, "Interval" => Interval, "MetricType" => MetricType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1993,7 +1993,7 @@ function get_snapshots(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2024,7 +2024,7 @@ function list_access_control_configurations(
     return kendra(
         "ListAccessControlConfigurations",
         Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2037,7 +2037,7 @@ function list_access_control_configurations(
     return kendra(
         "ListAccessControlConfigurations",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2072,7 +2072,7 @@ function list_data_source_sync_jobs(
     return kendra(
         "ListDataSourceSyncJobs",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2088,7 +2088,7 @@ function list_data_source_sync_jobs(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2115,7 +2115,7 @@ function list_data_sources(IndexId; aws_config::AbstractAWSConfig=current_aws_co
     return kendra(
         "ListDataSources",
         Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2128,7 +2128,7 @@ function list_data_sources(
     return kendra(
         "ListDataSources",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2158,7 +2158,7 @@ function list_entity_personas(
     return kendra(
         "ListEntityPersonas",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2174,7 +2174,7 @@ function list_entity_personas(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2206,7 +2206,7 @@ function list_experience_entities(
     return kendra(
         "ListExperienceEntities",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2222,7 +2222,7 @@ function list_experience_entities(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2251,7 +2251,7 @@ function list_experiences(IndexId; aws_config::AbstractAWSConfig=current_aws_con
     return kendra(
         "ListExperiences",
         Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2264,7 +2264,7 @@ function list_experiences(
     return kendra(
         "ListExperiences",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2292,7 +2292,7 @@ function list_faqs(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "ListFaqs",
         Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2305,7 +2305,7 @@ function list_faqs(
     return kendra(
         "ListFaqs",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2336,7 +2336,7 @@ function list_featured_results_sets(
     return kendra(
         "ListFeaturedResultsSets",
         Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2349,7 +2349,7 @@ function list_featured_results_sets(
     return kendra(
         "ListFeaturedResultsSets",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2387,7 +2387,7 @@ function list_groups_older_than_ordering_id(
     return kendra(
         "ListGroupsOlderThanOrderingId",
         Dict{String,Any}("IndexId" => IndexId, "OrderingId" => OrderingId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2407,7 +2407,7 @@ function list_groups_older_than_ordering_id(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2428,15 +2428,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_indices end
 
 function list_indices(; aws_config::AbstractAWSConfig=current_aws_config())
-    return kendra("ListIndices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return kendra("ListIndices"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_indices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return kendra(
-        "ListIndices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return kendra("ListIndices", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2468,7 +2466,7 @@ function list_query_suggestions_block_lists(
     return kendra(
         "ListQuerySuggestionsBlockLists",
         Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2481,7 +2479,7 @@ function list_query_suggestions_block_lists(
     return kendra(
         "ListQuerySuggestionsBlockLists",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2506,7 +2504,7 @@ function list_tags_for_resource(
     return kendra(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2521,7 +2519,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2548,7 +2546,7 @@ function list_thesauri(IndexId; aws_config::AbstractAWSConfig=current_aws_config
     return kendra(
         "ListThesauri",
         Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2561,7 +2559,7 @@ function list_thesauri(
     return kendra(
         "ListThesauri",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2623,7 +2621,7 @@ function put_principal_mapping(
         Dict{String,Any}(
             "GroupId" => GroupId, "GroupMembers" => GroupMembers, "IndexId" => IndexId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2648,7 +2646,7 @@ function put_principal_mapping(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2736,7 +2734,7 @@ function query(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "Query",
         Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2749,7 +2747,7 @@ function query(
     return kendra(
         "Query",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2814,7 +2812,7 @@ function retrieve(IndexId, QueryText; aws_config::AbstractAWSConfig=current_aws_
     return kendra(
         "Retrieve",
         Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2834,7 +2832,7 @@ function retrieve(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2862,7 +2860,7 @@ function start_data_source_sync_job(
     return kendra(
         "StartDataSourceSyncJob",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2878,7 +2876,7 @@ function start_data_source_sync_job(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2904,7 +2902,7 @@ function stop_data_source_sync_job(
     return kendra(
         "StopDataSourceSyncJob",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2920,7 +2918,7 @@ function stop_data_source_sync_job(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2953,7 +2951,7 @@ function submit_feedback(
     return kendra(
         "SubmitFeedback",
         Dict{String,Any}("IndexId" => IndexId, "QueryId" => QueryId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2971,7 +2969,7 @@ function submit_feedback(
                 _merge, Dict{String,Any}("IndexId" => IndexId, "QueryId" => QueryId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2995,7 +2993,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
     return kendra(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3015,7 +3013,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3041,7 +3039,7 @@ function untag_resource(
     return kendra(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3061,7 +3059,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3109,7 +3107,7 @@ function update_access_control_configuration(
     return kendra(
         "UpdateAccessControlConfiguration",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3125,7 +3123,7 @@ function update_access_control_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3167,7 +3165,7 @@ function update_data_source(Id, IndexId; aws_config::AbstractAWSConfig=current_a
     return kendra(
         "UpdateDataSource",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3183,7 +3181,7 @@ function update_data_source(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3215,7 +3213,7 @@ function update_experience(Id, IndexId; aws_config::AbstractAWSConfig=current_aw
     return kendra(
         "UpdateExperience",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3231,7 +3229,7 @@ function update_experience(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3274,7 +3272,7 @@ function update_featured_results_set(
         Dict{String,Any}(
             "FeaturedResultsSetId" => FeaturedResultsSetId, "IndexId" => IndexId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3296,7 +3294,7 @@ function update_featured_results_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3336,7 +3334,7 @@ function update_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "UpdateIndex",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3347,7 +3345,7 @@ function update_index(
     return kendra(
         "UpdateIndex",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3390,7 +3388,7 @@ function update_query_suggestions_block_list(
     return kendra(
         "UpdateQuerySuggestionsBlockList",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3406,7 +3404,7 @@ function update_query_suggestions_block_list(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3465,7 +3463,7 @@ function update_query_suggestions_config(
     return kendra(
         "UpdateQuerySuggestionsConfig",
         Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3478,7 +3476,7 @@ function update_query_suggestions_config(
     return kendra(
         "UpdateQuerySuggestionsConfig",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3507,7 +3505,7 @@ function update_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws
     return kendra(
         "UpdateThesaurus",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3523,7 +3521,7 @@ function update_thesaurus(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

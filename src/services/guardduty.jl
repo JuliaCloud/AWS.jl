@@ -33,7 +33,7 @@ function accept_administrator_invitation(
         Dict{String,Any}(
             "administratorId" => administratorId, "invitationId" => invitationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -57,7 +57,7 @@ function accept_administrator_invitation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -85,7 +85,7 @@ function accept_invitation(
         "POST",
         "/detector/$(detectorId)/master",
         Dict{String,Any}("invitationId" => invitationId, "masterId" => masterId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -107,7 +107,7 @@ function accept_invitation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -135,7 +135,7 @@ function archive_findings(
         "POST",
         "/detector/$(detectorId)/findings/archive",
         Dict{String,Any}("findingIds" => findingIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -152,7 +152,7 @@ function archive_findings(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("findingIds" => findingIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -197,7 +197,7 @@ function create_detector(enable; aws_config::AbstractAWSConfig=current_aws_confi
         "POST",
         "/detector",
         Dict{String,Any}("enable" => enable, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -215,7 +215,7 @@ function create_detector(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -335,7 +335,7 @@ function create_filter(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -361,7 +361,7 @@ function create_filter(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -411,7 +411,7 @@ function create_ipset(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -441,7 +441,7 @@ function create_ipset(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -482,7 +482,7 @@ function create_malware_protection_plan(
             "role" => role,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -507,7 +507,7 @@ function create_malware_protection_plan(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -551,7 +551,7 @@ function create_members(
         "POST",
         "/detector/$(detectorId)/member",
         Dict{String,Any}("accountDetails" => accountDetails);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -568,7 +568,7 @@ function create_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountDetails" => accountDetails), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -608,7 +608,7 @@ function create_publishing_destination(
             "destinationType" => destinationType,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -634,7 +634,7 @@ function create_publishing_destination(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -662,7 +662,7 @@ function create_sample_findings(
     return guardduty(
         "POST",
         "/detector/$(detectorId)/findings/create";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -676,7 +676,7 @@ function create_sample_findings(
         "POST",
         "/detector/$(detectorId)/findings/create",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -724,7 +724,7 @@ function create_threat_intel_set(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -754,7 +754,7 @@ function create_threat_intel_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -778,7 +778,7 @@ function decline_invitations(accountIds; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/invitation/decline",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -794,7 +794,7 @@ function decline_invitations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -813,10 +813,7 @@ function delete_detector end
 
 function delete_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
-        "DELETE",
-        "/detector/$(detectorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/detector/$(detectorId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -829,7 +826,7 @@ function delete_detector(
         "DELETE",
         "/detector/$(detectorId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -853,7 +850,7 @@ function delete_filter(
     return guardduty(
         "DELETE",
         "/detector/$(detectorId)/filter/$(filterName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -868,7 +865,7 @@ function delete_filter(
         "DELETE",
         "/detector/$(detectorId)/filter/$(filterName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -892,7 +889,7 @@ function delete_invitations(accountIds; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/invitation/delete",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -908,7 +905,7 @@ function delete_invitations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -933,7 +930,7 @@ function delete_ipset(
     return guardduty(
         "DELETE",
         "/detector/$(detectorId)/ipset/$(ipSetId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -948,7 +945,7 @@ function delete_ipset(
         "DELETE",
         "/detector/$(detectorId)/ipset/$(ipSetId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -974,7 +971,7 @@ function delete_malware_protection_plan(
     return guardduty(
         "DELETE",
         "/malware-protection-plan/$(malwareProtectionPlanId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -988,7 +985,7 @@ function delete_malware_protection_plan(
         "DELETE",
         "/malware-protection-plan/$(malwareProtectionPlanId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1018,7 +1015,7 @@ function delete_members(
         "POST",
         "/detector/$(detectorId)/member/delete",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1035,7 +1032,7 @@ function delete_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1060,7 +1057,7 @@ function delete_publishing_destination(
     return guardduty(
         "DELETE",
         "/detector/$(detectorId)/publishingDestination/$(destinationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1075,7 +1072,7 @@ function delete_publishing_destination(
         "DELETE",
         "/detector/$(detectorId)/publishingDestination/$(destinationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1099,7 +1096,7 @@ function delete_threat_intel_set(
     return guardduty(
         "DELETE",
         "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1114,7 +1111,7 @@ function delete_threat_intel_set(
         "DELETE",
         "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1153,7 +1150,7 @@ function describe_malware_scans(
     return guardduty(
         "POST",
         "/detector/$(detectorId)/malware-scans";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1167,7 +1164,7 @@ function describe_malware_scans(
         "POST",
         "/detector/$(detectorId)/malware-scans",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1200,10 +1197,7 @@ function describe_organization_configuration(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
-        "GET",
-        "/detector/$(detectorId)/admin";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/detector/$(detectorId)/admin"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1216,7 +1210,7 @@ function describe_organization_configuration(
         "GET",
         "/detector/$(detectorId)/admin",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1242,7 +1236,7 @@ function describe_publishing_destination(
     return guardduty(
         "GET",
         "/detector/$(detectorId)/publishingDestination/$(destinationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1257,7 +1251,7 @@ function describe_publishing_destination(
         "GET",
         "/detector/$(detectorId)/publishingDestination/$(destinationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1283,7 +1277,7 @@ function disable_organization_admin_account(
         "POST",
         "/admin/disable",
         Dict{String,Any}("adminAccountId" => adminAccountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1299,7 +1293,7 @@ function disable_organization_admin_account(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("adminAccountId" => adminAccountId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1329,7 +1323,7 @@ function disassociate_from_administrator_account(
     return guardduty(
         "POST",
         "/detector/$(detectorId)/administrator/disassociate";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1343,7 +1337,7 @@ function disassociate_from_administrator_account(
         "POST",
         "/detector/$(detectorId)/administrator/disassociate",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1371,7 +1365,7 @@ function disassociate_from_master_account(
     return guardduty(
         "POST",
         "/detector/$(detectorId)/master/disassociate";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1385,7 +1379,7 @@ function disassociate_from_master_account(
         "POST",
         "/detector/$(detectorId)/master/disassociate",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1428,7 +1422,7 @@ function disassociate_members(
         "POST",
         "/detector/$(detectorId)/member/disassociate",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1445,7 +1439,7 @@ function disassociate_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1472,7 +1466,7 @@ function enable_organization_admin_account(
         "POST",
         "/admin/enable",
         Dict{String,Any}("adminAccountId" => adminAccountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1488,7 +1482,7 @@ function enable_organization_admin_account(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("adminAccountId" => adminAccountId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1513,7 +1507,7 @@ function get_administrator_account(
     return guardduty(
         "GET",
         "/detector/$(detectorId)/administrator";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1527,7 +1521,7 @@ function get_administrator_account(
         "GET",
         "/detector/$(detectorId)/administrator",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1559,7 +1553,7 @@ function get_coverage_statistics(
         "POST",
         "/detector/$(detectorId)/coverage/statistics",
         Dict{String,Any}("statisticsType" => statisticsType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1576,7 +1570,7 @@ function get_coverage_statistics(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("statisticsType" => statisticsType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1598,10 +1592,7 @@ function get_detector end
 
 function get_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
-        "GET",
-        "/detector/$(detectorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/detector/$(detectorId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1614,7 +1605,7 @@ function get_detector(
         "GET",
         "/detector/$(detectorId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1638,7 +1629,7 @@ function get_filter(
     return guardduty(
         "GET",
         "/detector/$(detectorId)/filter/$(filterName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1653,7 +1644,7 @@ function get_filter(
         "GET",
         "/detector/$(detectorId)/filter/$(filterName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1682,7 +1673,7 @@ function get_findings(
         "POST",
         "/detector/$(detectorId)/findings/get",
         Dict{String,Any}("findingIds" => findingIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1699,7 +1690,7 @@ function get_findings(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("findingIds" => findingIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1730,7 +1721,7 @@ function get_findings_statistics(
         "POST",
         "/detector/$(detectorId)/findings/statistics",
         Dict{String,Any}("findingStatisticTypes" => findingStatisticTypes);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1751,7 +1742,7 @@ function get_findings_statistics(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1768,7 +1759,7 @@ function get_invitations_count end
 
 function get_invitations_count(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
-        "GET", "/invitation/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/invitation/count"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1776,11 +1767,7 @@ function get_invitations_count(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
-        "GET",
-        "/invitation/count",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/invitation/count", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1801,7 +1788,7 @@ function get_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=current_aw
     return guardduty(
         "GET",
         "/detector/$(detectorId)/ipset/$(ipSetId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1816,7 +1803,7 @@ function get_ipset(
         "GET",
         "/detector/$(detectorId)/ipset/$(ipSetId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1840,7 +1827,7 @@ function get_malware_protection_plan(
     return guardduty(
         "GET",
         "/malware-protection-plan/$(malwareProtectionPlanId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1854,7 +1841,7 @@ function get_malware_protection_plan(
         "GET",
         "/malware-protection-plan/$(malwareProtectionPlanId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1879,7 +1866,7 @@ function get_malware_scan_settings(
     return guardduty(
         "GET",
         "/detector/$(detectorId)/malware-scan-settings";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1893,7 +1880,7 @@ function get_malware_scan_settings(
         "GET",
         "/detector/$(detectorId)/malware-scan-settings",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1913,10 +1900,7 @@ function get_master_account end
 
 function get_master_account(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
-        "GET",
-        "/detector/$(detectorId)/master";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/detector/$(detectorId)/master"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1929,7 +1913,7 @@ function get_master_account(
         "GET",
         "/detector/$(detectorId)/master",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1957,7 +1941,7 @@ function get_member_detectors(
         "POST",
         "/detector/$(detectorId)/member/detector/get",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1974,7 +1958,7 @@ function get_member_detectors(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2002,7 +1986,7 @@ function get_members(
         "POST",
         "/detector/$(detectorId)/member/get",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2019,7 +2003,7 @@ function get_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2038,10 +2022,7 @@ function get_organization_statistics end
 
 function get_organization_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
-        "GET",
-        "/organization/statistics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/organization/statistics"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2052,7 +2033,7 @@ function get_organization_statistics(
         "GET",
         "/organization/statistics",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2078,7 +2059,7 @@ function get_remaining_free_trial_days(
     return guardduty(
         "POST",
         "/detector/$(detectorId)/freeTrial/daysRemaining";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2092,7 +2073,7 @@ function get_remaining_free_trial_days(
         "POST",
         "/detector/$(detectorId)/freeTrial/daysRemaining",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2116,7 +2097,7 @@ function get_threat_intel_set(
     return guardduty(
         "GET",
         "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2131,7 +2112,7 @@ function get_threat_intel_set(
         "GET",
         "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2176,7 +2157,7 @@ function get_usage_statistics(
         Dict{String,Any}(
             "usageCriteria" => usageCriteria, "usageStatisticsType" => usageStatisticsType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2201,7 +2182,7 @@ function get_usage_statistics(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2256,7 +2237,7 @@ function invite_members(
         "POST",
         "/detector/$(detectorId)/member/invite",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2273,7 +2254,7 @@ function invite_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2306,7 +2287,7 @@ function list_coverage(detectorId; aws_config::AbstractAWSConfig=current_aws_con
     return guardduty(
         "POST",
         "/detector/$(detectorId)/coverage";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2320,7 +2301,7 @@ function list_coverage(
         "POST",
         "/detector/$(detectorId)/coverage",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2343,16 +2324,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_detectors end
 
 function list_detectors(; aws_config::AbstractAWSConfig=current_aws_config())
-    return guardduty(
-        "GET", "/detector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return guardduty("GET", "/detector"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_detectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
-        "GET", "/detector", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/detector", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2378,10 +2357,7 @@ function list_filters end
 
 function list_filters(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
-        "GET",
-        "/detector/$(detectorId)/filter";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/detector/$(detectorId)/filter"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2394,7 +2370,7 @@ function list_filters(
         "GET",
         "/detector/$(detectorId)/filter",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2464,7 +2440,7 @@ function list_findings(detectorId; aws_config::AbstractAWSConfig=current_aws_con
     return guardduty(
         "POST",
         "/detector/$(detectorId)/findings";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2478,7 +2454,7 @@ function list_findings(
         "POST",
         "/detector/$(detectorId)/findings",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2502,16 +2478,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_invitations end
 
 function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return guardduty(
-        "GET", "/invitation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return guardduty("GET", "/invitation"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
-        "GET", "/invitation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/invitation", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2539,10 +2513,7 @@ function list_ipsets end
 
 function list_ipsets(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
-        "GET",
-        "/detector/$(detectorId)/ipset";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/detector/$(detectorId)/ipset"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2555,7 +2526,7 @@ function list_ipsets(
         "GET",
         "/detector/$(detectorId)/ipset",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2578,10 +2549,7 @@ function list_malware_protection_plans end
 
 function list_malware_protection_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
-        "GET",
-        "/malware-protection-plan";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/malware-protection-plan"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2592,7 +2560,7 @@ function list_malware_protection_plans(
         "GET",
         "/malware-protection-plan",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2623,10 +2591,7 @@ function list_members end
 
 function list_members(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
-        "GET",
-        "/detector/$(detectorId)/member";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/detector/$(detectorId)/member"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2639,7 +2604,7 @@ function list_members(
         "GET",
         "/detector/$(detectorId)/member",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2664,17 +2629,13 @@ function list_organization_admin_accounts end
 function list_organization_admin_accounts(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return guardduty(
-        "GET", "/admin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return guardduty("GET", "/admin"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_organization_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return guardduty(
-        "GET", "/admin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return guardduty("GET", "/admin", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2702,7 +2663,7 @@ function list_publishing_destinations(
     return guardduty(
         "GET",
         "/detector/$(detectorId)/publishingDestination";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2716,7 +2677,7 @@ function list_publishing_destinations(
         "GET",
         "/detector/$(detectorId)/publishingDestination",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2739,10 +2700,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2752,11 +2710,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2788,7 +2742,7 @@ function list_threat_intel_sets(
     return guardduty(
         "GET",
         "/detector/$(detectorId)/threatintelset";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2802,7 +2756,7 @@ function list_threat_intel_sets(
         "GET",
         "/detector/$(detectorId)/threatintelset",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2826,7 +2780,7 @@ function start_malware_scan(resourceArn; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/malware-scan/start",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2842,7 +2796,7 @@ function start_malware_scan(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2870,7 +2824,7 @@ function start_monitoring_members(
         "POST",
         "/detector/$(detectorId)/member/start",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2887,7 +2841,7 @@ function start_monitoring_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2916,7 +2870,7 @@ function stop_monitoring_members(
         "POST",
         "/detector/$(detectorId)/member/stop",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2933,7 +2887,7 @@ function stop_monitoring_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2957,7 +2911,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2972,7 +2926,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2997,7 +2951,7 @@ function unarchive_findings(
         "POST",
         "/detector/$(detectorId)/findings/unarchive",
         Dict{String,Any}("findingIds" => findingIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3014,7 +2968,7 @@ function unarchive_findings(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("findingIds" => findingIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3039,7 +2993,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3054,7 +3008,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3089,10 +3043,7 @@ function update_detector end
 
 function update_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
-        "POST",
-        "/detector/$(detectorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/detector/$(detectorId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3105,7 +3056,7 @@ function update_detector(
         "POST",
         "/detector/$(detectorId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3142,7 +3093,7 @@ function update_filter(
     return guardduty(
         "POST",
         "/detector/$(detectorId)/filter/$(filterName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3157,7 +3108,7 @@ function update_filter(
         "POST",
         "/detector/$(detectorId)/filter/$(filterName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3186,7 +3137,7 @@ function update_findings_feedback(
         "POST",
         "/detector/$(detectorId)/findings/feedback",
         Dict{String,Any}("feedback" => feedback, "findingIds" => findingIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3208,7 +3159,7 @@ function update_findings_feedback(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3238,7 +3189,7 @@ function update_ipset(
     return guardduty(
         "POST",
         "/detector/$(detectorId)/ipset/$(ipSetId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3253,7 +3204,7 @@ function update_ipset(
         "POST",
         "/detector/$(detectorId)/ipset/$(ipSetId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3286,7 +3237,7 @@ function update_malware_protection_plan(
     return guardduty(
         "PATCH",
         "/malware-protection-plan/$(malwareProtectionPlanId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3300,7 +3251,7 @@ function update_malware_protection_plan(
         "PATCH",
         "/malware-protection-plan/$(malwareProtectionPlanId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3332,7 +3283,7 @@ function update_malware_scan_settings(
     return guardduty(
         "POST",
         "/detector/$(detectorId)/malware-scan-settings";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3346,7 +3297,7 @@ function update_malware_scan_settings(
         "POST",
         "/detector/$(detectorId)/malware-scan-settings",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3381,7 +3332,7 @@ function update_member_detectors(
         "POST",
         "/detector/$(detectorId)/member/detector/update",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3398,7 +3349,7 @@ function update_member_detectors(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3449,10 +3400,7 @@ function update_organization_configuration(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
-        "POST",
-        "/detector/$(detectorId)/admin";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/detector/$(detectorId)/admin"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3465,7 +3413,7 @@ function update_organization_configuration(
         "POST",
         "/detector/$(detectorId)/admin",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3494,7 +3442,7 @@ function update_publishing_destination(
     return guardduty(
         "POST",
         "/detector/$(detectorId)/publishingDestination/$(destinationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3509,7 +3457,7 @@ function update_publishing_destination(
         "POST",
         "/detector/$(detectorId)/publishingDestination/$(destinationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3541,7 +3489,7 @@ function update_threat_intel_set(
     return guardduty(
         "POST",
         "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3556,7 +3504,7 @@ function update_threat_intel_set(
         "POST",
         "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

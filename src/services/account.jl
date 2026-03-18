@@ -38,7 +38,7 @@ function accept_primary_email_update(
         Dict{String,Any}(
             "AccountId" => AccountId, "Otp" => Otp, "PrimaryEmail" => PrimaryEmail
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -62,7 +62,7 @@ function accept_primary_email_update(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -105,7 +105,7 @@ function delete_alternate_contact(
         "POST",
         "/deleteAlternateContact",
         Dict{String,Any}("AlternateContactType" => AlternateContactType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -125,7 +125,7 @@ function delete_alternate_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -166,7 +166,7 @@ function disable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_co
         "POST",
         "/disableRegion",
         Dict{String,Any}("RegionName" => RegionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -182,7 +182,7 @@ function disable_region(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RegionName" => RegionName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -223,7 +223,7 @@ function enable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_con
         "POST",
         "/enableRegion",
         Dict{String,Any}("RegionName" => RegionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -239,7 +239,7 @@ function enable_region(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RegionName" => RegionName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -282,7 +282,7 @@ function get_alternate_contact(
         "POST",
         "/getAlternateContact",
         Dict{String,Any}("AlternateContactType" => AlternateContactType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -302,7 +302,7 @@ function get_alternate_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -334,10 +334,7 @@ function get_contact_information end
 
 function get_contact_information(; aws_config::AbstractAWSConfig=current_aws_config())
     return account(
-        "POST",
-        "/getContactInformation";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/getContactInformation"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -348,7 +345,7 @@ function get_contact_information(
         "POST",
         "/getContactInformation",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -378,7 +375,7 @@ function get_primary_email(AccountId; aws_config::AbstractAWSConfig=current_aws_
         "POST",
         "/getPrimaryEmail",
         Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -394,7 +391,7 @@ function get_primary_email(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -434,7 +431,7 @@ function get_region_opt_status(
         "POST",
         "/getRegionOptStatus",
         Dict{String,Any}("RegionName" => RegionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -450,7 +447,7 @@ function get_region_opt_status(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RegionName" => RegionName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -493,20 +490,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_regions end
 
 function list_regions(; aws_config::AbstractAWSConfig=current_aws_config())
-    return account(
-        "POST", "/listRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return account("POST", "/listRegions"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_regions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return account(
-        "POST",
-        "/listRegions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/listRegions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -563,7 +554,7 @@ function put_alternate_contact(
             "PhoneNumber" => PhoneNumber,
             "Title" => Title,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -593,7 +584,7 @@ function put_alternate_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -634,7 +625,7 @@ function put_contact_information(
         "POST",
         "/putContactInformation",
         Dict{String,Any}("ContactInformation" => ContactInformation);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -652,7 +643,7 @@ function put_contact_information(
                 _merge, Dict{String,Any}("ContactInformation" => ContactInformation), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -686,7 +677,7 @@ function start_primary_email_update(
         "POST",
         "/startPrimaryEmailUpdate",
         Dict{String,Any}("AccountId" => AccountId, "PrimaryEmail" => PrimaryEmail);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -707,7 +698,7 @@ function start_primary_email_update(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

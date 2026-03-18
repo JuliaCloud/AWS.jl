@@ -36,7 +36,7 @@ function get_routing_control_state(
     return route53_recovery_cluster(
         "GetRoutingControlState",
         Dict{String,Any}("RoutingControlArn" => RoutingControlArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -53,7 +53,7 @@ function get_routing_control_state(
                 _merge, Dict{String,Any}("RoutingControlArn" => RoutingControlArn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -92,7 +92,7 @@ function list_routing_controls end
 
 function list_routing_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_cluster(
-        "ListRoutingControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRoutingControls"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -100,10 +100,7 @@ function list_routing_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_cluster(
-        "ListRoutingControls",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListRoutingControls", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -157,7 +154,7 @@ function update_routing_control_state(
             "RoutingControlArn" => RoutingControlArn,
             "RoutingControlState" => RoutingControlState,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -180,7 +177,7 @@ function update_routing_control_state(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -230,7 +227,7 @@ function update_routing_control_states(
         Dict{String,Any}(
             "UpdateRoutingControlStateEntries" => UpdateRoutingControlStateEntries
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -251,7 +248,7 @@ function update_routing_control_states(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

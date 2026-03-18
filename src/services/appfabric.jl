@@ -28,7 +28,7 @@ function batch_get_user_access_tasks(
         Dict{String,Any}(
             "appBundleIdentifier" => appBundleIdentifier, "taskIdList" => taskIdList
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -51,7 +51,7 @@ function batch_get_user_access_tasks(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -84,7 +84,7 @@ function connect_app_authorization(
     return appfabric(
         "POST",
         "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)/connect";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -99,7 +99,7 @@ function connect_app_authorization(
         "POST",
         "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)/connect",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -157,7 +157,7 @@ function create_app_authorization(
             "tenant" => tenant,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -187,7 +187,7 @@ function create_app_authorization(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -220,7 +220,7 @@ function create_app_bundle(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/appbundles",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -234,7 +234,7 @@ function create_app_bundle(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -284,7 +284,7 @@ function create_ingestion(
             "tenantId" => tenantId,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -312,7 +312,7 @@ function create_ingestion(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -361,7 +361,7 @@ function create_ingestion_destination(
             "processingConfiguration" => processingConfiguration,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -388,7 +388,7 @@ function create_ingestion_destination(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -417,7 +417,7 @@ function delete_app_authorization(
     return appfabric(
         "DELETE",
         "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -432,7 +432,7 @@ function delete_app_authorization(
         "DELETE",
         "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -457,7 +457,7 @@ function delete_app_bundle(
     return appfabric(
         "DELETE",
         "/appbundles/$(appBundleIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -471,7 +471,7 @@ function delete_app_bundle(
         "DELETE",
         "/appbundles/$(appBundleIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -500,7 +500,7 @@ function delete_ingestion(
     return appfabric(
         "DELETE",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -515,7 +515,7 @@ function delete_ingestion(
         "DELETE",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -550,7 +550,7 @@ function delete_ingestion_destination(
     return appfabric(
         "DELETE",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -566,7 +566,7 @@ function delete_ingestion_destination(
         "DELETE",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -594,7 +594,7 @@ function get_app_authorization(
     return appfabric(
         "GET",
         "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -609,7 +609,7 @@ function get_app_authorization(
         "GET",
         "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -633,7 +633,7 @@ function get_app_bundle(
     return appfabric(
         "GET",
         "/appbundles/$(appBundleIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -647,7 +647,7 @@ function get_app_bundle(
         "GET",
         "/appbundles/$(appBundleIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -675,7 +675,7 @@ function get_ingestion(
     return appfabric(
         "GET",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -690,7 +690,7 @@ function get_ingestion(
         "GET",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -721,7 +721,7 @@ function get_ingestion_destination(
     return appfabric(
         "GET",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -737,7 +737,7 @@ function get_ingestion_destination(
         "GET",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -771,7 +771,7 @@ function list_app_authorizations(
     return appfabric(
         "GET",
         "/appbundles/$(appBundleIdentifier)/appauthorizations";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -785,7 +785,7 @@ function list_app_authorizations(
         "GET",
         "/appbundles/$(appBundleIdentifier)/appauthorizations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -810,16 +810,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_app_bundles end
 
 function list_app_bundles(; aws_config::AbstractAWSConfig=current_aws_config())
-    return appfabric(
-        "GET", "/appbundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return appfabric("GET", "/appbundles"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_app_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
-        "GET", "/appbundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/appbundles", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -856,7 +854,7 @@ function list_ingestion_destinations(
     return appfabric(
         "GET",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -871,7 +869,7 @@ function list_ingestion_destinations(
         "GET",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -905,7 +903,7 @@ function list_ingestions(
     return appfabric(
         "GET",
         "/appbundles/$(appBundleIdentifier)/ingestions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -919,7 +917,7 @@ function list_ingestions(
         "GET",
         "/appbundles/$(appBundleIdentifier)/ingestions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -941,10 +939,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appfabric(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -954,11 +949,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return appfabric(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -985,7 +976,7 @@ function start_ingestion(
     return appfabric(
         "POST",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/start";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1000,7 +991,7 @@ function start_ingestion(
         "POST",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/start",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1028,7 +1019,7 @@ function start_user_access_tasks(
         "POST",
         "/useraccess/start",
         Dict{String,Any}("appBundleIdentifier" => appBundleIdentifier, "email" => email);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1051,7 +1042,7 @@ function start_user_access_tasks(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1079,7 +1070,7 @@ function stop_ingestion(
     return appfabric(
         "POST",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/stop";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1094,7 +1085,7 @@ function stop_ingestion(
         "POST",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/stop",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1117,7 +1108,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1132,7 +1123,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1158,7 +1149,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1173,7 +1164,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1211,7 +1202,7 @@ function update_app_authorization(
     return appfabric(
         "PATCH",
         "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1226,7 +1217,7 @@ function update_app_authorization(
         "PATCH",
         "/appbundles/$(appBundleIdentifier)/appauthorizations/$(appAuthorizationIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1261,7 +1252,7 @@ function update_ingestion_destination(
         "PATCH",
         "/appbundles/$(appBundleIdentifier)/ingestions/$(ingestionIdentifier)/ingestiondestinations/$(ingestionDestinationIdentifier)",
         Dict{String,Any}("destinationConfiguration" => destinationConfiguration);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1284,7 +1275,7 @@ function update_ingestion_destination(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

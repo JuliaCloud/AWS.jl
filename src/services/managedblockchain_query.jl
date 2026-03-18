@@ -21,10 +21,7 @@ function batch_get_token_balance end
 
 function batch_get_token_balance(; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain_query(
-        "POST",
-        "/batch-get-token-balance";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/batch-get-token-balance"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -35,7 +32,7 @@ function batch_get_token_balance(
         "POST",
         "/batch-get-token-balance",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -63,7 +60,7 @@ function get_asset_contract(
         "POST",
         "/get-asset-contract",
         Dict{String,Any}("contractIdentifier" => contractIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -81,7 +78,7 @@ function get_asset_contract(
                 _merge, Dict{String,Any}("contractIdentifier" => contractIdentifier), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -116,7 +113,7 @@ function get_token_balance(
         Dict{String,Any}(
             "ownerIdentifier" => ownerIdentifier, "tokenIdentifier" => tokenIdentifier
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -140,7 +137,7 @@ function get_token_balance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -169,7 +166,7 @@ function get_transaction(network; aws_config::AbstractAWSConfig=current_aws_conf
         "POST",
         "/get-transaction",
         Dict{String,Any}("network" => network);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -183,7 +180,7 @@ function get_transaction(
         "POST",
         "/get-transaction",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("network" => network), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -216,7 +213,7 @@ function list_asset_contracts(
         "POST",
         "/list-asset-contracts",
         Dict{String,Any}("contractFilter" => contractFilter);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -232,7 +229,7 @@ function list_asset_contracts(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("contractFilter" => contractFilter), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -276,7 +273,7 @@ function list_filtered_transaction_events(
         Dict{String,Any}(
             "addressIdentifierFilter" => addressIdentifierFilter, "network" => network
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -300,7 +297,7 @@ function list_filtered_transaction_events(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -342,7 +339,7 @@ function list_token_balances(
         "POST",
         "/list-token-balances",
         Dict{String,Any}("tokenFilter" => tokenFilter);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -358,7 +355,7 @@ function list_token_balances(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("tokenFilter" => tokenFilter), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -396,7 +393,7 @@ function list_transaction_events(
         "POST",
         "/list-transaction-events",
         Dict{String,Any}("network" => network);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -410,7 +407,7 @@ function list_transaction_events(
         "POST",
         "/list-transaction-events",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("network" => network), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -450,7 +447,7 @@ function list_transactions(
         "POST",
         "/list-transactions",
         Dict{String,Any}("address" => address, "network" => network);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -469,7 +466,7 @@ function list_transactions(
                 _merge, Dict{String,Any}("address" => address, "network" => network), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

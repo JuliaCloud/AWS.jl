@@ -101,7 +101,7 @@ function generate_data_set(
             "roleNameArn" => roleNameArn,
             "snsTopicArn" => snsTopicArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -130,7 +130,7 @@ function generate_data_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -204,7 +204,7 @@ function start_support_data_export(
             "roleNameArn" => roleNameArn,
             "snsTopicArn" => snsTopicArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -233,7 +233,7 @@ function start_support_data_export(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

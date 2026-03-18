@@ -74,7 +74,7 @@ function create_cluster(
             "NodeType" => NodeType,
             "ReplicationFactor" => ReplicationFactor,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -101,7 +101,7 @@ function create_cluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -129,7 +129,7 @@ function create_parameter_group(
     return dax(
         "CreateParameterGroup",
         Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -146,7 +146,7 @@ function create_parameter_group(
                 _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -174,7 +174,7 @@ function create_subnet_group(
     return dax(
         "CreateSubnetGroup",
         Dict{String,Any}("SubnetGroupName" => SubnetGroupName, "SubnetIds" => SubnetIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -196,7 +196,7 @@ function create_subnet_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -227,7 +227,7 @@ function decrease_replication_factor(
         Dict{String,Any}(
             "ClusterName" => ClusterName, "NewReplicationFactor" => NewReplicationFactor
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -250,7 +250,7 @@ function decrease_replication_factor(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -274,7 +274,7 @@ function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
     return dax(
         "DeleteCluster",
         Dict{String,Any}("ClusterName" => ClusterName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -289,7 +289,7 @@ function delete_cluster(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -313,7 +313,7 @@ function delete_parameter_group(
     return dax(
         "DeleteParameterGroup",
         Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -330,7 +330,7 @@ function delete_parameter_group(
                 _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -354,7 +354,7 @@ function delete_subnet_group(
     return dax(
         "DeleteSubnetGroup",
         Dict{String,Any}("SubnetGroupName" => SubnetGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -371,7 +371,7 @@ function delete_subnet_group(
                 _merge, Dict{String,Any}("SubnetGroupName" => SubnetGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -403,15 +403,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_clusters end
 
 function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return dax("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return dax("DescribeClusters"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return dax(
-        "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return dax("DescribeClusters", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -432,19 +430,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_default_parameters end
 
 function describe_default_parameters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return dax(
-        "DescribeDefaultParameters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return dax("DescribeDefaultParameters"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_default_parameters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
-        "DescribeDefaultParameters",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDefaultParameters", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -478,15 +471,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_events end
 
 function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
-    return dax("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return dax("DescribeEvents"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return dax(
-        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return dax("DescribeEvents", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -509,19 +500,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_parameter_groups end
 
 function describe_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return dax(
-        "DescribeParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return dax("DescribeParameterGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dax(
-        "DescribeParameterGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeParameterGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -553,7 +539,7 @@ function describe_parameters(
     return dax(
         "DescribeParameters",
         Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -570,7 +556,7 @@ function describe_parameters(
                 _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -595,20 +581,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_subnet_groups end
 
 function describe_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return dax(
-        "DescribeSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return dax("DescribeSubnetGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_subnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return dax(
-        "DescribeSubnetGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return dax("DescribeSubnetGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -637,7 +616,7 @@ function increase_replication_factor(
         Dict{String,Any}(
             "ClusterName" => ClusterName, "NewReplicationFactor" => NewReplicationFactor
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -660,7 +639,7 @@ function increase_replication_factor(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -687,7 +666,7 @@ function list_tags(ResourceName; aws_config::AbstractAWSConfig=current_aws_confi
     return dax(
         "ListTags",
         Dict{String,Any}("ResourceName" => ResourceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -702,7 +681,7 @@ function list_tags(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceName" => ResourceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -728,7 +707,7 @@ function reboot_node(
     return dax(
         "RebootNode",
         Dict{String,Any}("ClusterName" => ClusterName, "NodeId" => NodeId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -748,7 +727,7 @@ function reboot_node(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -773,7 +752,7 @@ function tag_resource(
     return dax(
         "TagResource",
         Dict{String,Any}("ResourceName" => ResourceName, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -793,7 +772,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -819,7 +798,7 @@ function untag_resource(
     return dax(
         "UntagResource",
         Dict{String,Any}("ResourceName" => ResourceName, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -839,7 +818,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -875,7 +854,7 @@ function update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
     return dax(
         "UpdateCluster",
         Dict{String,Any}("ClusterName" => ClusterName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -890,7 +869,7 @@ function update_cluster(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -923,7 +902,7 @@ function update_parameter_group(
             "ParameterGroupName" => ParameterGroupName,
             "ParameterNameValues" => ParameterNameValues,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -946,7 +925,7 @@ function update_parameter_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -973,7 +952,7 @@ function update_subnet_group(
     return dax(
         "UpdateSubnetGroup",
         Dict{String,Any}("SubnetGroupName" => SubnetGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -990,7 +969,7 @@ function update_subnet_group(
                 _merge, Dict{String,Any}("SubnetGroupName" => SubnetGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

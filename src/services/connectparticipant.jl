@@ -38,7 +38,7 @@ function complete_attachment_upload(
             "ClientToken" => ClientToken,
             "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -64,7 +64,7 @@ function complete_attachment_upload(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -111,7 +111,7 @@ function create_participant_connection(
         "POST",
         "/participant/connection",
         Dict{String,Any}("headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -133,7 +133,7 @@ function create_participant_connection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -159,7 +159,7 @@ function describe_view(
         "GET",
         "/participant/views/$(ViewToken)",
         Dict{String,Any}("headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -182,7 +182,7 @@ function describe_view(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -216,7 +216,7 @@ function disconnect_participant(
             "ClientToken" => string(uuid4()),
             "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -239,7 +239,7 @@ function disconnect_participant(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -270,7 +270,7 @@ function get_attachment(
             "AttachmentId" => AttachmentId,
             "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -294,7 +294,7 @@ function get_attachment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -338,7 +338,7 @@ function get_transcript(X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_
         "POST",
         "/participant/transcript",
         Dict{String,Any}("headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -360,7 +360,7 @@ function get_transcript(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -408,7 +408,7 @@ function send_event(
             "ClientToken" => string(uuid4()),
             "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -433,7 +433,7 @@ function send_event(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -476,7 +476,7 @@ function send_message(
             "ClientToken" => string(uuid4()),
             "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -503,7 +503,7 @@ function send_message(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -547,7 +547,7 @@ function start_attachment_upload(
             "ContentType" => ContentType,
             "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -577,7 +577,7 @@ function start_attachment_upload(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

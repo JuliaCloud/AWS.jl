@@ -33,7 +33,7 @@ function create_component(
         Dict{String,Any}(
             "componentToCreate" => componentToCreate, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -58,7 +58,7 @@ function create_component(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -87,7 +87,7 @@ function create_form(
         "POST",
         "/app/$(appId)/environment/$(environmentName)/forms",
         Dict{String,Any}("formToCreate" => formToCreate, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -111,7 +111,7 @@ function create_form(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -145,7 +145,7 @@ function create_theme(
         Dict{String,Any}(
             "themeToCreate" => themeToCreate, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -169,7 +169,7 @@ function create_theme(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -194,7 +194,7 @@ function delete_component(
     return amplifyuibuilder(
         "DELETE",
         "/app/$(appId)/environment/$(environmentName)/components/$(id)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -210,7 +210,7 @@ function delete_component(
         "DELETE",
         "/app/$(appId)/environment/$(environmentName)/components/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -235,7 +235,7 @@ function delete_form(
     return amplifyuibuilder(
         "DELETE",
         "/app/$(appId)/environment/$(environmentName)/forms/$(id)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -251,7 +251,7 @@ function delete_form(
         "DELETE",
         "/app/$(appId)/environment/$(environmentName)/forms/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -276,7 +276,7 @@ function delete_theme(
     return amplifyuibuilder(
         "DELETE",
         "/app/$(appId)/environment/$(environmentName)/themes/$(id)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -292,7 +292,7 @@ function delete_theme(
         "DELETE",
         "/app/$(appId)/environment/$(environmentName)/themes/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -317,7 +317,7 @@ function exchange_code_for_token(
         "POST",
         "/tokens/$(provider)",
         Dict{String,Any}("request" => request);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -332,7 +332,7 @@ function exchange_code_for_token(
         "POST",
         "/tokens/$(provider)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("request" => request), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -359,7 +359,7 @@ function export_components(
     return amplifyuibuilder(
         "GET",
         "/export/app/$(appId)/environment/$(environmentName)/components";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -374,7 +374,7 @@ function export_components(
         "GET",
         "/export/app/$(appId)/environment/$(environmentName)/components",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -401,7 +401,7 @@ function export_forms(
     return amplifyuibuilder(
         "GET",
         "/export/app/$(appId)/environment/$(environmentName)/forms";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -416,7 +416,7 @@ function export_forms(
         "GET",
         "/export/app/$(appId)/environment/$(environmentName)/forms",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -443,7 +443,7 @@ function export_themes(
     return amplifyuibuilder(
         "GET",
         "/export/app/$(appId)/environment/$(environmentName)/themes";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -458,7 +458,7 @@ function export_themes(
         "GET",
         "/export/app/$(appId)/environment/$(environmentName)/themes",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -484,7 +484,7 @@ function get_codegen_job(
     return amplifyuibuilder(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/codegen-jobs/$(id)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -500,7 +500,7 @@ function get_codegen_job(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/codegen-jobs/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -525,7 +525,7 @@ function get_component(
     return amplifyuibuilder(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/components/$(id)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -541,7 +541,7 @@ function get_component(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/components/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -566,7 +566,7 @@ function get_form(
     return amplifyuibuilder(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/forms/$(id)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -582,7 +582,7 @@ function get_form(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/forms/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -606,7 +606,7 @@ function get_metadata(
     return amplifyuibuilder(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/metadata";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -621,7 +621,7 @@ function get_metadata(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/metadata",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -646,7 +646,7 @@ function get_theme(
     return amplifyuibuilder(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/themes/$(id)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -662,7 +662,7 @@ function get_theme(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/themes/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -691,7 +691,7 @@ function list_codegen_jobs(
     return amplifyuibuilder(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/codegen-jobs";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -706,7 +706,7 @@ function list_codegen_jobs(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/codegen-jobs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -734,7 +734,7 @@ function list_components(
     return amplifyuibuilder(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/components";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -749,7 +749,7 @@ function list_components(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/components",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -777,7 +777,7 @@ function list_forms(
     return amplifyuibuilder(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/forms";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -792,7 +792,7 @@ function list_forms(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/forms",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -813,10 +813,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return amplifyuibuilder(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -826,11 +823,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return amplifyuibuilder(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -857,7 +850,7 @@ function list_themes(
     return amplifyuibuilder(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/themes";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -872,7 +865,7 @@ function list_themes(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/themes",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -903,7 +896,7 @@ function put_metadata_flag(
         "PUT",
         "/app/$(appId)/environment/$(environmentName)/metadata/features/$(featureName)",
         Dict{String,Any}("body" => body);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -920,7 +913,7 @@ function put_metadata_flag(
         "PUT",
         "/app/$(appId)/environment/$(environmentName)/metadata/features/$(featureName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("body" => body), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -946,7 +939,7 @@ function refresh_token(
         "POST",
         "/tokens/$(provider)/refresh",
         Dict{String,Any}("refreshTokenBody" => refreshTokenBody);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -965,7 +958,7 @@ function refresh_token(
                 _merge, Dict{String,Any}("refreshTokenBody" => refreshTokenBody), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1000,7 +993,7 @@ function start_codegen_job(
         Dict{String,Any}(
             "codegenJobToCreate" => codegenJobToCreate, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1025,7 +1018,7 @@ function start_codegen_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1048,7 +1041,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1063,7 +1056,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1088,7 +1081,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1103,7 +1096,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1139,7 +1132,7 @@ function update_component(
         Dict{String,Any}(
             "updatedComponent" => updatedComponent, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1164,7 +1157,7 @@ function update_component(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1198,7 +1191,7 @@ function update_form(
         "PATCH",
         "/app/$(appId)/environment/$(environmentName)/forms/$(id)",
         Dict{String,Any}("updatedForm" => updatedForm, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1223,7 +1216,7 @@ function update_form(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1257,7 +1250,7 @@ function update_theme(
         "PATCH",
         "/app/$(appId)/environment/$(environmentName)/themes/$(id)",
         Dict{String,Any}("updatedTheme" => updatedTheme, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1282,7 +1275,7 @@ function update_theme(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

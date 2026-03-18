@@ -32,7 +32,7 @@ function get_control(ControlArn; aws_config::AbstractAWSConfig=current_aws_confi
         "POST",
         "/get-control",
         Dict{String,Any}("ControlArn" => ControlArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -48,7 +48,7 @@ function get_control(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ControlArn" => ControlArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -73,7 +73,7 @@ function list_common_controls end
 
 function list_common_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return controlcatalog(
-        "POST", "/common-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/common-controls"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -81,11 +81,7 @@ function list_common_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controlcatalog(
-        "POST",
-        "/common-controls",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/common-controls", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -107,7 +103,7 @@ function list_controls end
 
 function list_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return controlcatalog(
-        "POST", "/list-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/list-controls"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -115,11 +111,7 @@ function list_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controlcatalog(
-        "POST",
-        "/list-controls",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/list-controls", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -137,16 +129,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_domains end
 
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
-    return controlcatalog(
-        "POST", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return controlcatalog("POST", "/domains"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controlcatalog(
-        "POST", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/domains", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -170,7 +160,7 @@ function list_objectives end
 
 function list_objectives(; aws_config::AbstractAWSConfig=current_aws_config())
     return controlcatalog(
-        "POST", "/objectives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/objectives"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -178,10 +168,6 @@ function list_objectives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controlcatalog(
-        "POST",
-        "/objectives",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/objectives", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end

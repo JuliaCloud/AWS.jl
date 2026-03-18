@@ -25,7 +25,7 @@ function batch_detect_dominant_language(
     return comprehend(
         "BatchDetectDominantLanguage",
         Dict{String,Any}("TextList" => TextList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -40,7 +40,7 @@ function batch_detect_dominant_language(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TextList" => TextList), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -68,7 +68,7 @@ function batch_detect_entities(
     return comprehend(
         "BatchDetectEntities",
         Dict{String,Any}("LanguageCode" => LanguageCode, "TextList" => TextList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -88,7 +88,7 @@ function batch_detect_entities(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -114,7 +114,7 @@ function batch_detect_key_phrases(
     return comprehend(
         "BatchDetectKeyPhrases",
         Dict{String,Any}("LanguageCode" => LanguageCode, "TextList" => TextList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -134,7 +134,7 @@ function batch_detect_key_phrases(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -161,7 +161,7 @@ function batch_detect_sentiment(
     return comprehend(
         "BatchDetectSentiment",
         Dict{String,Any}("LanguageCode" => LanguageCode, "TextList" => TextList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -181,7 +181,7 @@ function batch_detect_sentiment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -211,7 +211,7 @@ function batch_detect_syntax(
     return comprehend(
         "BatchDetectSyntax",
         Dict{String,Any}("LanguageCode" => LanguageCode, "TextList" => TextList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -231,7 +231,7 @@ function batch_detect_syntax(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -259,7 +259,7 @@ function batch_detect_targeted_sentiment(
     return comprehend(
         "BatchDetectTargetedSentiment",
         Dict{String,Any}("LanguageCode" => LanguageCode, "TextList" => TextList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -279,7 +279,7 @@ function batch_detect_targeted_sentiment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -332,7 +332,7 @@ function classify_document(EndpointArn; aws_config::AbstractAWSConfig=current_aw
     return comprehend(
         "ClassifyDocument",
         Dict{String,Any}("EndpointArn" => EndpointArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -347,7 +347,7 @@ function classify_document(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -373,7 +373,7 @@ function contains_pii_entities(
     return comprehend(
         "ContainsPiiEntities",
         Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -393,7 +393,7 @@ function contains_pii_entities(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -439,7 +439,7 @@ function create_dataset(
             "InputDataConfig" => InputDataConfig,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -465,7 +465,7 @@ function create_dataset(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -548,7 +548,7 @@ function create_document_classifier(
             "LanguageCode" => LanguageCode,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -576,7 +576,7 @@ function create_document_classifier(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -623,7 +623,7 @@ function create_endpoint(
             "EndpointName" => EndpointName,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -647,7 +647,7 @@ function create_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -727,7 +727,7 @@ function create_entity_recognizer(
             "RecognizerName" => RecognizerName,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -755,7 +755,7 @@ function create_entity_recognizer(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -813,7 +813,7 @@ function create_flywheel(
             "FlywheelName" => FlywheelName,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -839,7 +839,7 @@ function create_flywheel(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -867,7 +867,7 @@ function delete_document_classifier(
     return comprehend(
         "DeleteDocumentClassifier",
         Dict{String,Any}("DocumentClassifierArn" => DocumentClassifierArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -886,7 +886,7 @@ function delete_document_classifier(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -909,7 +909,7 @@ function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_
     return comprehend(
         "DeleteEndpoint",
         Dict{String,Any}("EndpointArn" => EndpointArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -924,7 +924,7 @@ function delete_endpoint(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -952,7 +952,7 @@ function delete_entity_recognizer(
     return comprehend(
         "DeleteEntityRecognizer",
         Dict{String,Any}("EntityRecognizerArn" => EntityRecognizerArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -971,7 +971,7 @@ function delete_entity_recognizer(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -994,7 +994,7 @@ function delete_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aws_
     return comprehend(
         "DeleteFlywheel",
         Dict{String,Any}("FlywheelArn" => FlywheelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1009,7 +1009,7 @@ function delete_flywheel(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("FlywheelArn" => FlywheelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1036,7 +1036,7 @@ function delete_resource_policy(
     return comprehend(
         "DeleteResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1051,7 +1051,7 @@ function delete_resource_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1073,7 +1073,7 @@ function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_
     return comprehend(
         "DescribeDataset",
         Dict{String,Any}("DatasetArn" => DatasetArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1088,7 +1088,7 @@ function describe_dataset(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DatasetArn" => DatasetArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1113,7 +1113,7 @@ function describe_document_classification_job(
     return comprehend(
         "DescribeDocumentClassificationJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1124,7 +1124,7 @@ function describe_document_classification_job(
     return comprehend(
         "DescribeDocumentClassificationJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1148,7 +1148,7 @@ function describe_document_classifier(
     return comprehend(
         "DescribeDocumentClassifier",
         Dict{String,Any}("DocumentClassifierArn" => DocumentClassifierArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1167,7 +1167,7 @@ function describe_document_classifier(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1192,7 +1192,7 @@ function describe_dominant_language_detection_job(
     return comprehend(
         "DescribeDominantLanguageDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1203,7 +1203,7 @@ function describe_dominant_language_detection_job(
     return comprehend(
         "DescribeDominantLanguageDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1225,7 +1225,7 @@ function describe_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aw
     return comprehend(
         "DescribeEndpoint",
         Dict{String,Any}("EndpointArn" => EndpointArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1240,7 +1240,7 @@ function describe_endpoint(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1265,7 +1265,7 @@ function describe_entities_detection_job(
     return comprehend(
         "DescribeEntitiesDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1276,7 +1276,7 @@ function describe_entities_detection_job(
     return comprehend(
         "DescribeEntitiesDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1301,7 +1301,7 @@ function describe_entity_recognizer(
     return comprehend(
         "DescribeEntityRecognizer",
         Dict{String,Any}("EntityRecognizerArn" => EntityRecognizerArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1320,7 +1320,7 @@ function describe_entity_recognizer(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1343,7 +1343,7 @@ function describe_events_detection_job(
     return comprehend(
         "DescribeEventsDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1354,7 +1354,7 @@ function describe_events_detection_job(
     return comprehend(
         "DescribeEventsDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1376,7 +1376,7 @@ function describe_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aw
     return comprehend(
         "DescribeFlywheel",
         Dict{String,Any}("FlywheelArn" => FlywheelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1391,7 +1391,7 @@ function describe_flywheel(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("FlywheelArn" => FlywheelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1418,7 +1418,7 @@ function describe_flywheel_iteration(
         Dict{String,Any}(
             "FlywheelArn" => FlywheelArn, "FlywheelIterationId" => FlywheelIterationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1441,7 +1441,7 @@ function describe_flywheel_iteration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1466,7 +1466,7 @@ function describe_key_phrases_detection_job(
     return comprehend(
         "DescribeKeyPhrasesDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1477,7 +1477,7 @@ function describe_key_phrases_detection_job(
     return comprehend(
         "DescribeKeyPhrasesDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1502,7 +1502,7 @@ function describe_pii_entities_detection_job(
     return comprehend(
         "DescribePiiEntitiesDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1513,7 +1513,7 @@ function describe_pii_entities_detection_job(
     return comprehend(
         "DescribePiiEntitiesDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1538,7 +1538,7 @@ function describe_resource_policy(
     return comprehend(
         "DescribeResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1553,7 +1553,7 @@ function describe_resource_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1578,7 +1578,7 @@ function describe_sentiment_detection_job(
     return comprehend(
         "DescribeSentimentDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1589,7 +1589,7 @@ function describe_sentiment_detection_job(
     return comprehend(
         "DescribeSentimentDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1614,7 +1614,7 @@ function describe_targeted_sentiment_detection_job(
     return comprehend(
         "DescribeTargetedSentimentDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1625,7 +1625,7 @@ function describe_targeted_sentiment_detection_job(
     return comprehend(
         "DescribeTargetedSentimentDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1649,7 +1649,7 @@ function describe_topics_detection_job(
     return comprehend(
         "DescribeTopicsDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1660,7 +1660,7 @@ function describe_topics_detection_job(
     return comprehend(
         "DescribeTopicsDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1683,7 +1683,7 @@ function detect_dominant_language(Text; aws_config::AbstractAWSConfig=current_aw
     return comprehend(
         "DetectDominantLanguage",
         Dict{String,Any}("Text" => Text);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1694,7 +1694,7 @@ function detect_dominant_language(
     return comprehend(
         "DetectDominantLanguage",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1746,17 +1746,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function detect_entities end
 
 function detect_entities(; aws_config::AbstractAWSConfig=current_aws_config())
-    return comprehend(
-        "DetectEntities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return comprehend("DetectEntities"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function detect_entities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return comprehend(
-        "DetectEntities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return comprehend("DetectEntities", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1780,7 +1776,7 @@ function detect_key_phrases(
     return comprehend(
         "DetectKeyPhrases",
         Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1800,7 +1796,7 @@ function detect_key_phrases(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1826,7 +1822,7 @@ function detect_pii_entities(
     return comprehend(
         "DetectPiiEntities",
         Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1846,7 +1842,7 @@ function detect_pii_entities(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1872,7 +1868,7 @@ function detect_sentiment(
     return comprehend(
         "DetectSentiment",
         Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1892,7 +1888,7 @@ function detect_sentiment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1919,7 +1915,7 @@ function detect_syntax(
     return comprehend(
         "DetectSyntax",
         Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1939,7 +1935,7 @@ function detect_syntax(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1966,7 +1962,7 @@ function detect_targeted_sentiment(
     return comprehend(
         "DetectTargetedSentiment",
         Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1986,7 +1982,7 @@ function detect_targeted_sentiment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2015,7 +2011,7 @@ function detect_toxic_content(
     return comprehend(
         "DetectToxicContent",
         Dict{String,Any}("LanguageCode" => LanguageCode, "TextSegments" => TextSegments);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2037,7 +2033,7 @@ function detect_toxic_content(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2082,7 +2078,7 @@ function import_model(SourceModelArn; aws_config::AbstractAWSConfig=current_aws_
     return comprehend(
         "ImportModel",
         Dict{String,Any}("SourceModelArn" => SourceModelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2097,7 +2093,7 @@ function import_model(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("SourceModelArn" => SourceModelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2119,17 +2115,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_datasets end
 
 function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
-    return comprehend(
-        "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return comprehend("ListDatasets"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return comprehend(
-        "ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return comprehend("ListDatasets", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2152,9 +2144,7 @@ function list_document_classification_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListDocumentClassificationJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListDocumentClassificationJobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2164,7 +2154,7 @@ function list_document_classification_jobs(
     return comprehend(
         "ListDocumentClassificationJobs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2186,9 +2176,7 @@ function list_document_classifier_summaries(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListDocumentClassifierSummaries";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListDocumentClassifierSummaries"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2198,7 +2186,7 @@ function list_document_classifier_summaries(
     return comprehend(
         "ListDocumentClassifierSummaries",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2221,7 +2209,7 @@ function list_document_classifiers end
 
 function list_document_classifiers(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
-        "ListDocumentClassifiers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDocumentClassifiers"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2229,10 +2217,7 @@ function list_document_classifiers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListDocumentClassifiers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListDocumentClassifiers", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2256,9 +2241,7 @@ function list_dominant_language_detection_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListDominantLanguageDetectionJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListDominantLanguageDetectionJobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2268,7 +2251,7 @@ function list_dominant_language_detection_jobs(
     return comprehend(
         "ListDominantLanguageDetectionJobs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2291,17 +2274,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_endpoints end
 
 function list_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
-    return comprehend(
-        "ListEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return comprehend("ListEndpoints"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return comprehend(
-        "ListEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return comprehend("ListEndpoints", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2322,7 +2301,7 @@ function list_entities_detection_jobs end
 
 function list_entities_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
-        "ListEntitiesDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEntitiesDetectionJobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2330,10 +2309,7 @@ function list_entities_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListEntitiesDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListEntitiesDetectionJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2354,9 +2330,7 @@ function list_entity_recognizer_summaries(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListEntityRecognizerSummaries";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListEntityRecognizerSummaries"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2364,10 +2338,7 @@ function list_entity_recognizer_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListEntityRecognizerSummaries",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListEntityRecognizerSummaries", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2391,19 +2362,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_entity_recognizers end
 
 function list_entity_recognizers(; aws_config::AbstractAWSConfig=current_aws_config())
-    return comprehend(
-        "ListEntityRecognizers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return comprehend("ListEntityRecognizers"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_entity_recognizers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListEntityRecognizers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListEntityRecognizers", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2425,7 +2391,7 @@ function list_events_detection_jobs end
 
 function list_events_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
-        "ListEventsDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEventsDetectionJobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2433,10 +2399,7 @@ function list_events_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListEventsDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListEventsDetectionJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2464,7 +2427,7 @@ function list_flywheel_iteration_history(
     return comprehend(
         "ListFlywheelIterationHistory",
         Dict{String,Any}("FlywheelArn" => FlywheelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2479,7 +2442,7 @@ function list_flywheel_iteration_history(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("FlywheelArn" => FlywheelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2501,17 +2464,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_flywheels end
 
 function list_flywheels(; aws_config::AbstractAWSConfig=current_aws_config())
-    return comprehend(
-        "ListFlywheels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return comprehend("ListFlywheels"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_flywheels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return comprehend(
-        "ListFlywheels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return comprehend("ListFlywheels", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2534,9 +2493,7 @@ function list_key_phrases_detection_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListKeyPhrasesDetectionJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListKeyPhrasesDetectionJobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2544,10 +2501,7 @@ function list_key_phrases_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListKeyPhrasesDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListKeyPhrasesDetectionJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2571,9 +2525,7 @@ function list_pii_entities_detection_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListPiiEntitiesDetectionJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListPiiEntitiesDetectionJobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2581,10 +2533,7 @@ function list_pii_entities_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListPiiEntitiesDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListPiiEntitiesDetectionJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2606,7 +2555,7 @@ function list_sentiment_detection_jobs end
 
 function list_sentiment_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
-        "ListSentimentDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSentimentDetectionJobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2614,10 +2563,7 @@ function list_sentiment_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListSentimentDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListSentimentDetectionJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2640,7 +2586,7 @@ function list_tags_for_resource(
     return comprehend(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2655,7 +2601,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2680,9 +2626,7 @@ function list_targeted_sentiment_detection_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListTargetedSentimentDetectionJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListTargetedSentimentDetectionJobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2692,7 +2636,7 @@ function list_targeted_sentiment_detection_jobs(
     return comprehend(
         "ListTargetedSentimentDetectionJobs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2715,7 +2659,7 @@ function list_topics_detection_jobs end
 
 function list_topics_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
-        "ListTopicsDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTopicsDetectionJobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2723,10 +2667,7 @@ function list_topics_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return comprehend(
-        "ListTopicsDetectionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListTopicsDetectionJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2763,7 +2704,7 @@ function put_resource_policy(
     return comprehend(
         "PutResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn, "ResourcePolicy" => ResourcePolicy);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2785,7 +2726,7 @@ function put_resource_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2842,7 +2783,7 @@ function start_document_classification_job(
             "OutputDataConfig" => OutputDataConfig,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2868,7 +2809,7 @@ function start_document_classification_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2921,7 +2862,7 @@ function start_dominant_language_detection_job(
             "OutputDataConfig" => OutputDataConfig,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2947,7 +2888,7 @@ function start_dominant_language_detection_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3014,7 +2955,7 @@ function start_entities_detection_job(
             "OutputDataConfig" => OutputDataConfig,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3042,7 +2983,7 @@ function start_entities_detection_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3090,7 +3031,7 @@ function start_events_detection_job(
             "TargetEventTypes" => TargetEventTypes,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3120,7 +3061,7 @@ function start_events_detection_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3149,7 +3090,7 @@ function start_flywheel_iteration(
     return comprehend(
         "StartFlywheelIteration",
         Dict{String,Any}("FlywheelArn" => FlywheelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3164,7 +3105,7 @@ function start_flywheel_iteration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("FlywheelArn" => FlywheelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3221,7 +3162,7 @@ function start_key_phrases_detection_job(
             "OutputDataConfig" => OutputDataConfig,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3249,7 +3190,7 @@ function start_key_phrases_detection_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3304,7 +3245,7 @@ function start_pii_entities_detection_job(
             "OutputDataConfig" => OutputDataConfig,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3334,7 +3275,7 @@ function start_pii_entities_detection_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3391,7 +3332,7 @@ function start_sentiment_detection_job(
             "OutputDataConfig" => OutputDataConfig,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3419,7 +3360,7 @@ function start_sentiment_detection_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3473,7 +3414,7 @@ function start_targeted_sentiment_detection_job(
             "OutputDataConfig" => OutputDataConfig,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3501,7 +3442,7 @@ function start_targeted_sentiment_detection_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3556,7 +3497,7 @@ function start_topics_detection_job(
             "OutputDataConfig" => OutputDataConfig,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3582,7 +3523,7 @@ function start_topics_detection_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3611,7 +3552,7 @@ function stop_dominant_language_detection_job(
     return comprehend(
         "StopDominantLanguageDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3622,7 +3563,7 @@ function stop_dominant_language_detection_job(
     return comprehend(
         "StopDominantLanguageDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3651,7 +3592,7 @@ function stop_entities_detection_job(
     return comprehend(
         "StopEntitiesDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3662,7 +3603,7 @@ function stop_entities_detection_job(
     return comprehend(
         "StopEntitiesDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3685,7 +3626,7 @@ function stop_events_detection_job(
     return comprehend(
         "StopEventsDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3696,7 +3637,7 @@ function stop_events_detection_job(
     return comprehend(
         "StopEventsDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3725,7 +3666,7 @@ function stop_key_phrases_detection_job(
     return comprehend(
         "StopKeyPhrasesDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3736,7 +3677,7 @@ function stop_key_phrases_detection_job(
     return comprehend(
         "StopKeyPhrasesDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3759,7 +3700,7 @@ function stop_pii_entities_detection_job(
     return comprehend(
         "StopPiiEntitiesDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3770,7 +3711,7 @@ function stop_pii_entities_detection_job(
     return comprehend(
         "StopPiiEntitiesDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3799,7 +3740,7 @@ function stop_sentiment_detection_job(
     return comprehend(
         "StopSentimentDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3810,7 +3751,7 @@ function stop_sentiment_detection_job(
     return comprehend(
         "StopSentimentDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3839,7 +3780,7 @@ function stop_targeted_sentiment_detection_job(
     return comprehend(
         "StopTargetedSentimentDetectionJob",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3850,7 +3791,7 @@ function stop_targeted_sentiment_detection_job(
     return comprehend(
         "StopTargetedSentimentDetectionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3878,7 +3819,7 @@ function stop_training_document_classifier(
     return comprehend(
         "StopTrainingDocumentClassifier",
         Dict{String,Any}("DocumentClassifierArn" => DocumentClassifierArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3897,7 +3838,7 @@ function stop_training_document_classifier(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3925,7 +3866,7 @@ function stop_training_entity_recognizer(
     return comprehend(
         "StopTrainingEntityRecognizer",
         Dict{String,Any}("EntityRecognizerArn" => EntityRecognizerArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3944,7 +3885,7 @@ function stop_training_entity_recognizer(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3971,7 +3912,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
     return comprehend(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3991,7 +3932,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4019,7 +3960,7 @@ function untag_resource(
     return comprehend(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4039,7 +3980,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4070,7 +4011,7 @@ function update_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_
     return comprehend(
         "UpdateEndpoint",
         Dict{String,Any}("EndpointArn" => EndpointArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4085,7 +4026,7 @@ function update_endpoint(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4112,7 +4053,7 @@ function update_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aws_
     return comprehend(
         "UpdateFlywheel",
         Dict{String,Any}("FlywheelArn" => FlywheelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4127,7 +4068,7 @@ function update_flywheel(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("FlywheelArn" => FlywheelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

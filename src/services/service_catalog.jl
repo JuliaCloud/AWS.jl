@@ -31,7 +31,7 @@ function accept_portfolio_share(
     return service_catalog(
         "AcceptPortfolioShare",
         Dict{String,Any}("PortfolioId" => PortfolioId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -46,7 +46,7 @@ function accept_portfolio_share(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -70,7 +70,7 @@ function associate_budget_with_resource(
     return service_catalog(
         "AssociateBudgetWithResource",
         Dict{String,Any}("BudgetName" => BudgetName, "ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -90,7 +90,7 @@ function associate_budget_with_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -162,7 +162,7 @@ function associate_principal_with_portfolio(
             "PrincipalARN" => PrincipalARN,
             "PrincipalType" => PrincipalType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -187,7 +187,7 @@ function associate_principal_with_portfolio(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -216,7 +216,7 @@ function associate_product_with_portfolio(
     return service_catalog(
         "AssociateProductWithPortfolio",
         Dict{String,Any}("PortfolioId" => PortfolioId, "ProductId" => ProductId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -236,7 +236,7 @@ function associate_product_with_portfolio(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -276,7 +276,7 @@ function associate_service_action_with_provisioning_artifact(
             "ServiceActionId" => ServiceActionId,
             "IdempotencyToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -302,7 +302,7 @@ function associate_service_action_with_provisioning_artifact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -326,7 +326,7 @@ function associate_tag_option_with_resource(
     return service_catalog(
         "AssociateTagOptionWithResource",
         Dict{String,Any}("ResourceId" => ResourceId, "TagOptionId" => TagOptionId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -346,7 +346,7 @@ function associate_tag_option_with_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -373,7 +373,7 @@ function batch_associate_service_action_with_provisioning_artifact(
     return service_catalog(
         "BatchAssociateServiceActionWithProvisioningArtifact",
         Dict{String,Any}("ServiceActionAssociations" => ServiceActionAssociations);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -392,7 +392,7 @@ function batch_associate_service_action_with_provisioning_artifact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -419,7 +419,7 @@ function batch_disassociate_service_action_from_provisioning_artifact(
     return service_catalog(
         "BatchDisassociateServiceActionFromProvisioningArtifact",
         Dict{String,Any}("ServiceActionAssociations" => ServiceActionAssociations);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -438,7 +438,7 @@ function batch_disassociate_service_action_from_provisioning_artifact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -482,7 +482,7 @@ function copy_product(
         Dict{String,Any}(
             "IdempotencyToken" => IdempotencyToken, "SourceProductArn" => SourceProductArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -505,7 +505,7 @@ function copy_product(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -572,7 +572,7 @@ function create_constraint(
             "ProductId" => ProductId,
             "Type" => Type,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -601,7 +601,7 @@ function create_constraint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -640,7 +640,7 @@ function create_portfolio(
             "IdempotencyToken" => IdempotencyToken,
             "ProviderName" => ProviderName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -665,7 +665,7 @@ function create_portfolio(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -724,7 +724,7 @@ function create_portfolio_share(
     return service_catalog(
         "CreatePortfolioShare",
         Dict{String,Any}("PortfolioId" => PortfolioId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -739,7 +739,7 @@ function create_portfolio_share(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -794,7 +794,7 @@ function create_product(
             "Owner" => Owner,
             "ProductType" => ProductType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -821,7 +821,7 @@ function create_product(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -884,7 +884,7 @@ function create_provisioned_product_plan(
             "ProvisionedProductName" => ProvisionedProductName,
             "ProvisioningArtifactId" => ProvisioningArtifactId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -915,7 +915,7 @@ function create_provisioned_product_plan(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -956,7 +956,7 @@ function create_provisioning_artifact(
             "Parameters" => Parameters,
             "ProductId" => ProductId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -981,7 +981,7 @@ function create_provisioning_artifact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1031,7 +1031,7 @@ function create_service_action(
             "IdempotencyToken" => IdempotencyToken,
             "Name" => Name,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1058,7 +1058,7 @@ function create_service_action(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1080,7 +1080,7 @@ function create_tag_option(Key, Value; aws_config::AbstractAWSConfig=current_aws
     return service_catalog(
         "CreateTagOption",
         Dict{String,Any}("Key" => Key, "Value" => Value);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1096,7 +1096,7 @@ function create_tag_option(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Key" => Key, "Value" => Value), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1120,7 +1120,7 @@ function delete_constraint(Id; aws_config::AbstractAWSConfig=current_aws_config(
     return service_catalog(
         "DeleteConstraint",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1131,7 +1131,7 @@ function delete_constraint(
     return service_catalog(
         "DeleteConstraint",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1157,7 +1157,7 @@ function delete_portfolio(Id; aws_config::AbstractAWSConfig=current_aws_config()
     return service_catalog(
         "DeletePortfolio",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1168,7 +1168,7 @@ function delete_portfolio(
     return service_catalog(
         "DeletePortfolio",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1199,7 +1199,7 @@ function delete_portfolio_share(
     return service_catalog(
         "DeletePortfolioShare",
         Dict{String,Any}("PortfolioId" => PortfolioId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1214,7 +1214,7 @@ function delete_portfolio_share(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1239,7 +1239,7 @@ function delete_product(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeleteProduct",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1250,7 +1250,7 @@ function delete_product(
     return service_catalog(
         "DeleteProduct",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1278,7 +1278,7 @@ function delete_provisioned_product_plan(
     return service_catalog(
         "DeleteProvisionedProductPlan",
         Dict{String,Any}("PlanId" => PlanId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1289,7 +1289,7 @@ function delete_provisioned_product_plan(
     return service_catalog(
         "DeleteProvisionedProductPlan",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PlanId" => PlanId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1321,7 +1321,7 @@ function delete_provisioning_artifact(
         Dict{String,Any}(
             "ProductId" => ProductId, "ProvisioningArtifactId" => ProvisioningArtifactId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1344,7 +1344,7 @@ function delete_provisioning_artifact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1371,7 +1371,7 @@ function delete_service_action(Id; aws_config::AbstractAWSConfig=current_aws_con
     return service_catalog(
         "DeleteServiceAction",
         Dict{String,Any}("Id" => Id, "IdempotencyToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1388,7 +1388,7 @@ function delete_service_action(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1410,7 +1410,7 @@ function delete_tag_option(Id; aws_config::AbstractAWSConfig=current_aws_config(
     return service_catalog(
         "DeleteTagOption",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1421,7 +1421,7 @@ function delete_tag_option(
     return service_catalog(
         "DeleteTagOption",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1445,7 +1445,7 @@ function describe_constraint(Id; aws_config::AbstractAWSConfig=current_aws_confi
     return service_catalog(
         "DescribeConstraint",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1456,7 +1456,7 @@ function describe_constraint(
     return service_catalog(
         "DescribeConstraint",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1483,7 +1483,7 @@ function describe_copy_product_status(
     return service_catalog(
         "DescribeCopyProductStatus",
         Dict{String,Any}("CopyProductToken" => CopyProductToken);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1500,7 +1500,7 @@ function describe_copy_product_status(
                 _merge, Dict{String,Any}("CopyProductToken" => CopyProductToken), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1525,7 +1525,7 @@ function describe_portfolio(Id; aws_config::AbstractAWSConfig=current_aws_config
     return service_catalog(
         "DescribePortfolio",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1536,7 +1536,7 @@ function describe_portfolio(
     return service_catalog(
         "DescribePortfolio",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1561,7 +1561,7 @@ function describe_portfolio_share_status(
     return service_catalog(
         "DescribePortfolioShareStatus",
         Dict{String,Any}("PortfolioShareToken" => PortfolioShareToken);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1580,7 +1580,7 @@ function describe_portfolio_share_status(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1618,7 +1618,7 @@ function describe_portfolio_shares(
     return service_catalog(
         "DescribePortfolioShares",
         Dict{String,Any}("PortfolioId" => PortfolioId, "Type" => Type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1638,7 +1638,7 @@ function describe_portfolio_shares(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1659,16 +1659,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_product end
 
 function describe_product(; aws_config::AbstractAWSConfig=current_aws_config())
-    return service_catalog(
-        "DescribeProduct"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return service_catalog("DescribeProduct"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_product(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "DescribeProduct", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeProduct", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1694,7 +1692,7 @@ function describe_product_as_admin end
 
 function describe_product_as_admin(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
-        "DescribeProductAsAdmin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeProductAsAdmin"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1702,10 +1700,7 @@ function describe_product_as_admin(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "DescribeProductAsAdmin",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeProductAsAdmin", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1728,7 +1723,7 @@ function describe_product_view(Id; aws_config::AbstractAWSConfig=current_aws_con
     return service_catalog(
         "DescribeProductView",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1739,7 +1734,7 @@ function describe_product_view(
     return service_catalog(
         "DescribeProductView",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1764,7 +1759,7 @@ function describe_provisioned_product end
 
 function describe_provisioned_product(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
-        "DescribeProvisionedProduct"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeProvisionedProduct"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1772,10 +1767,7 @@ function describe_provisioned_product(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "DescribeProvisionedProduct",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeProvisionedProduct", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1803,7 +1795,7 @@ function describe_provisioned_product_plan(
     return service_catalog(
         "DescribeProvisionedProductPlan",
         Dict{String,Any}("PlanId" => PlanId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1814,7 +1806,7 @@ function describe_provisioned_product_plan(
     return service_catalog(
         "DescribeProvisionedProductPlan",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PlanId" => PlanId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1843,9 +1835,7 @@ function describe_provisioning_artifact(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "DescribeProvisioningArtifact";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeProvisioningArtifact"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1853,10 +1843,7 @@ function describe_provisioning_artifact(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "DescribeProvisioningArtifact",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeProvisioningArtifact", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1893,9 +1880,7 @@ function describe_provisioning_parameters(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "DescribeProvisioningParameters";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeProvisioningParameters"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1905,7 +1890,7 @@ function describe_provisioning_parameters(
     return service_catalog(
         "DescribeProvisioningParameters",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1939,7 +1924,7 @@ function describe_record(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeRecord",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1950,7 +1935,7 @@ function describe_record(
     return service_catalog(
         "DescribeRecord",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1974,7 +1959,7 @@ function describe_service_action(Id; aws_config::AbstractAWSConfig=current_aws_c
     return service_catalog(
         "DescribeServiceAction",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1985,7 +1970,7 @@ function describe_service_action(
     return service_catalog(
         "DescribeServiceAction",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2018,7 +2003,7 @@ function describe_service_action_execution_parameters(
             "ProvisionedProductId" => ProvisionedProductId,
             "ServiceActionId" => ServiceActionId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2041,7 +2026,7 @@ function describe_service_action_execution_parameters(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2062,7 +2047,7 @@ function describe_tag_option(Id; aws_config::AbstractAWSConfig=current_aws_confi
     return service_catalog(
         "DescribeTagOption",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2073,7 +2058,7 @@ function describe_tag_option(
     return service_catalog(
         "DescribeTagOption",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2101,9 +2086,7 @@ function disable_awsorganizations_access(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "DisableAWSOrganizationsAccess";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DisableAWSOrganizationsAccess"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2111,10 +2094,7 @@ function disable_awsorganizations_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "DisableAWSOrganizationsAccess",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DisableAWSOrganizationsAccess", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2138,7 +2118,7 @@ function disassociate_budget_from_resource(
     return service_catalog(
         "DisassociateBudgetFromResource",
         Dict{String,Any}("BudgetName" => BudgetName, "ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2158,7 +2138,7 @@ function disassociate_budget_from_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2202,7 +2182,7 @@ function disassociate_principal_from_portfolio(
     return service_catalog(
         "DisassociatePrincipalFromPortfolio",
         Dict{String,Any}("PortfolioId" => PortfolioId, "PrincipalARN" => PrincipalARN);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2224,7 +2204,7 @@ function disassociate_principal_from_portfolio(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2252,7 +2232,7 @@ function disassociate_product_from_portfolio(
     return service_catalog(
         "DisassociateProductFromPortfolio",
         Dict{String,Any}("PortfolioId" => PortfolioId, "ProductId" => ProductId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2272,7 +2252,7 @@ function disassociate_product_from_portfolio(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2313,7 +2293,7 @@ function disassociate_service_action_from_provisioning_artifact(
             "ServiceActionId" => ServiceActionId,
             "IdempotencyToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2339,7 +2319,7 @@ function disassociate_service_action_from_provisioning_artifact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2363,7 +2343,7 @@ function disassociate_tag_option_from_resource(
     return service_catalog(
         "DisassociateTagOptionFromResource",
         Dict{String,Any}("ResourceId" => ResourceId, "TagOptionId" => TagOptionId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2383,7 +2363,7 @@ function disassociate_tag_option_from_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2414,9 +2394,7 @@ function enable_awsorganizations_access(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "EnableAWSOrganizationsAccess";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "EnableAWSOrganizationsAccess"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2424,10 +2402,7 @@ function enable_awsorganizations_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "EnableAWSOrganizationsAccess",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "EnableAWSOrganizationsAccess", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2455,7 +2430,7 @@ function execute_provisioned_product_plan(
     return service_catalog(
         "ExecuteProvisionedProductPlan",
         Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "PlanId" => PlanId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2477,7 +2452,7 @@ function execute_provisioned_product_plan(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2517,7 +2492,7 @@ function execute_provisioned_product_service_action(
             "ProvisionedProductId" => ProvisionedProductId,
             "ServiceActionId" => ServiceActionId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2542,7 +2517,7 @@ function execute_provisioned_product_service_action(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2561,9 +2536,7 @@ function get_awsorganizations_access_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "GetAWSOrganizationsAccessStatus";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetAWSOrganizationsAccessStatus"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2573,7 +2546,7 @@ function get_awsorganizations_access_status(
     return service_catalog(
         "GetAWSOrganizationsAccessStatus",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2604,9 +2577,7 @@ function get_provisioned_product_outputs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "GetProvisionedProductOutputs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetProvisionedProductOutputs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2614,10 +2585,7 @@ function get_provisioned_product_outputs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "GetProvisionedProductOutputs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetProvisionedProductOutputs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2676,7 +2644,7 @@ function import_as_provisioned_product(
             "ProvisionedProductName" => ProvisionedProductName,
             "ProvisioningArtifactId" => ProvisioningArtifactId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2705,7 +2673,7 @@ function import_as_provisioned_product(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2736,9 +2704,7 @@ function list_accepted_portfolio_shares(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "ListAcceptedPortfolioShares";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListAcceptedPortfolioShares"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2746,10 +2712,7 @@ function list_accepted_portfolio_shares(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "ListAcceptedPortfolioShares",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListAcceptedPortfolioShares", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2777,7 +2740,7 @@ function list_budgets_for_resource(
     return service_catalog(
         "ListBudgetsForResource",
         Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2792,7 +2755,7 @@ function list_budgets_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2822,7 +2785,7 @@ function list_constraints_for_portfolio(
     return service_catalog(
         "ListConstraintsForPortfolio",
         Dict{String,Any}("PortfolioId" => PortfolioId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2837,7 +2800,7 @@ function list_constraints_for_portfolio(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2869,7 +2832,7 @@ function list_launch_paths(ProductId; aws_config::AbstractAWSConfig=current_aws_
     return service_catalog(
         "ListLaunchPaths",
         Dict{String,Any}("ProductId" => ProductId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2884,7 +2847,7 @@ function list_launch_paths(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ProductId" => ProductId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2921,7 +2884,7 @@ function list_organization_portfolio_access(
         Dict{String,Any}(
             "OrganizationNodeType" => OrganizationNodeType, "PortfolioId" => PortfolioId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2944,7 +2907,7 @@ function list_organization_portfolio_access(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2977,7 +2940,7 @@ function list_portfolio_access(
     return service_catalog(
         "ListPortfolioAccess",
         Dict{String,Any}("PortfolioId" => PortfolioId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2992,7 +2955,7 @@ function list_portfolio_access(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3013,16 +2976,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_portfolios end
 
 function list_portfolios(; aws_config::AbstractAWSConfig=current_aws_config())
-    return service_catalog(
-        "ListPortfolios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return service_catalog("ListPortfolios"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_portfolios(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "ListPortfolios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListPortfolios", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3050,7 +3011,7 @@ function list_portfolios_for_product(
     return service_catalog(
         "ListPortfoliosForProduct",
         Dict{String,Any}("ProductId" => ProductId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3065,7 +3026,7 @@ function list_portfolios_for_product(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ProductId" => ProductId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3095,7 +3056,7 @@ function list_principals_for_portfolio(
     return service_catalog(
         "ListPrincipalsForPortfolio",
         Dict{String,Any}("PortfolioId" => PortfolioId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3110,7 +3071,7 @@ function list_principals_for_portfolio(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3137,9 +3098,7 @@ function list_provisioned_product_plans(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "ListProvisionedProductPlans";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListProvisionedProductPlans"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3147,10 +3106,7 @@ function list_provisioned_product_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "ListProvisionedProductPlans",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListProvisionedProductPlans", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3175,7 +3131,7 @@ function list_provisioning_artifacts(
     return service_catalog(
         "ListProvisioningArtifacts",
         Dict{String,Any}("ProductId" => ProductId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3190,7 +3146,7 @@ function list_provisioning_artifacts(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ProductId" => ProductId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3220,7 +3176,7 @@ function list_provisioning_artifacts_for_service_action(
     return service_catalog(
         "ListProvisioningArtifactsForServiceAction",
         Dict{String,Any}("ServiceActionId" => ServiceActionId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3237,7 +3193,7 @@ function list_provisioning_artifacts_for_service_action(
                 _merge, Dict{String,Any}("ServiceActionId" => ServiceActionId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3260,16 +3216,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_record_history end
 
 function list_record_history(; aws_config::AbstractAWSConfig=current_aws_config())
-    return service_catalog(
-        "ListRecordHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return service_catalog("ListRecordHistory"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_record_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "ListRecordHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRecordHistory", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3297,7 +3251,7 @@ function list_resources_for_tag_option(
     return service_catalog(
         "ListResourcesForTagOption",
         Dict{String,Any}("TagOptionId" => TagOptionId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3312,7 +3266,7 @@ function list_resources_for_tag_option(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TagOptionId" => TagOptionId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3334,7 +3288,7 @@ function list_service_actions end
 
 function list_service_actions(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
-        "ListServiceActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListServiceActions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3342,7 +3296,7 @@ function list_service_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "ListServiceActions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListServiceActions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3375,7 +3329,7 @@ function list_service_actions_for_provisioning_artifact(
         Dict{String,Any}(
             "ProductId" => ProductId, "ProvisioningArtifactId" => ProvisioningArtifactId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3398,7 +3352,7 @@ function list_service_actions_for_provisioning_artifact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3429,7 +3383,7 @@ function list_stack_instances_for_provisioned_product(
     return service_catalog(
         "ListStackInstancesForProvisionedProduct",
         Dict{String,Any}("ProvisionedProductId" => ProvisionedProductId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3448,7 +3402,7 @@ function list_stack_instances_for_provisioned_product(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3470,16 +3424,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_tag_options end
 
 function list_tag_options(; aws_config::AbstractAWSConfig=current_aws_config())
-    return service_catalog(
-        "ListTagOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return service_catalog("ListTagOptions"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_tag_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "ListTagOptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTagOptions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3521,7 +3473,7 @@ function notify_provision_product_engine_workflow_result(
             "Status" => Status,
             "WorkflowToken" => WorkflowToken,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3548,7 +3500,7 @@ function notify_provision_product_engine_workflow_result(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3588,7 +3540,7 @@ function notify_terminate_provisioned_product_engine_workflow_result(
             "Status" => Status,
             "WorkflowToken" => WorkflowToken,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3615,7 +3567,7 @@ function notify_terminate_provisioned_product_engine_workflow_result(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3655,7 +3607,7 @@ function notify_update_provisioned_product_engine_workflow_result(
             "Status" => Status,
             "WorkflowToken" => WorkflowToken,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3682,7 +3634,7 @@ function notify_update_provisioned_product_engine_workflow_result(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3741,7 +3693,7 @@ function provision_product(
             "ProvisionToken" => ProvisionToken,
             "ProvisionedProductName" => ProvisionedProductName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3764,7 +3716,7 @@ function provision_product(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3796,7 +3748,7 @@ function reject_portfolio_share(
     return service_catalog(
         "RejectPortfolioShare",
         Dict{String,Any}("PortfolioId" => PortfolioId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3811,7 +3763,7 @@ function reject_portfolio_share(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3835,7 +3787,7 @@ function scan_provisioned_products end
 
 function scan_provisioned_products(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
-        "ScanProvisionedProducts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ScanProvisionedProducts"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3843,10 +3795,7 @@ function scan_provisioned_products(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "ScanProvisionedProducts",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ScanProvisionedProducts", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3870,16 +3819,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function search_products end
 
 function search_products(; aws_config::AbstractAWSConfig=current_aws_config())
-    return service_catalog(
-        "SearchProducts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return service_catalog("SearchProducts"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function search_products(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "SearchProducts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "SearchProducts", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3906,7 +3853,7 @@ function search_products_as_admin end
 
 function search_products_as_admin(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
-        "SearchProductsAsAdmin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "SearchProductsAsAdmin"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3914,10 +3861,7 @@ function search_products_as_admin(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "SearchProductsAsAdmin",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "SearchProductsAsAdmin", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3947,7 +3891,7 @@ function search_provisioned_products end
 
 function search_provisioned_products(; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
-        "SearchProvisionedProducts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "SearchProvisionedProducts"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3955,10 +3899,7 @@ function search_provisioned_products(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
-        "SearchProvisionedProducts",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "SearchProvisionedProducts", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3998,7 +3939,7 @@ function terminate_provisioned_product(
     return service_catalog(
         "TerminateProvisionedProduct",
         Dict{String,Any}("TerminateToken" => TerminateToken);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4013,7 +3954,7 @@ function terminate_provisioned_product(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TerminateToken" => TerminateToken), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4061,7 +4002,7 @@ function update_constraint(Id; aws_config::AbstractAWSConfig=current_aws_config(
     return service_catalog(
         "UpdateConstraint",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4072,7 +4013,7 @@ function update_constraint(
     return service_catalog(
         "UpdateConstraint",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4101,7 +4042,7 @@ function update_portfolio(Id; aws_config::AbstractAWSConfig=current_aws_config()
     return service_catalog(
         "UpdatePortfolio",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4112,7 +4053,7 @@ function update_portfolio(
     return service_catalog(
         "UpdatePortfolio",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4164,7 +4105,7 @@ function update_portfolio_share(
     return service_catalog(
         "UpdatePortfolioShare",
         Dict{String,Any}("PortfolioId" => PortfolioId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4179,7 +4120,7 @@ function update_portfolio_share(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PortfolioId" => PortfolioId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4216,7 +4157,7 @@ function update_product(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "UpdateProduct",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4227,7 +4168,7 @@ function update_product(
     return service_catalog(
         "UpdateProduct",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4277,7 +4218,7 @@ function update_provisioned_product(
     return service_catalog(
         "UpdateProvisionedProduct",
         Dict{String,Any}("UpdateToken" => UpdateToken);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4292,7 +4233,7 @@ function update_provisioned_product(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UpdateToken" => UpdateToken), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4346,7 +4287,7 @@ function update_provisioned_product_properties(
             "ProvisionedProductId" => ProvisionedProductId,
             "ProvisionedProductProperties" => ProvisionedProductProperties,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4371,7 +4312,7 @@ function update_provisioned_product_properties(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4411,7 +4352,7 @@ function update_provisioning_artifact(
         Dict{String,Any}(
             "ProductId" => ProductId, "ProvisioningArtifactId" => ProvisioningArtifactId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4434,7 +4375,7 @@ function update_provisioning_artifact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4461,7 +4402,7 @@ function update_service_action(Id; aws_config::AbstractAWSConfig=current_aws_con
     return service_catalog(
         "UpdateServiceAction",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4472,7 +4413,7 @@ function update_service_action(
     return service_catalog(
         "UpdateServiceAction",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4497,7 +4438,7 @@ function update_tag_option(Id; aws_config::AbstractAWSConfig=current_aws_config(
     return service_catalog(
         "UpdateTagOption",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4508,7 +4449,7 @@ function update_tag_option(
     return service_catalog(
         "UpdateTagOption",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

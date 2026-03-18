@@ -55,7 +55,7 @@ function decrypt_data(
         Dict{String,Any}(
             "CipherText" => CipherText, "DecryptionAttributes" => DecryptionAttributes
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -80,7 +80,7 @@ function decrypt_data(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -142,7 +142,7 @@ function encrypt_data(
         Dict{String,Any}(
             "EncryptionAttributes" => EncryptionAttributes, "PlainText" => PlainText
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -166,7 +166,7 @@ function encrypt_data(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -219,7 +219,7 @@ function generate_card_validation_data(
             "KeyIdentifier" => KeyIdentifier,
             "PrimaryAccountNumber" => PrimaryAccountNumber,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -245,7 +245,7 @@ function generate_card_validation_data(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -296,7 +296,7 @@ function generate_mac(
             "KeyIdentifier" => KeyIdentifier,
             "MessageData" => MessageData,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -322,7 +322,7 @@ function generate_mac(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -384,7 +384,7 @@ function generate_pin_data(
             "PinBlockFormat" => PinBlockFormat,
             "PrimaryAccountNumber" => PrimaryAccountNumber,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -414,7 +414,7 @@ function generate_pin_data(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -474,7 +474,7 @@ function re_encrypt_data(
             "OutgoingEncryptionAttributes" => OutgoingEncryptionAttributes,
             "OutgoingKeyIdentifier" => OutgoingKeyIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -503,7 +503,7 @@ function re_encrypt_data(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -576,7 +576,7 @@ function translate_pin_data(
             "OutgoingKeyIdentifier" => OutgoingKeyIdentifier,
             "OutgoingTranslationAttributes" => OutgoingTranslationAttributes,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -606,7 +606,7 @@ function translate_pin_data(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -674,7 +674,7 @@ function verify_auth_request_cryptogram(
             "SessionKeyDerivationAttributes" => SessionKeyDerivationAttributes,
             "TransactionData" => TransactionData,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -704,7 +704,7 @@ function verify_auth_request_cryptogram(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -758,7 +758,7 @@ function verify_card_validation_data(
             "ValidationData" => ValidationData,
             "VerificationAttributes" => VerificationAttributes,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -786,7 +786,7 @@ function verify_card_validation_data(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -836,7 +836,7 @@ function verify_mac(
             "MessageData" => MessageData,
             "VerificationAttributes" => VerificationAttributes,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -864,7 +864,7 @@ function verify_mac(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -928,7 +928,7 @@ function verify_pin_data(
             "VerificationAttributes" => VerificationAttributes,
             "VerificationKeyIdentifier" => VerificationKeyIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -960,7 +960,7 @@ function verify_pin_data(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

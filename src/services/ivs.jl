@@ -21,7 +21,7 @@ function batch_get_channel(arns; aws_config::AbstractAWSConfig=current_aws_confi
         "POST",
         "/BatchGetChannel",
         Dict{String,Any}("arns" => arns);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -33,7 +33,7 @@ function batch_get_channel(
         "POST",
         "/BatchGetChannel",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arns" => arns), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -55,7 +55,7 @@ function batch_get_stream_key(arns; aws_config::AbstractAWSConfig=current_aws_co
         "POST",
         "/BatchGetStreamKey",
         Dict{String,Any}("arns" => arns);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -67,7 +67,7 @@ function batch_get_stream_key(
         "POST",
         "/BatchGetStreamKey",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arns" => arns), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -92,7 +92,7 @@ function batch_start_viewer_session_revocation(
         "POST",
         "/BatchStartViewerSessionRevocation",
         Dict{String,Any}("viewerSessions" => viewerSessions);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -108,7 +108,7 @@ function batch_start_viewer_session_revocation(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("viewerSessions" => viewerSessions), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -149,20 +149,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_channel end
 
 function create_channel(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ivs(
-        "POST", "/CreateChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ivs("POST", "/CreateChannel"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function create_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ivs(
-        "POST",
-        "/CreateChannel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/CreateChannel", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -198,7 +192,7 @@ function create_playback_restriction_policy(;
     return ivs(
         "POST",
         "/CreatePlaybackRestrictionPolicy";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -210,7 +204,7 @@ function create_playback_restriction_policy(
         "POST",
         "/CreatePlaybackRestrictionPolicy",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -258,7 +252,7 @@ function create_recording_configuration(
         "POST",
         "/CreateRecordingConfiguration",
         Dict{String,Any}("destinationConfiguration" => destinationConfiguration);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -278,7 +272,7 @@ function create_recording_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -310,7 +304,7 @@ function create_stream_key(channelArn; aws_config::AbstractAWSConfig=current_aws
         "POST",
         "/CreateStreamKey",
         Dict{String,Any}("channelArn" => channelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -326,7 +320,7 @@ function create_stream_key(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -352,7 +346,7 @@ function delete_channel(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/DeleteChannel",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -364,7 +358,7 @@ function delete_channel(
         "POST",
         "/DeleteChannel",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -388,7 +382,7 @@ function delete_playback_key_pair(arn; aws_config::AbstractAWSConfig=current_aws
         "POST",
         "/DeletePlaybackKeyPair",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -400,7 +394,7 @@ function delete_playback_key_pair(
         "POST",
         "/DeletePlaybackKeyPair",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -424,7 +418,7 @@ function delete_playback_restriction_policy(
         "POST",
         "/DeletePlaybackRestrictionPolicy",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -436,7 +430,7 @@ function delete_playback_restriction_policy(
         "POST",
         "/DeletePlaybackRestrictionPolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -464,7 +458,7 @@ function delete_recording_configuration(
         "POST",
         "/DeleteRecordingConfiguration",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -476,7 +470,7 @@ function delete_recording_configuration(
         "POST",
         "/DeleteRecordingConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -498,7 +492,7 @@ function delete_stream_key(arn; aws_config::AbstractAWSConfig=current_aws_config
         "POST",
         "/DeleteStreamKey",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -510,7 +504,7 @@ function delete_stream_key(
         "POST",
         "/DeleteStreamKey",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -532,7 +526,7 @@ function get_channel(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/GetChannel",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -544,7 +538,7 @@ function get_channel(
         "POST",
         "/GetChannel",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -569,7 +563,7 @@ function get_playback_key_pair(arn; aws_config::AbstractAWSConfig=current_aws_co
         "POST",
         "/GetPlaybackKeyPair",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -581,7 +575,7 @@ function get_playback_key_pair(
         "POST",
         "/GetPlaybackKeyPair",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -605,7 +599,7 @@ function get_playback_restriction_policy(
         "POST",
         "/GetPlaybackRestrictionPolicy",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -617,7 +611,7 @@ function get_playback_restriction_policy(
         "POST",
         "/GetPlaybackRestrictionPolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -641,7 +635,7 @@ function get_recording_configuration(
         "POST",
         "/GetRecordingConfiguration",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -653,7 +647,7 @@ function get_recording_configuration(
         "POST",
         "/GetRecordingConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -675,7 +669,7 @@ function get_stream(channelArn; aws_config::AbstractAWSConfig=current_aws_config
         "POST",
         "/GetStream",
         Dict{String,Any}("channelArn" => channelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -691,7 +685,7 @@ function get_stream(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -713,7 +707,7 @@ function get_stream_key(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/GetStreamKey",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -725,7 +719,7 @@ function get_stream_key(
         "POST",
         "/GetStreamKey",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -752,7 +746,7 @@ function get_stream_session(channelArn; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/GetStreamSession",
         Dict{String,Any}("channelArn" => channelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -768,7 +762,7 @@ function get_stream_session(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -802,7 +796,7 @@ function import_playback_key_pair(
         "POST",
         "/ImportPlaybackKeyPair",
         Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -820,7 +814,7 @@ function import_playback_key_pair(
                 _merge, Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -848,21 +842,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_channels end
 
 function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ivs(
-        "POST", "/ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ivs("POST", "/ListChannels"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ivs(
-        "POST",
-        "/ListChannels",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/ListChannels", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -882,23 +868,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_playback_key_pairs end
 
 function list_playback_key_pairs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ivs(
-        "POST",
-        "/ListPlaybackKeyPairs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/ListPlaybackKeyPairs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_playback_key_pairs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ivs(
-        "POST",
-        "/ListPlaybackKeyPairs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListPlaybackKeyPairs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -922,7 +899,7 @@ function list_playback_restriction_policies(;
     return ivs(
         "POST",
         "/ListPlaybackRestrictionPolicies";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -934,7 +911,7 @@ function list_playback_restriction_policies(
         "POST",
         "/ListPlaybackRestrictionPolicies",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -957,10 +934,7 @@ function list_recording_configurations end
 
 function list_recording_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs(
-        "POST",
-        "/ListRecordingConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListRecordingConfigurations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -971,7 +945,7 @@ function list_recording_configurations(
         "POST",
         "/ListRecordingConfigurations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -998,7 +972,7 @@ function list_stream_keys(channelArn; aws_config::AbstractAWSConfig=current_aws_
         "POST",
         "/ListStreamKeys",
         Dict{String,Any}("channelArn" => channelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1014,7 +988,7 @@ function list_stream_keys(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1044,7 +1018,7 @@ function list_stream_sessions(
         "POST",
         "/ListStreamSessions",
         Dict{String,Any}("channelArn" => channelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1060,7 +1034,7 @@ function list_stream_sessions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1082,21 +1056,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_streams end
 
 function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ivs(
-        "POST", "/ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ivs("POST", "/ListStreams"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ivs(
-        "POST",
-        "/ListStreams",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("POST", "/ListStreams", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1114,12 +1080,7 @@ function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ivs(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ivs("GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_tags_for_resource(
@@ -1128,11 +1089,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ivs(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1161,7 +1118,7 @@ function put_metadata(
         "POST",
         "/PutMetadata",
         Dict{String,Any}("channelArn" => channelArn, "metadata" => metadata);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1182,7 +1139,7 @@ function put_metadata(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1216,7 +1173,7 @@ function start_viewer_session_revocation(
         "POST",
         "/StartViewerSessionRevocation",
         Dict{String,Any}("channelArn" => channelArn, "viewerId" => viewerId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1237,7 +1194,7 @@ function start_viewer_session_revocation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1262,7 +1219,7 @@ function stop_stream(channelArn; aws_config::AbstractAWSConfig=current_aws_confi
         "POST",
         "/StopStream",
         Dict{String,Any}("channelArn" => channelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1278,7 +1235,7 @@ function stop_stream(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1305,7 +1262,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1320,7 +1277,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1349,7 +1306,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1364,7 +1321,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1408,7 +1365,7 @@ function update_channel(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/UpdateChannel",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1420,7 +1377,7 @@ function update_channel(
         "POST",
         "/UpdateChannel",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1456,7 +1413,7 @@ function update_playback_restriction_policy(
         "POST",
         "/UpdatePlaybackRestrictionPolicy",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1468,7 +1425,7 @@ function update_playback_restriction_policy(
         "POST",
         "/UpdatePlaybackRestrictionPolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

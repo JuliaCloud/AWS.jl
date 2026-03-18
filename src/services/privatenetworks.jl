@@ -23,7 +23,7 @@ function acknowledge_order_receipt(
         "POST",
         "/v1/orders/acknowledge",
         Dict{String,Any}("orderArn" => orderArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -39,7 +39,7 @@ function acknowledge_order_receipt(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("orderArn" => orderArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -67,7 +67,7 @@ function activate_device_identifier(
         "POST",
         "/v1/device-identifiers/activate",
         Dict{String,Any}("deviceIdentifierArn" => deviceIdentifierArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -87,7 +87,7 @@ function activate_device_identifier(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -126,7 +126,7 @@ function activate_network_site(
         Dict{String,Any}(
             "networkSiteArn" => networkSiteArn, "shippingAddress" => shippingAddress
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -149,7 +149,7 @@ function activate_network_site(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -186,7 +186,7 @@ function configure_access_point(
         "POST",
         "/v1/network-resources/configure",
         Dict{String,Any}("accessPointArn" => accessPointArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -202,7 +202,7 @@ function configure_access_point(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accessPointArn" => accessPointArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -231,7 +231,7 @@ function create_network(networkName; aws_config::AbstractAWSConfig=current_aws_c
         "POST",
         "/v1/networks",
         Dict{String,Any}("networkName" => networkName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -247,7 +247,7 @@ function create_network(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("networkName" => networkName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -284,7 +284,7 @@ function create_network_site(
         "POST",
         "/v1/network-sites",
         Dict{String,Any}("networkArn" => networkArn, "networkSiteName" => networkSiteName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -307,7 +307,7 @@ function create_network_site(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -335,7 +335,7 @@ function deactivate_device_identifier(
         "POST",
         "/v1/device-identifiers/deactivate",
         Dict{String,Any}("deviceIdentifierArn" => deviceIdentifierArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -355,7 +355,7 @@ function deactivate_device_identifier(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -380,10 +380,7 @@ function delete_network end
 
 function delete_network(networkArn; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
-        "DELETE",
-        "/v1/networks/$(networkArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/v1/networks/$(networkArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -396,7 +393,7 @@ function delete_network(
         "DELETE",
         "/v1/networks/$(networkArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -425,7 +422,7 @@ function delete_network_site(
     return privatenetworks(
         "DELETE",
         "/v1/network-sites/$(networkSiteArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -439,7 +436,7 @@ function delete_network_site(
         "DELETE",
         "/v1/network-sites/$(networkSiteArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -462,7 +459,7 @@ function get_device_identifier(
     return privatenetworks(
         "GET",
         "/v1/device-identifiers/$(deviceIdentifierArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -476,7 +473,7 @@ function get_device_identifier(
         "GET",
         "/v1/device-identifiers/$(deviceIdentifierArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -495,10 +492,7 @@ function get_network end
 
 function get_network(networkArn; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
-        "GET",
-        "/v1/networks/$(networkArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/networks/$(networkArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -511,7 +505,7 @@ function get_network(
         "GET",
         "/v1/networks/$(networkArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -534,7 +528,7 @@ function get_network_resource(
     return privatenetworks(
         "GET",
         "/v1/network-resources/$(networkResourceArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -548,7 +542,7 @@ function get_network_resource(
         "GET",
         "/v1/network-resources/$(networkResourceArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -571,7 +565,7 @@ function get_network_site(
     return privatenetworks(
         "GET",
         "/v1/network-sites/$(networkSiteArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -585,7 +579,7 @@ function get_network_site(
         "GET",
         "/v1/network-sites/$(networkSiteArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -604,10 +598,7 @@ function get_order end
 
 function get_order(orderArn; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
-        "GET",
-        "/v1/orders/$(orderArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/orders/$(orderArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -617,11 +608,7 @@ function get_order(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
-        "GET",
-        "/v1/orders/$(orderArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/orders/$(orderArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -657,7 +644,7 @@ function list_device_identifiers(
         "POST",
         "/v1/device-identifiers/list",
         Dict{String,Any}("networkArn" => networkArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -673,7 +660,7 @@ function list_device_identifiers(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("networkArn" => networkArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -709,7 +696,7 @@ function list_network_resources(
         "POST",
         "/v1/network-resources",
         Dict{String,Any}("networkArn" => networkArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -725,7 +712,7 @@ function list_network_resources(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("networkArn" => networkArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -757,7 +744,7 @@ function list_network_sites(networkArn; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/v1/network-sites/list",
         Dict{String,Any}("networkArn" => networkArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -773,7 +760,7 @@ function list_network_sites(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("networkArn" => networkArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -798,7 +785,7 @@ function list_networks end
 
 function list_networks(; aws_config::AbstractAWSConfig=current_aws_config())
     return privatenetworks(
-        "POST", "/v1/networks/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/v1/networks/list"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -806,11 +793,7 @@ function list_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
-        "POST",
-        "/v1/networks/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/v1/networks/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -843,7 +826,7 @@ function list_orders(networkArn; aws_config::AbstractAWSConfig=current_aws_confi
         "POST",
         "/v1/orders/list",
         Dict{String,Any}("networkArn" => networkArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -859,7 +842,7 @@ function list_orders(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("networkArn" => networkArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -880,10 +863,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -893,11 +873,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return privatenetworks(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -911,16 +887,14 @@ Checks the health of the service.
 function ping end
 
 function ping(; aws_config::AbstractAWSConfig=current_aws_config())
-    return privatenetworks(
-        "GET", "/ping"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return privatenetworks("GET", "/ping"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function ping(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return privatenetworks(
-        "GET", "/ping", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/ping", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -976,7 +950,7 @@ function start_network_resource_update(
         Dict{String,Any}(
             "networkResourceArn" => networkResourceArn, "updateType" => updateType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -999,7 +973,7 @@ function start_network_resource_update(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1022,7 +996,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1037,7 +1011,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1062,7 +1036,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1077,7 +1051,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1106,7 +1080,7 @@ function update_network_site(
         "PUT",
         "/v1/network-sites/site",
         Dict{String,Any}("networkSiteArn" => networkSiteArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1122,7 +1096,7 @@ function update_network_site(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("networkSiteArn" => networkSiteArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1151,7 +1125,7 @@ function update_network_site_plan(
         "PUT",
         "/v1/network-sites/plan",
         Dict{String,Any}("networkSiteArn" => networkSiteArn, "pendingPlan" => pendingPlan);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1174,7 +1148,7 @@ function update_network_site_plan(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

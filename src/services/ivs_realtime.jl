@@ -24,10 +24,7 @@ function create_encoder_configuration end
 
 function create_encoder_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs_realtime(
-        "POST",
-        "/CreateEncoderConfiguration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/CreateEncoderConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -38,7 +35,7 @@ function create_encoder_configuration(
         "POST",
         "/CreateEncoderConfiguration",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -77,7 +74,7 @@ function create_participant_token(
         "POST",
         "/CreateParticipantToken",
         Dict{String,Any}("stageArn" => stageArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -93,7 +90,7 @@ function create_participant_token(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("stageArn" => stageArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -119,20 +116,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_stage end
 
 function create_stage(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ivs_realtime(
-        "POST", "/CreateStage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ivs_realtime("POST", "/CreateStage"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function create_stage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ivs_realtime(
-        "POST",
-        "/CreateStage",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/CreateStage", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -166,7 +157,7 @@ function create_storage_configuration(
         "POST",
         "/CreateStorageConfiguration",
         Dict{String,Any}("s3" => s3);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -178,7 +169,7 @@ function create_storage_configuration(
         "POST",
         "/CreateStorageConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("s3" => s3), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -203,7 +194,7 @@ function delete_encoder_configuration(
         "POST",
         "/DeleteEncoderConfiguration",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -215,7 +206,7 @@ function delete_encoder_configuration(
         "POST",
         "/DeleteEncoderConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -238,7 +229,7 @@ function delete_public_key(arn; aws_config::AbstractAWSConfig=current_aws_config
         "POST",
         "/DeletePublicKey",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -250,7 +241,7 @@ function delete_public_key(
         "POST",
         "/DeletePublicKey",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -272,7 +263,7 @@ function delete_stage(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/DeleteStage",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -284,7 +275,7 @@ function delete_stage(
         "POST",
         "/DeleteStage",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -311,7 +302,7 @@ function delete_storage_configuration(
         "POST",
         "/DeleteStorageConfiguration",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -323,7 +314,7 @@ function delete_storage_configuration(
         "POST",
         "/DeleteStorageConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -353,7 +344,7 @@ function disconnect_participant(
         "POST",
         "/DisconnectParticipant",
         Dict{String,Any}("participantId" => participantId, "stageArn" => stageArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -374,7 +365,7 @@ function disconnect_participant(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -396,7 +387,7 @@ function get_composition(arn; aws_config::AbstractAWSConfig=current_aws_config()
         "POST",
         "/GetComposition",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -408,7 +399,7 @@ function get_composition(
         "POST",
         "/GetComposition",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -430,7 +421,7 @@ function get_encoder_configuration(arn; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/GetEncoderConfiguration",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -442,7 +433,7 @@ function get_encoder_configuration(
         "POST",
         "/GetEncoderConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -473,7 +464,7 @@ function get_participant(
             "sessionId" => sessionId,
             "stageArn" => stageArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -499,7 +490,7 @@ function get_participant(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -521,7 +512,7 @@ function get_public_key(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/GetPublicKey",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -533,7 +524,7 @@ function get_public_key(
         "POST",
         "/GetPublicKey",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -555,7 +546,7 @@ function get_stage(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/GetStage",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -567,7 +558,7 @@ function get_stage(
         "POST",
         "/GetStage",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -592,7 +583,7 @@ function get_stage_session(
         "POST",
         "/GetStageSession",
         Dict{String,Any}("sessionId" => sessionId, "stageArn" => stageArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -613,7 +604,7 @@ function get_stage_session(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -635,7 +626,7 @@ function get_storage_configuration(arn; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/GetStorageConfiguration",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -647,7 +638,7 @@ function get_storage_configuration(
         "POST",
         "/GetStorageConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -678,7 +669,7 @@ function import_public_key(
         "POST",
         "/ImportPublicKey",
         Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -696,7 +687,7 @@ function import_public_key(
                 _merge, Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -721,7 +712,7 @@ function list_compositions end
 
 function list_compositions(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs_realtime(
-        "POST", "/ListCompositions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListCompositions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -729,11 +720,7 @@ function list_compositions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ivs_realtime(
-        "POST",
-        "/ListCompositions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListCompositions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -754,10 +741,7 @@ function list_encoder_configurations end
 
 function list_encoder_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs_realtime(
-        "POST",
-        "/ListEncoderConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListEncoderConfigurations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -768,7 +752,7 @@ function list_encoder_configurations(
         "POST",
         "/ListEncoderConfigurations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -804,7 +788,7 @@ function list_participant_events(
             "sessionId" => sessionId,
             "stageArn" => stageArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -830,7 +814,7 @@ function list_participant_events(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -873,7 +857,7 @@ function list_participants(
         "POST",
         "/ListParticipants",
         Dict{String,Any}("sessionId" => sessionId, "stageArn" => stageArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -894,7 +878,7 @@ function list_participants(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -916,7 +900,7 @@ function list_public_keys end
 
 function list_public_keys(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs_realtime(
-        "POST", "/ListPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/ListPublicKeys"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -924,11 +908,7 @@ function list_public_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ivs_realtime(
-        "POST",
-        "/ListPublicKeys",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListPublicKeys", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -954,7 +934,7 @@ function list_stage_sessions(stageArn; aws_config::AbstractAWSConfig=current_aws
         "POST",
         "/ListStageSessions",
         Dict{String,Any}("stageArn" => stageArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -970,7 +950,7 @@ function list_stage_sessions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("stageArn" => stageArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -991,20 +971,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_stages end
 
 function list_stages(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ivs_realtime(
-        "POST", "/ListStages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ivs_realtime("POST", "/ListStages"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_stages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ivs_realtime(
-        "POST",
-        "/ListStages",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListStages", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1026,10 +1000,7 @@ function list_storage_configurations end
 
 function list_storage_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivs_realtime(
-        "POST",
-        "/ListStorageConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListStorageConfigurations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1040,7 +1011,7 @@ function list_storage_configurations(
         "POST",
         "/ListStorageConfigurations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1061,10 +1032,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ivs_realtime(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1074,11 +1042,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ivs_realtime(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1120,7 +1084,7 @@ function start_composition(
             "stageArn" => stageArn,
             "idempotencyToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1145,7 +1109,7 @@ function start_composition(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1168,7 +1132,7 @@ function stop_composition(arn; aws_config::AbstractAWSConfig=current_aws_config(
         "POST",
         "/StopComposition",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1180,7 +1144,7 @@ function stop_composition(
         "POST",
         "/StopComposition",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1206,7 +1170,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1221,7 +1185,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1249,7 +1213,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1264,7 +1228,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1292,7 +1256,7 @@ function update_stage(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/UpdateStage",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1304,7 +1268,7 @@ function update_stage(
         "POST",
         "/UpdateStage",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

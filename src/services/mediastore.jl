@@ -32,7 +32,7 @@ function create_container(ContainerName; aws_config::AbstractAWSConfig=current_a
     return mediastore(
         "CreateContainer",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -47,7 +47,7 @@ function create_container(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -70,7 +70,7 @@ function delete_container(ContainerName; aws_config::AbstractAWSConfig=current_a
     return mediastore(
         "DeleteContainer",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -85,7 +85,7 @@ function delete_container(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -108,7 +108,7 @@ function delete_container_policy(
     return mediastore(
         "DeleteContainerPolicy",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -123,7 +123,7 @@ function delete_container_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -149,7 +149,7 @@ function delete_cors_policy(
     return mediastore(
         "DeleteCorsPolicy",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -164,7 +164,7 @@ function delete_cors_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -188,7 +188,7 @@ function delete_lifecycle_policy(
     return mediastore(
         "DeleteLifecyclePolicy",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -203,7 +203,7 @@ function delete_lifecycle_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -228,7 +228,7 @@ function delete_metric_policy(
     return mediastore(
         "DeleteMetricPolicy",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -243,7 +243,7 @@ function delete_metric_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -266,16 +266,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_container end
 
 function describe_container(; aws_config::AbstractAWSConfig=current_aws_config())
-    return mediastore(
-        "DescribeContainer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mediastore("DescribeContainer"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_container(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediastore(
-        "DescribeContainer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeContainer", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -298,7 +296,7 @@ function get_container_policy(
     return mediastore(
         "GetContainerPolicy",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -313,7 +311,7 @@ function get_container_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -337,7 +335,7 @@ function get_cors_policy(ContainerName; aws_config::AbstractAWSConfig=current_aw
     return mediastore(
         "GetCorsPolicy",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -352,7 +350,7 @@ function get_cors_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -376,7 +374,7 @@ function get_lifecycle_policy(
     return mediastore(
         "GetLifecyclePolicy",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -391,7 +389,7 @@ function get_lifecycle_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -414,7 +412,7 @@ function get_metric_policy(
     return mediastore(
         "GetMetricPolicy",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -429,7 +427,7 @@ function get_metric_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -457,17 +455,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_containers end
 
 function list_containers(; aws_config::AbstractAWSConfig=current_aws_config())
-    return mediastore(
-        "ListContainers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mediastore("ListContainers"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_containers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return mediastore(
-        "ListContainers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return mediastore("ListContainers", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -488,7 +482,7 @@ function list_tags_for_resource(
     return mediastore(
         "ListTagsForResource",
         Dict{String,Any}("Resource" => Resource);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -503,7 +497,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Resource" => Resource), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -532,7 +526,7 @@ function put_container_policy(
     return mediastore(
         "PutContainerPolicy",
         Dict{String,Any}("ContainerName" => ContainerName, "Policy" => Policy);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -552,7 +546,7 @@ function put_container_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -585,7 +579,7 @@ function put_cors_policy(
     return mediastore(
         "PutCorsPolicy",
         Dict{String,Any}("ContainerName" => ContainerName, "CorsPolicy" => CorsPolicy);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -607,7 +601,7 @@ function put_cors_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -637,7 +631,7 @@ function put_lifecycle_policy(
         Dict{String,Any}(
             "ContainerName" => ContainerName, "LifecyclePolicy" => LifecyclePolicy
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -659,7 +653,7 @@ function put_lifecycle_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -695,7 +689,7 @@ function put_metric_policy(
     return mediastore(
         "PutMetricPolicy",
         Dict{String,Any}("ContainerName" => ContainerName, "MetricPolicy" => MetricPolicy);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -717,7 +711,7 @@ function put_metric_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -742,7 +736,7 @@ function start_access_logging(
     return mediastore(
         "StartAccessLogging",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -757,7 +751,7 @@ function start_access_logging(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -782,7 +776,7 @@ function stop_access_logging(
     return mediastore(
         "StopAccessLogging",
         Dict{String,Any}("ContainerName" => ContainerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -797,7 +791,7 @@ function stop_access_logging(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContainerName" => ContainerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -828,7 +822,7 @@ function tag_resource(Resource, Tags; aws_config::AbstractAWSConfig=current_aws_
     return mediastore(
         "TagResource",
         Dict{String,Any}("Resource" => Resource, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -846,7 +840,7 @@ function tag_resource(
                 _merge, Dict{String,Any}("Resource" => Resource, "Tags" => Tags), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -873,7 +867,7 @@ function untag_resource(
     return mediastore(
         "UntagResource",
         Dict{String,Any}("Resource" => Resource, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -893,7 +887,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

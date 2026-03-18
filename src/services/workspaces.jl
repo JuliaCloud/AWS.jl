@@ -27,7 +27,7 @@ function accept_account_link_invitation(
     return workspaces(
         "AcceptAccountLinkInvitation",
         Dict{String,Any}("LinkId" => LinkId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -38,7 +38,7 @@ function accept_account_link_invitation(
     return workspaces(
         "AcceptAccountLinkInvitation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LinkId" => LinkId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -65,7 +65,7 @@ function associate_connection_alias(
     return workspaces(
         "AssociateConnectionAlias",
         Dict{String,Any}("AliasId" => AliasId, "ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -85,7 +85,7 @@ function associate_connection_alias(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -109,7 +109,7 @@ function associate_ip_groups(
     return workspaces(
         "AssociateIpGroups",
         Dict{String,Any}("DirectoryId" => DirectoryId, "GroupIds" => GroupIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -129,7 +129,7 @@ function associate_ip_groups(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -153,7 +153,7 @@ function associate_workspace_application(
     return workspaces(
         "AssociateWorkspaceApplication",
         Dict{String,Any}("ApplicationId" => ApplicationId, "WorkspaceId" => WorkspaceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -175,7 +175,7 @@ function associate_workspace_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -200,7 +200,7 @@ function authorize_ip_rules(
     return workspaces(
         "AuthorizeIpRules",
         Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -220,7 +220,7 @@ function authorize_ip_rules(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -258,7 +258,7 @@ function copy_workspace_image(
         Dict{String,Any}(
             "Name" => Name, "SourceImageId" => SourceImageId, "SourceRegion" => SourceRegion
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -283,7 +283,7 @@ function copy_workspace_image(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -310,7 +310,7 @@ function create_account_link_invitation(
     return workspaces(
         "CreateAccountLinkInvitation",
         Dict{String,Any}("TargetAccountId" => TargetAccountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -327,7 +327,7 @@ function create_account_link_invitation(
                 _merge, Dict{String,Any}("TargetAccountId" => TargetAccountId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -354,7 +354,7 @@ function create_connect_client_add_in(
     return workspaces(
         "CreateConnectClientAddIn",
         Dict{String,Any}("Name" => Name, "ResourceId" => ResourceId, "URL" => URL);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -375,7 +375,7 @@ function create_connect_client_add_in(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -406,7 +406,7 @@ function create_connection_alias(
     return workspaces(
         "CreateConnectionAlias",
         Dict{String,Any}("ConnectionString" => ConnectionString);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -423,7 +423,7 @@ function create_connection_alias(
                 _merge, Dict{String,Any}("ConnectionString" => ConnectionString), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -457,7 +457,7 @@ function create_ip_group(GroupName; aws_config::AbstractAWSConfig=current_aws_co
     return workspaces(
         "CreateIpGroup",
         Dict{String,Any}("GroupName" => GroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -472,7 +472,7 @@ function create_ip_group(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -498,7 +498,7 @@ function create_standby_workspaces(
         Dict{String,Any}(
             "PrimaryRegion" => PrimaryRegion, "StandbyWorkspaces" => StandbyWorkspaces
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -521,7 +521,7 @@ function create_standby_workspaces(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -545,7 +545,7 @@ function create_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=current_aws
     return workspaces(
         "CreateTags",
         Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -563,7 +563,7 @@ function create_tags(
                 _merge, Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -602,7 +602,7 @@ function create_updated_workspace_image(
         Dict{String,Any}(
             "Description" => Description, "Name" => Name, "SourceImageId" => SourceImageId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -627,7 +627,7 @@ function create_updated_workspace_image(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -672,7 +672,7 @@ function create_workspace_bundle(
             "ImageId" => ImageId,
             "UserStorage" => UserStorage,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -701,7 +701,7 @@ function create_workspace_bundle(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -733,7 +733,7 @@ function create_workspace_image(
         Dict{String,Any}(
             "Description" => Description, "Name" => Name, "WorkspaceId" => WorkspaceId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -758,7 +758,7 @@ function create_workspace_image(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -786,7 +786,7 @@ function create_workspaces(Workspaces; aws_config::AbstractAWSConfig=current_aws
     return workspaces(
         "CreateWorkspaces",
         Dict{String,Any}("Workspaces" => Workspaces);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -801,7 +801,7 @@ function create_workspaces(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Workspaces" => Workspaces), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -844,7 +844,7 @@ function create_workspaces_pool(
             "DirectoryId" => DirectoryId,
             "PoolName" => PoolName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -873,7 +873,7 @@ function create_workspaces_pool(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -900,7 +900,7 @@ function delete_account_link_invitation(
     return workspaces(
         "DeleteAccountLinkInvitation",
         Dict{String,Any}("LinkId" => LinkId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -911,7 +911,7 @@ function delete_account_link_invitation(
     return workspaces(
         "DeleteAccountLinkInvitation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LinkId" => LinkId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -940,7 +940,7 @@ function delete_client_branding(
     return workspaces(
         "DeleteClientBranding",
         Dict{String,Any}("Platforms" => Platforms, "ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -960,7 +960,7 @@ function delete_client_branding(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -984,7 +984,7 @@ function delete_connect_client_add_in(
     return workspaces(
         "DeleteConnectClientAddIn",
         Dict{String,Any}("AddInId" => AddInId, "ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1004,7 +1004,7 @@ function delete_connect_client_add_in(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1035,7 +1035,7 @@ function delete_connection_alias(
     return workspaces(
         "DeleteConnectionAlias",
         Dict{String,Any}("AliasId" => AliasId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1048,7 +1048,7 @@ function delete_connection_alias(
     return workspaces(
         "DeleteConnectionAlias",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1070,7 +1070,7 @@ function delete_ip_group(GroupId; aws_config::AbstractAWSConfig=current_aws_conf
     return workspaces(
         "DeleteIpGroup",
         Dict{String,Any}("GroupId" => GroupId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1083,7 +1083,7 @@ function delete_ip_group(
     return workspaces(
         "DeleteIpGroup",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("GroupId" => GroupId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1109,7 +1109,7 @@ function delete_tags(
     return workspaces(
         "DeleteTags",
         Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1129,7 +1129,7 @@ function delete_tags(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1148,19 +1148,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_workspace_bundle end
 
 function delete_workspace_bundle(; aws_config::AbstractAWSConfig=current_aws_config())
-    return workspaces(
-        "DeleteWorkspaceBundle"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("DeleteWorkspaceBundle"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function delete_workspace_bundle(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DeleteWorkspaceBundle",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DeleteWorkspaceBundle", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1182,7 +1177,7 @@ function delete_workspace_image(ImageId; aws_config::AbstractAWSConfig=current_a
     return workspaces(
         "DeleteWorkspaceImage",
         Dict{String,Any}("ImageId" => ImageId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1195,7 +1190,7 @@ function delete_workspace_image(
     return workspaces(
         "DeleteWorkspaceImage",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1222,7 +1217,7 @@ function deploy_workspace_applications(
     return workspaces(
         "DeployWorkspaceApplications",
         Dict{String,Any}("WorkspaceId" => WorkspaceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1237,7 +1232,7 @@ function deploy_workspace_applications(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkspaceId" => WorkspaceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1271,7 +1266,7 @@ function deregister_workspace_directory(
     return workspaces(
         "DeregisterWorkspaceDirectory",
         Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1286,7 +1281,7 @@ function deregister_workspace_directory(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1302,16 +1297,14 @@ specified account.
 function describe_account end
 
 function describe_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return workspaces(
-        "DescribeAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("DescribeAccount"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAccount", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1333,9 +1326,7 @@ function describe_account_modifications(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeAccountModifications";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeAccountModifications"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1343,10 +1334,7 @@ function describe_account_modifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeAccountModifications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeAccountModifications", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1379,7 +1367,7 @@ function describe_application_associations(
             "ApplicationId" => ApplicationId,
             "AssociatedResourceTypes" => AssociatedResourceTypes,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1402,7 +1390,7 @@ function describe_application_associations(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1428,19 +1416,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_applications end
 
 function describe_applications(; aws_config::AbstractAWSConfig=current_aws_config())
-    return workspaces(
-        "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("DescribeApplications"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeApplications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeApplications", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1465,7 +1448,7 @@ function describe_bundle_associations(
         Dict{String,Any}(
             "AssociatedResourceTypes" => AssociatedResourceTypes, "BundleId" => BundleId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1488,7 +1471,7 @@ function describe_bundle_associations(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1516,7 +1499,7 @@ function describe_client_branding(
     return workspaces(
         "DescribeClientBranding",
         Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1531,7 +1514,7 @@ function describe_client_branding(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1554,7 +1537,7 @@ function describe_client_properties(
     return workspaces(
         "DescribeClientProperties",
         Dict{String,Any}("ResourceIds" => ResourceIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1569,7 +1552,7 @@ function describe_client_properties(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceIds" => ResourceIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1597,7 +1580,7 @@ function describe_connect_client_add_ins(
     return workspaces(
         "DescribeConnectClientAddIns",
         Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1612,7 +1595,7 @@ function describe_connect_client_add_ins(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1642,7 +1625,7 @@ function describe_connection_alias_permissions(
     return workspaces(
         "DescribeConnectionAliasPermissions",
         Dict{String,Any}("AliasId" => AliasId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1655,7 +1638,7 @@ function describe_connection_alias_permissions(
     return workspaces(
         "DescribeConnectionAliasPermissions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1679,7 +1662,7 @@ function describe_connection_aliases end
 
 function describe_connection_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
-        "DescribeConnectionAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeConnectionAliases"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1687,10 +1670,7 @@ function describe_connection_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeConnectionAliases",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeConnectionAliases", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1715,7 +1695,7 @@ function describe_image_associations(
         Dict{String,Any}(
             "AssociatedResourceTypes" => AssociatedResourceTypes, "ImageId" => ImageId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1738,7 +1718,7 @@ function describe_image_associations(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1759,16 +1739,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_ip_groups end
 
 function describe_ip_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return workspaces(
-        "DescribeIpGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("DescribeIpGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_ip_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeIpGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeIpGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1790,7 +1768,7 @@ function describe_tags(ResourceId; aws_config::AbstractAWSConfig=current_aws_con
     return workspaces(
         "DescribeTags",
         Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1805,7 +1783,7 @@ function describe_tags(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1832,7 +1810,7 @@ function describe_workspace_associations(
             "AssociatedResourceTypes" => AssociatedResourceTypes,
             "WorkspaceId" => WorkspaceId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1855,7 +1833,7 @@ function describe_workspace_associations(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1881,7 +1859,7 @@ function describe_workspace_bundles end
 
 function describe_workspace_bundles(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
-        "DescribeWorkspaceBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeWorkspaceBundles"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1889,10 +1867,7 @@ function describe_workspace_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeWorkspaceBundles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeWorkspaceBundles", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1918,9 +1893,7 @@ function describe_workspace_directories(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeWorkspaceDirectories";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeWorkspaceDirectories"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1928,10 +1901,7 @@ function describe_workspace_directories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeWorkspaceDirectories",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeWorkspaceDirectories", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1959,7 +1929,7 @@ function describe_workspace_image_permissions(
     return workspaces(
         "DescribeWorkspaceImagePermissions",
         Dict{String,Any}("ImageId" => ImageId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1972,7 +1942,7 @@ function describe_workspace_image_permissions(
     return workspaces(
         "DescribeWorkspaceImagePermissions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1996,7 +1966,7 @@ function describe_workspace_images end
 
 function describe_workspace_images(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
-        "DescribeWorkspaceImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeWorkspaceImages"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2004,10 +1974,7 @@ function describe_workspace_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeWorkspaceImages",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeWorkspaceImages", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2029,7 +1996,7 @@ function describe_workspace_snapshots(
     return workspaces(
         "DescribeWorkspaceSnapshots",
         Dict{String,Any}("WorkspaceId" => WorkspaceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2044,7 +2011,7 @@ function describe_workspace_snapshots(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkspaceId" => WorkspaceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2077,16 +2044,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_workspaces end
 
 function describe_workspaces(; aws_config::AbstractAWSConfig=current_aws_config())
-    return workspaces(
-        "DescribeWorkspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("DescribeWorkspaces"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_workspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeWorkspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeWorkspaces", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2108,9 +2073,7 @@ function describe_workspaces_connection_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeWorkspacesConnectionStatus";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeWorkspacesConnectionStatus"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2120,7 +2083,7 @@ function describe_workspaces_connection_status(
     return workspaces(
         "DescribeWorkspacesConnectionStatus",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2149,7 +2112,7 @@ function describe_workspaces_pool_sessions(
     return workspaces(
         "DescribeWorkspacesPoolSessions",
         Dict{String,Any}("PoolId" => PoolId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2160,7 +2123,7 @@ function describe_workspaces_pool_sessions(
     return workspaces(
         "DescribeWorkspacesPoolSessions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2183,7 +2146,7 @@ function describe_workspaces_pools end
 
 function describe_workspaces_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
-        "DescribeWorkspacesPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeWorkspacesPools"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2191,10 +2154,7 @@ function describe_workspaces_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "DescribeWorkspacesPools",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeWorkspacesPools", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2220,7 +2180,7 @@ function disassociate_connection_alias(
     return workspaces(
         "DisassociateConnectionAlias",
         Dict{String,Any}("AliasId" => AliasId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2233,7 +2193,7 @@ function disassociate_connection_alias(
     return workspaces(
         "DisassociateConnectionAlias",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2257,7 +2217,7 @@ function disassociate_ip_groups(
     return workspaces(
         "DisassociateIpGroups",
         Dict{String,Any}("DirectoryId" => DirectoryId, "GroupIds" => GroupIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2277,7 +2237,7 @@ function disassociate_ip_groups(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2301,7 +2261,7 @@ function disassociate_workspace_application(
     return workspaces(
         "DisassociateWorkspaceApplication",
         Dict{String,Any}("ApplicationId" => ApplicationId, "WorkspaceId" => WorkspaceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2323,7 +2283,7 @@ function disassociate_workspace_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2342,17 +2302,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_account_link end
 
 function get_account_link(; aws_config::AbstractAWSConfig=current_aws_config())
-    return workspaces(
-        "GetAccountLink"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("GetAccountLink"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_account_link(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return workspaces(
-        "GetAccountLink", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("GetAccountLink", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2392,7 +2348,7 @@ function import_client_branding(
     return workspaces(
         "ImportClientBranding",
         Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2407,7 +2363,7 @@ function import_client_branding(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2462,7 +2418,7 @@ function import_workspace_image(
             "ImageName" => ImageName,
             "IngestionProcess" => IngestionProcess,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2489,7 +2445,7 @@ function import_workspace_image(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2510,16 +2466,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_account_links end
 
 function list_account_links(; aws_config::AbstractAWSConfig=current_aws_config())
-    return workspaces(
-        "ListAccountLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("ListAccountLinks"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_account_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "ListAccountLinks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAccountLinks", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2554,7 +2508,7 @@ function list_available_management_cidr_ranges(
     return workspaces(
         "ListAvailableManagementCidrRanges",
         Dict{String,Any}("ManagementCidrRangeConstraint" => ManagementCidrRangeConstraint);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2575,7 +2529,7 @@ function list_available_management_cidr_ranges(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2606,7 +2560,7 @@ function migrate_workspace(
     return workspaces(
         "MigrateWorkspace",
         Dict{String,Any}("BundleId" => BundleId, "SourceWorkspaceId" => SourceWorkspaceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2628,7 +2582,7 @@ function migrate_workspace(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2651,17 +2605,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function modify_account end
 
 function modify_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return workspaces(
-        "ModifyAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("ModifyAccount"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function modify_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return workspaces(
-        "ModifyAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("ModifyAccount", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2689,7 +2639,7 @@ function modify_certificate_based_auth_properties(
     return workspaces(
         "ModifyCertificateBasedAuthProperties",
         Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2704,7 +2654,7 @@ function modify_certificate_based_auth_properties(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2730,7 +2680,7 @@ function modify_client_properties(
         Dict{String,Any}(
             "ClientProperties" => ClientProperties, "ResourceId" => ResourceId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2752,7 +2702,7 @@ function modify_client_properties(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2784,7 +2734,7 @@ function modify_saml_properties(
     return workspaces(
         "ModifySamlProperties",
         Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2799,7 +2749,7 @@ function modify_saml_properties(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2826,7 +2776,7 @@ function modify_selfservice_permissions(
         Dict{String,Any}(
             "ResourceId" => ResourceId, "SelfservicePermissions" => SelfservicePermissions
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2849,7 +2799,7 @@ function modify_selfservice_permissions(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2875,7 +2825,7 @@ function modify_streaming_properties(
     return workspaces(
         "ModifyStreamingProperties",
         Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2890,7 +2840,7 @@ function modify_streaming_properties(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2921,7 +2871,7 @@ function modify_workspace_access_properties(
             "ResourceId" => ResourceId,
             "WorkspaceAccessProperties" => WorkspaceAccessProperties,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2944,7 +2894,7 @@ function modify_workspace_access_properties(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2973,7 +2923,7 @@ function modify_workspace_creation_properties(
             "ResourceId" => ResourceId,
             "WorkspaceCreationProperties" => WorkspaceCreationProperties,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2996,7 +2946,7 @@ function modify_workspace_creation_properties(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3026,7 +2976,7 @@ function modify_workspace_properties(
     return workspaces(
         "ModifyWorkspaceProperties",
         Dict{String,Any}("WorkspaceId" => WorkspaceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3041,7 +2991,7 @@ function modify_workspace_properties(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkspaceId" => WorkspaceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3068,7 +3018,7 @@ function modify_workspace_state(
     return workspaces(
         "ModifyWorkspaceState",
         Dict{String,Any}("WorkspaceId" => WorkspaceId, "WorkspaceState" => WorkspaceState);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3090,7 +3040,7 @@ function modify_workspace_state(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3117,7 +3067,7 @@ function reboot_workspaces(
     return workspaces(
         "RebootWorkspaces",
         Dict{String,Any}("RebootWorkspaceRequests" => RebootWorkspaceRequests);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3136,7 +3086,7 @@ function reboot_workspaces(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3164,7 +3114,7 @@ function rebuild_workspaces(
     return workspaces(
         "RebuildWorkspaces",
         Dict{String,Any}("RebuildWorkspaceRequests" => RebuildWorkspaceRequests);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3183,7 +3133,7 @@ function rebuild_workspaces(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3232,7 +3182,7 @@ function register_workspace_directory end
 
 function register_workspace_directory(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces(
-        "RegisterWorkspaceDirectory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "RegisterWorkspaceDirectory"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3240,10 +3190,7 @@ function register_workspace_directory(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "RegisterWorkspaceDirectory",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "RegisterWorkspaceDirectory", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3268,7 +3215,7 @@ function reject_account_link_invitation(
     return workspaces(
         "RejectAccountLinkInvitation",
         Dict{String,Any}("LinkId" => LinkId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3279,7 +3226,7 @@ function reject_account_link_invitation(
     return workspaces(
         "RejectAccountLinkInvitation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LinkId" => LinkId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3304,7 +3251,7 @@ function restore_workspace(WorkspaceId; aws_config::AbstractAWSConfig=current_aw
     return workspaces(
         "RestoreWorkspace",
         Dict{String,Any}("WorkspaceId" => WorkspaceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3319,7 +3266,7 @@ function restore_workspace(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkspaceId" => WorkspaceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3343,7 +3290,7 @@ function revoke_ip_rules(
     return workspaces(
         "RevokeIpRules",
         Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3363,7 +3310,7 @@ function revoke_ip_rules(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3387,7 +3334,7 @@ function start_workspaces(
     return workspaces(
         "StartWorkspaces",
         Dict{String,Any}("StartWorkspaceRequests" => StartWorkspaceRequests);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3406,7 +3353,7 @@ function start_workspaces(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3428,7 +3375,7 @@ function start_workspaces_pool(PoolId; aws_config::AbstractAWSConfig=current_aws
     return workspaces(
         "StartWorkspacesPool",
         Dict{String,Any}("PoolId" => PoolId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3439,7 +3386,7 @@ function start_workspaces_pool(
     return workspaces(
         "StartWorkspacesPool",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3463,7 +3410,7 @@ function stop_workspaces(
     return workspaces(
         "StopWorkspaces",
         Dict{String,Any}("StopWorkspaceRequests" => StopWorkspaceRequests);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3482,7 +3429,7 @@ function stop_workspaces(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3504,7 +3451,7 @@ function stop_workspaces_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_
     return workspaces(
         "StopWorkspacesPool",
         Dict{String,Any}("PoolId" => PoolId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3515,7 +3462,7 @@ function stop_workspaces_pool(
     return workspaces(
         "StopWorkspacesPool",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3554,7 +3501,7 @@ function terminate_workspaces(
     return workspaces(
         "TerminateWorkspaces",
         Dict{String,Any}("TerminateWorkspaceRequests" => TerminateWorkspaceRequests);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3575,7 +3522,7 @@ function terminate_workspaces(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3598,7 +3545,7 @@ function terminate_workspaces_pool(
     return workspaces(
         "TerminateWorkspacesPool",
         Dict{String,Any}("PoolId" => PoolId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3609,7 +3556,7 @@ function terminate_workspaces_pool(
     return workspaces(
         "TerminateWorkspacesPool",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3632,7 +3579,7 @@ function terminate_workspaces_pool_session(
     return workspaces(
         "TerminateWorkspacesPoolSession",
         Dict{String,Any}("SessionId" => SessionId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3647,7 +3594,7 @@ function terminate_workspaces_pool_session(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3676,7 +3623,7 @@ function update_connect_client_add_in(
     return workspaces(
         "UpdateConnectClientAddIn",
         Dict{String,Any}("AddInId" => AddInId, "ResourceId" => ResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3696,7 +3643,7 @@ function update_connect_client_add_in(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3734,7 +3681,7 @@ function update_connection_alias_permission(
         Dict{String,Any}(
             "AliasId" => AliasId, "ConnectionAliasPermission" => ConnectionAliasPermission
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3757,7 +3704,7 @@ function update_connection_alias_permission(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3782,7 +3729,7 @@ function update_rules_of_ip_group(
     return workspaces(
         "UpdateRulesOfIpGroup",
         Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3802,7 +3749,7 @@ function update_rules_of_ip_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3825,19 +3772,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_workspace_bundle end
 
 function update_workspace_bundle(; aws_config::AbstractAWSConfig=current_aws_config())
-    return workspaces(
-        "UpdateWorkspaceBundle"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return workspaces("UpdateWorkspaceBundle"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function update_workspace_bundle(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces(
-        "UpdateWorkspaceBundle",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "UpdateWorkspaceBundle", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3882,7 +3824,7 @@ function update_workspace_image_permission(
             "ImageId" => ImageId,
             "SharedAccountId" => SharedAccountId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3907,7 +3849,7 @@ function update_workspace_image_permission(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3936,7 +3878,7 @@ function update_workspaces_pool(PoolId; aws_config::AbstractAWSConfig=current_aw
     return workspaces(
         "UpdateWorkspacesPool",
         Dict{String,Any}("PoolId" => PoolId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3947,7 +3889,7 @@ function update_workspaces_pool(
     return workspaces(
         "UpdateWorkspacesPool",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

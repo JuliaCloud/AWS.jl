@@ -27,7 +27,7 @@ function scan_sbom(sbom; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/scan/sbom",
         Dict{String,Any}("sbom" => sbom);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -39,7 +39,7 @@ function scan_sbom(
         "POST",
         "/scan/sbom",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sbom" => sbom), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

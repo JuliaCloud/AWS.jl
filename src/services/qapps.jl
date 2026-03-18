@@ -29,7 +29,7 @@ function associate_library_item_review(
             "libraryItemId" => libraryItemId,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -53,7 +53,7 @@ function associate_library_item_review(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -84,7 +84,7 @@ function associate_qapp_with_user(
         Dict{String,Any}(
             "appId" => appId, "headers" => Dict{String,Any}("instance-id" => instance_id)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -108,7 +108,7 @@ function associate_qapp_with_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -146,7 +146,7 @@ function create_library_item(
             "categories" => categories,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -174,7 +174,7 @@ function create_library_item(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -211,7 +211,7 @@ function create_qapp(
             "title" => title,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -237,7 +237,7 @@ function create_qapp(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -267,7 +267,7 @@ function delete_library_item(
             "libraryItemId" => libraryItemId,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -291,7 +291,7 @@ function delete_library_item(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -318,7 +318,7 @@ function delete_qapp(appId, instance_id; aws_config::AbstractAWSConfig=current_a
         Dict{String,Any}(
             "appId" => appId, "headers" => Dict{String,Any}("instance-id" => instance_id)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -342,7 +342,7 @@ function delete_qapp(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -371,7 +371,7 @@ function disassociate_library_item_review(
             "libraryItemId" => libraryItemId,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -395,7 +395,7 @@ function disassociate_library_item_review(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -423,7 +423,7 @@ function disassociate_qapp_from_user(
         Dict{String,Any}(
             "appId" => appId, "headers" => Dict{String,Any}("instance-id" => instance_id)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -447,7 +447,7 @@ function disassociate_qapp_from_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -480,7 +480,7 @@ function get_library_item(
             "libraryItemId" => libraryItemId,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -504,7 +504,7 @@ function get_library_item(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -531,7 +531,7 @@ function get_qapp(appId, instance_id; aws_config::AbstractAWSConfig=current_aws_
         Dict{String,Any}(
             "appId" => appId, "headers" => Dict{String,Any}("instance-id" => instance_id)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -555,7 +555,7 @@ function get_qapp(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -584,7 +584,7 @@ function get_qapp_session(
             "sessionId" => sessionId,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -608,7 +608,7 @@ function get_qapp_session(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -659,7 +659,7 @@ function import_document(
             "scope" => scope,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -691,7 +691,7 @@ function import_document(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -720,7 +720,7 @@ function list_library_items(instance_id; aws_config::AbstractAWSConfig=current_a
         "GET",
         "/catalog.list",
         Dict{String,Any}("headers" => Dict{String,Any}("instance-id" => instance_id));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -742,7 +742,7 @@ function list_library_items(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -771,7 +771,7 @@ function list_qapps(instance_id; aws_config::AbstractAWSConfig=current_aws_confi
         "GET",
         "/apps.list",
         Dict{String,Any}("headers" => Dict{String,Any}("instance-id" => instance_id));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -793,7 +793,7 @@ function list_qapps(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -814,12 +814,7 @@ function list_tags_for_resource end
 function list_tags_for_resource(
     resourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return qapps(
-        "GET",
-        "/tags/$(resourceARN)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return qapps("GET", "/tags/$(resourceARN)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_tags_for_resource(
@@ -828,11 +823,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qapps(
-        "GET",
-        "/tags/$(resourceARN)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceARN)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -860,7 +851,7 @@ function predict_qapp(instance_id; aws_config::AbstractAWSConfig=current_aws_con
         "POST",
         "/apps.predictQApp",
         Dict{String,Any}("headers" => Dict{String,Any}("instance-id" => instance_id));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -882,7 +873,7 @@ function predict_qapp(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -919,7 +910,7 @@ function start_qapp_session(
             "appVersion" => appVersion,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -945,7 +936,7 @@ function start_qapp_session(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -976,7 +967,7 @@ function stop_qapp_session(
             "sessionId" => sessionId,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1000,7 +991,7 @@ function stop_qapp_session(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1023,7 +1014,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceARN)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1038,7 +1029,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceARN)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1064,7 +1055,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceARN)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1079,7 +1070,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceARN)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1113,7 +1104,7 @@ function update_library_item(
             "libraryItemId" => libraryItemId,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1137,7 +1128,7 @@ function update_library_item(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1169,7 +1160,7 @@ function update_library_item_metadata(
             "libraryItemId" => libraryItemId,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1193,7 +1184,7 @@ function update_library_item_metadata(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1225,7 +1216,7 @@ function update_qapp(appId, instance_id; aws_config::AbstractAWSConfig=current_a
         Dict{String,Any}(
             "appId" => appId, "headers" => Dict{String,Any}("instance-id" => instance_id)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1249,7 +1240,7 @@ function update_qapp(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1284,7 +1275,7 @@ function update_qapp_session(
             "sessionId" => sessionId,
             "headers" => Dict{String,Any}("instance-id" => instance_id),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1308,7 +1299,7 @@ function update_qapp_session(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

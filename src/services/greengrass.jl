@@ -27,7 +27,7 @@ function associate_role_to_group(
         "PUT",
         "/greengrass/groups/$(GroupId)/role",
         Dict{String,Any}("RoleArn" => RoleArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -42,7 +42,7 @@ function associate_role_to_group(
         "PUT",
         "/greengrass/groups/$(GroupId)/role",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -69,7 +69,7 @@ function associate_service_role_to_account(
         "PUT",
         "/greengrass/servicerole",
         Dict{String,Any}("RoleArn" => RoleArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -83,7 +83,7 @@ function associate_service_role_to_account(
         "PUT",
         "/greengrass/servicerole",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -108,7 +108,7 @@ function create_connector_definition(; aws_config::AbstractAWSConfig=current_aws
     return greengrass(
         "POST",
         "/greengrass/definition/connectors";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -120,7 +120,7 @@ function create_connector_definition(
         "POST",
         "/greengrass/definition/connectors",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -148,7 +148,7 @@ function create_connector_definition_version(
     return greengrass(
         "POST",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -162,7 +162,7 @@ function create_connector_definition_version(
         "POST",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -186,10 +186,7 @@ function create_core_definition end
 
 function create_core_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
-        "POST",
-        "/greengrass/definition/cores";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/greengrass/definition/cores"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -200,7 +197,7 @@ function create_core_definition(
         "POST",
         "/greengrass/definition/cores",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -228,7 +225,7 @@ function create_core_definition_version(
     return greengrass(
         "POST",
         "/greengrass/definition/cores/$(CoreDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -242,7 +239,7 @@ function create_core_definition_version(
         "POST",
         "/greengrass/definition/cores/$(CoreDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -274,7 +271,7 @@ function create_deployment(
         "POST",
         "/greengrass/groups/$(GroupId)/deployments",
         Dict{String,Any}("DeploymentType" => DeploymentType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -291,7 +288,7 @@ function create_deployment(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DeploymentType" => DeploymentType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -316,7 +313,7 @@ function create_device_definition(; aws_config::AbstractAWSConfig=current_aws_co
     return greengrass(
         "POST",
         "/greengrass/definition/devices";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -328,7 +325,7 @@ function create_device_definition(
         "POST",
         "/greengrass/definition/devices",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -355,7 +352,7 @@ function create_device_definition_version(
     return greengrass(
         "POST",
         "/greengrass/definition/devices/$(DeviceDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -369,7 +366,7 @@ function create_device_definition_version(
         "POST",
         "/greengrass/definition/devices/$(DeviceDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -396,7 +393,7 @@ function create_function_definition(; aws_config::AbstractAWSConfig=current_aws_
     return greengrass(
         "POST",
         "/greengrass/definition/functions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -408,7 +405,7 @@ function create_function_definition(
         "POST",
         "/greengrass/definition/functions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -437,7 +434,7 @@ function create_function_definition_version(
     return greengrass(
         "POST",
         "/greengrass/definition/functions/$(FunctionDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -451,7 +448,7 @@ function create_function_definition_version(
         "POST",
         "/greengrass/definition/functions/$(FunctionDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -481,7 +478,7 @@ function create_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/greengrass/groups",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -493,7 +490,7 @@ function create_group(
         "POST",
         "/greengrass/groups",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -519,7 +516,7 @@ function create_group_certificate_authority(
     return greengrass(
         "POST",
         "/greengrass/groups/$(GroupId)/certificateauthorities";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -533,7 +530,7 @@ function create_group_certificate_authority(
         "POST",
         "/greengrass/groups/$(GroupId)/certificateauthorities",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -568,7 +565,7 @@ function create_group_version(GroupId; aws_config::AbstractAWSConfig=current_aws
     return greengrass(
         "POST",
         "/greengrass/groups/$(GroupId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -582,7 +579,7 @@ function create_group_version(
         "POST",
         "/greengrass/groups/$(GroupId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -607,7 +604,7 @@ function create_logger_definition(; aws_config::AbstractAWSConfig=current_aws_co
     return greengrass(
         "POST",
         "/greengrass/definition/loggers";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -619,7 +616,7 @@ function create_logger_definition(
         "POST",
         "/greengrass/definition/loggers",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -646,7 +643,7 @@ function create_logger_definition_version(
     return greengrass(
         "POST",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -660,7 +657,7 @@ function create_logger_definition_version(
         "POST",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -686,7 +683,7 @@ function create_resource_definition(; aws_config::AbstractAWSConfig=current_aws_
     return greengrass(
         "POST",
         "/greengrass/definition/resources";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -698,7 +695,7 @@ function create_resource_definition(
         "POST",
         "/greengrass/definition/resources",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -725,7 +722,7 @@ function create_resource_definition_version(
     return greengrass(
         "POST",
         "/greengrass/definition/resources/$(ResourceDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -739,7 +736,7 @@ function create_resource_definition_version(
         "POST",
         "/greengrass/definition/resources/$(ResourceDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -785,7 +782,7 @@ function create_software_update_job(
             "UpdateTargetsArchitecture" => UpdateTargetsArchitecture,
             "UpdateTargetsOperatingSystem" => UpdateTargetsOperatingSystem,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -815,7 +812,7 @@ function create_software_update_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -842,7 +839,7 @@ function create_subscription_definition(;
     return greengrass(
         "POST",
         "/greengrass/definition/subscriptions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -854,7 +851,7 @@ function create_subscription_definition(
         "POST",
         "/greengrass/definition/subscriptions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -881,7 +878,7 @@ function create_subscription_definition_version(
     return greengrass(
         "POST",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -895,7 +892,7 @@ function create_subscription_definition_version(
         "POST",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -918,7 +915,7 @@ function delete_connector_definition(
     return greengrass(
         "DELETE",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -932,7 +929,7 @@ function delete_connector_definition(
         "DELETE",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -955,7 +952,7 @@ function delete_core_definition(
     return greengrass(
         "DELETE",
         "/greengrass/definition/cores/$(CoreDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -969,7 +966,7 @@ function delete_core_definition(
         "DELETE",
         "/greengrass/definition/cores/$(CoreDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -992,7 +989,7 @@ function delete_device_definition(
     return greengrass(
         "DELETE",
         "/greengrass/definition/devices/$(DeviceDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1006,7 +1003,7 @@ function delete_device_definition(
         "DELETE",
         "/greengrass/definition/devices/$(DeviceDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1029,7 +1026,7 @@ function delete_function_definition(
     return greengrass(
         "DELETE",
         "/greengrass/definition/functions/$(FunctionDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1043,7 +1040,7 @@ function delete_function_definition(
         "DELETE",
         "/greengrass/definition/functions/$(FunctionDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1064,7 +1061,7 @@ function delete_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config(
     return greengrass(
         "DELETE",
         "/greengrass/groups/$(GroupId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1078,7 +1075,7 @@ function delete_group(
         "DELETE",
         "/greengrass/groups/$(GroupId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1101,7 +1098,7 @@ function delete_logger_definition(
     return greengrass(
         "DELETE",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1115,7 +1112,7 @@ function delete_logger_definition(
         "DELETE",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1138,7 +1135,7 @@ function delete_resource_definition(
     return greengrass(
         "DELETE",
         "/greengrass/definition/resources/$(ResourceDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1152,7 +1149,7 @@ function delete_resource_definition(
         "DELETE",
         "/greengrass/definition/resources/$(ResourceDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1175,7 +1172,7 @@ function delete_subscription_definition(
     return greengrass(
         "DELETE",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1189,7 +1186,7 @@ function delete_subscription_definition(
         "DELETE",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1212,7 +1209,7 @@ function disassociate_role_from_group(
     return greengrass(
         "DELETE",
         "/greengrass/groups/$(GroupId)/role";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1226,7 +1223,7 @@ function disassociate_role_from_group(
         "DELETE",
         "/greengrass/groups/$(GroupId)/role",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1245,10 +1242,7 @@ function disassociate_service_role_from_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
-        "DELETE",
-        "/greengrass/servicerole";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/greengrass/servicerole"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1259,7 +1253,7 @@ function disassociate_service_role_from_account(
         "DELETE",
         "/greengrass/servicerole",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1280,7 +1274,7 @@ function get_associated_role(GroupId; aws_config::AbstractAWSConfig=current_aws_
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)/role";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1294,7 +1288,7 @@ function get_associated_role(
         "GET",
         "/greengrass/groups/$(GroupId)/role",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1317,7 +1311,7 @@ function get_bulk_deployment_status(
     return greengrass(
         "GET",
         "/greengrass/bulk/deployments/$(BulkDeploymentId)/status";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1331,7 +1325,7 @@ function get_bulk_deployment_status(
         "GET",
         "/greengrass/bulk/deployments/$(BulkDeploymentId)/status",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1354,7 +1348,7 @@ function get_connectivity_info(
     return greengrass(
         "GET",
         "/greengrass/things/$(ThingName)/connectivityInfo";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1368,7 +1362,7 @@ function get_connectivity_info(
         "GET",
         "/greengrass/things/$(ThingName)/connectivityInfo",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1391,7 +1385,7 @@ function get_connector_definition(
     return greengrass(
         "GET",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1405,7 +1399,7 @@ function get_connector_definition(
         "GET",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1441,7 +1435,7 @@ function get_connector_definition_version(
     return greengrass(
         "GET",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions/$(ConnectorDefinitionVersionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1456,7 +1450,7 @@ function get_connector_definition_version(
         "GET",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions/$(ConnectorDefinitionVersionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1479,7 +1473,7 @@ function get_core_definition(
     return greengrass(
         "GET",
         "/greengrass/definition/cores/$(CoreDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1493,7 +1487,7 @@ function get_core_definition(
         "GET",
         "/greengrass/definition/cores/$(CoreDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1523,7 +1517,7 @@ function get_core_definition_version(
     return greengrass(
         "GET",
         "/greengrass/definition/cores/$(CoreDefinitionId)/versions/$(CoreDefinitionVersionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1538,7 +1532,7 @@ function get_core_definition_version(
         "GET",
         "/greengrass/definition/cores/$(CoreDefinitionId)/versions/$(CoreDefinitionVersionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1562,7 +1556,7 @@ function get_deployment_status(
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)/deployments/$(DeploymentId)/status";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1577,7 +1571,7 @@ function get_deployment_status(
         "GET",
         "/greengrass/groups/$(GroupId)/deployments/$(DeploymentId)/status",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1600,7 +1594,7 @@ function get_device_definition(
     return greengrass(
         "GET",
         "/greengrass/definition/devices/$(DeviceDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1614,7 +1608,7 @@ function get_device_definition(
         "GET",
         "/greengrass/definition/devices/$(DeviceDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1648,7 +1642,7 @@ function get_device_definition_version(
     return greengrass(
         "GET",
         "/greengrass/definition/devices/$(DeviceDefinitionId)/versions/$(DeviceDefinitionVersionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1663,7 +1657,7 @@ function get_device_definition_version(
         "GET",
         "/greengrass/definition/devices/$(DeviceDefinitionId)/versions/$(DeviceDefinitionVersionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1687,7 +1681,7 @@ function get_function_definition(
     return greengrass(
         "GET",
         "/greengrass/definition/functions/$(FunctionDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1701,7 +1695,7 @@ function get_function_definition(
         "GET",
         "/greengrass/definition/functions/$(FunctionDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1736,7 +1730,7 @@ function get_function_definition_version(
     return greengrass(
         "GET",
         "/greengrass/definition/functions/$(FunctionDefinitionId)/versions/$(FunctionDefinitionVersionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1751,7 +1745,7 @@ function get_function_definition_version(
         "GET",
         "/greengrass/definition/functions/$(FunctionDefinitionId)/versions/$(FunctionDefinitionVersionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1770,10 +1764,7 @@ function get_group end
 
 function get_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
-        "GET",
-        "/greengrass/groups/$(GroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/greengrass/groups/$(GroupId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1786,7 +1777,7 @@ function get_group(
         "GET",
         "/greengrass/groups/$(GroupId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1810,7 +1801,7 @@ function get_group_certificate_authority(
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)/certificateauthorities/$(CertificateAuthorityId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1825,7 +1816,7 @@ function get_group_certificate_authority(
         "GET",
         "/greengrass/groups/$(GroupId)/certificateauthorities/$(CertificateAuthorityId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1848,7 +1839,7 @@ function get_group_certificate_configuration(
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1862,7 +1853,7 @@ function get_group_certificate_configuration(
         "GET",
         "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1890,7 +1881,7 @@ function get_group_version(
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)/versions/$(GroupVersionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1905,7 +1896,7 @@ function get_group_version(
         "GET",
         "/greengrass/groups/$(GroupId)/versions/$(GroupVersionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1928,7 +1919,7 @@ function get_logger_definition(
     return greengrass(
         "GET",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1942,7 +1933,7 @@ function get_logger_definition(
         "GET",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1976,7 +1967,7 @@ function get_logger_definition_version(
     return greengrass(
         "GET",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions/$(LoggerDefinitionVersionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1991,7 +1982,7 @@ function get_logger_definition_version(
         "GET",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions/$(LoggerDefinitionVersionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2015,7 +2006,7 @@ function get_resource_definition(
     return greengrass(
         "GET",
         "/greengrass/definition/resources/$(ResourceDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2029,7 +2020,7 @@ function get_resource_definition(
         "GET",
         "/greengrass/definition/resources/$(ResourceDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2060,7 +2051,7 @@ function get_resource_definition_version(
     return greengrass(
         "GET",
         "/greengrass/definition/resources/$(ResourceDefinitionId)/versions/$(ResourceDefinitionVersionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2075,7 +2066,7 @@ function get_resource_definition_version(
         "GET",
         "/greengrass/definition/resources/$(ResourceDefinitionId)/versions/$(ResourceDefinitionVersionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2091,10 +2082,7 @@ function get_service_role_for_account end
 
 function get_service_role_for_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
-        "GET",
-        "/greengrass/servicerole";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/greengrass/servicerole"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2105,7 +2093,7 @@ function get_service_role_for_account(
         "GET",
         "/greengrass/servicerole",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2128,7 +2116,7 @@ function get_subscription_definition(
     return greengrass(
         "GET",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2142,7 +2130,7 @@ function get_subscription_definition(
         "GET",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2176,7 +2164,7 @@ function get_subscription_definition_version(
     return greengrass(
         "GET",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions/$(SubscriptionDefinitionVersionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2191,7 +2179,7 @@ function get_subscription_definition_version(
         "GET",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions/$(SubscriptionDefinitionVersionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2214,7 +2202,7 @@ function get_thing_runtime_configuration(
     return greengrass(
         "GET",
         "/greengrass/things/$(ThingName)/runtimeconfig";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2228,7 +2216,7 @@ function get_thing_runtime_configuration(
         "GET",
         "/greengrass/things/$(ThingName)/runtimeconfig",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2257,7 +2245,7 @@ function list_bulk_deployment_detailed_reports(
     return greengrass(
         "GET",
         "/greengrass/bulk/deployments/$(BulkDeploymentId)/detailed-reports";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2271,7 +2259,7 @@ function list_bulk_deployment_detailed_reports(
         "GET",
         "/greengrass/bulk/deployments/$(BulkDeploymentId)/detailed-reports",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2292,10 +2280,7 @@ function list_bulk_deployments end
 
 function list_bulk_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
-        "GET",
-        "/greengrass/bulk/deployments";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/greengrass/bulk/deployments"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2306,7 +2291,7 @@ function list_bulk_deployments(
         "GET",
         "/greengrass/bulk/deployments",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2336,7 +2321,7 @@ function list_connector_definition_versions(
     return greengrass(
         "GET",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2350,7 +2335,7 @@ function list_connector_definition_versions(
         "GET",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2373,7 +2358,7 @@ function list_connector_definitions(; aws_config::AbstractAWSConfig=current_aws_
     return greengrass(
         "GET",
         "/greengrass/definition/connectors";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2385,7 +2370,7 @@ function list_connector_definitions(
         "GET",
         "/greengrass/definition/connectors",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2413,7 +2398,7 @@ function list_core_definition_versions(
     return greengrass(
         "GET",
         "/greengrass/definition/cores/$(CoreDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2427,7 +2412,7 @@ function list_core_definition_versions(
         "GET",
         "/greengrass/definition/cores/$(CoreDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2448,10 +2433,7 @@ function list_core_definitions end
 
 function list_core_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
-        "GET",
-        "/greengrass/definition/cores";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/greengrass/definition/cores"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2462,7 +2444,7 @@ function list_core_definitions(
         "GET",
         "/greengrass/definition/cores",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2488,7 +2470,7 @@ function list_deployments(GroupId; aws_config::AbstractAWSConfig=current_aws_con
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)/deployments";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2502,7 +2484,7 @@ function list_deployments(
         "GET",
         "/greengrass/groups/$(GroupId)/deployments",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2530,7 +2512,7 @@ function list_device_definition_versions(
     return greengrass(
         "GET",
         "/greengrass/definition/devices/$(DeviceDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2544,7 +2526,7 @@ function list_device_definition_versions(
         "GET",
         "/greengrass/definition/devices/$(DeviceDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2565,10 +2547,7 @@ function list_device_definitions end
 
 function list_device_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
-        "GET",
-        "/greengrass/definition/devices";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/greengrass/definition/devices"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2579,7 +2558,7 @@ function list_device_definitions(
         "GET",
         "/greengrass/definition/devices",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2607,7 +2586,7 @@ function list_function_definition_versions(
     return greengrass(
         "GET",
         "/greengrass/definition/functions/$(FunctionDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2621,7 +2600,7 @@ function list_function_definition_versions(
         "GET",
         "/greengrass/definition/functions/$(FunctionDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2644,7 +2623,7 @@ function list_function_definitions(; aws_config::AbstractAWSConfig=current_aws_c
     return greengrass(
         "GET",
         "/greengrass/definition/functions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2656,7 +2635,7 @@ function list_function_definitions(
         "GET",
         "/greengrass/definition/functions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2679,7 +2658,7 @@ function list_group_certificate_authorities(
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)/certificateauthorities";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2693,7 +2672,7 @@ function list_group_certificate_authorities(
         "GET",
         "/greengrass/groups/$(GroupId)/certificateauthorities",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2719,7 +2698,7 @@ function list_group_versions(GroupId; aws_config::AbstractAWSConfig=current_aws_
     return greengrass(
         "GET",
         "/greengrass/groups/$(GroupId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2733,7 +2712,7 @@ function list_group_versions(
         "GET",
         "/greengrass/groups/$(GroupId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2754,7 +2733,7 @@ function list_groups end
 
 function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
-        "GET", "/greengrass/groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/greengrass/groups"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2762,11 +2741,7 @@ function list_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
-        "GET",
-        "/greengrass/groups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/greengrass/groups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2793,7 +2768,7 @@ function list_logger_definition_versions(
     return greengrass(
         "GET",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2807,7 +2782,7 @@ function list_logger_definition_versions(
         "GET",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2828,10 +2803,7 @@ function list_logger_definitions end
 
 function list_logger_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
-        "GET",
-        "/greengrass/definition/loggers";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/greengrass/definition/loggers"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2842,7 +2814,7 @@ function list_logger_definitions(
         "GET",
         "/greengrass/definition/loggers",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2870,7 +2842,7 @@ function list_resource_definition_versions(
     return greengrass(
         "GET",
         "/greengrass/definition/resources/$(ResourceDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2884,7 +2856,7 @@ function list_resource_definition_versions(
         "GET",
         "/greengrass/definition/resources/$(ResourceDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2907,7 +2879,7 @@ function list_resource_definitions(; aws_config::AbstractAWSConfig=current_aws_c
     return greengrass(
         "GET",
         "/greengrass/definition/resources";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2919,7 +2891,7 @@ function list_resource_definitions(
         "GET",
         "/greengrass/definition/resources",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2947,7 +2919,7 @@ function list_subscription_definition_versions(
     return greengrass(
         "GET",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2961,7 +2933,7 @@ function list_subscription_definition_versions(
         "GET",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2984,7 +2956,7 @@ function list_subscription_definitions(; aws_config::AbstractAWSConfig=current_a
     return greengrass(
         "GET",
         "/greengrass/definition/subscriptions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2996,7 +2968,7 @@ function list_subscription_definitions(
         "GET",
         "/greengrass/definition/subscriptions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3017,10 +2989,7 @@ function list_tags_for_resource(
     resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
-        "GET",
-        "/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resource-arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3030,11 +2999,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
-        "GET",
-        "/tags/$(resource-arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resource-arn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3058,7 +3023,7 @@ function reset_deployments(GroupId; aws_config::AbstractAWSConfig=current_aws_co
     return greengrass(
         "POST",
         "/greengrass/groups/$(GroupId)/deployments/$reset";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3072,7 +3037,7 @@ function reset_deployments(
         "POST",
         "/greengrass/groups/$(GroupId)/deployments/$reset",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3114,7 +3079,7 @@ function start_bulk_deployment(
         Dict{String,Any}(
             "ExecutionRoleArn" => ExecutionRoleArn, "InputFileUri" => InputFileUri
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3137,7 +3102,7 @@ function start_bulk_deployment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3163,7 +3128,7 @@ function stop_bulk_deployment(
     return greengrass(
         "PUT",
         "/greengrass/bulk/deployments/$(BulkDeploymentId)/$stop";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3177,7 +3142,7 @@ function stop_bulk_deployment(
         "PUT",
         "/greengrass/bulk/deployments/$(BulkDeploymentId)/$stop",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3201,10 +3166,7 @@ function tag_resource end
 
 function tag_resource(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
-        "POST",
-        "/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/tags/$(resource-arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3214,11 +3176,7 @@ function tag_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
-        "POST",
-        "/tags/$(resource-arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/tags/$(resource-arn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3242,7 +3200,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resource-arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3257,7 +3215,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3285,7 +3243,7 @@ function update_connectivity_info(
     return greengrass(
         "PUT",
         "/greengrass/things/$(ThingName)/connectivityInfo";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3299,7 +3257,7 @@ function update_connectivity_info(
         "PUT",
         "/greengrass/things/$(ThingName)/connectivityInfo",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3325,7 +3283,7 @@ function update_connector_definition(
     return greengrass(
         "PUT",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3339,7 +3297,7 @@ function update_connector_definition(
         "PUT",
         "/greengrass/definition/connectors/$(ConnectorDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3365,7 +3323,7 @@ function update_core_definition(
     return greengrass(
         "PUT",
         "/greengrass/definition/cores/$(CoreDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3379,7 +3337,7 @@ function update_core_definition(
         "PUT",
         "/greengrass/definition/cores/$(CoreDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3405,7 +3363,7 @@ function update_device_definition(
     return greengrass(
         "PUT",
         "/greengrass/definition/devices/$(DeviceDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3419,7 +3377,7 @@ function update_device_definition(
         "PUT",
         "/greengrass/definition/devices/$(DeviceDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3445,7 +3403,7 @@ function update_function_definition(
     return greengrass(
         "PUT",
         "/greengrass/definition/functions/$(FunctionDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3459,7 +3417,7 @@ function update_function_definition(
         "PUT",
         "/greengrass/definition/functions/$(FunctionDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3481,10 +3439,7 @@ function update_group end
 
 function update_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
-        "PUT",
-        "/greengrass/groups/$(GroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PUT", "/greengrass/groups/$(GroupId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3497,7 +3452,7 @@ function update_group(
         "PUT",
         "/greengrass/groups/$(GroupId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3524,7 +3479,7 @@ function update_group_certificate_configuration(
     return greengrass(
         "PUT",
         "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3538,7 +3493,7 @@ function update_group_certificate_configuration(
         "PUT",
         "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3564,7 +3519,7 @@ function update_logger_definition(
     return greengrass(
         "PUT",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3578,7 +3533,7 @@ function update_logger_definition(
         "PUT",
         "/greengrass/definition/loggers/$(LoggerDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3604,7 +3559,7 @@ function update_resource_definition(
     return greengrass(
         "PUT",
         "/greengrass/definition/resources/$(ResourceDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3618,7 +3573,7 @@ function update_resource_definition(
         "PUT",
         "/greengrass/definition/resources/$(ResourceDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3644,7 +3599,7 @@ function update_subscription_definition(
     return greengrass(
         "PUT",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3658,7 +3613,7 @@ function update_subscription_definition(
         "PUT",
         "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3684,7 +3639,7 @@ function update_thing_runtime_configuration(
     return greengrass(
         "PUT",
         "/greengrass/things/$(ThingName)/runtimeconfig";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3698,7 +3653,7 @@ function update_thing_runtime_configuration(
         "PUT",
         "/greengrass/things/$(ThingName)/runtimeconfig",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

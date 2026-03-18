@@ -30,7 +30,7 @@ function add_role_to_dbcluster(
         Dict{String,Any}(
             "DBClusterIdentifier" => DBClusterIdentifier, "RoleArn" => RoleArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -52,7 +52,7 @@ function add_role_to_dbcluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -88,7 +88,7 @@ function add_role_to_dbinstance(
             "FeatureName" => FeatureName,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -113,7 +113,7 @@ function add_role_to_dbinstance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -147,7 +147,7 @@ function add_source_identifier_to_subscription(
         Dict{String,Any}(
             "SourceIdentifier" => SourceIdentifier, "SubscriptionName" => SubscriptionName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -170,7 +170,7 @@ function add_source_identifier_to_subscription(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -203,7 +203,7 @@ function add_tags_to_resource(
     return rds(
         "AddTagsToResource",
         Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -223,7 +223,7 @@ function add_tags_to_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -262,7 +262,7 @@ function apply_pending_maintenance_action(
             "OptInType" => OptInType,
             "ResourceIdentifier" => ResourceIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -287,7 +287,7 @@ function apply_pending_maintenance_action(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -337,7 +337,7 @@ function authorize_dbsecurity_group_ingress(
     return rds(
         "AuthorizeDBSecurityGroupIngress",
         Dict{String,Any}("DBSecurityGroupName" => DBSecurityGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -356,7 +356,7 @@ function authorize_dbsecurity_group_ingress(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -400,7 +400,7 @@ function backtrack_dbcluster(
         Dict{String,Any}(
             "BacktrackTo" => BacktrackTo, "DBClusterIdentifier" => DBClusterIdentifier
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -423,7 +423,7 @@ function backtrack_dbcluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -447,7 +447,7 @@ function cancel_export_task(
     return rds(
         "CancelExportTask",
         Dict{String,Any}("ExportTaskIdentifier" => ExportTaskIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -466,7 +466,7 @@ function cancel_export_task(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -513,7 +513,7 @@ function copy_dbcluster_parameter_group(
             "TargetDBClusterParameterGroupIdentifier" =>
                 TargetDBClusterParameterGroupIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -541,7 +541,7 @@ function copy_dbcluster_parameter_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -651,7 +651,7 @@ function copy_dbcluster_snapshot(
             "SourceDBClusterSnapshotIdentifier" => SourceDBClusterSnapshotIdentifier,
             "TargetDBClusterSnapshotIdentifier" => TargetDBClusterSnapshotIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -676,7 +676,7 @@ function copy_dbcluster_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -718,7 +718,7 @@ function copy_dbparameter_group(
             "TargetDBParameterGroupDescription" => TargetDBParameterGroupDescription,
             "TargetDBParameterGroupIdentifier" => TargetDBParameterGroupIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -744,7 +744,7 @@ function copy_dbparameter_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -858,7 +858,7 @@ function copy_dbsnapshot(
             "SourceDBSnapshotIdentifier" => SourceDBSnapshotIdentifier,
             "TargetDBSnapshotIdentifier" => TargetDBSnapshotIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -881,7 +881,7 @@ function copy_dbsnapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -920,7 +920,7 @@ function copy_option_group(
             "TargetOptionGroupDescription" => TargetOptionGroupDescription,
             "TargetOptionGroupIdentifier" => TargetOptionGroupIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -945,7 +945,7 @@ function copy_option_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1009,7 +1009,7 @@ function create_blue_green_deployment(
         Dict{String,Any}(
             "BlueGreenDeploymentName" => BlueGreenDeploymentName, "Source" => Source
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1031,7 +1031,7 @@ function create_blue_green_deployment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1098,7 +1098,7 @@ function create_custom_dbengine_version(
     return rds(
         "CreateCustomDBEngineVersion",
         Dict{String,Any}("Engine" => Engine, "EngineVersion" => EngineVersion);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1118,7 +1118,7 @@ function create_custom_dbengine_version(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1459,7 +1459,7 @@ function create_dbcluster(
     return rds(
         "CreateDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier, "Engine" => Engine);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1481,7 +1481,7 @@ function create_dbcluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1524,7 +1524,7 @@ function create_dbcluster_endpoint(
             "DBClusterIdentifier" => DBClusterIdentifier,
             "EndpointType" => EndpointType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1549,7 +1549,7 @@ function create_dbcluster_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1619,7 +1619,7 @@ function create_dbcluster_parameter_group(
             "DBParameterGroupFamily" => DBParameterGroupFamily,
             "Description" => Description,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1644,7 +1644,7 @@ function create_dbcluster_parameter_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1683,7 +1683,7 @@ function create_dbcluster_snapshot(
             "DBClusterIdentifier" => DBClusterIdentifier,
             "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1706,7 +1706,7 @@ function create_dbcluster_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2161,7 +2161,7 @@ function create_dbinstance(
             "DBInstanceIdentifier" => DBInstanceIdentifier,
             "Engine" => Engine,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2186,7 +2186,7 @@ function create_dbinstance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2472,7 +2472,7 @@ function create_dbinstance_read_replica(
     return rds(
         "CreateDBInstanceReadReplica",
         Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2491,7 +2491,7 @@ function create_dbinstance_read_replica(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2555,7 +2555,7 @@ function create_dbparameter_group(
             "DBParameterGroupName" => DBParameterGroupName,
             "Description" => Description,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2580,7 +2580,7 @@ function create_dbparameter_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2644,7 +2644,7 @@ function create_dbproxy(
             "RoleArn" => RoleArn,
             "VpcSubnetIds" => VpcSubnetIds,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2673,7 +2673,7 @@ function create_dbproxy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2719,7 +2719,7 @@ function create_dbproxy_endpoint(
             "DBProxyName" => DBProxyName,
             "VpcSubnetIds" => VpcSubnetIds,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2744,7 +2744,7 @@ function create_dbproxy_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2785,7 +2785,7 @@ function create_dbsecurity_group(
             "DBSecurityGroupDescription" => DBSecurityGroupDescription,
             "DBSecurityGroupName" => DBSecurityGroupName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2808,7 +2808,7 @@ function create_dbsecurity_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2867,7 +2867,7 @@ function create_dbshard_group(
             "DBShardGroupIdentifier" => DBShardGroupIdentifier,
             "MaxACU" => MaxACU,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2892,7 +2892,7 @@ function create_dbshard_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2929,7 +2929,7 @@ function create_dbsnapshot(
             "DBInstanceIdentifier" => DBInstanceIdentifier,
             "DBSnapshotIdentifier" => DBSnapshotIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2952,7 +2952,7 @@ function create_dbsnapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2992,7 +2992,7 @@ function create_dbsubnet_group(
             "DBSubnetGroupName" => DBSubnetGroupName,
             "SubnetIdentifier" => SubnetIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3017,7 +3017,7 @@ function create_dbsubnet_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3092,7 +3092,7 @@ function create_event_subscription(
         Dict{String,Any}(
             "SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3114,7 +3114,7 @@ function create_event_subscription(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3173,20 +3173,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_global_cluster end
 
 function create_global_cluster(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "CreateGlobalCluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("CreateGlobalCluster"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function create_global_cluster(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "CreateGlobalCluster",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("CreateGlobalCluster", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3231,7 +3224,7 @@ function create_integration(
             "SourceArn" => SourceArn,
             "TargetArn" => TargetArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3256,7 +3249,7 @@ function create_integration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3301,7 +3294,7 @@ function create_option_group(
             "OptionGroupDescription" => OptionGroupDescription,
             "OptionGroupName" => OptionGroupName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3328,7 +3321,7 @@ function create_option_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3379,7 +3372,7 @@ function create_tenant_database(
             "MasterUsername" => MasterUsername,
             "TenantDBName" => TenantDBName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3406,7 +3399,7 @@ function create_tenant_database(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3437,7 +3430,7 @@ function delete_blue_green_deployment(
     return rds(
         "DeleteBlueGreenDeployment",
         Dict{String,Any}("BlueGreenDeploymentIdentifier" => BlueGreenDeploymentIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3458,7 +3451,7 @@ function delete_blue_green_deployment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3495,7 +3488,7 @@ function delete_custom_dbengine_version(
     return rds(
         "DeleteCustomDBEngineVersion",
         Dict{String,Any}("Engine" => Engine, "EngineVersion" => EngineVersion);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3515,7 +3508,7 @@ function delete_custom_dbengine_version(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3562,7 +3555,7 @@ function delete_dbcluster(
     return rds(
         "DeleteDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3581,7 +3574,7 @@ function delete_dbcluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3606,7 +3599,7 @@ function delete_dbcluster_automated_backup(
     return rds(
         "DeleteDBClusterAutomatedBackup",
         Dict{String,Any}("DbClusterResourceId" => DbClusterResourceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3625,7 +3618,7 @@ function delete_dbcluster_automated_backup(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3650,7 +3643,7 @@ function delete_dbcluster_endpoint(
     return rds(
         "DeleteDBClusterEndpoint",
         Dict{String,Any}("DBClusterEndpointIdentifier" => DBClusterEndpointIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3671,7 +3664,7 @@ function delete_dbcluster_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3699,7 +3692,7 @@ function delete_dbcluster_parameter_group(
     return rds(
         "DeleteDBClusterParameterGroup",
         Dict{String,Any}("DBClusterParameterGroupName" => DBClusterParameterGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3720,7 +3713,7 @@ function delete_dbcluster_parameter_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3748,7 +3741,7 @@ function delete_dbcluster_snapshot(
     return rds(
         "DeleteDBClusterSnapshot",
         Dict{String,Any}("DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3769,7 +3762,7 @@ function delete_dbcluster_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3831,7 +3824,7 @@ function delete_dbinstance(
     return rds(
         "DeleteDBInstance",
         Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3850,7 +3843,7 @@ function delete_dbinstance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3877,9 +3870,7 @@ function delete_dbinstance_automated_backup(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DeleteDBInstanceAutomatedBackup";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DeleteDBInstanceAutomatedBackup"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3889,7 +3880,7 @@ function delete_dbinstance_automated_backup(
     return rds(
         "DeleteDBInstanceAutomatedBackup",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3915,7 +3906,7 @@ function delete_dbparameter_group(
     return rds(
         "DeleteDBParameterGroup",
         Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3934,7 +3925,7 @@ function delete_dbparameter_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3955,7 +3946,7 @@ function delete_dbproxy(DBProxyName; aws_config::AbstractAWSConfig=current_aws_c
     return rds(
         "DeleteDBProxy",
         Dict{String,Any}("DBProxyName" => DBProxyName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3970,7 +3961,7 @@ function delete_dbproxy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DBProxyName" => DBProxyName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3996,7 +3987,7 @@ function delete_dbproxy_endpoint(
     return rds(
         "DeleteDBProxyEndpoint",
         Dict{String,Any}("DBProxyEndpointName" => DBProxyEndpointName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4015,7 +4006,7 @@ function delete_dbproxy_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4046,7 +4037,7 @@ function delete_dbsecurity_group(
     return rds(
         "DeleteDBSecurityGroup",
         Dict{String,Any}("DBSecurityGroupName" => DBSecurityGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4065,7 +4056,7 @@ function delete_dbsecurity_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4088,7 +4079,7 @@ function delete_dbshard_group(
     return rds(
         "DeleteDBShardGroup",
         Dict{String,Any}("DBShardGroupIdentifier" => DBShardGroupIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4107,7 +4098,7 @@ function delete_dbshard_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4132,7 +4123,7 @@ function delete_dbsnapshot(
     return rds(
         "DeleteDBSnapshot",
         Dict{String,Any}("DBSnapshotIdentifier" => DBSnapshotIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4151,7 +4142,7 @@ function delete_dbsnapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4177,7 +4168,7 @@ function delete_dbsubnet_group(
     return rds(
         "DeleteDBSubnetGroup",
         Dict{String,Any}("DBSubnetGroupName" => DBSubnetGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4194,7 +4185,7 @@ function delete_dbsubnet_group(
                 _merge, Dict{String,Any}("DBSubnetGroupName" => DBSubnetGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4218,7 +4209,7 @@ function delete_event_subscription(
     return rds(
         "DeleteEventSubscription",
         Dict{String,Any}("SubscriptionName" => SubscriptionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4235,7 +4226,7 @@ function delete_event_subscription(
                 _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4260,7 +4251,7 @@ function delete_global_cluster(
     return rds(
         "DeleteGlobalCluster",
         Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4279,7 +4270,7 @@ function delete_global_cluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4302,7 +4293,7 @@ function delete_integration(
     return rds(
         "DeleteIntegration",
         Dict{String,Any}("IntegrationIdentifier" => IntegrationIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4321,7 +4312,7 @@ function delete_integration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4345,7 +4336,7 @@ function delete_option_group(
     return rds(
         "DeleteOptionGroup",
         Dict{String,Any}("OptionGroupName" => OptionGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4362,7 +4353,7 @@ function delete_option_group(
                 _merge, Dict{String,Any}("OptionGroupName" => OptionGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4404,7 +4395,7 @@ function delete_tenant_database(
         Dict{String,Any}(
             "DBInstanceIdentifier" => DBInstanceIdentifier, "TenantDBName" => TenantDBName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4427,7 +4418,7 @@ function delete_tenant_database(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4457,7 +4448,7 @@ function deregister_dbproxy_targets(
     return rds(
         "DeregisterDBProxyTargets",
         Dict{String,Any}("DBProxyName" => DBProxyName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4472,7 +4463,7 @@ function deregister_dbproxy_targets(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DBProxyName" => DBProxyName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4490,19 +4481,14 @@ value. This command doesn't take any parameters.
 function describe_account_attributes end
 
 function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeAccountAttributes"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_account_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeAccountAttributes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeAccountAttributes", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4543,21 +4529,14 @@ function describe_blue_green_deployments end
 function describe_blue_green_deployments(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeBlueGreenDeployments";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("DescribeBlueGreenDeployments"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_blue_green_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeBlueGreenDeployments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeBlueGreenDeployments", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4587,20 +4566,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_certificates end
 
 function describe_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeCertificates"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeCertificates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("DescribeCertificates", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4640,9 +4612,7 @@ function describe_dbcluster_automated_backups(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBClusterAutomatedBackups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBClusterAutomatedBackups"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4652,7 +4622,7 @@ function describe_dbcluster_automated_backups(
     return rds(
         "DescribeDBClusterAutomatedBackups",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4699,7 +4669,7 @@ function describe_dbcluster_backtracks(
     return rds(
         "DescribeDBClusterBacktracks",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4718,7 +4688,7 @@ function describe_dbcluster_backtracks(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4755,19 +4725,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbcluster_endpoints end
 
 function describe_dbcluster_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeDBClusterEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBClusterEndpoints"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbcluster_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBClusterEndpoints",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBClusterEndpoints", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4801,9 +4766,7 @@ function describe_dbcluster_parameter_groups(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBClusterParameterGroups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBClusterParameterGroups"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4813,7 +4776,7 @@ function describe_dbcluster_parameter_groups(
     return rds(
         "DescribeDBClusterParameterGroups",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4853,7 +4816,7 @@ function describe_dbcluster_parameters(
     return rds(
         "DescribeDBClusterParameters",
         Dict{String,Any}("DBClusterParameterGroupName" => DBClusterParameterGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4874,7 +4837,7 @@ function describe_dbcluster_parameters(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4906,7 +4869,7 @@ function describe_dbcluster_snapshot_attributes(
     return rds(
         "DescribeDBClusterSnapshotAttributes",
         Dict{String,Any}("DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4927,7 +4890,7 @@ function describe_dbcluster_snapshot_attributes(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4991,19 +4954,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbcluster_snapshots end
 
 function describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeDBClusterSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBClusterSnapshots"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbcluster_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBClusterSnapshots",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBClusterSnapshots", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5047,15 +5005,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbclusters end
 
 function describe_dbclusters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds("DescribeDBClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return rds("DescribeDBClusters"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbclusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeDBClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBClusters", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5112,19 +5068,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbengine_versions end
 
 function describe_dbengine_versions(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeDBEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBEngineVersions"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbengine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBEngineVersions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBEngineVersions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5172,9 +5123,7 @@ function describe_dbinstance_automated_backups(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBInstanceAutomatedBackups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBInstanceAutomatedBackups"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5184,7 +5133,7 @@ function describe_dbinstance_automated_backups(
     return rds(
         "DescribeDBInstanceAutomatedBackups",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5224,20 +5173,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbinstances end
 
 function describe_dbinstances(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeDBInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBInstances"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbinstances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeDBInstances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("DescribeDBInstances", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5274,7 +5216,7 @@ function describe_dblog_files(
     return rds(
         "DescribeDBLogFiles",
         Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5293,7 +5235,7 @@ function describe_dblog_files(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5322,19 +5264,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbparameter_groups end
 
 function describe_dbparameter_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeDBParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBParameterGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbparameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBParameterGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBParameterGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5369,7 +5306,7 @@ function describe_dbparameters(
     return rds(
         "DescribeDBParameters",
         Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5388,7 +5325,7 @@ function describe_dbparameters(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5415,15 +5352,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbproxies end
 
 function describe_dbproxies(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds("DescribeDBProxies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return rds("DescribeDBProxies"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbproxies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeDBProxies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBProxies", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5452,19 +5387,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbproxy_endpoints end
 
 function describe_dbproxy_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeDBProxyEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBProxyEndpoints"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbproxy_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBProxyEndpoints",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBProxyEndpoints", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5498,7 +5428,7 @@ function describe_dbproxy_target_groups(
     return rds(
         "DescribeDBProxyTargetGroups",
         Dict{String,Any}("DBProxyName" => DBProxyName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5513,7 +5443,7 @@ function describe_dbproxy_target_groups(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DBProxyName" => DBProxyName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5547,7 +5477,7 @@ function describe_dbproxy_targets(
     return rds(
         "DescribeDBProxyTargets",
         Dict{String,Any}("DBProxyName" => DBProxyName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5562,7 +5492,7 @@ function describe_dbproxy_targets(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DBProxyName" => DBProxyName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5613,19 +5543,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbrecommendations end
 
 function describe_dbrecommendations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeDBRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBRecommendations"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbrecommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBRecommendations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBRecommendations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5656,19 +5581,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbsecurity_groups end
 
 function describe_dbsecurity_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeDBSecurityGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBSecurityGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbsecurity_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBSecurityGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBSecurityGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5696,20 +5616,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbshard_groups end
 
 function describe_dbshard_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeDBShardGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBShardGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbshard_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeDBShardGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("DescribeDBShardGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5738,7 +5651,7 @@ function describe_dbsnapshot_attributes(
     return rds(
         "DescribeDBSnapshotAttributes",
         Dict{String,Any}("DBSnapshotIdentifier" => DBSnapshotIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5757,7 +5670,7 @@ function describe_dbsnapshot_attributes(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5813,9 +5726,7 @@ function describe_dbsnapshot_tenant_databases(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBSnapshotTenantDatabases";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBSnapshotTenantDatabases"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5825,7 +5736,7 @@ function describe_dbsnapshot_tenant_databases(
     return rds(
         "DescribeDBSnapshotTenantDatabases",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5888,20 +5799,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbsnapshots end
 
 function describe_dbsnapshots(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeDBSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBSnapshots"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbsnapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeDBSnapshots",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("DescribeDBSnapshots", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5927,19 +5831,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_dbsubnet_groups end
 
 function describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeDBSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeDBSubnetGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dbsubnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeDBSubnetGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeDBSubnetGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5974,7 +5873,7 @@ function describe_engine_default_cluster_parameters(
     return rds(
         "DescribeEngineDefaultClusterParameters",
         Dict{String,Any}("DBParameterGroupFamily" => DBParameterGroupFamily);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5993,7 +5892,7 @@ function describe_engine_default_cluster_parameters(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6039,7 +5938,7 @@ function describe_engine_default_parameters(
     return rds(
         "DescribeEngineDefaultParameters",
         Dict{String,Any}("DBParameterGroupFamily" => DBParameterGroupFamily);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6058,7 +5957,7 @@ function describe_engine_default_parameters(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6081,19 +5980,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_event_categories end
 
 function describe_event_categories(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeEventCategories"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_event_categories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeEventCategories",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeEventCategories", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -6122,19 +6016,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_event_subscriptions end
 
 function describe_event_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeEventSubscriptions"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_event_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeEventSubscriptions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeEventSubscriptions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -6186,15 +6075,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_events end
 
 function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return rds("DescribeEvents"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeEvents", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6230,20 +6117,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_export_tasks end
 
 function describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeExportTasks"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_export_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeExportTasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("DescribeExportTasks", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6275,19 +6155,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_global_clusters end
 
 function describe_global_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeGlobalClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeGlobalClusters"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_global_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeGlobalClusters",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeGlobalClusters", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -6312,20 +6187,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_integrations end
 
 function describe_integrations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeIntegrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeIntegrations"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_integrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeIntegrations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("DescribeIntegrations", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6361,7 +6229,7 @@ function describe_option_group_options(
     return rds(
         "DescribeOptionGroupOptions",
         Dict{String,Any}("EngineName" => EngineName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6376,7 +6244,7 @@ function describe_option_group_options(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EngineName" => EngineName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6410,20 +6278,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_option_groups end
 
 function describe_option_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeOptionGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeOptionGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_option_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeOptionGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("DescribeOptionGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6471,7 +6332,7 @@ function describe_orderable_dbinstance_options(
     return rds(
         "DescribeOrderableDBInstanceOptions",
         Dict{String,Any}("Engine" => Engine);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6482,7 +6343,7 @@ function describe_orderable_dbinstance_options(
     return rds(
         "DescribeOrderableDBInstanceOptions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Engine" => Engine), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6521,9 +6382,7 @@ function describe_pending_maintenance_actions(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribePendingMaintenanceActions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribePendingMaintenanceActions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -6533,7 +6392,7 @@ function describe_pending_maintenance_actions(
     return rds(
         "DescribePendingMaintenanceActions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6577,21 +6436,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_reserved_dbinstances end
 
 function describe_reserved_dbinstances(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeReservedDBInstances";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("DescribeReservedDBInstances"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_reserved_dbinstances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeReservedDBInstances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeReservedDBInstances", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -6633,9 +6485,7 @@ function describe_reserved_dbinstances_offerings(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeReservedDBInstancesOfferings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeReservedDBInstancesOfferings"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -6645,7 +6495,7 @@ function describe_reserved_dbinstances_offerings(
     return rds(
         "DescribeReservedDBInstancesOfferings",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6678,20 +6528,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_source_regions end
 
 function describe_source_regions(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeSourceRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeSourceRegions"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_source_regions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "DescribeSourceRegions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("DescribeSourceRegions", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6725,19 +6568,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_tenant_databases end
 
 function describe_tenant_databases(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "DescribeTenantDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("DescribeTenantDatabases"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_tenant_databases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "DescribeTenantDatabases",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeTenantDatabases", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -6761,7 +6599,7 @@ function describe_valid_dbinstance_modifications(
     return rds(
         "DescribeValidDBInstanceModifications",
         Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6780,7 +6618,7 @@ function describe_valid_dbinstance_modifications(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6807,7 +6645,7 @@ function disable_http_endpoint(
     return rds(
         "DisableHttpEndpoint",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6822,7 +6660,7 @@ function disable_http_endpoint(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6869,7 +6707,7 @@ function download_dblog_file_portion(
         Dict{String,Any}(
             "DBInstanceIdentifier" => DBInstanceIdentifier, "LogFileName" => LogFileName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6892,7 +6730,7 @@ function download_dblog_file_portion(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6921,7 +6759,7 @@ function enable_http_endpoint(
     return rds(
         "EnableHttpEndpoint",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6936,7 +6774,7 @@ function enable_http_endpoint(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6981,7 +6819,7 @@ function failover_dbcluster(
     return rds(
         "FailoverDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7000,7 +6838,7 @@ function failover_dbcluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7066,7 +6904,7 @@ function failover_global_cluster(
             "GlobalClusterIdentifier" => GlobalClusterIdentifier,
             "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7089,7 +6927,7 @@ function failover_global_cluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7118,7 +6956,7 @@ function list_tags_for_resource(
     return rds(
         "ListTagsForResource",
         Dict{String,Any}("ResourceName" => ResourceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7133,7 +6971,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceName" => ResourceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7160,20 +6998,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function modify_activity_stream end
 
 function modify_activity_stream(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "ModifyActivityStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("ModifyActivityStream"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function modify_activity_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "ModifyActivityStream",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("ModifyActivityStream", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -7207,15 +7038,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function modify_certificates end
 
 function modify_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds("ModifyCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return rds("ModifyCertificates"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function modify_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "ModifyCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("ModifyCertificates", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -7262,7 +7091,7 @@ function modify_current_dbcluster_capacity(
     return rds(
         "ModifyCurrentDBClusterCapacity",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7281,7 +7110,7 @@ function modify_current_dbcluster_capacity(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7327,7 +7156,7 @@ function modify_custom_dbengine_version(
     return rds(
         "ModifyCustomDBEngineVersion",
         Dict{String,Any}("Engine" => Engine, "EngineVersion" => EngineVersion);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7347,7 +7176,7 @@ function modify_custom_dbengine_version(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7609,7 +7438,7 @@ function modify_dbcluster(
     return rds(
         "ModifyDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7628,7 +7457,7 @@ function modify_dbcluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7661,7 +7490,7 @@ function modify_dbcluster_endpoint(
     return rds(
         "ModifyDBClusterEndpoint",
         Dict{String,Any}("DBClusterEndpointIdentifier" => DBClusterEndpointIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7682,7 +7511,7 @@ function modify_dbcluster_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7744,7 +7573,7 @@ function modify_dbcluster_parameter_group(
             "DBClusterParameterGroupName" => DBClusterParameterGroupName,
             "Parameter" => Parameter,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7767,7 +7596,7 @@ function modify_dbcluster_parameter_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7829,7 +7658,7 @@ function modify_dbcluster_snapshot_attribute(
             "AttributeName" => AttributeName,
             "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7852,7 +7681,7 @@ function modify_dbcluster_snapshot_attribute(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8292,7 +8121,7 @@ function modify_dbinstance(
     return rds(
         "ModifyDBInstance",
         Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8311,7 +8140,7 @@ function modify_dbinstance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8373,7 +8202,7 @@ function modify_dbparameter_group(
         Dict{String,Any}(
             "DBParameterGroupName" => DBParameterGroupName, "Parameter" => Parameter
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8395,7 +8224,7 @@ function modify_dbparameter_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8437,7 +8266,7 @@ function modify_dbproxy(DBProxyName; aws_config::AbstractAWSConfig=current_aws_c
     return rds(
         "ModifyDBProxy",
         Dict{String,Any}("DBProxyName" => DBProxyName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8452,7 +8281,7 @@ function modify_dbproxy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DBProxyName" => DBProxyName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8484,7 +8313,7 @@ function modify_dbproxy_endpoint(
     return rds(
         "ModifyDBProxyEndpoint",
         Dict{String,Any}("DBProxyEndpointName" => DBProxyEndpointName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8503,7 +8332,7 @@ function modify_dbproxy_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8536,7 +8365,7 @@ function modify_dbproxy_target_group(
         Dict{String,Any}(
             "DBProxyName" => DBProxyName, "TargetGroupName" => TargetGroupName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8558,7 +8387,7 @@ function modify_dbproxy_target_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8588,7 +8417,7 @@ function modify_dbrecommendation(
     return rds(
         "ModifyDBRecommendation",
         Dict{String,Any}("RecommendationId" => RecommendationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8605,7 +8434,7 @@ function modify_dbrecommendation(
                 _merge, Dict{String,Any}("RecommendationId" => RecommendationId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8633,7 +8462,7 @@ function modify_dbshard_group(
     return rds(
         "ModifyDBShardGroup",
         Dict{String,Any}("DBShardGroupIdentifier" => DBShardGroupIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8652,7 +8481,7 @@ function modify_dbshard_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8693,7 +8522,7 @@ function modify_dbsnapshot(
     return rds(
         "ModifyDBSnapshot",
         Dict{String,Any}("DBSnapshotIdentifier" => DBSnapshotIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8712,7 +8541,7 @@ function modify_dbsnapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8768,7 +8597,7 @@ function modify_dbsnapshot_attribute(
         Dict{String,Any}(
             "AttributeName" => AttributeName, "DBSnapshotIdentifier" => DBSnapshotIdentifier
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8791,7 +8620,7 @@ function modify_dbsnapshot_attribute(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8824,7 +8653,7 @@ function modify_dbsubnet_group(
         Dict{String,Any}(
             "DBSubnetGroupName" => DBSubnetGroupName, "SubnetIdentifier" => SubnetIdentifier
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8847,7 +8676,7 @@ function modify_dbsubnet_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8888,7 +8717,7 @@ function modify_event_subscription(
     return rds(
         "ModifyEventSubscription",
         Dict{String,Any}("SubscriptionName" => SubscriptionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8905,7 +8734,7 @@ function modify_event_subscription(
                 _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8949,20 +8778,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function modify_global_cluster end
 
 function modify_global_cluster(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "ModifyGlobalCluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("ModifyGlobalCluster"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function modify_global_cluster(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rds(
-        "ModifyGlobalCluster",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rds("ModifyGlobalCluster", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -8991,7 +8813,7 @@ function modify_integration(
     return rds(
         "ModifyIntegration",
         Dict{String,Any}("IntegrationIdentifier" => IntegrationIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9010,7 +8832,7 @@ function modify_integration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9043,7 +8865,7 @@ function modify_option_group(
     return rds(
         "ModifyOptionGroup",
         Dict{String,Any}("OptionGroupName" => OptionGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9060,7 +8882,7 @@ function modify_option_group(
                 _merge, Dict{String,Any}("OptionGroupName" => OptionGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9104,7 +8926,7 @@ function modify_tenant_database(
         Dict{String,Any}(
             "DBInstanceIdentifier" => DBInstanceIdentifier, "TenantDBName" => TenantDBName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9127,7 +8949,7 @@ function modify_tenant_database(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9172,7 +8994,7 @@ function promote_read_replica(
     return rds(
         "PromoteReadReplica",
         Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9191,7 +9013,7 @@ function promote_read_replica(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9216,7 +9038,7 @@ function promote_read_replica_dbcluster(
     return rds(
         "PromoteReadReplicaDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9235,7 +9057,7 @@ function promote_read_replica_dbcluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9265,7 +9087,7 @@ function purchase_reserved_dbinstances_offering(
     return rds(
         "PurchaseReservedDBInstancesOffering",
         Dict{String,Any}("ReservedDBInstancesOfferingId" => ReservedDBInstancesOfferingId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9286,7 +9108,7 @@ function purchase_reserved_dbinstances_offering(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9316,7 +9138,7 @@ function reboot_dbcluster(
     return rds(
         "RebootDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9335,7 +9157,7 @@ function reboot_dbcluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9370,7 +9192,7 @@ function reboot_dbinstance(
     return rds(
         "RebootDBInstance",
         Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9389,7 +9211,7 @@ function reboot_dbinstance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9414,7 +9236,7 @@ function reboot_dbshard_group(
     return rds(
         "RebootDBShardGroup",
         Dict{String,Any}("DBShardGroupIdentifier" => DBShardGroupIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9433,7 +9255,7 @@ function reboot_dbshard_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9462,7 +9284,7 @@ function register_dbproxy_targets(
     return rds(
         "RegisterDBProxyTargets",
         Dict{String,Any}("DBProxyName" => DBProxyName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9477,7 +9299,7 @@ function register_dbproxy_targets(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DBProxyName" => DBProxyName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9501,19 +9323,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function remove_from_global_cluster end
 
 function remove_from_global_cluster(; aws_config::AbstractAWSConfig=current_aws_config())
-    return rds(
-        "RemoveFromGlobalCluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return rds("RemoveFromGlobalCluster"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function remove_from_global_cluster(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rds(
-        "RemoveFromGlobalCluster",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "RemoveFromGlobalCluster", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -9546,7 +9363,7 @@ function remove_role_from_dbcluster(
         Dict{String,Any}(
             "DBClusterIdentifier" => DBClusterIdentifier, "RoleArn" => RoleArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9568,7 +9385,7 @@ function remove_role_from_dbcluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9603,7 +9420,7 @@ function remove_role_from_dbinstance(
             "FeatureName" => FeatureName,
             "RoleArn" => RoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9628,7 +9445,7 @@ function remove_role_from_dbinstance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9656,7 +9473,7 @@ function remove_source_identifier_from_subscription(
         Dict{String,Any}(
             "SourceIdentifier" => SourceIdentifier, "SubscriptionName" => SubscriptionName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9679,7 +9496,7 @@ function remove_source_identifier_from_subscription(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9706,7 +9523,7 @@ function remove_tags_from_resource(
     return rds(
         "RemoveTagsFromResource",
         Dict{String,Any}("ResourceName" => ResourceName, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9726,7 +9543,7 @@ function remove_tags_from_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9766,7 +9583,7 @@ function reset_dbcluster_parameter_group(
     return rds(
         "ResetDBClusterParameterGroup",
         Dict{String,Any}("DBClusterParameterGroupName" => DBClusterParameterGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9787,7 +9604,7 @@ function reset_dbcluster_parameter_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9831,7 +9648,7 @@ function reset_dbparameter_group(
     return rds(
         "ResetDBParameterGroup",
         Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9850,7 +9667,7 @@ function reset_dbparameter_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10036,7 +9853,7 @@ function restore_dbcluster_from_s3(
             "SourceEngine" => SourceEngine,
             "SourceEngineVersion" => SourceEngineVersion,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10069,7 +9886,7 @@ function restore_dbcluster_from_s3(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10259,7 +10076,7 @@ function restore_dbcluster_from_snapshot(
             "Engine" => Engine,
             "SnapshotIdentifier" => SnapshotIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10284,7 +10101,7 @@ function restore_dbcluster_from_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10462,7 +10279,7 @@ function restore_dbcluster_to_point_in_time(
     return rds(
         "RestoreDBClusterToPointInTime",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10481,7 +10298,7 @@ function restore_dbcluster_to_point_in_time(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10704,7 +10521,7 @@ function restore_dbinstance_from_dbsnapshot(
     return rds(
         "RestoreDBInstanceFromDBSnapshot",
         Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10723,7 +10540,7 @@ function restore_dbinstance_from_dbsnapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10960,7 +10777,7 @@ function restore_dbinstance_from_s3(
             "SourceEngine" => SourceEngine,
             "SourceEngineVersion" => SourceEngineVersion,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10993,7 +10810,7 @@ function restore_dbinstance_from_s3(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11205,7 +11022,7 @@ function restore_dbinstance_to_point_in_time(
     return rds(
         "RestoreDBInstanceToPointInTime",
         Dict{String,Any}("TargetDBInstanceIdentifier" => TargetDBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11226,7 +11043,7 @@ function restore_dbinstance_to_point_in_time(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11273,7 +11090,7 @@ function revoke_dbsecurity_group_ingress(
     return rds(
         "RevokeDBSecurityGroupIngress",
         Dict{String,Any}("DBSecurityGroupName" => DBSecurityGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11292,7 +11109,7 @@ function revoke_dbsecurity_group_ingress(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11334,7 +11151,7 @@ function start_activity_stream(
         Dict{String,Any}(
             "KmsKeyId" => KmsKeyId, "Mode" => Mode, "ResourceArn" => ResourceArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11357,7 +11174,7 @@ function start_activity_stream(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11384,7 +11201,7 @@ function start_dbcluster(
     return rds(
         "StartDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11403,7 +11220,7 @@ function start_dbcluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11430,7 +11247,7 @@ function start_dbinstance(
     return rds(
         "StartDBInstance",
         Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11449,7 +11266,7 @@ function start_dbinstance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11495,7 +11312,7 @@ function start_dbinstance_automated_backups_replication(
     return rds(
         "StartDBInstanceAutomatedBackupsReplication",
         Dict{String,Any}("SourceDBInstanceArn" => SourceDBInstanceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11514,7 +11331,7 @@ function start_dbinstance_automated_backups_replication(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11585,7 +11402,7 @@ function start_export_task(
             "S3BucketName" => S3BucketName,
             "SourceArn" => SourceArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11614,7 +11431,7 @@ function start_export_task(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11646,7 +11463,7 @@ function stop_activity_stream(
     return rds(
         "StopActivityStream",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11661,7 +11478,7 @@ function stop_activity_stream(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11689,7 +11506,7 @@ function stop_dbcluster(
     return rds(
         "StopDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11708,7 +11525,7 @@ function stop_dbcluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11740,7 +11557,7 @@ function stop_dbinstance(
     return rds(
         "StopDBInstance",
         Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11759,7 +11576,7 @@ function stop_dbinstance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11786,7 +11603,7 @@ function stop_dbinstance_automated_backups_replication(
     return rds(
         "StopDBInstanceAutomatedBackupsReplication",
         Dict{String,Any}("SourceDBInstanceArn" => SourceDBInstanceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11805,7 +11622,7 @@ function stop_dbinstance_automated_backups_replication(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11838,7 +11655,7 @@ function switchover_blue_green_deployment(
     return rds(
         "SwitchoverBlueGreenDeployment",
         Dict{String,Any}("BlueGreenDeploymentIdentifier" => BlueGreenDeploymentIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11859,7 +11676,7 @@ function switchover_blue_green_deployment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11904,7 +11721,7 @@ function switchover_global_cluster(
             "GlobalClusterIdentifier" => GlobalClusterIdentifier,
             "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11927,7 +11744,7 @@ function switchover_global_cluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11954,7 +11771,7 @@ function switchover_read_replica(
     return rds(
         "SwitchoverReadReplica",
         Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11973,7 +11790,7 @@ function switchover_read_replica(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

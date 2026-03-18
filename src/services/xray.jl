@@ -25,7 +25,7 @@ function batch_get_traces(TraceIds; aws_config::AbstractAWSConfig=current_aws_co
         "POST",
         "/Traces",
         Dict{String,Any}("TraceIds" => TraceIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -41,7 +41,7 @@ function batch_get_traces(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TraceIds" => TraceIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -80,7 +80,7 @@ function create_group(GroupName; aws_config::AbstractAWSConfig=current_aws_confi
         "POST",
         "/CreateGroup",
         Dict{String,Any}("GroupName" => GroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -96,7 +96,7 @@ function create_group(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -135,7 +135,7 @@ function create_sampling_rule(
         "POST",
         "/CreateSamplingRule",
         Dict{String,Any}("SamplingRule" => SamplingRule);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -151,7 +151,7 @@ function create_sampling_rule(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("SamplingRule" => SamplingRule), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -170,21 +170,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_group end
 
 function delete_group(; aws_config::AbstractAWSConfig=current_aws_config())
-    return xray(
-        "POST", "/DeleteGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return xray("POST", "/DeleteGroup"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function delete_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return xray(
-        "POST",
-        "/DeleteGroup",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return xray("POST", "/DeleteGroup", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -212,7 +204,7 @@ function delete_resource_policy(
         "POST",
         "/DeleteResourcePolicy",
         Dict{String,Any}("PolicyName" => PolicyName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -228,7 +220,7 @@ function delete_resource_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PolicyName" => PolicyName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -249,23 +241,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_sampling_rule end
 
 function delete_sampling_rule(; aws_config::AbstractAWSConfig=current_aws_config())
-    return xray(
-        "POST",
-        "/DeleteSamplingRule";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return xray("POST", "/DeleteSamplingRule"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function delete_sampling_rule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return xray(
-        "POST",
-        "/DeleteSamplingRule",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/DeleteSamplingRule", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -279,20 +262,14 @@ Retrieves the current encryption configuration for X-Ray data.
 function get_encryption_config end
 
 function get_encryption_config(; aws_config::AbstractAWSConfig=current_aws_config())
-    return xray(
-        "POST", "/EncryptionConfig"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return xray("POST", "/EncryptionConfig"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_encryption_config(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return xray(
-        "POST",
-        "/EncryptionConfig",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/EncryptionConfig", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -310,15 +287,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_group end
 
 function get_group(; aws_config::AbstractAWSConfig=current_aws_config())
-    return xray("POST", "/GetGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return xray("POST", "/GetGroup"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return xray(
-        "POST", "/GetGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return xray("POST", "/GetGroup", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -334,15 +309,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_groups end
 
 function get_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return xray("POST", "/Groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return xray("POST", "/Groups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return xray(
-        "POST", "/Groups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return xray("POST", "/Groups", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -365,7 +338,7 @@ function get_insight(InsightId; aws_config::AbstractAWSConfig=current_aws_config
         "POST",
         "/Insight",
         Dict{String,Any}("InsightId" => InsightId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -381,7 +354,7 @@ function get_insight(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InsightId" => InsightId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -411,7 +384,7 @@ function get_insight_events(InsightId; aws_config::AbstractAWSConfig=current_aws
         "POST",
         "/InsightEvents",
         Dict{String,Any}("InsightId" => InsightId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -427,7 +400,7 @@ function get_insight_events(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InsightId" => InsightId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -465,7 +438,7 @@ function get_insight_impact_graph(
         Dict{String,Any}(
             "EndTime" => EndTime, "InsightId" => InsightId, "StartTime" => StartTime
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -489,7 +462,7 @@ function get_insight_impact_graph(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -525,7 +498,7 @@ function get_insight_summaries(
         "POST",
         "/InsightSummaries",
         Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -546,7 +519,7 @@ function get_insight_summaries(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -564,20 +537,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_sampling_rules end
 
 function get_sampling_rules(; aws_config::AbstractAWSConfig=current_aws_config())
-    return xray(
-        "POST", "/GetSamplingRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return xray("POST", "/GetSamplingRules"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_sampling_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return xray(
-        "POST",
-        "/GetSamplingRules",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/GetSamplingRules", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -597,10 +564,7 @@ function get_sampling_statistic_summaries(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return xray(
-        "POST",
-        "/SamplingStatisticSummaries";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/SamplingStatisticSummaries"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -611,7 +575,7 @@ function get_sampling_statistic_summaries(
         "POST",
         "/SamplingStatisticSummaries",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -636,7 +600,7 @@ function get_sampling_targets(
         "POST",
         "/SamplingTargets",
         Dict{String,Any}("SamplingStatisticsDocuments" => SamplingStatisticsDocuments);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -658,7 +622,7 @@ function get_sampling_targets(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -693,7 +657,7 @@ function get_service_graph(
         "POST",
         "/ServiceGraph",
         Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -714,7 +678,7 @@ function get_service_graph(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -751,7 +715,7 @@ function get_time_series_service_statistics(
         "POST",
         "/TimeSeriesServiceStatistics",
         Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -772,7 +736,7 @@ function get_time_series_service_statistics(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -797,7 +761,7 @@ function get_trace_graph(TraceIds; aws_config::AbstractAWSConfig=current_aws_con
         "POST",
         "/TraceGraph",
         Dict{String,Any}("TraceIds" => TraceIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -813,7 +777,7 @@ function get_trace_graph(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TraceIds" => TraceIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -857,7 +821,7 @@ function get_trace_summaries(
         "POST",
         "/TraceSummaries",
         Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -878,7 +842,7 @@ function get_trace_summaries(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -897,10 +861,7 @@ function list_resource_policies end
 
 function list_resource_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
-        "POST",
-        "/ListResourcePolicies";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListResourcePolicies"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -908,11 +869,7 @@ function list_resource_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return xray(
-        "POST",
-        "/ListResourcePolicies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListResourcePolicies", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -941,7 +898,7 @@ function list_tags_for_resource(
         "POST",
         "/ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -957,7 +914,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -989,7 +946,7 @@ function put_encryption_config(Type; aws_config::AbstractAWSConfig=current_aws_c
         "POST",
         "/PutEncryptionConfig",
         Dict{String,Any}("Type" => Type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1001,7 +958,7 @@ function put_encryption_config(
         "POST",
         "/PutEncryptionConfig",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Type" => Type), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1046,7 +1003,7 @@ function put_resource_policy(
         "POST",
         "/PutResourcePolicy",
         Dict{String,Any}("PolicyDocument" => PolicyDocument, "PolicyName" => PolicyName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1069,7 +1026,7 @@ function put_resource_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1098,7 +1055,7 @@ function put_telemetry_records(
         "POST",
         "/TelemetryRecords",
         Dict{String,Any}("TelemetryRecords" => TelemetryRecords);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1116,7 +1073,7 @@ function put_telemetry_records(
                 _merge, Dict{String,Any}("TelemetryRecords" => TelemetryRecords), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1162,7 +1119,7 @@ function put_trace_segments(
         "POST",
         "/TraceSegments",
         Dict{String,Any}("TraceSegmentDocuments" => TraceSegmentDocuments);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1182,7 +1139,7 @@ function put_trace_segments(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1212,7 +1169,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1233,7 +1190,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1260,7 +1217,7 @@ function untag_resource(
         "POST",
         "/UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1281,7 +1238,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1307,21 +1264,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_group end
 
 function update_group(; aws_config::AbstractAWSConfig=current_aws_config())
-    return xray(
-        "POST", "/UpdateGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return xray("POST", "/UpdateGroup"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function update_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return xray(
-        "POST",
-        "/UpdateGroup",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return xray("POST", "/UpdateGroup", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1343,7 +1292,7 @@ function update_sampling_rule(
         "POST",
         "/UpdateSamplingRule",
         Dict{String,Any}("SamplingRuleUpdate" => SamplingRuleUpdate);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1361,7 +1310,7 @@ function update_sampling_rule(
                 _merge, Dict{String,Any}("SamplingRuleUpdate" => SamplingRuleUpdate), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

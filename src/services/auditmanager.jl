@@ -24,7 +24,7 @@ function associate_assessment_report_evidence_folder(
         "PUT",
         "/assessments/$(assessmentId)/associateToAssessmentReport",
         Dict{String,Any}("evidenceFolderId" => evidenceFolderId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -43,7 +43,7 @@ function associate_assessment_report_evidence_folder(
                 _merge, Dict{String,Any}("evidenceFolderId" => evidenceFolderId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -74,7 +74,7 @@ function batch_associate_assessment_report_evidence(
         Dict{String,Any}(
             "evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -98,7 +98,7 @@ function batch_associate_assessment_report_evidence(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -126,7 +126,7 @@ function batch_create_delegation_by_assessment(
         "POST",
         "/assessments/$(assessmentId)/delegations",
         Dict{String,Any}("createDelegationRequests" => createDelegationRequests);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -147,7 +147,7 @@ function batch_create_delegation_by_assessment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -172,7 +172,7 @@ function batch_delete_delegation_by_assessment(
         "PUT",
         "/assessments/$(assessmentId)/delegations",
         Dict{String,Any}("delegationIds" => delegationIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -189,7 +189,7 @@ function batch_delete_delegation_by_assessment(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("delegationIds" => delegationIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -220,7 +220,7 @@ function batch_disassociate_assessment_report_evidence(
         Dict{String,Any}(
             "evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -244,7 +244,7 @@ function batch_disassociate_assessment_report_evidence(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -283,7 +283,7 @@ function batch_import_evidence_to_assessment_control(
         "POST",
         "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence",
         Dict{String,Any}("manualEvidence" => manualEvidence);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -302,7 +302,7 @@ function batch_import_evidence_to_assessment_control(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("manualEvidence" => manualEvidence), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -347,7 +347,7 @@ function create_assessment(
             "roles" => roles,
             "scope" => scope,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -377,7 +377,7 @@ function create_assessment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -408,7 +408,7 @@ function create_assessment_framework(
         "POST",
         "/assessmentFrameworks",
         Dict{String,Any}("controlSets" => controlSets, "name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -429,7 +429,7 @@ function create_assessment_framework(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -466,7 +466,7 @@ function create_assessment_report(
         "POST",
         "/assessments/$(assessmentId)/reports",
         Dict{String,Any}("name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -481,7 +481,7 @@ function create_assessment_report(
         "POST",
         "/assessments/$(assessmentId)/reports",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -514,7 +514,7 @@ function create_control(
         "POST",
         "/controls",
         Dict{String,Any}("controlMappingSources" => controlMappingSources, "name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -537,7 +537,7 @@ function create_control(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -558,7 +558,7 @@ function delete_assessment(assessmentId; aws_config::AbstractAWSConfig=current_a
     return auditmanager(
         "DELETE",
         "/assessments/$(assessmentId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -572,7 +572,7 @@ function delete_assessment(
         "DELETE",
         "/assessments/$(assessmentId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -595,7 +595,7 @@ function delete_assessment_framework(
     return auditmanager(
         "DELETE",
         "/assessmentFrameworks/$(frameworkId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -609,7 +609,7 @@ function delete_assessment_framework(
         "DELETE",
         "/assessmentFrameworks/$(frameworkId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -635,7 +635,7 @@ function delete_assessment_framework_share(
         "DELETE",
         "/assessmentFrameworkShareRequests/$(requestId)",
         Dict{String,Any}("requestType" => requestType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -652,7 +652,7 @@ function delete_assessment_framework_share(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("requestType" => requestType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -689,7 +689,7 @@ function delete_assessment_report(
     return auditmanager(
         "DELETE",
         "/assessments/$(assessmentId)/reports/$(assessmentReportId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -704,7 +704,7 @@ function delete_assessment_report(
         "DELETE",
         "/assessments/$(assessmentId)/reports/$(assessmentReportId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -727,10 +727,7 @@ function delete_control end
 
 function delete_control(controlId; aws_config::AbstractAWSConfig=current_aws_config())
     return auditmanager(
-        "DELETE",
-        "/controls/$(controlId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/controls/$(controlId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -743,7 +740,7 @@ function delete_control(
         "DELETE",
         "/controls/$(controlId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -763,10 +760,7 @@ function deregister_account end
 
 function deregister_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return auditmanager(
-        "POST",
-        "/account/deregisterAccount";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/account/deregisterAccount"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -777,7 +771,7 @@ function deregister_account(
         "POST",
         "/account/deregisterAccount",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -830,7 +824,7 @@ function deregister_organization_admin_account(;
     return auditmanager(
         "POST",
         "/account/deregisterOrganizationAdminAccount";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -842,7 +836,7 @@ function deregister_organization_admin_account(
         "POST",
         "/account/deregisterOrganizationAdminAccount",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -868,7 +862,7 @@ function disassociate_assessment_report_evidence_folder(
         "PUT",
         "/assessments/$(assessmentId)/disassociateFromAssessmentReport",
         Dict{String,Any}("evidenceFolderId" => evidenceFolderId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -887,7 +881,7 @@ function disassociate_assessment_report_evidence_folder(
                 _merge, Dict{String,Any}("evidenceFolderId" => evidenceFolderId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -903,7 +897,7 @@ function get_account_status end
 
 function get_account_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return auditmanager(
-        "GET", "/account/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/account/status"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -911,11 +905,7 @@ function get_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auditmanager(
-        "GET",
-        "/account/status",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/account/status", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -933,10 +923,7 @@ function get_assessment end
 
 function get_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config())
     return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/assessments/$(assessmentId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -949,7 +936,7 @@ function get_assessment(
         "GET",
         "/assessments/$(assessmentId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -972,7 +959,7 @@ function get_assessment_framework(
     return auditmanager(
         "GET",
         "/assessmentFrameworks/$(frameworkId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -986,7 +973,7 @@ function get_assessment_framework(
         "GET",
         "/assessmentFrameworks/$(frameworkId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1010,7 +997,7 @@ function get_assessment_report_url(
     return auditmanager(
         "GET",
         "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1025,7 +1012,7 @@ function get_assessment_report_url(
         "GET",
         "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1053,7 +1040,7 @@ function get_change_logs(assessmentId; aws_config::AbstractAWSConfig=current_aws
     return auditmanager(
         "GET",
         "/assessments/$(assessmentId)/changelogs";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1067,7 +1054,7 @@ function get_change_logs(
         "GET",
         "/assessments/$(assessmentId)/changelogs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1086,10 +1073,7 @@ function get_control end
 
 function get_control(controlId; aws_config::AbstractAWSConfig=current_aws_config())
     return auditmanager(
-        "GET",
-        "/controls/$(controlId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/controls/$(controlId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1099,11 +1083,7 @@ function get_control(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return auditmanager(
-        "GET",
-        "/controls/$(controlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/controls/$(controlId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1122,20 +1102,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_delegations end
 
 function get_delegations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/delegations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return auditmanager("GET", "/delegations"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_delegations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auditmanager(
-        "GET",
-        "/delegations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/delegations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1165,7 +1139,7 @@ function get_evidence(
     return auditmanager(
         "GET",
         "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1182,7 +1156,7 @@ function get_evidence(
         "GET",
         "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1216,7 +1190,7 @@ function get_evidence_by_evidence_folder(
     return auditmanager(
         "GET",
         "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1232,7 +1206,7 @@ function get_evidence_by_evidence_folder(
         "GET",
         "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1263,7 +1237,7 @@ function get_evidence_file_upload_url(
         "GET",
         "/evidenceFileUploadUrl",
         Dict{String,Any}("fileName" => fileName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1279,7 +1253,7 @@ function get_evidence_file_upload_url(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("fileName" => fileName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1308,7 +1282,7 @@ function get_evidence_folder(
     return auditmanager(
         "GET",
         "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1324,7 +1298,7 @@ function get_evidence_folder(
         "GET",
         "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1352,7 +1326,7 @@ function get_evidence_folders_by_assessment(
     return auditmanager(
         "GET",
         "/assessments/$(assessmentId)/evidenceFolders";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1366,7 +1340,7 @@ function get_evidence_folders_by_assessment(
         "GET",
         "/assessments/$(assessmentId)/evidenceFolders",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1400,7 +1374,7 @@ function get_evidence_folders_by_assessment_control(
     return auditmanager(
         "GET",
         "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1416,7 +1390,7 @@ function get_evidence_folders_by_assessment_control(
         "GET",
         "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1431,16 +1405,14 @@ Gets the latest analytics data for all your current active assessments.
 function get_insights end
 
 function get_insights(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/insights"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return auditmanager("GET", "/insights"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_insights(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auditmanager(
-        "GET", "/insights", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/insights", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1462,7 +1434,7 @@ function get_insights_by_assessment(
     return auditmanager(
         "GET",
         "/insights/assessments/$(assessmentId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1476,7 +1448,7 @@ function get_insights_by_assessment(
         "GET",
         "/insights/assessments/$(assessmentId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1497,7 +1469,7 @@ function get_organization_admin_account(;
     return auditmanager(
         "GET",
         "/account/organizationAdminAccount";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1509,7 +1481,7 @@ function get_organization_admin_account(
         "GET",
         "/account/organizationAdminAccount",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1530,16 +1502,14 @@ Troubleshooting section of the Audit Manager user guide.
 function get_services_in_scope end
 
 function get_services_in_scope(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return auditmanager("GET", "/services"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_services_in_scope(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auditmanager(
-        "GET", "/services", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/services", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1557,10 +1527,7 @@ function get_settings end
 
 function get_settings(attribute; aws_config::AbstractAWSConfig=current_aws_config())
     return auditmanager(
-        "GET",
-        "/settings/$(attribute)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/settings/$(attribute)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1570,11 +1537,7 @@ function get_settings(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return auditmanager(
-        "GET",
-        "/settings/$(attribute)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/settings/$(attribute)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1612,7 +1575,7 @@ function list_assessment_control_insights_by_control_domain(
         Dict{String,Any}(
             "assessmentId" => assessmentId, "controlDomainId" => controlDomainId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1635,7 +1598,7 @@ function list_assessment_control_insights_by_control_domain(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1665,7 +1628,7 @@ function list_assessment_framework_share_requests(
         "GET",
         "/assessmentFrameworkShareRequests",
         Dict{String,Any}("requestType" => requestType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1681,7 +1644,7 @@ function list_assessment_framework_share_requests(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("requestType" => requestType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1712,7 +1675,7 @@ function list_assessment_frameworks(
         "GET",
         "/assessmentFrameworks",
         Dict{String,Any}("frameworkType" => frameworkType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1728,7 +1691,7 @@ function list_assessment_frameworks(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("frameworkType" => frameworkType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1749,7 +1712,7 @@ function list_assessment_reports end
 
 function list_assessment_reports(; aws_config::AbstractAWSConfig=current_aws_config())
     return auditmanager(
-        "GET", "/assessmentReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/assessmentReports"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1757,11 +1720,7 @@ function list_assessment_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auditmanager(
-        "GET",
-        "/assessmentReports",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/assessmentReports", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1781,20 +1740,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_assessments end
 
 function list_assessments(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/assessments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return auditmanager("GET", "/assessments"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_assessments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auditmanager(
-        "GET",
-        "/assessments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/assessments", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1820,10 +1773,7 @@ function list_control_domain_insights end
 
 function list_control_domain_insights(; aws_config::AbstractAWSConfig=current_aws_config())
     return auditmanager(
-        "GET",
-        "/insights/control-domains";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/insights/control-domains"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1834,7 +1784,7 @@ function list_control_domain_insights(
         "GET",
         "/insights/control-domains",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1869,7 +1819,7 @@ function list_control_domain_insights_by_assessment(
         "GET",
         "/insights/control-domains-by-assessment",
         Dict{String,Any}("assessmentId" => assessmentId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1885,7 +1835,7 @@ function list_control_domain_insights_by_assessment(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("assessmentId" => assessmentId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1921,7 +1871,7 @@ function list_control_insights_by_control_domain(
         "GET",
         "/insights/controls",
         Dict{String,Any}("controlDomainId" => controlDomainId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1939,7 +1889,7 @@ function list_control_insights_by_control_domain(
                 _merge, Dict{String,Any}("controlDomainId" => controlDomainId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1976,7 +1926,7 @@ function list_controls(controlType; aws_config::AbstractAWSConfig=current_aws_co
         "GET",
         "/controls",
         Dict{String,Any}("controlType" => controlType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1992,7 +1942,7 @@ function list_controls(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("controlType" => controlType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2021,7 +1971,7 @@ function list_keywords_for_data_source(
         "GET",
         "/dataSourceKeywords",
         Dict{String,Any}("source" => source);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2033,7 +1983,7 @@ function list_keywords_for_data_source(
         "GET",
         "/dataSourceKeywords",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("source" => source), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2054,7 +2004,7 @@ function list_notifications end
 
 function list_notifications(; aws_config::AbstractAWSConfig=current_aws_config())
     return auditmanager(
-        "GET", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/notifications"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2062,11 +2012,7 @@ function list_notifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auditmanager(
-        "GET",
-        "/notifications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/notifications", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2086,10 +2032,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auditmanager(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2099,11 +2042,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return auditmanager(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2122,10 +2061,7 @@ function register_account end
 
 function register_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return auditmanager(
-        "POST",
-        "/account/registerAccount";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/account/registerAccount"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2136,7 +2072,7 @@ function register_account(
         "POST",
         "/account/registerAccount",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2161,7 +2097,7 @@ function register_organization_admin_account(
         "POST",
         "/account/registerOrganizationAdminAccount",
         Dict{String,Any}("adminAccountId" => adminAccountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2177,7 +2113,7 @@ function register_organization_admin_account(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("adminAccountId" => adminAccountId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2231,7 +2167,7 @@ function start_assessment_framework_share(
             "destinationAccount" => destinationAccount,
             "destinationRegion" => destinationRegion,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2256,7 +2192,7 @@ function start_assessment_framework_share(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2279,7 +2215,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2294,7 +2230,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2319,7 +2255,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2334,7 +2270,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2366,7 +2302,7 @@ function update_assessment(
         "PUT",
         "/assessments/$(assessmentId)",
         Dict{String,Any}("scope" => scope);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2381,7 +2317,7 @@ function update_assessment(
         "PUT",
         "/assessments/$(assessmentId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("scope" => scope), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2413,7 +2349,7 @@ function update_assessment_control(
     return auditmanager(
         "PUT",
         "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2429,7 +2365,7 @@ function update_assessment_control(
         "PUT",
         "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2460,7 +2396,7 @@ function update_assessment_control_set_status(
         "PUT",
         "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status",
         Dict{String,Any}("comment" => comment, "status" => status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2481,7 +2417,7 @@ function update_assessment_control_set_status(
                 _merge, Dict{String,Any}("comment" => comment, "status" => status), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2512,7 +2448,7 @@ function update_assessment_framework(
         "PUT",
         "/assessmentFrameworks/$(frameworkId)",
         Dict{String,Any}("controlSets" => controlSets, "name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2534,7 +2470,7 @@ function update_assessment_framework(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2561,7 +2497,7 @@ function update_assessment_framework_share(
         "PUT",
         "/assessmentFrameworkShareRequests/$(requestId)",
         Dict{String,Any}("action" => action, "requestType" => requestType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2583,7 +2519,7 @@ function update_assessment_framework_share(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2608,7 +2544,7 @@ function update_assessment_status(
         "PUT",
         "/assessments/$(assessmentId)/status",
         Dict{String,Any}("status" => status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2623,7 +2559,7 @@ function update_assessment_status(
         "PUT",
         "/assessments/$(assessmentId)/status",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2660,7 +2596,7 @@ function update_control(
         "PUT",
         "/controls/$(controlId)",
         Dict{String,Any}("controlMappingSources" => controlMappingSources, "name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2684,7 +2620,7 @@ function update_control(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2716,16 +2652,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_settings end
 
 function update_settings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return auditmanager("PUT", "/settings"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function update_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auditmanager(
-        "PUT", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/settings", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2749,7 +2683,7 @@ function validate_assessment_report_integrity(
         "POST",
         "/assessmentReports/integrity",
         Dict{String,Any}("s3RelativePath" => s3RelativePath);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2765,7 +2699,7 @@ function validate_assessment_report_integrity(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("s3RelativePath" => s3RelativePath), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

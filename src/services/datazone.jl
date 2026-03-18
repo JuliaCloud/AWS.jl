@@ -33,7 +33,7 @@ function accept_predictions(
         "PUT",
         "/v2/domains/$(domainIdentifier)/assets/$(identifier)/accept-predictions",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -50,7 +50,7 @@ function accept_predictions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -80,7 +80,7 @@ function accept_subscription_request(
     return datazone(
         "PUT",
         "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/accept";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -95,7 +95,7 @@ function accept_subscription_request(
         "PUT",
         "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/accept",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -130,7 +130,7 @@ function add_entity_owner(
         "POST",
         "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/addOwner",
         Dict{String,Any}("owner" => owner, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -153,7 +153,7 @@ function add_entity_owner(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -199,7 +199,7 @@ function add_policy_grant(
             "principal" => principal,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -229,7 +229,7 @@ function add_policy_grant(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -258,7 +258,7 @@ function associate_environment_role(
     return datazone(
         "PUT",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -274,7 +274,7 @@ function associate_environment_role(
         "PUT",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -299,7 +299,7 @@ function cancel_metadata_generation_run(
     return datazone(
         "POST",
         "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)/cancel";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -314,7 +314,7 @@ function cancel_metadata_generation_run(
         "POST",
         "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)/cancel",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -339,7 +339,7 @@ function cancel_subscription(
     return datazone(
         "PUT",
         "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/cancel";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -354,7 +354,7 @@ function cancel_subscription(
         "PUT",
         "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/cancel",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -401,7 +401,7 @@ function create_asset(
             "typeIdentifier" => typeIdentifier,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -429,7 +429,7 @@ function create_asset(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -469,7 +469,7 @@ function create_asset_filter(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -496,7 +496,7 @@ function create_asset_filter(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -533,7 +533,7 @@ function create_asset_revision(
         "POST",
         "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -555,7 +555,7 @@ function create_asset_revision(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -595,7 +595,7 @@ function create_asset_type(
             "name" => name,
             "owningProjectIdentifier" => owningProjectIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -622,7 +622,7 @@ function create_asset_type(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -663,7 +663,7 @@ function create_data_product(
             "owningProjectIdentifier" => owningProjectIdentifier,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -689,7 +689,7 @@ function create_data_product(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -723,7 +723,7 @@ function create_data_product_revision(
         "POST",
         "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -745,7 +745,7 @@ function create_data_product_revision(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -802,7 +802,7 @@ function create_data_source(
             "type" => type,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -832,7 +832,7 @@ function create_data_source(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -872,7 +872,7 @@ function create_domain(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -897,7 +897,7 @@ function create_domain(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -935,7 +935,7 @@ function create_domain_unit(
             "parentDomainUnitIdentifier" => parentDomainUnitIdentifier,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -961,7 +961,7 @@ function create_domain_unit(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1011,7 +1011,7 @@ function create_environment(
             "name" => name,
             "projectIdentifier" => projectIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1038,7 +1038,7 @@ function create_environment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1076,7 +1076,7 @@ function create_environment_action(
         "POST",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions",
         Dict{String,Any}("name" => name, "parameters" => parameters);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1097,7 +1097,7 @@ function create_environment_action(
                 _merge, Dict{String,Any}("name" => name, "parameters" => parameters), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1143,7 +1143,7 @@ function create_environment_profile(
             "name" => name,
             "projectIdentifier" => projectIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1170,7 +1170,7 @@ function create_environment_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1211,7 +1211,7 @@ function create_form_type(
             "name" => name,
             "owningProjectIdentifier" => owningProjectIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1238,7 +1238,7 @@ function create_form_type(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1278,7 +1278,7 @@ function create_glossary(
             "owningProjectIdentifier" => owningProjectIdentifier,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1304,7 +1304,7 @@ function create_glossary(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1346,7 +1346,7 @@ function create_glossary_term(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1372,7 +1372,7 @@ function create_glossary_term(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1404,7 +1404,7 @@ function create_group_profile(
         Dict{String,Any}(
             "groupIdentifier" => groupIdentifier, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1427,7 +1427,7 @@ function create_group_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1469,7 +1469,7 @@ function create_listing_change_set(
             "entityType" => entityType,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1497,7 +1497,7 @@ function create_listing_change_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1529,7 +1529,7 @@ function create_project(
         "POST",
         "/v2/domains/$(domainIdentifier)/projects",
         Dict{String,Any}("name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1544,7 +1544,7 @@ function create_project(
         "POST",
         "/v2/domains/$(domainIdentifier)/projects",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1576,7 +1576,7 @@ function create_project_membership(
         "POST",
         "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/createMembership",
         Dict{String,Any}("designation" => designation, "member" => member);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1599,7 +1599,7 @@ function create_project_membership(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1643,7 +1643,7 @@ function create_subscription_grant(
             "subscriptionTargetIdentifier" => subscriptionTargetIdentifier,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1671,7 +1671,7 @@ function create_subscription_grant(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1714,7 +1714,7 @@ function create_subscription_request(
             "subscribedPrincipals" => subscribedPrincipals,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1742,7 +1742,7 @@ function create_subscription_request(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1797,7 +1797,7 @@ function create_subscription_target(
             "type" => type,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1832,7 +1832,7 @@ function create_subscription_target(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1865,7 +1865,7 @@ function create_user_profile(
         Dict{String,Any}(
             "userIdentifier" => userIdentifier, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1888,7 +1888,7 @@ function create_user_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1912,7 +1912,7 @@ function delete_asset(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/assets/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1927,7 +1927,7 @@ function delete_asset(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/assets/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1955,7 +1955,7 @@ function delete_asset_filter(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1971,7 +1971,7 @@ function delete_asset_filter(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1996,7 +1996,7 @@ function delete_asset_type(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2011,7 +2011,7 @@ function delete_asset_type(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2036,7 +2036,7 @@ function delete_data_product(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/data-products/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2051,7 +2051,7 @@ function delete_data_product(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/data-products/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2083,7 +2083,7 @@ function delete_data_source(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2100,7 +2100,7 @@ function delete_data_source(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2128,7 +2128,7 @@ function delete_domain(identifier; aws_config::AbstractAWSConfig=current_aws_con
         "DELETE",
         "/v2/domains/$(identifier)",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2144,7 +2144,7 @@ function delete_domain(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2168,7 +2168,7 @@ function delete_domain_unit(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2183,7 +2183,7 @@ function delete_domain_unit(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2208,7 +2208,7 @@ function delete_environment(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environments/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2223,7 +2223,7 @@ function delete_environment(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environments/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2254,7 +2254,7 @@ function delete_environment_action(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2270,7 +2270,7 @@ function delete_environment_action(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2298,7 +2298,7 @@ function delete_environment_blueprint_configuration(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2313,7 +2313,7 @@ function delete_environment_blueprint_configuration(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2338,7 +2338,7 @@ function delete_environment_profile(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2353,7 +2353,7 @@ function delete_environment_profile(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2378,7 +2378,7 @@ function delete_form_type(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2393,7 +2393,7 @@ function delete_form_type(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2418,7 +2418,7 @@ function delete_glossary(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2433,7 +2433,7 @@ function delete_glossary(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2458,7 +2458,7 @@ function delete_glossary_term(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2473,7 +2473,7 @@ function delete_glossary_term(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2497,7 +2497,7 @@ function delete_listing(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/listings/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2512,7 +2512,7 @@ function delete_listing(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/listings/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2540,7 +2540,7 @@ function delete_project(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/projects/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2555,7 +2555,7 @@ function delete_project(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/projects/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2586,7 +2586,7 @@ function delete_project_membership(
         "POST",
         "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/deleteMembership",
         Dict{String,Any}("member" => member);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2602,7 +2602,7 @@ function delete_project_membership(
         "POST",
         "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/deleteMembership",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("member" => member), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2627,7 +2627,7 @@ function delete_subscription_grant(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2642,7 +2642,7 @@ function delete_subscription_grant(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2667,7 +2667,7 @@ function delete_subscription_request(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2682,7 +2682,7 @@ function delete_subscription_request(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2712,7 +2712,7 @@ function delete_subscription_target(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2728,7 +2728,7 @@ function delete_subscription_target(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2764,7 +2764,7 @@ function delete_time_series_data_points(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points",
         Dict{String,Any}("formName" => formName, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2787,7 +2787,7 @@ function delete_time_series_data_points(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2816,7 +2816,7 @@ function disassociate_environment_role(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2832,7 +2832,7 @@ function disassociate_environment_role(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2859,7 +2859,7 @@ function get_asset(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/assets/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2874,7 +2874,7 @@ function get_asset(
         "GET",
         "/v2/domains/$(domainIdentifier)/assets/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2902,7 +2902,7 @@ function get_asset_filter(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2918,7 +2918,7 @@ function get_asset_filter(
         "GET",
         "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2945,7 +2945,7 @@ function get_asset_type(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2960,7 +2960,7 @@ function get_asset_type(
         "GET",
         "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2987,7 +2987,7 @@ function get_data_product(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-products/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3002,7 +3002,7 @@ function get_data_product(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-products/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3026,7 +3026,7 @@ function get_data_source(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3041,7 +3041,7 @@ function get_data_source(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3065,7 +3065,7 @@ function get_data_source_run(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3080,7 +3080,7 @@ function get_data_source_run(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3099,10 +3099,7 @@ function get_domain end
 
 function get_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
-        "GET",
-        "/v2/domains/$(identifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v2/domains/$(identifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3115,7 +3112,7 @@ function get_domain(
         "GET",
         "/v2/domains/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3139,7 +3136,7 @@ function get_domain_unit(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3154,7 +3151,7 @@ function get_domain_unit(
         "GET",
         "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3178,7 +3175,7 @@ function get_environment(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3193,7 +3190,7 @@ function get_environment(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3222,7 +3219,7 @@ function get_environment_action(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3238,7 +3235,7 @@ function get_environment_action(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3262,7 +3259,7 @@ function get_environment_blueprint(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-blueprints/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3277,7 +3274,7 @@ function get_environment_blueprint(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-blueprints/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3303,7 +3300,7 @@ function get_environment_blueprint_configuration(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3318,7 +3315,7 @@ function get_environment_blueprint_configuration(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3345,7 +3342,7 @@ function get_environment_credentials(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/credentials";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3360,7 +3357,7 @@ function get_environment_credentials(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/credentials",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3385,7 +3382,7 @@ function get_environment_profile(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3400,7 +3397,7 @@ function get_environment_profile(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3428,7 +3425,7 @@ function get_form_type(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3443,7 +3440,7 @@ function get_form_type(
         "GET",
         "/v2/domains/$(domainIdentifier)/form-types/$(formTypeIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3468,7 +3465,7 @@ function get_glossary(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3483,7 +3480,7 @@ function get_glossary(
         "GET",
         "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3508,7 +3505,7 @@ function get_glossary_term(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3523,7 +3520,7 @@ function get_glossary_term(
         "GET",
         "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3548,7 +3545,7 @@ function get_group_profile(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3563,7 +3560,7 @@ function get_group_profile(
         "GET",
         "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3587,7 +3584,7 @@ function get_iam_portal_login_url(
     return datazone(
         "POST",
         "/v2/domains/$(domainIdentifier)/get-portal-login-url";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3601,7 +3598,7 @@ function get_iam_portal_login_url(
         "POST",
         "/v2/domains/$(domainIdentifier)/get-portal-login-url",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3631,7 +3628,7 @@ function get_lineage_node(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3646,7 +3643,7 @@ function get_lineage_node(
         "GET",
         "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3674,7 +3671,7 @@ function get_listing(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/listings/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3689,7 +3686,7 @@ function get_listing(
         "GET",
         "/v2/domains/$(domainIdentifier)/listings/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3714,7 +3711,7 @@ function get_metadata_generation_run(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3729,7 +3726,7 @@ function get_metadata_generation_run(
         "GET",
         "/v2/domains/$(domainIdentifier)/metadata-generation-runs/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3753,7 +3750,7 @@ function get_project(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/projects/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3768,7 +3765,7 @@ function get_project(
         "GET",
         "/v2/domains/$(domainIdentifier)/projects/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3793,7 +3790,7 @@ function get_subscription(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3808,7 +3805,7 @@ function get_subscription(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3833,7 +3830,7 @@ function get_subscription_grant(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3848,7 +3845,7 @@ function get_subscription_grant(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3873,7 +3870,7 @@ function get_subscription_request_details(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3888,7 +3885,7 @@ function get_subscription_request_details(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3918,7 +3915,7 @@ function get_subscription_target(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3934,7 +3931,7 @@ function get_subscription_target(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3969,7 +3966,7 @@ function get_time_series_data_point(
         "GET",
         "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points/$(identifier)",
         Dict{String,Any}("formName" => formName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3989,7 +3986,7 @@ function get_time_series_data_point(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("formName" => formName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4017,7 +4014,7 @@ function get_user_profile(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4032,7 +4029,7 @@ function get_user_profile(
         "GET",
         "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4068,7 +4065,7 @@ function list_asset_filters(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4083,7 +4080,7 @@ function list_asset_filters(
         "GET",
         "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4118,7 +4115,7 @@ function list_asset_revisions(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4133,7 +4130,7 @@ function list_asset_revisions(
         "GET",
         "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4169,7 +4166,7 @@ function list_data_product_revisions(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4184,7 +4181,7 @@ function list_data_product_revisions(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4221,7 +4218,7 @@ function list_data_source_run_activities(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)/activities";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4236,7 +4233,7 @@ function list_data_source_run_activities(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-source-runs/$(identifier)/activities",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4275,7 +4272,7 @@ function list_data_source_runs(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-sources/$(dataSourceIdentifier)/runs";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4290,7 +4287,7 @@ function list_data_source_runs(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-sources/$(dataSourceIdentifier)/runs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4332,7 +4329,7 @@ function list_data_sources(
         "GET",
         "/v2/domains/$(domainIdentifier)/data-sources",
         Dict{String,Any}("projectIdentifier" => projectIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4351,7 +4348,7 @@ function list_data_sources(
                 _merge, Dict{String,Any}("projectIdentifier" => projectIdentifier), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4390,7 +4387,7 @@ function list_domain_units_for_parent(
         "GET",
         "/v2/domains/$(domainIdentifier)/domain-units",
         Dict{String,Any}("parentDomainUnitIdentifier" => parentDomainUnitIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4413,7 +4410,7 @@ function list_domain_units_for_parent(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4440,16 +4437,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_domains end
 
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
-    return datazone(
-        "GET", "/v2/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return datazone("GET", "/v2/domains"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
-        "GET", "/v2/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v2/domains", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4487,7 +4482,7 @@ function list_entity_owners(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/owners";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4503,7 +4498,7 @@ function list_entity_owners(
         "GET",
         "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/owners",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4541,7 +4536,7 @@ function list_environment_actions(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4556,7 +4551,7 @@ function list_environment_actions(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4591,7 +4586,7 @@ function list_environment_blueprint_configurations(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4605,7 +4600,7 @@ function list_environment_blueprint_configurations(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4641,7 +4636,7 @@ function list_environment_blueprints(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-blueprints";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4655,7 +4650,7 @@ function list_environment_blueprints(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-blueprints",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4697,7 +4692,7 @@ function list_environment_profiles(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-profiles";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4711,7 +4706,7 @@ function list_environment_profiles(
         "GET",
         "/v2/domains/$(domainIdentifier)/environment-profiles",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4755,7 +4750,7 @@ function list_environments(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments",
         Dict{String,Any}("projectIdentifier" => projectIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4774,7 +4769,7 @@ function list_environments(
                 _merge, Dict{String,Any}("projectIdentifier" => projectIdentifier), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4818,7 +4813,7 @@ function list_lineage_node_history(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)/history";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4833,7 +4828,7 @@ function list_lineage_node_history(
         "GET",
         "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)/history",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4870,7 +4865,7 @@ function list_metadata_generation_runs(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/metadata-generation-runs";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4884,7 +4879,7 @@ function list_metadata_generation_runs(
         "GET",
         "/v2/domains/$(domainIdentifier)/metadata-generation-runs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4924,7 +4919,7 @@ function list_notifications(
         "GET",
         "/v2/domains/$(domainIdentifier)/notifications",
         Dict{String,Any}("type" => type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4939,7 +4934,7 @@ function list_notifications(
         "GET",
         "/v2/domains/$(domainIdentifier)/notifications",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4981,7 +4976,7 @@ function list_policy_grants(
         "GET",
         "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/grants",
         Dict{String,Any}("policyType" => policyType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5000,7 +4995,7 @@ function list_policy_grants(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("policyType" => policyType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5038,7 +5033,7 @@ function list_project_memberships(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/memberships";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5053,7 +5048,7 @@ function list_project_memberships(
         "GET",
         "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/memberships",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5088,7 +5083,7 @@ function list_projects(domainIdentifier; aws_config::AbstractAWSConfig=current_a
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/projects";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5102,7 +5097,7 @@ function list_projects(
         "GET",
         "/v2/domains/$(domainIdentifier)/projects",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5143,7 +5138,7 @@ function list_subscription_grants(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscription-grants";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5157,7 +5152,7 @@ function list_subscription_grants(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscription-grants",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5199,7 +5194,7 @@ function list_subscription_requests(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscription-requests";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5213,7 +5208,7 @@ function list_subscription_requests(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscription-requests",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5254,7 +5249,7 @@ function list_subscription_targets(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5269,7 +5264,7 @@ function list_subscription_targets(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5314,7 +5309,7 @@ function list_subscriptions(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscriptions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5328,7 +5323,7 @@ function list_subscriptions(
         "GET",
         "/v2/domains/$(domainIdentifier)/subscriptions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5349,10 +5344,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5362,11 +5354,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5410,7 +5398,7 @@ function list_time_series_data_points(
         "GET",
         "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points",
         Dict{String,Any}("formName" => formName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5429,7 +5417,7 @@ function list_time_series_data_points(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("formName" => formName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5459,7 +5447,7 @@ function post_lineage_event(
         "POST",
         "/v2/domains/$(domainIdentifier)/lineage/events",
         Dict{String,Any}("event" => event, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5480,7 +5468,7 @@ function post_lineage_event(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5517,7 +5505,7 @@ function post_time_series_data_points(
         "POST",
         "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/time-series-data-points",
         Dict{String,Any}("forms" => forms, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5540,7 +5528,7 @@ function post_time_series_data_points(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5575,7 +5563,7 @@ function put_environment_blueprint_configuration(
         "PUT",
         "/v2/domains/$(domainIdentifier)/environment-blueprint-configurations/$(environmentBlueprintIdentifier)",
         Dict{String,Any}("enabledRegions" => enabledRegions);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5593,7 +5581,7 @@ function put_environment_blueprint_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("enabledRegions" => enabledRegions), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5627,7 +5615,7 @@ function reject_predictions(
         "PUT",
         "/v2/domains/$(domainIdentifier)/assets/$(identifier)/reject-predictions",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5644,7 +5632,7 @@ function reject_predictions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5672,7 +5660,7 @@ function reject_subscription_request(
     return datazone(
         "PUT",
         "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/reject";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5687,7 +5675,7 @@ function reject_subscription_request(
         "PUT",
         "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)/reject",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5723,7 +5711,7 @@ function remove_entity_owner(
         "POST",
         "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/removeOwner",
         Dict{String,Any}("owner" => owner, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5746,7 +5734,7 @@ function remove_entity_owner(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5787,7 +5775,7 @@ function remove_policy_grant(
             "principal" => principal,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5815,7 +5803,7 @@ function remove_policy_grant(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5844,7 +5832,7 @@ function revoke_subscription(
     return datazone(
         "PUT",
         "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/revoke";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5859,7 +5847,7 @@ function revoke_subscription(
         "PUT",
         "/v2/domains/$(domainIdentifier)/subscriptions/$(identifier)/revoke",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5901,7 +5889,7 @@ function search(
         "POST",
         "/v2/domains/$(domainIdentifier)/search",
         Dict{String,Any}("searchScope" => searchScope);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5918,7 +5906,7 @@ function search(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("searchScope" => searchScope), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5956,7 +5944,7 @@ function search_group_profiles(
         "POST",
         "/v2/domains/$(domainIdentifier)/search-group-profiles",
         Dict{String,Any}("groupType" => groupType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5973,7 +5961,7 @@ function search_group_profiles(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("groupType" => groupType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6012,7 +6000,7 @@ function search_listings(
     return datazone(
         "POST",
         "/v2/domains/$(domainIdentifier)/listings/search";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6026,7 +6014,7 @@ function search_listings(
         "POST",
         "/v2/domains/$(domainIdentifier)/listings/search",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6071,7 +6059,7 @@ function search_types(
         "POST",
         "/v2/domains/$(domainIdentifier)/types-search",
         Dict{String,Any}("managed" => managed, "searchScope" => searchScope);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6093,7 +6081,7 @@ function search_types(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6131,7 +6119,7 @@ function search_user_profiles(
         "POST",
         "/v2/domains/$(domainIdentifier)/search-user-profiles",
         Dict{String,Any}("userType" => userType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6148,7 +6136,7 @@ function search_user_profiles(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("userType" => userType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6180,7 +6168,7 @@ function start_data_source_run(
         "POST",
         "/v2/domains/$(domainIdentifier)/data-sources/$(dataSourceIdentifier)/runs",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6197,7 +6185,7 @@ function start_data_source_run(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6239,7 +6227,7 @@ function start_metadata_generation_run(
             "type" => type,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6267,7 +6255,7 @@ function start_metadata_generation_run(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6290,7 +6278,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6305,7 +6293,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6330,7 +6318,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6345,7 +6333,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6378,7 +6366,7 @@ function update_asset_filter(
     return datazone(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6394,7 +6382,7 @@ function update_asset_filter(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6433,7 +6421,7 @@ function update_data_source(
     return datazone(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6448,7 +6436,7 @@ function update_data_source(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/data-sources/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6480,7 +6468,7 @@ function update_domain(identifier; aws_config::AbstractAWSConfig=current_aws_con
         "PUT",
         "/v2/domains/$(identifier)",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6496,7 +6484,7 @@ function update_domain(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6524,7 +6512,7 @@ function update_domain_unit(
     return datazone(
         "PUT",
         "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6539,7 +6527,7 @@ function update_domain_unit(
         "PUT",
         "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6570,7 +6558,7 @@ function update_environment(
     return datazone(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/environments/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6585,7 +6573,7 @@ function update_environment(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/environments/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6618,7 +6606,7 @@ function update_environment_action(
     return datazone(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6634,7 +6622,7 @@ function update_environment_action(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6670,7 +6658,7 @@ function update_environment_profile(
     return datazone(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6685,7 +6673,7 @@ function update_environment_profile(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/environment-profiles/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6718,7 +6706,7 @@ function update_glossary(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/glossaries/$(identifier)",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6735,7 +6723,7 @@ function update_glossary(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6772,7 +6760,7 @@ function update_glossary_term(
     return datazone(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6787,7 +6775,7 @@ function update_glossary_term(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/glossary-terms/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6817,7 +6805,7 @@ function update_group_profile(
         "PUT",
         "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)",
         Dict{String,Any}("status" => status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6833,7 +6821,7 @@ function update_group_profile(
         "PUT",
         "/v2/domains/$(domainIdentifier)/group-profiles/$(groupIdentifier)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6863,7 +6851,7 @@ function update_project(
     return datazone(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/projects/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6878,7 +6866,7 @@ function update_project(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/projects/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6918,7 +6906,7 @@ function update_subscription_grant_status(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)/status/$(assetIdentifier)",
         Dict{String,Any}("status" => status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6935,7 +6923,7 @@ function update_subscription_grant_status(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/subscription-grants/$(identifier)/status/$(assetIdentifier)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6965,7 +6953,7 @@ function update_subscription_request(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/subscription-requests/$(identifier)",
         Dict{String,Any}("requestReason" => requestReason);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6983,7 +6971,7 @@ function update_subscription_request(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("requestReason" => requestReason), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7025,7 +7013,7 @@ function update_subscription_target(
     return datazone(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7041,7 +7029,7 @@ function update_subscription_target(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/subscription-targets/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7074,7 +7062,7 @@ function update_user_profile(
         "PUT",
         "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)",
         Dict{String,Any}("status" => status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7090,7 +7078,7 @@ function update_user_profile(
         "PUT",
         "/v2/domains/$(domainIdentifier)/user-profiles/$(userIdentifier)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -41,7 +41,7 @@ function create_performance_analysis_report(
             "ServiceType" => ServiceType,
             "StartTime" => StartTime,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -68,7 +68,7 @@ function create_performance_analysis_report(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -105,7 +105,7 @@ function delete_performance_analysis_report(
             "Identifier" => Identifier,
             "ServiceType" => ServiceType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -130,7 +130,7 @@ function delete_performance_analysis_report(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -217,7 +217,7 @@ function describe_dimension_keys(
             "ServiceType" => ServiceType,
             "StartTime" => StartTime,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -248,7 +248,7 @@ function describe_dimension_keys(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -305,7 +305,7 @@ function get_dimension_key_details(
             "Identifier" => Identifier,
             "ServiceType" => ServiceType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -332,7 +332,7 @@ function get_dimension_key_details(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -378,7 +378,7 @@ function get_performance_analysis_report(
             "Identifier" => Identifier,
             "ServiceType" => ServiceType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -403,7 +403,7 @@ function get_performance_analysis_report(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -432,7 +432,7 @@ function get_resource_metadata(
     return pi(
         "GetResourceMetadata",
         Dict{String,Any}("Identifier" => Identifier, "ServiceType" => ServiceType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -452,7 +452,7 @@ function get_resource_metadata(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -526,7 +526,7 @@ function get_resource_metrics(
             "ServiceType" => ServiceType,
             "StartTime" => StartTime,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -555,7 +555,7 @@ function get_resource_metrics(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -601,7 +601,7 @@ function list_available_resource_dimensions(
         Dict{String,Any}(
             "Identifier" => Identifier, "Metrics" => Metrics, "ServiceType" => ServiceType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -626,7 +626,7 @@ function list_available_resource_dimensions(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -670,7 +670,7 @@ function list_available_resource_metrics(
             "MetricTypes" => MetricTypes,
             "ServiceType" => ServiceType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -695,7 +695,7 @@ function list_available_resource_metrics(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -734,7 +734,7 @@ function list_performance_analysis_reports(
     return pi(
         "ListPerformanceAnalysisReports",
         Dict{String,Any}("Identifier" => Identifier, "ServiceType" => ServiceType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -754,7 +754,7 @@ function list_performance_analysis_reports(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -781,7 +781,7 @@ function list_tags_for_resource(
     return pi(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "ServiceType" => ServiceType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -803,7 +803,7 @@ function list_tags_for_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -833,7 +833,7 @@ function tag_resource(
         Dict{String,Any}(
             "ResourceARN" => ResourceARN, "ServiceType" => ServiceType, "Tags" => Tags
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -858,7 +858,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -889,7 +889,7 @@ function untag_resource(
         Dict{String,Any}(
             "ResourceARN" => ResourceARN, "ServiceType" => ServiceType, "TagKeys" => TagKeys
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -914,7 +914,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

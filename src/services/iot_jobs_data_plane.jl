@@ -29,7 +29,7 @@ function describe_job_execution(
     return iot_jobs_data_plane(
         "GET",
         "/things/$(thingName)/jobs/$(jobId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -44,7 +44,7 @@ function describe_job_execution(
         "GET",
         "/things/$(thingName)/jobs/$(jobId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -65,10 +65,7 @@ function get_pending_job_executions(
     thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_jobs_data_plane(
-        "GET",
-        "/things/$(thingName)/jobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/things/$(thingName)/jobs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -81,7 +78,7 @@ function get_pending_job_executions(
         "GET",
         "/things/$(thingName)/jobs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -115,7 +112,7 @@ function start_next_pending_job_execution(
     return iot_jobs_data_plane(
         "PUT",
         "/things/$(thingName)/jobs/$next";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -129,7 +126,7 @@ function start_next_pending_job_execution(
         "PUT",
         "/things/$(thingName)/jobs/$next",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -179,7 +176,7 @@ function update_job_execution(
         "POST",
         "/things/$(thingName)/jobs/$(jobId)",
         Dict{String,Any}("status" => status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -195,7 +192,7 @@ function update_job_execution(
         "POST",
         "/things/$(thingName)/jobs/$(jobId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

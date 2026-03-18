@@ -49,7 +49,7 @@ function associate_node(
             "NodeName" => NodeName,
             "ServerName" => ServerName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -74,7 +74,7 @@ function associate_node(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -112,7 +112,7 @@ function create_backup(ServerName; aws_config::AbstractAWSConfig=current_aws_con
     return opsworkscm(
         "CreateBackup",
         Dict{String,Any}("ServerName" => ServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -127,7 +127,7 @@ function create_backup(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServerName" => ServerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -285,7 +285,7 @@ function create_server(
             "ServerName" => ServerName,
             "ServiceRoleArn" => ServiceRoleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -314,7 +314,7 @@ function create_server(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -339,7 +339,7 @@ function delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_confi
     return opsworkscm(
         "DeleteBackup",
         Dict{String,Any}("BackupId" => BackupId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -354,7 +354,7 @@ function delete_backup(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("BackupId" => BackupId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -381,7 +381,7 @@ function delete_server(ServerName; aws_config::AbstractAWSConfig=current_aws_con
     return opsworkscm(
         "DeleteServer",
         Dict{String,Any}("ServerName" => ServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -396,7 +396,7 @@ function delete_server(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServerName" => ServerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -412,7 +412,7 @@ function describe_account_attributes end
 
 function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
-        "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeAccountAttributes"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -420,10 +420,7 @@ function describe_account_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
-        "DescribeAccountAttributes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeAccountAttributes", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -446,16 +443,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_backups end
 
 function describe_backups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return opsworkscm(
-        "DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworkscm("DescribeBackups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_backups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
-        "DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeBackups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -491,7 +486,7 @@ function describe_events(ServerName; aws_config::AbstractAWSConfig=current_aws_c
     return opsworkscm(
         "DescribeEvents",
         Dict{String,Any}("ServerName" => ServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -506,7 +501,7 @@ function describe_events(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServerName" => ServerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -539,7 +534,7 @@ function describe_node_association_status(
             "NodeAssociationStatusToken" => NodeAssociationStatusToken,
             "ServerName" => ServerName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -562,7 +557,7 @@ function describe_node_association_status(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -586,16 +581,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_servers end
 
 function describe_servers(; aws_config::AbstractAWSConfig=current_aws_config())
-    return opsworkscm(
-        "DescribeServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return opsworkscm("DescribeServers"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opsworkscm(
-        "DescribeServers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeServers", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -630,7 +623,7 @@ function disassociate_node(
     return opsworkscm(
         "DisassociateNode",
         Dict{String,Any}("NodeName" => NodeName, "ServerName" => ServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -650,7 +643,7 @@ function disassociate_node(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -696,7 +689,7 @@ function export_server_engine_attribute(
         Dict{String,Any}(
             "ExportAttributeName" => ExportAttributeName, "ServerName" => ServerName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -718,7 +711,7 @@ function export_server_engine_attribute(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -759,7 +752,7 @@ function list_tags_for_resource(
     return opsworkscm(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -774,7 +767,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -816,7 +809,7 @@ function restore_server(
     return opsworkscm(
         "RestoreServer",
         Dict{String,Any}("BackupId" => BackupId, "ServerName" => ServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -836,7 +829,7 @@ function restore_server(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -870,7 +863,7 @@ function start_maintenance(ServerName; aws_config::AbstractAWSConfig=current_aws
     return opsworkscm(
         "StartMaintenance",
         Dict{String,Any}("ServerName" => ServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -885,7 +878,7 @@ function start_maintenance(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServerName" => ServerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -917,7 +910,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
     return opsworkscm(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -937,7 +930,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -964,7 +957,7 @@ function untag_resource(
     return opsworkscm(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -984,7 +977,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1012,7 +1005,7 @@ function update_server(ServerName; aws_config::AbstractAWSConfig=current_aws_con
     return opsworkscm(
         "UpdateServer",
         Dict{String,Any}("ServerName" => ServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1027,7 +1020,7 @@ function update_server(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServerName" => ServerName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1060,7 +1053,7 @@ function update_server_engine_attributes(
     return opsworkscm(
         "UpdateServerEngineAttributes",
         Dict{String,Any}("AttributeName" => AttributeName, "ServerName" => ServerName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1082,7 +1075,7 @@ function update_server_engine_attributes(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

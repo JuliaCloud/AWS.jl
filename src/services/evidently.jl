@@ -38,7 +38,7 @@ function batch_evaluate_feature(
         "POST",
         "/projects/$(project)/evaluations",
         Dict{String,Any}("requests" => requests);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -55,7 +55,7 @@ function batch_evaluate_feature(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("requests" => requests), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -122,7 +122,7 @@ function create_experiment(
         Dict{String,Any}(
             "metricGoals" => metricGoals, "name" => name, "treatments" => treatments
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -147,7 +147,7 @@ function create_experiment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -200,7 +200,7 @@ function create_feature(
         "POST",
         "/projects/$(project)/features",
         Dict{String,Any}("name" => name, "variations" => variations);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -220,7 +220,7 @@ function create_feature(
                 _merge, Dict{String,Any}("name" => name, "variations" => variations), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -270,7 +270,7 @@ function create_launch(
         "POST",
         "/projects/$(project)/launches",
         Dict{String,Any}("groups" => groups, "name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -288,7 +288,7 @@ function create_launch(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("groups" => groups, "name" => name), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -333,7 +333,7 @@ function create_project(name; aws_config::AbstractAWSConfig=current_aws_config()
         "POST",
         "/projects",
         Dict{String,Any}("name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -345,7 +345,7 @@ function create_project(
         "POST",
         "/projects",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -387,7 +387,7 @@ function create_segment(name, pattern; aws_config::AbstractAWSConfig=current_aws
         "POST",
         "/segments",
         Dict{String,Any}("name" => name, "pattern" => pattern);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -406,7 +406,7 @@ function create_segment(
                 _merge, Dict{String,Any}("name" => name, "pattern" => pattern), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -431,7 +431,7 @@ function delete_experiment(
     return evidently(
         "DELETE",
         "/projects/$(project)/experiments/$(experiment)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -446,7 +446,7 @@ function delete_experiment(
         "DELETE",
         "/projects/$(project)/experiments/$(experiment)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -470,7 +470,7 @@ function delete_feature(
     return evidently(
         "DELETE",
         "/projects/$(project)/features/$(feature)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -485,7 +485,7 @@ function delete_feature(
         "DELETE",
         "/projects/$(project)/features/$(feature)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -508,7 +508,7 @@ function delete_launch(launch, project; aws_config::AbstractAWSConfig=current_aw
     return evidently(
         "DELETE",
         "/projects/$(project)/launches/$(launch)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -523,7 +523,7 @@ function delete_launch(
         "DELETE",
         "/projects/$(project)/launches/$(launch)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -543,10 +543,7 @@ function delete_project end
 
 function delete_project(project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
-        "DELETE",
-        "/projects/$(project)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/projects/$(project)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -559,7 +556,7 @@ function delete_project(
         "DELETE",
         "/projects/$(project)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -579,10 +576,7 @@ function delete_segment end
 
 function delete_segment(segment; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
-        "DELETE",
-        "/segments/$(segment)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/segments/$(segment)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -595,7 +589,7 @@ function delete_segment(
         "DELETE",
         "/segments/$(segment)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -647,7 +641,7 @@ function evaluate_feature(
         "POST",
         "/projects/$(project)/evaluations/$(feature)",
         Dict{String,Any}("entityId" => entityId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -665,7 +659,7 @@ function evaluate_feature(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("entityId" => entityId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -690,7 +684,7 @@ function get_experiment(
     return evidently(
         "GET",
         "/projects/$(project)/experiments/$(experiment)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -705,7 +699,7 @@ function get_experiment(
         "GET",
         "/projects/$(project)/experiments/$(experiment)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -768,7 +762,7 @@ function get_experiment_results(
         "POST",
         "/projects/$(project)/experiments/$(experiment)/results",
         Dict{String,Any}("metricNames" => metricNames, "treatmentNames" => treatmentNames);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -793,7 +787,7 @@ function get_experiment_results(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -816,7 +810,7 @@ function get_feature(feature, project; aws_config::AbstractAWSConfig=current_aws
     return evidently(
         "GET",
         "/projects/$(project)/features/$(feature)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -831,7 +825,7 @@ function get_feature(
         "GET",
         "/projects/$(project)/features/$(feature)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -854,7 +848,7 @@ function get_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_c
     return evidently(
         "GET",
         "/projects/$(project)/launches/$(launch)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -869,7 +863,7 @@ function get_launch(
         "GET",
         "/projects/$(project)/launches/$(launch)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -889,10 +883,7 @@ function get_project end
 
 function get_project(project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
-        "GET",
-        "/projects/$(project)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/projects/$(project)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -902,11 +893,7 @@ function get_project(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return evidently(
-        "GET",
-        "/projects/$(project)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/projects/$(project)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -925,10 +912,7 @@ function get_segment end
 
 function get_segment(segment; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
-        "GET",
-        "/segments/$(segment)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/segments/$(segment)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -938,11 +922,7 @@ function get_segment(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return evidently(
-        "GET",
-        "/segments/$(segment)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/segments/$(segment)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -969,7 +949,7 @@ function list_experiments(project; aws_config::AbstractAWSConfig=current_aws_con
     return evidently(
         "GET",
         "/projects/$(project)/experiments";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -983,7 +963,7 @@ function list_experiments(
         "GET",
         "/projects/$(project)/experiments",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1007,10 +987,7 @@ function list_features end
 
 function list_features(project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
-        "GET",
-        "/projects/$(project)/features";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/projects/$(project)/features"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1023,7 +1000,7 @@ function list_features(
         "GET",
         "/projects/$(project)/features",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1049,10 +1026,7 @@ function list_launches end
 
 function list_launches(project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
-        "GET",
-        "/projects/$(project)/launches";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/projects/$(project)/launches"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1065,7 +1039,7 @@ function list_launches(
         "GET",
         "/projects/$(project)/launches",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1085,16 +1059,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_projects end
 
 function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return evidently("GET", "/projects"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return evidently(
-        "GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/projects", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1125,7 +1097,7 @@ function list_segment_references(
         "GET",
         "/segments/$(segment)/references",
         Dict{String,Any}("type" => type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1140,7 +1112,7 @@ function list_segment_references(
         "GET",
         "/segments/$(segment)/references",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1161,16 +1133,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_segments end
 
 function list_segments(; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "GET", "/segments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return evidently("GET", "/segments"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_segments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return evidently(
-        "GET", "/segments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/segments", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1190,10 +1160,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return evidently(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1203,11 +1170,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return evidently(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1233,7 +1196,7 @@ function put_project_events(
         "POST",
         "/events/projects/$(project)",
         Dict{String,Any}("events" => events);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1248,7 +1211,7 @@ function put_project_events(
         "POST",
         "/events/projects/$(project)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("events" => events), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1278,7 +1241,7 @@ function start_experiment(
         "POST",
         "/projects/$(project)/experiments/$(experiment)/start",
         Dict{String,Any}("analysisCompleteTime" => analysisCompleteTime);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1300,7 +1263,7 @@ function start_experiment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1322,7 +1285,7 @@ function start_launch(launch, project; aws_config::AbstractAWSConfig=current_aws
     return evidently(
         "POST",
         "/projects/$(project)/launches/$(launch)/start";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1337,7 +1300,7 @@ function start_launch(
         "POST",
         "/projects/$(project)/launches/$(launch)/start",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1367,7 +1330,7 @@ function stop_experiment(
     return evidently(
         "POST",
         "/projects/$(project)/experiments/$(experiment)/cancel";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1382,7 +1345,7 @@ function stop_experiment(
         "POST",
         "/projects/$(project)/experiments/$(experiment)/cancel",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1413,7 +1376,7 @@ function stop_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_
     return evidently(
         "POST",
         "/projects/$(project)/launches/$(launch)/cancel";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1428,7 +1391,7 @@ function stop_launch(
         "POST",
         "/projects/$(project)/launches/$(launch)/cancel",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1461,7 +1424,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1476,7 +1439,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1502,7 +1465,7 @@ function test_segment_pattern(
         "POST",
         "/test-segment-pattern",
         Dict{String,Any}("pattern" => pattern, "payload" => payload);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1521,7 +1484,7 @@ function test_segment_pattern(
                 _merge, Dict{String,Any}("pattern" => pattern, "payload" => payload), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1547,7 +1510,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1562,7 +1525,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1613,7 +1576,7 @@ function update_experiment(
     return evidently(
         "PATCH",
         "/projects/$(project)/experiments/$(experiment)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1628,7 +1591,7 @@ function update_experiment(
         "PATCH",
         "/projects/$(project)/experiments/$(experiment)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1674,7 +1637,7 @@ function update_feature(
     return evidently(
         "PATCH",
         "/projects/$(project)/features/$(feature)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1689,7 +1652,7 @@ function update_feature(
         "PATCH",
         "/projects/$(project)/features/$(feature)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1726,7 +1689,7 @@ function update_launch(launch, project; aws_config::AbstractAWSConfig=current_aw
     return evidently(
         "PATCH",
         "/projects/$(project)/launches/$(launch)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1741,7 +1704,7 @@ function update_launch(
         "PATCH",
         "/projects/$(project)/launches/$(launch)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1772,10 +1735,7 @@ function update_project end
 
 function update_project(project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
-        "PATCH",
-        "/projects/$(project)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PATCH", "/projects/$(project)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1785,11 +1745,7 @@ function update_project(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return evidently(
-        "PATCH",
-        "/projects/$(project)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PATCH", "/projects/$(project)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1822,7 +1778,7 @@ function update_project_data_delivery(
     return evidently(
         "PATCH",
         "/projects/$(project)/data-delivery";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1836,7 +1792,7 @@ function update_project_data_delivery(
         "PATCH",
         "/projects/$(project)/data-delivery",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

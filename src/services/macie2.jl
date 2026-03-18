@@ -28,7 +28,7 @@ function accept_invitation(invitationId; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/invitations/accept",
         Dict{String,Any}("invitationId" => invitationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -44,7 +44,7 @@ function accept_invitation(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("invitationId" => invitationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -66,10 +66,7 @@ function batch_get_custom_data_identifiers(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "POST",
-        "/custom-data-identifiers/get";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/custom-data-identifiers/get"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -80,7 +77,7 @@ function batch_get_custom_data_identifiers(
         "POST",
         "/custom-data-identifiers/get",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -105,7 +102,7 @@ function batch_update_automated_discovery_accounts(;
     return macie2(
         "PATCH",
         "/automated-discovery/accounts";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -117,7 +114,7 @@ function batch_update_automated_discovery_accounts(
         "PATCH",
         "/automated-discovery/accounts",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -156,7 +153,7 @@ function create_allow_list(
         Dict{String,Any}(
             "clientToken" => clientToken, "criteria" => criteria, "name" => name
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -180,7 +177,7 @@ function create_allow_list(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -270,7 +267,7 @@ function create_classification_job(
             "name" => name,
             "s3JobDefinition" => s3JobDefinition,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -298,7 +295,7 @@ function create_classification_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -365,7 +362,7 @@ function create_custom_data_identifier(
         Dict{String,Any}(
             "name" => name, "regex" => regex, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -388,7 +385,7 @@ function create_custom_data_identifier(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -439,7 +436,7 @@ function create_findings_filter(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -466,7 +463,7 @@ function create_findings_filter(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -497,7 +494,7 @@ function create_invitations(accountIds; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/invitations",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -513,7 +510,7 @@ function create_invitations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -541,7 +538,7 @@ function create_member(account; aws_config::AbstractAWSConfig=current_aws_config
         "POST",
         "/members",
         Dict{String,Any}("account" => account);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -555,7 +552,7 @@ function create_member(
         "POST",
         "/members",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("account" => account), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -575,20 +572,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_sample_findings end
 
 function create_sample_findings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "POST", "/findings/sample"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("POST", "/findings/sample"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function create_sample_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "POST",
-        "/findings/sample",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/findings/sample", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -610,7 +601,7 @@ function decline_invitations(accountIds; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/invitations/decline",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -626,7 +617,7 @@ function decline_invitations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -653,10 +644,7 @@ function delete_allow_list end
 
 function delete_allow_list(id; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "DELETE",
-        "/allow-lists/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/allow-lists/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -664,11 +652,7 @@ function delete_allow_list(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "DELETE",
-        "/allow-lists/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/allow-lists/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -690,7 +674,7 @@ function delete_custom_data_identifier(
     return macie2(
         "DELETE",
         "/custom-data-identifiers/$(id)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -702,7 +686,7 @@ function delete_custom_data_identifier(
         "DELETE",
         "/custom-data-identifiers/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -721,10 +705,7 @@ function delete_findings_filter end
 
 function delete_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "DELETE",
-        "/findingsfilters/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/findingsfilters/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -735,7 +716,7 @@ function delete_findings_filter(
         "DELETE",
         "/findingsfilters/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -758,7 +739,7 @@ function delete_invitations(accountIds; aws_config::AbstractAWSConfig=current_aw
         "POST",
         "/invitations/delete",
         Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -774,7 +755,7 @@ function delete_invitations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -792,20 +773,14 @@ Deletes the association between an Amazon Macie administrator account and an acc
 function delete_member end
 
 function delete_member(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "DELETE", "/members/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("DELETE", "/members/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function delete_member(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "DELETE",
-        "/members/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/members/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -828,20 +803,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_buckets end
 
 function describe_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "POST", "/datasources/s3"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("POST", "/datasources/s3"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "POST",
-        "/datasources/s3",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/datasources/s3", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -860,20 +829,14 @@ function describe_classification_job end
 function describe_classification_job(
     jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return macie2(
-        "GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/jobs/$(jobId)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_classification_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/jobs/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/jobs/$(jobId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -890,10 +853,7 @@ function describe_organization_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/admin/configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/admin/configuration"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -901,11 +861,7 @@ function describe_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/admin/configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/admin/configuration", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -919,17 +875,13 @@ Disables Amazon Macie and deletes all settings and resources for a Macie account
 function disable_macie end
 
 function disable_macie(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "DELETE", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("DELETE", "/macie"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function disable_macie(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return macie2(
-        "DELETE", "/macie", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("DELETE", "/macie", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -953,7 +905,7 @@ function disable_organization_admin_account(
         "DELETE",
         "/admin",
         Dict{String,Any}("adminAccountId" => adminAccountId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -969,7 +921,7 @@ function disable_organization_admin_account(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("adminAccountId" => adminAccountId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -987,10 +939,7 @@ function disassociate_from_administrator_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "POST",
-        "/administrator/disassociate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/administrator/disassociate"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1001,7 +950,7 @@ function disassociate_from_administrator_account(
         "POST",
         "/administrator/disassociate",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1020,10 +969,7 @@ function disassociate_from_master_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "POST",
-        "/master/disassociate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/master/disassociate"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1031,11 +977,7 @@ function disassociate_from_master_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "POST",
-        "/master/disassociate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/master/disassociate", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1053,10 +995,7 @@ function disassociate_member end
 
 function disassociate_member(id; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "POST",
-        "/members/disassociate/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/members/disassociate/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1067,7 +1006,7 @@ function disassociate_member(
         "POST",
         "/members/disassociate/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1095,7 +1034,7 @@ function enable_macie(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/macie",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1109,7 +1048,7 @@ function enable_macie(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1141,7 +1080,7 @@ function enable_organization_admin_account(
         Dict{String,Any}(
             "adminAccountId" => adminAccountId, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1163,7 +1102,7 @@ function enable_organization_admin_account(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1178,20 +1117,14 @@ Retrieves information about the Amazon Macie administrator account for an accoun
 function get_administrator_account end
 
 function get_administrator_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "GET", "/administrator"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/administrator"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_administrator_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/administrator",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/administrator", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1208,20 +1141,14 @@ Retrieves the settings and status of an allow list.
 function get_allow_list end
 
 function get_allow_list(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "GET", "/allow-lists/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/allow-lists/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_allow_list(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/allow-lists/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/allow-lists/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1241,7 +1168,7 @@ function get_automated_discovery_configuration(;
     return macie2(
         "GET",
         "/automated-discovery/configuration";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1253,7 +1180,7 @@ function get_automated_discovery_configuration(
         "GET",
         "/automated-discovery/configuration",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1273,10 +1200,7 @@ function get_bucket_statistics end
 
 function get_bucket_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "POST",
-        "/datasources/s3/statistics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/datasources/s3/statistics"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1287,7 +1211,7 @@ function get_bucket_statistics(
         "POST",
         "/datasources/s3/statistics",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1307,7 +1231,7 @@ function get_classification_export_configuration(;
     return macie2(
         "GET",
         "/classification-export-configuration";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1319,7 +1243,7 @@ function get_classification_export_configuration(
         "GET",
         "/classification-export-configuration",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1338,10 +1262,7 @@ function get_classification_scope end
 
 function get_classification_scope(id; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "GET",
-        "/classification-scopes/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/classification-scopes/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1352,7 +1273,7 @@ function get_classification_scope(
         "GET",
         "/classification-scopes/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1371,10 +1292,7 @@ function get_custom_data_identifier end
 
 function get_custom_data_identifier(id; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "GET",
-        "/custom-data-identifiers/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/custom-data-identifiers/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1385,7 +1303,7 @@ function get_custom_data_identifier(
         "GET",
         "/custom-data-identifiers/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1417,7 +1335,7 @@ function get_finding_statistics(groupBy; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/findings/statistics",
         Dict{String,Any}("groupBy" => groupBy);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1431,7 +1349,7 @@ function get_finding_statistics(
         "POST",
         "/findings/statistics",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("groupBy" => groupBy), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1457,7 +1375,7 @@ function get_findings(findingIds; aws_config::AbstractAWSConfig=current_aws_conf
         "POST",
         "/findings/describe",
         Dict{String,Any}("findingIds" => findingIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1473,7 +1391,7 @@ function get_findings(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("findingIds" => findingIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1492,10 +1410,7 @@ function get_findings_filter end
 
 function get_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "GET",
-        "/findingsfilters/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/findingsfilters/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1503,11 +1418,7 @@ function get_findings_filter(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/findingsfilters/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/findingsfilters/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1526,7 +1437,7 @@ function get_findings_publication_configuration(;
     return macie2(
         "GET",
         "/findings-publication-configuration";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1538,7 +1449,7 @@ function get_findings_publication_configuration(
         "GET",
         "/findings-publication-configuration",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1553,20 +1464,14 @@ Retrieves the count of Amazon Macie membership invitations that were received by
 function get_invitations_count end
 
 function get_invitations_count(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "GET", "/invitations/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/invitations/count"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_invitations_count(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/invitations/count",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/invitations/count", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1580,15 +1485,13 @@ Retrieves the status and configuration settings for an Amazon Macie account.
 function get_macie_session end
 
 function get_macie_session(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2("GET", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return macie2("GET", "/macie"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_macie_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return macie2(
-        "GET", "/macie", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/macie", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1602,15 +1505,13 @@ account. This operation has been replaced by the GetAdministratorAccount operati
 function get_master_account end
 
 function get_master_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2("GET", "/master"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return macie2("GET", "/master"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_master_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return macie2(
-        "GET", "/master", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/master", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1627,20 +1528,14 @@ account.
 function get_member end
 
 function get_member(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "GET", "/members/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/members/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_member(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/members/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/members/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1665,7 +1560,7 @@ function get_resource_profile(
         "GET",
         "/resource-profiles",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1681,7 +1576,7 @@ function get_resource_profile(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1698,10 +1593,7 @@ function get_reveal_configuration end
 
 function get_reveal_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "GET",
-        "/reveal-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/reveal-configuration"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1709,11 +1601,7 @@ function get_reveal_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/reveal-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/reveal-configuration", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1733,10 +1621,7 @@ function get_sensitive_data_occurrences(
     findingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/findings/$(findingId)/reveal";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/findings/$(findingId)/reveal"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1749,7 +1634,7 @@ function get_sensitive_data_occurrences(
         "GET",
         "/findings/$(findingId)/reveal",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1772,7 +1657,7 @@ function get_sensitive_data_occurrences_availability(
     return macie2(
         "GET",
         "/findings/$(findingId)/reveal/availability";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1786,7 +1671,7 @@ function get_sensitive_data_occurrences_availability(
         "GET",
         "/findings/$(findingId)/reveal/availability",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1809,7 +1694,7 @@ function get_sensitivity_inspection_template(
     return macie2(
         "GET",
         "/templates/sensitivity-inspections/$(id)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1821,7 +1706,7 @@ function get_sensitivity_inspection_template(
         "GET",
         "/templates/sensitivity-inspections/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1849,20 +1734,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_usage_statistics end
 
 function get_usage_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "POST", "/usage/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("POST", "/usage/statistics"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_usage_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "POST",
-        "/usage/statistics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/usage/statistics", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1882,15 +1761,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_usage_totals end
 
 function get_usage_totals(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2("GET", "/usage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return macie2("GET", "/usage"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_usage_totals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return macie2(
-        "GET", "/usage", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/usage", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1909,20 +1786,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_allow_lists end
 
 function list_allow_lists(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "GET", "/allow-lists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/allow-lists"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_allow_lists(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/allow-lists",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/allow-lists", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1949,10 +1820,7 @@ function list_automated_discovery_accounts(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/automated-discovery/accounts";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/automated-discovery/accounts"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1963,7 +1831,7 @@ function list_automated_discovery_accounts(
         "GET",
         "/automated-discovery/accounts",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1985,17 +1853,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_classification_jobs end
 
 function list_classification_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "POST", "/jobs/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("POST", "/jobs/list"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_classification_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return macie2(
-        "POST", "/jobs/list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("POST", "/jobs/list", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2014,10 +1878,7 @@ function list_classification_scopes end
 
 function list_classification_scopes(; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "GET",
-        "/classification-scopes";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/classification-scopes"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2025,11 +1886,7 @@ function list_classification_scopes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/classification-scopes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/classification-scopes", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2049,10 +1906,7 @@ function list_custom_data_identifiers end
 
 function list_custom_data_identifiers(; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "POST",
-        "/custom-data-identifiers/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/custom-data-identifiers/list"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2063,7 +1917,7 @@ function list_custom_data_identifiers(
         "POST",
         "/custom-data-identifiers/list",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2085,17 +1939,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_findings end
 
 function list_findings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "POST", "/findings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("POST", "/findings"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return macie2(
-        "POST", "/findings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("POST", "/findings", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2114,20 +1964,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_findings_filters end
 
 function list_findings_filters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "GET", "/findingsfilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/findingsfilters"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_findings_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/findingsfilters",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/findingsfilters", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2148,20 +1992,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_invitations end
 
 function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2(
-        "GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/invitations"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/invitations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/invitations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2183,7 +2021,7 @@ function list_managed_data_identifiers(; aws_config::AbstractAWSConfig=current_a
     return macie2(
         "POST",
         "/managed-data-identifiers/list";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2195,7 +2033,7 @@ function list_managed_data_identifiers(
         "POST",
         "/managed-data-identifiers/list",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2221,15 +2059,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_members end
 
 function list_members(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2("GET", "/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return macie2("GET", "/members"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_members(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return macie2(
-        "GET", "/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/members", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2251,15 +2087,13 @@ function list_organization_admin_accounts end
 function list_organization_admin_accounts(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return macie2("GET", "/admin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return macie2("GET", "/admin"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_organization_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return macie2(
-        "GET", "/admin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("GET", "/admin", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2287,7 +2121,7 @@ function list_resource_profile_artifacts(
         "GET",
         "/resource-profiles/artifacts",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2303,7 +2137,7 @@ function list_resource_profile_artifacts(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2335,7 +2169,7 @@ function list_resource_profile_detections(
         "GET",
         "/resource-profiles/detections",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2351,7 +2185,7 @@ function list_resource_profile_detections(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2377,7 +2211,7 @@ function list_sensitivity_inspection_templates(;
     return macie2(
         "GET",
         "/templates/sensitivity-inspections";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2389,7 +2223,7 @@ function list_sensitivity_inspection_templates(
         "GET",
         "/templates/sensitivity-inspections",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2410,10 +2244,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return macie2(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2423,11 +2254,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return macie2(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2451,7 +2278,7 @@ function put_classification_export_configuration(
         "PUT",
         "/classification-export-configuration",
         Dict{String,Any}("configuration" => configuration);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2467,7 +2294,7 @@ function put_classification_export_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2494,7 +2321,7 @@ function put_findings_publication_configuration(;
         "PUT",
         "/findings-publication-configuration",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2508,7 +2335,7 @@ function put_findings_publication_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2534,10 +2361,7 @@ function search_resources end
 
 function search_resources(; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "POST",
-        "/datasources/search-resources";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/datasources/search-resources"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2548,7 +2372,7 @@ function search_resources(
         "POST",
         "/datasources/search-resources",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2575,7 +2399,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2590,7 +2414,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2632,7 +2456,7 @@ function test_custom_data_identifier(
         "POST",
         "/custom-data-identifiers/test",
         Dict{String,Any}("regex" => regex, "sampleText" => sampleText);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2653,7 +2477,7 @@ function test_custom_data_identifier(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2680,7 +2504,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2695,7 +2519,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2730,7 +2554,7 @@ function update_allow_list(
         "PUT",
         "/allow-lists/$(id)",
         Dict{String,Any}("criteria" => criteria, "name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2750,7 +2574,7 @@ function update_allow_list(
                 _merge, Dict{String,Any}("criteria" => criteria, "name" => name), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2789,7 +2613,7 @@ function update_automated_discovery_configuration(
         "PUT",
         "/automated-discovery/configuration",
         Dict{String,Any}("status" => status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2801,7 +2625,7 @@ function update_automated_discovery_configuration(
         "PUT",
         "/automated-discovery/configuration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2841,7 +2665,7 @@ function update_classification_job(
         "PATCH",
         "/jobs/$(jobId)",
         Dict{String,Any}("jobStatus" => jobStatus);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2858,7 +2682,7 @@ function update_classification_job(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("jobStatus" => jobStatus), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2881,10 +2705,7 @@ function update_classification_scope end
 
 function update_classification_scope(id; aws_config::AbstractAWSConfig=current_aws_config())
     return macie2(
-        "PATCH",
-        "/classification-scopes/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PATCH", "/classification-scopes/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2895,7 +2716,7 @@ function update_classification_scope(
         "PATCH",
         "/classification-scopes/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2936,7 +2757,7 @@ function update_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_co
         "PATCH",
         "/findingsfilters/$(id)",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2950,7 +2771,7 @@ function update_findings_filter(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2974,15 +2795,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_macie_session end
 
 function update_macie_session(; aws_config::AbstractAWSConfig=current_aws_config())
-    return macie2("PATCH", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return macie2("PATCH", "/macie"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function update_macie_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return macie2(
-        "PATCH", "/macie", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return macie2("PATCH", "/macie", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3007,7 +2826,7 @@ function update_member_session(
         "PATCH",
         "/macie/members/$(id)",
         Dict{String,Any}("status" => status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3022,7 +2841,7 @@ function update_member_session(
         "PATCH",
         "/macie/members/$(id)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3047,7 +2866,7 @@ function update_organization_configuration(
         "PATCH",
         "/admin/configuration",
         Dict{String,Any}("autoEnable" => autoEnable);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3063,7 +2882,7 @@ function update_organization_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("autoEnable" => autoEnable), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3094,7 +2913,7 @@ function update_resource_profile(
         "PATCH",
         "/resource-profiles",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3110,7 +2929,7 @@ function update_resource_profile(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3141,7 +2960,7 @@ function update_resource_profile_detections(
         "PATCH",
         "/resource-profiles/detections",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3157,7 +2976,7 @@ function update_resource_profile_detections(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3187,7 +3006,7 @@ function update_reveal_configuration(
         "PUT",
         "/reveal-configuration",
         Dict{String,Any}("configuration" => configuration);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3203,7 +3022,7 @@ function update_reveal_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3237,7 +3056,7 @@ function update_sensitivity_inspection_template(
     return macie2(
         "PUT",
         "/templates/sensitivity-inspections/$(id)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3249,7 +3068,7 @@ function update_sensitivity_inspection_template(
         "PUT",
         "/templates/sensitivity-inspections/$(id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

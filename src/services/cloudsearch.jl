@@ -21,7 +21,7 @@ function build_suggesters(DomainName; aws_config::AbstractAWSConfig=current_aws_
     return cloudsearch(
         "BuildSuggesters",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -36,7 +36,7 @@ function build_suggesters(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -60,7 +60,7 @@ function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
     return cloudsearch(
         "CreateDomain",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -75,7 +75,7 @@ function create_domain(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -101,7 +101,7 @@ function define_analysis_scheme(
     return cloudsearch(
         "DefineAnalysisScheme",
         Dict{String,Any}("AnalysisScheme" => AnalysisScheme, "DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -123,7 +123,7 @@ function define_analysis_scheme(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -149,7 +149,7 @@ function define_expression(
     return cloudsearch(
         "DefineExpression",
         Dict{String,Any}("DomainName" => DomainName, "Expression" => Expression);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -169,7 +169,7 @@ function define_expression(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -199,7 +199,7 @@ function define_index_field(
     return cloudsearch(
         "DefineIndexField",
         Dict{String,Any}("DomainName" => DomainName, "IndexField" => IndexField);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -219,7 +219,7 @@ function define_index_field(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -247,7 +247,7 @@ function define_suggester(
     return cloudsearch(
         "DefineSuggester",
         Dict{String,Any}("DomainName" => DomainName, "Suggester" => Suggester);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -267,7 +267,7 @@ function define_suggester(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -294,7 +294,7 @@ function delete_analysis_scheme(
         Dict{String,Any}(
             "AnalysisSchemeName" => AnalysisSchemeName, "DomainName" => DomainName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -316,7 +316,7 @@ function delete_analysis_scheme(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -339,7 +339,7 @@ function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
     return cloudsearch(
         "DeleteDomain",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -354,7 +354,7 @@ function delete_domain(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -379,7 +379,7 @@ function delete_expression(
     return cloudsearch(
         "DeleteExpression",
         Dict{String,Any}("DomainName" => DomainName, "ExpressionName" => ExpressionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -401,7 +401,7 @@ function delete_expression(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -427,7 +427,7 @@ function delete_index_field(
     return cloudsearch(
         "DeleteIndexField",
         Dict{String,Any}("DomainName" => DomainName, "IndexFieldName" => IndexFieldName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -449,7 +449,7 @@ function delete_index_field(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -474,7 +474,7 @@ function delete_suggester(
     return cloudsearch(
         "DeleteSuggester",
         Dict{String,Any}("DomainName" => DomainName, "SuggesterName" => SuggesterName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -496,7 +496,7 @@ function delete_suggester(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -529,7 +529,7 @@ function describe_analysis_schemes(
     return cloudsearch(
         "DescribeAnalysisSchemes",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -544,7 +544,7 @@ function describe_analysis_schemes(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -574,7 +574,7 @@ function describe_availability_options(
     return cloudsearch(
         "DescribeAvailabilityOptions",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -589,7 +589,7 @@ function describe_availability_options(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -618,7 +618,7 @@ function describe_domain_endpoint_options(
     return cloudsearch(
         "DescribeDomainEndpointOptions",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -633,7 +633,7 @@ function describe_domain_endpoint_options(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -655,16 +655,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_domains end
 
 function describe_domains(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudsearch(
-        "DescribeDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudsearch("DescribeDomains"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
-        "DescribeDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeDomains", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -696,7 +694,7 @@ function describe_expressions(
     return cloudsearch(
         "DescribeExpressions",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -711,7 +709,7 @@ function describe_expressions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -744,7 +742,7 @@ function describe_index_fields(
     return cloudsearch(
         "DescribeIndexFields",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -759,7 +757,7 @@ function describe_index_fields(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -784,7 +782,7 @@ function describe_scaling_parameters(
     return cloudsearch(
         "DescribeScalingParameters",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -799,7 +797,7 @@ function describe_scaling_parameters(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -830,7 +828,7 @@ function describe_service_access_policies(
     return cloudsearch(
         "DescribeServiceAccessPolicies",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -845,7 +843,7 @@ function describe_service_access_policies(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -876,7 +874,7 @@ function describe_suggesters(DomainName; aws_config::AbstractAWSConfig=current_a
     return cloudsearch(
         "DescribeSuggesters",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -891,7 +889,7 @@ function describe_suggesters(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -914,7 +912,7 @@ function index_documents(DomainName; aws_config::AbstractAWSConfig=current_aws_c
     return cloudsearch(
         "IndexDocuments",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -929,7 +927,7 @@ function index_documents(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -944,16 +942,14 @@ Lists all search domains owned by an account.
 function list_domain_names end
 
 function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudsearch(
-        "ListDomainNames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudsearch("ListDomainNames"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudsearch(
-        "ListDomainNames", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListDomainNames", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -982,7 +978,7 @@ function update_availability_options(
     return cloudsearch(
         "UpdateAvailabilityOptions",
         Dict{String,Any}("DomainName" => DomainName, "MultiAZ" => MultiAZ);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1002,7 +998,7 @@ function update_availability_options(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1032,7 +1028,7 @@ function update_domain_endpoint_options(
         Dict{String,Any}(
             "DomainEndpointOptions" => DomainEndpointOptions, "DomainName" => DomainName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1055,7 +1051,7 @@ function update_domain_endpoint_options(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1086,7 +1082,7 @@ function update_scaling_parameters(
         Dict{String,Any}(
             "DomainName" => DomainName, "ScalingParameters" => ScalingParameters
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1108,7 +1104,7 @@ function update_scaling_parameters(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1134,7 +1130,7 @@ function update_service_access_policies(
     return cloudsearch(
         "UpdateServiceAccessPolicies",
         Dict{String,Any}("AccessPolicies" => AccessPolicies, "DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1156,7 +1152,7 @@ function update_service_access_policies(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

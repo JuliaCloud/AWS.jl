@@ -40,7 +40,7 @@ function add_application_cloud_watch_logging_option(
             "ApplicationName" => ApplicationName,
             "CloudWatchLoggingOption" => CloudWatchLoggingOption,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -63,7 +63,7 @@ function add_application_cloud_watch_logging_option(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -103,7 +103,7 @@ function add_application_input(
             "CurrentApplicationVersionId" => CurrentApplicationVersionId,
             "Input" => Input,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -128,7 +128,7 @@ function add_application_input(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -172,7 +172,7 @@ function add_application_input_processing_configuration(
             "InputId" => InputId,
             "InputProcessingConfiguration" => InputProcessingConfiguration,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -199,7 +199,7 @@ function add_application_input_processing_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -248,7 +248,7 @@ function add_application_output(
             "CurrentApplicationVersionId" => CurrentApplicationVersionId,
             "Output" => Output,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -273,7 +273,7 @@ function add_application_output(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -316,7 +316,7 @@ function add_application_reference_data_source(
             "CurrentApplicationVersionId" => CurrentApplicationVersionId,
             "ReferenceDataSource" => ReferenceDataSource,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -341,7 +341,7 @@ function add_application_reference_data_source(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -384,7 +384,7 @@ function add_application_vpc_configuration(
         Dict{String,Any}(
             "ApplicationName" => ApplicationName, "VpcConfiguration" => VpcConfiguration
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -407,7 +407,7 @@ function add_application_vpc_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -455,7 +455,7 @@ function create_application(
             "RuntimeEnvironment" => RuntimeEnvironment,
             "ServiceExecutionRole" => ServiceExecutionRole,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -480,7 +480,7 @@ function create_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -518,7 +518,7 @@ function create_application_presigned_url(
     return kinesis_analytics_v2(
         "CreateApplicationPresignedUrl",
         Dict{String,Any}("ApplicationName" => ApplicationName, "UrlType" => UrlType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -540,7 +540,7 @@ function create_application_presigned_url(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -566,7 +566,7 @@ function create_application_snapshot(
         Dict{String,Any}(
             "ApplicationName" => ApplicationName, "SnapshotName" => SnapshotName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -588,7 +588,7 @@ function create_application_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -615,7 +615,7 @@ function delete_application(
         Dict{String,Any}(
             "ApplicationName" => ApplicationName, "CreateTimestamp" => CreateTimestamp
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -638,7 +638,7 @@ function delete_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -681,7 +681,7 @@ function delete_application_cloud_watch_logging_option(
             "ApplicationName" => ApplicationName,
             "CloudWatchLoggingOptionId" => CloudWatchLoggingOptionId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -704,7 +704,7 @@ function delete_application_cloud_watch_logging_option(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -740,7 +740,7 @@ function delete_application_input_processing_configuration(
             "CurrentApplicationVersionId" => CurrentApplicationVersionId,
             "InputId" => InputId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -765,7 +765,7 @@ function delete_application_input_processing_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -805,7 +805,7 @@ function delete_application_output(
             "CurrentApplicationVersionId" => CurrentApplicationVersionId,
             "OutputId" => OutputId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -830,7 +830,7 @@ function delete_application_output(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -869,7 +869,7 @@ function delete_application_reference_data_source(
             "CurrentApplicationVersionId" => CurrentApplicationVersionId,
             "ReferenceId" => ReferenceId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -894,7 +894,7 @@ function delete_application_reference_data_source(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -927,7 +927,7 @@ function delete_application_snapshot(
             "SnapshotCreationTimestamp" => SnapshotCreationTimestamp,
             "SnapshotName" => SnapshotName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -952,7 +952,7 @@ function delete_application_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -989,7 +989,7 @@ function delete_application_vpc_configuration(
         Dict{String,Any}(
             "ApplicationName" => ApplicationName, "VpcConfigurationId" => VpcConfigurationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1012,7 +1012,7 @@ function delete_application_vpc_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1041,7 +1041,7 @@ function describe_application(
     return kinesis_analytics_v2(
         "DescribeApplication",
         Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1058,7 +1058,7 @@ function describe_application(
                 _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1085,7 +1085,7 @@ function describe_application_operation(
         Dict{String,Any}(
             "ApplicationName" => ApplicationName, "OperationId" => OperationId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1107,7 +1107,7 @@ function describe_application_operation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1134,7 +1134,7 @@ function describe_application_snapshot(
         Dict{String,Any}(
             "ApplicationName" => ApplicationName, "SnapshotName" => SnapshotName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1156,7 +1156,7 @@ function describe_application_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1189,7 +1189,7 @@ function describe_application_version(
             "ApplicationName" => ApplicationName,
             "ApplicationVersionId" => ApplicationVersionId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1212,7 +1212,7 @@ function describe_application_version(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1251,7 +1251,7 @@ function discover_input_schema(
     return kinesis_analytics_v2(
         "DiscoverInputSchema",
         Dict{String,Any}("ServiceExecutionRole" => ServiceExecutionRole);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1270,7 +1270,7 @@ function discover_input_schema(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1300,7 +1300,7 @@ function list_application_operations(
     return kinesis_analytics_v2(
         "ListApplicationOperations",
         Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1317,7 +1317,7 @@ function list_application_operations(
                 _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1346,7 +1346,7 @@ function list_application_snapshots(
     return kinesis_analytics_v2(
         "ListApplicationSnapshots",
         Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1363,7 +1363,7 @@ function list_application_snapshots(
                 _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1396,7 +1396,7 @@ function list_application_versions(
     return kinesis_analytics_v2(
         "ListApplicationVersions",
         Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1413,7 +1413,7 @@ function list_application_versions(
                 _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1438,7 +1438,7 @@ function list_applications end
 
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_analytics_v2(
-        "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListApplications"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1446,7 +1446,7 @@ function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kinesis_analytics_v2(
-        "ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListApplications", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1469,7 +1469,7 @@ function list_tags_for_resource(
     return kinesis_analytics_v2(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1484,7 +1484,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1518,7 +1518,7 @@ function rollback_application(
             "ApplicationName" => ApplicationName,
             "CurrentApplicationVersionId" => CurrentApplicationVersionId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1541,7 +1541,7 @@ function rollback_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1569,7 +1569,7 @@ function start_application(
     return kinesis_analytics_v2(
         "StartApplication",
         Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1586,7 +1586,7 @@ function start_application(
                 _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1622,7 +1622,7 @@ function stop_application(
     return kinesis_analytics_v2(
         "StopApplication",
         Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1639,7 +1639,7 @@ function stop_application(
                 _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1663,7 +1663,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
     return kinesis_analytics_v2(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1683,7 +1683,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1709,7 +1709,7 @@ function untag_resource(
     return kinesis_analytics_v2(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1729,7 +1729,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1776,7 +1776,7 @@ function update_application(
     return kinesis_analytics_v2(
         "UpdateApplication",
         Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1793,7 +1793,7 @@ function update_application(
                 _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1837,7 +1837,7 @@ function update_application_maintenance_configuration(
                 ApplicationMaintenanceConfigurationUpdate,
             "ApplicationName" => ApplicationName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1861,7 +1861,7 @@ function update_application_maintenance_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

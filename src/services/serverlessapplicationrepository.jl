@@ -64,7 +64,7 @@ function create_application(
         "POST",
         "/applications",
         Dict{String,Any}("author" => author, "description" => description, "name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -88,7 +88,7 @@ function create_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -120,7 +120,7 @@ function create_application_version(
     return serverlessapplicationrepository(
         "PUT",
         "/applications/$(applicationId)/versions/$(semanticVersion)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -135,7 +135,7 @@ function create_application_version(
         "PUT",
         "/applications/$(applicationId)/versions/$(semanticVersion)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -226,7 +226,7 @@ function create_cloud_formation_change_set(
         "POST",
         "/applications/$(applicationId)/changesets",
         Dict{String,Any}("stackName" => stackName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -243,7 +243,7 @@ function create_cloud_formation_change_set(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("stackName" => stackName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -270,7 +270,7 @@ function create_cloud_formation_template(
     return serverlessapplicationrepository(
         "POST",
         "/applications/$(applicationId)/templates";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -284,7 +284,7 @@ function create_cloud_formation_template(
         "POST",
         "/applications/$(applicationId)/templates",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -307,7 +307,7 @@ function delete_application(
     return serverlessapplicationrepository(
         "DELETE",
         "/applications/$(applicationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -321,7 +321,7 @@ function delete_application(
         "DELETE",
         "/applications/$(applicationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -343,10 +343,7 @@ function get_application end
 
 function get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return serverlessapplicationrepository(
-        "GET",
-        "/applications/$(applicationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/applications/$(applicationId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -359,7 +356,7 @@ function get_application(
         "GET",
         "/applications/$(applicationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -382,7 +379,7 @@ function get_application_policy(
     return serverlessapplicationrepository(
         "GET",
         "/applications/$(applicationId)/policy";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -396,7 +393,7 @@ function get_application_policy(
         "GET",
         "/applications/$(applicationId)/policy",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -421,7 +418,7 @@ function get_cloud_formation_template(
     return serverlessapplicationrepository(
         "GET",
         "/applications/$(applicationId)/templates/$(templateId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -436,7 +433,7 @@ function get_cloud_formation_template(
         "GET",
         "/applications/$(applicationId)/templates/$(templateId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -464,7 +461,7 @@ function list_application_dependencies(
     return serverlessapplicationrepository(
         "GET",
         "/applications/$(applicationId)/dependencies";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -478,7 +475,7 @@ function list_application_dependencies(
         "GET",
         "/applications/$(applicationId)/dependencies",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -505,7 +502,7 @@ function list_application_versions(
     return serverlessapplicationrepository(
         "GET",
         "/applications/$(applicationId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -519,7 +516,7 @@ function list_application_versions(
         "GET",
         "/applications/$(applicationId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -539,7 +536,7 @@ function list_applications end
 
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return serverlessapplicationrepository(
-        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/applications"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -547,11 +544,7 @@ function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return serverlessapplicationrepository(
-        "GET",
-        "/applications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/applications", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -579,7 +572,7 @@ function put_application_policy(
         "PUT",
         "/applications/$(applicationId)/policy",
         Dict{String,Any}("statements" => statements);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -596,7 +589,7 @@ function put_application_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("statements" => statements), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -622,7 +615,7 @@ function unshare_application(
         "POST",
         "/applications/$(applicationId)/unshare",
         Dict{String,Any}("organizationId" => organizationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -639,7 +632,7 @@ function unshare_application(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("organizationId" => organizationId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -675,7 +668,7 @@ function update_application(
     return serverlessapplicationrepository(
         "PATCH",
         "/applications/$(applicationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -689,7 +682,7 @@ function update_application(
         "PATCH",
         "/applications/$(applicationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -47,7 +47,7 @@ function copy_cluster_snapshot(
         "POST",
         "/cluster-snapshot/$(snapshotArn)/copy",
         Dict{String,Any}("targetSnapshotName" => targetSnapshotName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -66,7 +66,7 @@ function copy_cluster_snapshot(
                 _merge, Dict{String,Any}("targetSnapshotName" => targetSnapshotName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -144,7 +144,7 @@ function create_cluster(
             "shardCount" => shardCount,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -177,7 +177,7 @@ function create_cluster(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -206,7 +206,7 @@ function create_cluster_snapshot(
         "POST",
         "/cluster-snapshot",
         Dict{String,Any}("clusterArn" => clusterArn, "snapshotName" => snapshotName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -229,7 +229,7 @@ function create_cluster_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -248,10 +248,7 @@ function delete_cluster end
 
 function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
-        "DELETE",
-        "/cluster/$(clusterArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/cluster/$(clusterArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -264,7 +261,7 @@ function delete_cluster(
         "DELETE",
         "/cluster/$(clusterArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -287,7 +284,7 @@ function delete_cluster_snapshot(
     return docdb_elastic(
         "DELETE",
         "/cluster-snapshot/$(snapshotArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -301,7 +298,7 @@ function delete_cluster_snapshot(
         "DELETE",
         "/cluster-snapshot/$(snapshotArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -320,10 +317,7 @@ function get_cluster end
 
 function get_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
-        "GET",
-        "/cluster/$(clusterArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/cluster/$(clusterArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -333,11 +327,7 @@ function get_cluster(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb_elastic(
-        "GET",
-        "/cluster/$(clusterArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/cluster/$(clusterArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -359,7 +349,7 @@ function get_cluster_snapshot(
     return docdb_elastic(
         "GET",
         "/cluster-snapshot/$(snapshotArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -373,7 +363,7 @@ function get_cluster_snapshot(
         "GET",
         "/cluster-snapshot/$(snapshotArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -402,7 +392,7 @@ function list_cluster_snapshots end
 
 function list_cluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
-        "GET", "/cluster-snapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/cluster-snapshots"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -410,11 +400,7 @@ function list_cluster_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb_elastic(
-        "GET",
-        "/cluster-snapshots",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/cluster-snapshots", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -436,16 +422,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_clusters end
 
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return docdb_elastic(
-        "GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return docdb_elastic("GET", "/clusters"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb_elastic(
-        "GET", "/clusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/clusters", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -465,10 +449,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb_elastic(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -478,11 +459,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return docdb_elastic(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -526,7 +503,7 @@ function restore_cluster_from_snapshot(
         "POST",
         "/cluster-snapshot/$(snapshotArn)/restore",
         Dict{String,Any}("clusterName" => clusterName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -543,7 +520,7 @@ function restore_cluster_from_snapshot(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clusterName" => clusterName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -562,10 +539,7 @@ function start_cluster end
 
 function start_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
-        "POST",
-        "/cluster/$(clusterArn)/start";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/cluster/$(clusterArn)/start"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -578,7 +552,7 @@ function start_cluster(
         "POST",
         "/cluster/$(clusterArn)/start",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -598,10 +572,7 @@ function stop_cluster end
 
 function stop_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
-        "POST",
-        "/cluster/$(clusterArn)/stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/cluster/$(clusterArn)/stop"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -614,7 +585,7 @@ function stop_cluster(
         "POST",
         "/cluster/$(clusterArn)/stop",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -637,7 +608,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -652,7 +623,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -677,7 +648,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -692,7 +663,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -741,7 +712,7 @@ function update_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_co
         "PUT",
         "/cluster/$(clusterArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -757,7 +728,7 @@ function update_cluster(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

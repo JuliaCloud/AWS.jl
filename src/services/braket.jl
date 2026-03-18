@@ -18,10 +18,7 @@ function cancel_job end
 
 function cancel_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config())
     return braket(
-        "PUT",
-        "/job/$(jobArn)/cancel";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PUT", "/job/$(jobArn)/cancel"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -29,11 +26,7 @@ function cancel_job(
     jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return braket(
-        "PUT",
-        "/job/$(jobArn)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PUT", "/job/$(jobArn)/cancel", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -57,7 +50,7 @@ function cancel_quantum_task(
         "PUT",
         "/quantum-task/$(quantumTaskArn)/cancel",
         Dict{String,Any}("clientToken" => clientToken);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -74,7 +67,7 @@ function cancel_quantum_task(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -139,7 +132,7 @@ function create_job(
             "outputDataConfig" => outputDataConfig,
             "roleArn" => roleArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -173,7 +166,7 @@ function create_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -222,7 +215,7 @@ function create_quantum_task(
             "outputS3KeyPrefix" => outputS3KeyPrefix,
             "shots" => shots,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -254,7 +247,7 @@ function create_quantum_task(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -280,10 +273,7 @@ function get_device end
 
 function get_device(deviceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return braket(
-        "GET",
-        "/device/$(deviceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/device/$(deviceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -293,11 +283,7 @@ function get_device(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
-        "GET",
-        "/device/$(deviceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/device/$(deviceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -317,20 +303,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_job end
 
 function get_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return braket(
-        "GET", "/job/$(jobArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return braket("GET", "/job/$(jobArn)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_job(
     jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return braket(
-        "GET",
-        "/job/$(jobArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/job/$(jobArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -355,7 +335,7 @@ function get_quantum_task(
     return braket(
         "GET",
         "/quantum-task/$(quantumTaskArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -369,7 +349,7 @@ function get_quantum_task(
         "GET",
         "/quantum-task/$(quantumTaskArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -390,10 +370,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return braket(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -403,11 +380,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return braket(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -433,7 +406,7 @@ function search_devices(filters; aws_config::AbstractAWSConfig=current_aws_confi
         "POST",
         "/devices",
         Dict{String,Any}("filters" => filters);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -447,7 +420,7 @@ function search_devices(
         "POST",
         "/devices",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -475,7 +448,7 @@ function search_jobs(filters; aws_config::AbstractAWSConfig=current_aws_config()
         "POST",
         "/jobs",
         Dict{String,Any}("filters" => filters);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -489,7 +462,7 @@ function search_jobs(
         "POST",
         "/jobs",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -516,7 +489,7 @@ function search_quantum_tasks(filters; aws_config::AbstractAWSConfig=current_aws
         "POST",
         "/quantum-tasks",
         Dict{String,Any}("filters" => filters);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -530,7 +503,7 @@ function search_quantum_tasks(
         "POST",
         "/quantum-tasks",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -553,7 +526,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -568,7 +541,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -593,7 +566,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -608,7 +581,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

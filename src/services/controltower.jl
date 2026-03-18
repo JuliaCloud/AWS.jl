@@ -29,7 +29,7 @@ function create_landing_zone(
         "POST",
         "/create-landingzone",
         Dict{String,Any}("manifest" => manifest, "version" => version);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -50,7 +50,7 @@ function create_landing_zone(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -76,7 +76,7 @@ function delete_landing_zone(
         "POST",
         "/delete-landingzone",
         Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -96,7 +96,7 @@ function delete_landing_zone(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -124,7 +124,7 @@ function disable_baseline(
         "POST",
         "/disable-baseline",
         Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -144,7 +144,7 @@ function disable_baseline(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -177,7 +177,7 @@ function disable_control(
         Dict{String,Any}(
             "controlIdentifier" => controlIdentifier, "targetIdentifier" => targetIdentifier
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -201,7 +201,7 @@ function disable_control(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -242,7 +242,7 @@ function enable_baseline(
             "baselineVersion" => baselineVersion,
             "targetIdentifier" => targetIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -268,7 +268,7 @@ function enable_baseline(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -306,7 +306,7 @@ function enable_control(
         Dict{String,Any}(
             "controlIdentifier" => controlIdentifier, "targetIdentifier" => targetIdentifier
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -330,7 +330,7 @@ function enable_control(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -355,7 +355,7 @@ function get_baseline(
         "POST",
         "/get-baseline",
         Dict{String,Any}("baselineIdentifier" => baselineIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -373,7 +373,7 @@ function get_baseline(
                 _merge, Dict{String,Any}("baselineIdentifier" => baselineIdentifier), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -401,7 +401,7 @@ function get_baseline_operation(
         "POST",
         "/get-baseline-operation",
         Dict{String,Any}("operationIdentifier" => operationIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -421,7 +421,7 @@ function get_baseline_operation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -448,7 +448,7 @@ function get_control_operation(
         "POST",
         "/get-control-operation",
         Dict{String,Any}("operationIdentifier" => operationIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -468,7 +468,7 @@ function get_control_operation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -493,7 +493,7 @@ function get_enabled_baseline(
         "POST",
         "/get-enabled-baseline",
         Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -513,7 +513,7 @@ function get_enabled_baseline(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -538,7 +538,7 @@ function get_enabled_control(
         "POST",
         "/get-enabled-control",
         Dict{String,Any}("enabledControlIdentifier" => enabledControlIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -558,7 +558,7 @@ function get_enabled_control(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -582,7 +582,7 @@ function get_landing_zone(
         "POST",
         "/get-landingzone",
         Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -602,7 +602,7 @@ function get_landing_zone(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -627,7 +627,7 @@ function get_landing_zone_operation(
         "POST",
         "/get-landingzone-operation",
         Dict{String,Any}("operationIdentifier" => operationIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -647,7 +647,7 @@ function get_landing_zone_operation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -668,7 +668,7 @@ function list_baselines end
 
 function list_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
-        "POST", "/list-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/list-baselines"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -676,11 +676,7 @@ function list_baselines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
-        "POST",
-        "/list-baselines",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/list-baselines", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -702,10 +698,7 @@ function list_control_operations end
 
 function list_control_operations(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
-        "POST",
-        "/list-control-operations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/list-control-operations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -716,7 +709,7 @@ function list_control_operations(
         "POST",
         "/list-control-operations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -740,10 +733,7 @@ function list_enabled_baselines end
 
 function list_enabled_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
-        "POST",
-        "/list-enabled-baselines";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/list-enabled-baselines"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -754,7 +744,7 @@ function list_enabled_baselines(
         "POST",
         "/list-enabled-baselines",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -781,10 +771,7 @@ function list_enabled_controls end
 
 function list_enabled_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
-        "POST",
-        "/list-enabled-controls";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/list-enabled-controls"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -795,7 +782,7 @@ function list_enabled_controls(
         "POST",
         "/list-enabled-controls",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -819,10 +806,7 @@ function list_landing_zone_operations end
 
 function list_landing_zone_operations(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
-        "POST",
-        "/list-landingzone-operations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/list-landingzone-operations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -833,7 +817,7 @@ function list_landing_zone_operations(
         "POST",
         "/list-landingzone-operations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -856,7 +840,7 @@ function list_landing_zones end
 
 function list_landing_zones(; aws_config::AbstractAWSConfig=current_aws_config())
     return controltower(
-        "POST", "/list-landingzones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/list-landingzones"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -864,11 +848,7 @@ function list_landing_zones(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
-        "POST",
-        "/list-landingzones",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/list-landingzones", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -889,10 +869,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return controltower(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -902,11 +879,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return controltower(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -932,7 +905,7 @@ function reset_enabled_baseline(
         "POST",
         "/reset-enabled-baseline",
         Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -952,7 +925,7 @@ function reset_enabled_baseline(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -980,7 +953,7 @@ function reset_landing_zone(
         "POST",
         "/reset-landingzone",
         Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1000,7 +973,7 @@ function reset_landing_zone(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1023,7 +996,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1038,7 +1011,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1063,7 +1036,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1078,7 +1051,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1113,7 +1086,7 @@ function update_enabled_baseline(
             "baselineVersion" => baselineVersion,
             "enabledBaselineIdentifier" => enabledBaselineIdentifier,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1137,7 +1110,7 @@ function update_enabled_baseline(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1173,7 +1146,7 @@ function update_enabled_control(
             "enabledControlIdentifier" => enabledControlIdentifier,
             "parameters" => parameters,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1197,7 +1170,7 @@ function update_enabled_control(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1235,7 +1208,7 @@ function update_landing_zone(
             "manifest" => manifest,
             "version" => version,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1261,7 +1234,7 @@ function update_landing_zone(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

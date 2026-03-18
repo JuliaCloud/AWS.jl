@@ -23,7 +23,7 @@ function accept_inbound_cross_cluster_search_connection(
     return elasticsearch_service(
         "PUT",
         "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -37,7 +37,7 @@ function accept_inbound_cross_cluster_search_connection(
         "PUT",
         "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -62,7 +62,7 @@ function add_tags(ARN, TagList; aws_config::AbstractAWSConfig=current_aws_config
         "POST",
         "/2015-01-01/tags",
         Dict{String,Any}("ARN" => ARN, "TagList" => TagList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -79,7 +79,7 @@ function add_tags(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ARN" => ARN, "TagList" => TagList), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -104,7 +104,7 @@ function associate_package(
     return elasticsearch_service(
         "POST",
         "/2015-01-01/packages/associate/$(PackageID)/$(DomainName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -119,7 +119,7 @@ function associate_package(
         "POST",
         "/2015-01-01/packages/associate/$(PackageID)/$(DomainName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -145,7 +145,7 @@ function authorize_vpc_endpoint_access(
         "POST",
         "/2015-01-01/es/domain/$(DomainName)/authorizeVpcEndpointAccess",
         Dict{String,Any}("Account" => Account);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -160,7 +160,7 @@ function authorize_vpc_endpoint_access(
         "POST",
         "/2015-01-01/es/domain/$(DomainName)/authorizeVpcEndpointAccess",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -187,7 +187,7 @@ function cancel_domain_config_change(
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/domain/$(DomainName)/config/cancel";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -201,7 +201,7 @@ function cancel_domain_config_change(
         "POST",
         "/2015-01-01/es/domain/$(DomainName)/config/cancel",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -228,7 +228,7 @@ function cancel_elasticsearch_service_software_update(
         "POST",
         "/2015-01-01/es/serviceSoftwareUpdate/cancel",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -244,7 +244,7 @@ function cancel_elasticsearch_service_software_update(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -301,7 +301,7 @@ function create_elasticsearch_domain(
         "POST",
         "/2015-01-01/es/domain",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -317,7 +317,7 @@ function create_elasticsearch_domain(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -352,7 +352,7 @@ function create_outbound_cross_cluster_search_connection(
             "DestinationDomainInfo" => DestinationDomainInfo,
             "SourceDomainInfo" => SourceDomainInfo,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -378,7 +378,7 @@ function create_outbound_cross_cluster_search_connection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -414,7 +414,7 @@ function create_package(
             "PackageSource" => PackageSource,
             "PackageType" => PackageType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -440,7 +440,7 @@ function create_package(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -468,7 +468,7 @@ function create_vpc_endpoint(
         "POST",
         "/2015-01-01/es/vpcEndpoints",
         Dict{String,Any}("DomainArn" => DomainArn, "VpcOptions" => VpcOptions);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -489,7 +489,7 @@ function create_vpc_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -513,7 +513,7 @@ function delete_elasticsearch_domain(
     return elasticsearch_service(
         "DELETE",
         "/2015-01-01/es/domain/$(DomainName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -527,7 +527,7 @@ function delete_elasticsearch_domain(
         "DELETE",
         "/2015-01-01/es/domain/$(DomainName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -548,10 +548,7 @@ function delete_elasticsearch_service_role(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elasticsearch_service(
-        "DELETE",
-        "/2015-01-01/es/role";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/2015-01-01/es/role"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -559,11 +556,7 @@ function delete_elasticsearch_service_role(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elasticsearch_service(
-        "DELETE",
-        "/2015-01-01/es/role",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/2015-01-01/es/role", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -586,7 +579,7 @@ function delete_inbound_cross_cluster_search_connection(
     return elasticsearch_service(
         "DELETE",
         "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -600,7 +593,7 @@ function delete_inbound_cross_cluster_search_connection(
         "DELETE",
         "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -624,7 +617,7 @@ function delete_outbound_cross_cluster_search_connection(
     return elasticsearch_service(
         "DELETE",
         "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -638,7 +631,7 @@ function delete_outbound_cross_cluster_search_connection(
         "DELETE",
         "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -660,7 +653,7 @@ function delete_package(PackageID; aws_config::AbstractAWSConfig=current_aws_con
     return elasticsearch_service(
         "DELETE",
         "/2015-01-01/packages/$(PackageID)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -674,7 +667,7 @@ function delete_package(
         "DELETE",
         "/2015-01-01/packages/$(PackageID)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -697,7 +690,7 @@ function delete_vpc_endpoint(
     return elasticsearch_service(
         "DELETE",
         "/2015-01-01/es/vpcEndpoints/$(VpcEndpointId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -711,7 +704,7 @@ function delete_vpc_endpoint(
         "DELETE",
         "/2015-01-01/es/vpcEndpoints/$(VpcEndpointId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -741,7 +734,7 @@ function describe_domain_auto_tunes(
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/autoTunes";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -755,7 +748,7 @@ function describe_domain_auto_tunes(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/autoTunes",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -784,7 +777,7 @@ function describe_domain_change_progress(
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/progress";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -798,7 +791,7 @@ function describe_domain_change_progress(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/progress",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -822,7 +815,7 @@ function describe_elasticsearch_domain(
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -836,7 +829,7 @@ function describe_elasticsearch_domain(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -860,7 +853,7 @@ function describe_elasticsearch_domain_config(
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/config";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -874,7 +867,7 @@ function describe_elasticsearch_domain_config(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/config",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -899,7 +892,7 @@ function describe_elasticsearch_domains(
         "POST",
         "/2015-01-01/es/domain-info",
         Dict{String,Any}("DomainNames" => DomainNames);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -915,7 +908,7 @@ function describe_elasticsearch_domains(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainNames" => DomainNames), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -947,7 +940,7 @@ function describe_elasticsearch_instance_type_limits(
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/instanceTypeLimits/$(ElasticsearchVersion)/$(InstanceType)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -962,7 +955,7 @@ function describe_elasticsearch_instance_type_limits(
         "GET",
         "/2015-01-01/es/instanceTypeLimits/$(ElasticsearchVersion)/$(InstanceType)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -992,7 +985,7 @@ function describe_inbound_cross_cluster_search_connections(;
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/ccs/inboundConnection/search";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1004,7 +997,7 @@ function describe_inbound_cross_cluster_search_connections(
         "POST",
         "/2015-01-01/es/ccs/inboundConnection/search",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1035,7 +1028,7 @@ function describe_outbound_cross_cluster_search_connections(;
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/ccs/outboundConnection/search";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1047,7 +1040,7 @@ function describe_outbound_cross_cluster_search_connections(
         "POST",
         "/2015-01-01/es/ccs/outboundConnection/search",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1070,10 +1063,7 @@ function describe_packages end
 
 function describe_packages(; aws_config::AbstractAWSConfig=current_aws_config())
     return elasticsearch_service(
-        "POST",
-        "/2015-01-01/packages/describe";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/2015-01-01/packages/describe"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1084,7 +1074,7 @@ function describe_packages(
         "POST",
         "/2015-01-01/packages/describe",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1112,7 +1102,7 @@ function describe_reserved_elasticsearch_instance_offerings(;
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/reservedInstanceOfferings";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1124,7 +1114,7 @@ function describe_reserved_elasticsearch_instance_offerings(
         "GET",
         "/2015-01-01/es/reservedInstanceOfferings",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1152,7 +1142,7 @@ function describe_reserved_elasticsearch_instances(;
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/reservedInstances";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1164,7 +1154,7 @@ function describe_reserved_elasticsearch_instances(
         "GET",
         "/2015-01-01/es/reservedInstances",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1188,7 +1178,7 @@ function describe_vpc_endpoints(
         "POST",
         "/2015-01-01/es/vpcEndpoints/describe",
         Dict{String,Any}("VpcEndpointIds" => VpcEndpointIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1204,7 +1194,7 @@ function describe_vpc_endpoints(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("VpcEndpointIds" => VpcEndpointIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1229,7 +1219,7 @@ function dissociate_package(
     return elasticsearch_service(
         "POST",
         "/2015-01-01/packages/dissociate/$(PackageID)/$(DomainName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1244,7 +1234,7 @@ function dissociate_package(
         "POST",
         "/2015-01-01/packages/dissociate/$(PackageID)/$(DomainName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1268,7 +1258,7 @@ function get_compatible_elasticsearch_versions(;
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/compatibleVersions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1280,7 +1270,7 @@ function get_compatible_elasticsearch_versions(
         "GET",
         "/2015-01-01/es/compatibleVersions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1309,7 +1299,7 @@ function get_package_version_history(
     return elasticsearch_service(
         "GET",
         "/2015-01-01/packages/$(PackageID)/history";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1323,7 +1313,7 @@ function get_package_version_history(
         "GET",
         "/2015-01-01/packages/$(PackageID)/history",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1348,7 +1338,7 @@ function get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=current_a
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/upgradeDomain/$(DomainName)/history";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1362,7 +1352,7 @@ function get_upgrade_history(
         "GET",
         "/2015-01-01/es/upgradeDomain/$(DomainName)/history",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1384,7 +1374,7 @@ function get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=current_aw
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/upgradeDomain/$(DomainName)/status";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1398,7 +1388,7 @@ function get_upgrade_status(
         "GET",
         "/2015-01-01/es/upgradeDomain/$(DomainName)/status",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1418,7 +1408,7 @@ function list_domain_names end
 
 function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
     return elasticsearch_service(
-        "GET", "/2015-01-01/domain"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/2015-01-01/domain"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1426,11 +1416,7 @@ function list_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elasticsearch_service(
-        "GET",
-        "/2015-01-01/domain",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/2015-01-01/domain", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1457,7 +1443,7 @@ function list_domains_for_package(
     return elasticsearch_service(
         "GET",
         "/2015-01-01/packages/$(PackageID)/domains";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1471,7 +1457,7 @@ function list_domains_for_package(
         "GET",
         "/2015-01-01/packages/$(PackageID)/domains",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1504,7 +1490,7 @@ function list_elasticsearch_instance_types(
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/instanceTypes/$(ElasticsearchVersion)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1518,7 +1504,7 @@ function list_elasticsearch_instance_types(
         "GET",
         "/2015-01-01/es/instanceTypes/$(ElasticsearchVersion)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1539,10 +1525,7 @@ function list_elasticsearch_versions end
 
 function list_elasticsearch_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/2015-01-01/es/versions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1553,7 +1536,7 @@ function list_elasticsearch_versions(
         "GET",
         "/2015-01-01/es/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1581,7 +1564,7 @@ function list_packages_for_domain(
     return elasticsearch_service(
         "GET",
         "/2015-01-01/domain/$(DomainName)/packages";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1595,7 +1578,7 @@ function list_packages_for_domain(
         "GET",
         "/2015-01-01/domain/$(DomainName)/packages",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1618,7 +1601,7 @@ function list_tags(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "GET",
         "/2015-01-01/tags/",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1630,7 +1613,7 @@ function list_tags(
         "GET",
         "/2015-01-01/tags/",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1658,7 +1641,7 @@ function list_vpc_endpoint_access(
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/listVpcEndpointAccess";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1672,7 +1655,7 @@ function list_vpc_endpoint_access(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/listVpcEndpointAccess",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1692,10 +1675,7 @@ function list_vpc_endpoints end
 
 function list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/vpcEndpoints";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/2015-01-01/es/vpcEndpoints"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1706,7 +1686,7 @@ function list_vpc_endpoints(
         "GET",
         "/2015-01-01/es/vpcEndpoints",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1733,7 +1713,7 @@ function list_vpc_endpoints_for_domain(
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/vpcEndpoints";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1747,7 +1727,7 @@ function list_vpc_endpoints_for_domain(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/vpcEndpoints",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1782,7 +1762,7 @@ function purchase_reserved_elasticsearch_instance_offering(
             "ReservedElasticsearchInstanceOfferingId" =>
                 ReservedElasticsearchInstanceOfferingId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1807,7 +1787,7 @@ function purchase_reserved_elasticsearch_instance_offering(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1831,7 +1811,7 @@ function reject_inbound_cross_cluster_search_connection(
     return elasticsearch_service(
         "PUT",
         "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1845,7 +1825,7 @@ function reject_inbound_cross_cluster_search_connection(
         "PUT",
         "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1870,7 +1850,7 @@ function remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_con
         "POST",
         "/2015-01-01/tags-removal",
         Dict{String,Any}("ARN" => ARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1887,7 +1867,7 @@ function remove_tags(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ARN" => ARN, "TagKeys" => TagKeys), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1913,7 +1893,7 @@ function revoke_vpc_endpoint_access(
         "POST",
         "/2015-01-01/es/domain/$(DomainName)/revokeVpcEndpointAccess",
         Dict{String,Any}("Account" => Account);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1928,7 +1908,7 @@ function revoke_vpc_endpoint_access(
         "POST",
         "/2015-01-01/es/domain/$(DomainName)/revokeVpcEndpointAccess",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1953,7 +1933,7 @@ function start_elasticsearch_service_software_update(
         "POST",
         "/2015-01-01/es/serviceSoftwareUpdate/start",
         Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1969,7 +1949,7 @@ function start_elasticsearch_service_software_update(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2021,7 +2001,7 @@ function update_elasticsearch_domain_config(
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/domain/$(DomainName)/config";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2035,7 +2015,7 @@ function update_elasticsearch_domain_config(
         "POST",
         "/2015-01-01/es/domain/$(DomainName)/config",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2065,7 +2045,7 @@ function update_package(
         "POST",
         "/2015-01-01/packages/update",
         Dict{String,Any}("PackageID" => PackageID, "PackageSource" => PackageSource);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2088,7 +2068,7 @@ function update_package(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2113,7 +2093,7 @@ function update_vpc_endpoint(
         "POST",
         "/2015-01-01/es/vpcEndpoints/update",
         Dict{String,Any}("VpcEndpointId" => VpcEndpointId, "VpcOptions" => VpcOptions);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2136,7 +2116,7 @@ function update_vpc_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2166,7 +2146,7 @@ function upgrade_elasticsearch_domain(
         "POST",
         "/2015-01-01/es/upgradeDomain",
         Dict{String,Any}("DomainName" => DomainName, "TargetVersion" => TargetVersion);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2189,7 +2169,7 @@ function upgrade_elasticsearch_domain(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -23,7 +23,7 @@ function cancel_batch_job_execution(
     return m2(
         "POST",
         "/applications/$(applicationId)/batch-job-executions/$(executionId)/cancel";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -38,7 +38,7 @@ function cancel_batch_job_execution(
         "POST",
         "/applications/$(applicationId)/batch-job-executions/$(executionId)/cancel",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -84,7 +84,7 @@ function create_application(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -111,7 +111,7 @@ function create_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -144,7 +144,7 @@ function create_data_set_import_task(
         "POST",
         "/applications/$(applicationId)/dataset-import-task",
         Dict{String,Any}("importConfig" => importConfig, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -167,7 +167,7 @@ function create_data_set_import_task(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -208,7 +208,7 @@ function create_deployment(
             "environmentId" => environmentId,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -234,7 +234,7 @@ function create_deployment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -289,7 +289,7 @@ function create_environment(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -316,7 +316,7 @@ function create_environment(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -339,7 +339,7 @@ function delete_application(
     return m2(
         "DELETE",
         "/applications/$(applicationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -353,7 +353,7 @@ function delete_application(
         "DELETE",
         "/applications/$(applicationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -381,7 +381,7 @@ function delete_application_from_environment(
     return m2(
         "DELETE",
         "/applications/$(applicationId)/environment/$(environmentId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -396,7 +396,7 @@ function delete_application_from_environment(
         "DELETE",
         "/applications/$(applicationId)/environment/$(environmentId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -421,7 +421,7 @@ function delete_environment(
     return m2(
         "DELETE",
         "/environments/$(environmentId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -435,7 +435,7 @@ function delete_environment(
         "DELETE",
         "/environments/$(environmentId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -454,10 +454,7 @@ function get_application end
 
 function get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return m2(
-        "GET",
-        "/applications/$(applicationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/applications/$(applicationId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -470,7 +467,7 @@ function get_application(
         "GET",
         "/applications/$(applicationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -494,7 +491,7 @@ function get_application_version(
     return m2(
         "GET",
         "/applications/$(applicationId)/versions/$(applicationVersion)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -509,7 +506,7 @@ function get_application_version(
         "GET",
         "/applications/$(applicationId)/versions/$(applicationVersion)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -533,7 +530,7 @@ function get_batch_job_execution(
     return m2(
         "GET",
         "/applications/$(applicationId)/batch-job-executions/$(executionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -548,7 +545,7 @@ function get_batch_job_execution(
         "GET",
         "/applications/$(applicationId)/batch-job-executions/$(executionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -573,7 +570,7 @@ function get_data_set_details(
     return m2(
         "GET",
         "/applications/$(applicationId)/datasets/$(dataSetName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -588,7 +585,7 @@ function get_data_set_details(
         "GET",
         "/applications/$(applicationId)/datasets/$(dataSetName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -613,7 +610,7 @@ function get_data_set_import_task(
     return m2(
         "GET",
         "/applications/$(applicationId)/dataset-import-tasks/$(taskId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -628,7 +625,7 @@ function get_data_set_import_task(
         "GET",
         "/applications/$(applicationId)/dataset-import-tasks/$(taskId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -652,7 +649,7 @@ function get_deployment(
     return m2(
         "GET",
         "/applications/$(applicationId)/deployments/$(deploymentId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -667,7 +664,7 @@ function get_deployment(
         "GET",
         "/applications/$(applicationId)/deployments/$(deploymentId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -686,10 +683,7 @@ function get_environment end
 
 function get_environment(environmentId; aws_config::AbstractAWSConfig=current_aws_config())
     return m2(
-        "GET",
-        "/environments/$(environmentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/environments/$(environmentId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -702,7 +696,7 @@ function get_environment(
         "GET",
         "/environments/$(environmentId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -717,21 +711,13 @@ Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
 function get_signed_bluinsights_url end
 
 function get_signed_bluinsights_url(; aws_config::AbstractAWSConfig=current_aws_config())
-    return m2(
-        "GET", "/signed-bi-url"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return m2("GET", "/signed-bi-url"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_signed_bluinsights_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return m2(
-        "GET",
-        "/signed-bi-url",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return m2("GET", "/signed-bi-url", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -758,7 +744,7 @@ function list_application_versions(
     return m2(
         "GET",
         "/applications/$(applicationId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -772,7 +758,7 @@ function list_application_versions(
         "GET",
         "/applications/$(applicationId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -797,21 +783,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_applications end
 
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
-    return m2(
-        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return m2("GET", "/applications"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return m2(
-        "GET",
-        "/applications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return m2("GET", "/applications", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -842,7 +820,7 @@ function list_batch_job_definitions(
     return m2(
         "GET",
         "/applications/$(applicationId)/batch-job-definitions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -856,7 +834,7 @@ function list_batch_job_definitions(
         "GET",
         "/applications/$(applicationId)/batch-job-definitions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -889,7 +867,7 @@ function list_batch_job_executions(
     return m2(
         "GET",
         "/applications/$(applicationId)/batch-job-executions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -903,7 +881,7 @@ function list_batch_job_executions(
         "GET",
         "/applications/$(applicationId)/batch-job-executions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -928,7 +906,7 @@ function list_batch_job_restart_points(
     return m2(
         "GET",
         "/applications/$(applicationId)/batch-job-executions/$(executionId)/steps";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -943,7 +921,7 @@ function list_batch_job_restart_points(
         "GET",
         "/applications/$(applicationId)/batch-job-executions/$(executionId)/steps",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -972,7 +950,7 @@ function list_data_set_import_history(
     return m2(
         "GET",
         "/applications/$(applicationId)/dataset-import-tasks";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -986,7 +964,7 @@ function list_data_set_import_history(
         "GET",
         "/applications/$(applicationId)/dataset-import-tasks",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1021,7 +999,7 @@ function list_data_sets(applicationId; aws_config::AbstractAWSConfig=current_aws
     return m2(
         "GET",
         "/applications/$(applicationId)/datasets";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1035,7 +1013,7 @@ function list_data_sets(
         "GET",
         "/applications/$(applicationId)/datasets",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1064,7 +1042,7 @@ function list_deployments(applicationId; aws_config::AbstractAWSConfig=current_a
     return m2(
         "GET",
         "/applications/$(applicationId)/deployments";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1078,7 +1056,7 @@ function list_deployments(
         "GET",
         "/applications/$(applicationId)/deployments",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1100,20 +1078,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_engine_versions end
 
 function list_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config())
-    return m2(
-        "GET", "/engine-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return m2("GET", "/engine-versions"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_engine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return m2(
-        "GET",
-        "/engine-versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/engine-versions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1134,21 +1106,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_environments end
 
 function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
-    return m2(
-        "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return m2("GET", "/environments"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return m2(
-        "GET",
-        "/environments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return m2("GET", "/environments", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1166,12 +1130,7 @@ function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return m2(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return m2("GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_tags_for_resource(
@@ -1180,11 +1139,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return m2(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1206,7 +1161,7 @@ function start_application(
     return m2(
         "POST",
         "/applications/$(applicationId)/start";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1220,7 +1175,7 @@ function start_application(
         "POST",
         "/applications/$(applicationId)/start",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1250,7 +1205,7 @@ function start_batch_job(
         "POST",
         "/applications/$(applicationId)/batch-job",
         Dict{String,Any}("batchJobIdentifier" => batchJobIdentifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1269,7 +1224,7 @@ function start_batch_job(
                 _merge, Dict{String,Any}("batchJobIdentifier" => batchJobIdentifier), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1295,7 +1250,7 @@ function stop_application(applicationId; aws_config::AbstractAWSConfig=current_a
     return m2(
         "POST",
         "/applications/$(applicationId)/stop";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1309,7 +1264,7 @@ function stop_application(
         "POST",
         "/applications/$(applicationId)/stop",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1332,7 +1287,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1347,7 +1302,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1372,7 +1327,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1387,7 +1342,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1419,7 +1374,7 @@ function update_application(
         "PATCH",
         "/applications/$(applicationId)",
         Dict{String,Any}("currentApplicationVersion" => currentApplicationVersion);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1440,7 +1395,7 @@ function update_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1486,7 +1441,7 @@ function update_environment(
     return m2(
         "PATCH",
         "/environments/$(environmentId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1500,7 +1455,7 @@ function update_environment(
         "PATCH",
         "/environments/$(environmentId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

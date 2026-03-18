@@ -45,7 +45,7 @@ function create_rule(
         Dict{String,Any}(
             "ResourceType" => ResourceType, "RetentionPeriod" => RetentionPeriod
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -68,7 +68,7 @@ function create_rule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -88,10 +88,7 @@ function delete_rule end
 
 function delete_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
-        "DELETE",
-        "/rules/$(identifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/rules/$(identifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -104,7 +101,7 @@ function delete_rule(
         "DELETE",
         "/rules/$(identifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -122,12 +119,7 @@ Gets information about a Recycle Bin retention rule.
 function get_rule end
 
 function get_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
-    return rbin(
-        "GET",
-        "/rules/$(identifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rbin("GET", "/rules/$(identifier)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_rule(
@@ -136,11 +128,7 @@ function get_rule(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rbin(
-        "GET",
-        "/rules/$(identifier)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/rules/$(identifier)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -173,7 +161,7 @@ function list_rules(ResourceType; aws_config::AbstractAWSConfig=current_aws_conf
         "POST",
         "/list-rules",
         Dict{String,Any}("ResourceType" => ResourceType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -189,7 +177,7 @@ function list_rules(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceType" => ResourceType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -209,12 +197,7 @@ function list_tags_for_resource end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rbin(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return rbin("GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_tags_for_resource(
@@ -223,11 +206,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rbin(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -251,7 +230,7 @@ function lock_rule(
         "PATCH",
         "/rules/$(identifier)/lock",
         Dict{String,Any}("LockConfiguration" => LockConfiguration);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -270,7 +249,7 @@ function lock_rule(
                 _merge, Dict{String,Any}("LockConfiguration" => LockConfiguration), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -293,7 +272,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -308,7 +287,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -328,10 +307,7 @@ function unlock_rule end
 
 function unlock_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
-        "PATCH",
-        "/rules/$(identifier)/unlock";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PATCH", "/rules/$(identifier)/unlock"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -344,7 +320,7 @@ function unlock_rule(
         "PATCH",
         "/rules/$(identifier)/unlock",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -370,7 +346,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -385,7 +361,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -424,10 +400,7 @@ function update_rule end
 
 function update_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
-        "PATCH",
-        "/rules/$(identifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PATCH", "/rules/$(identifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -437,10 +410,6 @@ function update_rule(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rbin(
-        "PATCH",
-        "/rules/$(identifier)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PATCH", "/rules/$(identifier)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end

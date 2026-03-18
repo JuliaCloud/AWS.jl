@@ -47,7 +47,7 @@ function get_media(StartSelector; aws_config::AbstractAWSConfig=current_aws_conf
         "POST",
         "/getMedia",
         Dict{String,Any}("StartSelector" => StartSelector);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -63,7 +63,7 @@ function get_media(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("StartSelector" => StartSelector), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

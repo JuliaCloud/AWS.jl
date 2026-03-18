@@ -47,7 +47,7 @@ function create_capacity_provider(
         Dict{String,Any}(
             "autoScalingGroupProvider" => autoScalingGroupProvider, "name" => name
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -69,7 +69,7 @@ function create_capacity_provider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -141,15 +141,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_cluster end
 
 function create_cluster(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs("CreateCluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return ecs("CreateCluster"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function create_cluster(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ecs(
-        "CreateCluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("CreateCluster", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -403,7 +401,7 @@ function create_service(serviceName; aws_config::AbstractAWSConfig=current_aws_c
     return ecs(
         "CreateService",
         Dict{String,Any}("serviceName" => serviceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -418,7 +416,7 @@ function create_service(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -505,7 +503,7 @@ function create_task_set(
         Dict{String,Any}(
             "cluster" => cluster, "service" => service, "taskDefinition" => taskDefinition
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -530,7 +528,7 @@ function create_task_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -563,7 +561,7 @@ function delete_account_setting(name; aws_config::AbstractAWSConfig=current_aws_
     return ecs(
         "DeleteAccountSetting",
         Dict{String,Any}("name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -574,7 +572,7 @@ function delete_account_setting(
     return ecs(
         "DeleteAccountSetting",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -603,7 +601,7 @@ function delete_attributes(attributes; aws_config::AbstractAWSConfig=current_aws
     return ecs(
         "DeleteAttributes",
         Dict{String,Any}("attributes" => attributes);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -618,7 +616,7 @@ function delete_attributes(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("attributes" => attributes), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -652,7 +650,7 @@ function delete_capacity_provider(
     return ecs(
         "DeleteCapacityProvider",
         Dict{String,Any}("capacityProvider" => capacityProvider);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -669,7 +667,7 @@ function delete_capacity_provider(
                 _merge, Dict{String,Any}("capacityProvider" => capacityProvider), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -695,7 +693,7 @@ function delete_cluster(cluster; aws_config::AbstractAWSConfig=current_aws_confi
     return ecs(
         "DeleteCluster",
         Dict{String,Any}("cluster" => cluster);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -708,7 +706,7 @@ function delete_cluster(
     return ecs(
         "DeleteCluster",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("cluster" => cluster), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -747,7 +745,7 @@ function delete_service(service; aws_config::AbstractAWSConfig=current_aws_confi
     return ecs(
         "DeleteService",
         Dict{String,Any}("service" => service);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -760,7 +758,7 @@ function delete_service(
     return ecs(
         "DeleteService",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("service" => service), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -799,7 +797,7 @@ function delete_task_definitions(
     return ecs(
         "DeleteTaskDefinitions",
         Dict{String,Any}("taskDefinitions" => taskDefinitions);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -816,7 +814,7 @@ function delete_task_definitions(
                 _merge, Dict{String,Any}("taskDefinitions" => taskDefinitions), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -848,7 +846,7 @@ function delete_task_set(
     return ecs(
         "DeleteTaskSet",
         Dict{String,Any}("cluster" => cluster, "service" => service, "taskSet" => taskSet);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -871,7 +869,7 @@ function delete_task_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -919,7 +917,7 @@ function deregister_container_instance(
     return ecs(
         "DeregisterContainerInstance",
         Dict{String,Any}("containerInstance" => containerInstance);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -936,7 +934,7 @@ function deregister_container_instance(
                 _merge, Dict{String,Any}("containerInstance" => containerInstance), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -973,7 +971,7 @@ function deregister_task_definition(
     return ecs(
         "DeregisterTaskDefinition",
         Dict{String,Any}("taskDefinition" => taskDefinition);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -988,7 +986,7 @@ function deregister_task_definition(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("taskDefinition" => taskDefinition), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1022,19 +1020,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_capacity_providers end
 
 function describe_capacity_providers(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs(
-        "DescribeCapacityProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("DescribeCapacityProviders"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_capacity_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
-        "DescribeCapacityProviders",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeCapacityProviders", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1060,15 +1053,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_clusters end
 
 function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return ecs("DescribeClusters"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ecs(
-        "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("DescribeClusters", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1102,7 +1093,7 @@ function describe_container_instances(
     return ecs(
         "DescribeContainerInstances",
         Dict{String,Any}("containerInstances" => containerInstances);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1119,7 +1110,7 @@ function describe_container_instances(
                 _merge, Dict{String,Any}("containerInstances" => containerInstances), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1150,7 +1141,7 @@ function describe_services(services; aws_config::AbstractAWSConfig=current_aws_c
     return ecs(
         "DescribeServices",
         Dict{String,Any}("services" => services);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1165,7 +1156,7 @@ function describe_services(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("services" => services), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1198,7 +1189,7 @@ function describe_task_definition(
     return ecs(
         "DescribeTaskDefinition",
         Dict{String,Any}("taskDefinition" => taskDefinition);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1213,7 +1204,7 @@ function describe_task_definition(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("taskDefinition" => taskDefinition), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1247,7 +1238,7 @@ function describe_task_sets(
     return ecs(
         "DescribeTaskSets",
         Dict{String,Any}("cluster" => cluster, "service" => service);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1265,7 +1256,7 @@ function describe_task_sets(
                 _merge, Dict{String,Any}("cluster" => cluster, "service" => service), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1298,7 +1289,7 @@ function describe_tasks(tasks; aws_config::AbstractAWSConfig=current_aws_config(
     return ecs(
         "DescribeTasks",
         Dict{String,Any}("tasks" => tasks);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1309,7 +1300,7 @@ function describe_tasks(
     return ecs(
         "DescribeTasks",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tasks" => tasks), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1332,20 +1323,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function discover_poll_endpoint end
 
 function discover_poll_endpoint(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs(
-        "DiscoverPollEndpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("DiscoverPollEndpoint"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function discover_poll_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ecs(
-        "DiscoverPollEndpoint",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecs("DiscoverPollEndpoint", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1381,7 +1365,7 @@ function execute_command(
         Dict{String,Any}(
             "command" => command, "interactive" => interactive, "task" => task
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1404,7 +1388,7 @@ function execute_command(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1429,7 +1413,7 @@ function get_task_protection(cluster; aws_config::AbstractAWSConfig=current_aws_
     return ecs(
         "GetTaskProtection",
         Dict{String,Any}("cluster" => cluster);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1442,7 +1426,7 @@ function get_task_protection(
     return ecs(
         "GetTaskProtection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("cluster" => cluster), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1482,20 +1466,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_account_settings end
 
 function list_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs(
-        "ListAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("ListAccountSettings"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ecs(
-        "ListAccountSettings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecs("ListAccountSettings", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1537,7 +1514,7 @@ function list_attributes(targetType; aws_config::AbstractAWSConfig=current_aws_c
     return ecs(
         "ListAttributes",
         Dict{String,Any}("targetType" => targetType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1552,7 +1529,7 @@ function list_attributes(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("targetType" => targetType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1580,15 +1557,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_clusters end
 
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return ecs("ListClusters"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ecs(
-        "ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("ListClusters", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1628,19 +1603,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_container_instances end
 
 function list_container_instances(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs(
-        "ListContainerInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("ListContainerInstances"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_container_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
-        "ListContainerInstances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListContainerInstances", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1674,15 +1644,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_services end
 
 function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return ecs("ListServices"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ecs(
-        "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("ListServices", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1726,7 +1694,7 @@ function list_services_by_namespace(
     return ecs(
         "ListServicesByNamespace",
         Dict{String,Any}("namespace" => namespace);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1741,7 +1709,7 @@ function list_services_by_namespace(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("namespace" => namespace), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1766,7 +1734,7 @@ function list_tags_for_resource(
     return ecs(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1781,7 +1749,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1824,19 +1792,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_task_definition_families end
 
 function list_task_definition_families(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs(
-        "ListTaskDefinitionFamilies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("ListTaskDefinitionFamilies"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_task_definition_families(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
-        "ListTaskDefinitionFamilies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListTaskDefinitionFamilies", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1879,20 +1842,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_task_definitions end
 
 function list_task_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs(
-        "ListTaskDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("ListTaskDefinitions"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_task_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ecs(
-        "ListTaskDefinitions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecs("ListTaskDefinitions", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1942,13 +1898,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_tasks end
 
 function list_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs("ListTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return ecs("ListTasks"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ecs("ListTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return ecs("ListTasks", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2035,7 +1991,7 @@ function put_account_setting(
     return ecs(
         "PutAccountSetting",
         Dict{String,Any}("name" => name, "value" => value);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2051,7 +2007,7 @@ function put_account_setting(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("name" => name, "value" => value), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2129,7 +2085,7 @@ function put_account_setting_default(
     return ecs(
         "PutAccountSettingDefault",
         Dict{String,Any}("name" => name, "value" => value);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2145,7 +2101,7 @@ function put_account_setting_default(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("name" => name, "value" => value), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2175,7 +2131,7 @@ function put_attributes(attributes; aws_config::AbstractAWSConfig=current_aws_co
     return ecs(
         "PutAttributes",
         Dict{String,Any}("attributes" => attributes);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2190,7 +2146,7 @@ function put_attributes(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("attributes" => attributes), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2252,7 +2208,7 @@ function put_cluster_capacity_providers(
             "cluster" => cluster,
             "defaultCapacityProviderStrategy" => defaultCapacityProviderStrategy,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2277,7 +2233,7 @@ function put_cluster_capacity_providers(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2326,19 +2282,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function register_container_instance end
 
 function register_container_instance(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs(
-        "RegisterContainerInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("RegisterContainerInstance"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function register_container_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
-        "RegisterContainerInstance",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "RegisterContainerInstance", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2513,7 +2464,7 @@ function register_task_definition(
         Dict{String,Any}(
             "containerDefinitions" => containerDefinitions, "family" => family
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2535,7 +2486,7 @@ function register_task_definition(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2683,7 +2634,7 @@ function run_task(taskDefinition; aws_config::AbstractAWSConfig=current_aws_conf
         Dict{String,Any}(
             "taskDefinition" => taskDefinition, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2704,7 +2655,7 @@ function run_task(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2794,7 +2745,7 @@ function start_task(
         Dict{String,Any}(
             "containerInstances" => containerInstances, "taskDefinition" => taskDefinition
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2817,7 +2768,7 @@ function start_task(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2856,7 +2807,7 @@ function stop_task(task; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "StopTask",
         Dict{String,Any}("task" => task);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2867,7 +2818,7 @@ function stop_task(
     return ecs(
         "StopTask",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("task" => task), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2895,7 +2846,7 @@ function submit_attachment_state_changes(
     return ecs(
         "SubmitAttachmentStateChanges",
         Dict{String,Any}("attachments" => attachments);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2910,7 +2861,7 @@ function submit_attachment_state_changes(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("attachments" => attachments), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2937,19 +2888,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function submit_container_state_change end
 
 function submit_container_state_change(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs(
-        "SubmitContainerStateChange"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("SubmitContainerStateChange"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function submit_container_state_change(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecs(
-        "SubmitContainerStateChange",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "SubmitContainerStateChange", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2978,20 +2924,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function submit_task_state_change end
 
 function submit_task_state_change(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ecs(
-        "SubmitTaskStateChange"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return ecs("SubmitTaskStateChange"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function submit_task_state_change(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return ecs(
-        "SubmitTaskStateChange",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return ecs("SubmitTaskStateChange", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3026,7 +2965,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
     return ecs(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3046,7 +2985,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3072,7 +3011,7 @@ function untag_resource(
     return ecs(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3092,7 +3031,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3119,7 +3058,7 @@ function update_capacity_provider(
         Dict{String,Any}(
             "autoScalingGroupProvider" => autoScalingGroupProvider, "name" => name
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3141,7 +3080,7 @@ function update_capacity_provider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3177,7 +3116,7 @@ function update_cluster(cluster; aws_config::AbstractAWSConfig=current_aws_confi
     return ecs(
         "UpdateCluster",
         Dict{String,Any}("cluster" => cluster);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3190,7 +3129,7 @@ function update_cluster(
     return ecs(
         "UpdateCluster",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("cluster" => cluster), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3221,7 +3160,7 @@ function update_cluster_settings(
     return ecs(
         "UpdateClusterSettings",
         Dict{String,Any}("cluster" => cluster, "settings" => settings);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3241,7 +3180,7 @@ function update_cluster_settings(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3283,7 +3222,7 @@ function update_container_agent(
     return ecs(
         "UpdateContainerAgent",
         Dict{String,Any}("containerInstance" => containerInstance);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3300,7 +3239,7 @@ function update_container_agent(
                 _merge, Dict{String,Any}("containerInstance" => containerInstance), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3363,7 +3302,7 @@ function update_container_instances_state(
     return ecs(
         "UpdateContainerInstancesState",
         Dict{String,Any}("containerInstances" => containerInstances, "status" => status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3385,7 +3324,7 @@ function update_container_instances_state(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3588,7 +3527,7 @@ function update_service(service; aws_config::AbstractAWSConfig=current_aws_confi
     return ecs(
         "UpdateService",
         Dict{String,Any}("service" => service);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3601,7 +3540,7 @@ function update_service(
     return ecs(
         "UpdateService",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("service" => service), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3634,7 +3573,7 @@ function update_service_primary_task_set(
         Dict{String,Any}(
             "cluster" => cluster, "primaryTaskSet" => primaryTaskSet, "service" => service
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3659,7 +3598,7 @@ function update_service_primary_task_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3710,7 +3649,7 @@ function update_task_protection(
         Dict{String,Any}(
             "cluster" => cluster, "protectionEnabled" => protectionEnabled, "tasks" => tasks
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3735,7 +3674,7 @@ function update_task_protection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3771,7 +3710,7 @@ function update_task_set(
             "service" => service,
             "taskSet" => taskSet,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3798,7 +3737,7 @@ function update_task_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

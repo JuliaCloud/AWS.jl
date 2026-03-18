@@ -41,7 +41,7 @@ function associate_agent_knowledge_base(
         Dict{String,Any}(
             "description" => description, "knowledgeBaseId" => knowledgeBaseId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -66,7 +66,7 @@ function associate_agent_knowledge_base(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -128,7 +128,7 @@ function create_agent(agentName; aws_config::AbstractAWSConfig=current_aws_confi
         "PUT",
         "/agents/",
         Dict{String,Any}("agentName" => agentName, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -150,7 +150,7 @@ function create_agent(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -217,7 +217,7 @@ function create_agent_action_group(
         Dict{String,Any}(
             "actionGroupName" => actionGroupName, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -241,7 +241,7 @@ function create_agent_action_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -277,7 +277,7 @@ function create_agent_alias(
         Dict{String,Any}(
             "agentAliasName" => agentAliasName, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -300,7 +300,7 @@ function create_agent_alias(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -354,7 +354,7 @@ function create_data_source(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -380,7 +380,7 @@ function create_data_source(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -426,7 +426,7 @@ function create_flow(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -451,7 +451,7 @@ function create_flow(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -494,7 +494,7 @@ function create_flow_alias(
             "routingConfiguration" => routingConfiguration,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -520,7 +520,7 @@ function create_flow_alias(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -552,7 +552,7 @@ function create_flow_version(
         "POST",
         "/flows/$(flowIdentifier)/versions",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -568,7 +568,7 @@ function create_flow_version(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -633,7 +633,7 @@ function create_knowledge_base(
             "storageConfiguration" => storageConfiguration,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -662,7 +662,7 @@ function create_knowledge_base(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -700,7 +700,7 @@ function create_prompt(name; aws_config::AbstractAWSConfig=current_aws_config())
         "POST",
         "/prompts/",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -718,7 +718,7 @@ function create_prompt(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -754,7 +754,7 @@ function create_prompt_version(
         "POST",
         "/prompts/$(promptIdentifier)/versions",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -770,7 +770,7 @@ function create_prompt_version(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -794,10 +794,7 @@ function delete_agent end
 
 function delete_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/agents/$(agentId)/"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -807,11 +804,7 @@ function delete_agent(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/agents/$(agentId)/", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -840,7 +833,7 @@ function delete_agent_action_group(
     return bedrock_agent(
         "DELETE",
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -856,7 +849,7 @@ function delete_agent_action_group(
         "DELETE",
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -880,7 +873,7 @@ function delete_agent_alias(
     return bedrock_agent(
         "DELETE",
         "/agents/$(agentId)/agentaliases/$(agentAliasId)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -895,7 +888,7 @@ function delete_agent_alias(
         "DELETE",
         "/agents/$(agentId)/agentaliases/$(agentAliasId)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -924,7 +917,7 @@ function delete_agent_version(
     return bedrock_agent(
         "DELETE",
         "/agents/$(agentId)/agentversions/$(agentVersion)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -939,7 +932,7 @@ function delete_agent_version(
         "DELETE",
         "/agents/$(agentId)/agentversions/$(agentVersion)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -964,7 +957,7 @@ function delete_data_source(
     return bedrock_agent(
         "DELETE",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -979,7 +972,7 @@ function delete_data_source(
         "DELETE",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1003,10 +996,7 @@ function delete_flow end
 
 function delete_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
-        "DELETE",
-        "/flows/$(flowIdentifier)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/flows/$(flowIdentifier)/"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1019,7 +1009,7 @@ function delete_flow(
         "DELETE",
         "/flows/$(flowIdentifier)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1043,7 +1033,7 @@ function delete_flow_alias(
     return bedrock_agent(
         "DELETE",
         "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1058,7 +1048,7 @@ function delete_flow_alias(
         "DELETE",
         "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1087,7 +1077,7 @@ function delete_flow_version(
     return bedrock_agent(
         "DELETE",
         "/flows/$(flowIdentifier)/versions/$(flowVersion)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1102,7 +1092,7 @@ function delete_flow_version(
         "DELETE",
         "/flows/$(flowIdentifier)/versions/$(flowVersion)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1127,7 +1117,7 @@ function delete_knowledge_base(
     return bedrock_agent(
         "DELETE",
         "/knowledgebases/$(knowledgeBaseId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1141,7 +1131,7 @@ function delete_knowledge_base(
         "DELETE",
         "/knowledgebases/$(knowledgeBaseId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1169,7 +1159,7 @@ function delete_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_a
     return bedrock_agent(
         "DELETE",
         "/prompts/$(promptIdentifier)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1183,7 +1173,7 @@ function delete_prompt(
         "DELETE",
         "/prompts/$(promptIdentifier)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1212,7 +1202,7 @@ function disassociate_agent_knowledge_base(
     return bedrock_agent(
         "DELETE",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1228,7 +1218,7 @@ function disassociate_agent_knowledge_base(
         "DELETE",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1247,7 +1237,7 @@ function get_agent end
 
 function get_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
-        "GET", "/agents/$(agentId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/agents/$(agentId)/"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1257,11 +1247,7 @@ function get_agent(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
-        "GET",
-        "/agents/$(agentId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/agents/$(agentId)/", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1285,7 +1271,7 @@ function get_agent_action_group(
     return bedrock_agent(
         "GET",
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1301,7 +1287,7 @@ function get_agent_action_group(
         "GET",
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1326,7 +1312,7 @@ function get_agent_alias(
     return bedrock_agent(
         "GET",
         "/agents/$(agentId)/agentaliases/$(agentAliasId)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1341,7 +1327,7 @@ function get_agent_alias(
         "GET",
         "/agents/$(agentId)/agentaliases/$(agentAliasId)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1371,7 +1357,7 @@ function get_agent_knowledge_base(
     return bedrock_agent(
         "GET",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1387,7 +1373,7 @@ function get_agent_knowledge_base(
         "GET",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1411,7 +1397,7 @@ function get_agent_version(
     return bedrock_agent(
         "GET",
         "/agents/$(agentId)/agentversions/$(agentVersion)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1426,7 +1412,7 @@ function get_agent_version(
         "GET",
         "/agents/$(agentId)/agentversions/$(agentVersion)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1451,7 +1437,7 @@ function get_data_source(
     return bedrock_agent(
         "GET",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1466,7 +1452,7 @@ function get_data_source(
         "GET",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1486,10 +1472,7 @@ function get_flow end
 
 function get_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
-        "GET",
-        "/flows/$(flowIdentifier)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/flows/$(flowIdentifier)/"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1502,7 +1485,7 @@ function get_flow(
         "GET",
         "/flows/$(flowIdentifier)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1527,7 +1510,7 @@ function get_flow_alias(
     return bedrock_agent(
         "GET",
         "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1542,7 +1525,7 @@ function get_flow_alias(
         "GET",
         "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1567,7 +1550,7 @@ function get_flow_version(
     return bedrock_agent(
         "GET",
         "/flows/$(flowIdentifier)/versions/$(flowVersion)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1582,7 +1565,7 @@ function get_flow_version(
         "GET",
         "/flows/$(flowIdentifier)/versions/$(flowVersion)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1611,7 +1594,7 @@ function get_ingestion_job(
     return bedrock_agent(
         "GET",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/$(ingestionJobId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1627,7 +1610,7 @@ function get_ingestion_job(
         "GET",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/$(ingestionJobId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1651,7 +1634,7 @@ function get_knowledge_base(
     return bedrock_agent(
         "GET",
         "/knowledgebases/$(knowledgeBaseId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1665,7 +1648,7 @@ function get_knowledge_base(
         "GET",
         "/knowledgebases/$(knowledgeBaseId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1691,10 +1674,7 @@ function get_prompt end
 
 function get_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
-        "GET",
-        "/prompts/$(promptIdentifier)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/prompts/$(promptIdentifier)/"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1707,7 +1687,7 @@ function get_prompt(
         "GET",
         "/prompts/$(promptIdentifier)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1739,7 +1719,7 @@ function list_agent_action_groups(
     return bedrock_agent(
         "POST",
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1754,7 +1734,7 @@ function list_agent_action_groups(
         "POST",
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1783,7 +1763,7 @@ function list_agent_aliases(agentId; aws_config::AbstractAWSConfig=current_aws_c
     return bedrock_agent(
         "POST",
         "/agents/$(agentId)/agentaliases/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1797,7 +1777,7 @@ function list_agent_aliases(
         "POST",
         "/agents/$(agentId)/agentaliases/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1831,7 +1811,7 @@ function list_agent_knowledge_bases(
     return bedrock_agent(
         "POST",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1846,7 +1826,7 @@ function list_agent_knowledge_bases(
         "POST",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1875,7 +1855,7 @@ function list_agent_versions(agentId; aws_config::AbstractAWSConfig=current_aws_
     return bedrock_agent(
         "POST",
         "/agents/$(agentId)/agentversions/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1889,7 +1869,7 @@ function list_agent_versions(
         "POST",
         "/agents/$(agentId)/agentversions/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1912,16 +1892,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_agents end
 
 function list_agents(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "POST", "/agents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bedrock_agent("POST", "/agents/"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_agents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
-        "POST", "/agents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/agents/", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1952,7 +1930,7 @@ function list_data_sources(
     return bedrock_agent(
         "POST",
         "/knowledgebases/$(knowledgeBaseId)/datasources/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1966,7 +1944,7 @@ function list_data_sources(
         "POST",
         "/knowledgebases/$(knowledgeBaseId)/datasources/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1997,7 +1975,7 @@ function list_flow_aliases(
     return bedrock_agent(
         "GET",
         "/flows/$(flowIdentifier)/aliases";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2011,7 +1989,7 @@ function list_flow_aliases(
         "GET",
         "/flows/$(flowIdentifier)/aliases",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2043,7 +2021,7 @@ function list_flow_versions(
     return bedrock_agent(
         "GET",
         "/flows/$(flowIdentifier)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2057,7 +2035,7 @@ function list_flow_versions(
         "GET",
         "/flows/$(flowIdentifier)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2081,16 +2059,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_flows end
 
 function list_flows(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "GET", "/flows/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bedrock_agent("GET", "/flows/"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_flows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
-        "GET", "/flows/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/flows/", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2125,7 +2101,7 @@ function list_ingestion_jobs(
     return bedrock_agent(
         "POST",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2140,7 +2116,7 @@ function list_ingestion_jobs(
         "POST",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2164,7 +2140,7 @@ function list_knowledge_bases end
 
 function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
-        "POST", "/knowledgebases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/knowledgebases/"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2172,11 +2148,7 @@ function list_knowledge_bases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
-        "POST",
-        "/knowledgebases/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/knowledgebases/", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2203,16 +2175,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_prompts end
 
 function list_prompts(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "GET", "/prompts/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bedrock_agent("GET", "/prompts/"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_prompts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
-        "GET", "/prompts/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/prompts/", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2232,10 +2202,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2245,11 +2212,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2267,10 +2230,7 @@ function prepare_agent end
 
 function prepare_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/agents/$(agentId)/"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2280,11 +2240,7 @@ function prepare_agent(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/agents/$(agentId)/", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2303,10 +2259,7 @@ function prepare_flow end
 
 function prepare_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
-        "POST",
-        "/flows/$(flowIdentifier)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/flows/$(flowIdentifier)/"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2319,7 +2272,7 @@ function prepare_flow(
         "POST",
         "/flows/$(flowIdentifier)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2352,7 +2305,7 @@ function start_ingestion_job(
         "PUT",
         "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2369,7 +2322,7 @@ function start_ingestion_job(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2394,7 +2347,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2409,7 +2362,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2434,7 +2387,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2449,7 +2402,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2502,7 +2455,7 @@ function update_agent(
             "agentResourceRoleArn" => agentResourceRoleArn,
             "foundationModel" => foundationModel,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2529,7 +2482,7 @@ function update_agent(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2580,7 +2533,7 @@ function update_agent_action_group(
         "PUT",
         "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/",
         Dict{String,Any}("actionGroupName" => actionGroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2601,7 +2554,7 @@ function update_agent_action_group(
                 _merge, Dict{String,Any}("actionGroupName" => actionGroupName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2634,7 +2587,7 @@ function update_agent_alias(
         "PUT",
         "/agents/$(agentId)/agentaliases/$(agentAliasId)/",
         Dict{String,Any}("agentAliasName" => agentAliasName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2652,7 +2605,7 @@ function update_agent_alias(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("agentAliasName" => agentAliasName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2689,7 +2642,7 @@ function update_agent_knowledge_base(
     return bedrock_agent(
         "PUT",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2705,7 +2658,7 @@ function update_agent_knowledge_base(
         "PUT",
         "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2750,7 +2703,7 @@ function update_data_source(
         Dict{String,Any}(
             "dataSourceConfiguration" => dataSourceConfiguration, "name" => name
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2775,7 +2728,7 @@ function update_data_source(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2815,7 +2768,7 @@ function update_flow(
         "PUT",
         "/flows/$(flowIdentifier)/",
         Dict{String,Any}("executionRoleArn" => executionRoleArn, "name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2837,7 +2790,7 @@ function update_flow(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2873,7 +2826,7 @@ function update_flow_alias(
         "PUT",
         "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)",
         Dict{String,Any}("name" => name, "routingConfiguration" => routingConfiguration);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2898,7 +2851,7 @@ function update_flow_alias(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2948,7 +2901,7 @@ function update_knowledge_base(
             "roleArn" => roleArn,
             "storageConfiguration" => storageConfiguration,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2977,7 +2930,7 @@ function update_knowledge_base(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3012,7 +2965,7 @@ function update_prompt(
         "PUT",
         "/prompts/$(promptIdentifier)/",
         Dict{String,Any}("name" => name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3027,7 +2980,7 @@ function update_prompt(
         "PUT",
         "/prompts/$(promptIdentifier)/",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

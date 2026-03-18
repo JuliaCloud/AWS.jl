@@ -43,7 +43,7 @@ function complete_snapshot(
             "headers" =>
                 Dict{String,Any}("x-amz-ChangedBlocksCount" => x_amz_ChangedBlocksCount),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -68,7 +68,7 @@ function complete_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -104,7 +104,7 @@ function get_snapshot_block(
         "GET",
         "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
         Dict{String,Any}("blockToken" => blockToken);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -122,7 +122,7 @@ function get_snapshot_block(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("blockToken" => blockToken), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -166,7 +166,7 @@ function list_changed_blocks(
     return ebs(
         "GET",
         "/snapshots/$(secondSnapshotId)/changedblocks";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -180,7 +180,7 @@ function list_changed_blocks(
         "GET",
         "/snapshots/$(secondSnapshotId)/changedblocks",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -218,7 +218,7 @@ function list_snapshot_blocks(
     return ebs(
         "GET",
         "/snapshots/$(snapshotId)/blocks";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -232,7 +232,7 @@ function list_snapshot_blocks(
         "GET",
         "/snapshots/$(snapshotId)/blocks",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -298,7 +298,7 @@ function put_snapshot_block(
                 "x-amz-Data-Length" => x_amz_Data_Length,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -330,7 +330,7 @@ function put_snapshot_block(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -399,7 +399,7 @@ function start_snapshot(VolumeSize; aws_config::AbstractAWSConfig=current_aws_co
         "POST",
         "/snapshots",
         Dict{String,Any}("VolumeSize" => VolumeSize, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -421,7 +421,7 @@ function start_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

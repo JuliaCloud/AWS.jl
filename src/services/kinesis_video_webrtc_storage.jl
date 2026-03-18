@@ -43,7 +43,7 @@ function join_storage_session(
         "POST",
         "/joinStorageSession",
         Dict{String,Any}("channelArn" => channelArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -59,7 +59,7 @@ function join_storage_session(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("channelArn" => channelArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -95,7 +95,7 @@ function join_storage_session_as_viewer(
         "POST",
         "/joinStorageSessionAsViewer",
         Dict{String,Any}("channelArn" => channelArn, "clientId" => clientId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -116,7 +116,7 @@ function join_storage_session_as_viewer(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

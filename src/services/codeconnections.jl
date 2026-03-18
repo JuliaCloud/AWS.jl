@@ -31,7 +31,7 @@ function create_connection(
     return codeconnections(
         "CreateConnection",
         Dict{String,Any}("ConnectionName" => ConnectionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -46,7 +46,7 @@ function create_connection(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ConnectionName" => ConnectionName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -88,7 +88,7 @@ function create_host(
             "ProviderEndpoint" => ProviderEndpoint,
             "ProviderType" => ProviderType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -113,7 +113,7 @@ function create_host(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -153,7 +153,7 @@ function create_repository_link(
             "OwnerId" => OwnerId,
             "RepositoryName" => RepositoryName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -178,7 +178,7 @@ function create_repository_link(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -232,7 +232,7 @@ function create_sync_configuration(
             "RoleArn" => RoleArn,
             "SyncType" => SyncType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -263,7 +263,7 @@ function create_sync_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -287,7 +287,7 @@ function delete_connection(
     return codeconnections(
         "DeleteConnection",
         Dict{String,Any}("ConnectionArn" => ConnectionArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -302,7 +302,7 @@ function delete_connection(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ConnectionArn" => ConnectionArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -325,7 +325,7 @@ function delete_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config()
     return codeconnections(
         "DeleteHost",
         Dict{String,Any}("HostArn" => HostArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -338,7 +338,7 @@ function delete_host(
     return codeconnections(
         "DeleteHost",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HostArn" => HostArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -361,7 +361,7 @@ function delete_repository_link(
     return codeconnections(
         "DeleteRepositoryLink",
         Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -378,7 +378,7 @@ function delete_repository_link(
                 _merge, Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -403,7 +403,7 @@ function delete_sync_configuration(
     return codeconnections(
         "DeleteSyncConfiguration",
         Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -423,7 +423,7 @@ function delete_sync_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -444,7 +444,7 @@ function get_connection(ConnectionArn; aws_config::AbstractAWSConfig=current_aws
     return codeconnections(
         "GetConnection",
         Dict{String,Any}("ConnectionArn" => ConnectionArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -459,7 +459,7 @@ function get_connection(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ConnectionArn" => ConnectionArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -481,7 +481,7 @@ function get_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codeconnections(
         "GetHost",
         Dict{String,Any}("HostArn" => HostArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -494,7 +494,7 @@ function get_host(
     return codeconnections(
         "GetHost",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HostArn" => HostArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -518,7 +518,7 @@ function get_repository_link(
     return codeconnections(
         "GetRepositoryLink",
         Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -535,7 +535,7 @@ function get_repository_link(
                 _merge, Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -565,7 +565,7 @@ function get_repository_sync_status(
             "RepositoryLinkId" => RepositoryLinkId,
             "SyncType" => SyncType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -590,7 +590,7 @@ function get_repository_sync_status(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -616,7 +616,7 @@ function get_resource_sync_status(
     return codeconnections(
         "GetResourceSyncStatus",
         Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -636,7 +636,7 @@ function get_resource_sync_status(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -661,7 +661,7 @@ function get_sync_blocker_summary(
     return codeconnections(
         "GetSyncBlockerSummary",
         Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -681,7 +681,7 @@ function get_sync_blocker_summary(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -709,7 +709,7 @@ function get_sync_configuration(
     return codeconnections(
         "GetSyncConfiguration",
         Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -729,7 +729,7 @@ function get_sync_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -754,16 +754,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_connections end
 
 function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codeconnections(
-        "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return codeconnections("ListConnections"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeconnections(
-        "ListConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListConnections", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -783,17 +781,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_hosts end
 
 function list_hosts(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codeconnections(
-        "ListHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return codeconnections("ListHosts"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_hosts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return codeconnections(
-        "ListHosts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return codeconnections("ListHosts", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -813,7 +807,7 @@ function list_repository_links end
 
 function list_repository_links(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeconnections(
-        "ListRepositoryLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRepositoryLinks"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -821,10 +815,7 @@ function list_repository_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeconnections(
-        "ListRepositoryLinks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListRepositoryLinks", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -849,7 +840,7 @@ function list_repository_sync_definitions(
     return codeconnections(
         "ListRepositorySyncDefinitions",
         Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId, "SyncType" => SyncType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -871,7 +862,7 @@ function list_repository_sync_definitions(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -902,7 +893,7 @@ function list_sync_configurations(
     return codeconnections(
         "ListSyncConfigurations",
         Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId, "SyncType" => SyncType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -924,7 +915,7 @@ function list_sync_configurations(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -948,7 +939,7 @@ function list_tags_for_resource(
     return codeconnections(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -963,7 +954,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -987,7 +978,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
     return codeconnections(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1007,7 +998,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1031,7 +1022,7 @@ function untag_resource(
     return codeconnections(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1051,7 +1042,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1078,7 +1069,7 @@ function update_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config()
     return codeconnections(
         "UpdateHost",
         Dict{String,Any}("HostArn" => HostArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1091,7 +1082,7 @@ function update_host(
     return codeconnections(
         "UpdateHost",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HostArn" => HostArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1123,7 +1114,7 @@ function update_repository_link(
     return codeconnections(
         "UpdateRepositoryLink",
         Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1140,7 +1131,7 @@ function update_repository_link(
                 _merge, Dict{String,Any}("RepositoryLinkId" => RepositoryLinkId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1176,7 +1167,7 @@ function update_sync_blocker(
             "ResourceName" => ResourceName,
             "SyncType" => SyncType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1203,7 +1194,7 @@ function update_sync_blocker(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1238,7 +1229,7 @@ function update_sync_configuration(
     return codeconnections(
         "UpdateSyncConfiguration",
         Dict{String,Any}("ResourceName" => ResourceName, "SyncType" => SyncType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1258,7 +1249,7 @@ function update_sync_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

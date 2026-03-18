@@ -21,7 +21,7 @@ function activate_event_source(Name; aws_config::AbstractAWSConfig=current_aws_c
     return cloudwatch_events(
         "ActivateEventSource",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -32,7 +32,7 @@ function activate_event_source(
     return cloudwatch_events(
         "ActivateEventSource",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -53,7 +53,7 @@ function cancel_replay(ReplayName; aws_config::AbstractAWSConfig=current_aws_con
     return cloudwatch_events(
         "CancelReplay",
         Dict{String,Any}("ReplayName" => ReplayName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -68,7 +68,7 @@ function cancel_replay(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ReplayName" => ReplayName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -110,7 +110,7 @@ function create_api_destination(
             "InvocationEndpoint" => InvocationEndpoint,
             "Name" => Name,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -137,7 +137,7 @@ function create_api_destination(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -171,7 +171,7 @@ function create_archive(
     return cloudwatch_events(
         "CreateArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName, "EventSourceArn" => EventSourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -193,7 +193,7 @@ function create_archive(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -230,7 +230,7 @@ function create_connection(
             "AuthorizationType" => AuthorizationType,
             "Name" => Name,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -255,7 +255,7 @@ function create_connection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -286,7 +286,7 @@ function create_event_bus(Name; aws_config::AbstractAWSConfig=current_aws_config
     return cloudwatch_events(
         "CreateEventBus",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -297,7 +297,7 @@ function create_event_bus(
     return cloudwatch_events(
         "CreateEventBus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -340,7 +340,7 @@ function create_partner_event_source(
     return cloudwatch_events(
         "CreatePartnerEventSource",
         Dict{String,Any}("Account" => Account, "Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -358,7 +358,7 @@ function create_partner_event_source(
                 _merge, Dict{String,Any}("Account" => Account, "Name" => Name), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -383,7 +383,7 @@ function deactivate_event_source(Name; aws_config::AbstractAWSConfig=current_aws
     return cloudwatch_events(
         "DeactivateEventSource",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -394,7 +394,7 @@ function deactivate_event_source(
     return cloudwatch_events(
         "DeactivateEventSource",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -416,7 +416,7 @@ function deauthorize_connection(Name; aws_config::AbstractAWSConfig=current_aws_
     return cloudwatch_events(
         "DeauthorizeConnection",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -427,7 +427,7 @@ function deauthorize_connection(
     return cloudwatch_events(
         "DeauthorizeConnection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -448,7 +448,7 @@ function delete_api_destination(Name; aws_config::AbstractAWSConfig=current_aws_
     return cloudwatch_events(
         "DeleteApiDestination",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -459,7 +459,7 @@ function delete_api_destination(
     return cloudwatch_events(
         "DeleteApiDestination",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -480,7 +480,7 @@ function delete_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_c
     return cloudwatch_events(
         "DeleteArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -495,7 +495,7 @@ function delete_archive(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ArchiveName" => ArchiveName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -516,7 +516,7 @@ function delete_connection(Name; aws_config::AbstractAWSConfig=current_aws_confi
     return cloudwatch_events(
         "DeleteConnection",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -527,7 +527,7 @@ function delete_connection(
     return cloudwatch_events(
         "DeleteConnection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -549,7 +549,7 @@ function delete_event_bus(Name; aws_config::AbstractAWSConfig=current_aws_config
     return cloudwatch_events(
         "DeleteEventBus",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -560,7 +560,7 @@ function delete_event_bus(
     return cloudwatch_events(
         "DeleteEventBus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -588,7 +588,7 @@ function delete_partner_event_source(
     return cloudwatch_events(
         "DeletePartnerEventSource",
         Dict{String,Any}("Account" => Account, "Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -606,7 +606,7 @@ function delete_partner_event_source(
                 _merge, Dict{String,Any}("Account" => Account, "Name" => Name), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -643,7 +643,7 @@ function delete_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_events(
         "DeleteRule",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -654,7 +654,7 @@ function delete_rule(
     return cloudwatch_events(
         "DeleteRule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -675,7 +675,7 @@ function describe_api_destination(Name; aws_config::AbstractAWSConfig=current_aw
     return cloudwatch_events(
         "DescribeApiDestination",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -686,7 +686,7 @@ function describe_api_destination(
     return cloudwatch_events(
         "DescribeApiDestination",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -707,7 +707,7 @@ function describe_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws
     return cloudwatch_events(
         "DescribeArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -722,7 +722,7 @@ function describe_archive(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ArchiveName" => ArchiveName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -743,7 +743,7 @@ function describe_connection(Name; aws_config::AbstractAWSConfig=current_aws_con
     return cloudwatch_events(
         "DescribeConnection",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -754,7 +754,7 @@ function describe_connection(
     return cloudwatch_events(
         "DescribeConnection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -779,7 +779,7 @@ function describe_event_bus end
 
 function describe_event_bus(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_events(
-        "DescribeEventBus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEventBus"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -787,7 +787,7 @@ function describe_event_bus(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch_events(
-        "DescribeEventBus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeEventBus", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -807,7 +807,7 @@ function describe_event_source(Name; aws_config::AbstractAWSConfig=current_aws_c
     return cloudwatch_events(
         "DescribeEventSource",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -818,7 +818,7 @@ function describe_event_source(
     return cloudwatch_events(
         "DescribeEventSource",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -844,7 +844,7 @@ function describe_partner_event_source(
     return cloudwatch_events(
         "DescribePartnerEventSource",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -855,7 +855,7 @@ function describe_partner_event_source(
     return cloudwatch_events(
         "DescribePartnerEventSource",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -883,7 +883,7 @@ function describe_replay(ReplayName; aws_config::AbstractAWSConfig=current_aws_c
     return cloudwatch_events(
         "DescribeReplay",
         Dict{String,Any}("ReplayName" => ReplayName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -898,7 +898,7 @@ function describe_replay(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ReplayName" => ReplayName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -924,7 +924,7 @@ function describe_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_events(
         "DescribeRule",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -935,7 +935,7 @@ function describe_rule(
     return cloudwatch_events(
         "DescribeRule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -962,7 +962,7 @@ function disable_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_events(
         "DisableRule",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -973,7 +973,7 @@ function disable_rule(
     return cloudwatch_events(
         "DisableRule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1000,7 +1000,7 @@ function enable_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_events(
         "EnableRule",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1011,7 +1011,7 @@ function enable_rule(
     return cloudwatch_events(
         "EnableRule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1034,7 +1034,7 @@ function list_api_destinations end
 
 function list_api_destinations(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_events(
-        "ListApiDestinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListApiDestinations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1042,10 +1042,7 @@ function list_api_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch_events(
-        "ListApiDestinations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListApiDestinations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1068,16 +1065,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_archives end
 
 function list_archives(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudwatch_events(
-        "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudwatch_events("ListArchives"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_archives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch_events(
-        "ListArchives", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListArchives", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1098,16 +1093,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_connections end
 
 function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudwatch_events(
-        "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudwatch_events("ListConnections"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch_events(
-        "ListConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListConnections", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1130,16 +1123,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_event_buses end
 
 function list_event_buses(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudwatch_events(
-        "ListEventBuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudwatch_events("ListEventBuses"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_event_buses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch_events(
-        "ListEventBuses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEventBuses", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1164,7 +1155,7 @@ function list_event_sources end
 
 function list_event_sources(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_events(
-        "ListEventSources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEventSources"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1172,7 +1163,7 @@ function list_event_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch_events(
-        "ListEventSources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEventSources", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1204,7 +1195,7 @@ function list_partner_event_source_accounts(
     return cloudwatch_events(
         "ListPartnerEventSourceAccounts",
         Dict{String,Any}("EventSourceName" => EventSourceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1221,7 +1212,7 @@ function list_partner_event_source_accounts(
                 _merge, Dict{String,Any}("EventSourceName" => EventSourceName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1253,7 +1244,7 @@ function list_partner_event_sources(
     return cloudwatch_events(
         "ListPartnerEventSources",
         Dict{String,Any}("NamePrefix" => NamePrefix);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1268,7 +1259,7 @@ function list_partner_event_sources(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("NamePrefix" => NamePrefix), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1292,16 +1283,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_replays end
 
 function list_replays(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudwatch_events(
-        "ListReplays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudwatch_events("ListReplays"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_replays(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch_events(
-        "ListReplays", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListReplays", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1330,7 +1319,7 @@ function list_rule_names_by_target(
     return cloudwatch_events(
         "ListRuleNamesByTarget",
         Dict{String,Any}("TargetArn" => TargetArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1345,7 +1334,7 @@ function list_rule_names_by_target(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TargetArn" => TargetArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1369,16 +1358,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_rules end
 
 function list_rules(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudwatch_events(
-        "ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudwatch_events("ListRules"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch_events(
-        "ListRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRules", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1401,7 +1388,7 @@ function list_tags_for_resource(
     return cloudwatch_events(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1416,7 +1403,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1443,7 +1430,7 @@ function list_targets_by_rule(Rule; aws_config::AbstractAWSConfig=current_aws_co
     return cloudwatch_events(
         "ListTargetsByRule",
         Dict{String,Any}("Rule" => Rule);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1454,7 +1441,7 @@ function list_targets_by_rule(
     return cloudwatch_events(
         "ListTargetsByRule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Rule" => Rule), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1477,7 +1464,7 @@ function put_events(Entries; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_events(
         "PutEvents",
         Dict{String,Any}("Entries" => Entries);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1490,7 +1477,7 @@ function put_events(
     return cloudwatch_events(
         "PutEvents",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1512,7 +1499,7 @@ function put_partner_events(Entries; aws_config::AbstractAWSConfig=current_aws_c
     return cloudwatch_events(
         "PutPartnerEvents",
         Dict{String,Any}("Entries" => Entries);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1525,7 +1512,7 @@ function put_partner_events(
     return cloudwatch_events(
         "PutPartnerEvents",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1579,16 +1566,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function put_permission end
 
 function put_permission(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudwatch_events(
-        "PutPermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudwatch_events("PutPermission"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function put_permission(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch_events(
-        "PutPermission", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "PutPermission", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1657,7 +1642,7 @@ function put_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_events(
         "PutRule",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1668,7 +1653,7 @@ function put_rule(
     return cloudwatch_events(
         "PutRule",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1748,7 +1733,7 @@ function put_targets(Rule, Targets; aws_config::AbstractAWSConfig=current_aws_co
     return cloudwatch_events(
         "PutTargets",
         Dict{String,Any}("Rule" => Rule, "Targets" => Targets);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1766,7 +1751,7 @@ function put_targets(
                 _merge, Dict{String,Any}("Rule" => Rule, "Targets" => Targets), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1792,7 +1777,7 @@ function remove_permission end
 
 function remove_permission(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch_events(
-        "RemovePermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "RemovePermission"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1800,7 +1785,7 @@ function remove_permission(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudwatch_events(
-        "RemovePermission", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "RemovePermission", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1834,7 +1819,7 @@ function remove_targets(Ids, Rule; aws_config::AbstractAWSConfig=current_aws_con
     return cloudwatch_events(
         "RemoveTargets",
         Dict{String,Any}("Ids" => Ids, "Rule" => Rule);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1850,7 +1835,7 @@ function remove_targets(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Ids" => Ids, "Rule" => Rule), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1901,7 +1886,7 @@ function start_replay(
             "EventStartTime" => EventStartTime,
             "ReplayName" => ReplayName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1930,7 +1915,7 @@ function start_replay(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1961,7 +1946,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
     return cloudwatch_events(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1981,7 +1966,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2012,7 +1997,7 @@ function test_event_pattern(
     return cloudwatch_events(
         "TestEventPattern",
         Dict{String,Any}("Event" => Event, "EventPattern" => EventPattern);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2032,7 +2017,7 @@ function test_event_pattern(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2057,7 +2042,7 @@ function untag_resource(
     return cloudwatch_events(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2077,7 +2062,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2106,7 +2091,7 @@ function update_api_destination(Name; aws_config::AbstractAWSConfig=current_aws_
     return cloudwatch_events(
         "UpdateApiDestination",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2117,7 +2102,7 @@ function update_api_destination(
     return cloudwatch_events(
         "UpdateApiDestination",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2143,7 +2128,7 @@ function update_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_c
     return cloudwatch_events(
         "UpdateArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2158,7 +2143,7 @@ function update_archive(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ArchiveName" => ArchiveName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2184,7 +2169,7 @@ function update_connection(Name; aws_config::AbstractAWSConfig=current_aws_confi
     return cloudwatch_events(
         "UpdateConnection",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2195,7 +2180,7 @@ function update_connection(
     return cloudwatch_events(
         "UpdateConnection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

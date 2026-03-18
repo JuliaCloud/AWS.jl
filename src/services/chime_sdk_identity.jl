@@ -31,7 +31,7 @@ function create_app_instance(
         "POST",
         "/app-instances",
         Dict{String,Any}("ClientRequestToken" => ClientRequestToken, "Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -54,7 +54,7 @@ function create_app_instance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -82,7 +82,7 @@ function create_app_instance_admin(
         "POST",
         "/app-instances/$(appInstanceArn)/admins",
         Dict{String,Any}("AppInstanceAdminArn" => AppInstanceAdminArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -103,7 +103,7 @@ function create_app_instance_admin(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -143,7 +143,7 @@ function create_app_instance_bot(
             "ClientRequestToken" => ClientRequestToken,
             "Configuration" => Configuration,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -169,7 +169,7 @@ function create_app_instance_bot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -213,7 +213,7 @@ function create_app_instance_user(
             "ClientRequestToken" => ClientRequestToken,
             "Name" => Name,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -241,7 +241,7 @@ function create_app_instance_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -264,7 +264,7 @@ function delete_app_instance(
     return chime_sdk_identity(
         "DELETE",
         "/app-instances/$(appInstanceArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -278,7 +278,7 @@ function delete_app_instance(
         "DELETE",
         "/app-instances/$(appInstanceArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -303,7 +303,7 @@ function delete_app_instance_admin(
     return chime_sdk_identity(
         "DELETE",
         "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -318,7 +318,7 @@ function delete_app_instance_admin(
         "DELETE",
         "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -341,7 +341,7 @@ function delete_app_instance_bot(
     return chime_sdk_identity(
         "DELETE",
         "/app-instance-bots/$(appInstanceBotArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -355,7 +355,7 @@ function delete_app_instance_bot(
         "DELETE",
         "/app-instance-bots/$(appInstanceBotArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -378,7 +378,7 @@ function delete_app_instance_user(
     return chime_sdk_identity(
         "DELETE",
         "/app-instance-users/$(appInstanceUserArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -392,7 +392,7 @@ function delete_app_instance_user(
         "DELETE",
         "/app-instance-users/$(appInstanceUserArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -416,7 +416,7 @@ function deregister_app_instance_user_endpoint(
     return chime_sdk_identity(
         "DELETE",
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -431,7 +431,7 @@ function deregister_app_instance_user_endpoint(
         "DELETE",
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -454,7 +454,7 @@ function describe_app_instance(
     return chime_sdk_identity(
         "GET",
         "/app-instances/$(appInstanceArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -468,7 +468,7 @@ function describe_app_instance(
         "GET",
         "/app-instances/$(appInstanceArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -492,7 +492,7 @@ function describe_app_instance_admin(
     return chime_sdk_identity(
         "GET",
         "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -507,7 +507,7 @@ function describe_app_instance_admin(
         "GET",
         "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -530,7 +530,7 @@ function describe_app_instance_bot(
     return chime_sdk_identity(
         "GET",
         "/app-instance-bots/$(appInstanceBotArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -544,7 +544,7 @@ function describe_app_instance_bot(
         "GET",
         "/app-instance-bots/$(appInstanceBotArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -567,7 +567,7 @@ function describe_app_instance_user(
     return chime_sdk_identity(
         "GET",
         "/app-instance-users/$(appInstanceUserArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -581,7 +581,7 @@ function describe_app_instance_user(
         "GET",
         "/app-instance-users/$(appInstanceUserArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -605,7 +605,7 @@ function describe_app_instance_user_endpoint(
     return chime_sdk_identity(
         "GET",
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -620,7 +620,7 @@ function describe_app_instance_user_endpoint(
         "GET",
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -643,7 +643,7 @@ function get_app_instance_retention_settings(
     return chime_sdk_identity(
         "GET",
         "/app-instances/$(appInstanceArn)/retention-settings";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -657,7 +657,7 @@ function get_app_instance_retention_settings(
         "GET",
         "/app-instances/$(appInstanceArn)/retention-settings",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -685,7 +685,7 @@ function list_app_instance_admins(
     return chime_sdk_identity(
         "GET",
         "/app-instances/$(appInstanceArn)/admins";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -699,7 +699,7 @@ function list_app_instance_admins(
         "GET",
         "/app-instances/$(appInstanceArn)/admins",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -728,7 +728,7 @@ function list_app_instance_bots(
         "GET",
         "/app-instance-bots",
         Dict{String,Any}("app-instance-arn" => app_instance_arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -746,7 +746,7 @@ function list_app_instance_bots(
                 _merge, Dict{String,Any}("app-instance-arn" => app_instance_arn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -774,7 +774,7 @@ function list_app_instance_user_endpoints(
     return chime_sdk_identity(
         "GET",
         "/app-instance-users/$(appInstanceUserArn)/endpoints";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -788,7 +788,7 @@ function list_app_instance_user_endpoints(
         "GET",
         "/app-instance-users/$(appInstanceUserArn)/endpoints",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -817,7 +817,7 @@ function list_app_instance_users(
         "GET",
         "/app-instance-users",
         Dict{String,Any}("app-instance-arn" => app_instance_arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -835,7 +835,7 @@ function list_app_instance_users(
                 _merge, Dict{String,Any}("app-instance-arn" => app_instance_arn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -856,7 +856,7 @@ function list_app_instances end
 
 function list_app_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_identity(
-        "GET", "/app-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/app-instances"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -864,11 +864,7 @@ function list_app_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
-        "GET",
-        "/app-instances",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/app-instances", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -889,7 +885,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         "GET",
         "/tags",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -901,7 +897,7 @@ function list_tags_for_resource(
         "GET",
         "/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -928,7 +924,7 @@ function put_app_instance_retention_settings(
         "PUT",
         "/app-instances/$(appInstanceArn)/retention-settings",
         Dict{String,Any}("AppInstanceRetentionSettings" => AppInstanceRetentionSettings);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -951,7 +947,7 @@ function put_app_instance_retention_settings(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -981,7 +977,7 @@ function put_app_instance_user_expiration_settings(
     return chime_sdk_identity(
         "PUT",
         "/app-instance-users/$(appInstanceUserArn)/expiration-settings";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -995,7 +991,7 @@ function put_app_instance_user_expiration_settings(
         "PUT",
         "/app-instance-users/$(appInstanceUserArn)/expiration-settings",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1045,7 +1041,7 @@ function register_app_instance_user_endpoint(
             "ResourceArn" => ResourceArn,
             "Type" => Type,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1074,7 +1070,7 @@ function register_app_instance_user_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1097,7 +1093,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags?operation=tag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1118,7 +1114,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1143,7 +1139,7 @@ function untag_resource(
         "POST",
         "/tags?operation=untag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1164,7 +1160,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1190,7 +1186,7 @@ function update_app_instance(
         "PUT",
         "/app-instances/$(appInstanceArn)",
         Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1210,7 +1206,7 @@ function update_app_instance(
                 _merge, Dict{String,Any}("Metadata" => Metadata, "Name" => Name), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1239,7 +1235,7 @@ function update_app_instance_bot(
         "PUT",
         "/app-instance-bots/$(appInstanceBotArn)",
         Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1259,7 +1255,7 @@ function update_app_instance_bot(
                 _merge, Dict{String,Any}("Metadata" => Metadata, "Name" => Name), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1285,7 +1281,7 @@ function update_app_instance_user(
         "PUT",
         "/app-instance-users/$(appInstanceUserArn)",
         Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1305,7 +1301,7 @@ function update_app_instance_user(
                 _merge, Dict{String,Any}("Metadata" => Metadata, "Name" => Name), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1336,7 +1332,7 @@ function update_app_instance_user_endpoint(
     return chime_sdk_identity(
         "PUT",
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1351,7 +1347,7 @@ function update_app_instance_user_endpoint(
         "PUT",
         "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

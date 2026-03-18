@@ -51,7 +51,7 @@ function associate_repository(
         Dict{String,Any}(
             "Repository" => Repository, "ClientRequestToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -73,7 +73,7 @@ function associate_repository(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -114,7 +114,7 @@ function create_code_review(
             "Type" => Type,
             "ClientRequestToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -141,7 +141,7 @@ function create_code_review(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -162,10 +162,7 @@ function describe_code_review(
     CodeReviewArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeguru_reviewer(
-        "GET",
-        "/codereviews/$(CodeReviewArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/codereviews/$(CodeReviewArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -178,7 +175,7 @@ function describe_code_review(
         "GET",
         "/codereviews/$(CodeReviewArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -211,7 +208,7 @@ function describe_recommendation_feedback(
         "GET",
         "/feedback/$(CodeReviewArn)",
         Dict{String,Any}("RecommendationId" => RecommendationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -230,7 +227,7 @@ function describe_recommendation_feedback(
                 _merge, Dict{String,Any}("RecommendationId" => RecommendationId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -255,7 +252,7 @@ function describe_repository_association(
     return codeguru_reviewer(
         "GET",
         "/associations/$(AssociationArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -269,7 +266,7 @@ function describe_repository_association(
         "GET",
         "/associations/$(AssociationArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -293,7 +290,7 @@ function disassociate_repository(
     return codeguru_reviewer(
         "DELETE",
         "/associations/$(AssociationArn)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -307,7 +304,7 @@ function disassociate_repository(
         "DELETE",
         "/associations/$(AssociationArn)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -345,7 +342,7 @@ function list_code_reviews(Type; aws_config::AbstractAWSConfig=current_aws_confi
         "GET",
         "/codereviews",
         Dict{String,Any}("Type" => Type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -357,7 +354,7 @@ function list_code_reviews(
         "GET",
         "/codereviews",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Type" => Type), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -395,7 +392,7 @@ function list_recommendation_feedback(
     return codeguru_reviewer(
         "GET",
         "/feedback/$(CodeReviewArn)/RecommendationFeedback";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -409,7 +406,7 @@ function list_recommendation_feedback(
         "GET",
         "/feedback/$(CodeReviewArn)/RecommendationFeedback",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -437,7 +434,7 @@ function list_recommendations(
     return codeguru_reviewer(
         "GET",
         "/codereviews/$(CodeReviewArn)/Recommendations";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -451,7 +448,7 @@ function list_recommendations(
         "GET",
         "/codereviews/$(CodeReviewArn)/Recommendations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -504,7 +501,7 @@ function list_repository_associations end
 
 function list_repository_associations(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_reviewer(
-        "GET", "/associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/associations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -512,11 +509,7 @@ function list_repository_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeguru_reviewer(
-        "GET",
-        "/associations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/associations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -537,10 +530,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codeguru_reviewer(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -550,11 +540,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codeguru_reviewer(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -589,7 +575,7 @@ function put_recommendation_feedback(
             "Reactions" => Reactions,
             "RecommendationId" => RecommendationId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -615,7 +601,7 @@ function put_recommendation_feedback(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -643,7 +629,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -658,7 +644,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -685,7 +671,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -700,7 +686,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

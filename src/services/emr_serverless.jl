@@ -23,7 +23,7 @@ function cancel_job_run(
     return emr_serverless(
         "DELETE",
         "/applications/$(applicationId)/jobruns/$(jobRunId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -38,7 +38,7 @@ function cancel_job_run(
         "DELETE",
         "/applications/$(applicationId)/jobruns/$(jobRunId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -96,7 +96,7 @@ function create_application(
         Dict{String,Any}(
             "clientToken" => clientToken, "releaseLabel" => releaseLabel, "type" => type
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -122,7 +122,7 @@ function create_application(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -146,7 +146,7 @@ function delete_application(
     return emr_serverless(
         "DELETE",
         "/applications/$(applicationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -160,7 +160,7 @@ function delete_application(
         "DELETE",
         "/applications/$(applicationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -179,10 +179,7 @@ function get_application end
 
 function get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
-        "GET",
-        "/applications/$(applicationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/applications/$(applicationId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -195,7 +192,7 @@ function get_application(
         "GET",
         "/applications/$(applicationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -228,7 +225,7 @@ function get_dashboard_for_job_run(
     return emr_serverless(
         "GET",
         "/applications/$(applicationId)/jobruns/$(jobRunId)/dashboard";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -243,7 +240,7 @@ function get_dashboard_for_job_run(
         "GET",
         "/applications/$(applicationId)/jobruns/$(jobRunId)/dashboard",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -271,7 +268,7 @@ function get_job_run(
     return emr_serverless(
         "GET",
         "/applications/$(applicationId)/jobruns/$(jobRunId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -286,7 +283,7 @@ function get_job_run(
         "GET",
         "/applications/$(applicationId)/jobruns/$(jobRunId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -308,7 +305,7 @@ function list_applications end
 
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
-        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/applications"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -316,11 +313,7 @@ function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
-        "GET",
-        "/applications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/applications", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -347,7 +340,7 @@ function list_job_run_attempts(
     return emr_serverless(
         "GET",
         "/applications/$(applicationId)/jobruns/$(jobRunId)/attempts";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -362,7 +355,7 @@ function list_job_run_attempts(
         "GET",
         "/applications/$(applicationId)/jobruns/$(jobRunId)/attempts",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -392,7 +385,7 @@ function list_job_runs(applicationId; aws_config::AbstractAWSConfig=current_aws_
     return emr_serverless(
         "GET",
         "/applications/$(applicationId)/jobruns";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -406,7 +399,7 @@ function list_job_runs(
         "GET",
         "/applications/$(applicationId)/jobruns",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -429,10 +422,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_serverless(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -442,11 +432,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_serverless(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -468,7 +454,7 @@ function start_application(
     return emr_serverless(
         "POST",
         "/applications/$(applicationId)/start";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -482,7 +468,7 @@ function start_application(
         "POST",
         "/applications/$(applicationId)/start",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -524,7 +510,7 @@ function start_job_run(
         Dict{String,Any}(
             "clientToken" => clientToken, "executionRoleArn" => executionRoleArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -548,7 +534,7 @@ function start_job_run(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -570,7 +556,7 @@ function stop_application(applicationId; aws_config::AbstractAWSConfig=current_a
     return emr_serverless(
         "POST",
         "/applications/$(applicationId)/stop";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -584,7 +570,7 @@ function stop_application(
         "POST",
         "/applications/$(applicationId)/stop",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -613,7 +599,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -628,7 +614,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -655,7 +641,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -670,7 +656,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -726,7 +712,7 @@ function update_application(
         "PATCH",
         "/applications/$(applicationId)",
         Dict{String,Any}("clientToken" => clientToken);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -743,7 +729,7 @@ function update_application(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

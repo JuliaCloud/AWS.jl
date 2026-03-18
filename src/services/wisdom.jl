@@ -36,7 +36,7 @@ function create_assistant(name, type; aws_config::AbstractAWSConfig=current_aws_
         "POST",
         "/assistants",
         Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -59,7 +59,7 @@ function create_assistant(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -101,7 +101,7 @@ function create_assistant_association(
             "associationType" => associationType,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -127,7 +127,7 @@ function create_assistant_association(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -174,7 +174,7 @@ function create_content(
         Dict{String,Any}(
             "name" => name, "uploadId" => uploadId, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -198,7 +198,7 @@ function create_content(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -250,7 +250,7 @@ function create_knowledge_base(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -275,7 +275,7 @@ function create_knowledge_base(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -324,7 +324,7 @@ function create_quick_response(
         Dict{String,Any}(
             "content" => content, "name" => name, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -348,7 +348,7 @@ function create_quick_response(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -382,7 +382,7 @@ function create_session(
         "POST",
         "/assistants/$(assistantId)/sessions",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -403,7 +403,7 @@ function create_session(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -423,10 +423,7 @@ function delete_assistant end
 
 function delete_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
     return wisdom(
-        "DELETE",
-        "/assistants/$(assistantId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/assistants/$(assistantId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -439,7 +436,7 @@ function delete_assistant(
         "DELETE",
         "/assistants/$(assistantId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -465,7 +462,7 @@ function delete_assistant_association(
     return wisdom(
         "DELETE",
         "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -480,7 +477,7 @@ function delete_assistant_association(
         "DELETE",
         "/assistants/$(assistantId)/associations/$(assistantAssociationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -507,7 +504,7 @@ function delete_content(
     return wisdom(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -522,7 +519,7 @@ function delete_content(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -547,7 +544,7 @@ function delete_import_job(
     return wisdom(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -562,7 +559,7 @@ function delete_import_job(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -591,7 +588,7 @@ function delete_knowledge_base(
     return wisdom(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -605,7 +602,7 @@ function delete_knowledge_base(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -631,7 +628,7 @@ function delete_quick_response(
     return wisdom(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -646,7 +643,7 @@ function delete_quick_response(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -666,10 +663,7 @@ function get_assistant end
 
 function get_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
     return wisdom(
-        "GET",
-        "/assistants/$(assistantId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/assistants/$(assistantId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -682,7 +676,7 @@ function get_assistant(
         "GET",
         "/assistants/$(assistantId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -708,7 +702,7 @@ function get_assistant_association(
     return wisdom(
         "GET",
         "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -723,7 +717,7 @@ function get_assistant_association(
         "GET",
         "/assistants/$(assistantId)/associations/$(assistantAssociationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -750,7 +744,7 @@ function get_content(
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -765,7 +759,7 @@ function get_content(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -792,7 +786,7 @@ function get_content_summary(
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -807,7 +801,7 @@ function get_content_summary(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -831,7 +825,7 @@ function get_import_job(
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -846,7 +840,7 @@ function get_import_job(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -871,7 +865,7 @@ function get_knowledge_base(
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -885,7 +879,7 @@ function get_knowledge_base(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -910,7 +904,7 @@ function get_quick_response(
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -925,7 +919,7 @@ function get_quick_response(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -962,7 +956,7 @@ function get_recommendations(
     return wisdom(
         "GET",
         "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -977,7 +971,7 @@ function get_recommendations(
         "GET",
         "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1003,7 +997,7 @@ function get_session(
     return wisdom(
         "GET",
         "/assistants/$(assistantId)/sessions/$(sessionId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1018,7 +1012,7 @@ function get_session(
         "GET",
         "/assistants/$(assistantId)/sessions/$(sessionId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1047,7 +1041,7 @@ function list_assistant_associations(
     return wisdom(
         "GET",
         "/assistants/$(assistantId)/associations";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1061,7 +1055,7 @@ function list_assistant_associations(
         "GET",
         "/assistants/$(assistantId)/associations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1081,17 +1075,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_assistants end
 
 function list_assistants(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wisdom(
-        "GET", "/assistants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return wisdom("GET", "/assistants"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_assistants(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return wisdom(
-        "GET", "/assistants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return wisdom("GET", "/assistants", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1117,7 +1107,7 @@ function list_contents(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aw
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1131,7 +1121,7 @@ function list_contents(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1161,7 +1151,7 @@ function list_import_jobs(
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/importJobs";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1175,7 +1165,7 @@ function list_import_jobs(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/importJobs",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1195,20 +1185,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_knowledge_bases end
 
 function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wisdom(
-        "GET", "/knowledgeBases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return wisdom("GET", "/knowledgeBases"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_knowledge_bases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wisdom(
-        "GET",
-        "/knowledgeBases",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/knowledgeBases", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1237,7 +1221,7 @@ function list_quick_responses(
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1251,7 +1235,7 @@ function list_quick_responses(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1272,10 +1256,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wisdom(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1285,11 +1266,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wisdom(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1321,7 +1298,7 @@ function notify_recommendations_received(
         "POST",
         "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations/notify",
         Dict{String,Any}("recommendationIds" => recommendationIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1341,7 +1318,7 @@ function notify_recommendations_received(
                 _merge, Dict{String,Any}("recommendationIds" => recommendationIds), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1373,7 +1350,7 @@ function query_assistant(
         "POST",
         "/assistants/$(assistantId)/query",
         Dict{String,Any}("queryText" => queryText);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1390,7 +1367,7 @@ function query_assistant(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("queryText" => queryText), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1415,7 +1392,7 @@ function remove_knowledge_base_template_uri(
     return wisdom(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/templateUri";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1429,7 +1406,7 @@ function remove_knowledge_base_template_uri(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/templateUri",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1462,7 +1439,7 @@ function search_content(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/search",
         Dict{String,Any}("searchExpression" => searchExpression);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1481,7 +1458,7 @@ function search_content(
                 _merge, Dict{String,Any}("searchExpression" => searchExpression), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1515,7 +1492,7 @@ function search_quick_responses(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/search/quickResponses",
         Dict{String,Any}("searchExpression" => searchExpression);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1534,7 +1511,7 @@ function search_quick_responses(
                 _merge, Dict{String,Any}("searchExpression" => searchExpression), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1565,7 +1542,7 @@ function search_sessions(
         "POST",
         "/assistants/$(assistantId)/searchSessions",
         Dict{String,Any}("searchExpression" => searchExpression);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1584,7 +1561,7 @@ function search_sessions(
                 _merge, Dict{String,Any}("searchExpression" => searchExpression), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1618,7 +1595,7 @@ function start_content_upload(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/upload",
         Dict{String,Any}("contentType" => contentType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1635,7 +1612,7 @@ function start_content_upload(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("contentType" => contentType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1683,7 +1660,7 @@ function start_import_job(
             "uploadId" => uploadId,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1709,7 +1686,7 @@ function start_import_job(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1732,7 +1709,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1747,7 +1724,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1772,7 +1749,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1787,7 +1764,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1831,7 +1808,7 @@ function update_content(
     return wisdom(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1846,7 +1823,7 @@ function update_content(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1877,7 +1854,7 @@ function update_knowledge_base_template_uri(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/templateUri",
         Dict{String,Any}("templateUri" => templateUri);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1894,7 +1871,7 @@ function update_knowledge_base_template_uri(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("templateUri" => templateUri), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1941,7 +1918,7 @@ function update_quick_response(
     return wisdom(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1956,7 +1933,7 @@ function update_quick_response(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

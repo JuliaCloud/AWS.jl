@@ -28,7 +28,7 @@ function add_tags_to_resource(
     return cloudhsm(
         "AddTagsToResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagList" => TagList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -48,7 +48,7 @@ function add_tags_to_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -74,7 +74,7 @@ function create_hapg(Label; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "CreateHapg",
         Dict{String,Any}("Label" => Label);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -85,7 +85,7 @@ function create_hapg(
     return cloudhsm(
         "CreateHapg",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Label" => Label), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -139,7 +139,7 @@ function create_hsm(
             "SubnetId" => SubnetId,
             "SubscriptionType" => SubscriptionType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -166,7 +166,7 @@ function create_hsm(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -194,7 +194,7 @@ function create_luna_client(Certificate; aws_config::AbstractAWSConfig=current_a
     return cloudhsm(
         "CreateLunaClient",
         Dict{String,Any}("Certificate" => Certificate);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -209,7 +209,7 @@ function create_luna_client(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Certificate" => Certificate), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -234,7 +234,7 @@ function delete_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config()
     return cloudhsm(
         "DeleteHapg",
         Dict{String,Any}("HapgArn" => HapgArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -247,7 +247,7 @@ function delete_hapg(
     return cloudhsm(
         "DeleteHapg",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HapgArn" => HapgArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -272,7 +272,7 @@ function delete_hsm(HsmArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DeleteHsm",
         Dict{String,Any}("HsmArn" => HsmArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -283,7 +283,7 @@ function delete_hsm(
     return cloudhsm(
         "DeleteHsm",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HsmArn" => HsmArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -307,7 +307,7 @@ function delete_luna_client(ClientArn; aws_config::AbstractAWSConfig=current_aws
     return cloudhsm(
         "DeleteLunaClient",
         Dict{String,Any}("ClientArn" => ClientArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -322,7 +322,7 @@ function delete_luna_client(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClientArn" => ClientArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -347,7 +347,7 @@ function describe_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config
     return cloudhsm(
         "DescribeHapg",
         Dict{String,Any}("HapgArn" => HapgArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -360,7 +360,7 @@ function describe_hapg(
     return cloudhsm(
         "DescribeHapg",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HapgArn" => HapgArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -385,15 +385,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_hsm end
 
 function describe_hsm(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm("DescribeHsm"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return cloudhsm("DescribeHsm"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_hsm(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return cloudhsm(
-        "DescribeHsm", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("DescribeHsm", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -414,16 +412,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_luna_client end
 
 function describe_luna_client(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm(
-        "DescribeLunaClient"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("DescribeLunaClient"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_luna_client(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
-        "DescribeLunaClient", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "DescribeLunaClient", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -457,7 +453,7 @@ function get_config(
             "ClientVersion" => ClientVersion,
             "HapgList" => HapgList,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -482,7 +478,7 @@ function get_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -501,16 +497,14 @@ Zones that have available AWS CloudHSM capacity.
 function list_available_zones end
 
 function list_available_zones(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm(
-        "ListAvailableZones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("ListAvailableZones"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_available_zones(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudhsm(
-        "ListAvailableZones", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListAvailableZones", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -535,15 +529,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_hapgs end
 
 function list_hapgs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm("ListHapgs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return cloudhsm("ListHapgs"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_hapgs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return cloudhsm(
-        "ListHapgs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("ListHapgs", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -567,15 +559,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_hsms end
 
 function list_hsms(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm("ListHsms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return cloudhsm("ListHsms"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_hsms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return cloudhsm(
-        "ListHsms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("ListHsms", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -598,17 +588,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_luna_clients end
 
 function list_luna_clients(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm(
-        "ListLunaClients"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("ListLunaClients"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_luna_clients(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return cloudhsm(
-        "ListLunaClients", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return cloudhsm("ListLunaClients", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -633,7 +619,7 @@ function list_tags_for_resource(
     return cloudhsm(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -648,7 +634,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -678,7 +664,7 @@ function modify_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config()
     return cloudhsm(
         "ModifyHapg",
         Dict{String,Any}("HapgArn" => HapgArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -691,7 +677,7 @@ function modify_hapg(
     return cloudhsm(
         "ModifyHapg",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HapgArn" => HapgArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -730,7 +716,7 @@ function modify_hsm(HsmArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ModifyHsm",
         Dict{String,Any}("HsmArn" => HsmArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -741,7 +727,7 @@ function modify_hsm(
     return cloudhsm(
         "ModifyHsm",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HsmArn" => HsmArn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -770,7 +756,7 @@ function modify_luna_client(
     return cloudhsm(
         "ModifyLunaClient",
         Dict{String,Any}("Certificate" => Certificate, "ClientArn" => ClientArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -790,7 +776,7 @@ function modify_luna_client(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -820,7 +806,7 @@ function remove_tags_from_resource(
     return cloudhsm(
         "RemoveTagsFromResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeyList" => TagKeyList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -840,7 +826,7 @@ function remove_tags_from_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

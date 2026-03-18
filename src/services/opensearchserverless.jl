@@ -24,7 +24,7 @@ function batch_get_collection end
 
 function batch_get_collection(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
-        "BatchGetCollection"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "BatchGetCollection"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -32,7 +32,7 @@ function batch_get_collection(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
-        "BatchGetCollection", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "BatchGetCollection", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -55,7 +55,7 @@ function batch_get_effective_lifecycle_policy(
     return opensearchserverless(
         "BatchGetEffectiveLifecyclePolicy",
         Dict{String,Any}("resourceIdentifiers" => resourceIdentifiers);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -74,7 +74,7 @@ function batch_get_effective_lifecycle_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -98,7 +98,7 @@ function batch_get_lifecycle_policy(
     return opensearchserverless(
         "BatchGetLifecyclePolicy",
         Dict{String,Any}("identifiers" => identifiers);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -113,7 +113,7 @@ function batch_get_lifecycle_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("identifiers" => identifiers), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -135,7 +135,7 @@ function batch_get_vpc_endpoint(ids; aws_config::AbstractAWSConfig=current_aws_c
     return opensearchserverless(
         "BatchGetVpcEndpoint",
         Dict{String,Any}("ids" => ids);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -146,7 +146,7 @@ function batch_get_vpc_endpoint(
     return opensearchserverless(
         "BatchGetVpcEndpoint",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -184,7 +184,7 @@ function create_access_policy(
             "type" => type,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -210,7 +210,7 @@ function create_access_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -240,7 +240,7 @@ function create_collection(name; aws_config::AbstractAWSConfig=current_aws_confi
     return opensearchserverless(
         "CreateCollection",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -257,7 +257,7 @@ function create_collection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -293,7 +293,7 @@ function create_lifecycle_policy(
             "type" => type,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -319,7 +319,7 @@ function create_lifecycle_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -350,7 +350,7 @@ function create_security_config(
     return opensearchserverless(
         "CreateSecurityConfig",
         Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -372,7 +372,7 @@ function create_security_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -411,7 +411,7 @@ function create_security_policy(
             "type" => type,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -437,7 +437,7 @@ function create_security_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -475,7 +475,7 @@ function create_vpc_endpoint(
             "vpcId" => vpcId,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -501,7 +501,7 @@ function create_vpc_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -529,7 +529,7 @@ function delete_access_policy(
     return opensearchserverless(
         "DeleteAccessPolicy",
         Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -551,7 +551,7 @@ function delete_access_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -577,7 +577,7 @@ function delete_collection(id; aws_config::AbstractAWSConfig=current_aws_config(
     return opensearchserverless(
         "DeleteCollection",
         Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -594,7 +594,7 @@ function delete_collection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -622,7 +622,7 @@ function delete_lifecycle_policy(
     return opensearchserverless(
         "DeleteLifecyclePolicy",
         Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -644,7 +644,7 @@ function delete_lifecycle_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -670,7 +670,7 @@ function delete_security_config(id; aws_config::AbstractAWSConfig=current_aws_co
     return opensearchserverless(
         "DeleteSecurityConfig",
         Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -687,7 +687,7 @@ function delete_security_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -714,7 +714,7 @@ function delete_security_policy(
     return opensearchserverless(
         "DeleteSecurityPolicy",
         Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -736,7 +736,7 @@ function delete_security_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -761,7 +761,7 @@ function delete_vpc_endpoint(id; aws_config::AbstractAWSConfig=current_aws_confi
     return opensearchserverless(
         "DeleteVpcEndpoint",
         Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -778,7 +778,7 @@ function delete_vpc_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -801,7 +801,7 @@ function get_access_policy(name, type; aws_config::AbstractAWSConfig=current_aws
     return opensearchserverless(
         "GetAccessPolicy",
         Dict{String,Any}("name" => name, "type" => type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -817,7 +817,7 @@ function get_access_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("name" => name, "type" => type), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -833,7 +833,7 @@ function get_account_settings end
 
 function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
-        "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetAccountSettings"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -841,7 +841,7 @@ function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
-        "GetAccountSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetAccountSettings", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -857,7 +857,7 @@ function get_policies_stats end
 
 function get_policies_stats(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
-        "GetPoliciesStats"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetPoliciesStats"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -865,7 +865,7 @@ function get_policies_stats(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
-        "GetPoliciesStats", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetPoliciesStats", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -886,7 +886,7 @@ function get_security_config(id; aws_config::AbstractAWSConfig=current_aws_confi
     return opensearchserverless(
         "GetSecurityConfig",
         Dict{String,Any}("id" => id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -897,7 +897,7 @@ function get_security_config(
     return opensearchserverless(
         "GetSecurityConfig",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -921,7 +921,7 @@ function get_security_policy(name, type; aws_config::AbstractAWSConfig=current_a
     return opensearchserverless(
         "GetSecurityPolicy",
         Dict{String,Any}("name" => name, "type" => type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -937,7 +937,7 @@ function get_security_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("name" => name, "type" => type), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -966,7 +966,7 @@ function list_access_policies(type; aws_config::AbstractAWSConfig=current_aws_co
     return opensearchserverless(
         "ListAccessPolicies",
         Dict{String,Any}("type" => type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -977,7 +977,7 @@ function list_access_policies(
     return opensearchserverless(
         "ListAccessPolicies",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1003,7 +1003,7 @@ function list_collections end
 
 function list_collections(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
-        "ListCollections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListCollections"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1011,7 +1011,7 @@ function list_collections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
-        "ListCollections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListCollections", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1041,7 +1041,7 @@ function list_lifecycle_policies(type; aws_config::AbstractAWSConfig=current_aws
     return opensearchserverless(
         "ListLifecyclePolicies",
         Dict{String,Any}("type" => type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1052,7 +1052,7 @@ function list_lifecycle_policies(
     return opensearchserverless(
         "ListLifecyclePolicies",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1081,7 +1081,7 @@ function list_security_configs(type; aws_config::AbstractAWSConfig=current_aws_c
     return opensearchserverless(
         "ListSecurityConfigs",
         Dict{String,Any}("type" => type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1092,7 +1092,7 @@ function list_security_configs(
     return opensearchserverless(
         "ListSecurityConfigs",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1121,7 +1121,7 @@ function list_security_policies(type; aws_config::AbstractAWSConfig=current_aws_
     return opensearchserverless(
         "ListSecurityPolicies",
         Dict{String,Any}("type" => type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1132,7 +1132,7 @@ function list_security_policies(
     return opensearchserverless(
         "ListSecurityPolicies",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1158,7 +1158,7 @@ function list_tags_for_resource(
     return opensearchserverless(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1173,7 +1173,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1200,7 +1200,7 @@ function list_vpc_endpoints end
 
 function list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
-        "ListVpcEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListVpcEndpoints"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1208,7 +1208,7 @@ function list_vpc_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
-        "ListVpcEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListVpcEndpoints", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1233,7 +1233,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
     return opensearchserverless(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1253,7 +1253,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1281,7 +1281,7 @@ function untag_resource(
     return opensearchserverless(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1301,7 +1301,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1338,7 +1338,7 @@ function update_access_policy(
             "type" => type,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1364,7 +1364,7 @@ function update_access_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1384,7 +1384,7 @@ function update_account_settings end
 
 function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
-        "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "UpdateAccountSettings"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1392,10 +1392,7 @@ function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearchserverless(
-        "UpdateAccountSettings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "UpdateAccountSettings", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1419,7 +1416,7 @@ function update_collection(id; aws_config::AbstractAWSConfig=current_aws_config(
     return opensearchserverless(
         "UpdateCollection",
         Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1436,7 +1433,7 @@ function update_collection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1472,7 +1469,7 @@ function update_lifecycle_policy(
             "type" => type,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1498,7 +1495,7 @@ function update_lifecycle_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1532,7 +1529,7 @@ function update_security_config(
         Dict{String,Any}(
             "configVersion" => configVersion, "id" => id, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1556,7 +1553,7 @@ function update_security_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1593,7 +1590,7 @@ function update_security_policy(
             "type" => type,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1619,7 +1616,7 @@ function update_security_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1651,7 +1648,7 @@ function update_vpc_endpoint(id; aws_config::AbstractAWSConfig=current_aws_confi
     return opensearchserverless(
         "UpdateVpcEndpoint",
         Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1668,7 +1665,7 @@ function update_vpc_endpoint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

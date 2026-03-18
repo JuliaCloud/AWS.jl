@@ -27,7 +27,7 @@ function batch_put_metrics(
         Dict{String,Any}(
             "MetricData" => MetricData, "TrialComponentName" => TrialComponentName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -50,7 +50,7 @@ function batch_put_metrics(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -38,10 +38,7 @@ function get_action_recommendations end
 
 function get_action_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_runtime(
-        "POST",
-        "/action-recommendations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/action-recommendations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -52,7 +49,7 @@ function get_action_recommendations(
         "POST",
         "/action-recommendations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -107,7 +104,7 @@ function get_personalized_ranking(
         Dict{String,Any}(
             "campaignArn" => campaignArn, "inputList" => inputList, "userId" => userId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -133,7 +130,7 @@ function get_personalized_ranking(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -193,7 +190,7 @@ function get_recommendations end
 
 function get_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_runtime(
-        "POST", "/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/recommendations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -201,10 +198,6 @@ function get_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return personalize_runtime(
-        "POST",
-        "/recommendations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/recommendations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end

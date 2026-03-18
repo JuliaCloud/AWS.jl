@@ -31,7 +31,7 @@ function add_client_idto_open_idconnect_provider(
         Dict{String,Any}(
             "ClientID" => ClientID, "OpenIDConnectProviderArn" => OpenIDConnectProviderArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -54,7 +54,7 @@ function add_client_idto_open_idconnect_provider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -93,7 +93,7 @@ function add_role_to_instance_profile(
         Dict{String,Any}(
             "InstanceProfileName" => InstanceProfileName, "RoleName" => RoleName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -115,7 +115,7 @@ function add_role_to_instance_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -143,7 +143,7 @@ function add_user_to_group(
     return iam(
         "AddUserToGroup",
         Dict{String,Any}("GroupName" => GroupName, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -163,7 +163,7 @@ function add_user_to_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -196,7 +196,7 @@ function attach_group_policy(
     return iam(
         "AttachGroupPolicy",
         Dict{String,Any}("GroupName" => GroupName, "PolicyArn" => PolicyArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -216,7 +216,7 @@ function attach_group_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -253,7 +253,7 @@ function attach_role_policy(
     return iam(
         "AttachRolePolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn, "RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -273,7 +273,7 @@ function attach_role_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -306,7 +306,7 @@ function attach_user_policy(
     return iam(
         "AttachUserPolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -326,7 +326,7 @@ function attach_user_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -363,7 +363,7 @@ function change_password(
     return iam(
         "ChangePassword",
         Dict{String,Any}("NewPassword" => NewPassword, "OldPassword" => OldPassword);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -385,7 +385,7 @@ function change_password(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -417,15 +417,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_access_key end
 
 function create_access_key(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("CreateAccessKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("CreateAccessKey"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function create_access_key(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "CreateAccessKey", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("CreateAccessKey", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -450,7 +448,7 @@ function create_account_alias(
     return iam(
         "CreateAccountAlias",
         Dict{String,Any}("AccountAlias" => AccountAlias);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -465,7 +463,7 @@ function create_account_alias(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountAlias" => AccountAlias), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -499,7 +497,7 @@ function create_group(GroupName; aws_config::AbstractAWSConfig=current_aws_confi
     return iam(
         "CreateGroup",
         Dict{String,Any}("GroupName" => GroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -514,7 +512,7 @@ function create_group(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -557,7 +555,7 @@ function create_instance_profile(
     return iam(
         "CreateInstanceProfile",
         Dict{String,Any}("InstanceProfileName" => InstanceProfileName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -576,7 +574,7 @@ function create_instance_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -618,7 +616,7 @@ function create_login_profile(
     return iam(
         "CreateLoginProfile",
         Dict{String,Any}("Password" => Password, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -638,7 +636,7 @@ function create_login_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -718,7 +716,7 @@ function create_open_idconnect_provider(
     return iam(
         "CreateOpenIDConnectProvider",
         Dict{String,Any}("Url" => Url);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -729,7 +727,7 @@ function create_open_idconnect_provider(
     return iam(
         "CreateOpenIDConnectProvider",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Url" => Url), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -790,7 +788,7 @@ function create_policy(
     return iam(
         "CreatePolicy",
         Dict{String,Any}("PolicyDocument" => PolicyDocument, "PolicyName" => PolicyName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -812,7 +810,7 @@ function create_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -862,7 +860,7 @@ function create_policy_version(
     return iam(
         "CreatePolicyVersion",
         Dict{String,Any}("PolicyArn" => PolicyArn, "PolicyDocument" => PolicyDocument);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -884,7 +882,7 @@ function create_policy_version(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -959,7 +957,7 @@ function create_role(
         Dict{String,Any}(
             "AssumeRolePolicyDocument" => AssumeRolePolicyDocument, "RoleName" => RoleName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -982,7 +980,7 @@ function create_role(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1032,7 +1030,7 @@ function create_samlprovider(
     return iam(
         "CreateSAMLProvider",
         Dict{String,Any}("Name" => Name, "SAMLMetadataDocument" => SAMLMetadataDocument);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1054,7 +1052,7 @@ function create_samlprovider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1099,7 +1097,7 @@ function create_service_linked_role(
     return iam(
         "CreateServiceLinkedRole",
         Dict{String,Any}("AWSServiceName" => AWSServiceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1114,7 +1112,7 @@ function create_service_linked_role(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AWSServiceName" => AWSServiceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1152,7 +1150,7 @@ function create_service_specific_credential(
     return iam(
         "CreateServiceSpecificCredential",
         Dict{String,Any}("ServiceName" => ServiceName, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1172,7 +1170,7 @@ function create_service_specific_credential(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1217,7 +1215,7 @@ function create_user(UserName; aws_config::AbstractAWSConfig=current_aws_config(
     return iam(
         "CreateUser",
         Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1232,7 +1230,7 @@ function create_user(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1280,7 +1278,7 @@ function create_virtual_mfadevice(
     return iam(
         "CreateVirtualMFADevice",
         Dict{String,Any}("VirtualMFADeviceName" => VirtualMFADeviceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1299,7 +1297,7 @@ function create_virtual_mfadevice(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1332,7 +1330,7 @@ function deactivate_mfadevice(
     return iam(
         "DeactivateMFADevice",
         Dict{String,Any}("SerialNumber" => SerialNumber, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1352,7 +1350,7 @@ function deactivate_mfadevice(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1386,7 +1384,7 @@ function delete_access_key(AccessKeyId; aws_config::AbstractAWSConfig=current_aw
     return iam(
         "DeleteAccessKey",
         Dict{String,Any}("AccessKeyId" => AccessKeyId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1401,7 +1399,7 @@ function delete_access_key(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccessKeyId" => AccessKeyId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1428,7 +1426,7 @@ function delete_account_alias(
     return iam(
         "DeleteAccountAlias",
         Dict{String,Any}("AccountAlias" => AccountAlias);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1443,7 +1441,7 @@ function delete_account_alias(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountAlias" => AccountAlias), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1460,21 +1458,14 @@ function delete_account_password_policy end
 function delete_account_password_policy(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "DeleteAccountPasswordPolicy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteAccountPasswordPolicy"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function delete_account_password_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
-        "DeleteAccountPasswordPolicy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DeleteAccountPasswordPolicy", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1497,7 +1488,7 @@ function delete_group(GroupName; aws_config::AbstractAWSConfig=current_aws_confi
     return iam(
         "DeleteGroup",
         Dict{String,Any}("GroupName" => GroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1512,7 +1503,7 @@ function delete_group(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1545,7 +1536,7 @@ function delete_group_policy(
     return iam(
         "DeleteGroupPolicy",
         Dict{String,Any}("GroupName" => GroupName, "PolicyName" => PolicyName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1565,7 +1556,7 @@ function delete_group_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1595,7 +1586,7 @@ function delete_instance_profile(
     return iam(
         "DeleteInstanceProfile",
         Dict{String,Any}("InstanceProfileName" => InstanceProfileName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1614,7 +1605,7 @@ function delete_instance_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1646,7 +1637,7 @@ function delete_login_profile(UserName; aws_config::AbstractAWSConfig=current_aw
     return iam(
         "DeleteLoginProfile",
         Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1661,7 +1652,7 @@ function delete_login_profile(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1690,7 +1681,7 @@ function delete_open_idconnect_provider(
     return iam(
         "DeleteOpenIDConnectProvider",
         Dict{String,Any}("OpenIDConnectProviderArn" => OpenIDConnectProviderArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1709,7 +1700,7 @@ function delete_open_idconnect_provider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1743,7 +1734,7 @@ function delete_policy(PolicyArn; aws_config::AbstractAWSConfig=current_aws_conf
     return iam(
         "DeletePolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1758,7 +1749,7 @@ function delete_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PolicyArn" => PolicyArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1792,7 +1783,7 @@ function delete_policy_version(
     return iam(
         "DeletePolicyVersion",
         Dict{String,Any}("PolicyArn" => PolicyArn, "VersionId" => VersionId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1812,7 +1803,7 @@ function delete_policy_version(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1844,7 +1835,7 @@ function delete_role(RoleName; aws_config::AbstractAWSConfig=current_aws_config(
     return iam(
         "DeleteRole",
         Dict{String,Any}("RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1859,7 +1850,7 @@ function delete_role(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1886,7 +1877,7 @@ function delete_role_permissions_boundary(
     return iam(
         "DeleteRolePermissionsBoundary",
         Dict{String,Any}("RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1901,7 +1892,7 @@ function delete_role_permissions_boundary(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1934,7 +1925,7 @@ function delete_role_policy(
     return iam(
         "DeleteRolePolicy",
         Dict{String,Any}("PolicyName" => PolicyName, "RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1954,7 +1945,7 @@ function delete_role_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1980,7 +1971,7 @@ function delete_samlprovider(
     return iam(
         "DeleteSAMLProvider",
         Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1997,7 +1988,7 @@ function delete_samlprovider(
                 _merge, Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2032,7 +2023,7 @@ function delete_server_certificate(
     return iam(
         "DeleteServerCertificate",
         Dict{String,Any}("ServerCertificateName" => ServerCertificateName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2051,7 +2042,7 @@ function delete_server_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2087,7 +2078,7 @@ function delete_service_linked_role(
     return iam(
         "DeleteServiceLinkedRole",
         Dict{String,Any}("RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2102,7 +2093,7 @@ function delete_service_linked_role(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2135,7 +2126,7 @@ function delete_service_specific_credential(
     return iam(
         "DeleteServiceSpecificCredential",
         Dict{String,Any}("ServiceSpecificCredentialId" => ServiceSpecificCredentialId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2156,7 +2147,7 @@ function delete_service_specific_credential(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2192,7 +2183,7 @@ function delete_signing_certificate(
     return iam(
         "DeleteSigningCertificate",
         Dict{String,Any}("CertificateId" => CertificateId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2207,7 +2198,7 @@ function delete_signing_certificate(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CertificateId" => CertificateId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2239,7 +2230,7 @@ function delete_sshpublic_key(
     return iam(
         "DeleteSSHPublicKey",
         Dict{String,Any}("SSHPublicKeyId" => SSHPublicKeyId, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2261,7 +2252,7 @@ function delete_sshpublic_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2292,7 +2283,7 @@ function delete_user(UserName; aws_config::AbstractAWSConfig=current_aws_config(
     return iam(
         "DeleteUser",
         Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2307,7 +2298,7 @@ function delete_user(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2333,7 +2324,7 @@ function delete_user_permissions_boundary(
     return iam(
         "DeleteUserPermissionsBoundary",
         Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2348,7 +2339,7 @@ function delete_user_permissions_boundary(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2381,7 +2372,7 @@ function delete_user_policy(
     return iam(
         "DeleteUserPolicy",
         Dict{String,Any}("PolicyName" => PolicyName, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2401,7 +2392,7 @@ function delete_user_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2428,7 +2419,7 @@ function delete_virtual_mfadevice(
     return iam(
         "DeleteVirtualMFADevice",
         Dict{String,Any}("SerialNumber" => SerialNumber);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2443,7 +2434,7 @@ function delete_virtual_mfadevice(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("SerialNumber" => SerialNumber), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2474,7 +2465,7 @@ function detach_group_policy(
     return iam(
         "DetachGroupPolicy",
         Dict{String,Any}("GroupName" => GroupName, "PolicyArn" => PolicyArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2494,7 +2485,7 @@ function detach_group_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2525,7 +2516,7 @@ function detach_role_policy(
     return iam(
         "DetachRolePolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn, "RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2545,7 +2536,7 @@ function detach_role_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2576,7 +2567,7 @@ function detach_user_policy(
     return iam(
         "DetachUserPolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2596,7 +2587,7 @@ function detach_user_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2649,7 +2640,7 @@ function enable_mfadevice(
             "SerialNumber" => SerialNumber,
             "UserName" => UserName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2676,7 +2667,7 @@ function enable_mfadevice(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2692,19 +2683,14 @@ about the credential report, see Getting credential reports in the IAM User Guid
 function generate_credential_report end
 
 function generate_credential_report(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam(
-        "GenerateCredentialReport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("GenerateCredentialReport"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function generate_credential_report(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
-        "GenerateCredentialReport",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GenerateCredentialReport", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2808,7 +2794,7 @@ function generate_organizations_access_report(
     return iam(
         "GenerateOrganizationsAccessReport",
         Dict{String,Any}("EntityPath" => EntityPath);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2823,7 +2809,7 @@ function generate_organizations_access_report(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EntityPath" => EntityPath), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2889,7 +2875,7 @@ function generate_service_last_accessed_details(
     return iam(
         "GenerateServiceLastAccessedDetails",
         Dict{String,Any}("Arn" => Arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2900,7 +2886,7 @@ function generate_service_last_accessed_details(
     return iam(
         "GenerateServiceLastAccessedDetails",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2927,7 +2913,7 @@ function get_access_key_last_used(
     return iam(
         "GetAccessKeyLastUsed",
         Dict{String,Any}("AccessKeyId" => AccessKeyId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2942,7 +2928,7 @@ function get_access_key_last_used(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccessKeyId" => AccessKeyId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2985,9 +2971,7 @@ function get_account_authorization_details(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
-        "GetAccountAuthorizationDetails";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetAccountAuthorizationDetails"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2997,7 +2981,7 @@ function get_account_authorization_details(
     return iam(
         "GetAccountAuthorizationDetails",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3015,19 +2999,14 @@ policy.
 function get_account_password_policy end
 
 function get_account_password_policy(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam(
-        "GetAccountPasswordPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("GetAccountPasswordPolicy"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_account_password_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
-        "GetAccountPasswordPolicy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetAccountPasswordPolicy", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3042,15 +3021,13 @@ account.  For information about IAM quotas, see IAM and STS quotas in the IAM Us
 function get_account_summary end
 
 function get_account_summary(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("GetAccountSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("GetAccountSummary"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_account_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "GetAccountSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("GetAccountSummary", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3086,7 +3063,7 @@ function get_context_keys_for_custom_policy(
     return iam(
         "GetContextKeysForCustomPolicy",
         Dict{String,Any}("PolicyInputList" => PolicyInputList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3103,7 +3080,7 @@ function get_context_keys_for_custom_policy(
                 _merge, Dict{String,Any}("PolicyInputList" => PolicyInputList), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3153,7 +3130,7 @@ function get_context_keys_for_principal_policy(
     return iam(
         "GetContextKeysForPrincipalPolicy",
         Dict{String,Any}("PolicySourceArn" => PolicySourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3170,7 +3147,7 @@ function get_context_keys_for_principal_policy(
                 _merge, Dict{String,Any}("PolicySourceArn" => PolicySourceArn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3186,20 +3163,13 @@ about the credential report, see Getting credential reports in the IAM User Guid
 function get_credential_report end
 
 function get_credential_report(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam(
-        "GetCredentialReport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("GetCredentialReport"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_credential_report(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "GetCredentialReport",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetCredentialReport", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3233,7 +3203,7 @@ function get_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config()
     return iam(
         "GetGroup",
         Dict{String,Any}("GroupName" => GroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3248,7 +3218,7 @@ function get_group(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3285,7 +3255,7 @@ function get_group_policy(
     return iam(
         "GetGroupPolicy",
         Dict{String,Any}("GroupName" => GroupName, "PolicyName" => PolicyName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3305,7 +3275,7 @@ function get_group_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3333,7 +3303,7 @@ function get_instance_profile(
     return iam(
         "GetInstanceProfile",
         Dict{String,Any}("InstanceProfileName" => InstanceProfileName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3352,7 +3322,7 @@ function get_instance_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3384,7 +3354,7 @@ function get_login_profile(UserName; aws_config::AbstractAWSConfig=current_aws_c
     return iam(
         "GetLoginProfile",
         Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3399,7 +3369,7 @@ function get_login_profile(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3424,7 +3394,7 @@ function get_mfadevice(SerialNumber; aws_config::AbstractAWSConfig=current_aws_c
     return iam(
         "GetMFADevice",
         Dict{String,Any}("SerialNumber" => SerialNumber);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3439,7 +3409,7 @@ function get_mfadevice(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("SerialNumber" => SerialNumber), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3466,7 +3436,7 @@ function get_open_idconnect_provider(
     return iam(
         "GetOpenIDConnectProvider",
         Dict{String,Any}("OpenIDConnectProviderArn" => OpenIDConnectProviderArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3485,7 +3455,7 @@ function get_open_idconnect_provider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3536,7 +3506,7 @@ function get_organizations_access_report(
     return iam(
         "GetOrganizationsAccessReport",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3547,7 +3517,7 @@ function get_organizations_access_report(
     return iam(
         "GetOrganizationsAccessReport",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3578,7 +3548,7 @@ function get_policy(PolicyArn; aws_config::AbstractAWSConfig=current_aws_config(
     return iam(
         "GetPolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3593,7 +3563,7 @@ function get_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PolicyArn" => PolicyArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3632,7 +3602,7 @@ function get_policy_version(
     return iam(
         "GetPolicyVersion",
         Dict{String,Any}("PolicyArn" => PolicyArn, "VersionId" => VersionId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3652,7 +3622,7 @@ function get_policy_version(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3682,7 +3652,7 @@ function get_role(RoleName; aws_config::AbstractAWSConfig=current_aws_config())
     return iam(
         "GetRole",
         Dict{String,Any}("RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3697,7 +3667,7 @@ function get_role(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3735,7 +3705,7 @@ function get_role_policy(
     return iam(
         "GetRolePolicy",
         Dict{String,Any}("PolicyName" => PolicyName, "RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3755,7 +3725,7 @@ function get_role_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3781,7 +3751,7 @@ function get_samlprovider(
     return iam(
         "GetSAMLProvider",
         Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3798,7 +3768,7 @@ function get_samlprovider(
                 _merge, Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3827,7 +3797,7 @@ function get_server_certificate(
     return iam(
         "GetServerCertificate",
         Dict{String,Any}("ServerCertificateName" => ServerCertificateName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3846,7 +3816,7 @@ function get_server_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3909,7 +3879,7 @@ function get_service_last_accessed_details(
     return iam(
         "GetServiceLastAccessedDetails",
         Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3920,7 +3890,7 @@ function get_service_last_accessed_details(
     return iam(
         "GetServiceLastAccessedDetails",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3974,7 +3944,7 @@ function get_service_last_accessed_details_with_entities(
     return iam(
         "GetServiceLastAccessedDetailsWithEntities",
         Dict{String,Any}("JobId" => JobId, "ServiceNamespace" => ServiceNamespace);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3994,7 +3964,7 @@ function get_service_last_accessed_details_with_entities(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4023,7 +3993,7 @@ function get_service_linked_role_deletion_status(
     return iam(
         "GetServiceLinkedRoleDeletionStatus",
         Dict{String,Any}("DeletionTaskId" => DeletionTaskId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4038,7 +4008,7 @@ function get_service_linked_role_deletion_status(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DeletionTaskId" => DeletionTaskId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4078,7 +4048,7 @@ function get_sshpublic_key(
             "SSHPublicKeyId" => SSHPublicKeyId,
             "UserName" => UserName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4103,7 +4073,7 @@ function get_sshpublic_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4128,13 +4098,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_user end
 
 function get_user(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("GetUser"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("GetUser"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_user(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam("GetUser", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("GetUser", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4169,7 +4139,7 @@ function get_user_policy(
     return iam(
         "GetUserPolicy",
         Dict{String,Any}("PolicyName" => PolicyName, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4189,7 +4159,7 @@ function get_user_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4229,15 +4199,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_access_keys end
 
 function list_access_keys(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("ListAccessKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListAccessKeys"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_access_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "ListAccessKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListAccessKeys", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4264,15 +4232,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_account_aliases end
 
 function list_account_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("ListAccountAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListAccountAliases"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_account_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "ListAccountAliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListAccountAliases", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4321,7 +4287,7 @@ function list_attached_group_policies(
     return iam(
         "ListAttachedGroupPolicies",
         Dict{String,Any}("GroupName" => GroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4336,7 +4302,7 @@ function list_attached_group_policies(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4387,7 +4353,7 @@ function list_attached_role_policies(
     return iam(
         "ListAttachedRolePolicies",
         Dict{String,Any}("RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4402,7 +4368,7 @@ function list_attached_role_policies(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4453,7 +4419,7 @@ function list_attached_user_policies(
     return iam(
         "ListAttachedUserPolicies",
         Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4468,7 +4434,7 @@ function list_attached_user_policies(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4524,7 +4490,7 @@ function list_entities_for_policy(
     return iam(
         "ListEntitiesForPolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4539,7 +4505,7 @@ function list_entities_for_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PolicyArn" => PolicyArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4579,7 +4545,7 @@ function list_group_policies(GroupName; aws_config::AbstractAWSConfig=current_aw
     return iam(
         "ListGroupPolicies",
         Dict{String,Any}("GroupName" => GroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4594,7 +4560,7 @@ function list_group_policies(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4630,13 +4596,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_groups end
 
 function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("ListGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListGroups"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam("ListGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4670,7 +4636,7 @@ function list_groups_for_user(UserName; aws_config::AbstractAWSConfig=current_aw
     return iam(
         "ListGroupsForUser",
         Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4685,7 +4651,7 @@ function list_groups_for_user(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4725,7 +4691,7 @@ function list_instance_profile_tags(
     return iam(
         "ListInstanceProfileTags",
         Dict{String,Any}("InstanceProfileName" => InstanceProfileName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4744,7 +4710,7 @@ function list_instance_profile_tags(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4785,20 +4751,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_instance_profiles end
 
 function list_instance_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam(
-        "ListInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListInstanceProfiles"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_instance_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "ListInstanceProfiles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListInstanceProfiles", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4837,7 +4796,7 @@ function list_instance_profiles_for_role(
     return iam(
         "ListInstanceProfilesForRole",
         Dict{String,Any}("RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4852,7 +4811,7 @@ function list_instance_profiles_for_role(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4893,7 +4852,7 @@ function list_mfadevice_tags(
     return iam(
         "ListMFADeviceTags",
         Dict{String,Any}("SerialNumber" => SerialNumber);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4908,7 +4867,7 @@ function list_mfadevice_tags(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("SerialNumber" => SerialNumber), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4943,15 +4902,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_mfadevices end
 
 function list_mfadevices(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("ListMFADevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListMFADevices"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_mfadevices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "ListMFADevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListMFADevices", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4990,7 +4947,7 @@ function list_open_idconnect_provider_tags(
     return iam(
         "ListOpenIDConnectProviderTags",
         Dict{String,Any}("OpenIDConnectProviderArn" => OpenIDConnectProviderArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5009,7 +4966,7 @@ function list_open_idconnect_provider_tags(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5028,19 +4985,14 @@ for an OIDC provider, see GetOpenIDConnectProvider.
 function list_open_idconnect_providers end
 
 function list_open_idconnect_providers(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam(
-        "ListOpenIDConnectProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListOpenIDConnectProviders"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_open_idconnect_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
-        "ListOpenIDConnectProviders",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListOpenIDConnectProviders", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5094,15 +5046,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_policies end
 
 function list_policies(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("ListPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListPolicies"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "ListPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListPolicies", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5153,7 +5103,7 @@ function list_policies_granting_service_access(
     return iam(
         "ListPoliciesGrantingServiceAccess",
         Dict{String,Any}("Arn" => Arn, "ServiceNamespaces" => ServiceNamespaces);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5173,7 +5123,7 @@ function list_policies_granting_service_access(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5211,7 +5161,7 @@ function list_policy_tags(PolicyArn; aws_config::AbstractAWSConfig=current_aws_c
     return iam(
         "ListPolicyTags",
         Dict{String,Any}("PolicyArn" => PolicyArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5226,7 +5176,7 @@ function list_policy_tags(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PolicyArn" => PolicyArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5263,7 +5213,7 @@ function list_policy_versions(PolicyArn; aws_config::AbstractAWSConfig=current_a
     return iam(
         "ListPolicyVersions",
         Dict{String,Any}("PolicyArn" => PolicyArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5278,7 +5228,7 @@ function list_policy_versions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PolicyArn" => PolicyArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5318,7 +5268,7 @@ function list_role_policies(RoleName; aws_config::AbstractAWSConfig=current_aws_
     return iam(
         "ListRolePolicies",
         Dict{String,Any}("RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5333,7 +5283,7 @@ function list_role_policies(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5371,7 +5321,7 @@ function list_role_tags(RoleName; aws_config::AbstractAWSConfig=current_aws_conf
     return iam(
         "ListRoleTags",
         Dict{String,Any}("RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5386,7 +5336,7 @@ function list_role_tags(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5427,13 +5377,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_roles end
 
 function list_roles(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("ListRoles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListRoles"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_roles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam("ListRoles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListRoles", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5472,7 +5422,7 @@ function list_samlprovider_tags(
     return iam(
         "ListSAMLProviderTags",
         Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5489,7 +5439,7 @@ function list_samlprovider_tags(
                 _merge, Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5508,15 +5458,13 @@ This operation requires Signature Version 4.
 function list_samlproviders end
 
 function list_samlproviders(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("ListSAMLProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListSAMLProviders"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_samlproviders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "ListSAMLProviders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListSAMLProviders", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5557,7 +5505,7 @@ function list_server_certificate_tags(
     return iam(
         "ListServerCertificateTags",
         Dict{String,Any}("ServerCertificateName" => ServerCertificateName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5576,7 +5524,7 @@ function list_server_certificate_tags(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5619,19 +5567,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_server_certificates end
 
 function list_server_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam(
-        "ListServerCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListServerCertificates"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_server_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
-        "ListServerCertificates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListServerCertificates", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5663,9 +5606,7 @@ function list_service_specific_credentials(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
-        "ListServiceSpecificCredentials";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListServiceSpecificCredentials"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5675,7 +5616,7 @@ function list_service_specific_credentials(
     return iam(
         "ListServiceSpecificCredentials",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5713,19 +5654,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_signing_certificates end
 
 function list_signing_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam(
-        "ListSigningCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListSigningCertificates"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_signing_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
-        "ListSigningCertificates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListSigningCertificates", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5762,15 +5698,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_sshpublic_keys end
 
 function list_sshpublic_keys(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("ListSSHPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListSSHPublicKeys"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_sshpublic_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "ListSSHPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListSSHPublicKeys", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5808,7 +5742,7 @@ function list_user_policies(UserName; aws_config::AbstractAWSConfig=current_aws_
     return iam(
         "ListUserPolicies",
         Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5823,7 +5757,7 @@ function list_user_policies(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5861,7 +5795,7 @@ function list_user_tags(UserName; aws_config::AbstractAWSConfig=current_aws_conf
     return iam(
         "ListUserTags",
         Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5876,7 +5810,7 @@ function list_user_tags(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5917,13 +5851,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_users end
 
 function list_users(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam("ListUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListUsers"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_users(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam("ListUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iam("ListUsers", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -5957,20 +5891,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_virtual_mfadevices end
 
 function list_virtual_mfadevices(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam(
-        "ListVirtualMFADevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iam("ListVirtualMFADevices"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_virtual_mfadevices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "ListVirtualMFADevices",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("ListVirtualMFADevices", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -6019,7 +5946,7 @@ function put_group_policy(
             "PolicyDocument" => PolicyDocument,
             "PolicyName" => PolicyName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6044,7 +5971,7 @@ function put_group_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6083,7 +6010,7 @@ function put_role_permissions_boundary(
         Dict{String,Any}(
             "PermissionsBoundary" => PermissionsBoundary, "RoleName" => RoleName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6105,7 +6032,7 @@ function put_role_permissions_boundary(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6157,7 +6084,7 @@ function put_role_policy(
             "PolicyName" => PolicyName,
             "RoleName" => RoleName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6182,7 +6109,7 @@ function put_role_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6221,7 +6148,7 @@ function put_user_permissions_boundary(
         Dict{String,Any}(
             "PermissionsBoundary" => PermissionsBoundary, "UserName" => UserName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6243,7 +6170,7 @@ function put_user_permissions_boundary(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6291,7 +6218,7 @@ function put_user_policy(
             "PolicyName" => PolicyName,
             "UserName" => UserName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6316,7 +6243,7 @@ function put_user_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6349,7 +6276,7 @@ function remove_client_idfrom_open_idconnect_provider(
         Dict{String,Any}(
             "ClientID" => ClientID, "OpenIDConnectProviderArn" => OpenIDConnectProviderArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6372,7 +6299,7 @@ function remove_client_idfrom_open_idconnect_provider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6408,7 +6335,7 @@ function remove_role_from_instance_profile(
         Dict{String,Any}(
             "InstanceProfileName" => InstanceProfileName, "RoleName" => RoleName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6430,7 +6357,7 @@ function remove_role_from_instance_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6458,7 +6385,7 @@ function remove_user_from_group(
     return iam(
         "RemoveUserFromGroup",
         Dict{String,Any}("GroupName" => GroupName, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6478,7 +6405,7 @@ function remove_user_from_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6513,7 +6440,7 @@ function reset_service_specific_credential(
     return iam(
         "ResetServiceSpecificCredential",
         Dict{String,Any}("ServiceSpecificCredentialId" => ServiceSpecificCredentialId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6534,7 +6461,7 @@ function reset_service_specific_credential(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6579,7 +6506,7 @@ function resync_mfadevice(
             "SerialNumber" => SerialNumber,
             "UserName" => UserName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6606,7 +6533,7 @@ function resync_mfadevice(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6638,7 +6565,7 @@ function set_default_policy_version(
     return iam(
         "SetDefaultPolicyVersion",
         Dict{String,Any}("PolicyArn" => PolicyArn, "VersionId" => VersionId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6658,7 +6585,7 @@ function set_default_policy_version(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6700,7 +6627,7 @@ function set_security_token_service_preferences(
     return iam(
         "SetSecurityTokenServicePreferences",
         Dict{String,Any}("GlobalEndpointTokenVersion" => GlobalEndpointTokenVersion);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6721,7 +6648,7 @@ function set_security_token_service_preferences(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6863,7 +6790,7 @@ function simulate_custom_policy(
         Dict{String,Any}(
             "ActionNames" => ActionNames, "PolicyInputList" => PolicyInputList
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6885,7 +6812,7 @@ function simulate_custom_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7038,7 +6965,7 @@ function simulate_principal_policy(
         Dict{String,Any}(
             "ActionNames" => ActionNames, "PolicySourceArn" => PolicySourceArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7060,7 +6987,7 @@ function simulate_principal_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7102,7 +7029,7 @@ function tag_instance_profile(
     return iam(
         "TagInstanceProfile",
         Dict{String,Any}("InstanceProfileName" => InstanceProfileName, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7124,7 +7051,7 @@ function tag_instance_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7168,7 +7095,7 @@ function tag_mfadevice(
     return iam(
         "TagMFADevice",
         Dict{String,Any}("SerialNumber" => SerialNumber, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7188,7 +7115,7 @@ function tag_mfadevice(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7233,7 +7160,7 @@ function tag_open_idconnect_provider(
         Dict{String,Any}(
             "OpenIDConnectProviderArn" => OpenIDConnectProviderArn, "Tags" => Tags
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7255,7 +7182,7 @@ function tag_open_idconnect_provider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7295,7 +7222,7 @@ function tag_policy(PolicyArn, Tags; aws_config::AbstractAWSConfig=current_aws_c
     return iam(
         "TagPolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7313,7 +7240,7 @@ function tag_policy(
                 _merge, Dict{String,Any}("PolicyArn" => PolicyArn, "Tags" => Tags), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7357,7 +7284,7 @@ function tag_role(RoleName, Tags; aws_config::AbstractAWSConfig=current_aws_conf
     return iam(
         "TagRole",
         Dict{String,Any}("RoleName" => RoleName, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7375,7 +7302,7 @@ function tag_role(
                 _merge, Dict{String,Any}("RoleName" => RoleName, "Tags" => Tags), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7418,7 +7345,7 @@ function tag_samlprovider(
     return iam(
         "TagSAMLProvider",
         Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7438,7 +7365,7 @@ function tag_samlprovider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7485,7 +7412,7 @@ function tag_server_certificate(
     return iam(
         "TagServerCertificate",
         Dict{String,Any}("ServerCertificateName" => ServerCertificateName, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7507,7 +7434,7 @@ function tag_server_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7550,7 +7477,7 @@ function tag_user(Tags, UserName; aws_config::AbstractAWSConfig=current_aws_conf
     return iam(
         "TagUser",
         Dict{String,Any}("Tags" => Tags, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7568,7 +7495,7 @@ function tag_user(
                 _merge, Dict{String,Any}("Tags" => Tags, "UserName" => UserName), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7599,7 +7526,7 @@ function untag_instance_profile(
         Dict{String,Any}(
             "InstanceProfileName" => InstanceProfileName, "TagKeys" => TagKeys
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7621,7 +7548,7 @@ function untag_instance_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7651,7 +7578,7 @@ function untag_mfadevice(
     return iam(
         "UntagMFADevice",
         Dict{String,Any}("SerialNumber" => SerialNumber, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7671,7 +7598,7 @@ function untag_mfadevice(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7704,7 +7631,7 @@ function untag_open_idconnect_provider(
         Dict{String,Any}(
             "OpenIDConnectProviderArn" => OpenIDConnectProviderArn, "TagKeys" => TagKeys
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7727,7 +7654,7 @@ function untag_open_idconnect_provider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7756,7 +7683,7 @@ function untag_policy(
     return iam(
         "UntagPolicy",
         Dict{String,Any}("PolicyArn" => PolicyArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7776,7 +7703,7 @@ function untag_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7803,7 +7730,7 @@ function untag_role(RoleName, TagKeys; aws_config::AbstractAWSConfig=current_aws
     return iam(
         "UntagRole",
         Dict{String,Any}("RoleName" => RoleName, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7823,7 +7750,7 @@ function untag_role(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7854,7 +7781,7 @@ function untag_samlprovider(
     return iam(
         "UntagSAMLProvider",
         Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7876,7 +7803,7 @@ function untag_samlprovider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7911,7 +7838,7 @@ function untag_server_certificate(
         Dict{String,Any}(
             "ServerCertificateName" => ServerCertificateName, "TagKeys" => TagKeys
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7933,7 +7860,7 @@ function untag_server_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7960,7 +7887,7 @@ function untag_user(TagKeys, UserName; aws_config::AbstractAWSConfig=current_aws
     return iam(
         "UntagUser",
         Dict{String,Any}("TagKeys" => TagKeys, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7980,7 +7907,7 @@ function untag_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8022,7 +7949,7 @@ function update_access_key(
     return iam(
         "UpdateAccessKey",
         Dict{String,Any}("AccessKeyId" => AccessKeyId, "Status" => Status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8042,7 +7969,7 @@ function update_access_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8111,21 +8038,14 @@ function update_account_password_policy end
 function update_account_password_policy(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "UpdateAccountPasswordPolicy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("UpdateAccountPasswordPolicy"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function update_account_password_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
-        "UpdateAccountPasswordPolicy",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "UpdateAccountPasswordPolicy", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -8161,7 +8081,7 @@ function update_assume_role_policy(
     return iam(
         "UpdateAssumeRolePolicy",
         Dict{String,Any}("PolicyDocument" => PolicyDocument, "RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8183,7 +8103,7 @@ function update_assume_role_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8226,7 +8146,7 @@ function update_group(GroupName; aws_config::AbstractAWSConfig=current_aws_confi
     return iam(
         "UpdateGroup",
         Dict{String,Any}("GroupName" => GroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8241,7 +8161,7 @@ function update_group(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8281,7 +8201,7 @@ function update_login_profile(UserName; aws_config::AbstractAWSConfig=current_aw
     return iam(
         "UpdateLoginProfile",
         Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8296,7 +8216,7 @@ function update_login_profile(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8343,7 +8263,7 @@ function update_open_idconnect_provider_thumbprint(
             "OpenIDConnectProviderArn" => OpenIDConnectProviderArn,
             "ThumbprintList" => ThumbprintList,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8366,7 +8286,7 @@ function update_open_idconnect_provider_thumbprint(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8402,7 +8322,7 @@ function update_role(RoleName; aws_config::AbstractAWSConfig=current_aws_config(
     return iam(
         "UpdateRole",
         Dict{String,Any}("RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8417,7 +8337,7 @@ function update_role(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RoleName" => RoleName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8442,7 +8362,7 @@ function update_role_description(
     return iam(
         "UpdateRoleDescription",
         Dict{String,Any}("Description" => Description, "RoleName" => RoleName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8462,7 +8382,7 @@ function update_role_description(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8498,7 +8418,7 @@ function update_samlprovider(
             "SAMLMetadataDocument" => SAMLMetadataDocument,
             "SAMLProviderArn" => SAMLProviderArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8521,7 +8441,7 @@ function update_samlprovider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8571,7 +8491,7 @@ function update_server_certificate(
     return iam(
         "UpdateServerCertificate",
         Dict{String,Any}("ServerCertificateName" => ServerCertificateName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8590,7 +8510,7 @@ function update_server_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8628,7 +8548,7 @@ function update_service_specific_credential(
         Dict{String,Any}(
             "ServiceSpecificCredentialId" => ServiceSpecificCredentialId, "Status" => Status
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8651,7 +8571,7 @@ function update_service_specific_credential(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8691,7 +8611,7 @@ function update_signing_certificate(
     return iam(
         "UpdateSigningCertificate",
         Dict{String,Any}("CertificateId" => CertificateId, "Status" => Status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8711,7 +8631,7 @@ function update_signing_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8750,7 +8670,7 @@ function update_sshpublic_key(
         Dict{String,Any}(
             "SSHPublicKeyId" => SSHPublicKeyId, "Status" => Status, "UserName" => UserName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8775,7 +8695,7 @@ function update_sshpublic_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8817,7 +8737,7 @@ function update_user(UserName; aws_config::AbstractAWSConfig=current_aws_config(
     return iam(
         "UpdateUser",
         Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8832,7 +8752,7 @@ function update_user(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8917,7 +8837,7 @@ function upload_server_certificate(
             "PrivateKey" => PrivateKey,
             "ServerCertificateName" => ServerCertificateName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8942,7 +8862,7 @@ function upload_server_certificate(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8989,7 +8909,7 @@ function upload_signing_certificate(
     return iam(
         "UploadSigningCertificate",
         Dict{String,Any}("CertificateBody" => CertificateBody);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9006,7 +8926,7 @@ function upload_signing_certificate(
                 _merge, Dict{String,Any}("CertificateBody" => CertificateBody), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9044,7 +8964,7 @@ function upload_sshpublic_key(
     return iam(
         "UploadSSHPublicKey",
         Dict{String,Any}("SSHPublicKeyBody" => SSHPublicKeyBody, "UserName" => UserName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9066,7 +8986,7 @@ function upload_sshpublic_key(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

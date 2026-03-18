@@ -37,7 +37,7 @@ function create_export(Export; aws_config::AbstractAWSConfig=current_aws_config(
     return bcm_data_exports(
         "CreateExport",
         Dict{String,Any}("Export" => Export);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -48,7 +48,7 @@ function create_export(
     return bcm_data_exports(
         "CreateExport",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Export" => Export), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -69,7 +69,7 @@ function delete_export(ExportArn; aws_config::AbstractAWSConfig=current_aws_conf
     return bcm_data_exports(
         "DeleteExport",
         Dict{String,Any}("ExportArn" => ExportArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -84,7 +84,7 @@ function delete_export(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ExportArn" => ExportArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -109,7 +109,7 @@ function get_execution(
     return bcm_data_exports(
         "GetExecution",
         Dict{String,Any}("ExecutionId" => ExecutionId, "ExportArn" => ExportArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -129,7 +129,7 @@ function get_execution(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -150,7 +150,7 @@ function get_export(ExportArn; aws_config::AbstractAWSConfig=current_aws_config(
     return bcm_data_exports(
         "GetExport",
         Dict{String,Any}("ExportArn" => ExportArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -165,7 +165,7 @@ function get_export(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ExportArn" => ExportArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -193,7 +193,7 @@ function get_table(TableName; aws_config::AbstractAWSConfig=current_aws_config()
     return bcm_data_exports(
         "GetTable",
         Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -208,7 +208,7 @@ function get_table(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TableName" => TableName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -233,7 +233,7 @@ function list_executions(ExportArn; aws_config::AbstractAWSConfig=current_aws_co
     return bcm_data_exports(
         "ListExecutions",
         Dict{String,Any}("ExportArn" => ExportArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -248,7 +248,7 @@ function list_executions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ExportArn" => ExportArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -267,16 +267,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_exports end
 
 function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bcm_data_exports(
-        "ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bcm_data_exports("ListExports"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bcm_data_exports(
-        "ListExports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListExports", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -294,16 +292,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_tables end
 
 function list_tables(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bcm_data_exports(
-        "ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return bcm_data_exports("ListTables"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bcm_data_exports(
-        "ListTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTables", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -329,7 +325,7 @@ function list_tags_for_resource(
     return bcm_data_exports(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -344,7 +340,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -369,7 +365,7 @@ function tag_resource(
     return bcm_data_exports(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "ResourceTags" => ResourceTags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -391,7 +387,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -417,7 +413,7 @@ function untag_resource(
         Dict{String,Any}(
             "ResourceArn" => ResourceArn, "ResourceTagKeys" => ResourceTagKeys
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -439,7 +435,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -464,7 +460,7 @@ function update_export(
     return bcm_data_exports(
         "UpdateExport",
         Dict{String,Any}("Export" => Export, "ExportArn" => ExportArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -484,7 +480,7 @@ function update_export(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

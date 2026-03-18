@@ -40,7 +40,7 @@ function create_rescore_execution_plan(
     return kendra_ranking(
         "CreateRescoreExecutionPlan",
         Dict{String,Any}("Name" => Name, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -57,7 +57,7 @@ function create_rescore_execution_plan(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -81,7 +81,7 @@ function delete_rescore_execution_plan(
     return kendra_ranking(
         "DeleteRescoreExecutionPlan",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -92,7 +92,7 @@ function delete_rescore_execution_plan(
     return kendra_ranking(
         "DeleteRescoreExecutionPlan",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -116,7 +116,7 @@ function describe_rescore_execution_plan(
     return kendra_ranking(
         "DescribeRescoreExecutionPlan",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -127,7 +127,7 @@ function describe_rescore_execution_plan(
     return kendra_ranking(
         "DescribeRescoreExecutionPlan",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -150,7 +150,7 @@ function list_rescore_execution_plans end
 
 function list_rescore_execution_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra_ranking(
-        "ListRescoreExecutionPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRescoreExecutionPlans"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -158,10 +158,7 @@ function list_rescore_execution_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kendra_ranking(
-        "ListRescoreExecutionPlans",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListRescoreExecutionPlans", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -185,7 +182,7 @@ function list_tags_for_resource(
     return kendra_ranking(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -200,7 +197,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -237,7 +234,7 @@ function rescore(
             "RescoreExecutionPlanId" => RescoreExecutionPlanId,
             "SearchQuery" => SearchQuery,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -262,7 +259,7 @@ function rescore(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -287,7 +284,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
     return kendra_ranking(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -307,7 +304,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -334,7 +331,7 @@ function untag_resource(
     return kendra_ranking(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -354,7 +351,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -388,7 +385,7 @@ function update_rescore_execution_plan(
     return kendra_ranking(
         "UpdateRescoreExecutionPlan",
         Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -399,7 +396,7 @@ function update_rescore_execution_plan(
     return kendra_ranking(
         "UpdateRescoreExecutionPlan",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

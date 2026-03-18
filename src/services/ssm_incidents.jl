@@ -30,7 +30,7 @@ function batch_get_incident_findings(
         Dict{String,Any}(
             "findingIds" => findingIds, "incidentRecordArn" => incidentRecordArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -53,7 +53,7 @@ function batch_get_incident_findings(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -82,7 +82,7 @@ function create_replication_set(regions; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/createReplicationSet",
         Dict{String,Any}("regions" => regions, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -102,7 +102,7 @@ function create_replication_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -145,7 +145,7 @@ function create_response_plan(
             "name" => name,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -170,7 +170,7 @@ function create_response_plan(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -224,7 +224,7 @@ function create_timeline_event(
             "incidentRecordArn" => incidentRecordArn,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -253,7 +253,7 @@ function create_timeline_event(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -275,7 +275,7 @@ function delete_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_c
         "POST",
         "/deleteIncidentRecord",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -287,7 +287,7 @@ function delete_incident_record(
         "POST",
         "/deleteIncidentRecord",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -310,7 +310,7 @@ function delete_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_c
         "POST",
         "/deleteReplicationSet",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -322,7 +322,7 @@ function delete_replication_set(
         "POST",
         "/deleteReplicationSet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -349,7 +349,7 @@ function delete_resource_policy(
         "POST",
         "/deleteResourcePolicy",
         Dict{String,Any}("policyId" => policyId, "resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -370,7 +370,7 @@ function delete_resource_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -393,7 +393,7 @@ function delete_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_con
         "POST",
         "/deleteResponsePlan",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -405,7 +405,7 @@ function delete_response_plan(
         "POST",
         "/deleteResponsePlan",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -432,7 +432,7 @@ function delete_timeline_event(
         "POST",
         "/deleteTimelineEvent",
         Dict{String,Any}("eventId" => eventId, "incidentRecordArn" => incidentRecordArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -455,7 +455,7 @@ function delete_timeline_event(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -477,7 +477,7 @@ function get_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_conf
         "GET",
         "/getIncidentRecord",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -489,7 +489,7 @@ function get_incident_record(
         "GET",
         "/getIncidentRecord",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -511,7 +511,7 @@ function get_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_conf
         "GET",
         "/getReplicationSet",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -523,7 +523,7 @@ function get_replication_set(
         "GET",
         "/getReplicationSet",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -554,7 +554,7 @@ function get_resource_policies(
         "POST",
         "/getResourcePolicies",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -570,7 +570,7 @@ function get_resource_policies(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -592,7 +592,7 @@ function get_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_config
         "GET",
         "/getResponsePlan",
         Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -604,7 +604,7 @@ function get_response_plan(
         "GET",
         "/getResponsePlan",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -631,7 +631,7 @@ function get_timeline_event(
         "GET",
         "/getTimelineEvent",
         Dict{String,Any}("eventId" => eventId, "incidentRecordArn" => incidentRecordArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -654,7 +654,7 @@ function get_timeline_event(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -687,7 +687,7 @@ function list_incident_findings(
         "POST",
         "/listIncidentFindings",
         Dict{String,Any}("incidentRecordArn" => incidentRecordArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -705,7 +705,7 @@ function list_incident_findings(
                 _merge, Dict{String,Any}("incidentRecordArn" => incidentRecordArn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -734,10 +734,7 @@ function list_incident_records end
 
 function list_incident_records(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
-        "POST",
-        "/listIncidentRecords";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/listIncidentRecords"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -745,11 +742,7 @@ function list_incident_records(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
-        "POST",
-        "/listIncidentRecords",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/listIncidentRecords", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -778,7 +771,7 @@ function list_related_items(
         "POST",
         "/listRelatedItems",
         Dict{String,Any}("incidentRecordArn" => incidentRecordArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -796,7 +789,7 @@ function list_related_items(
                 _merge, Dict{String,Any}("incidentRecordArn" => incidentRecordArn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -817,10 +810,7 @@ function list_replication_sets end
 
 function list_replication_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
-        "POST",
-        "/listReplicationSets";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/listReplicationSets"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -828,11 +818,7 @@ function list_replication_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
-        "POST",
-        "/listReplicationSets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/listReplicationSets", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -852,7 +838,7 @@ function list_response_plans end
 
 function list_response_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
-        "POST", "/listResponsePlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/listResponsePlans"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -860,11 +846,7 @@ function list_response_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
-        "POST",
-        "/listResponsePlans",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/listResponsePlans", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -884,10 +866,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -897,11 +876,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -940,7 +915,7 @@ function list_timeline_events(
         "POST",
         "/listTimelineEvents",
         Dict{String,Any}("incidentRecordArn" => incidentRecordArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -958,7 +933,7 @@ function list_timeline_events(
                 _merge, Dict{String,Any}("incidentRecordArn" => incidentRecordArn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -986,7 +961,7 @@ function put_resource_policy(
         "POST",
         "/putResourcePolicy",
         Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1007,7 +982,7 @@ function put_resource_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1045,7 +1020,7 @@ function start_incident(responsePlanArn; aws_config::AbstractAWSConfig=current_a
         Dict{String,Any}(
             "responsePlanArn" => responsePlanArn, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1067,7 +1042,7 @@ function start_incident(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1091,7 +1066,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1106,7 +1081,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1132,7 +1107,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1147,7 +1122,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1182,7 +1157,7 @@ function update_deletion_protection(
             "deletionProtected" => deletionProtected,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1207,7 +1182,7 @@ function update_deletion_protection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1246,7 +1221,7 @@ function update_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_c
         "POST",
         "/updateIncidentRecord",
         Dict{String,Any}("arn" => arn, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1264,7 +1239,7 @@ function update_incident_record(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1301,7 +1276,7 @@ function update_related_items(
             "relatedItemsUpdate" => relatedItemsUpdate,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1326,7 +1301,7 @@ function update_related_items(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1357,7 +1332,7 @@ function update_replication_set(
         Dict{String,Any}(
             "actions" => actions, "arn" => arn, "clientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1380,7 +1355,7 @@ function update_replication_set(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1430,7 +1405,7 @@ function update_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_con
         "POST",
         "/updateResponsePlan",
         Dict{String,Any}("arn" => arn, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1448,7 +1423,7 @@ function update_response_plan(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1494,7 +1469,7 @@ function update_timeline_event(
             "incidentRecordArn" => incidentRecordArn,
             "clientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1519,7 +1494,7 @@ function update_timeline_event(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

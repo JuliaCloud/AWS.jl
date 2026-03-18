@@ -32,7 +32,7 @@ function associate_admin_account(
     return fms(
         "AssociateAdminAccount",
         Dict{String,Any}("AdminAccount" => AdminAccount);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -47,7 +47,7 @@ function associate_admin_account(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AdminAccount" => AdminAccount), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -72,7 +72,7 @@ function associate_third_party_firewall(
     return fms(
         "AssociateThirdPartyFirewall",
         Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -89,7 +89,7 @@ function associate_third_party_firewall(
                 _merge, Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -117,7 +117,7 @@ function batch_associate_resource(
         Dict{String,Any}(
             "Items" => Items, "ResourceSetIdentifier" => ResourceSetIdentifier
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -139,7 +139,7 @@ function batch_associate_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -167,7 +167,7 @@ function batch_disassociate_resource(
         Dict{String,Any}(
             "Items" => Items, "ResourceSetIdentifier" => ResourceSetIdentifier
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -189,7 +189,7 @@ function batch_disassociate_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -211,7 +211,7 @@ function delete_apps_list(ListId; aws_config::AbstractAWSConfig=current_aws_conf
     return fms(
         "DeleteAppsList",
         Dict{String,Any}("ListId" => ListId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -222,7 +222,7 @@ function delete_apps_list(
     return fms(
         "DeleteAppsList",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ListId" => ListId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -238,19 +238,14 @@ Notification Service (SNS) topic that is used to record Firewall Manager SNS log
 function delete_notification_channel end
 
 function delete_notification_channel(; aws_config::AbstractAWSConfig=current_aws_config())
-    return fms(
-        "DeleteNotificationChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fms("DeleteNotificationChannel"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function delete_notification_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fms(
-        "DeleteNotificationChannel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DeleteNotificationChannel", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -289,7 +284,7 @@ function delete_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_confi
     return fms(
         "DeletePolicy",
         Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -304,7 +299,7 @@ function delete_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -326,7 +321,7 @@ function delete_protocols_list(ListId; aws_config::AbstractAWSConfig=current_aws
     return fms(
         "DeleteProtocolsList",
         Dict{String,Any}("ListId" => ListId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -337,7 +332,7 @@ function delete_protocols_list(
     return fms(
         "DeleteProtocolsList",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ListId" => ListId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -359,7 +354,7 @@ function delete_resource_set(Identifier; aws_config::AbstractAWSConfig=current_a
     return fms(
         "DeleteResourceSet",
         Dict{String,Any}("Identifier" => Identifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -374,7 +369,7 @@ function delete_resource_set(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Identifier" => Identifier), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -395,19 +390,14 @@ account.
 function disassociate_admin_account end
 
 function disassociate_admin_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return fms(
-        "DisassociateAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fms("DisassociateAdminAccount"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function disassociate_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fms(
-        "DisassociateAdminAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DisassociateAdminAccount", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -431,7 +421,7 @@ function disassociate_third_party_firewall(
     return fms(
         "DisassociateThirdPartyFirewall",
         Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -448,7 +438,7 @@ function disassociate_third_party_firewall(
                 _merge, Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -464,15 +454,13 @@ Manager default administrator.
 function get_admin_account end
 
 function get_admin_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return fms("GetAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return fms("GetAdminAccount"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return fms(
-        "GetAdminAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fms("GetAdminAccount", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -492,7 +480,7 @@ function get_admin_scope(AdminAccount; aws_config::AbstractAWSConfig=current_aws
     return fms(
         "GetAdminScope",
         Dict{String,Any}("AdminAccount" => AdminAccount);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -507,7 +495,7 @@ function get_admin_scope(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AdminAccount" => AdminAccount), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -532,7 +520,7 @@ function get_apps_list(ListId; aws_config::AbstractAWSConfig=current_aws_config(
     return fms(
         "GetAppsList",
         Dict{String,Any}("ListId" => ListId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -543,7 +531,7 @@ function get_apps_list(
     return fms(
         "GetAppsList",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ListId" => ListId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -571,7 +559,7 @@ function get_compliance_detail(
     return fms(
         "GetComplianceDetail",
         Dict{String,Any}("MemberAccount" => MemberAccount, "PolicyId" => PolicyId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -591,7 +579,7 @@ function get_compliance_detail(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -607,19 +595,14 @@ Firewall Manager SNS logs.
 function get_notification_channel end
 
 function get_notification_channel(; aws_config::AbstractAWSConfig=current_aws_config())
-    return fms(
-        "GetNotificationChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fms("GetNotificationChannel"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_notification_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fms(
-        "GetNotificationChannel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetNotificationChannel", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -639,7 +622,7 @@ function get_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_config()
     return fms(
         "GetPolicy",
         Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -654,7 +637,7 @@ function get_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -694,7 +677,7 @@ function get_protection_status(PolicyId; aws_config::AbstractAWSConfig=current_a
     return fms(
         "GetProtectionStatus",
         Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -709,7 +692,7 @@ function get_protection_status(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -734,7 +717,7 @@ function get_protocols_list(ListId; aws_config::AbstractAWSConfig=current_aws_co
     return fms(
         "GetProtocolsList",
         Dict{String,Any}("ListId" => ListId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -745,7 +728,7 @@ function get_protocols_list(
     return fms(
         "GetProtocolsList",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ListId" => ListId), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -767,7 +750,7 @@ function get_resource_set(Identifier; aws_config::AbstractAWSConfig=current_aws_
     return fms(
         "GetResourceSet",
         Dict{String,Any}("Identifier" => Identifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -782,7 +765,7 @@ function get_resource_set(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Identifier" => Identifier), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -806,7 +789,7 @@ function get_third_party_firewall_association_status(
     return fms(
         "GetThirdPartyFirewallAssociationStatus",
         Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -823,7 +806,7 @@ function get_third_party_firewall_association_status(
                 _merge, Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -865,7 +848,7 @@ function get_violation_details(
             "ResourceId" => ResourceId,
             "ResourceType" => ResourceType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -892,7 +875,7 @@ function get_violation_details(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -921,9 +904,7 @@ function list_admin_accounts_for_organization(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fms(
-        "ListAdminAccountsForOrganization";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListAdminAccountsForOrganization"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -933,7 +914,7 @@ function list_admin_accounts_for_organization(
     return fms(
         "ListAdminAccountsForOrganization",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -960,19 +941,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_admins_managing_account end
 
 function list_admins_managing_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return fms(
-        "ListAdminsManagingAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fms("ListAdminsManagingAccount"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_admins_managing_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fms(
-        "ListAdminsManagingAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListAdminsManagingAccount", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1003,7 +979,7 @@ function list_apps_lists(MaxResults; aws_config::AbstractAWSConfig=current_aws_c
     return fms(
         "ListAppsLists",
         Dict{String,Any}("MaxResults" => MaxResults);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1018,7 +994,7 @@ function list_apps_lists(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("MaxResults" => MaxResults), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1054,7 +1030,7 @@ function list_compliance_status(
     return fms(
         "ListComplianceStatus",
         Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1069,7 +1045,7 @@ function list_compliance_status(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1106,7 +1082,7 @@ function list_discovered_resources(
         Dict{String,Any}(
             "MemberAccountIds" => MemberAccountIds, "ResourceType" => ResourceType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1128,7 +1104,7 @@ function list_discovered_resources(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1156,15 +1132,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_member_accounts end
 
 function list_member_accounts(; aws_config::AbstractAWSConfig=current_aws_config())
-    return fms("ListMemberAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return fms("ListMemberAccounts"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_member_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return fms(
-        "ListMemberAccounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fms("ListMemberAccounts", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1189,15 +1163,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_policies end
 
 function list_policies(; aws_config::AbstractAWSConfig=current_aws_config())
-    return fms("ListPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return fms("ListPolicies"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return fms(
-        "ListPolicies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fms("ListPolicies", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1229,7 +1201,7 @@ function list_protocols_lists(
     return fms(
         "ListProtocolsLists",
         Dict{String,Any}("MaxResults" => MaxResults);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1244,7 +1216,7 @@ function list_protocols_lists(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("MaxResults" => MaxResults), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1277,7 +1249,7 @@ function list_resource_set_resources(
     return fms(
         "ListResourceSetResources",
         Dict{String,Any}("Identifier" => Identifier);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1292,7 +1264,7 @@ function list_resource_set_resources(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Identifier" => Identifier), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1316,15 +1288,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_resource_sets end
 
 function list_resource_sets(; aws_config::AbstractAWSConfig=current_aws_config())
-    return fms("ListResourceSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return fms("ListResourceSets"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_resource_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return fms(
-        "ListResourceSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return fms("ListResourceSets", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1347,7 +1317,7 @@ function list_tags_for_resource(
     return fms(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1362,7 +1332,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1401,7 +1371,7 @@ function list_third_party_firewall_firewall_policies(
         Dict{String,Any}(
             "MaxResults" => MaxResults, "ThirdPartyFirewall" => ThirdPartyFirewall
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1423,7 +1393,7 @@ function list_third_party_firewall_firewall_policies(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1460,7 +1430,7 @@ function put_admin_account(AdminAccount; aws_config::AbstractAWSConfig=current_a
     return fms(
         "PutAdminAccount",
         Dict{String,Any}("AdminAccount" => AdminAccount);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1475,7 +1445,7 @@ function put_admin_account(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AdminAccount" => AdminAccount), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1499,7 +1469,7 @@ function put_apps_list(AppsList; aws_config::AbstractAWSConfig=current_aws_confi
     return fms(
         "PutAppsList",
         Dict{String,Any}("AppsList" => AppsList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1514,7 +1484,7 @@ function put_apps_list(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AppsList" => AppsList), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1547,7 +1517,7 @@ function put_notification_channel(
     return fms(
         "PutNotificationChannel",
         Dict{String,Any}("SnsRoleName" => SnsRoleName, "SnsTopicArn" => SnsTopicArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1569,7 +1539,7 @@ function put_notification_channel(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1617,7 +1587,7 @@ function put_policy(Policy; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "PutPolicy",
         Dict{String,Any}("Policy" => Policy);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1628,7 +1598,7 @@ function put_policy(
     return fms(
         "PutPolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1654,7 +1624,7 @@ function put_protocols_list(
     return fms(
         "PutProtocolsList",
         Dict{String,Any}("ProtocolsList" => ProtocolsList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1669,7 +1639,7 @@ function put_protocols_list(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ProtocolsList" => ProtocolsList), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1698,7 +1668,7 @@ function put_resource_set(ResourceSet; aws_config::AbstractAWSConfig=current_aws
     return fms(
         "PutResourceSet",
         Dict{String,Any}("ResourceSet" => ResourceSet);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1713,7 +1683,7 @@ function put_resource_set(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceSet" => ResourceSet), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1739,7 +1709,7 @@ function tag_resource(
     return fms(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagList" => TagList);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1759,7 +1729,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1785,7 +1755,7 @@ function untag_resource(
     return fms(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1805,7 +1775,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

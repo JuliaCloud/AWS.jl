@@ -23,10 +23,7 @@ function delete_thing_shadow end
 
 function delete_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_data_plane(
-        "DELETE",
-        "/things/$(thingName)/shadow";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/things/$(thingName)/shadow"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -39,7 +36,7 @@ function delete_thing_shadow(
         "DELETE",
         "/things/$(thingName)/shadow",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -62,10 +59,7 @@ function get_retained_message end
 
 function get_retained_message(topic; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_data_plane(
-        "GET",
-        "/retainedMessage/$(topic)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/retainedMessage/$(topic)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -76,7 +70,7 @@ function get_retained_message(
         "GET",
         "/retainedMessage/$(topic)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -99,10 +93,7 @@ function get_thing_shadow end
 
 function get_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_data_plane(
-        "GET",
-        "/things/$(thingName)/shadow";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/things/$(thingName)/shadow"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -115,7 +106,7 @@ function get_thing_shadow(
         "GET",
         "/things/$(thingName)/shadow",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -143,7 +134,7 @@ function list_named_shadows_for_thing(
     return iot_data_plane(
         "GET",
         "/api/things/shadow/ListNamedShadowsForThing/$(thingName)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -157,7 +148,7 @@ function list_named_shadows_for_thing(
         "GET",
         "/api/things/shadow/ListNamedShadowsForThing/$(thingName)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -184,7 +175,7 @@ function list_retained_messages end
 
 function list_retained_messages(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_data_plane(
-        "GET", "/retainedMessage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/retainedMessage"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -192,11 +183,7 @@ function list_retained_messages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_data_plane(
-        "GET",
-        "/retainedMessage",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/retainedMessage", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -245,7 +232,7 @@ function publish end
 
 function publish(topic; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_data_plane(
-        "POST", "/topics/$(topic)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/topics/$(topic)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -253,11 +240,7 @@ function publish(
     topic, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_data_plane(
-        "POST",
-        "/topics/$(topic)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/topics/$(topic)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -286,7 +269,7 @@ function update_thing_shadow(
         "POST",
         "/things/$(thingName)/shadow",
         Dict{String,Any}("payload" => payload);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -301,7 +284,7 @@ function update_thing_shadow(
         "POST",
         "/things/$(thingName)/shadow",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("payload" => payload), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

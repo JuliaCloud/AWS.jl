@@ -45,7 +45,7 @@ function create_accessor(
         Dict{String,Any}(
             "AccessorType" => AccessorType, "ClientRequestToken" => ClientRequestToken
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -69,7 +69,7 @@ function create_accessor(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -108,7 +108,7 @@ function create_member(
             "InvitationId" => InvitationId,
             "MemberConfiguration" => MemberConfiguration,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -135,7 +135,7 @@ function create_member(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -193,7 +193,7 @@ function create_network(
             "Name" => Name,
             "VotingPolicy" => VotingPolicy,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -225,7 +225,7 @@ function create_network(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -271,7 +271,7 @@ function create_node(
             "ClientRequestToken" => ClientRequestToken,
             "NodeConfiguration" => NodeConfiguration,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -296,7 +296,7 @@ function create_node(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -349,7 +349,7 @@ function create_proposal(
             "ClientRequestToken" => ClientRequestToken,
             "MemberId" => MemberId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -376,7 +376,7 @@ function create_proposal(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -401,10 +401,7 @@ function delete_accessor end
 
 function delete_accessor(AccessorId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
-        "DELETE",
-        "/accessors/$(AccessorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/accessors/$(AccessorId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -417,7 +414,7 @@ function delete_accessor(
         "DELETE",
         "/accessors/$(AccessorId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -447,7 +444,7 @@ function delete_member(
     return managedblockchain(
         "DELETE",
         "/networks/$(networkId)/members/$(memberId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -462,7 +459,7 @@ function delete_member(
         "DELETE",
         "/networks/$(networkId)/members/$(memberId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -490,7 +487,7 @@ function delete_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aw
     return managedblockchain(
         "DELETE",
         "/networks/$(networkId)/nodes/$(nodeId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -505,7 +502,7 @@ function delete_node(
         "DELETE",
         "/networks/$(networkId)/nodes/$(nodeId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -525,10 +522,7 @@ function get_accessor end
 
 function get_accessor(AccessorId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
-        "GET",
-        "/accessors/$(AccessorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/accessors/$(AccessorId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -541,7 +535,7 @@ function get_accessor(
         "GET",
         "/accessors/$(AccessorId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -563,7 +557,7 @@ function get_member(memberId, networkId; aws_config::AbstractAWSConfig=current_a
     return managedblockchain(
         "GET",
         "/networks/$(networkId)/members/$(memberId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -578,7 +572,7 @@ function get_member(
         "GET",
         "/networks/$(networkId)/members/$(memberId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -597,10 +591,7 @@ function get_network end
 
 function get_network(networkId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
-        "GET",
-        "/networks/$(networkId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/networks/$(networkId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -610,11 +601,7 @@ function get_network(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
-        "GET",
-        "/networks/$(networkId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/networks/$(networkId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -639,7 +626,7 @@ function get_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aws_c
     return managedblockchain(
         "GET",
         "/networks/$(networkId)/nodes/$(nodeId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -654,7 +641,7 @@ function get_node(
         "GET",
         "/networks/$(networkId)/nodes/$(nodeId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -678,7 +665,7 @@ function get_proposal(
     return managedblockchain(
         "GET",
         "/networks/$(networkId)/proposals/$(proposalId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -693,7 +680,7 @@ function get_proposal(
         "GET",
         "/networks/$(networkId)/proposals/$(proposalId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -717,7 +704,7 @@ function list_accessors end
 
 function list_accessors(; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
-        "GET", "/accessors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/accessors"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -725,7 +712,7 @@ function list_accessors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
-        "GET", "/accessors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/accessors", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -745,7 +732,7 @@ function list_invitations end
 
 function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
-        "GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/invitations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -753,11 +740,7 @@ function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
-        "GET",
-        "/invitations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/invitations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -786,10 +769,7 @@ function list_members end
 
 function list_members(networkId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/members";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/networks/$(networkId)/members"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -802,7 +782,7 @@ function list_members(
         "GET",
         "/networks/$(networkId)/members",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -828,7 +808,7 @@ function list_networks end
 
 function list_networks(; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
-        "GET", "/networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/networks"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -836,7 +816,7 @@ function list_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
-        "GET", "/networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/networks", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -863,10 +843,7 @@ function list_nodes end
 
 function list_nodes(networkId; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/nodes";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/networks/$(networkId)/nodes"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -879,7 +856,7 @@ function list_nodes(
         "GET",
         "/networks/$(networkId)/nodes",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -908,7 +885,7 @@ function list_proposal_votes(
     return managedblockchain(
         "GET",
         "/networks/$(networkId)/proposals/$(proposalId)/votes";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -923,7 +900,7 @@ function list_proposal_votes(
         "GET",
         "/networks/$(networkId)/proposals/$(proposalId)/votes",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -948,7 +925,7 @@ function list_proposals(networkId; aws_config::AbstractAWSConfig=current_aws_con
     return managedblockchain(
         "GET",
         "/networks/$(networkId)/proposals";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -962,7 +939,7 @@ function list_proposals(
         "GET",
         "/networks/$(networkId)/proposals",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -988,10 +965,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1001,11 +975,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1027,7 +997,7 @@ function reject_invitation(invitationId; aws_config::AbstractAWSConfig=current_a
     return managedblockchain(
         "DELETE",
         "/invitations/$(invitationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1041,7 +1011,7 @@ function reject_invitation(
         "DELETE",
         "/invitations/$(invitationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1074,7 +1044,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1089,7 +1059,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1119,7 +1089,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1134,7 +1104,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1163,7 +1133,7 @@ function update_member(
     return managedblockchain(
         "PATCH",
         "/networks/$(networkId)/members/$(memberId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1178,7 +1148,7 @@ function update_member(
         "PATCH",
         "/networks/$(networkId)/members/$(memberId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1206,7 +1176,7 @@ function update_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aw
     return managedblockchain(
         "PATCH",
         "/networks/$(networkId)/nodes/$(nodeId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1221,7 +1191,7 @@ function update_node(
         "PATCH",
         "/networks/$(networkId)/nodes/$(nodeId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1254,7 +1224,7 @@ function vote_on_proposal(
         "POST",
         "/networks/$(networkId)/proposals/$(proposalId)/votes",
         Dict{String,Any}("Vote" => Vote, "VoterMemberId" => VoterMemberId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1277,7 +1247,7 @@ function vote_on_proposal(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

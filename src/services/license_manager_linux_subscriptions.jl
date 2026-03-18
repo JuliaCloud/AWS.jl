@@ -25,7 +25,7 @@ function deregister_subscription_provider(
         "POST",
         "/subscription/DeregisterSubscriptionProvider",
         Dict{String,Any}("SubscriptionProviderArn" => SubscriptionProviderArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -45,7 +45,7 @@ function deregister_subscription_provider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -71,7 +71,7 @@ function get_registered_subscription_provider(
         "POST",
         "/subscription/GetRegisteredSubscriptionProvider",
         Dict{String,Any}("SubscriptionProviderArn" => SubscriptionProviderArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -91,7 +91,7 @@ function get_registered_subscription_provider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -109,7 +109,7 @@ function get_service_settings(; aws_config::AbstractAWSConfig=current_aws_config
     return license_manager_linux_subscriptions(
         "POST",
         "/subscription/GetServiceSettings";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -121,7 +121,7 @@ function get_service_settings(
         "POST",
         "/subscription/GetServiceSettings",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -155,7 +155,7 @@ function list_linux_subscription_instances(;
     return license_manager_linux_subscriptions(
         "POST",
         "/subscription/ListLinuxSubscriptionInstances";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -167,7 +167,7 @@ function list_linux_subscription_instances(
         "POST",
         "/subscription/ListLinuxSubscriptionInstances",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -198,7 +198,7 @@ function list_linux_subscriptions(; aws_config::AbstractAWSConfig=current_aws_co
     return license_manager_linux_subscriptions(
         "POST",
         "/subscription/ListLinuxSubscriptions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -210,7 +210,7 @@ function list_linux_subscriptions(
         "POST",
         "/subscription/ListLinuxSubscriptions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -237,7 +237,7 @@ function list_registered_subscription_providers(;
     return license_manager_linux_subscriptions(
         "POST",
         "/subscription/ListRegisteredSubscriptionProviders";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -249,7 +249,7 @@ function list_registered_subscription_providers(
         "POST",
         "/subscription/ListRegisteredSubscriptionProviders",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -271,10 +271,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_linux_subscriptions(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -284,11 +281,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_linux_subscriptions(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -324,7 +317,7 @@ function register_subscription_provider(
             "SecretArn" => SecretArn,
             "SubscriptionProviderSource" => SubscriptionProviderSource,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -348,7 +341,7 @@ function register_subscription_provider(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -373,7 +366,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "PUT",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -388,7 +381,7 @@ function tag_resource(
         "PUT",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -414,7 +407,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -429,7 +422,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -467,7 +460,7 @@ function update_service_settings(
             "LinuxSubscriptionsDiscovery" => LinuxSubscriptionsDiscovery,
             "LinuxSubscriptionsDiscoverySettings" => LinuxSubscriptionsDiscoverySettings,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -492,7 +485,7 @@ function update_service_settings(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

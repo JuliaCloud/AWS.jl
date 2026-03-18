@@ -31,7 +31,7 @@ function activate_evaluation_form(
         "POST",
         "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/activate",
         Dict{String,Any}("EvaluationFormVersion" => EvaluationFormVersion);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -53,7 +53,7 @@ function activate_evaluation_form(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -87,7 +87,7 @@ function associate_analytics_data_set(
         "PUT",
         "/analytics-data/instance/$(InstanceId)/association",
         Dict{String,Any}("DataSetId" => DataSetId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -104,7 +104,7 @@ function associate_analytics_data_set(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DataSetId" => DataSetId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -131,7 +131,7 @@ function associate_approved_origin(
         "PUT",
         "/instance/$(InstanceId)/approved-origin",
         Dict{String,Any}("Origin" => Origin);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -146,7 +146,7 @@ function associate_approved_origin(
         "PUT",
         "/instance/$(InstanceId)/approved-origin",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Origin" => Origin), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -171,10 +171,7 @@ function associate_bot end
 
 function associate_bot(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "PUT",
-        "/instance/$(InstanceId)/bot";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PUT", "/instance/$(InstanceId)/bot"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -187,7 +184,7 @@ function associate_bot(
         "PUT",
         "/instance/$(InstanceId)/bot",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -218,7 +215,7 @@ function associate_default_vocabulary(
     return connect(
         "PUT",
         "/default-vocabulary/$(InstanceId)/$(LanguageCode)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -233,7 +230,7 @@ function associate_default_vocabulary(
         "PUT",
         "/default-vocabulary/$(InstanceId)/$(LanguageCode)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -267,7 +264,7 @@ function associate_flow(
         Dict{String,Any}(
             "FlowId" => FlowId, "ResourceId" => ResourceId, "ResourceType" => ResourceType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -294,7 +291,7 @@ function associate_flow(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -337,7 +334,7 @@ function associate_instance_storage_config(
         "PUT",
         "/instance/$(InstanceId)/storage-config",
         Dict{String,Any}("ResourceType" => ResourceType, "StorageConfig" => StorageConfig);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -361,7 +358,7 @@ function associate_instance_storage_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -389,7 +386,7 @@ function associate_lambda_function(
         "PUT",
         "/instance/$(InstanceId)/lambda-function",
         Dict{String,Any}("FunctionArn" => FunctionArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -406,7 +403,7 @@ function associate_lambda_function(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("FunctionArn" => FunctionArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -434,7 +431,7 @@ function associate_lex_bot(
         "PUT",
         "/instance/$(InstanceId)/lex-bot",
         Dict{String,Any}("LexBot" => LexBot);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -449,7 +446,7 @@ function associate_lex_bot(
         "PUT",
         "/instance/$(InstanceId)/lex-bot",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LexBot" => LexBot), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -486,7 +483,7 @@ function associate_phone_number_contact_flow(
         "PUT",
         "/phone-number/$(PhoneNumberId)/contact-flow",
         Dict{String,Any}("ContactFlowId" => ContactFlowId, "InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -510,7 +507,7 @@ function associate_phone_number_contact_flow(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -538,7 +535,7 @@ function associate_queue_quick_connects(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/associate-quick-connects",
         Dict{String,Any}("QuickConnectIds" => QuickConnectIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -558,7 +555,7 @@ function associate_queue_quick_connects(
                 _merge, Dict{String,Any}("QuickConnectIds" => QuickConnectIds), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -588,7 +585,7 @@ function associate_routing_profile_queues(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/associate-queues",
         Dict{String,Any}("QueueConfigs" => QueueConfigs);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -606,7 +603,7 @@ function associate_routing_profile_queues(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("QueueConfigs" => QueueConfigs), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -633,7 +630,7 @@ function associate_security_key(
         "PUT",
         "/instance/$(InstanceId)/security-key",
         Dict{String,Any}("Key" => Key);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -648,7 +645,7 @@ function associate_security_key(
         "PUT",
         "/instance/$(InstanceId)/security-key",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Key" => Key), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -681,7 +678,7 @@ function associate_traffic_distribution_group_user(
         "PUT",
         "/traffic-distribution-group/$(TrafficDistributionGroupId)/user",
         Dict{String,Any}("InstanceId" => InstanceId, "UserId" => UserId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -703,7 +700,7 @@ function associate_traffic_distribution_group_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -733,7 +730,7 @@ function associate_user_proficiencies(
         "POST",
         "/users/$(InstanceId)/$(UserId)/associate-proficiencies",
         Dict{String,Any}("UserProficiencies" => UserProficiencies);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -753,7 +750,7 @@ function associate_user_proficiencies(
                 _merge, Dict{String,Any}("UserProficiencies" => UserProficiencies), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -787,7 +784,7 @@ function batch_associate_analytics_data_set(
         "PUT",
         "/analytics-data/instance/$(InstanceId)/associations",
         Dict{String,Any}("DataSetIds" => DataSetIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -804,7 +801,7 @@ function batch_associate_analytics_data_set(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DataSetIds" => DataSetIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -838,7 +835,7 @@ function batch_disassociate_analytics_data_set(
         "POST",
         "/analytics-data/instance/$(InstanceId)/associations",
         Dict{String,Any}("DataSetIds" => DataSetIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -855,7 +852,7 @@ function batch_disassociate_analytics_data_set(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DataSetIds" => DataSetIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -889,7 +886,7 @@ function batch_get_attached_file_metadata(
         Dict{String,Any}(
             "FileIds" => FileIds, "associatedResourceArn" => associatedResourceArn
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -913,7 +910,7 @@ function batch_get_attached_file_metadata(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -942,7 +939,7 @@ function batch_get_flow_association(
         "POST",
         "/flow-associations-batch/$(InstanceId)",
         Dict{String,Any}("ResourceIds" => ResourceIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -959,7 +956,7 @@ function batch_get_flow_association(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceIds" => ResourceIds), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -999,7 +996,7 @@ function batch_put_contact(
             "ContactDataRequestList" => ContactDataRequestList,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1023,7 +1020,7 @@ function batch_put_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1078,7 +1075,7 @@ function claim_phone_number(PhoneNumber; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/phone-number/claim",
         Dict{String,Any}("PhoneNumber" => PhoneNumber, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1100,7 +1097,7 @@ function claim_phone_number(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1131,7 +1128,7 @@ function complete_attached_file_upload(
         "POST",
         "/attached-files/$(InstanceId)/$(FileId)",
         Dict{String,Any}("associatedResourceArn" => associatedResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1153,7 +1150,7 @@ function complete_attached_file_upload(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1187,7 +1184,7 @@ function create_agent_status(
         "PUT",
         "/agent-status/$(InstanceId)",
         Dict{String,Any}("Name" => Name, "State" => State);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1205,7 +1202,7 @@ function create_agent_status(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "State" => State), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1244,7 +1241,7 @@ function create_contact_flow(
         "PUT",
         "/contact-flows/$(InstanceId)",
         Dict{String,Any}("Content" => Content, "Name" => Name, "Type" => Type);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1267,7 +1264,7 @@ function create_contact_flow(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1305,7 +1302,7 @@ function create_contact_flow_module(
         Dict{String,Any}(
             "Content" => Content, "Name" => Name, "ClientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1329,7 +1326,7 @@ function create_contact_flow_module(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1369,7 +1366,7 @@ function create_evaluation_form(
         Dict{String,Any}(
             "Items" => Items, "Title" => Title, "ClientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1393,7 +1390,7 @@ function create_evaluation_form(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1428,7 +1425,7 @@ function create_hours_of_operation(
         "PUT",
         "/hours-of-operations/$(InstanceId)",
         Dict{String,Any}("Config" => Config, "Name" => Name, "TimeZone" => TimeZone);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1453,7 +1450,7 @@ function create_hours_of_operation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1501,7 +1498,7 @@ function create_instance(
             "InboundCallsEnabled" => InboundCallsEnabled,
             "OutboundCallsEnabled" => OutboundCallsEnabled,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1527,7 +1524,7 @@ function create_instance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1571,7 +1568,7 @@ function create_integration_association(
         Dict{String,Any}(
             "IntegrationArn" => IntegrationArn, "IntegrationType" => IntegrationType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1595,7 +1592,7 @@ function create_integration_association(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1638,7 +1635,7 @@ function create_participant(
             "ParticipantDetails" => ParticipantDetails,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1665,7 +1662,7 @@ function create_participant(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1732,7 +1729,7 @@ function create_persistent_contact_association(
         Dict{String,Any}(
             "RehydrationType" => RehydrationType, "SourceContactId" => SourceContactId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1758,7 +1755,7 @@ function create_persistent_contact_association(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1788,7 +1785,7 @@ function create_predefined_attribute(
         "PUT",
         "/predefined-attributes/$(InstanceId)",
         Dict{String,Any}("Name" => Name, "Values" => Values);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1806,7 +1803,7 @@ function create_predefined_attribute(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "Values" => Values), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1840,7 +1837,7 @@ function create_prompt(
         "PUT",
         "/prompts/$(InstanceId)",
         Dict{String,Any}("Name" => Name, "S3Uri" => S3Uri);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1858,7 +1855,7 @@ function create_prompt(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "S3Uri" => S3Uri), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1907,7 +1904,7 @@ function create_queue(
         "PUT",
         "/queues/$(InstanceId)",
         Dict{String,Any}("HoursOfOperationId" => HoursOfOperationId, "Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1931,7 +1928,7 @@ function create_queue(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1963,7 +1960,7 @@ function create_quick_connect(
         "PUT",
         "/quick-connects/$(InstanceId)",
         Dict{String,Any}("Name" => Name, "QuickConnectConfig" => QuickConnectConfig);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1987,7 +1984,7 @@ function create_quick_connect(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2039,7 +2036,7 @@ function create_routing_profile(
             "MediaConcurrencies" => MediaConcurrencies,
             "Name" => Name,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2068,7 +2065,7 @@ function create_routing_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2117,7 +2114,7 @@ function create_rule(
             "TriggerEventSource" => TriggerEventSource,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2149,7 +2146,7 @@ function create_rule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2195,7 +2192,7 @@ function create_security_profile(
         "PUT",
         "/security-profiles/$(InstanceId)",
         Dict{String,Any}("SecurityProfileName" => SecurityProfileName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2216,7 +2213,7 @@ function create_security_profile(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2259,7 +2256,7 @@ function create_task_template(
         Dict{String,Any}(
             "Fields" => Fields, "Name" => Name, "ClientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2283,7 +2280,7 @@ function create_task_template(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2325,7 +2322,7 @@ function create_traffic_distribution_group(
         Dict{String,Any}(
             "InstanceId" => InstanceId, "Name" => Name, "ClientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2350,7 +2347,7 @@ function create_traffic_distribution_group(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2385,7 +2382,7 @@ function create_use_case(
         "PUT",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases",
         Dict{String,Any}("UseCaseType" => UseCaseType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2403,7 +2400,7 @@ function create_use_case(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UseCaseType" => UseCaseType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2466,7 +2463,7 @@ function create_user(
             "SecurityProfileIds" => SecurityProfileIds,
             "Username" => Username,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2495,7 +2492,7 @@ function create_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2527,7 +2524,7 @@ function create_user_hierarchy_group(
         "PUT",
         "/user-hierarchy-groups/$(InstanceId)",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2542,7 +2539,7 @@ function create_user_hierarchy_group(
         "PUT",
         "/user-hierarchy-groups/$(InstanceId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2585,7 +2582,7 @@ function create_view(
         "PUT",
         "/views/$(InstanceId)",
         Dict{String,Any}("Content" => Content, "Name" => Name, "Status" => Status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2608,7 +2605,7 @@ function create_view(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2640,7 +2637,7 @@ function create_view_version(
     return connect(
         "PUT",
         "/views/$(InstanceId)/$(ViewId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2655,7 +2652,7 @@ function create_view_version(
         "PUT",
         "/views/$(InstanceId)/$(ViewId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2708,7 +2705,7 @@ function create_vocabulary(
             "VocabularyName" => VocabularyName,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2736,7 +2733,7 @@ function create_vocabulary(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2769,7 +2766,7 @@ function deactivate_evaluation_form(
         "POST",
         "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/deactivate",
         Dict{String,Any}("EvaluationFormVersion" => EvaluationFormVersion);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2791,7 +2788,7 @@ function deactivate_evaluation_form(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2822,7 +2819,7 @@ function delete_attached_file(
         "DELETE",
         "/attached-files/$(InstanceId)/$(FileId)",
         Dict{String,Any}("associatedResourceArn" => associatedResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2844,7 +2841,7 @@ function delete_attached_file(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2869,7 +2866,7 @@ function delete_contact_evaluation(
     return connect(
         "DELETE",
         "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2884,7 +2881,7 @@ function delete_contact_evaluation(
         "DELETE",
         "/contact-evaluations/$(InstanceId)/$(EvaluationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2909,7 +2906,7 @@ function delete_contact_flow(
     return connect(
         "DELETE",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2924,7 +2921,7 @@ function delete_contact_flow(
         "DELETE",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2949,7 +2946,7 @@ function delete_contact_flow_module(
     return connect(
         "DELETE",
         "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2964,7 +2961,7 @@ function delete_contact_flow_module(
         "DELETE",
         "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2994,7 +2991,7 @@ function delete_evaluation_form(
     return connect(
         "DELETE",
         "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3009,7 +3006,7 @@ function delete_evaluation_form(
         "DELETE",
         "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3035,7 +3032,7 @@ function delete_hours_of_operation(
     return connect(
         "DELETE",
         "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3050,7 +3047,7 @@ function delete_hours_of_operation(
         "DELETE",
         "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3076,10 +3073,7 @@ function delete_instance end
 
 function delete_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "DELETE",
-        "/instance/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/instance/$(InstanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3092,7 +3086,7 @@ function delete_instance(
         "DELETE",
         "/instance/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3118,7 +3112,7 @@ function delete_integration_association(
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3133,7 +3127,7 @@ function delete_integration_association(
         "DELETE",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3158,7 +3152,7 @@ function delete_predefined_attribute(
     return connect(
         "DELETE",
         "/predefined-attributes/$(InstanceId)/$(Name)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3173,7 +3167,7 @@ function delete_predefined_attribute(
         "DELETE",
         "/predefined-attributes/$(InstanceId)/$(Name)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3198,7 +3192,7 @@ function delete_prompt(
     return connect(
         "DELETE",
         "/prompts/$(InstanceId)/$(PromptId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3213,7 +3207,7 @@ function delete_prompt(
         "DELETE",
         "/prompts/$(InstanceId)/$(PromptId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3239,7 +3233,7 @@ function delete_queue(
     return connect(
         "DELETE",
         "/queues/$(InstanceId)/$(QueueId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3254,7 +3248,7 @@ function delete_queue(
         "DELETE",
         "/queues/$(InstanceId)/$(QueueId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3284,7 +3278,7 @@ function delete_quick_connect(
     return connect(
         "DELETE",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3299,7 +3293,7 @@ function delete_quick_connect(
         "DELETE",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3324,7 +3318,7 @@ function delete_routing_profile(
     return connect(
         "DELETE",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3339,7 +3333,7 @@ function delete_routing_profile(
         "DELETE",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3362,7 +3356,7 @@ function delete_rule(InstanceId, RuleId; aws_config::AbstractAWSConfig=current_a
     return connect(
         "DELETE",
         "/rules/$(InstanceId)/$(RuleId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3377,7 +3371,7 @@ function delete_rule(
         "DELETE",
         "/rules/$(InstanceId)/$(RuleId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3402,7 +3396,7 @@ function delete_security_profile(
     return connect(
         "DELETE",
         "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3417,7 +3411,7 @@ function delete_security_profile(
         "DELETE",
         "/security-profiles/$(InstanceId)/$(SecurityProfileId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3442,7 +3436,7 @@ function delete_task_template(
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/task/template/$(TaskTemplateId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3457,7 +3451,7 @@ function delete_task_template(
         "DELETE",
         "/instance/$(InstanceId)/task/template/$(TaskTemplateId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3486,7 +3480,7 @@ function delete_traffic_distribution_group(
     return connect(
         "DELETE",
         "/traffic-distribution-group/$(TrafficDistributionGroupId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3500,7 +3494,7 @@ function delete_traffic_distribution_group(
         "DELETE",
         "/traffic-distribution-group/$(TrafficDistributionGroupId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3529,7 +3523,7 @@ function delete_use_case(
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases/$(UseCaseId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3545,7 +3539,7 @@ function delete_use_case(
         "DELETE",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases/$(UseCaseId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3575,7 +3569,7 @@ function delete_user(InstanceId, UserId; aws_config::AbstractAWSConfig=current_a
     return connect(
         "DELETE",
         "/users/$(InstanceId)/$(UserId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3590,7 +3584,7 @@ function delete_user(
         "DELETE",
         "/users/$(InstanceId)/$(UserId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3616,7 +3610,7 @@ function delete_user_hierarchy_group(
     return connect(
         "DELETE",
         "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3631,7 +3625,7 @@ function delete_user_hierarchy_group(
         "DELETE",
         "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3655,7 +3649,7 @@ function delete_view(InstanceId, ViewId; aws_config::AbstractAWSConfig=current_a
     return connect(
         "DELETE",
         "/views/$(InstanceId)/$(ViewId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3670,7 +3664,7 @@ function delete_view(
         "DELETE",
         "/views/$(InstanceId)/$(ViewId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3696,7 +3690,7 @@ function delete_view_version(
     return connect(
         "DELETE",
         "/views/$(InstanceId)/$(ViewId)/versions/$(ViewVersion)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3712,7 +3706,7 @@ function delete_view_version(
         "DELETE",
         "/views/$(InstanceId)/$(ViewId)/versions/$(ViewVersion)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3737,7 +3731,7 @@ function delete_vocabulary(
     return connect(
         "POST",
         "/vocabulary-remove/$(InstanceId)/$(VocabularyId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3752,7 +3746,7 @@ function delete_vocabulary(
         "POST",
         "/vocabulary-remove/$(InstanceId)/$(VocabularyId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3778,7 +3772,7 @@ function describe_agent_status(
     return connect(
         "GET",
         "/agent-status/$(InstanceId)/$(AgentStatusId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3793,7 +3787,7 @@ function describe_agent_status(
         "GET",
         "/agent-status/$(InstanceId)/$(AgentStatusId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3820,7 +3814,7 @@ function describe_authentication_profile(
     return connect(
         "GET",
         "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3835,7 +3829,7 @@ function describe_authentication_profile(
         "GET",
         "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3863,7 +3857,7 @@ function describe_contact(
     return connect(
         "GET",
         "/contacts/$(InstanceId)/$(ContactId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3878,7 +3872,7 @@ function describe_contact(
         "GET",
         "/contacts/$(InstanceId)/$(ContactId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3903,7 +3897,7 @@ function describe_contact_evaluation(
     return connect(
         "GET",
         "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3918,7 +3912,7 @@ function describe_contact_evaluation(
         "GET",
         "/contact-evaluations/$(InstanceId)/$(EvaluationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3948,7 +3942,7 @@ function describe_contact_flow(
     return connect(
         "GET",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3963,7 +3957,7 @@ function describe_contact_flow(
         "GET",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -3991,7 +3985,7 @@ function describe_contact_flow_module(
     return connect(
         "GET",
         "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4006,7 +4000,7 @@ function describe_contact_flow_module(
         "GET",
         "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4035,7 +4029,7 @@ function describe_evaluation_form(
     return connect(
         "GET",
         "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4050,7 +4044,7 @@ function describe_evaluation_form(
         "GET",
         "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4076,7 +4070,7 @@ function describe_hours_of_operation(
     return connect(
         "GET",
         "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4091,7 +4085,7 @@ function describe_hours_of_operation(
         "GET",
         "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4116,10 +4110,7 @@ function describe_instance end
 
 function describe_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "GET",
-        "/instance/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/instance/$(InstanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4132,7 +4123,7 @@ function describe_instance(
         "GET",
         "/instance/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4158,7 +4149,7 @@ function describe_instance_attribute(
     return connect(
         "GET",
         "/instance/$(InstanceId)/attribute/$(AttributeType)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4173,7 +4164,7 @@ function describe_instance_attribute(
         "GET",
         "/instance/$(InstanceId)/attribute/$(AttributeType)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4206,7 +4197,7 @@ function describe_instance_storage_config(
         "GET",
         "/instance/$(InstanceId)/storage-config/$(AssociationId)",
         Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4224,7 +4215,7 @@ function describe_instance_storage_config(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4252,10 +4243,7 @@ function describe_phone_number(
     PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
-        "GET",
-        "/phone-number/$(PhoneNumberId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/phone-number/$(PhoneNumberId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4268,7 +4256,7 @@ function describe_phone_number(
         "GET",
         "/phone-number/$(PhoneNumberId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4296,7 +4284,7 @@ function describe_predefined_attribute(
     return connect(
         "GET",
         "/predefined-attributes/$(InstanceId)/$(Name)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4311,7 +4299,7 @@ function describe_predefined_attribute(
         "GET",
         "/predefined-attributes/$(InstanceId)/$(Name)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4336,7 +4324,7 @@ function describe_prompt(
     return connect(
         "GET",
         "/prompts/$(InstanceId)/$(PromptId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4351,7 +4339,7 @@ function describe_prompt(
         "GET",
         "/prompts/$(InstanceId)/$(PromptId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4377,7 +4365,7 @@ function describe_queue(
     return connect(
         "GET",
         "/queues/$(InstanceId)/$(QueueId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4392,7 +4380,7 @@ function describe_queue(
         "GET",
         "/queues/$(InstanceId)/$(QueueId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4417,7 +4405,7 @@ function describe_quick_connect(
     return connect(
         "GET",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4432,7 +4420,7 @@ function describe_quick_connect(
         "GET",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4457,7 +4445,7 @@ function describe_routing_profile(
     return connect(
         "GET",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4472,7 +4460,7 @@ function describe_routing_profile(
         "GET",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4495,10 +4483,7 @@ function describe_rule(
     InstanceId, RuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
-        "GET",
-        "/rules/$(InstanceId)/$(RuleId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/rules/$(InstanceId)/$(RuleId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4512,7 +4497,7 @@ function describe_rule(
         "GET",
         "/rules/$(InstanceId)/$(RuleId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4540,7 +4525,7 @@ function describe_security_profile(
     return connect(
         "GET",
         "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4555,7 +4540,7 @@ function describe_security_profile(
         "GET",
         "/security-profiles/$(InstanceId)/$(SecurityProfileId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4581,7 +4566,7 @@ function describe_traffic_distribution_group(
     return connect(
         "GET",
         "/traffic-distribution-group/$(TrafficDistributionGroupId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4595,7 +4580,7 @@ function describe_traffic_distribution_group(
         "GET",
         "/traffic-distribution-group/$(TrafficDistributionGroupId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4620,10 +4605,7 @@ function describe_user(
     InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
-        "GET",
-        "/users/$(InstanceId)/$(UserId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/users/$(InstanceId)/$(UserId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4637,7 +4619,7 @@ function describe_user(
         "GET",
         "/users/$(InstanceId)/$(UserId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4662,7 +4644,7 @@ function describe_user_hierarchy_group(
     return connect(
         "GET",
         "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4677,7 +4659,7 @@ function describe_user_hierarchy_group(
         "GET",
         "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4701,7 +4683,7 @@ function describe_user_hierarchy_structure(
     return connect(
         "GET",
         "/user-hierarchy-structure/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4715,7 +4697,7 @@ function describe_user_hierarchy_structure(
         "GET",
         "/user-hierarchy-structure/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4745,10 +4727,7 @@ function describe_view(
     InstanceId, ViewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
-        "GET",
-        "/views/$(InstanceId)/$(ViewId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/views/$(InstanceId)/$(ViewId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4762,7 +4741,7 @@ function describe_view(
         "GET",
         "/views/$(InstanceId)/$(ViewId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4787,7 +4766,7 @@ function describe_vocabulary(
     return connect(
         "GET",
         "/vocabulary/$(InstanceId)/$(VocabularyId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4802,7 +4781,7 @@ function describe_vocabulary(
         "GET",
         "/vocabulary/$(InstanceId)/$(VocabularyId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4835,7 +4814,7 @@ function disassociate_analytics_data_set(
         "POST",
         "/analytics-data/instance/$(InstanceId)/association",
         Dict{String,Any}("DataSetId" => DataSetId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4852,7 +4831,7 @@ function disassociate_analytics_data_set(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DataSetId" => DataSetId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4879,7 +4858,7 @@ function disassociate_approved_origin(
         "DELETE",
         "/instance/$(InstanceId)/approved-origin",
         Dict{String,Any}("origin" => origin);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4894,7 +4873,7 @@ function disassociate_approved_origin(
         "DELETE",
         "/instance/$(InstanceId)/approved-origin",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("origin" => origin), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4920,10 +4899,7 @@ function disassociate_bot end
 
 function disassociate_bot(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "POST",
-        "/instance/$(InstanceId)/bot";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/instance/$(InstanceId)/bot"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4936,7 +4912,7 @@ function disassociate_bot(
         "POST",
         "/instance/$(InstanceId)/bot",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4962,7 +4938,7 @@ function disassociate_flow(
     return connect(
         "DELETE",
         "/flow-associations/$(InstanceId)/$(ResourceId)/$(ResourceType)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -4978,7 +4954,7 @@ function disassociate_flow(
         "DELETE",
         "/flow-associations/$(InstanceId)/$(ResourceId)/$(ResourceType)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5010,7 +4986,7 @@ function disassociate_instance_storage_config(
         "DELETE",
         "/instance/$(InstanceId)/storage-config/$(AssociationId)",
         Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5028,7 +5004,7 @@ function disassociate_instance_storage_config(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5055,7 +5031,7 @@ function disassociate_lambda_function(
         "DELETE",
         "/instance/$(InstanceId)/lambda-function",
         Dict{String,Any}("functionArn" => functionArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5072,7 +5048,7 @@ function disassociate_lambda_function(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("functionArn" => functionArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5100,7 +5076,7 @@ function disassociate_lex_bot(
         "DELETE",
         "/instance/$(InstanceId)/lex-bot",
         Dict{String,Any}("botName" => botName, "lexRegion" => lexRegion);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5122,7 +5098,7 @@ function disassociate_lex_bot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5155,7 +5131,7 @@ function disassociate_phone_number_contact_flow(
         "DELETE",
         "/phone-number/$(PhoneNumberId)/contact-flow",
         Dict{String,Any}("instanceId" => instanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5172,7 +5148,7 @@ function disassociate_phone_number_contact_flow(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("instanceId" => instanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5200,7 +5176,7 @@ function disassociate_queue_quick_connects(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/disassociate-quick-connects",
         Dict{String,Any}("QuickConnectIds" => QuickConnectIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5220,7 +5196,7 @@ function disassociate_queue_quick_connects(
                 _merge, Dict{String,Any}("QuickConnectIds" => QuickConnectIds), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5250,7 +5226,7 @@ function disassociate_routing_profile_queues(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/disassociate-queues",
         Dict{String,Any}("QueueReferences" => QueueReferences);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5270,7 +5246,7 @@ function disassociate_routing_profile_queues(
                 _merge, Dict{String,Any}("QueueReferences" => QueueReferences), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5297,7 +5273,7 @@ function disassociate_security_key(
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/security-key/$(AssociationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5312,7 +5288,7 @@ function disassociate_security_key(
         "DELETE",
         "/instance/$(InstanceId)/security-key/$(AssociationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5345,7 +5321,7 @@ function disassociate_traffic_distribution_group_user(
         "DELETE",
         "/traffic-distribution-group/$(TrafficDistributionGroupId)/user",
         Dict{String,Any}("InstanceId" => InstanceId, "UserId" => UserId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5367,7 +5343,7 @@ function disassociate_traffic_distribution_group_user(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5397,7 +5373,7 @@ function disassociate_user_proficiencies(
         "POST",
         "/users/$(InstanceId)/$(UserId)/disassociate-proficiencies",
         Dict{String,Any}("UserProficiencies" => UserProficiencies);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5417,7 +5393,7 @@ function disassociate_user_proficiencies(
                 _merge, Dict{String,Any}("UserProficiencies" => UserProficiencies), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5446,7 +5422,7 @@ function dismiss_user_contact(
         "POST",
         "/users/$(InstanceId)/$(UserId)/contact",
         Dict{String,Any}("ContactId" => ContactId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5464,7 +5440,7 @@ function dismiss_user_contact(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5500,7 +5476,7 @@ function get_attached_file(
         "GET",
         "/attached-files/$(InstanceId)/$(FileId)",
         Dict{String,Any}("associatedResourceArn" => associatedResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5522,7 +5498,7 @@ function get_attached_file(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5546,7 +5522,7 @@ function get_contact_attributes(
     return connect(
         "GET",
         "/contact/attributes/$(InstanceId)/$(InitialContactId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5561,7 +5537,7 @@ function get_contact_attributes(
         "GET",
         "/contact/attributes/$(InstanceId)/$(InitialContactId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5638,7 +5614,7 @@ function get_current_metric_data(
         "POST",
         "/metrics/current/$(InstanceId)",
         Dict{String,Any}("CurrentMetrics" => CurrentMetrics, "Filters" => Filters);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5660,7 +5636,7 @@ function get_current_metric_data(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5696,7 +5672,7 @@ function get_current_user_data(
         "POST",
         "/metrics/userdata/$(InstanceId)",
         Dict{String,Any}("Filters" => Filters);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5711,7 +5687,7 @@ function get_current_user_data(
         "POST",
         "/metrics/userdata/$(InstanceId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5739,10 +5715,7 @@ function get_federation_token(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
-        "GET",
-        "/user/federate/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/user/federate/$(InstanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5755,7 +5728,7 @@ function get_federation_token(
         "GET",
         "/user/federate/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5781,7 +5754,7 @@ function get_flow_association(
     return connect(
         "GET",
         "/flow-associations/$(InstanceId)/$(ResourceId)/$(ResourceType)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5797,7 +5770,7 @@ function get_flow_association(
         "GET",
         "/flow-associations/$(InstanceId)/$(ResourceId)/$(ResourceType)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5886,7 +5859,7 @@ function get_metric_data(
             "HistoricalMetrics" => HistoricalMetrics,
             "StartTime" => StartTime,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -5915,7 +5888,7 @@ function get_metric_data(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6298,7 +6271,7 @@ function get_metric_data_v2(
             "ResourceArn" => ResourceArn,
             "StartTime" => StartTime,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6328,7 +6301,7 @@ function get_metric_data_v2(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6353,7 +6326,7 @@ function get_prompt_file(
     return connect(
         "GET",
         "/prompts/$(InstanceId)/$(PromptId)/file";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6368,7 +6341,7 @@ function get_prompt_file(
         "GET",
         "/prompts/$(InstanceId)/$(PromptId)/file",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6397,7 +6370,7 @@ function get_task_template(
     return connect(
         "GET",
         "/instance/$(InstanceId)/task/template/$(TaskTemplateId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6412,7 +6385,7 @@ function get_task_template(
         "GET",
         "/instance/$(InstanceId)/task/template/$(TaskTemplateId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6433,10 +6406,7 @@ function get_traffic_distribution end
 
 function get_traffic_distribution(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "GET",
-        "/traffic-distribution/$(Id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/traffic-distribution/$(Id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -6447,7 +6417,7 @@ function get_traffic_distribution(
         "GET",
         "/traffic-distribution/$(Id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6502,7 +6472,7 @@ function import_phone_number(
             "SourcePhoneNumberArn" => SourcePhoneNumberArn,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6527,7 +6497,7 @@ function import_phone_number(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6554,10 +6524,7 @@ function list_agent_statuses end
 
 function list_agent_statuses(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "GET",
-        "/agent-status/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/agent-status/$(InstanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -6570,7 +6537,7 @@ function list_agent_statuses(
         "GET",
         "/agent-status/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6601,7 +6568,7 @@ function list_analytics_data_associations(
     return connect(
         "GET",
         "/analytics-data/instance/$(InstanceId)/association";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6615,7 +6582,7 @@ function list_analytics_data_associations(
         "GET",
         "/analytics-data/instance/$(InstanceId)/association",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6645,7 +6612,7 @@ function list_approved_origins(
     return connect(
         "GET",
         "/instance/$(InstanceId)/approved-origins";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6659,7 +6626,7 @@ function list_approved_origins(
         "GET",
         "/instance/$(InstanceId)/approved-origins",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6690,7 +6657,7 @@ function list_authentication_profiles(
     return connect(
         "GET",
         "/authentication-profiles-summary/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6704,7 +6671,7 @@ function list_authentication_profiles(
         "GET",
         "/authentication-profiles-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6738,7 +6705,7 @@ function list_bots(
         "GET",
         "/instance/$(InstanceId)/bots",
         Dict{String,Any}("lexVersion" => lexVersion);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6755,7 +6722,7 @@ function list_bots(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("lexVersion" => lexVersion), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6786,7 +6753,7 @@ function list_contact_evaluations(
         "GET",
         "/contact-evaluations/$(InstanceId)",
         Dict{String,Any}("contactId" => contactId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6803,7 +6770,7 @@ function list_contact_evaluations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("contactId" => contactId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6833,7 +6800,7 @@ function list_contact_flow_modules(
     return connect(
         "GET",
         "/contact-flow-modules-summary/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6847,7 +6814,7 @@ function list_contact_flow_modules(
         "GET",
         "/contact-flow-modules-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6878,7 +6845,7 @@ function list_contact_flows(InstanceId; aws_config::AbstractAWSConfig=current_aw
     return connect(
         "GET",
         "/contact-flows-summary/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6892,7 +6859,7 @@ function list_contact_flows(
         "GET",
         "/contact-flows-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6930,7 +6897,7 @@ function list_contact_references(
         "GET",
         "/contact/references/$(InstanceId)/$(ContactId)",
         Dict{String,Any}("referenceTypes" => referenceTypes);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6948,7 +6915,7 @@ function list_contact_references(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("referenceTypes" => referenceTypes), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6979,7 +6946,7 @@ function list_default_vocabularies(
     return connect(
         "POST",
         "/default-vocabulary-summary/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -6993,7 +6960,7 @@ function list_default_vocabularies(
         "POST",
         "/default-vocabulary-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7023,7 +6990,7 @@ function list_evaluation_form_versions(
     return connect(
         "GET",
         "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7038,7 +7005,7 @@ function list_evaluation_form_versions(
         "GET",
         "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7067,7 +7034,7 @@ function list_evaluation_forms(
     return connect(
         "GET",
         "/evaluation-forms/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7081,7 +7048,7 @@ function list_evaluation_forms(
         "GET",
         "/evaluation-forms/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7111,7 +7078,7 @@ function list_flow_associations(
     return connect(
         "GET",
         "/flow-associations-summary/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7125,7 +7092,7 @@ function list_flow_associations(
         "GET",
         "/flow-associations-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7157,7 +7124,7 @@ function list_hours_of_operations(
     return connect(
         "GET",
         "/hours-of-operations-summary/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7171,7 +7138,7 @@ function list_hours_of_operations(
         "GET",
         "/hours-of-operations-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7201,7 +7168,7 @@ function list_instance_attributes(
     return connect(
         "GET",
         "/instance/$(InstanceId)/attributes";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7215,7 +7182,7 @@ function list_instance_attributes(
         "GET",
         "/instance/$(InstanceId)/attributes",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7247,7 +7214,7 @@ function list_instance_storage_configs(
         "GET",
         "/instance/$(InstanceId)/storage-configs",
         Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7264,7 +7231,7 @@ function list_instance_storage_configs(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7287,17 +7254,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_instances end
 
 function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
-    return connect(
-        "GET", "/instance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return connect("GET", "/instance"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return connect(
-        "GET", "/instance", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return connect("GET", "/instance", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -7327,7 +7290,7 @@ function list_integration_associations(
     return connect(
         "GET",
         "/instance/$(InstanceId)/integration-associations";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7341,7 +7304,7 @@ function list_integration_associations(
         "GET",
         "/instance/$(InstanceId)/integration-associations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7372,7 +7335,7 @@ function list_lambda_functions(
     return connect(
         "GET",
         "/instance/$(InstanceId)/lambda-functions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7386,7 +7349,7 @@ function list_lambda_functions(
         "GET",
         "/instance/$(InstanceId)/lambda-functions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7416,7 +7379,7 @@ function list_lex_bots(InstanceId; aws_config::AbstractAWSConfig=current_aws_con
     return connect(
         "GET",
         "/instance/$(InstanceId)/lex-bots";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7430,7 +7393,7 @@ function list_lex_bots(
         "GET",
         "/instance/$(InstanceId)/lex-bots",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7471,7 +7434,7 @@ function list_phone_numbers(InstanceId; aws_config::AbstractAWSConfig=current_aw
     return connect(
         "GET",
         "/phone-numbers-summary/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7485,7 +7448,7 @@ function list_phone_numbers(
         "GET",
         "/phone-numbers-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7527,7 +7490,7 @@ function list_phone_numbers_v2 end
 
 function list_phone_numbers_v2(; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "POST", "/phone-number/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/phone-number/list"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -7535,11 +7498,7 @@ function list_phone_numbers_v2(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
-        "POST",
-        "/phone-number/list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/phone-number/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -7570,7 +7529,7 @@ function list_predefined_attributes(
     return connect(
         "GET",
         "/predefined-attributes/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7584,7 +7543,7 @@ function list_predefined_attributes(
         "GET",
         "/predefined-attributes/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7609,10 +7568,7 @@ function list_prompts end
 
 function list_prompts(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "GET",
-        "/prompts-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/prompts-summary/$(InstanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -7625,7 +7581,7 @@ function list_prompts(
         "GET",
         "/prompts-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7657,7 +7613,7 @@ function list_queue_quick_connects(
     return connect(
         "GET",
         "/queues/$(InstanceId)/$(QueueId)/quick-connects";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7672,7 +7628,7 @@ function list_queue_quick_connects(
         "GET",
         "/queues/$(InstanceId)/$(QueueId)/quick-connects",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7703,10 +7659,7 @@ function list_queues end
 
 function list_queues(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "GET",
-        "/queues-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/queues-summary/$(InstanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -7719,7 +7672,7 @@ function list_queues(
         "GET",
         "/queues-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7748,10 +7701,7 @@ function list_quick_connects end
 
 function list_quick_connects(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "GET",
-        "/quick-connects/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/quick-connects/$(InstanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -7764,7 +7714,7 @@ function list_quick_connects(
         "GET",
         "/quick-connects/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7803,7 +7753,7 @@ function list_realtime_contact_analysis_segments_v2(
         "POST",
         "/contact/list-real-time-analysis-segments-v2/$(InstanceId)/$(ContactId)",
         Dict{String,Any}("OutputType" => OutputType, "SegmentTypes" => SegmentTypes);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7828,7 +7778,7 @@ function list_realtime_contact_analysis_segments_v2(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7859,7 +7809,7 @@ function list_routing_profile_queues(
     return connect(
         "GET",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7874,7 +7824,7 @@ function list_routing_profile_queues(
         "GET",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7906,7 +7856,7 @@ function list_routing_profiles(
     return connect(
         "GET",
         "/routing-profiles-summary/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7920,7 +7870,7 @@ function list_routing_profiles(
         "GET",
         "/routing-profiles-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -7947,10 +7897,7 @@ function list_rules end
 
 function list_rules(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "GET",
-        "/rules/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/rules/$(InstanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -7960,11 +7907,7 @@ function list_rules(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
-        "GET",
-        "/rules/$(InstanceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/rules/$(InstanceId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -7991,7 +7934,7 @@ function list_security_keys(InstanceId; aws_config::AbstractAWSConfig=current_aw
     return connect(
         "GET",
         "/instance/$(InstanceId)/security-keys";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8005,7 +7948,7 @@ function list_security_keys(
         "GET",
         "/instance/$(InstanceId)/security-keys",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8035,7 +7978,7 @@ function list_security_profile_applications(
     return connect(
         "GET",
         "/security-profiles-applications/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8050,7 +7993,7 @@ function list_security_profile_applications(
         "GET",
         "/security-profiles-applications/$(InstanceId)/$(SecurityProfileId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8083,7 +8026,7 @@ function list_security_profile_permissions(
     return connect(
         "GET",
         "/security-profiles-permissions/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8098,7 +8041,7 @@ function list_security_profile_permissions(
         "GET",
         "/security-profiles-permissions/$(InstanceId)/$(SecurityProfileId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8131,7 +8074,7 @@ function list_security_profiles(
     return connect(
         "GET",
         "/security-profiles-summary/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8145,7 +8088,7 @@ function list_security_profiles(
         "GET",
         "/security-profiles-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8169,10 +8112,7 @@ function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -8182,11 +8122,7 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -8219,7 +8155,7 @@ function list_task_templates(InstanceId; aws_config::AbstractAWSConfig=current_a
     return connect(
         "GET",
         "/instance/$(InstanceId)/task/template";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8233,7 +8169,7 @@ function list_task_templates(
         "GET",
         "/instance/$(InstanceId)/task/template",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8264,7 +8200,7 @@ function list_traffic_distribution_group_users(
     return connect(
         "GET",
         "/traffic-distribution-group/$(TrafficDistributionGroupId)/user";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8278,7 +8214,7 @@ function list_traffic_distribution_group_users(
         "GET",
         "/traffic-distribution-group/$(TrafficDistributionGroupId)/user",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8303,10 +8239,7 @@ function list_traffic_distribution_groups(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
-        "GET",
-        "/traffic-distribution-groups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/traffic-distribution-groups"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -8317,7 +8250,7 @@ function list_traffic_distribution_groups(
         "GET",
         "/traffic-distribution-groups",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8347,7 +8280,7 @@ function list_use_cases(
     return connect(
         "GET",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8362,7 +8295,7 @@ function list_use_cases(
         "GET",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8394,7 +8327,7 @@ function list_user_hierarchy_groups(
     return connect(
         "GET",
         "/user-hierarchy-groups-summary/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8408,7 +8341,7 @@ function list_user_hierarchy_groups(
         "GET",
         "/user-hierarchy-groups-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8438,7 +8371,7 @@ function list_user_proficiencies(
     return connect(
         "GET",
         "/users/$(InstanceId)/$(UserId)/proficiencies";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8453,7 +8386,7 @@ function list_user_proficiencies(
         "GET",
         "/users/$(InstanceId)/$(UserId)/proficiencies",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8479,10 +8412,7 @@ function list_users end
 
 function list_users(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "GET",
-        "/users-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/users-summary/$(InstanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -8495,7 +8425,7 @@ function list_users(
         "GET",
         "/users-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8527,7 +8457,7 @@ function list_view_versions(
     return connect(
         "GET",
         "/views/$(InstanceId)/$(ViewId)/versions";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8542,7 +8472,7 @@ function list_view_versions(
         "GET",
         "/views/$(InstanceId)/$(ViewId)/versions",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8570,10 +8500,7 @@ function list_views end
 
 function list_views(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "GET",
-        "/views/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/views/$(InstanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -8583,11 +8510,7 @@ function list_views(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
-        "GET",
-        "/views/$(InstanceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/views/$(InstanceId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -8627,7 +8550,7 @@ function monitor_contact(
             "UserId" => UserId,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8654,7 +8577,7 @@ function monitor_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8683,7 +8606,7 @@ function pause_contact(
         "POST",
         "/contact/pause",
         Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8704,7 +8627,7 @@ function pause_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8733,7 +8656,7 @@ function put_user_status(
         "PUT",
         "/users/$(InstanceId)/$(UserId)/status",
         Dict{String,Any}("AgentStatusId" => AgentStatusId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8751,7 +8674,7 @@ function put_user_status(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AgentStatusId" => AgentStatusId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8796,7 +8719,7 @@ function release_phone_number(
         "DELETE",
         "/phone-number/$(PhoneNumberId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8812,7 +8735,7 @@ function release_phone_number(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8856,7 +8779,7 @@ function replicate_instance(
             "ReplicaRegion" => ReplicaRegion,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8882,7 +8805,7 @@ function replicate_instance(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8911,7 +8834,7 @@ function resume_contact(
         "POST",
         "/contact/resume",
         Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8932,7 +8855,7 @@ function resume_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8970,7 +8893,7 @@ function resume_contact_recording(
             "InitialContactId" => InitialContactId,
             "InstanceId" => InstanceId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -8996,7 +8919,7 @@ function resume_contact_recording(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9028,7 +8951,7 @@ function search_agent_statuses(
         "POST",
         "/search-agent-statuses",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9044,7 +8967,7 @@ function search_agent_statuses(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9090,7 +9013,7 @@ function search_available_phone_numbers(
             "PhoneNumberCountryCode" => PhoneNumberCountryCode,
             "PhoneNumberType" => PhoneNumberType,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9114,7 +9037,7 @@ function search_available_phone_numbers(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9149,7 +9072,7 @@ function search_contact_flow_modules(
         "POST",
         "/search-contact-flow-modules",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9165,7 +9088,7 @@ function search_contact_flow_modules(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9200,7 +9123,7 @@ function search_contact_flows(
         "POST",
         "/search-contact-flows",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9216,7 +9139,7 @@ function search_contact_flows(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9249,7 +9172,7 @@ function search_contacts(
         "POST",
         "/search-contacts",
         Dict{String,Any}("InstanceId" => InstanceId, "TimeRange" => TimeRange);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9270,7 +9193,7 @@ function search_contacts(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9302,7 +9225,7 @@ function search_hours_of_operations(
         "POST",
         "/search-hours-of-operations",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9318,7 +9241,7 @@ function search_hours_of_operations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9352,7 +9275,7 @@ function search_predefined_attributes(
         "POST",
         "/search-predefined-attributes",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9368,7 +9291,7 @@ function search_predefined_attributes(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9398,7 +9321,7 @@ function search_prompts(InstanceId; aws_config::AbstractAWSConfig=current_aws_co
         "POST",
         "/search-prompts",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9414,7 +9337,7 @@ function search_prompts(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9447,7 +9370,7 @@ function search_queues(InstanceId; aws_config::AbstractAWSConfig=current_aws_con
         "POST",
         "/search-queues",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9463,7 +9386,7 @@ function search_queues(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9495,7 +9418,7 @@ function search_quick_connects(
         "POST",
         "/search-quick-connects",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9511,7 +9434,7 @@ function search_quick_connects(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9546,7 +9469,7 @@ function search_resource_tags(
         "POST",
         "/search-resource-tags",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9562,7 +9485,7 @@ function search_resource_tags(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9597,7 +9520,7 @@ function search_routing_profiles(
         "POST",
         "/search-routing-profiles",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9613,7 +9536,7 @@ function search_routing_profiles(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9651,7 +9574,7 @@ function search_security_profiles(
         "POST",
         "/search-security-profiles",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9667,7 +9590,7 @@ function search_security_profiles(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9701,7 +9624,7 @@ function search_user_hierarchy_groups(
         "POST",
         "/search-user-hierarchy-groups",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9717,7 +9640,7 @@ function search_user_hierarchy_groups(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9749,7 +9672,7 @@ function search_users(InstanceId; aws_config::AbstractAWSConfig=current_aws_conf
         "POST",
         "/search-users",
         Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9765,7 +9688,7 @@ function search_users(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9797,7 +9720,7 @@ function search_vocabularies(InstanceId; aws_config::AbstractAWSConfig=current_a
     return connect(
         "POST",
         "/vocabulary-summary/$(InstanceId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9811,7 +9734,7 @@ function search_vocabularies(
         "POST",
         "/vocabulary-summary/$(InstanceId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9855,7 +9778,7 @@ function send_chat_integration_event(
         Dict{String,Any}(
             "DestinationId" => DestinationId, "Event" => Event, "SourceId" => SourceId
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9881,7 +9804,7 @@ function send_chat_integration_event(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9932,7 +9855,7 @@ function start_attached_file_upload(
             "associatedResourceArn" => associatedResourceArn,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -9962,7 +9885,7 @@ function start_attached_file_upload(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10053,7 +9976,7 @@ function start_chat_contact(
             "ParticipantDetails" => ParticipantDetails,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10080,7 +10003,7 @@ function start_chat_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10123,7 +10046,7 @@ function start_contact_evaluation(
             "EvaluationFormId" => EvaluationFormId,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10149,7 +10072,7 @@ function start_contact_evaluation(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10195,7 +10118,7 @@ function start_contact_recording(
             "InstanceId" => InstanceId,
             "VoiceRecordingConfiguration" => VoiceRecordingConfiguration,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10223,7 +10146,7 @@ function start_contact_recording(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10268,7 +10191,7 @@ function start_contact_streaming(
             "ContactId" => ContactId,
             "InstanceId" => InstanceId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10296,7 +10219,7 @@ function start_contact_streaming(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10383,7 +10306,7 @@ function start_outbound_voice_contact(
             "InstanceId" => InstanceId,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10410,7 +10333,7 @@ function start_outbound_voice_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10495,7 +10418,7 @@ function start_task_contact(
         Dict{String,Any}(
             "InstanceId" => InstanceId, "Name" => Name, "ClientToken" => string(uuid4())
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10520,7 +10443,7 @@ function start_task_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10582,7 +10505,7 @@ function start_web_rtccontact(
             "ParticipantDetails" => ParticipantDetails,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10609,7 +10532,7 @@ function start_web_rtccontact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10642,7 +10565,7 @@ function stop_contact(
         "POST",
         "/contact/stop",
         Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10663,7 +10586,7 @@ function stop_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10703,7 +10626,7 @@ function stop_contact_recording(
             "InitialContactId" => InitialContactId,
             "InstanceId" => InstanceId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10729,7 +10652,7 @@ function stop_contact_recording(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10762,7 +10685,7 @@ function stop_contact_streaming(
             "InstanceId" => InstanceId,
             "StreamingId" => StreamingId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10788,7 +10711,7 @@ function stop_contact_streaming(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10822,7 +10745,7 @@ function submit_contact_evaluation(
     return connect(
         "POST",
         "/contact-evaluations/$(InstanceId)/$(EvaluationId)/submit";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10837,7 +10760,7 @@ function submit_contact_evaluation(
         "POST",
         "/contact-evaluations/$(InstanceId)/$(EvaluationId)/submit",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10878,7 +10801,7 @@ function suspend_contact_recording(
             "InitialContactId" => InitialContactId,
             "InstanceId" => InstanceId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10904,7 +10827,7 @@ function suspend_contact_recording(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10935,7 +10858,7 @@ function tag_contact(
         Dict{String,Any}(
             "ContactId" => ContactId, "InstanceId" => InstanceId, "Tags" => Tags
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10959,7 +10882,7 @@ function tag_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -10987,7 +10910,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11002,7 +10925,7 @@ function tag_resource(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11049,7 +10972,7 @@ function transfer_contact(
             "InstanceId" => InstanceId,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11076,7 +10999,7 @@ function transfer_contact(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11105,7 +11028,7 @@ function untag_contact(
         "DELETE",
         "/contact/tags/$(InstanceId)/$(ContactId)",
         Dict{String,Any}("TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11121,7 +11044,7 @@ function untag_contact(
         "DELETE",
         "/contact/tags/$(InstanceId)/$(ContactId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11146,7 +11069,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11161,7 +11084,7 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11194,7 +11117,7 @@ function update_agent_status(
     return connect(
         "POST",
         "/agent-status/$(InstanceId)/$(AgentStatusId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11209,7 +11132,7 @@ function update_agent_status(
         "POST",
         "/agent-status/$(InstanceId)/$(AgentStatusId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11252,7 +11175,7 @@ function update_authentication_profile(
     return connect(
         "POST",
         "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11267,7 +11190,7 @@ function update_authentication_profile(
         "POST",
         "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11302,7 +11225,7 @@ function update_contact(
     return connect(
         "POST",
         "/contacts/$(InstanceId)/$(ContactId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11317,7 +11240,7 @@ function update_contact(
         "POST",
         "/contacts/$(InstanceId)/$(ContactId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11371,7 +11294,7 @@ function update_contact_attributes(
             "InitialContactId" => InitialContactId,
             "InstanceId" => InstanceId,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11397,7 +11320,7 @@ function update_contact_attributes(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11429,7 +11352,7 @@ function update_contact_evaluation(
     return connect(
         "POST",
         "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11444,7 +11367,7 @@ function update_contact_evaluation(
         "POST",
         "/contact-evaluations/$(InstanceId)/$(EvaluationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11475,7 +11398,7 @@ function update_contact_flow_content(
         "POST",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)/content",
         Dict{String,Any}("Content" => Content);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11491,7 +11414,7 @@ function update_contact_flow_content(
         "POST",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)/content",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Content" => Content), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11521,7 +11444,7 @@ function update_contact_flow_metadata(
     return connect(
         "POST",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)/metadata";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11536,7 +11459,7 @@ function update_contact_flow_metadata(
         "POST",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)/metadata",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11570,7 +11493,7 @@ function update_contact_flow_module_content(
         "POST",
         "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)/content",
         Dict{String,Any}("Content" => Content);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11586,7 +11509,7 @@ function update_contact_flow_module_content(
         "POST",
         "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)/content",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Content" => Content), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11616,7 +11539,7 @@ function update_contact_flow_module_metadata(
     return connect(
         "POST",
         "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)/metadata";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11631,7 +11554,7 @@ function update_contact_flow_module_metadata(
         "POST",
         "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)/metadata",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11660,7 +11583,7 @@ function update_contact_flow_name(
     return connect(
         "POST",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)/name";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11675,7 +11598,7 @@ function update_contact_flow_name(
         "POST",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)/name",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11720,7 +11643,7 @@ function update_contact_routing_data(
     return connect(
         "POST",
         "/contacts/$(InstanceId)/$(ContactId)/routing-data";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11735,7 +11658,7 @@ function update_contact_routing_data(
         "POST",
         "/contacts/$(InstanceId)/$(ContactId)/routing-data",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11768,7 +11691,7 @@ function update_contact_schedule(
             "InstanceId" => InstanceId,
             "ScheduledTime" => ScheduledTime,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11794,7 +11717,7 @@ function update_contact_schedule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11845,7 +11768,7 @@ function update_evaluation_form(
             "Title" => Title,
             "ClientToken" => string(uuid4()),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11874,7 +11797,7 @@ function update_evaluation_form(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11906,7 +11829,7 @@ function update_hours_of_operation(
     return connect(
         "POST",
         "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11921,7 +11844,7 @@ function update_hours_of_operation(
         "POST",
         "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11951,7 +11874,7 @@ function update_instance_attribute(
         "POST",
         "/instance/$(InstanceId)/attribute/$(AttributeType)",
         Dict{String,Any}("Value" => Value);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -11967,7 +11890,7 @@ function update_instance_attribute(
         "POST",
         "/instance/$(InstanceId)/attribute/$(AttributeType)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Value" => Value), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12001,7 +11924,7 @@ function update_instance_storage_config(
         "POST",
         "/instance/$(InstanceId)/storage-config/$(AssociationId)",
         Dict{String,Any}("StorageConfig" => StorageConfig, "resourceType" => resourceType);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12026,7 +11949,7 @@ function update_instance_storage_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12060,7 +11983,7 @@ function update_participant_role_config(
         "PUT",
         "/contact/participant-role-config/$(InstanceId)/$(ContactId)",
         Dict{String,Any}("ChannelConfiguration" => ChannelConfiguration);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12082,7 +12005,7 @@ function update_participant_role_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12124,7 +12047,7 @@ function update_phone_number(
         "PUT",
         "/phone-number/$(PhoneNumberId)",
         Dict{String,Any}("ClientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12140,7 +12063,7 @@ function update_phone_number(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12171,7 +12094,7 @@ function update_phone_number_metadata(
         "PUT",
         "/phone-number/$(PhoneNumberId)/metadata",
         Dict{String,Any}("ClientToken" => string(uuid4()));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12187,7 +12110,7 @@ function update_phone_number_metadata(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12218,7 +12141,7 @@ function update_predefined_attribute(
     return connect(
         "POST",
         "/predefined-attributes/$(InstanceId)/$(Name)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12233,7 +12156,7 @@ function update_predefined_attribute(
         "POST",
         "/predefined-attributes/$(InstanceId)/$(Name)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12264,7 +12187,7 @@ function update_prompt(
     return connect(
         "POST",
         "/prompts/$(InstanceId)/$(PromptId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12279,7 +12202,7 @@ function update_prompt(
         "POST",
         "/prompts/$(InstanceId)/$(PromptId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12310,7 +12233,7 @@ function update_queue_hours_of_operation(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/hours-of-operation",
         Dict{String,Any}("HoursOfOperationId" => HoursOfOperationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12330,7 +12253,7 @@ function update_queue_hours_of_operation(
                 _merge, Dict{String,Any}("HoursOfOperationId" => HoursOfOperationId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12360,7 +12283,7 @@ function update_queue_max_contacts(
     return connect(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/max-contacts";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12375,7 +12298,7 @@ function update_queue_max_contacts(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/max-contacts",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12405,7 +12328,7 @@ function update_queue_name(
     return connect(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/name";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12420,7 +12343,7 @@ function update_queue_name(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/name",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12463,7 +12386,7 @@ function update_queue_outbound_caller_config(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/outbound-caller-config",
         Dict{String,Any}("OutboundCallerConfig" => OutboundCallerConfig);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12485,7 +12408,7 @@ function update_queue_outbound_caller_config(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12513,7 +12436,7 @@ function update_queue_status(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/status",
         Dict{String,Any}("Status" => Status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12529,7 +12452,7 @@ function update_queue_status(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/status",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Status" => Status), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12560,7 +12483,7 @@ function update_quick_connect_config(
         "POST",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)/config",
         Dict{String,Any}("QuickConnectConfig" => QuickConnectConfig);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12580,7 +12503,7 @@ function update_quick_connect_config(
                 _merge, Dict{String,Any}("QuickConnectConfig" => QuickConnectConfig), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12610,7 +12533,7 @@ function update_quick_connect_name(
     return connect(
         "POST",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)/name";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12625,7 +12548,7 @@ function update_quick_connect_name(
         "POST",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)/name",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12658,7 +12581,7 @@ function update_routing_profile_agent_availability_timer(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/agent-availability-timer",
         Dict{String,Any}("AgentAvailabilityTimer" => AgentAvailabilityTimer);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12680,7 +12603,7 @@ function update_routing_profile_agent_availability_timer(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12712,7 +12635,7 @@ function update_routing_profile_concurrency(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/concurrency",
         Dict{String,Any}("MediaConcurrencies" => MediaConcurrencies);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12732,7 +12655,7 @@ function update_routing_profile_concurrency(
                 _merge, Dict{String,Any}("MediaConcurrencies" => MediaConcurrencies), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12762,7 +12685,7 @@ function update_routing_profile_default_outbound_queue(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/default-outbound-queue",
         Dict{String,Any}("DefaultOutboundQueueId" => DefaultOutboundQueueId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12784,7 +12707,7 @@ function update_routing_profile_default_outbound_queue(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12815,7 +12738,7 @@ function update_routing_profile_name(
     return connect(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/name";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12830,7 +12753,7 @@ function update_routing_profile_name(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/name",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12861,7 +12784,7 @@ function update_routing_profile_queues(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues",
         Dict{String,Any}("QueueConfigs" => QueueConfigs);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12879,7 +12802,7 @@ function update_routing_profile_queues(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("QueueConfigs" => QueueConfigs), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12923,7 +12846,7 @@ function update_rule(
             "Name" => Name,
             "PublishStatus" => PublishStatus,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12953,7 +12876,7 @@ function update_rule(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -12994,7 +12917,7 @@ function update_security_profile(
     return connect(
         "POST",
         "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13009,7 +12932,7 @@ function update_security_profile(
         "POST",
         "/security-profiles/$(InstanceId)/$(SecurityProfileId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13049,7 +12972,7 @@ function update_task_template(
     return connect(
         "POST",
         "/instance/$(InstanceId)/task/template/$(TaskTemplateId)";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13064,7 +12987,7 @@ function update_task_template(
         "POST",
         "/instance/$(InstanceId)/task/template/$(TaskTemplateId)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13097,10 +13020,7 @@ function update_traffic_distribution end
 
 function update_traffic_distribution(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
-        "PUT",
-        "/traffic-distribution/$(Id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PUT", "/traffic-distribution/$(Id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13111,7 +13031,7 @@ function update_traffic_distribution(
         "PUT",
         "/traffic-distribution/$(Id)",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13139,7 +13059,7 @@ function update_user_hierarchy(
     return connect(
         "POST",
         "/users/$(InstanceId)/$(UserId)/hierarchy";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13154,7 +13074,7 @@ function update_user_hierarchy(
         "POST",
         "/users/$(InstanceId)/$(UserId)/hierarchy",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13181,7 +13101,7 @@ function update_user_hierarchy_group_name(
         "POST",
         "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name",
         Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13197,7 +13117,7 @@ function update_user_hierarchy_group_name(
         "POST",
         "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13223,7 +13143,7 @@ function update_user_hierarchy_structure(
         "POST",
         "/user-hierarchy-structure/$(InstanceId)",
         Dict{String,Any}("HierarchyStructure" => HierarchyStructure);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13242,7 +13162,7 @@ function update_user_hierarchy_structure(
                 _merge, Dict{String,Any}("HierarchyStructure" => HierarchyStructure), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13274,7 +13194,7 @@ function update_user_identity_info(
         "POST",
         "/users/$(InstanceId)/$(UserId)/identity-info",
         Dict{String,Any}("IdentityInfo" => IdentityInfo);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13292,7 +13212,7 @@ function update_user_identity_info(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("IdentityInfo" => IdentityInfo), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13319,7 +13239,7 @@ function update_user_phone_config(
         "POST",
         "/users/$(InstanceId)/$(UserId)/phone-config",
         Dict{String,Any}("PhoneConfig" => PhoneConfig);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13337,7 +13257,7 @@ function update_user_phone_config(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PhoneConfig" => PhoneConfig), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13368,7 +13288,7 @@ function update_user_proficiencies(
         "POST",
         "/users/$(InstanceId)/$(UserId)/proficiencies",
         Dict{String,Any}("UserProficiencies" => UserProficiencies);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13388,7 +13308,7 @@ function update_user_proficiencies(
                 _merge, Dict{String,Any}("UserProficiencies" => UserProficiencies), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13415,7 +13335,7 @@ function update_user_routing_profile(
         "POST",
         "/users/$(InstanceId)/$(UserId)/routing-profile",
         Dict{String,Any}("RoutingProfileId" => RoutingProfileId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13435,7 +13355,7 @@ function update_user_routing_profile(
                 _merge, Dict{String,Any}("RoutingProfileId" => RoutingProfileId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13465,7 +13385,7 @@ function update_user_security_profiles(
         "POST",
         "/users/$(InstanceId)/$(UserId)/security-profiles",
         Dict{String,Any}("SecurityProfileIds" => SecurityProfileIds);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13485,7 +13405,7 @@ function update_user_security_profiles(
                 _merge, Dict{String,Any}("SecurityProfileIds" => SecurityProfileIds), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13519,7 +13439,7 @@ function update_view_content(
         "POST",
         "/views/$(InstanceId)/$(ViewId)",
         Dict{String,Any}("Content" => Content, "Status" => Status);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13540,7 +13460,7 @@ function update_view_content(
                 _merge, Dict{String,Any}("Content" => Content, "Status" => Status), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13569,7 +13489,7 @@ function update_view_metadata(
     return connect(
         "POST",
         "/views/$(InstanceId)/$(ViewId)/metadata";
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -13584,7 +13504,7 @@ function update_view_metadata(
         "POST",
         "/views/$(InstanceId)/$(ViewId)/metadata",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

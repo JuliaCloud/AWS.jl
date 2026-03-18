@@ -30,7 +30,7 @@ function convert_recovery_point_to_snapshot(
         Dict{String,Any}(
             "recoveryPointId" => recoveryPointId, "snapshotName" => snapshotName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -52,7 +52,7 @@ function convert_recovery_point_to_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -85,7 +85,7 @@ function create_custom_domain_association(
             "customDomainName" => customDomainName,
             "workgroupName" => workgroupName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -110,7 +110,7 @@ function create_custom_domain_association(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -152,7 +152,7 @@ function create_endpoint_access(
             "subnetIds" => subnetIds,
             "workgroupName" => workgroupName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -177,7 +177,7 @@ function create_endpoint_access(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -222,7 +222,7 @@ function create_namespace(namespaceName; aws_config::AbstractAWSConfig=current_a
     return redshift_serverless(
         "CreateNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -237,7 +237,7 @@ function create_namespace(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("namespaceName" => namespaceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -298,7 +298,7 @@ function create_scheduled_action(
             "scheduledActionName" => scheduledActionName,
             "targetAction" => targetAction,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -327,7 +327,7 @@ function create_scheduled_action(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -356,7 +356,7 @@ function create_snapshot(
     return redshift_serverless(
         "CreateSnapshot",
         Dict{String,Any}("namespaceName" => namespaceName, "snapshotName" => snapshotName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -378,7 +378,7 @@ function create_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -412,7 +412,7 @@ function create_snapshot_copy_configuration(
         Dict{String,Any}(
             "destinationRegion" => destinationRegion, "namespaceName" => namespaceName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -435,7 +435,7 @@ function create_snapshot_copy_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -472,7 +472,7 @@ function create_usage_limit(
         Dict{String,Any}(
             "amount" => amount, "resourceArn" => resourceArn, "usageType" => usageType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -497,7 +497,7 @@ function create_usage_limit(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -547,7 +547,7 @@ function create_workgroup(
         Dict{String,Any}(
             "namespaceName" => namespaceName, "workgroupName" => workgroupName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -569,7 +569,7 @@ function create_workgroup(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -595,7 +595,7 @@ function delete_custom_domain_association(
         Dict{String,Any}(
             "customDomainName" => customDomainName, "workgroupName" => workgroupName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -617,7 +617,7 @@ function delete_custom_domain_association(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -640,7 +640,7 @@ function delete_endpoint_access(
     return redshift_serverless(
         "DeleteEndpointAccess",
         Dict{String,Any}("endpointName" => endpointName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -655,7 +655,7 @@ function delete_endpoint_access(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("endpointName" => endpointName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -682,7 +682,7 @@ function delete_namespace(namespaceName; aws_config::AbstractAWSConfig=current_a
     return redshift_serverless(
         "DeleteNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -697,7 +697,7 @@ function delete_namespace(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("namespaceName" => namespaceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -720,7 +720,7 @@ function delete_resource_policy(
     return redshift_serverless(
         "DeleteResourcePolicy",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -735,7 +735,7 @@ function delete_resource_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -758,7 +758,7 @@ function delete_scheduled_action(
     return redshift_serverless(
         "DeleteScheduledAction",
         Dict{String,Any}("scheduledActionName" => scheduledActionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -777,7 +777,7 @@ function delete_scheduled_action(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -798,7 +798,7 @@ function delete_snapshot(snapshotName; aws_config::AbstractAWSConfig=current_aws
     return redshift_serverless(
         "DeleteSnapshot",
         Dict{String,Any}("snapshotName" => snapshotName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -813,7 +813,7 @@ function delete_snapshot(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("snapshotName" => snapshotName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -836,7 +836,7 @@ function delete_snapshot_copy_configuration(
     return redshift_serverless(
         "DeleteSnapshotCopyConfiguration",
         Dict{String,Any}("snapshotCopyConfigurationId" => snapshotCopyConfigurationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -857,7 +857,7 @@ function delete_snapshot_copy_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -880,7 +880,7 @@ function delete_usage_limit(
     return redshift_serverless(
         "DeleteUsageLimit",
         Dict{String,Any}("usageLimitId" => usageLimitId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -895,7 +895,7 @@ function delete_usage_limit(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("usageLimitId" => usageLimitId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -916,7 +916,7 @@ function delete_workgroup(workgroupName; aws_config::AbstractAWSConfig=current_a
     return redshift_serverless(
         "DeleteWorkgroup",
         Dict{String,Any}("workgroupName" => workgroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -931,7 +931,7 @@ function delete_workgroup(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("workgroupName" => workgroupName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -967,7 +967,7 @@ function get_credentials end
 
 function get_credentials(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
-        "GetCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetCredentials"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -975,7 +975,7 @@ function get_credentials(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "GetCredentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetCredentials", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1000,7 +1000,7 @@ function get_custom_domain_association(
         Dict{String,Any}(
             "customDomainName" => customDomainName, "workgroupName" => workgroupName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1022,7 +1022,7 @@ function get_custom_domain_association(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1045,7 +1045,7 @@ function get_endpoint_access(
     return redshift_serverless(
         "GetEndpointAccess",
         Dict{String,Any}("endpointName" => endpointName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1060,7 +1060,7 @@ function get_endpoint_access(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("endpointName" => endpointName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1081,7 +1081,7 @@ function get_namespace(namespaceName; aws_config::AbstractAWSConfig=current_aws_
     return redshift_serverless(
         "GetNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1096,7 +1096,7 @@ function get_namespace(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("namespaceName" => namespaceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1120,7 +1120,7 @@ function get_recovery_point(
     return redshift_serverless(
         "GetRecoveryPoint",
         Dict{String,Any}("recoveryPointId" => recoveryPointId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1137,7 +1137,7 @@ function get_recovery_point(
                 _merge, Dict{String,Any}("recoveryPointId" => recoveryPointId), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1160,7 +1160,7 @@ function get_resource_policy(
     return redshift_serverless(
         "GetResourcePolicy",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1175,7 +1175,7 @@ function get_resource_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1198,7 +1198,7 @@ function get_scheduled_action(
     return redshift_serverless(
         "GetScheduledAction",
         Dict{String,Any}("scheduledActionName" => scheduledActionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1217,7 +1217,7 @@ function get_scheduled_action(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1238,16 +1238,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_snapshot end
 
 function get_snapshot(; aws_config::AbstractAWSConfig=current_aws_config())
-    return redshift_serverless(
-        "GetSnapshot"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return redshift_serverless("GetSnapshot"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_snapshot(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "GetSnapshot", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "GetSnapshot", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1270,7 +1268,7 @@ function get_table_restore_status(
     return redshift_serverless(
         "GetTableRestoreStatus",
         Dict{String,Any}("tableRestoreRequestId" => tableRestoreRequestId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1289,7 +1287,7 @@ function get_table_restore_status(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1310,7 +1308,7 @@ function get_usage_limit(usageLimitId; aws_config::AbstractAWSConfig=current_aws
     return redshift_serverless(
         "GetUsageLimit",
         Dict{String,Any}("usageLimitId" => usageLimitId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1325,7 +1323,7 @@ function get_usage_limit(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("usageLimitId" => usageLimitId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1346,7 +1344,7 @@ function get_workgroup(workgroupName; aws_config::AbstractAWSConfig=current_aws_
     return redshift_serverless(
         "GetWorkgroup",
         Dict{String,Any}("workgroupName" => workgroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1361,7 +1359,7 @@ function get_workgroup(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("workgroupName" => workgroupName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1389,9 +1387,7 @@ function list_custom_domain_associations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "ListCustomDomainAssociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListCustomDomainAssociations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1399,10 +1395,7 @@ function list_custom_domain_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "ListCustomDomainAssociations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListCustomDomainAssociations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1429,7 +1422,7 @@ function list_endpoint_access end
 
 function list_endpoint_access(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
-        "ListEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEndpointAccess"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1437,7 +1430,7 @@ function list_endpoint_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "ListEndpointAccess", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListEndpointAccess", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1459,7 +1452,7 @@ function list_namespaces end
 
 function list_namespaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
-        "ListNamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListNamespaces"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1467,7 +1460,7 @@ function list_namespaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "ListNamespaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListNamespaces", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1494,7 +1487,7 @@ function list_recovery_points end
 
 function list_recovery_points(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
-        "ListRecoveryPoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRecoveryPoints"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1502,7 +1495,7 @@ function list_recovery_points(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "ListRecoveryPoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListRecoveryPoints", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1526,7 +1519,7 @@ function list_scheduled_actions end
 
 function list_scheduled_actions(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
-        "ListScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListScheduledActions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1534,10 +1527,7 @@ function list_scheduled_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "ListScheduledActions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListScheduledActions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1562,9 +1552,7 @@ function list_snapshot_copy_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "ListSnapshotCopyConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListSnapshotCopyConfigurations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1574,7 +1562,7 @@ function list_snapshot_copy_configurations(
     return redshift_serverless(
         "ListSnapshotCopyConfigurations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1602,16 +1590,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_snapshots end
 
 function list_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
-    return redshift_serverless(
-        "ListSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return redshift_serverless("ListSnapshots"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "ListSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListSnapshots", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1637,7 +1623,7 @@ function list_table_restore_status end
 
 function list_table_restore_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
-        "ListTableRestoreStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListTableRestoreStatus"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1645,10 +1631,7 @@ function list_table_restore_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "ListTableRestoreStatus",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListTableRestoreStatus", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1670,7 +1653,7 @@ function list_tags_for_resource(
     return redshift_serverless(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1685,7 +1668,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1711,7 +1694,7 @@ function list_usage_limits end
 
 function list_usage_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
-        "ListUsageLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListUsageLimits"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1719,7 +1702,7 @@ function list_usage_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "ListUsageLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListUsageLimits", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1743,7 +1726,7 @@ function list_workgroups end
 
 function list_workgroups(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_serverless(
-        "ListWorkgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListWorkgroups"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1751,7 +1734,7 @@ function list_workgroups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return redshift_serverless(
-        "ListWorkgroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListWorkgroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1779,7 +1762,7 @@ function put_resource_policy(
     return redshift_serverless(
         "PutResourcePolicy",
         Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1799,7 +1782,7 @@ function put_resource_policy(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1831,7 +1814,7 @@ function restore_from_recovery_point(
             "recoveryPointId" => recoveryPointId,
             "workgroupName" => workgroupName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1856,7 +1839,7 @@ function restore_from_recovery_point(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1898,7 +1881,7 @@ function restore_from_snapshot(
         Dict{String,Any}(
             "namespaceName" => namespaceName, "workgroupName" => workgroupName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1920,7 +1903,7 @@ function restore_from_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1972,7 +1955,7 @@ function restore_table_from_recovery_point(
             "sourceTableName" => sourceTableName,
             "workgroupName" => workgroupName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2003,7 +1986,7 @@ function restore_table_from_recovery_point(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2055,7 +2038,7 @@ function restore_table_from_snapshot(
             "sourceTableName" => sourceTableName,
             "workgroupName" => workgroupName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2086,7 +2069,7 @@ function restore_table_from_snapshot(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2108,7 +2091,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
     return redshift_serverless(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2128,7 +2111,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2152,7 +2135,7 @@ function untag_resource(
     return redshift_serverless(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2172,7 +2155,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2205,7 +2188,7 @@ function update_custom_domain_association(
             "customDomainName" => customDomainName,
             "workgroupName" => workgroupName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2230,7 +2213,7 @@ function update_custom_domain_association(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2257,7 +2240,7 @@ function update_endpoint_access(
     return redshift_serverless(
         "UpdateEndpointAccess",
         Dict{String,Any}("endpointName" => endpointName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2272,7 +2255,7 @@ function update_endpoint_access(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("endpointName" => endpointName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2319,7 +2302,7 @@ function update_namespace(namespaceName; aws_config::AbstractAWSConfig=current_a
     return redshift_serverless(
         "UpdateNamespace",
         Dict{String,Any}("namespaceName" => namespaceName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2334,7 +2317,7 @@ function update_namespace(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("namespaceName" => namespaceName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2377,7 +2360,7 @@ function update_scheduled_action(
     return redshift_serverless(
         "UpdateScheduledAction",
         Dict{String,Any}("scheduledActionName" => scheduledActionName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2396,7 +2379,7 @@ function update_scheduled_action(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2420,7 +2403,7 @@ function update_snapshot(snapshotName; aws_config::AbstractAWSConfig=current_aws
     return redshift_serverless(
         "UpdateSnapshot",
         Dict{String,Any}("snapshotName" => snapshotName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2435,7 +2418,7 @@ function update_snapshot(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("snapshotName" => snapshotName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2462,7 +2445,7 @@ function update_snapshot_copy_configuration(
     return redshift_serverless(
         "UpdateSnapshotCopyConfiguration",
         Dict{String,Any}("snapshotCopyConfigurationId" => snapshotCopyConfigurationId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2483,7 +2466,7 @@ function update_snapshot_copy_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2514,7 +2497,7 @@ function update_usage_limit(
     return redshift_serverless(
         "UpdateUsageLimit",
         Dict{String,Any}("usageLimitId" => usageLimitId);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2529,7 +2512,7 @@ function update_usage_limit(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("usageLimitId" => usageLimitId), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2576,7 +2559,7 @@ function update_workgroup(workgroupName; aws_config::AbstractAWSConfig=current_a
     return redshift_serverless(
         "UpdateWorkgroup",
         Dict{String,Any}("workgroupName" => workgroupName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -2591,7 +2574,7 @@ function update_workgroup(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("workgroupName" => workgroupName), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end

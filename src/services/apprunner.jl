@@ -36,7 +36,7 @@ function associate_custom_domain(
     return apprunner(
         "AssociateCustomDomain",
         Dict{String,Any}("DomainName" => DomainName, "ServiceArn" => ServiceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -56,7 +56,7 @@ function associate_custom_domain(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -118,7 +118,7 @@ function create_auto_scaling_configuration(
     return apprunner(
         "CreateAutoScalingConfiguration",
         Dict{String,Any}("AutoScalingConfigurationName" => AutoScalingConfigurationName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -139,7 +139,7 @@ function create_auto_scaling_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -174,7 +174,7 @@ function create_connection(
         Dict{String,Any}(
             "ConnectionName" => ConnectionName, "ProviderType" => ProviderType
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -196,7 +196,7 @@ function create_connection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -246,7 +246,7 @@ function create_observability_configuration(
         Dict{String,Any}(
             "ObservabilityConfigurationName" => ObservabilityConfigurationName
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -267,7 +267,7 @@ function create_observability_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -320,7 +320,7 @@ function create_service(
         Dict{String,Any}(
             "ServiceName" => ServiceName, "SourceConfiguration" => SourceConfiguration
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -343,7 +343,7 @@ function create_service(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -380,7 +380,7 @@ function create_vpc_connector(
     return apprunner(
         "CreateVpcConnector",
         Dict{String,Any}("Subnets" => Subnets, "VpcConnectorName" => VpcConnectorName);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -402,7 +402,7 @@ function create_vpc_connector(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -444,7 +444,7 @@ function create_vpc_ingress_connection(
             "ServiceArn" => ServiceArn,
             "VpcIngressConnectionName" => VpcIngressConnectionName,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -469,7 +469,7 @@ function create_vpc_ingress_connection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -503,7 +503,7 @@ function delete_auto_scaling_configuration(
     return apprunner(
         "DeleteAutoScalingConfiguration",
         Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -524,7 +524,7 @@ function delete_auto_scaling_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -549,7 +549,7 @@ function delete_connection(
     return apprunner(
         "DeleteConnection",
         Dict{String,Any}("ConnectionArn" => ConnectionArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -564,7 +564,7 @@ function delete_connection(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ConnectionArn" => ConnectionArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -592,7 +592,7 @@ function delete_observability_configuration(
     return apprunner(
         "DeleteObservabilityConfiguration",
         Dict{String,Any}("ObservabilityConfigurationArn" => ObservabilityConfigurationArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -613,7 +613,7 @@ function delete_observability_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -638,7 +638,7 @@ function delete_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
     return apprunner(
         "DeleteService",
         Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -653,7 +653,7 @@ function delete_service(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -678,7 +678,7 @@ function delete_vpc_connector(
     return apprunner(
         "DeleteVpcConnector",
         Dict{String,Any}("VpcConnectorArn" => VpcConnectorArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -695,7 +695,7 @@ function delete_vpc_connector(
                 _merge, Dict{String,Any}("VpcConnectorArn" => VpcConnectorArn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -721,7 +721,7 @@ function delete_vpc_ingress_connection(
     return apprunner(
         "DeleteVpcIngressConnection",
         Dict{String,Any}("VpcIngressConnectionArn" => VpcIngressConnectionArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -740,7 +740,7 @@ function delete_vpc_ingress_connection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -766,7 +766,7 @@ function describe_auto_scaling_configuration(
     return apprunner(
         "DescribeAutoScalingConfiguration",
         Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -787,7 +787,7 @@ function describe_auto_scaling_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -820,7 +820,7 @@ function describe_custom_domains(
     return apprunner(
         "DescribeCustomDomains",
         Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -835,7 +835,7 @@ function describe_custom_domains(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -861,7 +861,7 @@ function describe_observability_configuration(
     return apprunner(
         "DescribeObservabilityConfiguration",
         Dict{String,Any}("ObservabilityConfigurationArn" => ObservabilityConfigurationArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -882,7 +882,7 @@ function describe_observability_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -904,7 +904,7 @@ function describe_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_
     return apprunner(
         "DescribeService",
         Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -919,7 +919,7 @@ function describe_service(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -943,7 +943,7 @@ function describe_vpc_connector(
     return apprunner(
         "DescribeVpcConnector",
         Dict{String,Any}("VpcConnectorArn" => VpcConnectorArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -960,7 +960,7 @@ function describe_vpc_connector(
                 _merge, Dict{String,Any}("VpcConnectorArn" => VpcConnectorArn), params
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -984,7 +984,7 @@ function describe_vpc_ingress_connection(
     return apprunner(
         "DescribeVpcIngressConnection",
         Dict{String,Any}("VpcIngressConnectionArn" => VpcIngressConnectionArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1003,7 +1003,7 @@ function describe_vpc_ingress_connection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1031,7 +1031,7 @@ function disassociate_custom_domain(
     return apprunner(
         "DisassociateCustomDomain",
         Dict{String,Any}("DomainName" => DomainName, "ServiceArn" => ServiceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1051,7 +1051,7 @@ function disassociate_custom_domain(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1089,9 +1089,7 @@ function list_auto_scaling_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return apprunner(
-        "ListAutoScalingConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListAutoScalingConfigurations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1099,10 +1097,7 @@ function list_auto_scaling_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return apprunner(
-        "ListAutoScalingConfigurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListAutoScalingConfigurations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1128,17 +1123,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_connections end
 
 function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
-    return apprunner(
-        "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return apprunner("ListConnections"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return apprunner(
-        "ListConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return apprunner("ListConnections", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1174,9 +1165,7 @@ function list_observability_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
     return apprunner(
-        "ListObservabilityConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListObservabilityConfigurations"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1186,7 +1175,7 @@ function list_observability_configurations(
     return apprunner(
         "ListObservabilityConfigurations",
         params;
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1219,7 +1208,7 @@ function list_operations(ServiceArn; aws_config::AbstractAWSConfig=current_aws_c
     return apprunner(
         "ListOperations",
         Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1234,7 +1223,7 @@ function list_operations(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1258,15 +1247,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_services end
 
 function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
-    return apprunner("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    return apprunner("ListServices"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return apprunner(
-        "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return apprunner("ListServices", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1299,7 +1286,7 @@ function list_services_for_auto_scaling_configuration(
     return apprunner(
         "ListServicesForAutoScalingConfiguration",
         Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1320,7 +1307,7 @@ function list_services_for_auto_scaling_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1345,7 +1332,7 @@ function list_tags_for_resource(
     return apprunner(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1360,7 +1347,7 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1384,16 +1371,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_vpc_connectors end
 
 function list_vpc_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
-    return apprunner(
-        "ListVpcConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return apprunner("ListVpcConnectors"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_vpc_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return apprunner(
-        "ListVpcConnectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListVpcConnectors", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1419,7 +1404,7 @@ function list_vpc_ingress_connections end
 
 function list_vpc_ingress_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
-        "ListVpcIngressConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "ListVpcIngressConnections"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1427,10 +1412,7 @@ function list_vpc_ingress_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return apprunner(
-        "ListVpcIngressConnections",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "ListVpcIngressConnections", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1454,7 +1436,7 @@ function pause_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_con
     return apprunner(
         "PauseService",
         Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1469,7 +1451,7 @@ function pause_service(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1493,7 +1475,7 @@ function resume_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
     return apprunner(
         "ResumeService",
         Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1508,7 +1490,7 @@ function resume_service(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1536,7 +1518,7 @@ function start_deployment(ServiceArn; aws_config::AbstractAWSConfig=current_aws_
     return apprunner(
         "StartDeployment",
         Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1551,7 +1533,7 @@ function start_deployment(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1576,7 +1558,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
     return apprunner(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1596,7 +1578,7 @@ function tag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1621,7 +1603,7 @@ function untag_resource(
     return apprunner(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1641,7 +1623,7 @@ function untag_resource(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1669,7 +1651,7 @@ function update_default_auto_scaling_configuration(
     return apprunner(
         "UpdateDefaultAutoScalingConfiguration",
         Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1690,7 +1672,7 @@ function update_default_auto_scaling_configuration(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1737,7 +1719,7 @@ function update_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
     return apprunner(
         "UpdateService",
         Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1752,7 +1734,7 @@ function update_service(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServiceArn" => ServiceArn), params)
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1786,7 +1768,7 @@ function update_vpc_ingress_connection(
             "IngressVpcConfiguration" => IngressVpcConfiguration,
             "VpcIngressConnectionArn" => VpcIngressConnectionArn,
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
@@ -1809,7 +1791,7 @@ function update_vpc_ingress_connection(
                 params,
             ),
         );
-        aws_config=aws_config,
+        aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
