@@ -34,10 +34,10 @@ function _generate_high_level_wrapper(
                 f,
                 """
              # $AUTO_GENERATED_SIGNATURE
-             using AWS
+             # Note: `SERVICE_FEATURE_SET` is embedded by `@service`
+             using AWS: AbstractAWSConfig, current_aws_config
              using AWS.AWSServices: $service_name
-             using AWS.Compat
-             using AWS.UUIDs
+             using AWS.UUIDs: uuid4
              """,
             )
             join(f, operations, "\n")
