@@ -355,6 +355,10 @@ function _html_to_markdown(doc::AbstractString, doc_refs::AbstractDict=Dict())
 
     doc = replace(doc, r"<code>\s*(.*?)\s*</code>"s => s"`\1`")
 
+    # Wrap patterns (regex) in code blocks to avoid these from being interpreted as Markdown
+    # links
+    doc = replace(doc, r"(?<=Pattern: )(?|\"(.*?)\"|`(.*?)`|(\S+))" => s"`\1`")
+
     # TODO: Sometimes bold entries are used as keys in unordered lists. This matches pretty
     # well but sometimes there are keys which aren't bolded.
     # doc = replace(doc, r"<b> *(.*?) *</b> - " => s"**\1**: ")
