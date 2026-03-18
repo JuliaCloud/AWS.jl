@@ -5,7 +5,6 @@ using Base64
 using Compat: mergewith, pkgversion
 using Dates
 using Downloads
-using GitHub
 using HTTP
 using IniFile: Inifile, sections
 using JSON: JSON

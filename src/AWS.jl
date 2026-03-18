@@ -1,10 +1,10 @@
 module AWS
 
 using Compat: Compat
-using Base64
+using Base64: base64encode
 using Dates: Dates, DateTime, @dateformat_str, now
 using Downloads: Downloads, Downloader, Curl
-using HTTP
+using HTTP: HTTP
 using JSON: JSON
 using MbedTLS
 using Mocking
