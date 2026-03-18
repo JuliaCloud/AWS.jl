@@ -366,7 +366,28 @@ function _html_to_markdown(doc::AbstractString, doc_refs::AbstractDict=Dict())
     doc = replace(doc, r" *<p> *((?:(?!<p>).)*?) *</p>(?=\s*<p>)"s => s"\1\n\n")
     doc = replace(doc, r" *<p> *(.*?) *</p>"s => s"\1")
 
-    doc = replace(doc, r"<a href=\"([^\"]*)\">\s*(.*?)\s*</a>"s => s"[\2](\1)")
+    # doc = replace(doc, r"<a href=\"([^\"]*)\">\s*(.*?)\s*</a>"s => s"[\2](\1)")
+    doc = _replace(
+        doc,
+        r"<a href=\"([^\"]*)\">\s*(.*?)\s*</a>"s => function (m)
+            href = strip(m[1])
+            text = m[2]
+
+            # Avoid making a link when the href is empty
+            isempty(href) && return "$text"
+
+            # Update relative/absolute links to be fully qualified
+            if !occursin(r"^(?:https?|mailto):", href)
+                href = string(
+                    "https://docs.aws.amazon.com",
+                    startswith(href, '/') ? "" : "/",
+                    href,
+                )
+            end
+
+            return "[$text]($href)"
+        end,
+    )
 
     # Update documentation references to modified function names
     doc = _replace(
