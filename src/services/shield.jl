@@ -87,7 +87,7 @@ or the [Enterprise Support plan](http://aws.amazon.com/premiumsupport/enterprise
   Amazon Web Services account.
 
   Prior to making the `AssociateDRTRole` request, you must attach the [AWSShieldDRTAccessPolicy](https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy)
-  managed policy to this role. For more information see [Attaching and Detaching IAM Policies]( https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html).
+  managed policy to this role. For more information see [Attaching and Detaching IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html).
 """
 function associate_drtrole end
 

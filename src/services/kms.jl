@@ -434,7 +434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The `XksProxyAuthenticationCredential` has two required elements: `RawSecretAccessKey`, a
   secret key, and `AccessKeyId`, a unique identifier for the `RawSecretAccessKey`. For
-  character requirements, see [XksProxyAuthenticationCredentialType](kms/latest/APIReference/API_XksProxyAuthenticationCredentialType.html).
+  character requirements, see [XksProxyAuthenticationCredentialType](https://docs.aws.amazon.com/kms/latest/APIReference/API_XksProxyAuthenticationCredentialType.html).
 
   KMS uses this authentication credential to sign requests to the external key store proxy
   on your behalf. This credential is unrelated to Identity and Access Management (IAM) and
@@ -863,8 +863,8 @@ can't import key material into a KMS key in a custom key store.
 To create a multi-Region primary key with imported key material, use the `Origin` parameter
 of `CreateKey` with a value of `EXTERNAL` and the `MultiRegion` parameter with a value of
 `True`. To create replicas of the multi-Region primary key, use the [`replicate_key`](@ref)
-operation. For instructions, see [Importing key material into multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-import.html
-). For more information about multi-Region keys, see [Multi-Region keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html)
+operation. For instructions, see [Importing key material into multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-import.html).
+For more information about multi-Region keys, see [Multi-Region keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html)
 in the *Key Management Service Developer Guide*.
 
  </dd>
@@ -3662,7 +3662,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   To get the key ID and key ARN for a KMS key, use `ListKeys` or `DescribeKey`.
 
 - `wrapping_algorithm`: The algorithm you will use with the RSA public key (`PublicKey`) in
-  the response to protect your key material during import. For more information, see [Select a wrapping algorithm](kms/latest/developerguide/importing-keys-get-public-key-and-token.html#select-wrapping-algorithm)
+  the response to protect your key material during import. For more information, see [Select a wrapping algorithm](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-get-public-key-and-token.html#select-wrapping-algorithm)
   in the *Key Management Service Developer Guide*.
 
   For RSA_AES wrapping algorithms, you encrypt your key material with an AES key that you
@@ -3869,7 +3869,7 @@ material.
 
 Each time you import key material into KMS, you can determine whether (`ExpirationModel`)
 and when (`ValidTo`) the key material expires. To change the expiration of your key
-material, you must import it again, either by calling `ImportKeyMaterial` or using the [import features](kms/latest/developerguide/importing-keys-import-key-material.html#importing-keys-import-key-material-console)
+material, you must import it again, either by calling `ImportKeyMaterial` or using the [import features](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-import-key-material.html#importing-keys-import-key-material-console)
 of the KMS console.
 
 Before calling `ImportKeyMaterial`:
@@ -3880,8 +3880,8 @@ Before calling `ImportKeyMaterial`:
 To create an new KMS key for imported key material, call the [`create_key`](@ref) operation
 with an `Origin` value of `EXTERNAL`. You can create a symmetric encryption KMS key, HMAC
 KMS key, asymmetric encryption KMS key, or asymmetric signing KMS key. You can also import
-key material into a [multi-Region key](kms/latest/developerguide/multi-region-keys-overview.html)
-of any supported type. However, you can't import key material into a KMS key in a [custom key store](kms/latest/developerguide/custom-key-store-overview.html).
+key material into a [multi-Region key](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html)
+of any supported type. However, you can't import key material into a KMS key in a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html).
 - Use the [`describe_key`](@ref) operation to verify that the `KeyState` of the KMS key is
   `PendingImport`, which indicates that the KMS key has no key material.
 
@@ -3897,7 +3897,7 @@ token. When calling this operation, you must specify the following values:
 
 - The key ID or key ARN of the KMS key to associate with the imported key material. Its
   `Origin` must be `EXTERNAL` and its `KeyState` must be `PendingImport`. You cannot perform
-  this operation on a KMS key in a [custom key store](kms/latest/developerguide/custom-key-store-overview.html),
+  this operation on a KMS key in a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html),
   or on a KMS key in a different Amazon Web Services account. To get the `Origin` and
   `KeyState` of a KMS key, call [`describe_key`](@ref).
 - The encrypted key material.
@@ -3956,7 +3956,7 @@ information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/late
   `EXTERNAL` and its `KeyState` must be `PendingImport`.
 
   The KMS key can be a symmetric encryption KMS key, HMAC KMS key, asymmetric encryption KMS
-  key, or asymmetric signing KMS key, including a [multi-Region key](kms/latest/developerguide/multi-region-keys-overview.html)
+  key, or asymmetric signing KMS key, including a [multi-Region key](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html)
   of any supported type. You cannot perform this operation on a KMS key in a custom key
   store, or on a KMS key in a different Amazon Web Services account.
 
@@ -5471,7 +5471,7 @@ material, and all KMS data associated with it, including all aliases that refer 
     Deleting a KMS key is a destructive and potentially dangerous operation. When a KMS key
     is deleted, all data that was encrypted under the KMS key is unrecoverable. (The only
     exception is a [multi-Region replica key](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-delete.html),
-    or an [asymmetric or HMAC KMS key with imported key material](kms/latest/developerguide/importing-keys-managing.html#import-delete-key).)
+    or an [asymmetric or HMAC KMS key with imported key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-managing.html#import-delete-key).)
     To prevent the use of a KMS key without deleting it, use [`disable_key`](@ref).
 
 You can schedule the deletion of a multi-Region primary key and its replica keys at any

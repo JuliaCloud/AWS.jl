@@ -683,7 +683,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NewGameSessionProtectionPolicy"`: The status of termination protection for active game
   sessions on the fleet. By default, this property is set to `NoProtection`. You can also
-  set game session protection for an individual game session by calling [UpdateGameSession](gamelift/latest/apireference/API_UpdateGameSession.html).
+  set game session protection for an individual game session by calling [UpdateGameSession](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateGameSession.html).
 
   - **NoProtection** - Game sessions can be terminated during active gameplay as a result of
     a scale-down event.
@@ -5761,7 +5761,7 @@ end
 **This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Reinstates activity on a game server group after it has been suspended. A game server group
-might be suspended by the [SuspendGameServerGroup](gamelift/latest/apireference/API_SuspendGameServerGroup.html)
+might be suspended by the [SuspendGameServerGroup](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SuspendGameServerGroup.html)
 operation, or it might be suspended involuntarily due to a configuration problem. In the
 second case, you can manually resume activity on the group once the configuration problem
 has been resolved. Refer to the game server group status and status reason for more
@@ -6519,7 +6519,7 @@ end
 **This operation is used with the Amazon GameLift FleetIQ solution and game server groups.**
 
 Temporarily stops activity on a game server group without terminating instances or the game
-server group. You can restart activity by calling [ResumeGameServerGroup](gamelift/latest/apireference/API_ResumeGameServerGroup.html).
+server group. You can restart activity by calling [ResumeGameServerGroup](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ResumeGameServerGroup.html).
 You can suspend the following activity:
 
 - **Instance type replacement** - This activity evaluates the current game hosting viability

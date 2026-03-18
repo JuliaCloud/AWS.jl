@@ -6140,8 +6140,7 @@ Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The 
 the Amazon Connect user which corresponds to the IAM credentials that were used to invoke
 this action.
 
-For more information about how SAML sign-in works in Amazon Connect, see [Configure SAML with IAM for Amazon Connect in the *Amazon Connect Administrator Guide*.](https://docs.aws.amazon.com/connect/latest/adminguide/configure-saml.html
-)
+For more information about how SAML sign-in works in Amazon Connect, see [Configure SAML with IAM for Amazon Connect in the *Amazon Connect Administrator Guide*.](https://docs.aws.amazon.com/connect/latest/adminguide/configure-saml.html)
 
 !!! note
     This API doesn't support root users. If you try to invoke GetFederationToken with root

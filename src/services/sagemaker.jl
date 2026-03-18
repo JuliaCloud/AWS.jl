@@ -3997,7 +3997,7 @@ data captured for an Amazon SageMaker Endpoint.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Tags"`: (Optional) An array of key-value pairs. For more information, see [Using Cost Allocation Tags]( https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL)
+- `"Tags"`: (Optional) An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL)
   in the *Amazon Web Services Billing and Cost Management User Guide*.
 """
 function create_monitoring_schedule end
@@ -5656,7 +5656,7 @@ You cannot create more than 25 work teams in an account and region.
   Cognito *user groups* within the user pool used to create a workforce. All of the
   `CognitoMemberDefinition` objects that make up the member definition must have the same
   `ClientId` and `UserPool` values. To add a Amazon Cognito user group to an existing worker
-  pool, see [Adding groups to a User Pool](). For more information about user pools, see [Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
+  pool, see Adding groups to a User Pool. For more information about user pools, see [Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
 
   For workforces created using your own OIDC IdP, specify the user groups that you want to
   include in your private work team in `OidcMemberDefinition` by listing those groups in
@@ -18418,7 +18418,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cognito *user groups* within the user pool used to create a workforce. All of the
   `CognitoMemberDefinition` objects that make up the member definition must have the same
   `ClientId` and `UserPool` values. To add a Amazon Cognito user group to an existing worker
-  pool, see [Adding groups to a User Pool](). For more information about user pools, see [Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
+  pool, see Adding groups to a User Pool. For more information about user pools, see [Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
 
   For workforces created using your own OIDC IdP, specify the user groups that you want to
   include in your private work team in `OidcMemberDefinition` by listing those groups in

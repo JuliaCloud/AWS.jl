@@ -219,7 +219,7 @@ configuration file.
 
 - `destination`: The Amazon Managed Service for Prometheus workspace to send metrics to.
 - `scrape_configuration`: The configuration file to use in the new scraper. For more
-  information, see [Scraper configuration](prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration)
+  information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration)
   in the *Amazon Managed Service for Prometheus User Guide*.
 - `source`: The Amazon EKS cluster from which the scraper will collect metrics.
 

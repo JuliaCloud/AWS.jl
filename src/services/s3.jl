@@ -6106,7 +6106,7 @@ Request headers are limited to 8 KB in size. For more information, see [Common R
   permission. You need the relevant read object (or version) permission for this operation.
   For more information, see [Actions, resources, and condition keys for Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/list_amazons3.html)
   in the *Amazon S3 User Guide*. For more information about the permissions to S3 API
-  operations by S3 resource types, see [Required permissions for Amazon S3 API operations](/AmazonS3/latest/userguide/using-with-s3-policy-actions.html)
+  operations by S3 resource types, see [Required permissions for Amazon S3 API operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-policy-actions.html)
   in the *Amazon S3 User Guide*.
 
 If the object you request doesn't exist, the error that Amazon S3 returns depends on whether

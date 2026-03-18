@@ -1652,7 +1652,7 @@ unaffected by the total number of consumers that read from the same stream.
 You can register up to 20 consumers per stream. A given consumer can only be registered with
 one stream at a time.
 
-For an example of how to use this operations, see [Enhanced Fan-Out Using the Kinesis Data Streams API](/streams/latest/dev/building-enhanced-consumers-api.html).
+For an example of how to use this operations, see [Enhanced Fan-Out Using the Kinesis Data Streams API](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html).
 
 The use of this operation has a limit of five transactions per second per account. Also,
 only 5 consumers can be created simultaneously. In other words, you cannot have more than 5

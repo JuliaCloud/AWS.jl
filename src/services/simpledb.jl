@@ -430,10 +430,11 @@ end
     list_domains(params::Dict{String,<:Any})
 
 The [`list_domains`](@ref) operation lists all domains associated with the Access Key ID. It
-returns domain names up to the limit set by [MaxNumberOfDomains](#MaxNumberOfDomains). A [NextToken](#NextToken)
-is returned if there are more than `MaxNumberOfDomains` domains. Calling `ListDomains`
-successive times with the `NextToken` provided by the operation returns up to
-`MaxNumberOfDomains` more domain names with each successive operation call.
+returns domain names up to the limit set by [MaxNumberOfDomains](https://docs.aws.amazon.com/#MaxNumberOfDomains).
+A [NextToken](https://docs.aws.amazon.com/#NextToken) is returned if there are more than
+`MaxNumberOfDomains` domains. Calling `ListDomains` successive times with the `NextToken`
+provided by the operation returns up to `MaxNumberOfDomains` more domain names with each
+successive operation call.
 
 # Optional Parameters
 

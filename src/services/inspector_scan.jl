@@ -9,7 +9,8 @@ using AWS.UUIDs
     scan_sbom(sbom, params::Dict{String,<:Any})
 
 Scans a provided CycloneDX 1.5 SBOM and reports on any vulnerabilities discovered in that
-SBOM. You can generate compatible SBOMs for your resources using the [Amazon Inspector SBOM generator]().
+SBOM. You can generate compatible SBOMs for your resources using the Amazon Inspector SBOM
+generator.
 
 # Arguments
 

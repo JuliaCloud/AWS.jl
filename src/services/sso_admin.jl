@@ -79,7 +79,7 @@ Attaches an Amazon Web Services managed policy ARN to a permission set.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `managed_policy_arn`: The Amazon Web Services managed policy ARN to be attached to a
   permission set.
@@ -157,13 +157,13 @@ permission set.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set that the admin wants to grant the
   principal access to.
 - `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
   group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For
-  more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
+  more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
 - `principal_type`: The entity type for which the assignment will be created.
 - `target_id`: TargetID is an Amazon Web Services account identifier, (For example,
   123456789012).
@@ -237,7 +237,7 @@ Creates an application in IAM Identity Center for the given application provider
 - `application_provider_arn`: The ARN of the application provider under which the operation
   will run.
 - `instance_arn`: The ARN of the instance of IAM Identity Center under which the operation
-  will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `name`: The name of the .
 
@@ -323,7 +323,7 @@ Grant application access to a user or group.
 - `application_arn`: The ARN of the application provider under which the operation will run.
 - `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
   group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For
-  more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
+  more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
 - `principal_type`: The entity type for which the assignment will be created.
 """
 function create_application_assignment end
@@ -433,7 +433,7 @@ end
 
 Enables the attributes-based access control (ABAC) feature for the specified IAM Identity
 Center instance. You can also specify new attributes to add to your ABAC configuration
-during the enabling process. For more information about ABAC, see [Attribute-Based Access Control](/singlesignon/latest/userguide/abac.html)
+during the enabling process. For more information about ABAC, see [Attribute-Based Access Control](https://docs.aws.amazon.com/singlesignon/latest/userguide/abac.html)
 in the *IAM Identity Center User Guide*.
 
 !!! note
@@ -509,7 +509,7 @@ Creates a permission set within a specified IAM Identity Center instance.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `name`: The name of the `PermissionSet`.
 
@@ -661,12 +661,12 @@ permission set.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set that will be used to remove access.
 - `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
   group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For
-  more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
+  more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
 - `principal_type`: The entity type for which the assignment will be deleted.
 - `target_id`: TargetID is an Amazon Web Services account identifier, (For example,
   123456789012).
@@ -738,7 +738,7 @@ Deletes the association with the application. The connected service resource sti
 # Arguments
 
 - `application_arn`: Specifies the ARN of the application. For more information about ARNs,
-  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
 function delete_application end
@@ -825,7 +825,7 @@ or group.
 - `application_arn`: Specifies the ARN of the application.
 - `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
   group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For
-  more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
+  more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
 - `principal_type`: The entity type for which the assignment will be deleted.
 """
 function delete_application_assignment end
@@ -982,7 +982,7 @@ Deletes the inline policy from a specified permission set.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set that will be used to remove access.
 """
@@ -1069,7 +1069,7 @@ end
 Disables the attributes-based access control (ABAC) feature for the specified IAM Identity
 Center instance and deletes all of the attribute mappings that have been configured. Once
 deleted, any attributes that are received from an identity source and any custom attributes
-you have previously configured will not be passed. For more information about ABAC, see [Attribute-Based Access Control](/singlesignon/latest/userguide/abac.html)
+you have previously configured will not be passed. For more information about ABAC, see [Attribute-Based Access Control](https://docs.aws.amazon.com/singlesignon/latest/userguide/abac.html)
 in the *IAM Identity Center User Guide*.
 
 # Arguments
@@ -1114,7 +1114,7 @@ Deletes the specified permission set.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set that should be deleted.
 """
@@ -1262,7 +1262,7 @@ Describes the status of the assignment creation request.
 - `account_assignment_creation_request_id`: The identifier that is used to track the request
   operation progress.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
 function describe_account_assignment_creation_status end
@@ -1318,7 +1318,7 @@ Describes the status of the assignment deletion request.
 - `account_assignment_deletion_request_id`: The identifier that is used to track the request
   operation progress.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
 function describe_account_assignment_deletion_status end
@@ -1372,7 +1372,7 @@ Retrieves the details of an application associated with an instance of IAM Ident
 # Arguments
 
 - `application_arn`: Specifies the ARN of the application. For more information about ARNs,
-  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
 function describe_application end
@@ -1415,11 +1415,11 @@ Instead use [`list_application_assignments_for_principal`](@ref).
 # Arguments
 
 - `application_arn`: Specifies the ARN of the application. For more information about ARNs,
-  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
   group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For
-  more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
+  more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
 - `principal_type`: The entity type for which the assignment will be created.
 """
 function describe_application_assignment end
@@ -1564,7 +1564,7 @@ end
 Returns the list of IAM Identity Center identity store attributes that have been configured
 to work with attributes-based access control (ABAC) for the specified IAM Identity Center
 instance. This will not return attributes configured and sent by an external identity
-provider. For more information about ABAC, see [Attribute-Based Access Control](/singlesignon/latest/userguide/abac.html)
+provider. For more information about ABAC, see [Attribute-Based Access Control](https://docs.aws.amazon.com/singlesignon/latest/userguide/abac.html)
 in the *IAM Identity Center User Guide*.
 
 # Arguments
@@ -1609,7 +1609,7 @@ Gets the details of the permission set.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 """
@@ -1659,7 +1659,7 @@ Describes the status for the given permission set provisioning request.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `provision_permission_set_request_id`: The identifier that is provided by the
   `ProvisionPermissionSet` call to retrieve the current status of the provisioning workflow.
@@ -1821,7 +1821,7 @@ set.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `managed_policy_arn`: The Amazon Web Services managed policy ARN to be detached from a
   permission set.
@@ -1927,7 +1927,7 @@ Retrieves the configuration of [`put_application_assignment_configuration`](@ref
 # Arguments
 
 - `application_arn`: Specifies the ARN of the application. For more information about ARNs,
-  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
 function get_application_assignment_configuration end
@@ -2066,7 +2066,7 @@ Obtains the inline policy assigned to the permission set.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 """
@@ -2166,7 +2166,7 @@ specified IAM Identity Center instance.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -2216,7 +2216,7 @@ specified IAM Identity Center instance.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -2268,7 +2268,7 @@ permission set.
 - `account_id`: The identifier of the Amazon Web Services account from which to list the
   assignments.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set from which to list assignments.
 
@@ -2415,7 +2415,7 @@ provisioned.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the `PermissionSet` from which the associated Amazon Web
   Services accounts will be listed.
@@ -2806,7 +2806,7 @@ account.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center application under which the operation
-  will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -2951,7 +2951,7 @@ Lists the Amazon Web Services managed policy that is attached to a specified per
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the `PermissionSet` whose managed policies will be
   listed.
@@ -3011,7 +3011,7 @@ Center instance.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -3060,7 +3060,7 @@ Lists the `PermissionSet`s in an IAM Identity Center instance.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -3111,7 +3111,7 @@ account.
 - `account_id`: The identifier of the Amazon Web Services account from which to list the
   assignments.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -3171,7 +3171,7 @@ Lists the tags that are attached to a specified resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"InstanceArn"`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
   output of previous API calls to make subsequent calls.
@@ -3269,7 +3269,7 @@ The process by which a specified permission set is provisioned to the specified 
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 - `target_type`: The entity type for which the assignment will be created.
@@ -3393,7 +3393,7 @@ the user retains access if `AssignmentsRequired` is set to `true`.
 # Arguments
 
 - `application_arn`: Specifies the ARN of the application. For more information about ARNs,
-  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `assignment_required`: If `AssignmentsRequired` is `true` (default value), users don’t
   have access to the application unless an assignment is created using the [CreateApplicationAssignment API](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_CreateApplicationAssignment.html).
@@ -3565,7 +3565,7 @@ Attaches an inline policy to a permission set.
 
 - `inline_policy`: The inline policy to attach to a `PermissionSet`.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 """
@@ -3690,7 +3690,7 @@ Associates a set of tags with a specified resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"InstanceArn"`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
 function tag_resource end
@@ -3740,7 +3740,7 @@ Disassociates a set of tags from a specified resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"InstanceArn"`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 """
 function untag_resource end
@@ -3785,7 +3785,7 @@ Updates application properties.
 # Arguments
 
 - `application_arn`: Specifies the ARN of the application. For more information about ARNs,
-  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
@@ -3836,7 +3836,7 @@ Services account.
 # Arguments
 
 - `instance_arn`: The ARN of the instance of IAM Identity Center under which the operation
-  will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `name`: Updates the instance name.
 """
@@ -3883,8 +3883,8 @@ identity provider as an identity source, you can pass attributes through the SAM
 as an alternative to configuring attributes from the IAM Identity Center identity store. If
 a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute
 value with the value from the IAM Identity Center identity store. For more information about
-ABAC, see [Attribute-Based Access Control](/singlesignon/latest/userguide/abac.html) in the
-*IAM Identity Center User Guide*.
+ABAC, see [Attribute-Based Access Control](https://docs.aws.amazon.com/singlesignon/latest/userguide/abac.html)
+in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -3945,7 +3945,7 @@ Updates an existing permission set.
 # Arguments
 
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation will
-  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](/general/latest/gr/aws-arns-and-namespaces.html)
+  be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 - `permission_set_arn`: The ARN of the permission set.
 

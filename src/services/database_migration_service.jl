@@ -906,8 +906,8 @@ For information on the required permissions, see [IAM Permissions Needed to Use 
   instance class dms.c4.large, set this parameter to `"dms.c4.large"`.
 
   For more information on the settings and capacities for the available replication instance
-  classes, see [Choosing the right DMS replication instance](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html
-  ); and, [Selecting the best size for a replication instance](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_BestPractices.SizingReplicationInstance.html).
+  classes, see [Choosing the right DMS replication instance](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html);
+  and, [Selecting the best size for a replication instance](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_BestPractices.SizingReplicationInstance.html).
 
 - `replication_instance_identifier`: The replication instance identifier. This parameter is
   stored as a lowercase string.
