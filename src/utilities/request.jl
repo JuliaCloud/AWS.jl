@@ -72,16 +72,10 @@ Base.@kwdef mutable struct Request
 
     http_options::AbstractDict{Symbol,<:Any} = LittleDict{Symbol,String}()
     backend::AbstractBackend = DEFAULT_BACKEND[]
-
-    # Deprecated fields
-    use_response_type::Bool = false
-    return_stream::Union{Bool,Nothing} = nothing
-    return_raw::Union{Bool,Nothing} = nothing
-    response_dict_type::Union{Type{<:AbstractDict},Nothing} = nothing
 end
 
 """
-    submit_request(aws::AbstractAWSConfig, request::Request; return_headers::Bool=false)
+    submit_request(aws::AbstractAWSConfig, request::Request)
 
 Submit the request to AWS.
 
@@ -89,14 +83,10 @@ Submit the request to AWS.
 - `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 - `request::Request`: All the information about making a request to AWS
 
-# Keywords
-- `return_headers::Bool=false`: Set to `true` if you want the headers from the response returned back. Only
-  used if `request.use_response_type = false`.
-
 # Returns
 - `AWS.Response`: A struct containing the response details
 """
-function submit_request(aws::AbstractAWSConfig, request::Request; return_headers=nothing)
+function submit_request(aws::AbstractAWSConfig, request::Request)
     aws_response = nothing
     TOO_MANY_REQUESTS = 429
     EXPIRED_ERROR_CODES = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
@@ -196,11 +186,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
 
     retry(upgrade_error(get_response); check=check, delays=delays)()
 
-    if request.use_response_type
-        return aws_response
-    else
-        return legacy_response(request, aws_response; return_headers=return_headers)
-    end
+    return aws_response
 end
 
 function _http_request(http_backend::HTTPBackend, request::Request, response_stream::IO)

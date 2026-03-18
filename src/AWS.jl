@@ -42,8 +42,6 @@ include(joinpath("utilities", "sign.jl"))
 include(joinpath("utilities", "downloads_backend.jl"))
 include(joinpath("utilities", "role.jl"))
 
-include("deprecated.jl")
-
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
@@ -58,14 +56,9 @@ non-breaking behavior.
 
 # Features
 
-- `use_response_type::Bool=false`: When enabled, service calls will return an `AWS.Response`
-  which provides streaming/raw/parsed access to the response. When disabled, the service
-  call response typically be parsed but will vary depending on the following parameters:
-  "return_headers", "return_stream", "return_raw", "response_dict_type".
+Currently no experimental features have been added.
 """
-Base.@kwdef struct FeatureSet
-    use_response_type::Bool = false
-end
+Base.@kwdef struct FeatureSet end
 
 """
     set_user_agent(new_user_agent::String)
@@ -127,14 +120,8 @@ OrderedCollections.LittleDict{Union{String, Symbol}, Any, Vector{Union{String, S
 Specify the module name and use a feature:
 
 ```julia
-julia> @service STS as SecurityTokenService use_response_type = true
+julia> @service STS as SecurityTokenService demo = true
 SecurityTokenService
-
-julia> SecurityTokenService.get_caller_identity()
-AWS.Response: application/xml interpreted as:
-OrderedCollections.LittleDict{Union{String, Symbol}, Any, Vector{Union{String, Symbol}}, Vector{Any}} with 2 entries:
-  "GetCallerIdentityResult" => LittleDict{Union{String, Symbol}, Any, Vector{Un…
-  "ResponseMetadata"        => LittleDict{Union{String, Symbol}, Any, Vector{Un…
 ```
 
 Service IDs are case insensitive:
@@ -278,7 +265,7 @@ Perform a RestXML request to AWS.
 - `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns
-- `Tuple` or `Dict`: If `return_headers` is passed in through `args` a Tuple containing the headers and response will be returned, otherwise just a `Dict`
+- `AWS.Response`: The AWS response to the request.
 """
 function (service::RestXMLService)(
     request_method::String,
@@ -287,13 +274,8 @@ function (service::RestXMLService)(
     aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
-    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
-
-    return_headers = _pop!(args, "return_headers", nothing)
-
     request = Request(;
         _extract_common_kw_args(service, args)...,
-        use_response_type=feature_set.use_response_type,
         request_method=request_method,
         content=_pop!(args, "body", ""),
     )
@@ -316,7 +298,7 @@ function (service::RestXMLService)(
         aws_config, service.endpoint_prefix, request.resource
     )
 
-    return submit_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request)
 end
 
 """
@@ -336,7 +318,7 @@ Perform a Query request to AWS.
 - `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns
-- `Tuple` or `Dict`: If `return_headers` is passed in through `args` a Tuple containing the headers and response will be returned, otherwise just a `Dict`
+- `AWS.Response`: The AWS response to the request.
 """
 function (service::QueryService)(
     operation::String,
@@ -344,14 +326,10 @@ function (service::QueryService)(
     aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
-    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
-
     POST_RESOURCE = "/"
-    return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
-        use_response_type=feature_set.use_response_type,
         resource=POST_RESOURCE,
         request_method="POST",
         url=generate_service_url(aws_config, service.endpoint_prefix, POST_RESOURCE),
@@ -363,7 +341,7 @@ function (service::QueryService)(
     args["Version"] = service.api_version
     request.content = HTTP.escapeuri(_flatten_query(service.signing_name, args))
 
-    return submit_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request)
 end
 
 """
@@ -383,7 +361,7 @@ Perform a JSON request to AWS.
 - `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns
-- `Tuple` or `Dict`: If `return_headers` is passed in through `args` a Tuple containing the headers and response will be returned, otherwise just a `Dict`
+- `AWS.Response`: The AWS response to the request.
 """
 function (service::JSONService)(
     operation::String,
@@ -391,14 +369,10 @@ function (service::JSONService)(
     aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
-    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
-
     POST_RESOURCE = "/"
-    return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
-        use_response_type=feature_set.use_response_type,
         resource=POST_RESOURCE,
         request_method="POST",
         content=JSON.json(args),
@@ -408,7 +382,7 @@ function (service::JSONService)(
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
     request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
 
-    return submit_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request)
 end
 
 """
@@ -429,7 +403,7 @@ Perform a RestJSON request to AWS.
 - `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns
-- `Tuple` or `Dict`: If `return_headers` is passed in through `args` a Tuple containing the headers and response will be returned, otherwise just a `Dict`
+- `AWS.Response`: The AWS response to the request.
 """
 function (service::RestJSONService)(
     request_method::String,
@@ -438,13 +412,8 @@ function (service::RestJSONService)(
     aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
-    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
-
-    return_headers = _pop!(args, "return_headers", nothing)
-
     request = Request(;
         _extract_common_kw_args(service, args)...,
-        use_response_type=feature_set.use_response_type,
         request_method=request_method,
         resource=_generate_rest_resource(request_uri, args),
     )
@@ -460,7 +429,7 @@ function (service::RestJSONService)(
     request.headers["Content-Type"] = "application/json"
     request.content = JSON.json(args)
 
-    return submit_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request)
 end
 
 function (service::ServiceWrapper)(args...; feature_set=nothing, kwargs...)
