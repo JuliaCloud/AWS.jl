@@ -85,7 +85,7 @@ end
 end
 
 @testset "_generate_low_level_definitions" begin
-    services = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "services.json"))
+    services = JSON.parsefile(joinpath(@__DIR__, "resource", "services.json"))
 
     @testset "rest-xml" begin
         expected = "const s3 = AWS.RestXMLService(\"s3\", \"s3\", \"2006-03-01\")"
@@ -240,7 +240,7 @@ end
 end
 
 @testset "_get_function_parameters" begin
-    shapes = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "shapes.json"))
+    shapes = JSON.parsefile(joinpath(@__DIR__, "resource", "shapes.json"))
 
     @testset "required params" begin
         input = "RequiredParams"
@@ -299,8 +299,8 @@ end
 @testset "_generate_high_level_definitions" begin
     service_name = "sample_service"
     protocol = "rest-xml"
-    operations = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "operations.json"))
-    shapes = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "shapes.json"))
+    operations = JSON.parsefile(joinpath(@__DIR__, "resource", "operations.json"))
+    shapes = JSON.parsefile(joinpath(@__DIR__, "resource", "shapes.json"))
 
     expected_result = """
     \"\"\"
@@ -320,11 +320,11 @@ end
     function sample_operation end
 
     function sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=current_aws_config())
-        sample_service("POST", "/", Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+        sample_service("POST", "/", Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2); aws_config, feature_set=SERVICE_FEATURE_SET)
     end
 
     function sample_operation(RequiredParam1, RequiredParam2, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-        sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+        sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
     end
     """
 
@@ -375,11 +375,11 @@ end
             function function_name end
 
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("GET", "request_uri", Dict{String, Any}("RequiredParam" => RequiredParam); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                service_name("GET", "request_uri", Dict{String, Any}("RequiredParam" => RequiredParam); aws_config, feature_set=SERVICE_FEATURE_SET)
             end
 
             function function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam" => RequiredParam), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam" => RequiredParam), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
 
@@ -419,11 +419,11 @@ end
             function function_name end
 
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("FunctionName", Dict{String, Any}("RequiredParam" => RequiredParam); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                service_name("FunctionName", Dict{String, Any}("RequiredParam" => RequiredParam); aws_config, feature_set=SERVICE_FEATURE_SET)
             end
 
             function function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam" => RequiredParam), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam" => RequiredParam), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
 
@@ -476,11 +476,11 @@ end
             function function_name end
 
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("GET", "request_uri", Dict{String, Any}("OptionalParam" => string(uuid4()), "headers" => Dict{String, Any}("RequiredParam" => RequiredParam)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                service_name("GET", "request_uri", Dict{String, Any}("OptionalParam" => string(uuid4()), "headers" => Dict{String, Any}("RequiredParam" => RequiredParam)); aws_config, feature_set=SERVICE_FEATURE_SET)
             end
 
             function function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam" => string(uuid4()), "headers" => Dict{String, Any}("RequiredParam" => RequiredParam)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam" => string(uuid4()), "headers" => Dict{String, Any}("RequiredParam" => RequiredParam)), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
             result = _generate_high_level_definition(
@@ -519,11 +519,11 @@ end
             function function_name end
 
             function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("FunctionName", Dict{String, Any}("RequiredParam" => RequiredParam, "OptionalParam" => string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                service_name("FunctionName", Dict{String, Any}("RequiredParam" => RequiredParam, "OptionalParam" => string(uuid4())); aws_config, feature_set=SERVICE_FEATURE_SET)
             end
 
             function function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam" => RequiredParam, "OptionalParam" => string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam" => RequiredParam, "OptionalParam" => string(uuid4())), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
 

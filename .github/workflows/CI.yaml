@@ -102,9 +102,28 @@ jobs:
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
 
+  codegen-test:
+    name: Codegen
+    # These permissions are needed to:
+    # - Checking out the repository (`contents: read`)
+    # - Delete old caches: https://github.com/julia-actions/cache#usage
+    permissions:
+      actions: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: "1"
+      - uses: julia-actions/cache@v2
+      - uses: julia-actions/julia-runtest@v1
+        with:
+          project: codegen
+
   # Merge queues only wait for the required status checks to pass which are defined in the
   # repository settings under the branch protection rules. Unfortunately, the required
-  # status checks for PRs and merge queues must be the identical even though the workflows
+  # status checks for PRs and merge queues must be identical even though the workflows
   # themselves are triggered separately (i.e `pull_request` vs. `merge_group`).
   #
   # In order to have a status check which allows CI jobs to be skipped in PRs but must pass
@@ -121,7 +140,10 @@ jobs:
     if: ${{ always() && (github.event_name == 'pull_request' || github.event_name == 'merge_group') }}
     needs:
       - test
+      - codegen-test
     runs-on: ubuntu-latest
     steps:
-      - if: ${{ github.event_name == 'merge_group' && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')  || contains(needs.*.result, 'skipped')) }}
-        run: exit 1
+      - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')  || contains(needs.*.result, 'skipped') }}
+        run: |
+          echo ":x: One or more required jobs failed to succeed" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit ${{ github.event_name == 'merge_group' && 1 || 0 }}

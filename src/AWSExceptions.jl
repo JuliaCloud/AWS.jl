@@ -5,8 +5,7 @@ using JSON: JSON
 using XMLDict
 using XMLDict: XMLDictElement
 
-export AWSException, IMDSUnavailable, InvalidAWSConfig, InvalidFileName, NoCredentials
-export ProtocolNotDefined
+export AWSException, IMDSUnavailable, InvalidAWSConfig, NoCredentials
 
 struct IMDSUnavailable <: Exception end
 
@@ -15,16 +14,6 @@ function Base.show(io::IO, e::IMDSUnavailable)
     println(io, msg)
     return nothing
 end
-
-struct ProtocolNotDefined <: Exception
-    message::String
-end
-Base.show(io::IO, e::ProtocolNotDefined) = println(io, e.message)
-
-struct InvalidFileName <: Exception
-    message::String
-end
-Base.show(io::IO, e::InvalidFileName) = println(io, e.message)
 
 struct NoCredentials <: Exception
     message::String

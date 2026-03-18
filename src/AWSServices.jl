@@ -2,7 +2,7 @@
 
 module AWSServices
 
-using AWS
+using AWS: AWS
 using OrderedCollections: LittleDict
 
 const accessanalyzer = AWS.RestJSONService(
