@@ -11,7 +11,7 @@ function _generate_low_level_wrappers(
 
     module AWSServices
 
-    using AWS
+    using AWS: AWS
     using OrderedCollections: LittleDict
 
     $(join(service_definitions, "\n"))

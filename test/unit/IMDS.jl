@@ -193,7 +193,7 @@ end
             # IMDSv2 hop limit is too low such that the TTL has expired
             connection_timeout = function (req::HTTP.Request)
                 io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
-                throw(HTTP.Exceptions.RequestError(request, io_error))
+                throw(HTTP.Exceptions.RequestError(req, io_error))
             end
             router = Router([Route("PUT", "/latest/api/token", connection_timeout)])
             apply(_imds_patch(router)) do
@@ -319,7 +319,7 @@ end
         # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#imds-considerations
         connection_timeout = function (req::HTTP.Request)
             io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
-            throw(HTTP.Exceptions.RequestError(request, io_error))
+            throw(HTTP.Exceptions.RequestError(req, io_error))
         end
         router = Router([
             Route("PUT", "/latest/api/token", connection_timeout),

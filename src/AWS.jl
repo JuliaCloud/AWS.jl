@@ -1,21 +1,23 @@
 module AWS
 
-using Compat: Compat, @compat, @something, pkgversion
-using Base64
 using Dates
+
+using Base64: base64encode
 using Downloads: Downloads, Downloader, Curl
-using HTTP
+using HTTP: HTTP
+using IniFile: IniFile, Inifile, sections
 using JSON: JSON
-using MbedTLS
-using Mocking
+using MbedTLS: MbedTLS, MD_MD5, MD_SHA256
+using Mocking: Mocking, @mock
 using OrderedCollections: LittleDict, OrderedDict
-using Random
-using SHA
+using Random: Random, AbstractRNG
+using SHA: sha1
 using ScopedValues: ScopedValues, ScopedValue, @with
-using Sockets
-using URIs
+using URIs: URIs
+using XMLDict: XMLDict, parse_xml, xml_dict
+
+# Only import as it is depended on by the generated code loaded by `@service`
 using UUIDs: UUIDs
-using XMLDict
 
 export @service
 export _merge
@@ -26,6 +28,26 @@ export assume_role, generate_service_url, set_user_agent
 export sign!, sign_aws2!, sign_aws4!
 export JSONService, RestJSONService, RestXMLService, QueryService, set_features
 
+export AWSCredentials,
+    aws_account_number,
+    aws_get_profile_settings,
+    aws_get_region,
+    aws_user_arn,
+    check_credentials,
+    credentials_from_webtoken,
+    dot_aws_config,
+    dot_aws_config_file,
+    dot_aws_credentials,
+    dot_aws_credentials_file,
+    ec2_instance_credentials,
+    ecs_instance_credentials,
+    env_var_credentials,
+    external_process_credentials,
+    localhost_is_ec2,
+    localhost_is_lambda,
+    localhost_maybe_ec2,
+    sso_credentials
+
 const DEFAULT_REGION = "us-east-1"
 
 include(joinpath("utilities", "utilities.jl"))
@@ -33,7 +55,6 @@ include(joinpath("utilities", "utilities.jl"))
 include("AWSExceptions.jl")
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
-include(joinpath("api_generation", "APIGeneration.jl"))
 include("IMDS.jl")
 
 include(joinpath("utilities", "request.jl"))

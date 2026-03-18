@@ -82,7 +82,7 @@ function assume_role_creds(
         params["RoleSessionName"] = _role_session_name(
             "AWS.jl-",
             _whoami(),
-            "-" * Dates.format(now(UTC), dateformat"yyyymmdd\THHMMSS\Z"),
+            "-" * Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSS\Z"),
         )
     end
 

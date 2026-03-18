@@ -1,40 +1,21 @@
 using AWS
-using AWS: AWSCredentials, AWSServices, assume_role_creds
-using AWS.AWSExceptions:
-    AWSException, IMDSUnavailable, InvalidFileName, NoCredentials, ProtocolNotDefined
-using AWS.APIGeneration:
-    ServiceFile,
-    _clean_documentation,
-    _filter_latest_service_version,
-    _generate_low_level_definition,
-    _generate_high_level_definition,
-    _generate_high_level_definitions,
-    _get_service_files,
-    _get_service_and_version,
-    _get_function_parameters,
-    _clean_uri,
-    _format_name,
-    _splitline,
-    _wraplines,
-    _validindex
-using Base64
-using Compat: mergewith, pkgversion
 using Dates
-using Downloads
-using GitHub
-using HTTP
+using Test
+
+using AWS: AWSCredentials, AWSServices, assume_role_creds
+using AWS.AWSExceptions: AWSException, IMDSUnavailable, NoCredentials
+using Base64: base64encode
+using HTTP: HTTP
 using IniFile: Inifile, sections
 using JSON: JSON
 using OrderedCollections: LittleDict, OrderedDict
-using MbedTLS: digest, MD_SHA256, MD_MD5
-using Mocking
-using Pkg
-using Random
-using Suppressor
-using Test
-using UUIDs
-using XMLDict
-using StableRNGs
+using MbedTLS: MD_MD5, MD_SHA256, digest
+using Mocking: Mocking, @patch, apply
+using Pkg: Pkg
+using Random: randstring
+using Suppressor: @capture_err, @capture_out
+using XMLDict: XMLDict, parse_xml, xml_dict
+using StableRNGs: StableRNG
 
 Mocking.activate()
 
@@ -74,7 +55,6 @@ end
             ) do
                 include("unit/AWS.jl")
                 include("unit/AWSExceptions.jl")
-                include("unit/APIGenerationUtilities.jl")
                 include("unit/test_pkg.jl")
                 include("unit/utilities.jl")
                 include("unit/AWSConfig.jl")
