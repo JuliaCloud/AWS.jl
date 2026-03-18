@@ -3,6 +3,7 @@ module Codegen
 using Base64: base64decode
 using GitHub: GitHub
 using JSON: JSON
+using JuliaFormatter: format, format_file
 using Mocking: Mocking, @mock
 using OrderedCollections: LittleDict, OrderedDict
 
@@ -32,7 +33,10 @@ function parse_aws_metadata()
     service_files = _get_service_files(auth)
 
     _generate_low_level_wrappers(service_files, auth)
+    format_file(LOW_LEVEL_SERVICES_FILE)
+
     _generate_high_level_wrapper(service_files, auth)
+    format(HIGH_LEVEL_SERVICES_DIR; verbose=true)
 
     return nothing
 end
