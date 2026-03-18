@@ -18,7 +18,11 @@ jobs:
         with:
           version: "1"
       - uses: julia-actions/cache@v2
-      - uses: julia-actions/julia-buildpkg@v1
+      - name: Instantiate
+        shell: julia --project=codegen --threads=auto --color=yes {0}
+        run: |
+          using Pkg
+          Pkg.instantiate()
       # Run against the latest version, since everything merged into master will be tagged.
       - name: Update API
         shell: julia --project=codegen --threads=auto --color=yes {0}
