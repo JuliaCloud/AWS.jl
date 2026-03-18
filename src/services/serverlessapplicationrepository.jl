@@ -17,7 +17,7 @@ version in the same call.
 
   Minimum length=1. Maximum length=127.
 
-  Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\$";
+  Pattern `^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\$`;
 
 - `description`: The description of the application.
 
@@ -732,7 +732,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Minimum length=1. Maximum length=127.
 
-  Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\$";
+  Pattern `^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\$`;
 
 - `"description"`: The description of the application.
 

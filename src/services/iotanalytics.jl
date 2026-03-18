@@ -23,11 +23,13 @@ Sends messages to a channel.
     characters are allowed.
   - Must begin with an alphabetic character or single underscore (_).
   - Cannot contain hyphens (-).
-  - In regular expression terms: "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)\$".
-- Cannot be more than 255 characters.
-- Are case insensitive. (Fields named foo and FOO in the same payload are considered duplicates.)
+  - In regular expression terms: `^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)\$`.
+  - Cannot be more than 255 characters.
+  - Are case insensitive. (Fields named foo and FOO in the same payload are considered
+    duplicates.)
 
-For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01": 29}, {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads.
+  For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01": 29},
+  {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads.
 """
 function batch_put_message end
 
