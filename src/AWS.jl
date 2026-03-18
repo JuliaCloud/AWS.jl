@@ -1,21 +1,22 @@
 module AWS
 
-using Compat: Compat
+using Dates
+
 using Base64: base64encode
-using Dates: Dates, DateTime, @dateformat_str, now
 using Downloads: Downloads, Downloader, Curl
 using HTTP: HTTP
 using JSON: JSON
-using MbedTLS
-using Mocking
+using MbedTLS: MbedTLS, MD_MD5, MD_SHA256
+using Mocking: Mocking, @mock
 using OrderedCollections: LittleDict, OrderedDict
-using Random
-using SHA
+using Random: Random, AbstractRNG
+using SHA: sha1
 using ScopedValues: ScopedValues, ScopedValue, @with
-using Sockets
-using URIs
+using URIs: URIs
+using XMLDict: XMLDict, parse_xml, xml_dict
+
+# Only import as it is depended on by the generated code loaded by `@service`
 using UUIDs: UUIDs
-using XMLDict
 
 export @service
 export _merge
