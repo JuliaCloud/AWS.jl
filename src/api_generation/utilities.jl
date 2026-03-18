@@ -322,7 +322,7 @@ Clean up the documentation to make it Julia compiler and human-readable.
 - Escape any double-quotes
 - Escape any patterns which would be interpreted as markdown links
 """
-function _html_to_markdown(doc::AbstractString)
+function _html_to_markdown(doc::AbstractString, doc_refs::AbstractDict=Dict())
     # Note: The HTML we're dealing with is overall pretty simple and I don't believe we need
     # to deal with recursive blocks. If we do we'd need something like:
     # r"<p>((?:(?=<p>)(?R)|.*?)*)</p>"
@@ -344,10 +344,12 @@ function _html_to_markdown(doc::AbstractString)
         end,
     )
 
+    # Only creating references for a set of operations
     doc = _replace(
         doc,
         r"<code>\s*((?:(?!<code>).)*?)\s*</code>(?= operation)"s => function (m)
-            return "[`$(_format_name(m[1]))`](@ref)"
+            func_name = get(doc_refs, m[1], nothing)
+            return !isnothing(func_name) ? "[`$func_name`](@ref)" : "`$(m[1])`"
         end,
     )
 
@@ -367,7 +369,13 @@ function _html_to_markdown(doc::AbstractString)
     doc = replace(doc, r"<a href=\"([^\"]*)\">\s*(.*?)\s*</a>"s => s"[\2](\1)")
 
     # Update documentation references to modified function names
-    doc = _replace(doc, r"<a> *(.*?) *</a>" => (m -> "[`$(_format_name(m[1]))`](@ref)"))
+    doc = _replace(
+        doc,
+        r"<a> *(.*?) *</a>" => function (m)
+            func_name = get(doc_refs, m[1], nothing)
+            return !isnothing(func_name) ? "[`$func_name`](@ref)" : "`$(m[1])`"
+        end,
+    )
 
     doc = html_to_md_unordered_list(doc)
 

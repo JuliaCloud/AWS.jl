@@ -54,6 +54,9 @@ function _generate_high_level_definitions(
 )
     operation_definitions = String[]
 
+    # Determine the list of operation names to function names for docstring links
+    doc_refs = Dict(op["name"] => _format_name(op["name"]) for op in values(operations))
+
     for (_, operation) in operations
         operation_name = operation["name"]
         method = operation["http"]["method"]
@@ -62,7 +65,7 @@ function _generate_high_level_definitions(
         documentation = ""
 
         if haskey(operation, "documentation")
-            documentation = _html_to_markdown(operation["documentation"])
+            documentation = _html_to_markdown(operation["documentation"], doc_refs)
         end
 
         required_parameters = Dict{String,Any}()
