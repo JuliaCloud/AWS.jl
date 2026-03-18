@@ -6,11 +6,9 @@ The backend can be specified in two ways: by setting the global [`AWS.DEFAULT_BA
 
 ```julia
 using AWS
-@service S3 use_response_type = true
+@service S3
 result = S3.get_object(bucket, key, Dict("backend" => AWS.DownloadsBackend()))
-
 ```
-Note: `use_response_type=true` is not needed here for the backend selection to work; it is just a recommended option in general. See [`@service`](@ref) for more.
 
 ```@docs
 AWS.AbstractBackend

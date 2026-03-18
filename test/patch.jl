@@ -104,7 +104,7 @@ _assume_role_patch = function (
     expiry=duration -> now(UTC) + duration,
     token_code_ref=nothing,
 )
-    @patch function AWSServices.sts(op, params; aws_config, feature_set)
+    @patch function AWSServices.sts(op, params; aws_config, feature_set=AWS.FeatureSet())
         duration = Second(parse(Int, get(params, "DurationSeconds", "3600")))
         expiration = expiry(duration)
         if token_code_ref !== nothing
@@ -126,8 +126,7 @@ _assume_role_patch = function (
             </$(op)Response>
             """
 
-        r = _response(; body=xml)
-        return feature_set.use_response_type ? r : parse(r)::AbstractDict
+        return _response(; body=xml)
     end
 end
 
